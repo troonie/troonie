@@ -1,0 +1,71 @@
+English;Deutsch
+Open image file;Bilddatei öffnen
+Save as;Speichern als
+Info;Info
+Cut points (in pixel);Zuschneidepunkte (in Pixel)
+Left;Links
+Right;Rechts
+Top;Oben
+Bottom;Unten
+Rotation in 1/10 degrees (e.g. 900 = 90′);Drehen in Schritten mit 1/10 Grad (z.B. 900 = 90′)
+Angle;Winkel
+Image dimension;Bildabmessung
+Original;Original
+New;Neu
+Cursor position;Cursor-Position
+OK;OK
+Cancel;Abbrechen
+DUMMY;DUMMY
+Image list;Bildliste
+Format;Format
+grayscale;Graustufen
+color;Farbe
+Quality;Qualität
+black-white;Schwarz-weiß
+Color + transparancy;Farbe + Transparenz
+Alpha color;Alpha-Farbe
+Other;Andere
+Resize;Beschneiden
+Original;Original
+Retain original size;Originalgröße beibehalten
+Length bigger side;Länge längere Bildseite
+Length of bigger side will be;Länge der längeren Bildseite soll sein
+Fix image size;Feste Bildabmessungen
+Using fix image size (width x height);Verwende feste Bildamessung (Breite x Höhe)
+Stretch image;Strecke/Stauche Bild
+Output directory;Ausgabeverzeichnis
+Use original directory;Verwende Originalverzeichnis
+Overwrite / Delete original image;Überschreibe / Lösche Originalbild
+Open image files;Bilddateien öffnen
+Select all images;Alle Bilddateien markieren
+Unselect all images;Markierungen aufheben
+Remove selected images from list;Markierte Bilder aus der Liste entfernen
+Current language;Aktuelle Spachen
+Available languages;Verfügbare Sprachen
+Convert;Konvertiere
+File;Datei
+Directory;Verzeichnis
+File name;Dateiname
+Pixel format is not supported.;Pixelformat wird nicht unterstützt.
+File already exists. Overwrite?;Datei existiert bereits. Überschreiben?
+No image file or image cannot be loaded.;Keine Bilddatei oder Bild kann nicht geladen werden.
+*********;*********
+*********;*********
+A slender tool to convert and edit photos.;Ein schlankes Tool zum Umwandeln und Bearbeiten von Fotos.
+*********;*********
+*********;*********
+Should Picturez add context menu entries for the desktop?; Soll Picturez Kontextmenüeinträge für den Desktop anlegen? 
+  So Picturez could be started by clicking with right mouse key on an image.  ;  Somit kann Picturez mit rechter Maustaste auf ein Bild gestartet werden.  
+Context menu entries for desktop;Kontextmenüeinträge für Desktop
+Ask always when Picturez starts;Immer bei Programmstart fragen
+Yes;Ja
+No;Nein
+  Context menu entries added successfully.  ;  Kontextmenüeinträge erfolgreich angelegt.  
+Add;Anlegen
+Remove;Löschen
+  Context menu entries removed successfully.  ;  Kontextmenüeinträge erfolgreich gelöscht.  
+Converter;Konverter
+Editor;Editor
+UPDATE     ;UPDATE     
+Update available. New version: ;Update verfügbar. Neue Version: 
+Download the new version from website?;Neue Version von Website herunterladen?
