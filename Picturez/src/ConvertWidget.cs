@@ -54,10 +54,10 @@ namespace Picturez
 				rdPng1bit.Sensitive = true;
 				rdBmp1bit.Sensitive = true;
 				Gtk.Drag.DestSet (this, 0, null, 0);
-			}
-			else
+			} else {
+				rdJpegGray.Sensitive = true;
 				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
-						
+			}		
 			// insertIter = textview1.Buffer.StartIter;
 
 			if (pFilenames != null)
@@ -266,6 +266,8 @@ namespace Picturez
 			{
 				string waste = Constants.I.WINDOWS ? "file:///" : "file://";
 				newImages [i] = newImages [i].Replace (@waste, "");
+				// Also change possible wrong directory separator
+				newImages [i] = newImages [i].Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar);
 
 				l_pressedInButton = new PressedInButton ();
 				l_pressedInButton.FullText = newImages [i];

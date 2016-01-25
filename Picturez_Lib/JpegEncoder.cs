@@ -38,37 +38,29 @@ namespace Picturez_Lib
 			}
         }
 
-        /// <summary>
-        /// Returns the image codec with the given mime type
-        /// </summary>
-        private static ImageCodecInfo GetEncoderInfo(string mimeType)
-        {
-            // Get image codecs for all image formats
-            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+		private static ImageCodecInfo GetImageCodecInfo(ImageFormat format)
+		{
+			ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
 
-            // Find the correct image codec
-            for(int i=0; i<codecs.Length; i++)
-                if(codecs[i].MimeType == mimeType)
-                    return codecs[i];
-            return null;
-        } 
+			foreach (ImageCodecInfo item in codecs) {
+				if (item.FormatID == format.Guid)
+					return item;
+			}
+
+			return null;
+		} 
 
 		private static void SaveWithDotNet(string path, Image img, byte quality)
 		{
-			//create an encoder parameter for the image quality
-			EncoderParameter qualityParam = 
-				new EncoderParameter(Encoder.Quality, quality);
-			EncoderParameter compressionParam = 
-				new EncoderParameter(Encoder.Compression, 
-					(long)EncoderValue.CompressionNone);
+			ImageCodecInfo jpgEncoder = GetImageCodecInfo (ImageFormat.Jpeg);
+			EncoderParameters encoderParameters = new EncoderParameters(2);
+			EncoderParameter qualityParam = new EncoderParameter (Encoder.Quality, (long)quality);
+			EncoderParameter compressionParam = new EncoderParameter (Encoder.Compression, 
+							(long)EncoderValue.CompressionNone);
+			encoderParameters.Param [0] = qualityParam;
+			encoderParameters.Param [1] = compressionParam;
 
-			ImageCodecInfo jpegCodec = GetEncoderInfo("image/jpeg");
-			EncoderParameters encoderParams = new EncoderParameters(2);
-			//set the quality and compression parameters for codec
-			encoderParams.Param[0] = qualityParam;
-			encoderParams.Param[1] = compressionParam;
-
-			img.Save(path, jpegCodec, encoderParams);			
+			img.Save(path, jpgEncoder, encoderParameters);			
 		}				
 
 		// Why: https://bugzilla.novell.com/show_bug.cgi?id=506179

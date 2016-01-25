@@ -5,97 +5,189 @@ namespace Picturez
 	public partial class ConvertWidget
 	{
 		private global::Gtk.UIManager UIManager;
+		
 		private global::Gtk.Action openAction;
+		
 		private global::Gtk.VBox vbox1;
+		
 		private global::Gtk.EventBox eventboxToolbar;
+		
 		private global::Gtk.HBox hboxToolbarButtons;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Gtk.Frame frameImageList;
+		
 		private global::Gtk.Alignment AlignmentImageList;
+		
 		private global::Gtk.ScrolledWindow scrolledWinImageList;
+		
 		private global::Gtk.EventBox eventboxImageList;
+		
 		private global::Gtk.VBox vboxImageList;
+		
 		private global::Gtk.Label GtkLabel29;
+		
 		private global::Gtk.VBox vbox2;
+		
 		private global::Gtk.Frame frameImageFormat;
+		
 		private global::Gtk.Alignment GtkAlignment;
+		
 		private global::Gtk.VBox VBoxImageFormat;
+		
 		private global::Gtk.Frame frame3;
+		
 		private global::Gtk.Alignment GtkAlignment4;
+		
 		private global::Gtk.VBox vbox3;
+		
 		private global::Gtk.HBox hbox2;
+		
 		private global::Gtk.RadioButton rdJpeg;
+		
 		private global::Gtk.Label lbQuality;
+		
 		private global::Gtk.HScale hscaleQuality;
+		
 		private global::Gtk.RadioButton rdJpegGray;
+		
 		private global::Gtk.Label GtkLabel6;
+		
 		private global::Gtk.Frame frame4;
+		
 		private global::Gtk.Alignment GtkAlignment5;
+		
 		private global::Gtk.VBox vbox4;
+		
 		private global::Gtk.RadioButton rdPng1bit;
+		
 		private global::Gtk.RadioButton rdPng8Bit;
+		
 		private global::Gtk.RadioButton rdPng24Bit;
+		
 		private global::Gtk.HBox hbox5;
+		
 		private global::Gtk.RadioButton rdPNG32bit;
+		
 		private global::Gtk.Label lbTransparencyColor;
+		
 		private global::Gtk.ColorButton btnColor;
+		
 		private global::Gtk.Label GtkLabel11;
+		
 		private global::Gtk.Frame frame5;
+		
 		private global::Gtk.Alignment GtkAlignment6;
+		
 		private global::Gtk.VBox vbox5;
+		
 		private global::Gtk.RadioButton rdBmp1bit;
+		
 		private global::Gtk.RadioButton rdBmp8bit;
+		
 		private global::Gtk.RadioButton rdBmp24bit;
+		
 		private global::Gtk.Label GtkLabel15;
+		
 		private global::Gtk.Frame frame6;
+		
 		private global::Gtk.Alignment GtkAlignment7;
+		
 		private global::Gtk.VBox vbox7;
+		
 		private global::Gtk.RadioButton rdTiff;
+		
 		private global::Gtk.RadioButton rdGif;
+		
 		private global::Gtk.RadioButton rdWmf;
+		
 		private global::Gtk.RadioButton rdEmf;
+		
 		private global::Gtk.RadioButton rdIcon;
+		
 		private global::Gtk.Label GtkLabel21;
+		
 		private global::Gtk.Label lbFrameImageFormat;
+		
 		private global::Gtk.Frame frameImageResize;
+		
 		private global::Gtk.Alignment GtkAlignment8;
+		
 		private global::Gtk.VBox vbox6;
+		
 		private global::Gtk.Frame frame7;
+		
 		private global::Gtk.Alignment GtkAlignment9;
+		
 		private global::Gtk.RadioButton rdOriginalSize;
+		
 		private global::Gtk.Label GtkLabel24;
+		
 		private global::Gtk.Frame frame8;
+		
 		private global::Gtk.Alignment GtkAlignment10;
+		
 		private global::Gtk.VBox vbox9;
+		
 		private global::Gtk.RadioButton rdBiggerLength;
+		
 		private global::Gtk.HBox hbox7;
+		
 		private global::Gtk.Fixed fixed4;
+		
 		private global::Gtk.Entry entryBiggerLength;
+		
 		private global::Gtk.Label lbPixel_BiggerLength;
+		
 		private global::Gtk.Label GtkLabel26;
+		
 		private global::Gtk.Frame frame9;
+		
 		private global::Gtk.Alignment GtkAlignment11;
+		
 		private global::Gtk.VBox vbox8;
+		
 		private global::Gtk.RadioButton rdFixSize;
+		
 		private global::Gtk.HBox hbox3;
+		
 		private global::Gtk.Fixed fixed1;
+		
 		private global::Gtk.CheckButton checkBtnStretch;
+		
 		private global::Gtk.HBox hbox6;
+		
 		private global::Gtk.Fixed fixed3;
+		
 		private global::Gtk.Entry entryFixSizeWidth;
+		
 		private global::Gtk.Label lbX;
+		
 		private global::Gtk.Entry entryFixSizeHeight;
+		
 		private global::Gtk.Label lbPixel_FixSize;
+		
 		private global::Gtk.Label GtkLabel30;
+		
 		private global::Gtk.Label lbFrameImageResize;
+		
 		private global::Gtk.Frame frameOutputDirectory;
+		
 		private global::Gtk.Alignment GtkAlignment12;
+		
 		private global::Gtk.VBox vboxOutputDirectory;
+		
 		private global::Picturez.HyperTextLabel htlbOutputDirectory;
+		
 		private global::Gtk.CheckButton checkBtnUseOriginalDirectory;
+		
 		private global::Gtk.CheckButton checkBtnOverwriteOriginalImage;
+		
 		private global::Gtk.Label lbFrameOutputDirectory;
+		
 		private global::Gtk.ProgressBar progressbar1;
+		
 		private global::Picturez.PicturezButton btnConvert;
 
 		protected virtual void Build ()
@@ -222,11 +314,11 @@ namespace Picturez
 			this.hscaleQuality = new global::Gtk.HScale (null);
 			this.hscaleQuality.CanFocus = true;
 			this.hscaleQuality.Name = "hscaleQuality";
-			this.hscaleQuality.Adjustment.Lower = 1;
-			this.hscaleQuality.Adjustment.Upper = 100;
-			this.hscaleQuality.Adjustment.PageIncrement = 10;
-			this.hscaleQuality.Adjustment.StepIncrement = 1;
-			this.hscaleQuality.Adjustment.Value = 90;
+			this.hscaleQuality.Adjustment.Lower = 1D;
+			this.hscaleQuality.Adjustment.Upper = 100D;
+			this.hscaleQuality.Adjustment.PageIncrement = 10D;
+			this.hscaleQuality.Adjustment.StepIncrement = 1D;
+			this.hscaleQuality.Adjustment.Value = 90D;
 			this.hscaleQuality.DrawValue = true;
 			this.hscaleQuality.Digits = 0;
 			this.hscaleQuality.ValuePos = ((global::Gtk.PositionType)(2));
@@ -240,6 +332,7 @@ namespace Picturez
 			w15.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.rdJpegGray = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("JPEG (grayscale)"));
+			this.rdJpegGray.Sensitive = false;
 			this.rdJpegGray.CanFocus = true;
 			this.rdJpegGray.Name = "rdJpegGray";
 			this.rdJpegGray.DrawIndicator = true;
@@ -867,7 +960,7 @@ namespace Picturez
 			this.btnConvert.ButtonHeight = 40;
 			this.btnConvert.Font = "Arial";
 			this.btnConvert.Text = "Convert";
-			this.btnConvert.TextSize = 18;
+			this.btnConvert.TextSize = 18D;
 			this.vbox1.Add (this.btnConvert);
 			global::Gtk.Box.BoxChild w83 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnConvert]));
 			w83.Position = 3;

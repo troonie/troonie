@@ -33,14 +33,14 @@ namespace Picturez
 
 			// Directory.CreateDirectory (Constants.I.EXEPATH);
 
-			XmlHandler.I.CreateXmlFiles ();
 			Constants.I.Init ();
+			XmlHandler.I.CreateXmlFiles ();
 
 			Application.Init ();
 			// Gtk.Settings.Default.SetLongProperty ("gtk-button-images", 1, "");
 
 			// START VALUE
-			bool edit = true;
+			bool edit = false;
 
 			if (args.Length != 0)
 			{

@@ -40,8 +40,6 @@ namespace Picturez
 		public EditWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
 		{
 			FileName = pFilename;
-			// TODO Remove it.
-			FileName = "/home/jessica/Schreibtisch/Testbilder/00-linux.jpg";
 
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
@@ -191,8 +189,8 @@ namespace Picturez
 		{		
 			const int optionsWidth = 390;
 			// general taskbar size in win_8.1
-			const int taskbarHeight = 80;
-			const int paddingOffset = 40;
+			const int taskbarHeight = 90;
+			const int paddingOffset = 44;
 			// necessary to correct to small height 
 			const float multiplicatorHeight = 1.2f;
 	
