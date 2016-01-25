@@ -69,3 +69,4 @@ Editor;Editor
 UPDATE     ;UPDATE     
 Update available. New version: ;Update verfügbar. Neue Version: 
 Download the new version from website?;Neue Version von Website herunterladen?
+Rotating works only with 24bit-RGB-images or 8bit-grayscale-images;Drehen funktioniert momentan nur mit 24Bit-RGB-Bildern und 8-Bit-Graustufenbildern

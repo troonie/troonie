@@ -32,7 +32,7 @@ namespace Picturez_Lib
 		public const string UPDATESERVERFILE = 
 			"http://www.picturez-project.de/PicturezVersion";
 		public const string TITLE = "Picturez";
-		public const string DESCRIPTION_FIX_IN_ENGLSIH = "A slender tool to convert and edit photos.";
+		public const string DESCRIPTION_FIX_IN_ENGLISH = "A slender tool to convert and edit photos.";
 		public const string VERSION = "3.0.0.1";
 		public static DateTime PUBLISHDATE = new DateTime (2016, 01, 21);
 		public static string PUBLISHDATE_STRING {
@@ -69,7 +69,7 @@ namespace Picturez_Lib
 				: Environment.GetEnvironmentVariable("HOME");
 			homepath += Path.DirectorySeparatorChar;
 
-//			picturezName = Language.I.L[52];
+			// picturezName = Language.I.L[52]; // Now: Constants.TITLE
 //			picturezVersion = Language.I.L[53];
 			description = Language.I.L[54];
 //			picturezPublishdate = Language.I.L[55];

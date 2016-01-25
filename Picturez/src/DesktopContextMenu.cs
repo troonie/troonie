@@ -49,7 +49,7 @@ namespace Picturez
 
 			string[] lines = { 
 				"[Desktop Entry]", 
-				"Name=" + Language.I.L[52]+ " " + Language.I.L[67],
+				"Name=" + Constants.TITLE + " " + Language.I.L[67],
 				"Comment=" + Language.I.L[54], 
 				"Exec=mono " + Constants.I.EXEPATH + Constants.EXENAME + " %F",
 				"Type=Application",
@@ -81,7 +81,7 @@ namespace Picturez
 
 			string[] lines_edit = { 
 				"[Desktop Entry]", 
-				"Name=" + Language.I.L[52] + " " + Language.I.L[68],
+				"Name=" + Constants.TITLE + " " + Language.I.L[68],
 				"Comment=" + Language.I.L[54], 
 				"Exec=mono " + Constants.I.EXEPATH + Constants.EXENAME + " -e %f",
 				"Type=Application",

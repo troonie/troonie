@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using Picturez_Lib;
 
 [assembly: AssemblyTitle (Constants.TITLE)]
-[assembly: AssemblyDescription (Constants.DESCRIPTION_FIX_IN_ENGLSIH)]
+[assembly: AssemblyDescription (Constants.DESCRIPTION_FIX_IN_ENGLISH)]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany (Constants.WEBSITE)]
 [assembly: AssemblyProduct (Constants.TITLE)]

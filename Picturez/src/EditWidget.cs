@@ -182,6 +182,15 @@ namespace Picturez
 			imagepanel1.TopSlider.OnSliderChangedValue += OnSliderChangedValue;
 			imagepanel1.BottomSlider.OnSliderChangedValue += OnSliderChangedValue;
 
+			if (bt.Bitmap.PixelFormat == PixelFormat.Format24bppRgb ||
+				bt.Bitmap.PixelFormat == PixelFormat.Format8bppIndexed) {
+				// entryRotate
+				frameRotation.Sensitive = true;
+			} else {
+				frameRotation.Sensitive = false;
+				frameRotation.TooltipText = Language.I.L[72];
+			}
+
 			ShowAll();
 		}		
 
