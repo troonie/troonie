@@ -71,7 +71,7 @@ namespace Picturez_Lib
 
 			// -quality 10 -outfile /home/jose/c.jpg  /home/jose/b.bmp
 			string args = "-quality " + quality.ToString() + gray + 
-				"  -outfile " + destFilename + " " + origFilename;
+				"  -outfile '" + destFilename + "' '" + origFilename + "'";
 
 			// args = "-quality 10 -outfile /home/jose/c3.jpg /home/jose/b.bmp";
 			System.Diagnostics.Process proc = new System.Diagnostics.Process();
