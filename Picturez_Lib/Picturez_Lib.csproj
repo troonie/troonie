@@ -66,4 +66,9 @@
       <Name>PIC_taglib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="languages.csv">
+      <LogicalName>languages.csv</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

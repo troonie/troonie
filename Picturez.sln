@@ -46,6 +46,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = WinInstaller\WinInstaller.csproj
+		StartupItem = Picturez\Picturez.csproj
 	EndGlobalSection
 EndGlobal

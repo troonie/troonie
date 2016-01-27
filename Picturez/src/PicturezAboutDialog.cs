@@ -30,8 +30,8 @@ namespace Picturez
 			ad.Artists = new string[1] { Constants.AUTHOR };
 			ad.Documenters = new string[1] { Constants.AUTHOR };
 			ad.Copyright = Constants.AUTHOR;
-			ad.Icon = Gdk.Pixbuf.LoadFromResource ("icon.png"); 
-			ad.Logo = Gdk.Pixbuf.LoadFromResource ("icon.png"); 
+			ad.Icon = Gdk.Pixbuf.LoadFromResource (Constants.ICONNAME); 
+			ad.Logo = Gdk.Pixbuf.LoadFromResource (Constants.ICONNAME); 
 			ad.HasSeparator = true;
 			ad.Run ();
 			ad.Destroy ();

@@ -2,6 +2,7 @@
 using Gtk;
 using System.IO;
 using Picturez_Lib;
+using System.Reflection;
 
 namespace Picturez
 {
@@ -35,6 +36,7 @@ namespace Picturez
 
 			Constants.I.Init ();
 			XmlHandler.I.CreateXmlFiles ();
+			GetProgramIcon ();
 
 			Application.Init ();
 			// Gtk.Settings.Default.SetLongProperty ("gtk-button-images", 1, "");
@@ -71,6 +73,20 @@ namespace Picturez
 				convWidget.Show ();
 			}
 			Application.Run ();
-		}			
+		}	
+
+		private static void GetProgramIcon()
+		{
+			if (File.Exists (Constants.I.EXEPATH + Constants.ICONNAME))
+				return;
+			Assembly thisExe = Assembly.GetExecutingAssembly();
+//			string [] resources = thisExe.GetManifestResourceNames();
+
+			using (Stream str = thisExe.GetManifestResourceStream(Constants.ICONNAME), 
+			       destStream = new FileStream(Constants.I.EXEPATH + Constants.ICONNAME, FileMode.Create, FileAccess.Write))
+			{
+				str.CopyTo (destStream);
+			}
+		}
 	}
 }

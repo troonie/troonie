@@ -27,14 +27,15 @@ namespace Picturez_Lib
 		public const int TIME_DOUBLECLICK = 500; 
 		public const string AUTHOR = "Picturez Group";
 		public const string EXENAME = "Picturez.exe";
-		public const string ICONNAME = "icon.png";
+		public const string ICONNAME = "icon.ico";
 		public const string WEBSITE = "www.picturez-project.de";
 		public const string UPDATESERVERFILE = 
 			"http://www.picturez-project.de/PicturezVersion";
 		public const string TITLE = "Picturez";
+		public const string TITLE_LIB = "Picturez_Lib";
 		public const string DESCRIPTION_FIX_IN_ENGLISH = "A slender tool to convert and edit photos.";
 		public const string VERSION = "3.0.0.1";
-		public static DateTime PUBLISHDATE = new DateTime (2016, 01, 21);
+		public static DateTime PUBLISHDATE = new DateTime (2016, 01, 27);
 		public static string PUBLISHDATE_STRING {
 			get {
 //				return PICTUREZ_PUBLISHDATE.ToString ("d", new CultureInfo("en-US"));
@@ -75,7 +76,7 @@ namespace Picturez_Lib
 //			picturezPublishdate = Language.I.L[55];
 			versionFloat = GetFloatVersionNumber (VERSION);
 			CheckUpdateAsThread ();
-		}
+		}	
 
 		private bool IsWindows()
 		{
@@ -131,8 +132,7 @@ namespace Picturez_Lib
 		{
 			int pos = version.IndexOf ('.');
 			string subs = version.Substring(0, pos + 1) + version.Substring (pos).Replace (".", "");
-			return float.Parse (subs, System.Globalization.CultureInfo.
-				CreateSpecificCulture("en-us"));			
+			return float.Parse (subs, CultureInfo.CreateSpecificCulture("en-us"));			
 		}
 	}
 }

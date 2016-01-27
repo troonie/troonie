@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Globalization;
+using System.Reflection;
 
 namespace Picturez_Lib
 {
 	public class Language
 	{
-		private static string langFileName = Constants.I.EXEPATH + "languages.csv";
 		private static Language instance;
 		public static Language I
 		{
@@ -49,7 +49,10 @@ namespace Picturez_Lib
 		private void Init()
 		{			
 			string line;
-			StreamReader file =	new StreamReader(langFileName);
+			//--
+			Assembly thisExe = Assembly.GetExecutingAssembly();
+			StreamReader file = new StreamReader(thisExe.GetManifestResourceStream ("languages.csv"));
+
 			// read first line
 			line = file.ReadLine ();
 			string[] tempArray = line.Split (';', '\t');

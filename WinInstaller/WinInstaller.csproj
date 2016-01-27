@@ -9,6 +9,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>WinInstaller</RootNamespace>
     <AssemblyName>WinInstaller</AssemblyName>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,9 +44,6 @@
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Files\icon.png">
-      <LogicalName>icon.png</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="Files\PIC_taglib.dll">
       <LogicalName>PIC_taglib.dll</LogicalName>
     </EmbeddedResource>
@@ -56,9 +55,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Files\WinContextMenu.exe">
       <LogicalName>WinContextMenu.exe</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Files\languages.csv">
-      <LogicalName>languages.csv</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Files\gtk-sharp-2.12.30.msi">
       <LogicalName>gtk-sharp-2.12.30.msi</LogicalName>
