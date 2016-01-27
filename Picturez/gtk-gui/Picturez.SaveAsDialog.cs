@@ -214,6 +214,7 @@ namespace Picturez
 			w15.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.rdJpegGray = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("JPEG (grayscale)"));
+			this.rdJpegGray.Sensitive = false;
 			this.rdJpegGray.CanFocus = true;
 			this.rdJpegGray.Name = "rdJpegGray";
 			this.rdJpegGray.DrawIndicator = true;

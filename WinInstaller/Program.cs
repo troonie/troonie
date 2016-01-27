@@ -50,8 +50,10 @@ namespace WinInstaller
 			Thread.Sleep (50);
 			File.Delete (gtkInstaller);		
 
-			Console.WriteLine ("Please press any key to finish.\n");
+			Console.WriteLine ("NOTE: Your system will reboot now. Please press any key to reboot.\n");
 			Console.ReadKey();
+
+			Process.Start ("Shutdown", "-r -t 5");
 		}
 	}
 }

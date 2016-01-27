@@ -1046,6 +1046,7 @@
                     <child>
                       <widget class="Gtk.RadioButton" id="rdJpegGray">
                         <property name="MemberName" />
+                        <property name="Sensitive">False</property>
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">JPEG (grayscale)</property>
                         <property name="DrawIndicator">True</property>
@@ -1645,6 +1646,7 @@
                                                 <property name="MemberName" />
                                                 <property name="CanFocus">True</property>
                                                 <property name="Label" translatable="yes">JPEG</property>
+                                                <property name="Active">True</property>
                                                 <property name="DrawIndicator">True</property>
                                                 <property name="HasLabel">True</property>
                                                 <property name="UseUnderline">True</property>
@@ -1698,6 +1700,7 @@
                                         <child>
                                           <widget class="Gtk.RadioButton" id="rdJpegGray">
                                             <property name="MemberName" />
+                                            <property name="Sensitive">False</property>
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">JPEG (grayscale)</property>
                                             <property name="DrawIndicator">True</property>
@@ -2151,6 +2154,7 @@
                                         <property name="MemberName" />
                                         <property name="CanFocus">True</property>
                                         <property name="Label" translatable="yes">Retain original size</property>
+                                        <property name="Active">True</property>
                                         <property name="DrawIndicator">True</property>
                                         <property name="HasLabel">True</property>
                                         <property name="UseUnderline">True</property>

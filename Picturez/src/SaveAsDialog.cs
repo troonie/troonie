@@ -117,7 +117,9 @@ namespace Picturez
 			if (Constants.I.WINDOWS) {
 				rdPng1bit.Sensitive = true;
 				rdBmp1bit.Sensitive = true;
-			}
+			} else {
+				rdJpegGray.Sensitive = true;
+			}		
 		}
 
 		private void OnHyperTextLabelTextChanged()
