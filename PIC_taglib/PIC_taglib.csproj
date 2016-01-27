@@ -11,6 +11,8 @@
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <Description>taglib_sharp_2.1.0.0 reduced to only supporting image tags (no video, no sound).</Description>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
