@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using Cairo;
 using Gtk;
@@ -12,15 +11,12 @@ using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using ImageConverter = Picturez_Lib.ImageConverter;
 using Picturez;
 using Picturez_Lib;
-using System.Diagnostics;
 
 namespace Picturez
 {
-	public partial class EditWidget : Gtk.Window
+	public partial class SteganographyWidget : Gtk.Window
 	{
 		private const string blackFileName = "black.png";
-		private const int timeoutInterval = 20;
-		private const int timeoutIntervalFirst = 500;
 
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
 		private Constants constants = Constants.I;
@@ -28,44 +24,32 @@ namespace Picturez
 		private int imageH;
 		private string tempScaledImageFileName;
 
-		private bool repeatTimeout;
-		private Slider timeoutSlider;
-		private Gdk.Key timeoutKey;
-		private int timeoutRotateValue;
-		private Stopwatch timeoutSw;
-
 		public string FileName { get; set; }
 		public BitmapWithTag bt;
-		private List<string> filterNames;
 
-		public EditWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
+		public SteganographyWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
 		{
 			FileName = pFilename;
 
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
-			filterNames = new List<string> { "Shader-based Filter", "Invert", "Grayscale", "Rotate RGB Channels"};
 
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", OnToolbarBtn_OpenPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", OnToolbarBtn_SaveAsPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "help-about-3.png", OnToolbarBtn_AboutPressed);
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 3);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "tools-check-spelling-5.png", OnToolbarBtn_LanguagePressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
-			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 6, "help-about-3.png", 
-			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());
 
-			timeoutSw = new Stopwatch();
 			SetGuiColors ();
 			SetLanguageToGui ();
 			Initialize(true);
 
 			if (constants.WINDOWS)
-			 	Gtk.Drag.DestSet (this, 0, null, 0);
+				Gtk.Drag.DestSet (this, 0, null, 0);
 			else
 				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 
-			imagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
 		}
 
 		private void LoadException()
@@ -108,22 +92,22 @@ namespace Picturez
 						string ext = info.Extension.ToLower ();
 
 						switch (ext) {
-						case ".wmf":
-						case ".tiff":
-						case ".tif":
-						case ".gif":
-						case ".emf":
-						case ".png":
-						case ".bmp":
-						case ".jpeg":
-						case ".jpg":
-						case ".ico":
+							case ".wmf":
+							case ".tiff":
+							case ".tif":
+							case ".gif":
+							case ".emf":
+							case ".png":
+							case ".bmp":
+							case ".jpeg":
+							case ".jpg":
+							case ".ico":
 							Title = FileName;
 							bt = new BitmapWithTag(FileName, true);
 							imageW = bt.Bitmap.Width;
 							imageH = bt.Bitmap.Height;
 							break;
-						default:
+							default:
 							LoadException ();
 							return;
 						} // switch end
@@ -134,14 +118,14 @@ namespace Picturez
 					}
 				} // else end
 			}			
-			
+
 			// Gdk.Pixbuf.GetFileInfo(FileName, out imageW, out imageH);
 
 			SetPanelSize();	
 
 			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
 
-			imagepanel1.SurfaceFileName = tempScaledImageFileName;
+			simpleimagepanel1.SurfaceFileName = tempScaledImageFileName;
 
 			if (newFileName) 
 			{
@@ -153,8 +137,8 @@ namespace Picturez
 					out croppedPic, 
 					0,
 					0,
-					imagepanel1.WidthRequest,
-					imagepanel1.HeightRequest,
+					simpleimagepanel1.WidthRequest,
+					simpleimagepanel1.HeightRequest,
 					ConvertMode.StretchForge,
 					false);
 
@@ -172,8 +156,8 @@ namespace Picturez
 					out b2,
 					0 /*xStart*/, 
 					0 /*yStart*/,
-					imagepanel1.WidthRequest,
-					imagepanel1.HeightRequest,
+					simpleimagepanel1.WidthRequest,
+					simpleimagepanel1.HeightRequest,
 					ConvertMode.StretchForge,
 					false);
 
@@ -181,20 +165,7 @@ namespace Picturez
 				b2.Dispose ();
 			}
 
-			imagepanel1.Initialize();
-			imagepanel1.LeftSlider.OnSliderChangedValue += OnSliderChangedValue;
-			imagepanel1.RightSlider.OnSliderChangedValue += OnSliderChangedValue;
-			imagepanel1.TopSlider.OnSliderChangedValue += OnSliderChangedValue;
-			imagepanel1.BottomSlider.OnSliderChangedValue += OnSliderChangedValue;
-
-			if (bt.Bitmap.PixelFormat == PixelFormat.Format24bppRgb ||
-				bt.Bitmap.PixelFormat == PixelFormat.Format8bppIndexed) {
-				// entryRotate
-				frameRotation.Sensitive = true;
-			} else {
-				frameRotation.Sensitive = false;
-				frameRotation.TooltipText = Language.I.L[72];
-			}
+			simpleimagepanel1.Initialize();
 
 			ShowAll();
 		}		
@@ -207,17 +178,24 @@ namespace Picturez
 			const int paddingOffset = 44;
 			// necessary to correct to small height 
 			const float multiplicatorHeight = 1.2f;
-	
+
 			Gdk.Screen screen = this.Screen;
 			int monitor = screen.GetMonitorAtWindow (this.GdkWindow); 
 			Gdk.Rectangle bounds = screen.GetMonitorGeometry (monitor);
 			int winW = bounds.Width;
-			int winH = bounds.Height - taskbarHeight;
+			// DIFFERENCE 1 to EditWidget
+//			int winH = bounds.Height - taskbarHeight - 300;
+//			int winW = 700;
+			int winH = 600;
 
-			int panelW = winW - optionsWidth - paddingOffset;
-			int panelH = winH - (int)(paddingOffset * multiplicatorHeight);
+			// DIFFERENCE 2 to EditWidget
+//			int panelW = winW - optionsWidth - paddingOffset;
+//			int panelH = winH - (int)(paddingOffset * multiplicatorHeight);
+			int panelW = 300;
+			int panelH = 200;
+
 			// setting padding for left and right side
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.imagepanel1]));
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.simpleimagepanel1]));
 			w4.Padding = ((uint)(paddingOffset / 4.0f + 0.5f));
 
 			if (panelW < imageW || panelH < imageH)
@@ -241,142 +219,54 @@ namespace Picturez
 				winW = panelW + optionsWidth + paddingOffset;
 				winH = panelH + (int)(paddingOffset * multiplicatorHeight);
 			}						
-			
-			imagepanel1.WidthRequest = panelW;
-			imagepanel1.HeightRequest = panelH;
 
-			imagepanel1.ScaleCursorX = imageW / (float)panelW;
-			imagepanel1.ScaleCursorY = imageH / (float)panelH;
+			simpleimagepanel1.WidthRequest = panelW;
+			simpleimagepanel1.HeightRequest = panelH;
+
+			simpleimagepanel1.ScaleCursorX = imageW / (float)panelW;
+			simpleimagepanel1.ScaleCursorY = imageH / (float)panelH;
 
 			this.Resize (winW, winH);
 			this.Move (0, 0);
-
-			lbOriginal.Text = imageW + " x " + imageH;
-			lbNew.Text = lbOriginal.Text;
-			entryLeft.Text = 0.ToString();
-			entryRight.Text = imageW.ToString();
-			entryTop.Text = 0.ToString();
-			entryBottom.Text = imageH.ToString();
-			entryRotate.Text = 0.ToString();
 		}
 
 		private void SetGuiColors()
 		{
 			this.ModifyBg(StateType.Normal, colorConverter.GRID);
 			eventboxToolbar.ModifyBg(StateType.Normal, colorConverter.GRID);
-			entryLeft.ModifyBase(StateType.Normal, colorConverter.White);
-			entryRight.ModifyBase(StateType.Normal, colorConverter.White);
-			entryTop.ModifyBase(StateType.Normal, colorConverter.White);
-			entryBottom.ModifyBase(StateType.Normal, colorConverter.White);
-			entryRotate.ModifyBase(StateType.Normal, colorConverter.White);
-
-			lbFrameCutDimensions.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbLeftText.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbRightText.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbTopText.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbBottomText.ModifyFg (StateType.Normal, colorConverter.FONT);
-
-			lbFrameRotation.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbRotateText.ModifyFg (StateType.Normal, colorConverter.FONT);
-
-			lbFrameImageDimensions.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbOriginal.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbOriginalText.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbNew.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbNewText.ModifyFg (StateType.Normal, colorConverter.FONT);
 
 			lbFrameCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
+
+			lbFrameSteganography.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameModus.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameKey.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameContent.ModifyFg (StateType.Normal, colorConverter.FONT);
+			// TODO
+//			rdBtnRead.ModifyBase (StateType.Normal, colorConverter.FONT);
 		}
 
 		private void SetLanguageToGui()
 		{
-			// Language.I.SetCurrentLanguage (0);
 			hboxToolbarButtons.Children[0].TooltipText = Language.I.L[2];
 			hboxToolbarButtons.Children[1].TooltipText = Language.I.L[3];
 			hboxToolbarButtons.Children[2].TooltipText = Language.I.L[4];
 			hboxToolbarButtons.Children[4].TooltipText = 
 				Language.I.L[43] +	": " + 
-				Language.I.L[0] + "\n\n" + 
-				Language.I.L[44] +	": \n" +
-				Language.AllLanguagesAsString;
-
-			lbFrameCutDimensions.LabelProp = "<b>" + Language.I.L[5] + "</b>";
-			lbLeftText.Text = Language.I.L[6];
-			lbRightText.Text = Language.I.L[7];
-			lbTopText.Text = Language.I.L[8];
-			lbBottomText.Text = Language.I.L[9];
-
-			lbFrameRotation.LabelProp = "<b>" + Language.I.L[10] + "</b>";
-			lbRotateText.Text = Language.I.L[11];
-
-			lbFrameImageDimensions.LabelProp = "<b>" + Language.I.L[12] + "</b>";
-			lbOriginalText.Text = Language.I.L[13] + ":";
-			lbNewText.Text = Language.I.L[14] + ":";
+					Language.I.L[0] + "\n\n" + 
+					Language.I.L[44] +	": \n" +
+					Language.AllLanguagesAsString;
 
 			lbFrameCursorPos.LabelProp = "<b>" + Language.I.L[15] + "</b>";
 			btnOk.Text = Language.I.L[16];
 			btnOk.Redraw ();
 
-			//lbLeftText.Text = Language.I.L[0];
-		}
-
-		private void Rotate()
-		{
-			int number = 0;
-			int.TryParse (entryRotate.Text, out number);
-			entryRotate.Text = (number + timeoutRotateValue).ToString();
-			OnEntryRotateKeyReleaseEvent (null, null);
-		}
-
-		private bool RotateByTimeoutHandler()
-		{
-			if (timeoutSw.ElapsedMilliseconds < timeoutIntervalFirst) {
-				return repeatTimeout;
-			}
-			Rotate();
-			return repeatTimeout;
-		}
-
-		private void MoveTimeoutSlider()
-		{
-			timeoutSlider.IsEntered = true;
-			timeoutSlider.Partner.IsEntered = false;
-			imagepanel1.MoveSliderByKey (timeoutKey, 1);
-		}
-
-		private bool MoveSliderByTimeoutHandler()
-		{
-			if (timeoutSw.ElapsedMilliseconds < timeoutIntervalFirst) {
-				return repeatTimeout;
-			}
-
-			MoveTimeoutSlider();
-			return repeatTimeout;
-		}
-
-		private void OnSliderChangedValue(Picturez.Slider.Types t, float v)
-		{
-			int vScaledX = (int)(v * imagepanel1.ScaleCursorX + 0.5f);
-			int vScaledY = (int)(v * imagepanel1.ScaleCursorY + 0.5f);
-			switch (t) {
-			case Picturez.Slider.Types.Left:
-				entryLeft.Text = vScaledX.ToString ();
-				break;
-			case Picturez.Slider.Types.Right:
-				entryRight.Text = vScaledX.ToString ();
-				break;
-			case Picturez.Slider.Types.Top:
-				entryTop.Text = vScaledY.ToString ();
-				break;
-			case Picturez.Slider.Types.Bottom:
-				entryBottom.Text = vScaledY.ToString ();
-				break;
-			}
-
-			double DistXToPartnerScaled = Math.Round(imagepanel1.LeftSlider.DistXToPartner * imagepanel1.ScaleCursorX);
-			double DistYToPartnerScaled = Math.Round(imagepanel1.TopSlider.DistYToPartner * imagepanel1.ScaleCursorY);
-			lbNew.Text = DistXToPartnerScaled + " x " + DistYToPartnerScaled;
+			lbFrameSteganography.LabelProp = "<b>" + Language.I.L[73] + "</b>";
+			lbFrameModus.LabelProp = "<b>" + Language.I.L[74] + "</b>";
+			rdBtnRead.Label = Language.I.L[75];
+			rdBtnWrite.Label = Language.I.L[76];
+			lbFrameKey.LabelProp = "<b>" + Language.I.L[77] + "</b>";
+			lbFrameContent.LabelProp = "<b>" + Language.I.L[78] + "</b>";
 		}
 
 		private void OnCursorPosChanged(int x, int y)
@@ -397,7 +287,6 @@ namespace Picturez
 			// File.Delete (test.MainClass.OPTIONSPATH + blackFileName);
 		}
 
-
 		protected void OnExit (object sender, EventArgs e)
 		{	
 			OnDeleteEvent (sender, e as DeleteEventArgs);
@@ -406,14 +295,14 @@ namespace Picturez
 		protected void OnDragDrop (object sender, Gtk.DragDropArgs args)
 		{
 			Gtk.Drag.GetData
-			((Gtk.Widget)sender, args.Context,
-				args.Context.Targets[0], args.Time);
+				((Gtk.Widget)sender, args.Context,
+				 args.Context.Targets[0], args.Time);
 		}
 
 		void OnDragDataReceived (object sender, Gtk.DragDataReceivedArgs args)
 		{
 			if (args.SelectionData.Length > 0
-				&& args.SelectionData.Format == 8) {
+			    && args.SelectionData.Format == 8) {
 
 				byte[] data = args.SelectionData.Data;
 				string encoded = System.Text.Encoding.UTF8.GetString (data);
@@ -421,7 +310,7 @@ namespace Picturez
 				encoded = encoded.Replace ("%20", " ");
 
 				List<string> paths
-				= new List<string> (encoded.Split ('\r', '\n'));
+					= new List<string> (encoded.Split ('\r', '\n'));
 				paths.RemoveAll (string.IsNullOrEmpty);
 
 				// I don't know what last object (when Windows) is,
@@ -441,18 +330,42 @@ namespace Picturez
 			}
 		}
 
-
-		[GLib.ConnectBefore ()] 
-		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
+		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			System.Console.WriteLine("Keypress: {0}", args.Event.Key); 
-	//		switch (args.Event.Key) {
-	//		case 
-	//		default:
-	//			break;
-	//		}
-			imagepanel1.MoveSliderByKey (args.Event.Key, 1);
-		}				
+//			for (int i = 0; i < textviewContent.Buffer.LineCount; i++) {
+//				TextIter ti = textviewContent.Buffer.Get;	
+//				Console.WriteLine ("Line: " + i + ti.Buffer.Text);
+//			}
+
+			string[] content = textviewContent.Buffer.Text.Split ('\n');
+
+//			Console.WriteLine ("Text: " + textviewContent.Buffer.Text);
+
+
+			Bitmap b1 = null;
+			SteganographyFilter filter = new SteganographyFilter ();
+			filter.Key = entryKey.Text;
+			filter.WritingMode = false;
+			filter.FillLines (content);
+
+			b1 = filter.Apply (bt.Bitmap);
+
+			bt.Bitmap.Dispose ();
+			bt.ChangeBitmapButNotTags(b1);
+
+			Initialize (false);
+		}
+
+		protected void OnEntryKeyKeyReleaseEvent (object o, KeyReleaseEventArgs args)
+		{
+			if (entryKey.Text.Length == 0)
+				return;
+
+			char c = entryKey.Text [entryKey.Text.Length - 1];
+			if (c == ' ') {
+				entryKey.DeleteText (entryKey.CursorPosition - 1, entryKey.CursorPosition);
+			}
+		}
 	}
 }
 

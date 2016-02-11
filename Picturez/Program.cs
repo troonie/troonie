@@ -42,7 +42,7 @@ namespace Picturez
 			// Gtk.Settings.Default.SetLongProperty ("gtk-button-images", 1, "");
 
 			// START VALUE
-			bool edit = false;
+			bool edit = true;
 
 			if (args.Length != 0)
 			{
@@ -66,7 +66,8 @@ namespace Picturez
 				if (args.Length > 1)
 					filename = args [args.Length - 1];
 
-				EditWidget win = new EditWidget (filename);
+				// EditWidget win = new EditWidget (filename);
+				SteganographyWidget win = new SteganographyWidget ("/home/jessica/Schreibtisch/Testbilder/4000x3000px.jpg");
 				win.Show ();
 			} else {
 				ConvertWidget convWidget = new ConvertWidget (args);

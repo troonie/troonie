@@ -4,7 +4,7 @@ using Picturez_Lib;
 
 namespace Picturez
 {
-	public partial class EditWidget
+	public partial class SteganographyWidget
 	{
 		protected void OnToolbarBtn_OpenPressed(object sender, EventArgs e)
 		{
@@ -42,25 +42,6 @@ namespace Picturez
 		{
 			Language.I.LanguageID++;
 			SetLanguageToGui ();
-		}
-
-		protected int OnToolbarBtn_ShaderFilterPressed (object sender, EventArgs e, string x)
-		{
-			int index = filterNames.IndexOf (x);
-
-			switch (index) {
-				case 0:
-				Console.WriteLine ("ShaderFilter[0]: " + x);
-				break;
-				case 1:
-				Console.WriteLine ("ShaderFilter[1]: " + x);
-				break;
-				default:
-				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
-				break;
-			}
-
-			return index;
 		}
 	}
 }

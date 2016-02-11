@@ -4,6 +4,7 @@ using Gtk;
 namespace Picturez
 {
 	public delegate void OnToolbarBtnPressed (object sender, EventArgs e);
+	public delegate int OnToolbarMenuBarAsBtnPressed (object sender, EventArgs e, string x);
 
 	public class GuiHelper
 	{
@@ -52,6 +53,36 @@ namespace Picturez
 			// fc.RemoveShortcutFolderUri (Environment.GetFolderPath(Environment.SpecialFolder.Recent));
 
 			return fc;
+		}
+
+		public void CreateMenubarInToolbar(HBox hboxToolbarButtons, int position, string stockicon, 
+		                                   OnToolbarMenuBarAsBtnPressed pressed, string[] menuitems)
+		{
+			MenuBar mb = new MenuBar();
+			mb.ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);
+
+			Menu filemenu = new Menu();
+			// MenuItem file = new MenuItem("File");
+			ImageMenuItem rootitem = new ImageMenuItem(menuitems[0]);
+			rootitem.Image = Image.LoadFromResource(stockicon);
+			rootitem.Image.Visible = true;
+			rootitem.Submenu = filemenu;
+
+
+			for (int i = 1; i < menuitems.Length; i++) {
+				MenuItem item = new MenuItem(menuitems[i]);
+				AccelLabel al = item.Child as AccelLabel;
+				item.Activated += (sender, e) => pressed(sender, e, al.Text);
+				filemenu.Append(item);
+			}
+
+			mb.Append(rootitem);
+			hboxToolbarButtons.Add (mb);
+
+			Box.BoxChild w3x = (Box.BoxChild)hboxToolbarButtons [mb];
+			w3x.Position = position;
+			w3x.Expand = false;
+			w3x.Fill = false;
 		}
 
 		public void CreateToolbarIconButton(HBox hboxToolbarButtons, int position, string stockicon, OnToolbarBtnPressed pressed, string label = null)

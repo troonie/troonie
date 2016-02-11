@@ -1646,7 +1646,6 @@
                                                 <property name="MemberName" />
                                                 <property name="CanFocus">True</property>
                                                 <property name="Label" translatable="yes">JPEG</property>
-                                                <property name="Active">True</property>
                                                 <property name="DrawIndicator">True</property>
                                                 <property name="HasLabel">True</property>
                                                 <property name="UseUnderline">True</property>
@@ -2860,6 +2859,321 @@
             <property name="Fill">False</property>
             <property name="Padding">4</property>
           </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="Picturez.SteganographyWidget" design-size="524 361">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">SteganographyWidget</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <signal name="DragDrop" handler="OnDragDrop" />
+    <signal name="DragDataReceived" handler="OnDragDataReceived" />
+    <child>
+      <widget class="Gtk.VBox" id="vboxA">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <child>
+          <widget class="Gtk.EventBox" id="eventboxToolbar">
+            <property name="MemberName" />
+            <child>
+              <widget class="Gtk.HBox" id="hboxToolbarButtons">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <placeholder />
+                </child>
+                <child>
+                  <placeholder />
+                </child>
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">False</property>
+            <property name="Expand">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.HBox" id="hbox1">
+            <property name="MemberName" />
+            <property name="Spacing">6</property>
+            <child>
+              <widget class="Picturez.SimpleImagePanel" id="simpleimagepanel1">
+                <property name="MemberName" />
+                <property name="Events">ButtonPressMask</property>
+                <property name="ScaleCursorX">0</property>
+                <property name="ScaleCursorY">0</property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VBox" id="vbox1">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.Frame" id="frameSteganography">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.Alignment" id="AlignmentFrameSteganography">
+                        <property name="MemberName" />
+                        <property name="Xalign">0</property>
+                        <property name="Yalign">0</property>
+                        <property name="LeftPadding">12</property>
+                        <property name="RightPadding">12</property>
+                        <property name="BottomPadding">12</property>
+                        <child>
+                          <widget class="Gtk.VBox" id="vboxSteganography">
+                            <property name="MemberName" />
+                            <property name="Spacing">6</property>
+                            <child>
+                              <widget class="Gtk.Frame" id="frameModus">
+                                <property name="MemberName" />
+                                <property name="ShadowType">In</property>
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentFrameModus">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <widget class="Gtk.HBox" id="hboxModus">
+                                        <property name="MemberName" />
+                                        <property name="Spacing">6</property>
+                                        <child>
+                                          <widget class="Gtk.RadioButton" id="rdBtnRead">
+                                            <property name="MemberName" />
+                                            <property name="CanFocus">True</property>
+                                            <property name="Label" translatable="yes">Read</property>
+                                            <property name="DrawIndicator">True</property>
+                                            <property name="HasLabel">True</property>
+                                            <property name="UseUnderline">True</property>
+                                            <property name="Group">group1</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">0</property>
+                                            <property name="AutoSize">True</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.RadioButton" id="rdBtnWrite">
+                                            <property name="MemberName" />
+                                            <property name="CanFocus">True</property>
+                                            <property name="Label" translatable="yes">Write</property>
+                                            <property name="DrawIndicator">True</property>
+                                            <property name="HasLabel">True</property>
+                                            <property name="UseUnderline">True</property>
+                                            <property name="Group">group1</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">1</property>
+                                            <property name="AutoSize">True</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameModus">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;Modus&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">0</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Frame" id="frameKey">
+                                <property name="MemberName" />
+                                <property name="ShadowType">In</property>
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentFrameKey">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <widget class="Gtk.Entry" id="entryKey">
+                                        <property name="MemberName" />
+                                        <property name="CanFocus">True</property>
+                                        <property name="IsEditable">True</property>
+                                        <property name="MaxLength">128</property>
+                                        <property name="InvisibleChar">●</property>
+                                        <signal name="KeyReleaseEvent" handler="OnEntryKeyKeyReleaseEvent" />
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameKey">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;Key&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">1</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Frame" id="frameContent">
+                                <property name="MemberName" />
+                                <property name="ShadowType">In</property>
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentFrameContent">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <widget class="Gtk.ScrolledWindow" id="scrolledwindowContent">
+                                        <property name="MemberName" />
+                                        <property name="CanFocus">True</property>
+                                        <property name="ShadowType">In</property>
+                                        <child>
+                                          <widget class="Gtk.TextView" id="textviewContent">
+                                            <property name="MemberName" />
+                                            <property name="CanFocus">True</property>
+                                            <property name="Text" translatable="yes">Testtext</property>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameContent">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;Content&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">2</property>
+                                <property name="AutoSize">True</property>
+                              </packing>
+                            </child>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Label" id="lbFrameSteganography">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">&lt;b&gt;Steganography&lt;/b&gt;</property>
+                        <property name="UseMarkup">True</property>
+                      </widget>
+                      <packing>
+                        <property name="type">label_item</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Frame" id="frameCursorPos">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.Alignment" id="GtkAlignment1">
+                        <property name="MemberName" />
+                        <property name="Xalign">0</property>
+                        <property name="Yalign">0</property>
+                        <property name="LeftPadding">12</property>
+                        <child>
+                          <widget class="Gtk.Label" id="lbCursorPos">
+                            <property name="MemberName" />
+                            <property name="LabelProp" translatable="yes">0 x 0</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Label" id="lbFrameCursorPos">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">&lt;b&gt;Cursor position&lt;/b&gt;</property>
+                        <property name="UseMarkup">True</property>
+                      </widget>
+                      <packing>
+                        <property name="type">label_item</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Picturez.PicturezButton" id="btnOk">
+                    <property name="MemberName" />
+                    <property name="CheckReleaseState">False</property>
+                    <property name="BorderlineWidth">3</property>
+                    <property name="ButtonHeight">35</property>
+                    <property name="Font">Arial</property>
+                    <property name="Text">OK</property>
+                    <property name="TextSize">14</property>
+                    <signal name="ButtonReleaseEvent" handler="OnBtnOkButtonReleaseEvent" />
+                  </widget>
+                  <packing>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">False</property>
+                <property name="Padding">5</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">False</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder />
         </child>
       </widget>
     </child>

@@ -545,6 +545,7 @@ namespace Picturez
 			this.rdOriginalSize = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Retain original size"));
 			this.rdOriginalSize.CanFocus = true;
 			this.rdOriginalSize.Name = "rdOriginalSize";
+			this.rdOriginalSize.Active = true;
 			this.rdOriginalSize.DrawIndicator = true;
 			this.rdOriginalSize.UseUnderline = true;
 			this.rdOriginalSize.Group = new global::GLib.SList (global::System.IntPtr.Zero);
