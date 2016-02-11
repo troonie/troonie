@@ -122,10 +122,10 @@
     <Compile Include="src\EditWidget.EntryEvents.cs" />
     <Compile Include="src\EditWidget.ButtonEvents.cs" />
     <Compile Include="src\EditWidget.ToolbarButtonEvents.cs" />
-    <Compile Include="src\ShaderImagePanel.cs" />
     <Compile Include="src\SteganographyWidget.cs" />
     <Compile Include="src\SteganographyWidget.ToolbarButtonEvents.cs" />
     <Compile Include="gtk-gui\Picturez.SteganographyWidget.cs" />
+    <Compile Include="src\SimpleImagePanel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
