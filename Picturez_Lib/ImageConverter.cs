@@ -75,6 +75,50 @@ namespace Picturez_Lib
 
 		#region Public functions
 
+		public static RectangleF GetRectangle( 
+		                                      int sourceWidth, 
+		                                      int sourceHeight, 
+		                                      float xStart, 
+		                                      float yStart,
+		                                      int width, 
+		                                      int height, 
+		                                      ConvertMode convertMode)
+		{
+			RectangleF rec;
+
+			switch (convertMode) {
+				case ConvertMode.Editor:
+				rec = new RectangleF(xStart, yStart, width, height);
+				break;
+				case ConvertMode.NoStretchForge:
+				float ratio = width / (float)height;
+				float h = sourceHeight;
+				float w = sourceWidth;
+
+				xStart = 0f;
+				yStart = 0f;
+				float wCorrect = w;
+				float hCorrect = h;
+
+				if (w / h > ratio) {
+					wCorrect = h * ratio;
+					xStart /*+*/= (w - wCorrect) / 2.0f;
+				} else if (w / h <= ratio) {
+					hCorrect = w / ratio;
+					yStart /*+*/= (h - hCorrect) / 2.0f;
+				}
+
+				rec = new RectangleF(xStart, yStart, wCorrect, hCorrect);				
+				break;
+				case ConvertMode.StretchForge:
+				default:
+				rec = new RectangleF(0, 0, sourceWidth, sourceHeight);
+				break;
+			}	
+
+			return rec;
+		}
+
 		/// <summary>
 		/// Scales and cuts passed source bitmap into passed destination as 32 bpp ARGB bitmap.
 		/// </summary>
@@ -97,37 +141,8 @@ namespace Picturez_Lib
 				height = source.Height;
 			}		
 
-			RectangleF rec;
-
-			switch (convertMode) {
-			case ConvertMode.Editor:
-				rec = new RectangleF(xStart, yStart, width, height);
-				break;
-			case ConvertMode.NoStretchForge:
-				float ratio = width / (float)height;
-				float h = source.Height;
-				float w = source.Width;
-
-				xStart = 0f;
-				yStart = 0f;
-				float wCorrect = w;
-				float hCorrect = h;
-
-				if (w / h > ratio) {
-					wCorrect = h * ratio;
-					xStart /*+*/= (w - wCorrect) / 2.0f;
-				} else if (w / h <= ratio) {
-					hCorrect = w / ratio;
-					yStart /*+*/= (h - hCorrect) / 2.0f;
-				}
-
-				rec = new RectangleF(xStart, yStart, wCorrect, hCorrect);				
-				break;
-			case ConvertMode.StretchForge:
-			default:
-				rec = new RectangleF(0, 0, source.Width, source.Height);
-				break;
-			}				
+			RectangleF rec = GetRectangle (
+				source.Width, source.Height, xStart, yStart, width, height, convertMode);				
 
 			// the pixelformat value is useless, no effect, pixelformat is same like source
 			destination = source.Clone(rec, PixelFormat.Format24bppRgb);							
@@ -269,12 +284,13 @@ namespace Picturez_Lib
 
 		/// <summary>
 		/// Converts a bitmap with unspecific pixel format into 32 bpp bitmap.
+		/// If pixel format provides no alpha, all pixels will get full alpha value (a = 255).
 		/// </summary>
 		/// <param name="source">The bitmap to convert.</param>
 		/// <returns>Result (32 bpp) bitmap.</returns>
 		/// <exception cref="System.ArgumentException">
 		/// PixelFormat of bitmap is not supported.;source</exception>
-		public static Bitmap To32Bpp(Bitmap source, byte alpha)
+		public static Bitmap To32Bpp(Bitmap source)
 		{
 			switch (source.PixelFormat)
 			{
@@ -282,17 +298,48 @@ namespace Picturez_Lib
 				return RGBToARGB(CloneBitmapByUsingGraphics(source, 
 					source.Width, 
 					source.Height,
-					true), alpha);
+					true), 255);
 			case PixelFormat.Format8bppIndexed:
 				//TODO refactoring this step
-				return  RGBToARGB(GrayscaleToRGB(source), alpha);
+				return  RGBToARGB(GrayscaleToRGB(source), 255);
 			case PixelFormat.Format24bppRgb:
-				return RGBToARGB (source, alpha);
+				return RGBToARGB (source, 255);
 			case PixelFormat.Format32bppArgb:
 			case PixelFormat.Format32bppRgb:
+				return source;
+			default:
+				throw new ArgumentException(
+					"PixelFormat of bitmap is not supported.", "source");
+			}
+		}
+
+		/// <summary>
+		/// Converts a bitmap with unspecific pixel format into 32 bpp bitmap.
+		/// </summary>
+		/// <param name="source">The bitmap to convert.</param>
+		/// <returns>Result (32 bpp) bitmap.</returns>
+		/// <exception cref="System.ArgumentException">
+		/// PixelFormat of bitmap is not supported.;source</exception>
+		[Obsolete("Use ImageConverter.To32BppWithTransparencyColor(Bitmap source, Color transparencyColor) instead.")]
+		public static Bitmap To32Bpp(Bitmap source, byte alpha)
+		{
+			switch (source.PixelFormat)
+			{
+				case PixelFormat.Format1bppIndexed:
+				return RGBToARGB(CloneBitmapByUsingGraphics(source, 
+				                                            source.Width, 
+				                                            source.Height,
+				                                            true), alpha);
+				case PixelFormat.Format8bppIndexed:
+				//TODO refactoring this step
+				return  RGBToARGB(GrayscaleToRGB(source), alpha);
+				case PixelFormat.Format24bppRgb:
+				return RGBToARGB (source, alpha);
+				case PixelFormat.Format32bppArgb:
+				case PixelFormat.Format32bppRgb:
 				//TODO refactoring this step
 				return RGBToARGB (ARGBToRGB(source), alpha);
-			default:
+				default:
 				throw new ArgumentException(
 					"PixelFormat of bitmap is not supported.", "source");
 			}

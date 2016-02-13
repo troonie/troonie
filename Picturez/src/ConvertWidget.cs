@@ -36,6 +36,8 @@ namespace Picturez
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 6, "tools-check-spelling-5.png", OnToolbarBtn_LanguagePressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 7, "folder-new-4.png", OnToolbarBtn_PropertiesPressed);
+			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 8);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 9, "emblem-photos.png", OnToolbarBtn_SteganoPressed);
 
 			// CheckContextMenu ();
 
@@ -104,6 +106,7 @@ namespace Picturez
 			rdPng8Bit.Label = "PNG (8 Bit " + Language.I.L[21] + ")";
 			rdPng24Bit.Label = "PNG (24 Bit " + Language.I.L[22] + ")";
 			rdPNG32bit.Label = "PNG (32 Bit " + Language.I.L[25] + ")";
+			rdPng32BitAlphaAsValue.Label = "PNG (32 Bit " + Language.I.L[79] + ")";
 			lbTransparencyColor.Text = Language.I.L[26];
 
 			rdBmp1bit.Label = "BMP (1 Bit " + Language.I.L[24] + ")";
@@ -135,6 +138,7 @@ namespace Picturez
 				Language.I.L[44] +	": \n" +
 				Language.AllLanguagesAsString;
 			hboxToolbarButtons.Children[7].TooltipText = Language.I.L[59];
+			hboxToolbarButtons.Children[9].TooltipText = Language.I.L[80];
 
 			btnConvert.Text = Language.I.L[45];
 			btnConvert.Redraw ();
@@ -178,8 +182,11 @@ namespace Picturez
 			case PicturezImageFormat.PNG24:
 				rdPng24Bit.Active = true;
 				break;
-			case PicturezImageFormat.PNG32Alpha:
+			case PicturezImageFormat.PNG32Transparency:
 				rdPNG32bit.Active = true;
+				break;
+			case PicturezImageFormat.PNG32AlphaAsValue:
+				rdPng32BitAlphaAsValue.Active = true;
 				break;
 			case PicturezImageFormat.TIFF:
 				rdTiff.Active = true;
@@ -252,7 +259,7 @@ namespace Picturez
 		private void OnUpdateAvailable(float newVersion)
 		{
 			this.newVersion = newVersion;
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 8, 
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 10, 
 				"security-medium-2.png", OnToolbarBtn_UpdatePressed, Language.I.L[69]);
 		}
 

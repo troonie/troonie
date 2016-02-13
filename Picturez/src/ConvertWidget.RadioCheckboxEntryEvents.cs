@@ -52,7 +52,12 @@ namespace Picturez
 			lbTransparencyColor.Sensitive = rdPNG32bit.Active;
 			btnColor.Sensitive = rdPNG32bit.Active;
 
-			SetToggledProperties (sender, PicturezImageFormat.PNG32Alpha, ".png");
+			SetToggledProperties (sender, PicturezImageFormat.PNG32Transparency, ".png");
+		}
+
+		protected void OnRdPng32BitAlphaAsValueToggled (object sender, EventArgs e)
+		{
+			SetToggledProperties (sender, PicturezImageFormat.PNG32AlphaAsValue, ".png");
 		}
 
 		protected void OnRdBmp1bitToggled (object sender, EventArgs e)

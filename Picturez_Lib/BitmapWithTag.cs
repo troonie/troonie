@@ -43,7 +43,8 @@ namespace Picturez_Lib
 					case PicturezImageFormat.PNG1:
 					case PicturezImageFormat.PNG8:
 					case PicturezImageFormat.PNG24:
-					case PicturezImageFormat.PNG32Alpha:
+					case PicturezImageFormat.PNG32Transparency:
+					case PicturezImageFormat.PNG32AlphaAsValue:
 							ImageTag.PIC_ENHANCE_AddTag (new PngTag ());
 							break;
 					case PicturezImageFormat.JPEG8:
@@ -62,7 +63,7 @@ namespace Picturez_Lib
 			} 
 			else {
 				Bitmap = new Bitmap (180, 180, PixelFormat.Format32bppArgb);
-				OrigFormat = newFormat = PicturezImageFormat.PNG32Alpha;
+				OrigFormat = newFormat = PicturezImageFormat.PNG32AlphaAsValue;
 				ImageTag = new CombinedImageTag (TagTypes.Png);
 			}				
 		}			
@@ -145,14 +146,20 @@ namespace Picturez_Lib
 				break;
 			}
 
-			ImageConverter.ScaleAndCut (Bitmap, 
-				out dest,
-				0,
-				0,
-				w,
-				h,
-				config.StretchImage,
-				config.HighQuality);
+			if (config.Format == PicturezImageFormat.PNG32AlphaAsValue)	{
+				RectangleF rec = ImageConverter.GetRectangle(Bitmap.Width, Bitmap.Height, 0,0 , w, h, config.StretchImage);
+				dest = null;
+				dest = Bitmap.Clone(rec, PixelFormat.Format32bppArgb);
+			}else{
+				ImageConverter.ScaleAndCut (Bitmap, 
+					out dest,
+					0,
+					0,
+					w,
+					h,
+					config.StretchImage,
+					config.HighQuality);
+			}
 			#endregion Resizing
 
 			#region Saving by using PicturezImageFormat
@@ -187,12 +194,15 @@ namespace Picturez_Lib
 				break;
 			case PicturezImageFormat.GIF:
 			case PicturezImageFormat.ICO:
-			case PicturezImageFormat.PNG32Alpha:
+			case PicturezImageFormat.PNG32Transparency:
 				// TODO: Correct for GIF, ICON using to 32 bit?
 				// MakeTransparent() makes EVERY (also 1bpp) pixel format to 32bit ARGB
 				dest.MakeTransparent (NetColor.FromArgb (config.TransparencyColorRed,
 					config.TransparencyColorGreen, config.TransparencyColorBlue));
-				break;					
+				break;
+			case PicturezImageFormat.PNG32AlphaAsValue:
+				dest = ImageConverter.To32Bpp (dest);
+				break;
 			}								
 			dest.Save(FileName, ImageFormatConverter.I.ConvertFromPIF(config.Format));
 			#endregion Saving by using PicturezImageFormat
@@ -234,7 +244,8 @@ namespace Picturez_Lib
 			case PicturezImageFormat.PNG1:
 			case PicturezImageFormat.PNG8:
 			case PicturezImageFormat.PNG24:
-			case PicturezImageFormat.PNG32Alpha:
+			case PicturezImageFormat.PNG32Transparency:
+			case PicturezImageFormat.PNG32AlphaAsValue:
 				//image.GetTag (TagTypes.Png, true);
 				ctag = new CombinedImageTag (TagTypes.Png);
 				PngTag pngTag = image.GetTag (TagTypes.Png, true) as PngTag;

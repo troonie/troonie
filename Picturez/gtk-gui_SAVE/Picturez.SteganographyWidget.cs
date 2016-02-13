@@ -8,7 +8,7 @@ namespace Picturez
 		private global::Gtk.EventBox eventboxToolbar;
 		private global::Gtk.HBox hboxToolbarButtons;
 		private global::Gtk.HBox hbox1;
-		private global::Picturez.ShaderImagePanel shaderimagepanel1;
+		private global::Picturez.SimpleImagePanel simpleimagepanel1;
 		private global::Gtk.VBox vbox1;
 		private global::Gtk.Frame frameSteganography;
 		private global::Gtk.Alignment AlignmentFrameSteganography;
@@ -63,13 +63,13 @@ namespace Picturez
 			this.hbox1.Name = "hbox1";
 			this.hbox1.Spacing = 6;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.shaderimagepanel1 = new global::Picturez.ShaderImagePanel ();
-			this.shaderimagepanel1.Events = ((global::Gdk.EventMask)(256));
-			this.shaderimagepanel1.Name = "shaderimagepanel1";
-			this.shaderimagepanel1.ScaleCursorX = 0F;
-			this.shaderimagepanel1.ScaleCursorY = 0F;
-			this.hbox1.Add (this.shaderimagepanel1);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.shaderimagepanel1]));
+			this.simpleimagepanel1 = new global::Picturez.SimpleImagePanel ();
+			this.simpleimagepanel1.Events = ((global::Gdk.EventMask)(256));
+			this.simpleimagepanel1.Name = "simpleimagepanel1";
+			this.simpleimagepanel1.ScaleCursorX = 0F;
+			this.simpleimagepanel1.ScaleCursorY = 0F;
+			this.hbox1.Add (this.simpleimagepanel1);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.simpleimagepanel1]));
 			w3.Position = 0;
 			w3.Expand = false;
 			w3.Fill = false;
@@ -250,7 +250,7 @@ namespace Picturez
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 400;
+			this.DefaultWidth = 524;
 			this.DefaultHeight = 361;
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);

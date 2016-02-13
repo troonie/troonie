@@ -70,9 +70,13 @@ namespace Picturez
 				rdPng24Bit.Active = true;
 				OnRdPng24BitToggled (rdPng24Bit, null);
 				break;
-			case PicturezImageFormat.PNG32Alpha:
+			case PicturezImageFormat.PNG32Transparency:
 				rdPNG32bit.Active = true;
 				OnRdPNG32bitToggled (rdPNG32bit, null);
+				break;
+			case PicturezImageFormat.PNG32AlphaAsValue:
+				rdPng32BitAlphaAsValue.Active = true;
+				OnRdPNG32bitToggled (rdPng32BitAlphaAsValue, null);
 				break;
 			case PicturezImageFormat.JPEG8:
 				rdJpegGray.Active = true;
@@ -144,6 +148,7 @@ namespace Picturez
 			rdPng8Bit.Label = "PNG (8 Bit " + Language.I.L[21] + ")";
 			rdPng24Bit.Label = "PNG (24 Bit " + Language.I.L[22] + ")";
 			rdPNG32bit.Label = "PNG (32 Bit " + Language.I.L[25] + ")";
+			rdPng32BitAlphaAsValue.Label = "PNG (32 Bit " + Language.I.L[79] + ")";
 			lbTransparencyColor.Text = Language.I.L[26];
 
 			rdBmp1bit.Label = "BMP (1 Bit " + Language.I.L[24] + ")";
@@ -173,6 +178,19 @@ namespace Picturez
 
 			bitmap.Save (config, entryFilename.Text + lbFormat.Text);
 			return true;
+		}
+
+		public void AllowOnlyPng32BitAlphaAsValueSaving()
+		{
+			rdPng1bit.Sensitive = false;
+			rdPng8Bit.Sensitive = false;
+			rdPng24Bit.Sensitive = false;
+			rdPNG32bit.Sensitive = false;
+			frame3.Sensitive = false; // jpg
+			frame5.Sensitive = false; // bmp
+			frame6.Sensitive = false; // other
+
+			rdPng32BitAlphaAsValue.Active = true;
 		}
 
 		#region RadioButton toggle events
@@ -221,7 +239,12 @@ namespace Picturez
 			lbTransparencyColor.Sensitive = rdPNG32bit.Active;
 			btnColor.Sensitive = rdPNG32bit.Active;
 
-			SetToggledProperties (sender, PicturezImageFormat.PNG32Alpha, ".png");
+			SetToggledProperties (sender, PicturezImageFormat.PNG32Transparency, ".png");
+		}
+
+		protected void OnRdPng32BitAlphaAsValueToggled (object sender, EventArgs e)
+		{
+			SetToggledProperties (sender, PicturezImageFormat.PNG32AlphaAsValue, ".png");
 		}
 
 		protected void OnRdBmp1bitToggled (object sender, EventArgs e)

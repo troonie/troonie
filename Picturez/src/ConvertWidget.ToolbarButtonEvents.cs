@@ -64,6 +64,14 @@ namespace Picturez
 			new AskForDesktopContextMenuWindow (false, Current).Show();
 		}
 
+		protected void OnToolbarBtn_SteganoPressed (object sender, EventArgs e)
+		{
+			Process p = new Process ();
+			p.StartInfo.FileName = Constants.I.EXEPATH + Constants.EXENAME;
+			p.StartInfo.Arguments = " -s ";
+			p.Start ();
+		}
+
 		protected void OnToolbarBtn_UpdatePressed (object sender, EventArgs e)
 		{
 			PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (false);

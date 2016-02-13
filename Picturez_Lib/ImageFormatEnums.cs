@@ -11,7 +11,12 @@ namespace Picturez_Lib
 		PNG1,
 		PNG8,
 		PNG24,
-		PNG32Alpha,
+		/// <summary> Usage for transparency for a color, only passed color is transparent, 
+		/// all other pixel have max value (alpha = 255).  </summary>
+		PNG32Transparency,
+		/// <summary>  Usage for alpha as a channel value, every pixel has own alpha value, 
+		/// e.g. steganography filter. </summary>
+		PNG32AlphaAsValue,
 		BMP1,
 		BMP8,
 		BMP24,
@@ -88,7 +93,8 @@ namespace Picturez_Lib
 				return ImageFormat.Jpeg;
 			case PicturezImageFormat.PNG1:
 			case PicturezImageFormat.PNG24:
-			case PicturezImageFormat.PNG32Alpha:
+			case PicturezImageFormat.PNG32Transparency:
+			case PicturezImageFormat.PNG32AlphaAsValue:
 			case PicturezImageFormat.PNG8:
 				return ImageFormat.Png;
 			case PicturezImageFormat.TIFF:
@@ -141,7 +147,7 @@ namespace Picturez_Lib
 				case PixelFormat.Format32bppArgb:
 				case PixelFormat.Format32bppPArgb:
 				case PixelFormat.Format32bppRgb:
-					return PicturezImageFormat.PNG32Alpha; 
+					return PicturezImageFormat.PNG32AlphaAsValue; 
 				default:
 					return PicturezImageFormat.Undefined;
 				}						

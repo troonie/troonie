@@ -22,7 +22,7 @@ grayscale;Graustufen
 color;Farbe
 Quality;Qualität
 black-white;Schwarz-weiß
-Color + transparancy;Farbe + Transparenz
+color + transparancy;Farbe + Transparenz
 Alpha color;Alpha-Farbe
 Other;Andere
 Resize;Beschneiden
@@ -76,3 +76,5 @@ Read;Lesen
 Write;Schreiben
 Key;Schlüssel
 Content;Inhalt
+store alpha value;Alpha-Wert beibehalten
+Steganography;Steganografie

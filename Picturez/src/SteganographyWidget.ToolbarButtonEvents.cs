@@ -27,6 +27,7 @@ namespace Picturez
 		protected void OnToolbarBtn_SaveAsPressed (object sender, EventArgs e)
 		{
 			SaveAsDialog dialog = new SaveAsDialog(bt);
+			dialog.AllowOnlyPng32BitAlphaAsValueSaving ();
 			if (dialog.Run () == (int)ResponseType.Ok) {
 				if (dialog.Process ()) {
 					FileName = dialog.SavedFileName;

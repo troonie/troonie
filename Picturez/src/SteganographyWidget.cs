@@ -337,18 +337,25 @@ namespace Picturez
 //				Console.WriteLine ("Line: " + i + ti.Buffer.Text);
 //			}
 
-			string[] content = textviewContent.Buffer.Text.Split ('\n');
-
-//			Console.WriteLine ("Text: " + textviewContent.Buffer.Text);
-
-
 			Bitmap b1 = null;
 			SteganographyFilter filter = new SteganographyFilter ();
 			filter.Key = entryKey.Text;
-			filter.WritingMode = false;
-			filter.FillLines (content);
+			filter.WritingMode = rdBtnWrite.Active;
 
-			b1 = filter.Apply (bt.Bitmap);
+			if (filter.WritingMode) {
+				string[] content = textviewContent.Buffer.Text.Split ('\n');
+				filter.FillLines (content);
+				b1 = ImageConverter.To32Bpp(bt.Bitmap);
+				b1 = filter.Apply (b1);
+				b1.Save ("/home/jessica/Schreibtisch/RESULT.png", ImageFormat.Png);
+
+			} else {
+				b1 = filter.Apply (bt.Bitmap);
+				textviewContent.Buffer.Text = string.Empty;
+				foreach (var item in filter.GetLines()) {
+					textviewContent.Buffer.Text += item + "\n";
+				}
+			}				
 
 			bt.Bitmap.Dispose ();
 			bt.ChangeBitmapButNotTags(b1);

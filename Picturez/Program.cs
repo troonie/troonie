@@ -42,12 +42,15 @@ namespace Picturez
 			// Gtk.Settings.Default.SetLongProperty ("gtk-button-images", 1, "");
 
 			// START VALUE
-			bool edit = true;
+			bool edit = false;
+			bool steg = false;
 
 			if (args.Length != 0)
 			{
 				if (args [0] == "-e")
 					edit = true;
+				else if (args [0] == "-s")
+					steg = true;
 				else if (args [0] == "-d") {
 					DirectoryInfo di = new DirectoryInfo (args [args.Length - 1]);
 					if (di.Exists) {
@@ -60,14 +63,16 @@ namespace Picturez
 					};
 				}
 			}
-			// TODO: Delete Constants.I.EDITMODE
-			if (edit /* Constants.I.EDITMODE */) {
-				string filename = null;
-				if (args.Length > 1)
-					filename = args [args.Length - 1];
 
-				// EditWidget win = new EditWidget (filename);
-				SteganographyWidget win = new SteganographyWidget ("/home/jessica/Schreibtisch/Testbilder/4000x3000px.jpg");
+			string filename = null;
+			if (args.Length > 1)
+				filename = args [args.Length - 1];
+
+			if (edit) {
+				EditWidget win = new EditWidget (filename);
+				win.Show ();
+			} else if (steg){
+				SteganographyWidget win = new SteganographyWidget ("test.jpg");
 				win.Show ();
 			} else {
 				ConvertWidget convWidget = new ConvertWidget (args);
