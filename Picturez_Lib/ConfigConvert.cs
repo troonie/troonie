@@ -1,12 +1,15 @@
 using System;
+using System.IO;
 using System.Drawing.Imaging;
 using System.Xml.Serialization;
 
 namespace Picturez_Lib
 {
     /// <summary> Data container for configure Picturez. </summary>
-    public class Configuration : ICloneable
+    public class ConfigConvert
     {
+		private static string convertXmlFile = Constants.I.EXEPATH + "convert.xml"; 
+
         #region public properties 
 
 		public bool AskForDesktopContextMenu { get; set; }
@@ -60,56 +63,50 @@ namespace Picturez_Lib
 
         #endregion public properties
 
-		public Configuration() {
-		}
-
-		public void SetDefaultValues()
-		{
+		public ConfigConvert() {
 			AskForDesktopContextMenu = true;
-            BiggestLength = 1280;
-            FileOverwriting = false;
+			BiggestLength = 1280;
+			FileOverwriting = false;
 			Format = Picturez_Lib.PicturezImageFormat.JPEG24;
-            Height = 800;
-            JpgQuality = 100;
-            Name = "Name";
+			Height = 800;
+			JpgQuality = 100;
+			Name = "Name";
 			Path = string.Format("{0}"+ System.IO.Path.DirectorySeparatorChar, 
-				Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));			
-            HighQuality = true;
+			                     Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));			
+			HighQuality = true;
 			ResizeVersion = ResizeVersion.No;
-			StretchImage = Constants.I.EDITMODE ? ConvertMode.Editor : ConvertMode.StretchForge;
-            UseOriginalPath = false;
-            Width = 1280;				
+			StretchImage = ConvertMode.StretchForge;
+			UseOriginalPath = false;
+			Width = 1280;
 
 			TransparencyColorRed = 255;
 			TransparencyColorGreen = 255;
 			TransparencyColorBlue = 255;
 		}
 
+		public static ConfigConvert Load()
+		{
+			if (!File.Exists (convertXmlFile)) {
+				Save(new ConfigConvert());
+			}
 
-        /// <summary> Makes a deep copy of this instance. </summary>
-        /// <returns>A cloned <see cref="Configuration"/> of this instance.
-        /// </returns>
-        public object Clone()
-        {
-            Configuration c = new Configuration();
-			c.AskForDesktopContextMenu = AskForDesktopContextMenu;
-            c.BiggestLength = BiggestLength;
-            c.FileOverwriting = FileOverwriting;
-            c.Format = Format;
-            c.Height = Height;
-            c.JpgQuality = JpgQuality;
-            c.Name = Name;
-            c.Path = Path;
-            c.HighQuality = HighQuality;
-            c.ResizeVersion = ResizeVersion;
-            c.StretchImage = StretchImage;
-            c.UseOriginalPath = UseOriginalPath;
-            c.Width = Width;
+			XmlSerializer serializer = new XmlSerializer(typeof(ConfigConvert));
+			StreamReader sr = new StreamReader(convertXmlFile);
+			ConfigConvert c = (ConfigConvert)serializer.Deserialize(sr);
 
-			c.TransparencyColorRed = TransparencyColorRed;
-			c.TransparencyColorGreen = TransparencyColorGreen;
-			c.TransparencyColorBlue = TransparencyColorBlue;
-            return c;
-        }
-}
+			sr.Close();
+			return c;
+		}
+
+		public static void Save(ConfigConvert c)
+		{
+			// Just to be cautious
+			c.FileOverwriting = false;
+
+			XmlSerializer serializer = new XmlSerializer(typeof(ConfigConvert));
+			FileStream fs = new FileStream(convertXmlFile, FileMode.Create); 
+			serializer.Serialize(fs, c);
+			fs.Close();
+		}
+	}
 }

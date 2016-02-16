@@ -47,13 +47,13 @@ namespace TagLib.Image.NoMetadata
 	[SupportedMimeType("taglib/svg", "svg")]
 	[SupportedMimeType("taglib/svgz", "svgz")]
 	[SupportedMimeType("image/svg+xml")]
-	[SupportedMimeType("taglib/kdc", "kdc")]    // FIXME: Not supported yet!
-	[SupportedMimeType("taglib/orf", "orf")]    // FIXME: Not supported yet!
-	[SupportedMimeType("taglib/srf", "srf")]    // FIXME: Not supported yet!
-	[SupportedMimeType("taglib/crw", "crw")]    // FIXME: Not supported yet!
-	[SupportedMimeType("taglib/mrw", "mrw")]    // FIXME: Not supported yet!
-	[SupportedMimeType("taglib/raf", "raf")]    // FIXME: Not supported yet!
-	[SupportedMimeType("taglib/x3f", "x3f")]    // FIXME: Not supported yet!
+	[SupportedMimeType("taglib/kdc", "kdc")]    // FIX-ME: Not supported yet!
+	[SupportedMimeType("taglib/orf", "orf")]    // FIX-ME: Not supported yet!
+	[SupportedMimeType("taglib/srf", "srf")]    // FIX-ME: Not supported yet!
+	[SupportedMimeType("taglib/crw", "crw")]    // FIX-ME: Not supported yet!
+	[SupportedMimeType("taglib/mrw", "mrw")]    // FIX-ME: Not supported yet!
+	[SupportedMimeType("taglib/raf", "raf")]    // FIX-ME: Not supported yet!
+	[SupportedMimeType("taglib/x3f", "x3f")]    // FIX-ME: Not supported yet!
 	public class File : TagLib.Image.File
 	{
 

@@ -133,13 +133,13 @@ namespace Picturez_Lib
 			ConvertMode convertMode,
 			bool highGraphicsQuality)
 		{
-			// TODO: Remove it?
-			if (width == 0 || height == 0)
-			{
-				throw new Exception ("TODO: Remove it?");
-				width = source.Width;
-				height = source.Height;
-			}		
+//			// TOD-O: Remove it?
+//			if (width == 0 || height == 0)
+//			{
+//				throw new Exception ("TODO: Remove it?");
+//				width = source.Width;
+//				height = source.Height;
+//			}		
 
 			RectangleF rec = GetRectangle (
 				source.Width, source.Height, xStart, yStart, width, height, convertMode);				

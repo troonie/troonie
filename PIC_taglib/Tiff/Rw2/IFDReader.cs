@@ -93,7 +93,7 @@ namespace TagLib.Tiff.Rw2
 		/// </returns>
 		protected override IFDEntry ParseIFDEntry (ushort tag, ushort type, uint count, long base_offset, uint offset) {
 			if (tag == 0x002e && !seen_jpgfromraw) {
-				// FIXME: JpgFromRaw
+				// FIX-ME: JpgFromRaw
 
 				file.Seek (base_offset + offset, SeekOrigin.Begin);
 				var data = file.ReadBlock ((int) count);

@@ -28,6 +28,7 @@ namespace Picturez
 		private int imageH;
 		private string tempScaledImageFileName;
 
+		private ConfigEdit config;
 		private bool repeatTimeout;
 		private Slider timeoutSlider;
 		private Gdk.Key timeoutKey;
@@ -56,6 +57,7 @@ namespace Picturez
 			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());
 
 			timeoutSw = new Stopwatch();
+			config = ConfigEdit.Load ();
 			SetGuiColors ();
 			SetLanguageToGui ();
 			Initialize(true);
@@ -102,8 +104,6 @@ namespace Picturez
 				{
 					try 
 					{
-						// TODO: Unify with 'GetImageDimensions()'
-
 						FileInfo info = new FileInfo (FileName);
 						string ext = info.Extension.ToLower ();
 
@@ -291,7 +291,6 @@ namespace Picturez
 
 		private void SetLanguageToGui()
 		{
-			// Language.I.SetCurrentLanguage (0);
 			hboxToolbarButtons.Children[0].TooltipText = Language.I.L[2];
 			hboxToolbarButtons.Children[1].TooltipText = Language.I.L[3];
 			hboxToolbarButtons.Children[2].TooltipText = Language.I.L[4];
@@ -393,8 +392,7 @@ namespace Picturez
 				bt.Dispose ();
 			}
 			File.Delete (tempScaledImageFileName);
-			// TODO: Why IOEXCEPTION when delting here?
-			// File.Delete (test.MainClass.OPTIONSPATH + blackFileName);
+			File.Delete (Constants.I.EXEPATH + blackFileName);
 		}
 
 
@@ -445,12 +443,34 @@ namespace Picturez
 		[GLib.ConnectBefore ()] 
 		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
 		{
-			System.Console.WriteLine("Keypress: {0}", args.Event.Key); 
-	//		switch (args.Event.Key) {
-	//		case 
-	//		default:
-	//			break;
-	//		}
+//			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
+
+			if (args.Event.State == (Gdk.ModifierType.ControlMask | Gdk.ModifierType.Mod2Mask)) {
+				switch (args.Event.Key) {
+					case Gdk.Key.l:
+						entryLeft.Text = config.Left.ToString ();
+						OnEntryLeftKeyReleaseEvent (entryLeft, null);
+
+						entryRight.Text = config.Right.ToString ();
+						OnEntryRightKeyReleaseEvent (entryRight, null);
+
+						entryTop.Text = config.Top.ToString ();
+						OnEntryTopKeyReleaseEvent (entryTop, null);
+
+						entryBottom.Text = config.Bottom.ToString ();
+						OnEntryBottomKeyReleaseEvent (entryBottom, null);
+						break;
+					case Gdk.Key.r:
+						if (!frameRotation.Sensitive)
+							break;
+						entryRotate.Text = config.Rotation.ToString ();
+						OnEntryRotateKeyReleaseEvent (entryRotate, null);
+						break;
+					default:
+						break;
+				}
+			} 
+
 			imagepanel1.MoveSliderByKey (args.Event.Key, 1);
 		}				
 	}

@@ -11,7 +11,7 @@ namespace Picturez
 		private void SetToggledProperties(object sender, PicturezImageFormat f, string s)
 		{
 			if (((RadioButton)sender).Active) {
-				Current.Format = f;
+				config.Format = f;
 				format = s;
 			}				
 		}
@@ -106,7 +106,7 @@ namespace Picturez
 		protected void OnRdOriginalSizeToggled (object sender, EventArgs e)
 		{
 			if (rdOriginalSize.Active) {
-				Current.ResizeVersion = ResizeVersion.No;
+				config.ResizeVersion = ResizeVersion.No;
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace Picturez
 			lbPixel_BiggerLength.Sensitive = rdBiggerLength.Active;
 
 			if (rdBiggerLength.Active) {
-				Current.ResizeVersion = ResizeVersion.BiggestLength;
+				config.ResizeVersion = ResizeVersion.BiggestLength;
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace Picturez
 			lbX.Sensitive = rdFixSize.Active;
 
 			if (rdFixSize.Active) {
-				Current.ResizeVersion = ResizeVersion.FixedSize;
+				config.ResizeVersion = ResizeVersion.FixedSize;
 			}
 		}
 
@@ -138,10 +138,12 @@ namespace Picturez
 		#region Checkbox AND convert button toogle events
 		protected void OnCheckButtonsToggled (object sender, EventArgs e)
 		{
-			Current.StretchImage = checkBtnStretch.Active ? ConvertMode.StretchForge : ConvertMode.NoStretchForge;
-			Current.FileOverwriting = checkBtnOverwriteOriginalImage.Active;
-			Current.UseOriginalPath = checkBtnUseOriginalDirectory.Active;
-			htlbOutputDirectory.Sensitive = !Current.UseOriginalPath;
+			if (isSettingGuiToCurrentConfiguration)
+				return;
+			config.StretchImage = checkBtnStretch.Active ? ConvertMode.StretchForge : ConvertMode.NoStretchForge;
+			config.FileOverwriting = checkBtnOverwriteOriginalImage.Active;
+			config.UseOriginalPath = checkBtnUseOriginalDirectory.Active;
+			htlbOutputDirectory.Sensitive = !config.UseOriginalPath;
 		}			
 
 		#endregion Checkbox AND convert button toogle events
@@ -152,7 +154,7 @@ namespace Picturez
 		{
 			int number;
 			if (int.TryParse (entryBiggerLength.Text, out number)) {
-				Current.BiggestLength = number;
+				config.BiggestLength = number;
 			} else {
 				entryBiggerLength.DeleteText (entryBiggerLength.CursorPosition, entryBiggerLength.CursorPosition + 1);
 			}
@@ -162,7 +164,7 @@ namespace Picturez
 		{
 			int number;
 			if (int.TryParse (entryFixSizeHeight.Text, out number)) {
-				Current.Height = number;
+				config.Height = number;
 			} else {
 				entryFixSizeHeight.DeleteText (entryFixSizeHeight.CursorPosition, entryFixSizeHeight.CursorPosition + 1);
 			}
@@ -172,7 +174,7 @@ namespace Picturez
 		{
 			int number;
 			if (int.TryParse (entryFixSizeWidth.Text, out number)) {
-				Current.Width = number;
+				config.Width = number;
 			} else {
 				entryFixSizeWidth.DeleteText (entryFixSizeWidth.CursorPosition, entryFixSizeWidth.CursorPosition + 1);
 			}

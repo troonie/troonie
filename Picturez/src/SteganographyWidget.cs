@@ -86,8 +86,6 @@ namespace Picturez
 				{
 					try 
 					{
-						// TODO: Unify with 'GetImageDimensions()'
-
 						FileInfo info = new FileInfo (FileName);
 						string ext = info.Extension.ToLower ();
 
@@ -242,8 +240,6 @@ namespace Picturez
 			lbFrameModus.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameKey.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameContent.ModifyFg (StateType.Normal, colorConverter.FONT);
-			// TODO
-//			rdBtnRead.ModifyBase (StateType.Normal, colorConverter.FONT);
 		}
 
 		private void SetLanguageToGui()
@@ -283,8 +279,7 @@ namespace Picturez
 				bt.Dispose ();
 			}
 			File.Delete (tempScaledImageFileName);
-			// TODO: Why IOEXCEPTION when delting here?
-			// File.Delete (test.MainClass.OPTIONSPATH + blackFileName);
+			File.Delete (Constants.I.EXEPATH + blackFileName);
 		}
 
 		protected void OnExit (object sender, EventArgs e)

@@ -35,7 +35,6 @@ namespace Picturez
 			// Directory.CreateDirectory (Constants.I.EXEPATH);
 
 			Constants.I.Init ();
-			XmlHandler.I.CreateXmlFiles ();
 			GetProgramIcon ();
 
 			Application.Init ();

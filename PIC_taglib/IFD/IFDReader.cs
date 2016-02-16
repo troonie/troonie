@@ -425,7 +425,7 @@ namespace TagLib.IFD
 			}
 
 
-			// FIXME: create correct type.
+			// FIX-ME: create correct type.
 			if (offset > max_offset)
 				return new UndefinedIFDEntry (tag, new ByteVector ());
 
@@ -527,7 +527,7 @@ namespace TagLib.IFD
 				return null;
 			}
 
-			// TODO: We should ignore unreadable values, erroring for now until we have sufficient coverage.
+			// TOD-O: We should ignore unreadable values, erroring for now until we have sufficient coverage.
 			throw new NotImplementedException (String.Format ("Unknown type/count {0}/{1} ({2})", type, count, offset));
 		}
 
@@ -868,7 +868,7 @@ namespace TagLib.IFD
 
 					if (magic == 42) {
 
-						// TODO: the max_offset value is not correct here. However, some nikon files have offsets to a sub-ifd
+						// TOD-O: the max_offset value is not correct here. However, some nikon files have offsets to a sub-ifd
 						// (preview image) which are not stored with the other makernote data. Therfore, we keep the max_offset
 						// for now. (It is just an upper bound for some checks. So if it is too big, it doesn't matter)
 						var reader =

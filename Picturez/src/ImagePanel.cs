@@ -201,19 +201,6 @@ namespace Picturez
 		{
 			DrawingArea area = (DrawingArea) o;
 			Cairo.Context cr =  Gdk.CairoHelper.Create(area.GdkWindow);
-//			int width = W; //Allocation.Width;
-//			int height = H; //Allocation.Height;
-
-			// TODO maybe scaling for performance?
-			//			double xw = drawingAreaImage.WidthRequest / (double)imageW;
-			//			double xh = drawingAreaImage.HeightRequest / (double)imageH;
-			// cr.Scale(xw, xh);
-			//cr.Paint();
-
-//			Size newSize = Picturez_Lib.RotateBilinear.CalculateNewImageSize (Angle, width, height, false);
-//			double scaleX = (double)width / newSize.Width;
-//			double scaleY = (double)height / newSize.Height;
-//			ScaleForRotation = Math.Min (scaleX, scaleY);
 
 			cr.Save();
 			cr.Translate(W / 2.0, H / 2.0);
@@ -260,7 +247,6 @@ namespace Picturez
 			((IDisposable) cr).Dispose();
 		}
 
-		// TODO tidy up
 		protected void OnDrawingAreaImageMotionNotifyEvent (object o, MotionNotifyEventArgs args)
 		{
 			//fire the event now
@@ -291,13 +277,6 @@ namespace Picturez
 
 				float tempDiffX = ib - ia;
 				float tempDiffY = id - ic;
-
-				if (tempDiffX != sliderDiffAfterButtonPressX || tempDiffY != sliderDiffAfterButtonPressY) {
-					Console.WriteLine ("WHAT? tempDiffX=" + tempDiffX + ", sliderDiffX=" + sliderDiffAfterButtonPressX + 
-						", tempDiffY=" + tempDiffY + ", sliderDiffY=" + sliderDiffAfterButtonPressY);
-				}
-					
-
 
 				if (ia < 0 || ib < 0 || ia > W || ib > W ||
 				    ic < 0 || id < 0 || ic > H || id > H ||
@@ -496,21 +475,21 @@ namespace Picturez
 
 			// left slider
 			x = y = 0;
-			LeftSlider = CreateSliderAndEventBox(Slider.Types.Left, fixed1, x, y, Slider.LINEWIDTH, H);
+			LeftSlider = CreateSliderAndEventBox(Slider.Types.Left, fixed1, x, y, Slider.LINEWIDTH, H, OnEventBoxMotionNotify);
 
 			// right slider
 			x = W;
 			y = 0;
-			RightSlider = CreateSliderAndEventBox(Slider.Types.Right, fixed1, x, y, Slider.LINEWIDTH, H);
+			RightSlider = CreateSliderAndEventBox(Slider.Types.Right, fixed1, x, y, Slider.LINEWIDTH, H, OnEventBoxMotionNotify);
 
 			// top slider
 			x = y = 0;
-			TopSlider = CreateSliderAndEventBox(Slider.Types.Top, fixed1, x, y, W, Slider.LINEWIDTH);
+			TopSlider = CreateSliderAndEventBox(Slider.Types.Top, fixed1, x, y, W, Slider.LINEWIDTH, OnEventBoxMotionNotify);
 
 			// bottom slider
 			x = 0;
 			y = H;
-			BottomSlider = CreateSliderAndEventBox(Slider.Types.Bottom, fixed1, x, y, W, Slider.LINEWIDTH);
+			BottomSlider = CreateSliderAndEventBox(Slider.Types.Bottom, fixed1, x, y, W, Slider.LINEWIDTH, OnEventBoxMotionNotify);
 
 			LeftSlider.Partner = RightSlider;
 			RightSlider.Partner = LeftSlider;
@@ -520,9 +499,8 @@ namespace Picturez
 		}
 
 		#region Static private functions
-		// TODO make static via function pointer to 'OnEventBoxMotionNotify'
 		/// <summary>Creates a slider and its parental eventbox.</summary>
-		private Slider CreateSliderAndEventBox(Slider.Types t, Fixed fixed1, int xGlobal, int yGlobal, int w, int h)
+		private static Slider CreateSliderAndEventBox(Slider.Types t, Fixed fixed1, int xGlobal, int yGlobal, int w, int h, MotionNotifyEventHandler handler)
 		{ 
 			Slider s = new Slider(t, xGlobal, yGlobal, w, h);
 			EventBox box = new EventBox();
@@ -532,7 +510,7 @@ namespace Picturez
 			box.ButtonPressEvent+=new ButtonPressEventHandler(OnEventBoxButtonPressed);
 			box.ButtonReleaseEvent+=new ButtonReleaseEventHandler(OnEventBoxButtonReleased);
 			box.EnterNotifyEvent += new EnterNotifyEventHandler (OnEventBoxEnterNotify);
-			box.MotionNotifyEvent += new MotionNotifyEventHandler (OnEventBoxMotionNotify);
+			box.MotionNotifyEvent += new MotionNotifyEventHandler (handler); // (OnEventBoxMotionNotify);
 			fixed1.Put(box, xGlobal, yGlobal);
 
 			return s;

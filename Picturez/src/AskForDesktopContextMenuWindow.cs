@@ -7,9 +7,9 @@ namespace Picturez
 	public partial class AskForDesktopContextMenuWindow : Gtk.Window
 	{
 		private bool isProgramstart;
-		private Configuration current;
+		private ConfigConvert current;
 
-		public AskForDesktopContextMenuWindow (bool isProgramstart, Configuration current) : 
+		public AskForDesktopContextMenuWindow (bool isProgramstart, ConfigConvert current) : 
 				base(Gtk.WindowType.Toplevel)
 		{
 			this.current = current;

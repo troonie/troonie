@@ -229,23 +229,23 @@
 
             cp.Entries[255] = Color.White;
 
-            //TODO FF: Remove it
-            cp.Entries[1] = Color.Red;
-            cp.Entries[2] = Color.Green;
-            cp.Entries[3] = Color.Blue;
-
-            cp.Entries[4] = Color.Yellow;
-            cp.Entries[5] = Color.YellowGreen;
-
-            cp.Entries[6] = Color.LightPink;
-            cp.Entries[7] = Color.DeepPink;
-
-            cp.Entries[8] = Color.LightCyan;
-            cp.Entries[9] = Color.DarkCyan;
-
-            cp.Entries[10] = Color.ForestGreen;
-            cp.Entries[11] = Color.LightGreen;
-            //
+//            // Remove it
+//            cp.Entries[1] = Color.Red;
+//            cp.Entries[2] = Color.Green;
+//            cp.Entries[3] = Color.Blue;
+//
+//            cp.Entries[4] = Color.Yellow;
+//            cp.Entries[5] = Color.YellowGreen;
+//
+//            cp.Entries[6] = Color.LightPink;
+//            cp.Entries[7] = Color.DeepPink;
+//
+//            cp.Entries[8] = Color.LightCyan;
+//            cp.Entries[9] = Color.DarkCyan;
+//
+//            cp.Entries[10] = Color.ForestGreen;
+//            cp.Entries[11] = Color.LightGreen;
+//            //
 
             // set palette back
             bitmap.Palette = cp;

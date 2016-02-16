@@ -49,8 +49,8 @@ namespace Picturez_Lib
 		private string description;
 		public string DESCRIPTION { get {	return description; } }
 
-		private bool editmode;
-		public bool EDITMODE { get { return editmode; }}
+//		private bool editmode;
+//		public bool EDITMODE { get { return editmode; }}
 
 		private bool windows;
 		public bool WINDOWS { get { return windows; }}
@@ -63,7 +63,7 @@ namespace Picturez_Lib
 
 		public void Init()
 		{
-			editmode = true;
+//			editmode = true;
 			windows = IsWindows ();
 			exepath = AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar;
 			homepath = windows ? Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%")

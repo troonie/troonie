@@ -46,14 +46,7 @@
     <Compile Include="BitmapWithTag.cs" />
     <Compile Include="ImageConverter.cs" />
     <Compile Include="ImageFormatEnums.cs" />
-    <Compile Include="Configuration.cs" />
     <Compile Include="ResizeVersion.cs" />
-    <Compile Include="XmlTypes.cs" />
-    <Compile Include="Configurations.cs" />
-    <Compile Include="IXmlType.cs" />
-    <Compile Include="XmlHandler.cs" />
-    <Compile Include="Fastcut.cs" />
-    <Compile Include="Fastcuts.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="FileHelper.cs" />
@@ -62,6 +55,8 @@
     <Compile Include="SteganographyFilter.cs" />
     <Compile Include="AsciiInvertCharEncryption.cs" />
     <Compile Include="Murmur3.cs" />
+    <Compile Include="ConfigConvert.cs" />
+    <Compile Include="ConfigEdit.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

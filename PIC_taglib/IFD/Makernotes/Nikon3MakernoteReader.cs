@@ -97,7 +97,7 @@ namespace TagLib.IFD.Makernotes
 			if (tag == (ushort) Nikon3MakerNoteEntryTag.Preview) {
 				// SubIFD with Preview Image
 				// The entry itself is usually a long
-				// TODO: handle JPEGInterchangeFormat and JPEGInterchangeFormatLength correctly
+				// TOD-O: handle JPEGInterchangeFormat and JPEGInterchangeFormatLength correctly
 
 				// The preview field contains a long with an offset to an IFD
 				// that contains the preview image. We need to be careful

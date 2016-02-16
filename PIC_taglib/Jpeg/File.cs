@@ -567,7 +567,7 @@ namespace TagLib.Jpeg
 			uint first_ifd_offset = 8;
 
 			// Render IFD0
-			// FIXME: store endianess and use it here
+			// FIX-ME: store endianess and use it here
 			var renderer = new IFDRenderer (true, exif.Structure, first_ifd_offset);
 			ByteVector exif_data = renderer.Render ();
 
@@ -672,7 +672,7 @@ namespace TagLib.Jpeg
 			byte p = ReadBlock (1)[0];	//precision
 #pragma warning restore 219
 
-			//FIXME: according to specs, height could be 0 here, and should be retrieved from the DNL marker
+			//FIX-ME: according to specs, height could be 0 here, and should be retrieved from the DNL marker
 			height = ReadBlock (2).ToUShort ();
 			width = ReadBlock (2).ToUShort ();
 		}

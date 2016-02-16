@@ -102,7 +102,7 @@ namespace Picturez_Lib
 //			SaveTag ();
 //		}			
 
-		public void Save(Configuration config, string relativeFileName)
+		public void Save(ConfigConvert config, string relativeFileName)
 		{			
 			Bitmap dest;
 			int w = Bitmap.Width;
@@ -177,7 +177,7 @@ namespace Picturez_Lib
 				if (Constants.I.WINDOWS) {
 					dest = ImageConverter.To1Bpp (dest);
 				} else {
-					throw new NotImplementedException ("Not implemented for linux yet.");
+					// throw new NotImplementedException ("Not implemented for linux yet.");
 				}
 				break;
 			case PicturezImageFormat.BMP8:

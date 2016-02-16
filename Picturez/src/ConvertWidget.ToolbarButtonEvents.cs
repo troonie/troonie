@@ -61,7 +61,7 @@ namespace Picturez
 
 		protected void OnToolbarBtn_PropertiesPressed (object sender, EventArgs e)
 		{
-			new AskForDesktopContextMenuWindow (false, Current).Show();
+			new AskForDesktopContextMenuWindow (false, config).Show();
 		}
 
 		protected void OnToolbarBtn_SteganoPressed (object sender, EventArgs e)

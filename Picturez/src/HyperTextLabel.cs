@@ -57,7 +57,7 @@ namespace Picturez
 			da.ModifyBg(StateType.Normal, colorConverter.White);
 
 			da.ExposeEvent += OnDrawingAreaExposeEvent;
-			// TODO does not work here, caused of GUI Designer
+			// Does not work here, when HyperTextLabel will be used by GUI Designer
 			InitDefaultValues ();
 
 			this.Add(da);

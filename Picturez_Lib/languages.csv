@@ -35,7 +35,7 @@ Using fix image size (width x height);Verwende feste Bildamessung (Breite x Höh
 Stretch image;Strecke/Stauche Bild
 Output directory;Ausgabeverzeichnis
 Use original directory;Verwende Originalverzeichnis
-Overwrite / Delete original image;Überschreibe / Lösche Originalbild
+Overwrite / Delete original image   (CAUTION!);Überschreibe / Lösche Originalbild   (VORSICHT!)
 Open image files;Bilddateien öffnen
 Select all images;Alle Bilddateien markieren
 Unselect all images;Markierungen aufheben

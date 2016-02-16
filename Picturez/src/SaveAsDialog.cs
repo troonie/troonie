@@ -18,19 +18,19 @@ namespace Picturez
 //		private PicturezImageFormat format;
 //		private byte jpegQuality;
 //		private Gdk.Color transparencyColor;
-		private Configuration config;
+		private ConfigConvert config;
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
 
 		public string SavedFileName { get { return htLabelDirectory.Text + IOPath.DirectorySeparatorChar + entryFilename.Text +
 				lbFormat.Text; } }
 
-		public SaveAsDialog (BitmapWithTag b)
+		public SaveAsDialog (BitmapWithTag b, ConvertMode cm)
 		{			
 			this.Build ();
 
 			bitmap = b;
-			config = new Configuration ();
-			config.SetDefaultValues ();
+			config = new ConfigConvert ();
+			config.StretchImage = cm;
 
 			btnColor.Color = colorConverter.White;
 			htLabelDirectory.InitDefaultValues ();

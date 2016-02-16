@@ -26,7 +26,7 @@ namespace Picturez
 
 		protected void OnToolbarBtn_SaveAsPressed (object sender, EventArgs e)
 		{
-			SaveAsDialog dialog = new SaveAsDialog(bt);
+			SaveAsDialog dialog = new SaveAsDialog(bt, ConvertMode.Editor);
 			if (dialog.Run () == (int)ResponseType.Ok) {
 				if (dialog.Process ()) {
 					FileName = dialog.SavedFileName;

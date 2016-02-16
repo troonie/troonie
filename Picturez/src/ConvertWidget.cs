@@ -9,19 +9,12 @@ namespace Picturez
 	[System.ComponentModel.ToolboxItem (true)]
 	public partial class ConvertWidget : Gtk.Window
 	{
+		private bool isSettingGuiToCurrentConfiguration;
 		private bool leftControlPressed;
 		private Picturez.ColorConverter colorConverter;
 		private string format;
 		private float newVersion;
-
-		/// <summary>All stored configurations. </summary>
-		private readonly Configurations configs;
-		/// <summary>Contains the configuration properties. </summary>
-		private Configuration Current
-		{
-			get { return configs.CurrentConfig; }
-			set { configs.CurrentConfig = value; }
-		}
+		private ConfigConvert config;
 
 		public ConvertWidget (string[] pFilenames = null) : base (Gtk.WindowType.Toplevel)
 		{
@@ -47,7 +40,10 @@ namespace Picturez
 			SetLanguageToGui();
 
 			htlbOutputDirectory.InitDefaultValues ();
-			configs = XmlHandler.I.LoadXml(XmlTypes.Config) as Configurations;
+			config = ConfigConvert.Load ();
+			if (config.StretchImage == ConvertMode.Editor)
+				config.StretchImage = ConvertMode.StretchForge;
+
 			SetGuiToCurrentConfiguration();
 			htlbOutputDirectory.OnHyperTextLabelTextChanged += OnHyperTextLabelTextChanged;
 			Constants.I.OnUpdateAvailable += OnUpdateAvailable;
@@ -65,8 +61,8 @@ namespace Picturez
 			if (pFilenames != null)
 				FillImageList (new List<string>(pFilenames));
 
-			if (Current.AskForDesktopContextMenu)
-				new AskForDesktopContextMenuWindow (true, Current).Show();
+			if (config.AskForDesktopContextMenu)
+				new AskForDesktopContextMenuWindow (true, config).Show();
 		}
 
 		private void SetGuiColors()
@@ -146,8 +142,10 @@ namespace Picturez
 
 		private void SetGuiToCurrentConfiguration()
 		{
+			isSettingGuiToCurrentConfiguration = true;
+
 			// image format radio buttons
-			switch (Current.Format)
+			switch (config.Format)
 			{
 			case PicturezImageFormat.BMP1:
 				rdBmp1bit.Active = true;
@@ -197,10 +195,10 @@ namespace Picturez
 			}
 
 			// jpg quality track bar
-			hscaleQuality.Value = Current.JpgQuality;
+			hscaleQuality.Value = config.JpgQuality;
 
 			// resize version radio button
-			switch (Current.ResizeVersion)
+			switch (config.ResizeVersion)
 			{
 			case ResizeVersion.No:
 				rdOriginalSize.Active = true;
@@ -214,36 +212,39 @@ namespace Picturez
 			}
 
 			// BiggestLength text box
-			entryBiggerLength.Text = Current.BiggestLength.ToString();
+			entryBiggerLength.Text = config.BiggestLength.ToString();
 
 			// stretch image check box
-			checkBtnStretch.Active = Current.StretchImage == ConvertMode.NoStretchForge;
+			checkBtnStretch.Active = config.StretchImage == ConvertMode.StretchForge;
 
 			// Fixed width and height text boxes
-			entryFixSizeHeight.Text = Current.Height.ToString();
-			entryFixSizeWidth.Text = Current.Width.ToString();
+			entryFixSizeHeight.Text = config.Height.ToString();
+			entryFixSizeWidth.Text = config.Width.ToString();
 
 			// path
-			htlbOutputDirectory.Text = Current.Path;
+			htlbOutputDirectory.Text = config.Path;
 			// htlbOutputDirectory.QueueDraw ();
 
 			// using original path and overwrite image check boxes
-			checkBtnUseOriginalDirectory.Active = Current.UseOriginalPath;
-			checkBtnOverwriteOriginalImage.Active = Current.FileOverwriting;
+			checkBtnUseOriginalDirectory.Active = config.UseOriginalPath;
+			htlbOutputDirectory.Sensitive = !config.UseOriginalPath;
+			checkBtnOverwriteOriginalImage.Active = config.FileOverwriting;
 
 			// NEW: transparency color button
-			btnColor.Color = new Gdk.Color(Current.TransparencyColorRed,
-				Current.TransparencyColorGreen, Current.TransparencyColorBlue);
+			btnColor.Color = new Gdk.Color(config.TransparencyColorRed,
+				config.TransparencyColorGreen, config.TransparencyColorBlue);
+
+			isSettingGuiToCurrentConfiguration = false;
 		}
 
 		private void OnHyperTextLabelTextChanged()
 		{
-			Current.Path = htlbOutputDirectory.Text;
+			config.Path = htlbOutputDirectory.Text;
 		}			
 
 		protected void OnHscaleQualityValueChanged (object sender, EventArgs e)
 		{
-			Current.JpgQuality = (byte)hscaleQuality.Value;
+			config.JpgQuality = (byte)hscaleQuality.Value;
 		}
 
 		protected void OnBtnColorColorSet (object sender, EventArgs e)
@@ -251,9 +252,9 @@ namespace Picturez
 			byte r, g, b;
 			colorConverter.ToDotNetColor (btnColor.Color, out r, out g,out b);
 
-			Current.TransparencyColorRed = r;
-			Current.TransparencyColorGreen = g;
-			Current.TransparencyColorBlue = b;
+			config.TransparencyColorRed = r;
+			config.TransparencyColorGreen = g;
+			config.TransparencyColorBlue = b;
 		}
 
 		private void OnUpdateAvailable(float newVersion)
@@ -324,7 +325,7 @@ namespace Picturez
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
-			XmlHandler.I.SaveXml (configs);
+			ConfigConvert.Save (config);
 			Application.Quit ();
 			a.RetVal = true;
 		}
@@ -392,7 +393,7 @@ namespace Picturez
 					imageFile.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
 				relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
 				relativeImageName = relativeImageName + format;
-				bt.Save (Current, relativeImageName);
+				bt.Save (config, relativeImageName);
 				}
 				catch(Exception ex){
 					errors.Add (imageFile);			
