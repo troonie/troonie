@@ -27,25 +27,25 @@ namespace WinContextMenu
 			{
 				// CONVERT WITH PICTUREZ
 				regmenu = Registry.ClassesRoot.CreateSubKey(
-					"*\\shell\\Convert with Picturez\\Command");
+					"*\\shell\\Picturez\\Command");
 				if (regmenu != null)
 				{
 					regmenu.SetValue("", "\"" + programExe + "\" \"%1\"");
 					regmenu.Close();
 				}
 
-				// EDIT WITH PICTUREZ
-				regmenu = Registry.ClassesRoot.CreateSubKey(
-					"*\\shell\\Edit with Picturez\\Command");
-				if (regmenu != null)
-				{
-					regmenu.SetValue("", "\"" + programExe + "\" \"-e\" \"%1\"");
-					regmenu.Close();
-				}
+//				// EDIT WITH PICTUREZ
+//				regmenu = Registry.ClassesRoot.CreateSubKey(
+//					"*\\shell\\Edit with Picturez\\Command");
+//				if (regmenu != null)
+//				{
+//					regmenu.SetValue("", "\"" + programExe + "\" \"-e\" \"%1\"");
+//					regmenu.Close();
+//				}
 
 				// CONVERT FOLDER WITH PICTUREZ
 				regmenu = Registry.ClassesRoot.CreateSubKey(
-					"Folder" + "\\shell\\Convert with Picturez\\Command");
+					"Folder" + "\\shell\\Picturez\\Command");
 				if (regmenu != null)
 				{
 					regmenu.SetValue("", "\"" + programExe + "\" \"-d\" \"%1\"");
@@ -64,17 +64,17 @@ namespace WinContextMenu
 			try
 			{
 				Registry.ClassesRoot.DeleteSubKey(
-					"*\\shell\\Convert with Picturez\\Command", false);
+					"*\\shell\\Picturez\\Command", false);
 				Registry.ClassesRoot.DeleteSubKey(
-					"*\\shell\\Convert with Picturez", false);
+					"*\\shell\\Picturez", false);
+//				Registry.ClassesRoot.DeleteSubKey(
+//					"*\\shell\\Edit with Picturez\\Command", false);
+//				Registry.ClassesRoot.DeleteSubKey(
+//					"*\\shell\\Edit with Picturez", false);
 				Registry.ClassesRoot.DeleteSubKey(
-					"*\\shell\\Edit with Picturez\\Command", false);
+					"Folder\\shell\\Picturez\\Command", false);
 				Registry.ClassesRoot.DeleteSubKey(
-					"*\\shell\\Edit with Picturez", false);
-				Registry.ClassesRoot.DeleteSubKey(
-					"Folder\\shell\\Convert with Picturez\\Command", false);
-				Registry.ClassesRoot.DeleteSubKey(
-					"Folder\\shell\\Convert with Picturez", false);
+					"Folder\\shell\\Picturez", false);
 			}
 			catch (Exception ex)
 			{

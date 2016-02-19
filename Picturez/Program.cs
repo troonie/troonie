@@ -21,36 +21,34 @@ namespace Picturez
 
 		public static void Main (string[] args)
 		{
-//			 Console.WriteLine("a.txt: " + System.IO.File.Exists ("/home/jessica/Schreibtisch/a/a.txt"));
-//			Console.WriteLine("A.TXT: " + FileHelper.I.Exists ("/home/jessica/Schreibtisch/a/A.TXT"));
-
-//			#region TESTUS
-//			System.Drawing.Bitmap b = new System.Drawing.Bitmap("/home/jose/Schreibtisch/Testbilder/a/_1bit.png");
-//			ImageConverter.To32BppWithTransparencyColor(b, System.Drawing.Color.FromArgb(255, 255, 255));
-//			#endregion TESTUS
-
-			// bool editMode = false;
-
-
-			// Directory.CreateDirectory (Constants.I.EXEPATH);
-
 			Constants.I.Init ();
 			GetProgramIcon ();
 
 			Application.Init ();
-			// Gtk.Settings.Default.SetLongProperty ("gtk-button-images", 1, "");
+			// Gtk.Settings.Default.SetLongProperty ("gtk-button-images", 1, "");		
 
+			string filename = null;
 			// START VALUE
-			bool edit = false;
-			bool steg = false;
+//			args = new string[] { "-c"};
 
-			if (args.Length != 0)
-			{
-				if (args [0] == "-e")
-					edit = true;
-				else if (args [0] == "-s")
-					steg = true;
-				else if (args [0] == "-d") {
+			if (args.Length == 0) {
+				StarterWidget start = new StarterWidget (args);
+//				start.Visible = true;
+				start.Show ();			
+			} else {
+				if (args.Length > 1)
+					filename = args [args.Length - 1];
+
+				switch (args [0]) {
+				case "-e":
+					EditWidget winEdit = new EditWidget (filename);
+					winEdit.Show ();
+					break;
+				case "-s":
+					SteganographyWidget winSteg = new SteganographyWidget (filename);
+					winSteg.Show ();
+					break;
+				case "-d":
 					DirectoryInfo di = new DirectoryInfo (args [args.Length - 1]);
 					if (di.Exists) {
 						FileInfo[] fi = di.GetFiles ();
@@ -60,23 +58,62 @@ namespace Picturez
 							args[i] = fi [i].FullName;
 						}
 					};
+					ConvertWidget winConvert = new ConvertWidget (args);
+					winConvert.Show ();
+					break;
+				case "-c":
+					string[] argsWithoutFirst = new string[args.Length - 1];
+					for (int i = 0; i < argsWithoutFirst.Length; i++) {
+						argsWithoutFirst[i] = args[i + 1];
+					}
+					ConvertWidget winConvert2 = new ConvertWidget (argsWithoutFirst);
+					winConvert2.Show ();
+					break;
+				default:
+					StarterWidget start = new StarterWidget (args);
+					//				start.Visible = true;
+					start.Show ();	
+					break;
 				}
 			}
 
-			string filename = null;
-			if (args.Length > 1)
-				filename = args [args.Length - 1];
+//			if (args.Length != 0)
+//			{
+//				if (args [0] == "-e")
+//					edit = true;
+//				else if (args [0] == "-s")
+//					steg = true;
+//				else if (args [0] == "-d") {
+//					DirectoryInfo di = new DirectoryInfo (args [args.Length - 1]);
+//					if (di.Exists) {
+//						FileInfo[] fi = di.GetFiles ();
+//						int fiLength = fi.Length;
+//						args = new string[fiLength];
+//						for (int i = 0; i < fiLength; i++) {
+//							args[i] = fi [i].FullName;
+//						}
+//					};
+//				}
+//			}
 
-			if (edit) {
-				EditWidget win = new EditWidget (filename);
-				win.Show ();
-			} else if (steg){
-				SteganographyWidget win = new SteganographyWidget ("test.jpg");
-				win.Show ();
-			} else {
-				ConvertWidget convWidget = new ConvertWidget (args);
-				convWidget.Show ();
-			}
+//			string filename = null;
+//			if (args.Length > 1)
+//				filename = args [args.Length - 1];
+//
+//			if (edit) {
+//				EditWidget win = new EditWidget (filename);
+//				win.Show ();
+//			} else if (steg){
+//				SteganographyWidget win = new SteganographyWidget ("test.jpg");
+//				win.Show ();
+//			} else {
+//				ConvertWidget convWidget = new ConvertWidget (args);
+//				convWidget.Show ();
+//			}
+
+//			StarterWidget start = new StarterWidget ();
+//			start.Visible = true;
+//			start.Show ();
 			Application.Run ();
 		}	
 

@@ -41,15 +41,15 @@ namespace Picturez
 		/// </summary>
 		private void Linux_CreateDesktopFile(bool add)
 		{
-			#region convert desktop file
+			#region desktop file
 
 			string desktopPath = Constants.I.HOMEPATH + 
 				".local/share/applications/";
-			string deskopFile = desktopPath + "Picturez_converter.desktop";
+			string deskopFile = desktopPath + "Picturez.desktop";
 
 			string[] lines = { 
 				"[Desktop Entry]", 
-				"Name=" + Constants.TITLE + " " + Language.I.L[67],
+				"Name=" + Constants.TITLE, // + " " + Language.I.L[67],
 				"Comment=" + Language.I.L[54], 
 				"Exec=mono " + Constants.I.EXEPATH + Constants.EXENAME + " %F",
 				"Type=Application",
@@ -60,7 +60,7 @@ namespace Picturez
 				"MimeType=image/bmp;image/gif;image/jpeg;image/jpg;image/pjpeg;image/png;" + 
 				"image/tiff;image/x-bmp;image/x-gray;image/x-icb;image/x-ico;image/x-png;" + 
 				"image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;" + 
-				"image/x-portable-pixmap;image/x-xbitmap;image/x-xpixmap;image/x-pcx;" + 
+				"image/x-portable-pixmap;image/x-xbitmap;image/x-xpixmap;image/x-pcx;",
 				// "image/svg+xml;image/svg+xml-compressed;image/vnd.wap.wbmp;",
 				"Type=Application",
 				"StartupNotify=false"};
@@ -74,26 +74,22 @@ namespace Picturez
 			else if (File.Exists(deskopFile))
 				File.Delete(deskopFile);
 
-			#endregion convert desktop file
+			#endregion desktop file
 
-			#region edit desktop file
-			string deskopFile_edit = desktopPath + "Picturez_editor.desktop";
+			#region desktop directory
+			string deskopFile_directory = desktopPath + "Picturez_directory.desktop";
 
-			string[] lines_edit = { 
+			string[] lines_directory = { 
 				"[Desktop Entry]", 
-				"Name=" + Constants.TITLE + " " + Language.I.L[68],
+				"Name=" + Constants.TITLE, // + " " + Language.I.L[68],
 				"Comment=" + Language.I.L[54], 
-				"Exec=mono " + Constants.I.EXEPATH + Constants.EXENAME + " -e %f",
+				"Exec=mono " + Constants.I.EXEPATH + Constants.EXENAME + " -d %f",
 				"Type=Application",
 				"Icon=" + Constants.I.EXEPATH + Constants.ICONNAME,
 				"Terminal=false", 
 				// Constants.I.PICTUREZ_COMMENT, 
 				"Categories=GTK;Graphics;Viewer;RasterGraphics;2DGraphics;Photography;", 
-				"MimeType=image/bmp;image/gif;image/jpeg;image/jpg;image/pjpeg;image/png;" + 
-				"image/tiff;image/x-bmp;image/x-gray;image/x-icb;image/x-ico;image/x-png;" + 
-				"image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;" + 
-				"image/x-portable-pixmap;image/x-xbitmap;image/x-xpixmap;image/x-pcx;" + 
-				// "image/svg+xml;image/svg+xml-compressed;image/vnd.wap.wbmp;",
+				"MimeType=inode/directory;",
 				"Type=Application",
 				"StartupNotify=false"};
 
@@ -101,11 +97,11 @@ namespace Picturez
 			// and then closes the file. No need to call Flush() or Close().
 			if (add) {
 				Directory.CreateDirectory (desktopPath);
-				File.WriteAllLines (deskopFile_edit, lines_edit);
+				File.WriteAllLines (deskopFile_directory, lines_directory);
 			}
-			else if (File.Exists(deskopFile_edit))
-				File.Delete(deskopFile_edit);
-			#endregion edit desktop file
+			else if (File.Exists(deskopFile_directory))
+				File.Delete(deskopFile_directory);
+			#endregion desktop directory
 		}
 
 
@@ -150,17 +146,18 @@ namespace Picturez
 					lines.Add("");
 				}
 
-				lines.Add("image/bmp=Picturez_converter.desktop;Picturez_editor.desktop");
-				lines.Add("image/emf=Picturez_converter.desktop;Picturez_editor.desktop");
-				lines.Add("image/gif=Picturez_converter.desktop;Picturez_editor.desktop");
-				lines.Add("image/ico=Picturez_converter.desktop;Picturez_editor.desktop");
-				lines.Add("image/x-ico=Picturez_converter.desktop;Picturez_editor.desktop");
-				lines.Add("image/jpeg=Picturez_converter.desktop;Picturez_editor.desktop");
-				lines.Add("image/jpg=Picturez_converter.desktop;Picturez_editor.desktop");
-				lines.Add("image/pjpeg=Picturez_converter.desktop;Picturez_editor.desktop");
-				lines.Add("image/png=Picturez_converter.desktop;Picturez_editor.desktop");
-				lines.Add("image/tiff=Picturez_converter.desktop;Picturez_editor.desktop");
-				lines.Add("image/wmf=Picturez_converter.desktop;Picturez_editor.desktop");	
+				lines.Add("inode/directory=Picturez_directory.desktop");
+				lines.Add("image/bmp=Picturez.desktop");
+				lines.Add("image/emf=Picturez.desktop");
+				lines.Add("image/gif=Picturez.desktop");
+				lines.Add("image/ico=Picturez.desktop");
+				lines.Add("image/x-ico=Picturez.desktop");
+				lines.Add("image/jpeg=Picturez.desktop");
+				lines.Add("image/jpg=Picturez.desktop");
+				lines.Add("image/pjpeg=Picturez.desktop");
+				lines.Add("image/png=Picturez.desktop");
+				lines.Add("image/tiff=Picturez.desktop");
+				lines.Add("image/wmf=Picturez.desktop");	
 			}
 
 			if (lines.Count != 0)
@@ -229,25 +226,25 @@ namespace Picturez
 			{
 				// 1.) check CONVERT WITH PICTUREZ
 				regmenu = Registry.ClassesRoot.OpenSubKey(
-					"*\\shell\\Convert with Picturez\\Command", false);
+					"*\\shell\\Picturez\\Command", false);
 				//If format does not already exist, return true
 				if (regmenu == null)
 				{
 					return false;
 				}
 
-				// 2.) check EDIT WITH PICTUREZ
-				regmenu = Registry.ClassesRoot.OpenSubKey(
-					"*\\shell\\Edit with Picturez\\Command", false);
-				//If format does not already exist, return true
-				if (regmenu == null)
-				{
-					return false;
-				}
+//				// 2.) check EDIT WITH PICTUREZ
+//				regmenu = Registry.ClassesRoot.OpenSubKey(
+//					"*\\shell\\Edit with Picturez\\Command", false);
+//				//If format does not already exist, return true
+//				if (regmenu == null)
+//				{
+//					return false;
+//				}
 
 				// 3.) check FOLDER WITH PICTUREZ
 				regmenu = Registry.ClassesRoot.OpenSubKey(
-					"Folder" + "\\shell\\Convert with Picturez\\Command", false);
+					"Folder" + "\\shell\\Picturez\\Command", false);
 				//If format does not already exist, return true
 				if (regmenu == null)
 				{

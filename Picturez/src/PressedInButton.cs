@@ -75,7 +75,7 @@ namespace Picturez
 				if (sw_doubleClick.ElapsedMilliseconds < Constants.TIME_DOUBLECLICK) {
 					Process p = new Process ();
 					p.StartInfo.FileName = Constants.I.EXEPATH + Constants.EXENAME;
-					p.StartInfo.Arguments = " -e " + FullText;
+					p.StartInfo.Arguments = " -e \"" + FullText + "\"";
 					p.Start ();
 				}
 				firstClick = true;

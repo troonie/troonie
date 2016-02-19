@@ -129,6 +129,8 @@
     <Compile Include="src\SteganographyWidget.ToolbarButtonEvents.cs" />
     <Compile Include="gtk-gui\Picturez.SteganographyWidget.cs" />
     <Compile Include="src\SimpleImagePanel.cs" />
+    <Compile Include="src\StarterWidget.cs" />
+    <Compile Include="gtk-gui\Picturez.StarterWidget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -395,7 +395,7 @@ namespace Picturez
 				relativeImageName = relativeImageName + format;
 				bt.Save (config, relativeImageName);
 				}
-				catch(Exception ex){
+				catch(Exception){
 					errors.Add (imageFile);			
 				}
 			}

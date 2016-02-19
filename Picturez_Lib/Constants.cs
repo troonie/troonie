@@ -103,13 +103,13 @@ namespace Picturez_Lib
 			try
 			{
 				WebRequest request = WebRequest.Create(UPDATESERVERFILE);
+				// this step is the problem for sometimes delaying
 				WebResponse response = request.GetResponse();
 				StreamReader r = new StreamReader(response.GetResponseStream());
 				string serverVersion = r.ReadLine();
 				r.Close();
 				float serverVersionFloat = GetFloatVersionNumber(serverVersion);
 				bool updateAvailable = versionFloat < serverVersionFloat;
-
 				//fire the event now
 				if (updateAvailable && this.OnUpdateAvailable != null) //is there a EventHandler?
 				{
@@ -123,6 +123,7 @@ namespace Picturez_Lib
 			{
 				// when catching here, no internet is available or
 				// server is not available.
+				Console.WriteLine ("Exception by update check.");
 				Console.WriteLine(e.Message);
 //				Console.WriteLine(e.StackTrace);
 			}
