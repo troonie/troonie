@@ -92,9 +92,6 @@
     <EmbeddedResource Include="src\icons\icon.ico">
       <LogicalName>icon.ico</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\icons\emblem-photos.png">
-      <LogicalName>emblem-photos.png</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />

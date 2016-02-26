@@ -5,15 +5,25 @@ namespace Picturez
 	public partial class AskForDesktopContextMenuWindow
 	{
 		private global::Gtk.VBox vbox2;
+		
 		private global::Gtk.Fixed fixed1;
+		
 		private global::Gtk.Label label1;
+		
 		private global::Gtk.Label label2;
+		
 		private global::Gtk.HSeparator hseparator1;
+		
 		private global::Gtk.CheckButton chkBtn;
+		
 		private global::Gtk.HSeparator hseparator2;
+		
 		private global::Gtk.Fixed fixed2;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Picturez.PicturezButton picbtnYes;
+		
 		private global::Picturez.PicturezButton picbtnNo;
 
 		protected virtual void Build ()
@@ -108,7 +118,7 @@ namespace Picturez
 			this.picbtnYes.ButtonHeight = 30;
 			this.picbtnYes.Font = "Arial";
 			this.picbtnYes.Text = "Yes";
-			this.picbtnYes.TextSize = 10;
+			this.picbtnYes.TextSize = 10D;
 			this.hbox1.Add (this.picbtnYes);
 			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picbtnYes]));
 			w8.Position = 0;
@@ -120,7 +130,7 @@ namespace Picturez
 			this.picbtnNo.ButtonHeight = 30;
 			this.picbtnNo.Font = "Arial";
 			this.picbtnNo.Text = "No";
-			this.picbtnNo.TextSize = 10;
+			this.picbtnNo.TextSize = 10D;
 			this.hbox1.Add (this.picbtnNo);
 			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picbtnNo]));
 			w9.Position = 1;

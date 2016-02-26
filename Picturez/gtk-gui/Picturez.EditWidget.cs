@@ -5,52 +5,99 @@ namespace Picturez
 	public partial class EditWidget
 	{
 		private global::Gtk.VBox vboxA;
+		
 		private global::Gtk.EventBox eventboxToolbar;
+		
 		private global::Gtk.HBox hboxToolbarButtons;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Picturez.ImagePanel imagepanel1;
+		
 		private global::Gtk.VBox vbox1;
+		
 		private global::Gtk.Frame frameCutPoints;
+		
 		private global::Gtk.Alignment GtkAlignment2;
+		
 		private global::Gtk.Table table1;
+		
 		private global::Picturez.PicturezButton btnBottomMinus;
+		
 		private global::Picturez.PicturezButton btnBottomPlus;
+		
 		private global::Picturez.PicturezButton btnLeftMinus;
+		
 		private global::Picturez.PicturezButton btnLeftPlus;
+		
 		private global::Picturez.PicturezButton btnRightMinus;
+		
 		private global::Picturez.PicturezButton btnTopMinus;
+		
 		private global::Picturez.PicturezButton btnTopPlus;
+		
 		private global::Gtk.EventBox ebBtnRightPlus;
+		
 		private global::Picturez.PicturezButton btnRightPlus;
+		
 		private global::Gtk.Entry entryBottom;
+		
 		private global::Gtk.Entry entryLeft;
+		
 		private global::Gtk.Entry entryRight;
+		
 		private global::Gtk.Entry entryTop;
+		
 		private global::Gtk.Label lbBottomText;
+		
 		private global::Gtk.Label lbLeftText;
+		
 		private global::Gtk.Label lbRightText;
+		
 		private global::Gtk.Label lbTopText;
+		
 		private global::Gtk.Label lbFrameCutDimensions;
+		
 		private global::Gtk.Frame frameRotation;
+		
 		private global::Gtk.Alignment GtkAlignment3;
+		
 		private global::Gtk.Table table2;
+		
 		private global::Picturez.PicturezButton btnRotateMinus;
+		
 		private global::Picturez.PicturezButton btnRotatePlus;
+		
 		private global::Gtk.Entry entryRotate;
+		
 		private global::Gtk.Label lbRotateText;
+		
 		private global::Gtk.Label lbFrameRotation;
+		
 		private global::Gtk.Frame frameImageDimensions;
+		
 		private global::Gtk.Alignment GtkAlignment;
+		
 		private global::Gtk.Table tableImageDimensions;
+		
 		private global::Gtk.Label lbNew;
+		
 		private global::Gtk.Label lbNewText;
+		
 		private global::Gtk.Label lbOriginal;
+		
 		private global::Gtk.Label lbOriginalText;
+		
 		private global::Gtk.Label lbFrameImageDimensions;
+		
 		private global::Gtk.Frame frameCursorPos;
+		
 		private global::Gtk.Alignment GtkAlignment1;
+		
 		private global::Gtk.Label lbCursorPos;
+		
 		private global::Gtk.Label lbFrameCursorPos;
+		
 		private global::Picturez.PicturezButton btnOk;
 
 		protected virtual void Build ()
@@ -83,7 +130,7 @@ namespace Picturez
 			this.imagepanel1 = new global::Picturez.ImagePanel ();
 			this.imagepanel1.Events = ((global::Gdk.EventMask)(260));
 			this.imagepanel1.Name = "imagepanel1";
-			this.imagepanel1.Angle = 0;
+			this.imagepanel1.Angle = 0D;
 			this.imagepanel1.ScaleCursorX = 0F;
 			this.imagepanel1.ScaleCursorY = 0F;
 			this.hbox1.Add (this.imagepanel1);
@@ -115,7 +162,7 @@ namespace Picturez
 			this.btnBottomMinus.ButtonHeight = 35;
 			this.btnBottomMinus.Font = "Arial";
 			this.btnBottomMinus.Text = "-";
-			this.btnBottomMinus.TextSize = 12;
+			this.btnBottomMinus.TextSize = 12D;
 			this.table1.Add (this.btnBottomMinus);
 			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnBottomMinus]));
 			w4.TopAttach = ((uint)(3));
@@ -131,7 +178,7 @@ namespace Picturez
 			this.btnBottomPlus.ButtonHeight = 35;
 			this.btnBottomPlus.Font = "Arial";
 			this.btnBottomPlus.Text = "+";
-			this.btnBottomPlus.TextSize = 12;
+			this.btnBottomPlus.TextSize = 12D;
 			this.table1.Add (this.btnBottomPlus);
 			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnBottomPlus]));
 			w5.TopAttach = ((uint)(3));
@@ -147,7 +194,7 @@ namespace Picturez
 			this.btnLeftMinus.ButtonHeight = 35;
 			this.btnLeftMinus.Font = "Arial";
 			this.btnLeftMinus.Text = "-";
-			this.btnLeftMinus.TextSize = 12;
+			this.btnLeftMinus.TextSize = 12D;
 			this.table1.Add (this.btnLeftMinus);
 			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnLeftMinus]));
 			w6.LeftAttach = ((uint)(3));
@@ -161,7 +208,7 @@ namespace Picturez
 			this.btnLeftPlus.ButtonHeight = 35;
 			this.btnLeftPlus.Font = "Arial";
 			this.btnLeftPlus.Text = "+";
-			this.btnLeftPlus.TextSize = 12;
+			this.btnLeftPlus.TextSize = 12D;
 			this.table1.Add (this.btnLeftPlus);
 			global::Gtk.Table.TableChild w7 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnLeftPlus]));
 			w7.LeftAttach = ((uint)(1));
@@ -177,7 +224,7 @@ namespace Picturez
 			this.btnRightMinus.ButtonHeight = 35;
 			this.btnRightMinus.Font = "Arial";
 			this.btnRightMinus.Text = "-";
-			this.btnRightMinus.TextSize = 12;
+			this.btnRightMinus.TextSize = 12D;
 			this.table1.Add (this.btnRightMinus);
 			global::Gtk.Table.TableChild w8 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnRightMinus]));
 			w8.TopAttach = ((uint)(1));
@@ -193,7 +240,7 @@ namespace Picturez
 			this.btnTopMinus.ButtonHeight = 35;
 			this.btnTopMinus.Font = "Arial";
 			this.btnTopMinus.Text = "-";
-			this.btnTopMinus.TextSize = 12;
+			this.btnTopMinus.TextSize = 12D;
 			this.table1.Add (this.btnTopMinus);
 			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnTopMinus]));
 			w9.TopAttach = ((uint)(2));
@@ -209,7 +256,7 @@ namespace Picturez
 			this.btnTopPlus.ButtonHeight = 35;
 			this.btnTopPlus.Font = "Arial";
 			this.btnTopPlus.Text = "+";
-			this.btnTopPlus.TextSize = 12;
+			this.btnTopPlus.TextSize = 12D;
 			this.table1.Add (this.btnTopPlus);
 			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnTopPlus]));
 			w10.TopAttach = ((uint)(2));
@@ -229,7 +276,7 @@ namespace Picturez
 			this.btnRightPlus.ButtonHeight = 35;
 			this.btnRightPlus.Font = "Arial";
 			this.btnRightPlus.Text = "+";
-			this.btnRightPlus.TextSize = 12;
+			this.btnRightPlus.TextSize = 12D;
 			this.ebBtnRightPlus.Add (this.btnRightPlus);
 			this.table1.Add (this.ebBtnRightPlus);
 			global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.table1 [this.ebBtnRightPlus]));
@@ -364,7 +411,7 @@ namespace Picturez
 			this.btnRotateMinus.ButtonHeight = 35;
 			this.btnRotateMinus.Font = "Arial";
 			this.btnRotateMinus.Text = "-";
-			this.btnRotateMinus.TextSize = 12;
+			this.btnRotateMinus.TextSize = 12D;
 			this.table2.Add (this.btnRotateMinus);
 			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table2 [this.btnRotateMinus]));
 			w24.LeftAttach = ((uint)(3));
@@ -378,7 +425,7 @@ namespace Picturez
 			this.btnRotatePlus.ButtonHeight = 35;
 			this.btnRotatePlus.Font = "Arial";
 			this.btnRotatePlus.Text = "+";
-			this.btnRotatePlus.TextSize = 12;
+			this.btnRotatePlus.TextSize = 12D;
 			this.table2.Add (this.btnRotatePlus);
 			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table2 [this.btnRotatePlus]));
 			w25.LeftAttach = ((uint)(1));
@@ -515,7 +562,7 @@ namespace Picturez
 			this.btnOk.ButtonHeight = 35;
 			this.btnOk.Font = "Arial";
 			this.btnOk.Text = "OK";
-			this.btnOk.TextSize = 14;
+			this.btnOk.TextSize = 14D;
 			this.vbox1.Add (this.btnOk);
 			global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
 			w41.Position = 4;

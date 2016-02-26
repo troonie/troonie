@@ -29,7 +29,7 @@ namespace Picturez
 
 			string filename = null;
 			// START VALUE
-//			args = new string[] { "-c"};
+//			args = new string[] { "-s"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args);

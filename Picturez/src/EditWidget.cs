@@ -68,6 +68,9 @@ namespace Picturez
 				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 
 			imagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+
+			// TODO: Image filter: Remove, when implemented
+			hboxToolbarButtons.Children [6].Visible = false;
 		}
 
 		private void LoadException()
@@ -299,6 +302,7 @@ namespace Picturez
 				Language.I.L[0] + "\n\n" + 
 				Language.I.L[44] +	": \n" +
 				Language.AllLanguagesAsString;
+			hboxToolbarButtons.Children[6].TooltipText = Language.I.L[84];
 
 			lbFrameCutDimensions.LabelProp = "<b>" + Language.I.L[5] + "</b>";
 			lbLeftText.Text = Language.I.L[6];

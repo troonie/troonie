@@ -5,6 +5,7 @@ namespace Picturez
 	public partial class ImagePanel
 	{
 		private global::Gtk.Fixed fixed1;
+		
 		private global::Gtk.DrawingArea drawingAreaImage;
 
 		protected virtual void Build ()

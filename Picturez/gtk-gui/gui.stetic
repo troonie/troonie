@@ -2811,7 +2811,7 @@
   <widget class="Gtk.Window" id="Picturez.PseudoPicturezContextMenu" design-size="325 120">
     <property name="MemberName" />
     <property name="Title" translatable="yes">PseudoPicturezContextMenu</property>
-    <property name="WindowPosition">CenterOnParent</property>
+    <property name="WindowPosition">Mouse</property>
     <child>
       <widget class="Gtk.VBox" id="vbox2">
         <property name="MemberName" />

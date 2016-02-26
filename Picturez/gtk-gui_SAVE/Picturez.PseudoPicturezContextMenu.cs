@@ -5,10 +5,15 @@ namespace Picturez
 	public partial class PseudoPicturezContextMenu
 	{
 		private global::Gtk.VBox vbox2;
+		
 		private global::Gtk.Label label1;
+		
 		private global::Gtk.Label label2;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Picturez.PicturezButton picBtnOk;
+		
 		private global::Picturez.PicturezButton picBtnCancel;
 
 		protected virtual void Build ()
@@ -17,7 +22,7 @@ namespace Picturez
 			// Widget Picturez.PseudoPicturezContextMenu
 			this.Name = "Picturez.PseudoPicturezContextMenu";
 			this.Title = global::Mono.Unix.Catalog.GetString ("PseudoPicturezContextMenu");
-			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+			this.WindowPosition = ((global::Gtk.WindowPosition)(2));
 			// Container child Picturez.PseudoPicturezContextMenu.Gtk.Container+ContainerChild
 			this.vbox2 = new global::Gtk.VBox ();
 			this.vbox2.Name = "vbox2";
@@ -56,7 +61,7 @@ namespace Picturez
 			this.picBtnOk.ButtonHeight = 30;
 			this.picBtnOk.Font = "Arial";
 			this.picBtnOk.Text = "OK";
-			this.picBtnOk.TextSize = 10;
+			this.picBtnOk.TextSize = 10D;
 			this.hbox1.Add (this.picBtnOk);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnOk]));
 			w3.Position = 0;
@@ -69,7 +74,7 @@ namespace Picturez
 			this.picBtnCancel.ButtonHeight = 30;
 			this.picBtnCancel.Font = "Arial";
 			this.picBtnCancel.Text = "Cancel";
-			this.picBtnCancel.TextSize = 10;
+			this.picBtnCancel.TextSize = 10D;
 			this.hbox1.Add (this.picBtnCancel);
 			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnCancel]));
 			w4.Position = 2;

@@ -40,7 +40,7 @@ namespace Picturez
 		{
 			KeepAbove = true;
 			Build ();
-			ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);		
+			ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);	
 
 			if (showOnlyOkButton)
 				picBtnCancel.Visible = false;

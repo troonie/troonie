@@ -337,12 +337,24 @@ namespace Picturez
 			filter.Key = entryKey.Text;
 			filter.WritingMode = rdBtnWrite.Active;
 
+			PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
+			pseudo.Title = Language.I.L [80];
+			pseudo.Label1 = Language.I.L [81];
+//			pseudo.Label2 = Language.I.L [82];
+			pseudo.OkButtontext = Language.I.L [16];
+			pseudo.CancelButtontext = Language.I.L [17];
+			// pseudo.OnReleasedOkButton += delegate{Process.Start (Constants.WEBSITE);};
+//			pseudo.OnReleasedOkButton += () => Process.Start (Constants.WEBSITE);
+
+
+
 			if (filter.WritingMode) {
 				string[] content = textviewContent.Buffer.Text.Split ('\n');
 				filter.FillLines (content);
 				b1 = ImageConverter.To32Bpp(bt.Bitmap);
 				b1 = filter.Apply (b1);
-				b1.Save ("/home/jessica/Schreibtisch/RESULT.png", ImageFormat.Png);
+
+				pseudo.Label2 = Language.I.L [83];
 
 			} else {
 				b1 = filter.Apply (bt.Bitmap);
@@ -350,12 +362,16 @@ namespace Picturez
 				foreach (var item in filter.GetLines()) {
 					textviewContent.Buffer.Text += item + "\n";
 				}
+
+				pseudo.Label2 = Language.I.L [82];
 			}				
 
 			bt.Bitmap.Dispose ();
 			bt.ChangeBitmapButNotTags(b1);
 
 			Initialize (false);
+
+			pseudo.Show ();
 		}
 
 		protected void OnEntryKeyKeyReleaseEvent (object o, KeyReleaseEventArgs args)

@@ -29,8 +29,6 @@ namespace Picturez
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 6, "tools-check-spelling-5.png", OnToolbarBtn_LanguagePressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 7, "folder-new-4.png", OnToolbarBtn_PropertiesPressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 8);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 9, "emblem-photos.png", OnToolbarBtn_SteganoPressed);
 
 			// CheckContextMenu ();
 
@@ -134,7 +132,6 @@ namespace Picturez
 				Language.I.L[44] +	": \n" +
 				Language.AllLanguagesAsString;
 			hboxToolbarButtons.Children[7].TooltipText = Language.I.L[59];
-			hboxToolbarButtons.Children[9].TooltipText = Language.I.L[80];
 
 			btnConvert.Text = Language.I.L[45];
 			btnConvert.Redraw ();

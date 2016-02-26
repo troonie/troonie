@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Diagnostics;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace WinInstaller
 {
@@ -45,15 +46,26 @@ namespace WinInstaller
 				Console.WriteLine ("GTK-Sharp was installed successfully.\n");
 			}
 
-			Console.WriteLine ("Picturez was extracted to Desktop (" + path + ").");
-			Console.WriteLine ("You can start it with Picturez.exe.\n");
+			// Console.WriteLine ("Picturez was extracted to Desktop (" + path + ").");
+			// Console.WriteLine ("You can start it with Picturez.exe.\n");
 			Thread.Sleep (50);
 			File.Delete (gtkInstaller);		
 
-			Console.WriteLine ("NOTE: Your system will reboot now. Please press any key to reboot.\n");
-			Console.ReadKey();
+			string text = "Picturez was extracted to Desktop (" + path + "). You can start it with Picturez.exe. \n" + 
+					      "Windows needs to be restarted before Picturez can be used. Restart now? \n\n" + 
+						  "Picturez wurde auf dem Desktop (" + path + ") entpackt. Es kann mit Picturez.exe gestartet werden. \n" + 
+						  "Zuvor muss jedoch Windows neu gestartet werden, bevor Picturez genutzt werden kann. Jetzt neu starten? ";
+			if (MessageBox.Show (text, "Restart Windows",
+				    MessageBoxButtons.YesNo) == DialogResult.Yes) {
+				Process.Start ("Shutdown", "-r -t 5");
+				return;
+			} else {
+			}
 
-			Process.Start ("Shutdown", "-r -t 5");
+			// Console.WriteLine ("NOTE: Your system will reboot now. Please press any key to reboot.\n");
+			// Console.ReadKey();
+
+
 		}
 	}
 }
