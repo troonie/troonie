@@ -47,18 +47,26 @@ namespace Picturez
 		protected int OnToolbarBtn_ShaderFilterPressed (object sender, EventArgs e, string x)
 		{
 			int index = filterNames.IndexOf (x);
+			FilterWidget fw = null;
 
 			switch (index) {
-				case 0:
+			case 0:
 				Console.WriteLine ("ShaderFilter[0]: " + x);
 				break;
-				case 1:
+			case 1:
 				Console.WriteLine ("ShaderFilter[1]: " + x);
+				fw = new FilterWidget (FileName, new InvertFilter());
 				break;
-				default:
+			case 2:
 				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
+				fw = new FilterWidget (FileName, new GrayscaleFilter());
 				break;
 			}
+
+			int posx, posy;
+			this.GetPosition (out posx, out posy);
+			fw.Move (posx + 50, posy + 50);
+			fw.Show ();
 
 			return index;
 		}
