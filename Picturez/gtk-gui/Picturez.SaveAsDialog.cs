@@ -5,103 +5,54 @@ namespace Picturez
 	public partial class SaveAsDialog
 	{
 		private global::Gtk.Frame frame7;
-		
 		private global::Gtk.Alignment GtkAlignment10;
-		
 		private global::Gtk.VBox vbox6;
-		
 		private global::Gtk.HBox hbox4;
-		
 		private global::Gtk.Label lbDirectoryText;
-		
 		private global::Picturez.HyperTextLabel htLabelDirectory;
-		
 		private global::Gtk.HBox hbox3;
-		
 		private global::Gtk.Label label3;
-		
 		private global::Gtk.Entry entryFilename;
-		
 		private global::Gtk.Label lbFormat;
-		
 		private global::Gtk.Label lbFile;
-		
 		private global::Gtk.Frame frame3;
-		
 		private global::Gtk.Alignment GtkAlignment4;
-		
 		private global::Gtk.VBox vbox2;
-		
 		private global::Gtk.HBox hbox1;
-		
 		private global::Gtk.RadioButton rdJpeg;
-		
 		private global::Gtk.Label lbQuality;
-		
 		private global::Gtk.HScale hscaleQuality;
-		
 		private global::Gtk.RadioButton rdJpegGray;
-		
 		private global::Gtk.Label GtkLabel3;
-		
 		private global::Gtk.Frame frame4;
-		
 		private global::Gtk.Alignment GtkAlignment5;
-		
 		private global::Gtk.VBox vbox3;
-		
 		private global::Gtk.RadioButton rdPng1bit;
-		
 		private global::Gtk.RadioButton rdPng8Bit;
-		
 		private global::Gtk.RadioButton rdPng24Bit;
-		
 		private global::Gtk.HBox hbox2;
-		
 		private global::Gtk.RadioButton rdPNG32bit;
-		
 		private global::Gtk.Label lbTransparencyColor;
-		
 		private global::Gtk.ColorButton btnColor;
-		
 		private global::Gtk.RadioButton rdPng32BitAlphaAsValue;
-		
 		private global::Gtk.Label GtkLabel7;
-		
 		private global::Gtk.Frame frame5;
-		
 		private global::Gtk.Alignment GtkAlignment6;
-		
 		private global::Gtk.VBox vbox4;
-		
 		private global::Gtk.RadioButton rdBmp1bit;
-		
 		private global::Gtk.RadioButton rdBmp8bit;
-		
 		private global::Gtk.RadioButton rdBmp24bit;
-		
 		private global::Gtk.Label GtkLabel11;
-		
 		private global::Gtk.Frame frame6;
-		
 		private global::Gtk.Alignment GtkAlignment7;
-		
 		private global::Gtk.VBox vbox5;
-		
 		private global::Gtk.RadioButton rdTiff;
-		
 		private global::Gtk.RadioButton rdGif;
-		
 		private global::Gtk.RadioButton rdWmf;
-		
 		private global::Gtk.RadioButton rdEmf;
-		
 		private global::Gtk.RadioButton rdIcon;
-		
 		private global::Gtk.Label GtkLabel17;
-		
 		private global::Gtk.Button buttonCancel;
-		
 		private global::Gtk.Button buttonOk;
 
 		protected virtual void Build ()
@@ -227,6 +178,7 @@ namespace Picturez
 			this.rdJpeg = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("JPEG"));
 			this.rdJpeg.CanFocus = true;
 			this.rdJpeg.Name = "rdJpeg";
+			this.rdJpeg.Active = true;
 			this.rdJpeg.DrawIndicator = true;
 			this.rdJpeg.UseUnderline = true;
 			this.rdJpeg.Group = new global::GLib.SList (global::System.IntPtr.Zero);
@@ -246,11 +198,11 @@ namespace Picturez
 			this.hscaleQuality = new global::Gtk.HScale (null);
 			this.hscaleQuality.CanFocus = true;
 			this.hscaleQuality.Name = "hscaleQuality";
-			this.hscaleQuality.Adjustment.Lower = 1D;
-			this.hscaleQuality.Adjustment.Upper = 100D;
-			this.hscaleQuality.Adjustment.PageIncrement = 10D;
-			this.hscaleQuality.Adjustment.StepIncrement = 1D;
-			this.hscaleQuality.Adjustment.Value = 90D;
+			this.hscaleQuality.Adjustment.Lower = 1;
+			this.hscaleQuality.Adjustment.Upper = 100;
+			this.hscaleQuality.Adjustment.PageIncrement = 10;
+			this.hscaleQuality.Adjustment.StepIncrement = 1;
+			this.hscaleQuality.Adjustment.Value = 90;
 			this.hscaleQuality.DrawValue = true;
 			this.hscaleQuality.Digits = 0;
 			this.hscaleQuality.ValuePos = ((global::Gtk.PositionType)(2));

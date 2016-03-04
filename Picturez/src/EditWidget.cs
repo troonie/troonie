@@ -70,7 +70,7 @@ namespace Picturez
 			imagepanel1.OnCursorPosChanged += OnCursorPosChanged;
 
 			// TODO: Image filter: Remove, when implemented
-			hboxToolbarButtons.Children [6].Visible = false;
+//			hboxToolbarButtons.Children [6].Visible = false;
 		}
 
 		private void LoadException()
@@ -395,6 +395,8 @@ namespace Picturez
 			if (bt != null) {
 				bt.Dispose ();
 			}
+
+			imagepanel1.Dispose ();
 			File.Delete (tempScaledImageFileName);
 			File.Delete (Constants.I.EXEPATH + blackFileName);
 		}

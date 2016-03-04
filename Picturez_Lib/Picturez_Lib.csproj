@@ -51,12 +51,14 @@
     <Compile Include="Language.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="RotateBilinear.cs" />
-    <Compile Include="AbstractFilter.cs" />
-    <Compile Include="SteganographyFilter.cs" />
     <Compile Include="AsciiInvertCharEncryption.cs" />
     <Compile Include="Murmur3.cs" />
     <Compile Include="ConfigConvert.cs" />
     <Compile Include="ConfigEdit.cs" />
+    <Compile Include="filter\GrayscaleFilter.cs" />
+    <Compile Include="filter\AbstractFilter.cs" />
+    <Compile Include="filter\SteganographyFilter.cs" />
+    <Compile Include="filter\InvertFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -69,5 +71,8 @@
     <EmbeddedResource Include="languages.csv">
       <LogicalName>languages.csv</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="filter\" />
   </ItemGroup>
 </Project>

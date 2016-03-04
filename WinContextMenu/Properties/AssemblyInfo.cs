@@ -5,12 +5,12 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle ("WinContextMenu")]
-[assembly: AssemblyDescription ("")]
+[assembly: AssemblyDescription ("Picturez Installer")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("")]
-[assembly: AssemblyProduct ("")]
-[assembly: AssemblyCopyright ("Swenja")]
-[assembly: AssemblyTrademark ("")]
+[assembly: AssemblyCompany ("www.picturez-project.de")]
+[assembly: AssemblyProduct ("Picturez Installer")]
+[assembly: AssemblyCopyright ("Picturez Group")]
+[assembly: AssemblyTrademark ("www.picturez-project.de")]
 [assembly: AssemblyCulture ("")]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".

@@ -63,7 +63,14 @@ namespace Picturez
 			this.drawingAreaImage.MotionNotifyEvent += new global::Gtk.MotionNotifyEventHandler (this.OnDrawingAreaImageMotionNotifyEvent);
 			this.drawingAreaImage.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnDrawingAreaImageButtonPressEvent);
 			this.drawingAreaImage.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnDrawingAreaImageButtonReleaseEvent);
-		}			
+		}
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			surface.Dispose();
+			drawingAreaImage.Dispose();
+		}
 
 		public void Initialize()
 		{

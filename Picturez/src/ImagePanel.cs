@@ -74,7 +74,14 @@ namespace Picturez
 		public ImagePanel ()
 		{
 			this.Build ();
-		}			
+		}	
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			surface.Dispose();
+			drawingAreaImage.Dispose();
+		}
 
 		public void Initialize()
 		{

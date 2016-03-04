@@ -34,7 +34,7 @@ namespace Picturez_Lib
 		public const string TITLE = "Picturez";
 		public const string TITLE_LIB = "Picturez_Lib";
 		public const string DESCRIPTION_FIX_IN_ENGLISH = "A slender tool to convert and edit photos.";
-		public const string VERSION = "3.0.0.1";
+		public const string VERSION = "3.0.0.2";
 		public static DateTime PUBLISHDATE = new DateTime (2016, 01, 27);
 		public static string PUBLISHDATE_STRING {
 			get {

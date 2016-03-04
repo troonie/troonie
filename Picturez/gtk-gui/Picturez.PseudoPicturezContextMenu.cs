@@ -5,15 +5,10 @@ namespace Picturez
 	public partial class PseudoPicturezContextMenu
 	{
 		private global::Gtk.VBox vbox2;
-		
 		private global::Gtk.Label label1;
-		
 		private global::Gtk.Label label2;
-		
 		private global::Gtk.HBox hbox1;
-		
 		private global::Picturez.PicturezButton picBtnOk;
-		
 		private global::Picturez.PicturezButton picBtnCancel;
 
 		protected virtual void Build ()
@@ -61,7 +56,7 @@ namespace Picturez
 			this.picBtnOk.ButtonHeight = 30;
 			this.picBtnOk.Font = "Arial";
 			this.picBtnOk.Text = "OK";
-			this.picBtnOk.TextSize = 10D;
+			this.picBtnOk.TextSize = 10;
 			this.hbox1.Add (this.picBtnOk);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnOk]));
 			w3.Position = 0;
@@ -74,7 +69,7 @@ namespace Picturez
 			this.picBtnCancel.ButtonHeight = 30;
 			this.picBtnCancel.Font = "Arial";
 			this.picBtnCancel.Text = "Cancel";
-			this.picBtnCancel.TextSize = 10D;
+			this.picBtnCancel.TextSize = 10;
 			this.hbox1.Add (this.picBtnCancel);
 			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnCancel]));
 			w4.Position = 2;
