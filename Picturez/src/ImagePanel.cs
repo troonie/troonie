@@ -78,14 +78,14 @@ namespace Picturez
 
 		public override void Dispose ()
 		{
-			base.Dispose ();
-			surface.Dispose();
+			DisposeFixedWidgetChildrenAndSurface();
 			drawingAreaImage.Dispose();
+			base.Dispose ();
 		}
 
 		public void Initialize()
 		{
-			CleanUpFixedWidget ();
+			DisposeFixedWidgetChildrenAndSurface ();
 			surface = new Cairo.ImageSurface (SurfaceFileName);
 			drawingAreaImage.WidthRequest = W;
 			drawingAreaImage.HeightRequest = H;
@@ -396,7 +396,7 @@ namespace Picturez
 		#endregion EventBox events
 
 		/// <summary> Removes all sliders and their parental eventboxes as well as the surface of the DrawingAreaImage.</summary>
-		private void CleanUpFixedWidget()
+		private void DisposeFixedWidgetChildrenAndSurface()
 		{
 			for (int i = 0; i < fixed1.Children.Length; i++)
 			{

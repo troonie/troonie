@@ -144,10 +144,23 @@ namespace Picturez_Lib
 			RectangleF rec = GetRectangle (
 				source.Width, source.Height, xStart, yStart, width, height, convertMode);				
 
-			// the pixelformat value is useless, no effect, pixelformat is same like source
-			destination = source.Clone(rec, PixelFormat.Format24bppRgb);							
+			PixelFormat rgbPixelFormat;
+			// Converting (by cloning) in color format, necessary for drawing with graphics in next step
+			if (source.PixelFormat == PixelFormat.Format32bppArgb || 
+				source.PixelFormat == PixelFormat.Format32bppRgb || 
+				source.PixelFormat == PixelFormat.Format24bppRgb) {
+				// Here Pixelformat does matter, it will be used the source.PixelFormat
+				destination = source.Clone (rec, source.PixelFormat);
+				rgbPixelFormat = source.PixelFormat;
+			}
+			else {
+				// Here Pixelformat does NOT matter, Bitmap.Clone does not produce 24 bit, 
+				// instead source.PixelFormat will be used. Confusing...
+				destination = source.Clone (rec, PixelFormat.Format24bppRgb);
+				rgbPixelFormat = PixelFormat.Format24bppRgb;
+			}
 			//destination.Save ("/home/jose/Bilder/xxx.png", ImageFormat.Png);
-			destination = CloneBitmapByUsingGraphics(destination, width, height, highGraphicsQuality);
+			destination = CloneBitmapByUsingGraphics(destination, rgbPixelFormat, width, height, highGraphicsQuality);
 
 			return true;
 		}
@@ -235,10 +248,13 @@ namespace Picturez_Lib
 			switch (source.PixelFormat)
 			{
 			case PixelFormat.Format1bppIndexed:
-				return CloneBitmapByUsingGraphics(source, 
-					source.Width, 
-					source.Height, 
-					true);
+				// TODO: Check, if it works.
+				Rectangle rec = new Rectangle (0, 0, source.Width, source.Height);
+				return source.Clone (rec, PixelFormat.Format24bppRgb);
+//				return CloneBitmapByUsingGraphics(source, 
+//					source.Width, 
+//					source.Height, 
+//					true);
 			case PixelFormat.Format8bppIndexed:
 				return GrayscaleToRGB(source);
 			case PixelFormat.Format24bppRgb:
@@ -264,11 +280,13 @@ namespace Picturez_Lib
 			switch (source.PixelFormat)
 			{
 			case PixelFormat.Format1bppIndexed:
-				return RGBTo8Bpp(CloneBitmapByUsingGraphics(source,
-					source.Width,
-					source.Height,
-					true));                  
-				
+				// TODO: Check, if it works.
+				Rectangle rec = new Rectangle (0, 0, source.Width, source.Height);
+				return source.Clone (rec, PixelFormat.Format8bppIndexed);
+//				return RGBTo8Bpp(CloneBitmapByUsingGraphics(source,
+//					source.Width,
+//					source.Height,
+//					true));                  			
 			case PixelFormat.Format8bppIndexed:
 				return source;
 			case PixelFormat.Format24bppRgb:
@@ -295,10 +313,13 @@ namespace Picturez_Lib
 			switch (source.PixelFormat)
 			{
 			case PixelFormat.Format1bppIndexed:
-				return RGBToARGB(CloneBitmapByUsingGraphics(source, 
-					source.Width, 
-					source.Height,
-					true), 255);
+				// TODO: Check, if it works.
+				Rectangle rec = new Rectangle (0, 0, source.Width, source.Height);
+				return source.Clone (rec, PixelFormat.Format32bppArgb);
+//				return RGBToARGB(CloneBitmapByUsingGraphics(source, 
+//					source.Width, 
+//					source.Height,
+//					true), 255);
 			case PixelFormat.Format8bppIndexed:
 				//TODO refactoring this step
 				return  RGBToARGB(GrayscaleToRGB(source), 255);
@@ -326,10 +347,13 @@ namespace Picturez_Lib
 			switch (source.PixelFormat)
 			{
 				case PixelFormat.Format1bppIndexed:
-				return RGBToARGB(CloneBitmapByUsingGraphics(source, 
-				                                            source.Width, 
-				                                            source.Height,
-				                                            true), alpha);
+				// TODO: Check, if it works.
+				Rectangle rec = new Rectangle (0, 0, source.Width, source.Height);
+				return source.Clone (rec, PixelFormat.Format32bppArgb);
+//				return RGBToARGB(CloneBitmapByUsingGraphics(source, 
+//				                                            source.Width, 
+//				                                            source.Height,
+//				                                            true), alpha);
 				case PixelFormat.Format8bppIndexed:
 				//TODO refactoring this step
 				return  RGBToARGB(GrayscaleToRGB(source), alpha);
@@ -552,11 +576,12 @@ namespace Picturez_Lib
 			
 		private static Bitmap CloneBitmapByUsingGraphics(
 			Bitmap source,
+			PixelFormat pixelFormat,
 			int width,
 			int height,
 			bool highGraphicsQuality)
 		{
-			Bitmap bitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+			Bitmap bitmap = new Bitmap(width, height, pixelFormat);
 
 			// draw source image on the new one using Graphics
 			Graphics g = Graphics.FromImage(bitmap);

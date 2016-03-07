@@ -75,6 +75,10 @@ namespace Picturez_Lib
         /// </summary>
         public SteganographyFilter()
         {
+			// TODO: Allowing also 24 bit images
+			SupportedSrcPixelFormat = PixelFormatFlags.Format32All;
+			SupportedDstPixelFormat = PixelFormatFlags.Format32BppArgb;
+
 			lines = new List<string>();
 //            ResetKey();
 			Key = "Steganography";

@@ -10,24 +10,30 @@ namespace Picturez
 		private global::Picturez.SimpleImagePanel simpleimagepanel1;
 		private global::Gtk.CheckButton checkBtnLivePreview;
 		private global::Gtk.VBox vbox1;
-		private global::Gtk.Frame frameSteganography;
-		private global::Gtk.Alignment AlignmentFrameSteganography;
-		private global::Gtk.VBox vboxSteganography;
-		private global::Gtk.Frame frameModus;
-		private global::Gtk.Alignment AlignmentFrameModus;
-		private global::Gtk.HBox hboxModus;
-		private global::Gtk.RadioButton rdBtnRead;
-		private global::Gtk.RadioButton rdBtnWrite;
-		private global::Gtk.Label lbFrameModus;
+		private global::Gtk.Frame frameComboboxes;
+		private global::Gtk.Alignment AlignmentFrameSteganography1;
+		private global::Gtk.VBox vboxSteganography1;
 		private global::Gtk.Frame frame_combobox1;
 		private global::Gtk.Alignment alignment_combobox1;
 		private global::Gtk.ComboBox combobox1;
 		private global::Gtk.Label lbFrame_combobox1;
+		private global::Gtk.Frame frame_combobox2;
+		private global::Gtk.Alignment alignment_combobox2;
+		private global::Gtk.ComboBox combobox2;
+		private global::Gtk.Label lbFrame_combobox2;
+		private global::Gtk.Label lbFrameComboboxes;
+		private global::Gtk.Frame frameHScales;
+		private global::Gtk.Alignment AlignmentFrameSteganography;
+		private global::Gtk.VBox vboxSteganography;
 		private global::Gtk.Frame frame_hscale1;
 		private global::Gtk.Alignment alignment_hscale1;
 		private global::Gtk.HScale hscale1;
 		private global::Gtk.Label lbFrame_hscale1;
-		private global::Gtk.Label lbFrameSteganography;
+		private global::Gtk.Frame frame_hscale2;
+		private global::Gtk.Alignment alignment_hscale2;
+		private global::Gtk.HScale hscale2;
+		private global::Gtk.Label lbFrame_hscale2;
+		private global::Gtk.Label lbFrameHScales;
 		private global::Gtk.Frame frameCursorPos;
 		private global::Gtk.Alignment GtkAlignment1;
 		private global::Gtk.Label lbCursorPos;
@@ -88,64 +94,20 @@ namespace Picturez
 			this.vbox1.Name = "vbox1";
 			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.frameSteganography = new global::Gtk.Frame ();
-			this.frameSteganography.Name = "frameSteganography";
-			this.frameSteganography.ShadowType = ((global::Gtk.ShadowType)(1));
-			// Container child frameSteganography.Gtk.Container+ContainerChild
-			this.AlignmentFrameSteganography = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.AlignmentFrameSteganography.Name = "AlignmentFrameSteganography";
-			this.AlignmentFrameSteganography.LeftPadding = ((uint)(12));
-			this.AlignmentFrameSteganography.RightPadding = ((uint)(12));
-			this.AlignmentFrameSteganography.BottomPadding = ((uint)(12));
-			// Container child AlignmentFrameSteganography.Gtk.Container+ContainerChild
-			this.vboxSteganography = new global::Gtk.VBox ();
-			this.vboxSteganography.Name = "vboxSteganography";
-			this.vboxSteganography.Spacing = 6;
-			// Container child vboxSteganography.Gtk.Box+BoxChild
-			this.frameModus = new global::Gtk.Frame ();
-			this.frameModus.Name = "frameModus";
-			this.frameModus.ShadowType = ((global::Gtk.ShadowType)(1));
-			// Container child frameModus.Gtk.Container+ContainerChild
-			this.AlignmentFrameModus = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.AlignmentFrameModus.Name = "AlignmentFrameModus";
-			this.AlignmentFrameModus.LeftPadding = ((uint)(12));
-			// Container child AlignmentFrameModus.Gtk.Container+ContainerChild
-			this.hboxModus = new global::Gtk.HBox ();
-			this.hboxModus.Name = "hboxModus";
-			this.hboxModus.Spacing = 6;
-			// Container child hboxModus.Gtk.Box+BoxChild
-			this.rdBtnRead = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Read"));
-			this.rdBtnRead.CanFocus = true;
-			this.rdBtnRead.Name = "rdBtnRead";
-			this.rdBtnRead.DrawIndicator = true;
-			this.rdBtnRead.UseUnderline = true;
-			this.rdBtnRead.Group = new global::GLib.SList (global::System.IntPtr.Zero);
-			this.hboxModus.Add (this.rdBtnRead);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.rdBtnRead]));
-			w4.Position = 0;
-			// Container child hboxModus.Gtk.Box+BoxChild
-			this.rdBtnWrite = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Write"));
-			this.rdBtnWrite.CanFocus = true;
-			this.rdBtnWrite.Name = "rdBtnWrite";
-			this.rdBtnWrite.DrawIndicator = true;
-			this.rdBtnWrite.UseUnderline = true;
-			this.rdBtnWrite.Group = this.rdBtnRead.Group;
-			this.hboxModus.Add (this.rdBtnWrite);
-			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.rdBtnWrite]));
-			w5.Position = 1;
-			this.AlignmentFrameModus.Add (this.hboxModus);
-			this.frameModus.Add (this.AlignmentFrameModus);
-			this.lbFrameModus = new global::Gtk.Label ();
-			this.lbFrameModus.Name = "lbFrameModus";
-			this.lbFrameModus.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Modus</b>");
-			this.lbFrameModus.UseMarkup = true;
-			this.frameModus.LabelWidget = this.lbFrameModus;
-			this.vboxSteganography.Add (this.frameModus);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameModus]));
-			w8.Position = 0;
-			w8.Expand = false;
-			w8.Fill = false;
-			// Container child vboxSteganography.Gtk.Box+BoxChild
+			this.frameComboboxes = new global::Gtk.Frame ();
+			this.frameComboboxes.Name = "frameComboboxes";
+			this.frameComboboxes.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child frameComboboxes.Gtk.Container+ContainerChild
+			this.AlignmentFrameSteganography1 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.AlignmentFrameSteganography1.Name = "AlignmentFrameSteganography1";
+			this.AlignmentFrameSteganography1.LeftPadding = ((uint)(12));
+			this.AlignmentFrameSteganography1.RightPadding = ((uint)(12));
+			this.AlignmentFrameSteganography1.BottomPadding = ((uint)(12));
+			// Container child AlignmentFrameSteganography1.Gtk.Container+ContainerChild
+			this.vboxSteganography1 = new global::Gtk.VBox ();
+			this.vboxSteganography1.Name = "vboxSteganography1";
+			this.vboxSteganography1.Spacing = 6;
+			// Container child vboxSteganography1.Gtk.Box+BoxChild
 			this.frame_combobox1 = new global::Gtk.Frame ();
 			this.frame_combobox1.Name = "frame_combobox1";
 			this.frame_combobox1.ShadowType = ((global::Gtk.ShadowType)(1));
@@ -163,11 +125,58 @@ namespace Picturez
 			this.lbFrame_combobox1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>combobox1</b>");
 			this.lbFrame_combobox1.UseMarkup = true;
 			this.frame_combobox1.LabelWidget = this.lbFrame_combobox1;
-			this.vboxSteganography.Add (this.frame_combobox1);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frame_combobox1]));
-			w11.Position = 1;
-			w11.Expand = false;
-			w11.Fill = false;
+			this.vboxSteganography1.Add (this.frame_combobox1);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography1 [this.frame_combobox1]));
+			w6.Position = 0;
+			w6.Expand = false;
+			w6.Fill = false;
+			// Container child vboxSteganography1.Gtk.Box+BoxChild
+			this.frame_combobox2 = new global::Gtk.Frame ();
+			this.frame_combobox2.Name = "frame_combobox2";
+			this.frame_combobox2.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child frame_combobox2.Gtk.Container+ContainerChild
+			this.alignment_combobox2 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.alignment_combobox2.Name = "alignment_combobox2";
+			this.alignment_combobox2.LeftPadding = ((uint)(12));
+			// Container child alignment_combobox2.Gtk.Container+ContainerChild
+			this.combobox2 = global::Gtk.ComboBox.NewText ();
+			this.combobox2.Name = "combobox2";
+			this.alignment_combobox2.Add (this.combobox2);
+			this.frame_combobox2.Add (this.alignment_combobox2);
+			this.lbFrame_combobox2 = new global::Gtk.Label ();
+			this.lbFrame_combobox2.Name = "lbFrame_combobox2";
+			this.lbFrame_combobox2.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>combobox2</b>");
+			this.lbFrame_combobox2.UseMarkup = true;
+			this.frame_combobox2.LabelWidget = this.lbFrame_combobox2;
+			this.vboxSteganography1.Add (this.frame_combobox2);
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography1 [this.frame_combobox2]));
+			w9.Position = 1;
+			w9.Expand = false;
+			w9.Fill = false;
+			this.AlignmentFrameSteganography1.Add (this.vboxSteganography1);
+			this.frameComboboxes.Add (this.AlignmentFrameSteganography1);
+			this.lbFrameComboboxes = new global::Gtk.Label ();
+			this.lbFrameComboboxes.Name = "lbFrameComboboxes";
+			this.lbFrameComboboxes.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Comboboxes</b>");
+			this.lbFrameComboboxes.UseMarkup = true;
+			this.frameComboboxes.LabelWidget = this.lbFrameComboboxes;
+			this.vbox1.Add (this.frameComboboxes);
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameComboboxes]));
+			w12.Position = 0;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.frameHScales = new global::Gtk.Frame ();
+			this.frameHScales.Name = "frameHScales";
+			this.frameHScales.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child frameHScales.Gtk.Container+ContainerChild
+			this.AlignmentFrameSteganography = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.AlignmentFrameSteganography.Name = "AlignmentFrameSteganography";
+			this.AlignmentFrameSteganography.LeftPadding = ((uint)(12));
+			this.AlignmentFrameSteganography.RightPadding = ((uint)(12));
+			this.AlignmentFrameSteganography.BottomPadding = ((uint)(12));
+			// Container child AlignmentFrameSteganography.Gtk.Container+ContainerChild
+			this.vboxSteganography = new global::Gtk.VBox ();
+			this.vboxSteganography.Name = "vboxSteganography";
+			this.vboxSteganography.Spacing = 6;
 			// Container child vboxSteganography.Gtk.Box+BoxChild
 			this.frame_hscale1 = new global::Gtk.Frame ();
 			this.frame_hscale1.Name = "frame_hscale1";
@@ -194,22 +203,50 @@ namespace Picturez
 			this.lbFrame_hscale1.UseMarkup = true;
 			this.frame_hscale1.LabelWidget = this.lbFrame_hscale1;
 			this.vboxSteganography.Add (this.frame_hscale1);
-			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frame_hscale1]));
-			w14.Position = 2;
-			w14.Expand = false;
-			w14.Fill = false;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frame_hscale1]));
+			w15.Position = 0;
+			w15.Expand = false;
+			w15.Fill = false;
+			// Container child vboxSteganography.Gtk.Box+BoxChild
+			this.frame_hscale2 = new global::Gtk.Frame ();
+			this.frame_hscale2.Name = "frame_hscale2";
+			this.frame_hscale2.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child frame_hscale2.Gtk.Container+ContainerChild
+			this.alignment_hscale2 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.alignment_hscale2.Name = "alignment_hscale2";
+			this.alignment_hscale2.LeftPadding = ((uint)(12));
+			// Container child alignment_hscale2.Gtk.Container+ContainerChild
+			this.hscale2 = new global::Gtk.HScale (null);
+			this.hscale2.CanFocus = true;
+			this.hscale2.Name = "hscale2";
+			this.hscale2.Adjustment.Upper = 100;
+			this.hscale2.Adjustment.PageIncrement = 10;
+			this.hscale2.Adjustment.StepIncrement = 1;
+			this.hscale2.DrawValue = true;
+			this.hscale2.Digits = 0;
+			this.hscale2.ValuePos = ((global::Gtk.PositionType)(2));
+			this.alignment_hscale2.Add (this.hscale2);
+			this.frame_hscale2.Add (this.alignment_hscale2);
+			this.lbFrame_hscale2 = new global::Gtk.Label ();
+			this.lbFrame_hscale2.Name = "lbFrame_hscale2";
+			this.lbFrame_hscale2.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>hscale2</b>");
+			this.lbFrame_hscale2.UseMarkup = true;
+			this.frame_hscale2.LabelWidget = this.lbFrame_hscale2;
+			this.vboxSteganography.Add (this.frame_hscale2);
+			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frame_hscale2]));
+			w18.Position = 1;
+			w18.Expand = false;
+			w18.Fill = false;
 			this.AlignmentFrameSteganography.Add (this.vboxSteganography);
-			this.frameSteganography.Add (this.AlignmentFrameSteganography);
-			this.lbFrameSteganography = new global::Gtk.Label ();
-			this.lbFrameSteganography.Name = "lbFrameSteganography";
-			this.lbFrameSteganography.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Steganography</b>");
-			this.lbFrameSteganography.UseMarkup = true;
-			this.frameSteganography.LabelWidget = this.lbFrameSteganography;
-			this.vbox1.Add (this.frameSteganography);
-			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameSteganography]));
-			w17.Position = 0;
-			w17.Expand = false;
-			w17.Fill = false;
+			this.frameHScales.Add (this.AlignmentFrameSteganography);
+			this.lbFrameHScales = new global::Gtk.Label ();
+			this.lbFrameHScales.Name = "lbFrameHScales";
+			this.lbFrameHScales.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>HScales</b>");
+			this.lbFrameHScales.UseMarkup = true;
+			this.frameHScales.LabelWidget = this.lbFrameHScales;
+			this.vbox1.Add (this.frameHScales);
+			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameHScales]));
+			w21.Position = 1;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameCursorPos = new global::Gtk.Frame ();
 			this.frameCursorPos.Name = "frameCursorPos";
@@ -230,10 +267,10 @@ namespace Picturez
 			this.lbFrameCursorPos.UseMarkup = true;
 			this.frameCursorPos.LabelWidget = this.lbFrameCursorPos;
 			this.vbox1.Add (this.frameCursorPos);
-			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
-			w20.Position = 1;
-			w20.Expand = false;
-			w20.Fill = false;
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
+			w24.Position = 2;
+			w24.Expand = false;
+			w24.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.hboxButtons = new global::Gtk.HBox ();
 			this.hboxButtons.Name = "hboxButtons";
@@ -248,8 +285,8 @@ namespace Picturez
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.TextSize = 14;
 			this.hboxButtons.Add (this.btnCancel);
-			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.hboxButtons [this.btnCancel]));
-			w21.Position = 0;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.hboxButtons [this.btnCancel]));
+			w25.Position = 0;
 			// Container child hboxButtons.Gtk.Box+BoxChild
 			this.btnOk = new global::Picturez.PicturezButton ();
 			this.btnOk.Name = "btnOk";
@@ -260,26 +297,26 @@ namespace Picturez
 			this.btnOk.Text = "OK";
 			this.btnOk.TextSize = 14;
 			this.hboxButtons.Add (this.btnOk);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.hboxButtons [this.btnOk]));
-			w22.Position = 1;
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hboxButtons [this.btnOk]));
+			w26.Position = 1;
 			this.vbox1.Add (this.hboxButtons);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hboxButtons]));
-			w23.Position = 2;
-			w23.Expand = false;
-			w23.Fill = false;
+			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hboxButtons]));
+			w27.Position = 3;
+			w27.Expand = false;
+			w27.Fill = false;
 			this.hbox1.Add (this.vbox1);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
-			w24.Position = 1;
-			w24.Padding = ((uint)(5));
+			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
+			w28.Position = 1;
+			w28.Padding = ((uint)(5));
 			this.vboxA.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
-			w25.Position = 0;
+			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
+			w29.Position = 0;
 			this.Add (this.vboxA);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 524;
-			this.DefaultHeight = 361;
+			this.DefaultHeight = 468;
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.btnOk.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnOkButtonReleaseEvent);

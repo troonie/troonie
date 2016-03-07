@@ -29,8 +29,10 @@ namespace Picturez_Lib
 		public const string EXENAME = "Picturez.exe";
 		public const string ICONNAME = "icon.ico";
 		public const string WEBSITE = "www.picturez-project.de";
+//		public const string UPDATESERVERFILE = 
+//			"http://www.picturez-project.de/PicturezVersion";
 		public const string UPDATESERVERFILE = 
-			"http://www.picturez-project.de/PicturezVersion";
+			"https://raw.githubusercontent.com/leomartin1982/picturez/master/PicturezVersion";
 		public const string TITLE = "Picturez";
 		public const string TITLE_LIB = "Picturez_Lib";
 		public const string DESCRIPTION_FIX_IN_ENGLISH = "A slender tool to convert and edit photos.";

@@ -20,8 +20,10 @@ namespace Picturez
 		private int imageW; 
 		private int imageH;
 		private string tempFilterImageFileName;
+		private Bitmap workingImage;
 
 		#region filter
+		private AbstractFilter abstractFilter;
 		private GrayscaleFilter grayscale;
 		private InvertFilter invert;
 		#endregion filter
@@ -32,11 +34,15 @@ namespace Picturez
 		public FilterWidget (string pFilename, InvertFilter invert) : this (pFilename)
 		{
 			this.invert = invert;
+			abstractFilter = invert;
+			ProcessPreview ();
 		}
 
 		public FilterWidget (string pFilename, GrayscaleFilter grayscale) : this (pFilename)
 		{
 			this.grayscale = grayscale;
+			abstractFilter = grayscale;
+			ProcessPreview ();
 		}
 
 		protected FilterWidget (string pFilename) : base (Gtk.WindowType.Toplevel)
@@ -53,6 +59,13 @@ namespace Picturez
 			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
 		}
 
+		private void ProcessPreview()
+		{
+			workingImage = abstractFilter.Apply (workingImage);
+			workingImage.Save(tempFilterImageFileName, ImageFormat.Png);
+			simpleimagepanel1.Initialize();
+		}
+
 		private void Initialize()
 		{
 			Title = FileName;
@@ -64,13 +77,9 @@ namespace Picturez
 
 			tempFilterImageFileName = Constants.I.EXEPATH + "tempFilterImageFileName.png";
 
-			simpleimagepanel1.SurfaceFileName = tempFilterImageFileName;
-						                            
-			Bitmap croppedPic;
-
 			ImageConverter.ScaleAndCut (
 				pic, 
-				out croppedPic, 
+				out workingImage, 
 				0,
 				0,
 				simpleimagepanel1.WidthRequest,
@@ -79,9 +88,9 @@ namespace Picturez
 				false);
 
 			pic.Dispose ();
-			croppedPic.Save(tempFilterImageFileName, ImageFormat.Png);
-			croppedPic.Dispose();
+			workingImage.Save(tempFilterImageFileName, ImageFormat.Png);
 
+			simpleimagepanel1.SurfaceFileName = tempFilterImageFileName;
 			simpleimagepanel1.Initialize();
 
 			ShowAll();
@@ -154,8 +163,7 @@ namespace Picturez
 			lbFrameCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
 
-			lbFrameSteganography.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbFrameModus.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameHScales.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrame_combobox1.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrame_hscale1.ModifyFg (StateType.Normal, colorConverter.FONT);
 		}
@@ -166,10 +174,7 @@ namespace Picturez
 			btnOk.Text = Language.I.L[16];
 			btnOk.Redraw ();
 
-			lbFrameSteganography.LabelProp = "<b>" + Language.I.L[73] + "</b>";
-			lbFrameModus.LabelProp = "<b>" + Language.I.L[74] + "</b>";
-			rdBtnRead.Label = Language.I.L[75];
-			rdBtnWrite.Label = Language.I.L[76];
+			lbFrameHScales.LabelProp = "<b>" + Language.I.L[73] + "</b>";
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[77] + "</b>";
 			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[78] + "</b>";
 		}
@@ -193,7 +198,7 @@ namespace Picturez
 
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-
+			ProcessPreview ();
 		}
 	}
 }
