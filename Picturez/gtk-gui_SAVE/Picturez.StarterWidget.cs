@@ -5,15 +5,10 @@ namespace Picturez
 	public partial class StarterWidget
 	{
 		private global::Gtk.VBox vbox1;
-		
 		private global::Gtk.HBox hbox1;
-		
 		private global::Picturez.PicturezButton picBtnConvert;
-		
 		private global::Picturez.PicturezButton picBtnEdit;
-		
 		private global::Picturez.PicturezButton picBtnSteganography;
-		
 		private global::Gtk.HBox hbox2;
 
 		protected virtual void Build ()
@@ -41,7 +36,7 @@ namespace Picturez
 			this.picBtnConvert.ButtonHeight = 140;
 			this.picBtnConvert.Font = "Arial";
 			this.picBtnConvert.Text = "Convert";
-			this.picBtnConvert.TextSize = 20D;
+			this.picBtnConvert.TextSize = 20;
 			this.hbox1.Add (this.picBtnConvert);
 			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnConvert]));
 			w1.Position = 0;
@@ -53,7 +48,7 @@ namespace Picturez
 			this.picBtnEdit.ButtonHeight = 140;
 			this.picBtnEdit.Font = "Arial";
 			this.picBtnEdit.Text = "Editor";
-			this.picBtnEdit.TextSize = 20D;
+			this.picBtnEdit.TextSize = 20;
 			this.hbox1.Add (this.picBtnEdit);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnEdit]));
 			w2.Position = 1;
@@ -65,7 +60,7 @@ namespace Picturez
 			this.picBtnSteganography.ButtonHeight = 140;
 			this.picBtnSteganography.Font = "Arial";
 			this.picBtnSteganography.Text = "Steganography";
-			this.picBtnSteganography.TextSize = 20D;
+			this.picBtnSteganography.TextSize = 20;
 			this.hbox1.Add (this.picBtnSteganography);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnSteganography]));
 			w3.Position = 2;

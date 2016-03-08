@@ -1,4 +1,6 @@
-﻿namespace Picturez_Lib
+﻿using System.Drawing.Imaging;
+
+namespace Picturez_Lib
 {
     using System;
 

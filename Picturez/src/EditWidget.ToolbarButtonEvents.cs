@@ -61,8 +61,13 @@ namespace Picturez
 				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 				fw = new FilterWidget (FileName, new GrayscaleFilter());
 				break;
+			case 3:
+				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
+				fw = new FilterWidget (FileName, new ExtractOrRotateChannelsFilter());
+				break;
 			}
 
+			fw.FilterEvent += FilterEvent;
 			int posx, posy;
 			this.GetPosition (out posx, out posy);
 			fw.Move (posx + 50, posy + 50);

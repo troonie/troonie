@@ -82,3 +82,22 @@ Finished.;Fertig.
 Reading process finished.;Lesevorgang abgeschlossen.
 Writing process finished.;Schreibvorgang abgeschlossen.
 Image filter;Bildfilter
+Used algorithm;Verwendeter Algorithmus
+BT709;BT709
+RMY;RMY
+Y;Y
+Linear;Linear
+Invert;Invertierung
+Grayscale;Graustufen
+RGB Channels;RGB-Kanäle
+RGB Order;RGB-Reihenfolge
+R;R
+G;G
+B;B
+A;A
+RGB;RGB
+RBG;RBG
+BRG;BRG
+BGR;BGR
+GBR;GBR
+GRB;GRB

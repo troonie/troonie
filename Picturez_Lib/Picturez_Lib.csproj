@@ -60,6 +60,7 @@
     <Compile Include="filter\SteganographyFilter.cs" />
     <Compile Include="filter\InvertFilter.cs" />
     <Compile Include="AforgeImage.cs" />
+    <Compile Include="filter\ExtractOrRotateChannelsFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -146,11 +146,12 @@ namespace Picturez_Lib
 				break;
 			}
 
-			if (config.Format == PicturezImageFormat.PNG32AlphaAsValue)	{
-				RectangleF rec = ImageConverter.GetRectangle(Bitmap.Width, Bitmap.Height, 0,0 , w, h, config.StretchImage);
-				dest = null;
-				dest = Bitmap.Clone(rec, PixelFormat.Format32bppArgb);
-			}else{
+			// TODO: Was already merged with ScaleAndCut(..)-method, experimaental, take care.
+//			if (config.Format == PicturezImageFormat.PNG32AlphaAsValue)	{
+//				RectangleF rec = ImageConverter.GetRectangle(Bitmap.Width, Bitmap.Height, 0,0 , w, h, config.StretchImage);
+//				dest = null;
+//				dest = Bitmap.Clone(rec, PixelFormat.Format32bppArgb);
+//			}else{
 				ImageConverter.ScaleAndCut (Bitmap, 
 					out dest,
 					0,
@@ -159,7 +160,7 @@ namespace Picturez_Lib
 					h,
 					config.StretchImage,
 					config.HighQuality);
-			}
+//			}
 			#endregion Resizing
 
 			#region Saving by using PicturezImageFormat

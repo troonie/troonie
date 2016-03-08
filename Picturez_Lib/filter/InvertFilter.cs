@@ -1,5 +1,6 @@
 using System;
 using System.Drawing.Imaging;
+using System.Drawing;
 
 namespace Picturez_Lib
 {
@@ -12,7 +13,7 @@ namespace Picturez_Lib
 		/// </summary>
 		public InvertFilter()
 		{
-			SupportedSrcPixelFormat = PixelFormatFlags.Format24BppRgb;
+			SupportedSrcPixelFormat = PixelFormatFlags.All;
 			SupportedDstPixelFormat = PixelFormatFlags.SameLikeSource;
 		}
 
@@ -26,8 +27,8 @@ namespace Picturez_Lib
 		/// <param name="dstData">The destination bitmap data.</param>
 		protected override unsafe void Process(BitmapData srcData, BitmapData dstData)
 		{
-			// int ps = Image.GetPixelFormatSize(srcData.PixelFormat) / 8;
-			const int ps = 3;
+			int ps = Image.GetPixelFormatSize(srcData.PixelFormat) / 8;
+//			const int ps = 3;
 			int w = srcData.Width;
 			int h = srcData.Height;
 			int offset = srcData.Stride - w * ps;
@@ -41,9 +42,20 @@ namespace Picturez_Lib
 				// for each pixel
 				for (int x = 0; x < w; x++, src += ps, dst += ps)
 				{
-					dst[RGBA.R] = (byte)(255 - src[RGBA.R]);
-					dst[RGBA.G] = (byte)(255 - src[RGBA.G]);
+					// 8 bit grayscale
 					dst[RGBA.B] = (byte)(255 - src[RGBA.B]);
+
+					// rgb, 24 and 32 bit
+					if (ps >= 3) {
+						dst [RGBA.G] = (byte)(255 - src [RGBA.G]);
+						dst [RGBA.R] = (byte)(255 - src [RGBA.R]);
+					}
+
+					// alpha, 32 bit
+					if (ps == 4) {
+						dst [RGBA.A] = (byte)(255 - src [RGBA.A]);
+					}
+
 				}
 				src += offset;
 				dst += offset;

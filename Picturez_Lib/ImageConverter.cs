@@ -120,10 +120,9 @@ namespace Picturez_Lib
 		}
 
 		/// <summary>
-		/// Scales and cuts passed source bitmap into passed destination as 32 bpp ARGB bitmap.
+		/// Scales and cuts source bitmap into destination as COLOR (a)rgb bitmap.
 		/// </summary>
 		public static bool ScaleAndCut(
-			// ImageFormat format, 
 			Bitmap source, 
 			out Bitmap destination,
 			float xStart, 
@@ -142,8 +141,17 @@ namespace Picturez_Lib
 //			}		
 
 			RectangleF rec = GetRectangle (
-				source.Width, source.Height, xStart, yStart, width, height, convertMode);				
+				source.Width, source.Height, xStart, yStart, width, height, convertMode);						
 
+//			destination = source.Clone (rec, source.PixelFormat);
+//
+//			if (source.PixelFormat == PixelFormat.Format8bppIndexed) {
+//				destination = new Bitmap(destination, width, height);
+//			} else {
+//				destination = CloneBitmapByUsingGraphics (destination, source.PixelFormat, width, height, highGraphicsQuality);
+//			}
+//
+			// NEW: 8 bit grayscale is also converted in 24 bit to use CloneBitmapByUsingGraphics(..)-method
 			PixelFormat rgbPixelFormat;
 			// Converting (by cloning) in color format, necessary for drawing with graphics in next step
 			if (source.PixelFormat == PixelFormat.Format32bppArgb || 
@@ -159,7 +167,6 @@ namespace Picturez_Lib
 				destination = source.Clone (rec, PixelFormat.Format24bppRgb);
 				rgbPixelFormat = PixelFormat.Format24bppRgb;
 			}
-			//destination.Save ("/home/jose/Bilder/xxx.png", ImageFormat.Png);
 			destination = CloneBitmapByUsingGraphics(destination, rgbPixelFormat, width, height, highGraphicsQuality);
 
 			return true;
@@ -601,6 +608,10 @@ namespace Picturez_Lib
 
 			g.DrawImage(source, 0, 0, width, height);
 			g.Dispose();
+
+			if (source.PixelFormat == PixelFormat.Format8bppIndexed) {
+				
+			}
 
 			return bitmap;
 		}

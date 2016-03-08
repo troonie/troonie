@@ -36,6 +36,12 @@ namespace Picturez_Lib
 					case PixelFormatFlags.Format32BppRgb:
 					dstPixelFormat = PixelFormat.Format32bppRgb;
 					break;
+					case PixelFormatFlags.SameLikeSource:
+					// dstPixelFormat will be set in CheckPixelFormat()
+					break;
+					default:
+					throw new ArgumentException ("Value of SupportedDstPixelFormat needs to be unique.", 
+					                             "SupportedDstPixelFormat");
 				}
 			}
 		}
@@ -132,6 +138,9 @@ namespace Picturez_Lib
 			if (supportedDstPixelFormat == PixelFormatFlags.None) {
 				errorMsg = "No supported pixel format of destination image.";
 				throw new ArgumentException(errorMsg);
+			}
+			else if (supportedDstPixelFormat == PixelFormatFlags.SameLikeSource) {
+				dstPixelFormat = format;
 			}
 		}
 

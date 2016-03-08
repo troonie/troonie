@@ -45,7 +45,7 @@ namespace Picturez
 
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
-			filterNames = new List<string> { "Shader-based Filter", "Invert", "Grayscale", "Rotate RGB Channels"};
+			filterNames = new List<string> { "Shader-based Filter", Language.I.L[90], Language.I.L[91], Language.I.L[92]};
 
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", OnToolbarBtn_OpenPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", OnToolbarBtn_SaveAsPressed);
@@ -478,7 +478,17 @@ namespace Picturez
 			} 
 
 			imagepanel1.MoveSliderByKey (args.Event.Key, 1);
-		}				
+		}	
+
+		private void FilterEvent(Bitmap filterBitmap)
+		{
+			Console.WriteLine ("FilterEvent");
+
+			bt.Bitmap.Dispose ();
+			bt.ChangeBitmapButNotTags(filterBitmap);
+
+			Initialize (false);
+		}
 	}
 }
 

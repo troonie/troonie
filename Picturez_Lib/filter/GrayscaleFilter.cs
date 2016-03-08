@@ -20,7 +20,10 @@ namespace Picturez_Lib
 			/// <summary>Grayscale image using RMY algorithm. </summary>
 			RMY,
 			/// <summary>Grayscale image using Y algorithm.</summary>
-			Y
+			Y,
+			/// <summary>Grayscale image using linear algorithm. 
+			/// All rgb components same quantifier.</summary>
+			LINEAR
 		}
 
 		private CommonAlgorithms algorithm;
@@ -50,6 +53,11 @@ namespace Picturez_Lib
 					Red = 0.299f;
 					Green = 0.587f;
 					Blue = 0.114f;
+					break;
+				case CommonAlgorithms.LINEAR:
+					Red = 0.333334f;
+					Green = 0.333334f;
+					Blue = 0.333334f;
 					break;
 				}
 			}
@@ -89,12 +97,12 @@ namespace Picturez_Lib
 		/// <param name="dstData">The destination bitmap data.</param>
 		protected override unsafe void Process(BitmapData srcData, BitmapData dstData)
 		{
-			int pixelSize = Image.GetPixelFormatSize(srcData.PixelFormat) / 8;
+			int ps = Image.GetPixelFormatSize(srcData.PixelFormat) / 8;
 			int w = srcData.Width;
 			int h = srcData.Height;
 			int srcStride = srcData.Stride;
 			int dstStride = dstData.Stride;
-			int srcOffset = srcStride - w * pixelSize;
+			int srcOffset = srcStride - w * ps;
 			int dstOffset = dstStride - w;
 
 			byte* src = (byte*)srcData.Scan0.ToPointer();
@@ -104,7 +112,7 @@ namespace Picturez_Lib
 			for (int y = 0; y < h; y++)
 			{
 				// for each pixel
-				for (int x = 0; x < w; x++, src += pixelSize, dst += 1)
+				for (int x = 0; x < w; x++, src += ps, dst += 1)
 				{
 					*dst = (byte)(src[RGBA.R] * Red + 
 					              src[RGBA.G] * Green + 
