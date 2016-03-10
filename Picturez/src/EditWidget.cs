@@ -45,7 +45,11 @@ namespace Picturez
 
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
-			filterNames = new List<string> { "Shader-based Filter", Language.I.L[90], Language.I.L[91], Language.I.L[92]};
+			filterNames = new List<string> { "Shader-based Filter", 
+												Language.I.L[90], 
+												Language.I.L[91], 
+												Language.I.L[92], 
+												Language.I.L[104]};
 
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", OnToolbarBtn_OpenPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", OnToolbarBtn_SaveAsPressed);

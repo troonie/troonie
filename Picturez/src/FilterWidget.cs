@@ -10,6 +10,7 @@ using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using ImageConverter = Picturez_Lib.ImageConverter;
 using Picturez;
 using Picturez_Lib;
+using System.Diagnostics;
 
 namespace Picturez
 {
@@ -17,8 +18,11 @@ namespace Picturez
 
 	public partial class FilterWidget : Gtk.Window
 	{
+		private const uint timeoutInterval = 500; // in ms
+
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
 //		private Constants constants = Constants.I;
+		private bool repeatTimeout;
 		private int imageW; 
 		private int imageH;
 		private string tempFilterImageFileName;
@@ -27,8 +31,9 @@ namespace Picturez
 		#region filter
 		private AbstractFilter abstractFilter;
 		private GrayscaleFilter grayscale;
-		private InvertFilter invert;
+//		private InvertFilter invert;
 		private ExtractOrRotateChannelsFilter extractOrRotateChannels;
+		private GaussianBlurFilter gaussianBlur;
 		#endregion filter
 
 		public FilterEventhandler FilterEvent;
@@ -53,7 +58,7 @@ namespace Picturez
 
 		public FilterWidget (string pFilename, InvertFilter invert) : this (pFilename)
 		{
-			this.invert = invert;
+//			this.invert = invert;
 			abstractFilter = invert;
 
 			Title = Language.I.L [90];
@@ -74,7 +79,7 @@ namespace Picturez
 			combobox1.AppendText(Language.I.L[88]);
 			combobox1.AppendText(Language.I.L[89]);
 			combobox1.Active = 0;
-			combobox1.Changed += new EventHandler (Grayscale_OnCombobox1Changed);
+			combobox1.Changed += new EventHandler (Grayscale_Combobox1Changed);
 
 			ProcessPreview ();
 		}
@@ -100,7 +105,37 @@ namespace Picturez
 			combobox1.AppendText(Language.I.L[103]);
 
 			combobox1.Active = 8; // GBR
-			combobox1.Changed += new EventHandler (ExtractOrRotateChannels_OnCombobox1Changed);
+			combobox1.Changed += new EventHandler (ExtractOrRotateChannels_Combobox1Changed);
+
+			ProcessPreview ();
+		}
+
+		public FilterWidget (string pFilename, GaussianBlurFilter gaussianBlur) : this (pFilename)
+		{
+			this.gaussianBlur = gaussianBlur;
+			abstractFilter = gaussianBlur;
+
+			Title = Language.I.L [104];
+
+			frameHScales.Visible = true;
+			// Gaussian sigma value, [0.1, 7.0]. Default: 1.4
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[105] + "</b>";
+			hscale1.Value = 1.40;
+			hscale1.Adjustment.Lower = 0.11;
+			hscale1.Adjustment.Upper = 7.0;
+			hscale1.Adjustment.StepIncrement = 0.01;
+			hscale1.Digits = 2;
+			hscale1.ChangeValue += new ChangeValueHandler (GaussianBlur_Hscale1ChangeValue);
+			// Kernel size, [3, 11]. Default: 5
+			frame_hscale2.Visible = true;
+			lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[106] + "</b>";
+			hscale2.Value = 5;
+			hscale2.Adjustment.Lower = 3;
+			hscale2.Adjustment.Upper = 11;
+			hscale2.Adjustment.StepIncrement = 1;
+			hscale2.Digits = 0;
+			hscale2.ChangeValue += new ChangeValueHandler (GaussianBlur_Hscale2ChangeValue);
 
 			ProcessPreview ();
 		}
@@ -215,7 +250,12 @@ namespace Picturez
 //			lbFrameHScales.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrame_combobox1.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrame_combobox2.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrame_combobox3.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrame_hscale1.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrame_hscale2.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrame_hscale3.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrame_hscale4.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrame_hscale5.ModifyFg (StateType.Normal, colorConverter.FONT);
 		}
 
 		private void SetLanguageToGui()
@@ -227,6 +267,8 @@ namespace Picturez
 //			lbFrameHScales.LabelProp = "<b>" + Language.I.L[73] + "</b>";
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[77] + "</b>";
 			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[78] + "</b>";
+
+			checkBtnUse255ForAlpha.Label = Language.I.L[107] ;
 		}
 
 		private void FireFilterEvent(Bitmap filterBitmap)
@@ -255,11 +297,6 @@ namespace Picturez
 			File.Delete (tempFilterImageFileName);
 		}
 
-//		protected void OnExit (object sender, EventArgs e)
-//		{	
-//			OnDeleteEvent (sender, e as DeleteEventArgs);
-//		}
-
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
 			filterImage = abstractFilter.Apply (filterImage);
@@ -272,16 +309,9 @@ namespace Picturez
 			OnDeleteEvent (o, null);
 		}
 
-		protected void Grayscale_OnCombobox1Changed (object sender, EventArgs e)
+		protected void OnCheckBtnUse255ForAlphaToggled (object sender, EventArgs e)
 		{
-			grayscale.Algorithm = (GrayscaleFilter.CommonAlgorithms) combobox1.Active;
-			ProcessPreview ();
-		}
-
-		protected void ExtractOrRotateChannels_OnCombobox1Changed (object sender, EventArgs e)
-		{
-			//			Console.WriteLine ("Changed index: " + combobox1.Active);
-			extractOrRotateChannels.Order = (ExtractOrRotateChannelsFilter.RGBOrder) combobox1.Active;
+			abstractFilter.Use255ForAlpha = checkBtnUse255ForAlpha.Active;
 			ProcessPreview ();
 		}
 	}

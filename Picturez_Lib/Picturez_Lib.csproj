@@ -61,6 +61,7 @@
     <Compile Include="filter\InvertFilter.cs" />
     <Compile Include="AforgeImage.cs" />
     <Compile Include="filter\ExtractOrRotateChannelsFilter.cs" />
+    <Compile Include="filter\GaussianBlurFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

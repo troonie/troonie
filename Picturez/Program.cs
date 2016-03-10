@@ -21,6 +21,9 @@ namespace Picturez
 
 		public static void Main (string[] args)
 		{
+			// Does this work?
+			// button.ModifyBg(StateType.Prelight, new Gdk.Color(220, 220, 220));
+
 			Constants.I.Init ();
 			GetProgramIcon ();
 

@@ -11,6 +11,12 @@ namespace Picturez_Lib
 		private PixelFormatFlags supportedDstPixelFormat;
 		private PixelFormat dstPixelFormat;
 
+		/// <summary>
+		/// If <c>true</c> alpha channel of filtered image is always 255 (only in ARGB 32 bit images). 
+		/// Otherwise channel will be processed like the other RGB channels.
+		/// </summary>
+		public bool Use255ForAlpha { get; set; }
+
 		/// <summary>Defines supported pixel format for result image of the 
 		/// filter.</summary>
 		public PixelFormatFlags SupportedDstPixelFormat
@@ -88,6 +94,11 @@ namespace Picturez_Lib
 					break;
 				}
 			} 
+		}
+
+		protected AbstractFilter()
+		{
+			Use255ForAlpha = true;
 		}
 
 		/// <summary>

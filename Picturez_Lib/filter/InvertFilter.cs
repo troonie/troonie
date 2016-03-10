@@ -53,7 +53,7 @@ namespace Picturez_Lib
 
 					// alpha, 32 bit
 					if (ps == 4) {
-						dst [RGBA.A] = (byte)(255 - src [RGBA.A]);
+						dst [RGBA.A] = Use255ForAlpha ? (byte)255 : (byte)(255 - src [RGBA.A]);
 					}
 
 				}

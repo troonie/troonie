@@ -80,70 +80,70 @@ namespace Picturez_Lib
 						dst[RGBA.G] = src[RGBA.R];
 						dst[RGBA.B] = src[RGBA.R];
 						if (ps == 4)
-							dst[RGBA.A] = 255;
+							dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.R];
 						break;
 						case RGBOrder.G:
 						dst[RGBA.R] = src[RGBA.G];
 						dst[RGBA.G] = src[RGBA.G];
 						dst[RGBA.B] = src[RGBA.G];
 						if (ps == 4)
-							dst[RGBA.A] = 255;
+							dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.G];
 						break;
 						case RGBOrder.B:
 						dst[RGBA.R] = src[RGBA.B];
 						dst[RGBA.G] = src[RGBA.B];
 						dst[RGBA.B] = src[RGBA.B];
 						if (ps == 4)
-							dst[RGBA.A] = 255;
+							dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.B];
 						break;
 					case RGBOrder.A:
 						dst[RGBA.R] = src[RGBA.A];
 						dst[RGBA.G] = src[RGBA.A];
 						dst[RGBA.B] = src[RGBA.A];
 						if (ps == 4)
-							dst[RGBA.A] = 255;
+							dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.A];
 						break;
 						case RGBOrder.RGB:
 						dst[RGBA.R] = src[RGBA.R];
 						dst[RGBA.G] = src[RGBA.G];
 						dst[RGBA.B] = src[RGBA.B];
 						if (ps == 4)
-							dst[RGBA.A] = src[RGBA.A];
+							dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.A];
 						break;
 						case RGBOrder.RBG:
 						dst[RGBA.R] = src[RGBA.R];
 						dst[RGBA.G] = src[RGBA.B];
 						dst[RGBA.B] = src[RGBA.G];
 						if (ps == 4)
-							dst[RGBA.A] = src[RGBA.A];
+							dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.A];
 						break;
 						case RGBOrder.BRG:
 						dst[RGBA.R] = src[RGBA.B];
 						dst[RGBA.G] = src[RGBA.R];
 						dst[RGBA.B] = src[RGBA.G];
 						if (ps == 4)
-							dst[RGBA.A] = src[RGBA.A];
+							dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.A];
 						break;
 						case RGBOrder.BGR:
 						dst[RGBA.R] = src[RGBA.B];
 						dst[RGBA.G] = src[RGBA.G];
 						dst[RGBA.B] = src[RGBA.R];
 						if (ps == 4)
-							dst[RGBA.A] = src[RGBA.A];
+							dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.A];
 						break;
 						case RGBOrder.GBR:
 						dst[RGBA.R] = src[RGBA.G];
 						dst[RGBA.G] = src[RGBA.B];
 						dst[RGBA.B] = src[RGBA.R];
 						if (ps == 4)
-							dst[RGBA.A] = src[RGBA.A];
+							dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.A];
 						break;
 						case RGBOrder.GRB:
 						dst[RGBA.R] = src[RGBA.G];
 						dst[RGBA.G] = src[RGBA.R];
 						dst[RGBA.B] = src[RGBA.B];
 						if (ps == 4)
-							dst[RGBA.A] = src[RGBA.A];
+							dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.A];
 						break;
 					}
 				}

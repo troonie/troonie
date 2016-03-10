@@ -8,7 +8,7 @@ namespace Picturez
 		private global::Gtk.HBox hbox1;
 		private global::Gtk.VBox vboxImagePanel;
 		private global::Picturez.SimpleImagePanel simpleimagepanel1;
-		private global::Gtk.CheckButton checkBtnLivePreview;
+		private global::Gtk.CheckButton checkBtnUse255ForAlpha;
 		private global::Gtk.VBox vbox1;
 		private global::Gtk.Frame frameComboboxes;
 		private global::Gtk.Alignment AlignmentFrameComboboxes;
@@ -87,14 +87,15 @@ namespace Picturez
 			w1.Expand = false;
 			w1.Fill = false;
 			// Container child vboxImagePanel.Gtk.Box+BoxChild
-			this.checkBtnLivePreview = new global::Gtk.CheckButton ();
-			this.checkBtnLivePreview.CanFocus = true;
-			this.checkBtnLivePreview.Name = "checkBtnLivePreview";
-			this.checkBtnLivePreview.Label = global::Mono.Unix.Catalog.GetString ("Live Preview");
-			this.checkBtnLivePreview.DrawIndicator = true;
-			this.checkBtnLivePreview.UseUnderline = true;
-			this.vboxImagePanel.Add (this.checkBtnLivePreview);
-			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vboxImagePanel [this.checkBtnLivePreview]));
+			this.checkBtnUse255ForAlpha = new global::Gtk.CheckButton ();
+			this.checkBtnUse255ForAlpha.CanFocus = true;
+			this.checkBtnUse255ForAlpha.Name = "checkBtnUse255ForAlpha";
+			this.checkBtnUse255ForAlpha.Label = global::Mono.Unix.Catalog.GetString ("255 for Alpha channel");
+			this.checkBtnUse255ForAlpha.Active = true;
+			this.checkBtnUse255ForAlpha.DrawIndicator = true;
+			this.checkBtnUse255ForAlpha.UseUnderline = true;
+			this.vboxImagePanel.Add (this.checkBtnUse255ForAlpha);
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vboxImagePanel [this.checkBtnUse255ForAlpha]));
 			w2.Position = 1;
 			w2.Expand = false;
 			w2.Fill = false;
@@ -451,6 +452,7 @@ namespace Picturez
 			this.frameHScales.Hide ();
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+			this.checkBtnUse255ForAlpha.Toggled += new global::System.EventHandler (this.OnCheckBtnUse255ForAlphaToggled);
 			this.btnCancel.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnCancelButtonReleaseEvent);
 			this.btnOk.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnOkButtonReleaseEvent);
 		}

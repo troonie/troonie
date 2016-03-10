@@ -3337,13 +3337,15 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.CheckButton" id="checkBtnLivePreview">
+                  <widget class="Gtk.CheckButton" id="checkBtnUse255ForAlpha">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Label" translatable="yes">Live Preview</property>
+                    <property name="Label" translatable="yes">255 for Alpha channel</property>
+                    <property name="Active">True</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnCheckBtnUse255ForAlphaToggled" />
                   </widget>
                   <packing>
                     <property name="Position">1</property>
