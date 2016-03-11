@@ -49,7 +49,8 @@ namespace Picturez
 												Language.I.L[90], 
 												Language.I.L[91], 
 												Language.I.L[92], 
-												Language.I.L[104]};
+												Language.I.L[104],
+												Language.I.L[108]};
 
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", OnToolbarBtn_OpenPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", OnToolbarBtn_SaveAsPressed);

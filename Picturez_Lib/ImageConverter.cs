@@ -466,7 +466,7 @@ namespace Picturez_Lib
 			// unlock destination image
 			source.UnlockBits(srcData);
 			destination.UnlockBits(dstData);
-			ColorPalette.SetColorPaletteToGray(destination);
+			ColorPalette.I.SetColorPaletteToGray(destination);
 
 			return destination;
 		}
@@ -732,7 +732,7 @@ namespace Picturez_Lib
 			// unlock destination image
 			source.UnlockBits(srcData);
 			destination.UnlockBits(dstData);
-			ColorPalette.SetColorPaletteToGray(destination);
+			ColorPalette.I.SetColorPaletteToGray(destination);
 
 			return destination;
 		}

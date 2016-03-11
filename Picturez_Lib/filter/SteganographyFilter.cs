@@ -89,7 +89,7 @@ namespace Picturez_Lib
 //            Key = "Steganography";
 //        }
 
-        protected override unsafe void Process(BitmapData srcData, BitmapData dstData)
+		protected override internal unsafe void Process(BitmapData srcData, BitmapData dstData)
         {
 //            EndlessProgressBarFormInThread form = 
 //                new EndlessProgressBarFormInThread("Processing ... ", 

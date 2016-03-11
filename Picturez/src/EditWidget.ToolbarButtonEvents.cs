@@ -69,6 +69,10 @@ namespace Picturez
 				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 				fw = new FilterWidget (FileName, new GaussianBlurFilter());
 				break;
+			case 5:
+				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
+				fw = new FilterWidget (FileName, new CannyEdgeDetectorFilter());
+				break;
 			}
 
 			fw.FilterEvent += FilterEvent;

@@ -105,3 +105,4 @@ Gaussian Blur;Gauss-Weichzeichner
 Sigma;Sigma
 Kernel size;Filterkern-Länge
 255 for Alpha channel;255 für Alpha-Kanal
+Canny edge detector;Canny-Kantendetektor

@@ -56,7 +56,7 @@ namespace Picturez_Lib
 		/// </summary>
 		/// <param name="srcData">The source bitmap data.</param>
 		/// <param name="dstData">The destination bitmap data.</param>
-		protected override unsafe void Process(BitmapData srcData, BitmapData dstData)
+		protected internal override unsafe void Process(BitmapData srcData, BitmapData dstData)
 		{
 			int ps = Image.GetPixelFormatSize(srcData.PixelFormat) / 8;
 //			const int ps = 3;

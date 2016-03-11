@@ -107,7 +107,7 @@ namespace Picturez_Lib
 		/// </summary>
 		/// <param name="srcData">The source bitmap data.</param>
 		/// <param name="dstData">The destination bitmap data.</param>
-		protected abstract void Process(BitmapData srcData, BitmapData dstData);
+		protected abstract internal void Process(BitmapData srcData, BitmapData dstData);
 
 		/// <summary>
 		/// Checks, if the <paramref name="format"/> is supported by the filter. 
@@ -155,6 +155,11 @@ namespace Picturez_Lib
 			}
 		}
 
+		protected virtual void SetColorPalette(Bitmap b)
+		{
+			ColorPalette.I.SetColorPaletteToGray (b);
+		}
+
 		/// <summary>
 		/// Applies the filter on the passed <paramref name="source"/> bitmap.
 		/// </summary>
@@ -173,17 +178,7 @@ namespace Picturez_Lib
 
 			if (destination.PixelFormat == PixelFormat.Format8bppIndexed)
 			{
-				// -- ColorPalette.SetColorPaletteToGray(destination); --
-				// get palette
-				var cp = destination.Palette;
-				// init palette
-				for (int i = 0; i < 256; i++)
-				{
-					cp.Entries[i] = Color.FromArgb(i, i, i);
-				}
-				// set palette back
-				destination.Palette = cp;
-				// END -- ColorPalette.SetColorPaletteToGray(destination); --
+				SetColorPalette(destination);
 			}
 
 			return destination;

@@ -6,10 +6,22 @@
     /// Helper class for (re-)setting the bitmap's color palette.
     /// See function details for more information.
     /// </summary>
-    public static class ColorPalette
+    public class ColorPalette
     {
+		private static ColorPalette instance;
+		public static ColorPalette I
+		{
+			get
+			{
+				if (instance == null) {
+					instance = new ColorPalette ();
+				}
+				return instance;
+			}
+		}
+
         /// <summary> All 140 system-defined colors. </summary>
-        public static readonly Color[] Colors = new[]
+        public readonly Color[] Colors = new[]
         {
             Color.Red,
             Color.Green,
@@ -157,18 +169,18 @@
         /// <summary>
         /// Number of all <see cref="Colors"/> (<value>140</value> colors).
         /// </summary>
-        public static int ColorCount = Colors.Length;
+        public int ColorCount;
+
+		public ColorPalette()
+		{
+			ColorCount = Colors.Length;
+		}
 
         /// <summary>
         /// Sets the color palette of the <paramref name="bitmap"/> to the 
         /// canny edges chromatic circle.
-        /// <para><b>Canny edge's chromatic circle:</b></para>
-        /// <img src="../../Semicirc.jpg"/>
         /// </summary>
-        /// <param name="bitmap">The bitmap to set its color palette to canny 
-        /// edge's chromatic circle.</param>
-        /// <seealso cref="CannyEdgeDetector"/>
-        public static void SetCannyColorPalette(Bitmap bitmap)
+        public void SetCannyColorPalette(Bitmap bitmap)
         {
             // get palette
             var cp = bitmap.Palette;
@@ -192,7 +204,7 @@
         /// different colors, instead of standard 216 colors.
         /// </summary>
         /// <param name="bitmap">The bitmap to reset its color palette.</param>
-        public static void SetColorPalette(Bitmap bitmap)
+        public void SetColorPalette(Bitmap bitmap)
         {
             // get palette
             var cp = bitmap.Palette;
@@ -256,7 +268,7 @@
         /// </summary>
         /// <param name="bitmap">The bitmap to set its color palette to gray.
         /// </param>
-        public static void SetColorPaletteToGray(Bitmap bitmap)
+        public void SetColorPaletteToGray(Bitmap bitmap)
         {
             // get palette
             var cp = bitmap.Palette;

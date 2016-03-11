@@ -34,6 +34,7 @@ namespace Picturez
 //		private InvertFilter invert;
 		private ExtractOrRotateChannelsFilter extractOrRotateChannels;
 		private GaussianBlurFilter gaussianBlur;
+		CannyEdgeDetectorFilter cannyEdgeDetector;
 		#endregion filter
 
 		public FilterEventhandler FilterEvent;
@@ -137,6 +138,17 @@ namespace Picturez
 			hscale2.Digits = 0;
 			hscale2.ChangeValue += new ChangeValueHandler (GaussianBlur_Hscale2ChangeValue);
 
+			ProcessPreview ();
+		}
+
+		public FilterWidget (string pFilename, CannyEdgeDetectorFilter cannyEdgeDetector) : this (pFilename)
+		{
+			this.cannyEdgeDetector = cannyEdgeDetector;
+			abstractFilter = cannyEdgeDetector;
+			// TODO: Handle it as Property.
+			this.cannyEdgeDetector.OrientationColored = true;
+
+			Title = Language.I.L [108];
 			ProcessPreview ();
 		}
 
