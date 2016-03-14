@@ -289,16 +289,6 @@ namespace Picturez
 
 		#endregion RadioButton Toggle events
 
-		protected void OnEntryFilenameChanged (object sender, EventArgs e)
-		{			
-			Console.WriteLine ("Filename: " + entryFilename.Text);
-
-//			tbFilename.Text = Regex.Replace(tbFilename.Text, @"[\\/:?*^""<>|]", "_");
-//			string workingImageFilename =
-//				folderBrowserDialog.SelectedPath + "\\" + tbFilename.Text +
-//				lbImageFormat.Text;
-		}
-
 		protected void OnHscaleQualityValueChanged (object sender, EventArgs e)
 		{
 			config.JpgQuality = (byte)hscaleQuality.Value;

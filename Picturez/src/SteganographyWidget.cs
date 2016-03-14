@@ -354,7 +354,15 @@ namespace Picturez
 				b1 = ImageConverter.To32Bpp(bt.Bitmap);
 				b1 = filter.Apply (b1);
 
-				pseudo.Label2 = Language.I.L [83];
+				if (filter.Success) {
+					pseudo.Label2 = Language.I.L [83];
+				} else {
+					pseudo.Label1 =  Language.I.L [53];
+					pseudo.Label2 =  Language.I.L [52];
+				}
+
+				// reset Success
+				filter.Success = false;
 
 			} else {
 				b1 = filter.Apply (bt.Bitmap);

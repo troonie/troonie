@@ -120,16 +120,18 @@ namespace Picturez_Lib
 			else 
 				tmpNewFileName = config.Path + IOPath.DirectorySeparatorChar + relativeFileName;
 
-			if (config.FileOverwriting){
-				if (FileName != tmpNewFileName){
-					IOFile.Delete(FileName);
-				}
-			}else {
-				while(FileHelper.I.Exists(tmpNewFileName)){
-					tmpNewFileName = tmpNewFileName.Insert(tmpNewFileName.LastIndexOf('.'), "_1");				
+			if (config.StretchImage != ConvertMode.Editor)
+			{
+				if (config.FileOverwriting){
+					if (FileName != tmpNewFileName){
+						IOFile.Delete(FileName);
+					}
+				}else {
+					while(FileHelper.I.Exists(tmpNewFileName)){
+						tmpNewFileName = tmpNewFileName.Insert(tmpNewFileName.LastIndexOf('.'), "_1");				
+					}
 				}
 			}
-
 			FileName = tmpNewFileName;
 			#endregion FileOverwriting
 

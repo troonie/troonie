@@ -22,21 +22,25 @@
             return bytes;
         }
 
-        public static string Process(string text, int mod)
+        public static string Process(string text, byte endByte, int mod)
         {
             Byte[] bytes = GetBytesFromString(text);
             string result = "";
             
             for (int i = 0; i < bytes.Length; i++)
             {
-                if (bytes[i] != 59 && mod == 0) // 59 == ASCII for ';'
+				if (mod == 0 && bytes[i] != endByte)
                 {
                     bytes[i] = (byte) (bytes[i] - 2);
                 }
-                else if (bytes[i] != 57 && mod == 1) // 57+2=59 == ASCII for ';'
+				else if (mod == 1)
                 {
                     bytes[i] = (byte)(bytes[i] + 2);
                 }
+//				else if (bytes[i] == endByte && mod == 1){
+//					Console.WriteLine ("Is not possible?");
+//				}
+
                 result += (char)bytes[i];
             }                        
 

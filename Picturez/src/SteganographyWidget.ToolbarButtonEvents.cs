@@ -27,14 +27,24 @@ namespace Picturez
 		protected void OnToolbarBtn_SaveAsPressed (object sender, EventArgs e)
 		{
 			SaveAsDialog dialog = new SaveAsDialog(bt, ConvertMode.Editor);
+			bool runDialog = true;
 			dialog.AllowOnlyPng32BitAlphaAsValueSaving ();
-			if (dialog.Run () == (int)ResponseType.Ok) {
-				if (dialog.Process ()) {
-					FileName = dialog.SavedFileName;
-					bt.Dispose ();
-					Initialize(true);
-				}				
+
+			do
+			{
+				if (dialog.Run () == (int)ResponseType.Ok) {
+					if (dialog.Process ()) {
+						FileName = dialog.SavedFileName;
+						bt.Dispose ();
+						Initialize (true);
+						runDialog = false;
+					}
+				}
+				else {
+					runDialog = false;
+				}
 			}
+			while (runDialog);
 
 			dialog.Destroy();
 		}

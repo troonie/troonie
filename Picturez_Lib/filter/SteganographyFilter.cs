@@ -21,7 +21,7 @@ namespace Picturez_Lib
         /// <summary>
         /// Determines whether the writing process was successful or not.
         /// </summary>
-        public bool Success { get; private set; }
+        public bool Success { get; set; }
 
         /// <summary>
         /// The key to <see cref="SHA256"/>-encrypt the text.
@@ -29,6 +29,9 @@ namespace Picturez_Lib
         /// </summary>
         public string Key { get; set; }
 
+		// 126 == ~
+		// 32 == SP
+		const byte endByte = 32; 
         private string linesAsString;
         private int linesCount;
 
@@ -55,12 +58,12 @@ namespace Picturez_Lib
             linesAsString = "";
             foreach (string s in pLines)
             {
-                string s2 = s + ";";
-                // OUTER encryption by using RC4
-                s2 = AsciiInvertCharEncryption.Process(s2, 0);
+				string s2 = s + (char)endByte; // "~";
+                // TODO: OUTER encryption by using RC4
+                s2 = AsciiInvertCharEncryption.Process(s2, endByte, 0);
 
                 linesAsString += s2;
-                linesCount += s.Length + 1;                
+                linesCount += s2.Length;                
             }
         }
         #endregion lines properties
@@ -75,7 +78,7 @@ namespace Picturez_Lib
         /// </summary>
         public SteganographyFilter()
         {
-			// TODO: Allowing also 24 bit images
+			// TODO: Maybe allowing also 24 bit images?
 			SupportedSrcPixelFormat = PixelFormatFlags.Format32All;
 			SupportedDstPixelFormat = PixelFormatFlags.Format32BppArgb;
 
@@ -132,7 +135,8 @@ namespace Picturez_Lib
 
                     if (WritingMode)
                     {                        
-                        dst[RGBA.A] = (byte)r.Next(200, 255);
+						// original: dst[RGBA.A] = (byte)r.Next(200, 255);
+                        dst[RGBA.A] = (byte)r.Next(180, 255);
                     }
                 }
                 src += offset;
@@ -177,6 +181,8 @@ namespace Picturez_Lib
                 src += distH * stride + distW * ps;
                 dst += distH * stride + distW * ps;
 
+				byte smallest = 255;
+				int smallestCount = 0;
 
                 // for each line
                 for (int y = distH; y < h - distH; y++)
@@ -205,7 +211,11 @@ namespace Picturez_Lib
                         byte byteC = (byte)(255 - intC);                           
                         dst[RGBA.A] = byteC;
                         // TODO write
-                        // Console.WriteLine("Alpha write= " + byteC);
+                         Console.WriteLine("Alpha write= " + byteC);
+						smallest = Math.Min (smallest, byteC);
+						if (byteC <= 180) {
+							smallestCount++;
+						}
                     }
 
                     src += 2 * distW * ps + offset;
@@ -213,6 +223,8 @@ namespace Picturez_Lib
                 }
                 
                 Success = true;
+				Console.WriteLine ("Smallest= " + smallest);
+				Console.WriteLine ("Small counter= " + smallestCount + " / " + linesAsString.Length);
             }
             else // read-in mode
             {
@@ -274,10 +286,10 @@ namespace Picturez_Lib
                         //    c = 'Z';
                         //}
 
-                        if (c == ';')
+                        if (c == '~')
                         {
                             // OUTER decryption by using RC4
-                            tmp = AsciiInvertCharEncryption.Process(tmp, 1);
+							tmp = AsciiInvertCharEncryption.Process(tmp, endByte, 1);
                             lines.Add(tmp);
                             tmp = "";
                         }
