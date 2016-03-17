@@ -25,7 +25,7 @@ namespace Picturez_Lib
 		public OnUpdateAvailableDelegate OnUpdateAvailable;
 
 		public const int TIME_DOUBLECLICK = 500; 
-		public const string AUTHOR = "Picturez Group";
+		public const string AUTHOR = "Picturez Project";
 		public const string EXENAME = "Picturez.exe";
 		public const string ICONNAME = "icon.ico";
 		public const string WEBSITE = "http://picturez-project.de";
@@ -35,9 +35,10 @@ namespace Picturez_Lib
 			"http://picturez-project.de/PicturezVersion";
 		public const string TITLE = "Picturez";
 		public const string TITLE_LIB = "Picturez_Lib";
-		public const string DESCRIPTION_FIX_IN_ENGLISH = "A slender tool to convert and edit photos.";
-		public const string VERSION = "3.0.0.1";
-		public static DateTime PUBLISHDATE = new DateTime (2016, 03, 10);
+		public const string DESCRIPTION_FIX_IN_ENGLISH = 
+		"A slender tool to convert, edit and filter photos as well as work with steganography.";
+		public const string VERSION = "3.0.0.2";
+		public static DateTime PUBLISHDATE =  DateTime.Today; // new DateTime (2016, 03, 18);
 		public static string PUBLISHDATE_STRING {
 			get {
 //				return PICTUREZ_PUBLISHDATE.ToString ("d", new CultureInfo("en-US"));

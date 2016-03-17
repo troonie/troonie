@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("www.picturez-project.de")]
 [assembly: AssemblyProduct ("Picturez Installer")]
-[assembly: AssemblyCopyright ("Picturez Group")]
+[assembly: AssemblyCopyright ("Picturez Project")]
 [assembly: AssemblyTrademark ("www.picturez-project.de")]
 [assembly: AssemblyCulture ("")]
 

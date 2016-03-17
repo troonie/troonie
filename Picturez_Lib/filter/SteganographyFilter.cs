@@ -1,17 +1,24 @@
 namespace Picturez_Lib
 {
-//    using Helper;
     using System;
     using System.Collections.Generic;
     using System.Drawing.Imaging;
     using System.Globalization;
     using System.Security.Cryptography;
     
-    /// <summary>
-    /// The filter grayscales colored and images.
-    /// </summary>
+	/// <summary>
+	/// Steganography filter. All rights are reserved. 
+	/// Copyright © Picturez Project
+	/// </summary>
     public class SteganographyFilter : AbstractFilter
     {
+		/// <summary>
+		/// The minimum alpha fill value, used for filling random values in the range [AlphaFillValueMinimum, 255].
+		/// Note: The bigger the value, the image noise AS WELL AS the obfuscation will be reduced. 
+		/// Default: 100 (no reduced obfuscation).
+		/// </summary>
+		public byte AlphaFillValueMinimum { get; set; }
+
         /// <summary>
         /// Determines whether the <see cref="Steganography"/> algorithm reads 
         /// out or writes into the image.
@@ -19,32 +26,34 @@ namespace Picturez_Lib
         public bool WritingMode { get; set; }
 
         /// <summary>
-        /// Determines whether the writing process was successful or not.
+		/// Determines whether the steganography writing process was successful or not.
         /// </summary>
-        public bool Success { get; set; }
+        public bool Success { get; private set; }
 
+		private string key;
         /// <summary>
-        /// The key to <see cref="SHA256"/>-encrypt the text.
-        /// Default value (set in constructor): "Steganography". 
-        /// </summary>
-        public string Key { get; set; }
+		/// The key to encrypt the text.
+		/// Default value (set in constructor): "Steganography". 
+		/// </summary>
+		public string Key {
+			get {
+				return key;
+			}
+			set {
+				key = value;
+				asciiMoveValue = GetQuerSumOfByte((byte)value.Length);
+			}
+		}
 
-		// 126 == ~
-		// 32 == SP
-		const byte endByte = 32; 
+		/// <summary>Final byte, added in the end of a line. Signals line wrapping. </summary>
+		const byte endByte = 126; // '~' 
+		private byte asciiMoveValue; 
         private string linesAsString;
-        private int linesCount;
+        private int charCount;
 
         #region lines properties
-        /// <summary>
-        /// The text in form of lines to (de-)code.
-        /// </summary>
-        private List<string> lines;
 
-//        public void InitLines()
-//        {
-//            lines = new List<string>();
-//        }
+		private List<string> lines;
 
         public string[] GetLines()
         {
@@ -53,25 +62,23 @@ namespace Picturez_Lib
 
         public void FillLines(string[] pLines)
         {
-            lines.AddRange(pLines);
-            linesCount = 0;
-            linesAsString = "";
+			charCount = 0;
+			linesAsString = string.Empty;
+			lines.Clear ();
+            lines.AddRange(pLines);            
+            
             foreach (string s in pLines)
             {
-				string s2 = s + (char)endByte; // "~";
-                // TODO: OUTER encryption by using RC4
-                s2 = AsciiInvertCharEncryption.Process(s2, endByte, 0);
+				string s2 = s + (char)endByte;
+                // TODO: OUTER encryption by using RC4 or other
+				s2 = AsciiTableCharMove.MovingBySubtracting(s2, endByte, asciiMoveValue);
 
                 linesAsString += s2;
-                linesCount += s2.Length;                
+                charCount += s2.Length;                
             }
         }
-        #endregion lines properties
 
-        /// <summary>
-        ///  The used distance of two characters.
-        /// </summary>
-        private int Pin { get; set; }
+        #endregion lines properties
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Steganography"/> class.
@@ -83,215 +90,201 @@ namespace Picturez_Lib
 			SupportedDstPixelFormat = PixelFormatFlags.Format32BppArgb;
 
 			lines = new List<string>();
-//            ResetKey();
 			Key = "Steganography";
+			AlphaFillValueMinimum = 100;
         }
-
-//        public void ResetKey()
-//        {
-//            Key = "Steganography";
-//        }
 
 		protected override internal unsafe void Process(BitmapData srcData, BitmapData dstData)
         {
-//            EndlessProgressBarFormInThread form = 
-//                new EndlessProgressBarFormInThread("Processing ... ", 
-//                    "Please wait, this takes a view seconds.");
-//            form.Start();
+			const int ps = 4;     
+			const int numberOfPinChar = 2;
 
-            byte[] pwSha = GetPassword(Key, false);
-            byte[] pwMurmur = GetPassword(Key, true);
-            byte[] hashArray = GetHashArray(pwSha, pwMurmur);
-            Random r = new Random();
-            int pinPosition = 0;
-            int indexChar = 0;
-            int indexKey = 0;
-
-            const int ps = 4;            
+            byte[] pwSha = EncryptKey(Key, false);
+            byte[] pwMurmur = EncryptKey(Key, true);
+            byte[] hash = GetHashByShaAndMurmur(pwSha, pwMurmur);
+			hash = GetQuerSumOfBytes(hash);
+			int hashLengthMinus1 = hash.Length - 1;
+			int sumHashElements = GetSumOfElements (hash); // 1216; // 64 * 19(=1+9+9)  
+			Console.WriteLine ("sumHashElements: " + sumHashElements);
+			int distance;
+            int position = 0;            
+            int indexKey = 0;          
             int w = srcData.Width;
             int h = srcData.Height;
-            int borderDistInPercent = GetborderDist(w, h);
+            // int borderDistInPercent = GetborderDist(w, h);
             int stride = srcData.Stride;
             int offset = stride - w * ps;
 
-            int distW = (int)(w * borderDistInPercent / 100.0f);
-            int distH = (int)(h * borderDistInPercent / 100.0f);
+			int startH = sumHashElements / w;
+			int startW = sumHashElements - w * startH;
+			// check and correct special startW border position
+			if (startW >= w - numberOfPinChar) {
+				startW -= numberOfPinChar;
+			} 
 
-            byte* src = (byte*)srcData.Scan0.ToPointer();
-            byte* dst = (byte*)dstData.Scan0.ToPointer();
+            byte* src = (byte*)srcData.Scan0.ToPointer();      
+			byte* dst = (byte*)dstData.Scan0.ToPointer();
 
-            // clone bitmap to provide an (almost, but with coded text) 
-            // identical result image.
-            // for each line
-            for (int y = 0; y < h; y++)
-            {
-                // for each pixel
-                for (int x = 0; x < w; x++, src += ps, dst += ps)
-                {
-                    dst[RGBA.R] = src[RGBA.R];
-                    dst[RGBA.G] = src[RGBA.G];
-                    dst[RGBA.B] = src[RGBA.B];
-                    dst[RGBA.A] = src[RGBA.A];
+			#region clone bitmap
+			Random r = new Random();
+			long avg0 = 0;
+			// for each line
+			for (int y = 0; y < h; y++)
+			{
+				// for each pixel
+				for (int x = 0; x < w; x++, src += ps, dst += ps)
+				{
+					dst[RGBA.R] = src[RGBA.R];
+					dst[RGBA.G] = src[RGBA.G];
+					dst[RGBA.B] = src[RGBA.B];
+					dst[RGBA.A] = src[RGBA.A];
 
-                    if (WritingMode)
-                    {                        
+					if (WritingMode)
+					{                        
 						// original: dst[RGBA.A] = (byte)r.Next(200, 255);
-                        dst[RGBA.A] = (byte)r.Next(180, 255);
-                    }
-                }
-                src += offset;
-                dst += offset;
-            }
+						dst[RGBA.A] = (byte)r.Next(AlphaFillValueMinimum, 255);
+						avg0 += dst[RGBA.A];
+					}
+				}
+				src += offset;
+				dst += offset;
+			}
+			avg0 = avg0 / (w * h);
+			Console.WriteLine ("avg0= " + avg0);
+			#endregion clone bitmap
            
             if (WritingMode)
             {
-                int countY = h - 2 * distH;
-                int countX = w - 2 * distW;
-                // -1 to disable overflow
-                int countXY = countX * countY - 1;
+				long avg1 = 0;
+				int indexChar = 0;
+				// -w as one line reserved for saving distance value
+				int numberUsablePx = w * h - sumHashElements - w; 
+				distance = Math.Min(numberUsablePx / charCount - 1, 9999);
 
-                if (linesCount > countXY || linesCount == 0)
+				if (charCount > numberUsablePx || charCount == 0)
                 {
                     Success = false;
-//                    // close form
-//                    form.End();
                     return;
                 }
 
-                Pin = Math.Min(countXY / linesCount, 9999);                
-
-                #region Save Pin in first line
-                dst = (byte*)dstData.Scan0.ToPointer();
-                // TODO save PIN
-                int pinPart1 = Pin / 100;
-                int pinPart2 = Pin - pinPart1 * 100;
-                // do encryption by substracting hashArray element
-                pinPart1 -= hashArray[0];
-                pinPart2 -= hashArray[1];
-                // set PIN position at half of image width
-                dst +=  (w / 2) * ps;
-                dst[RGBA.A] = (byte)(255 - pinPart1);
+				#region Save Pin in startH line                
+                int distancePart1 = distance / 100;
+                int distancePart2 = distance - distancePart1 * 100;
+                // do encryption by substracting hash element
+                distancePart1 -= hash[0];
+                distancePart2 -= hash[1];
+				dst = (byte*)dstData.Scan0.ToPointer();
+				dst +=  startH * stride + startW * ps;
+                dst[RGBA.A] = (byte)(255 - distancePart1);
+				dst[RGBA.G] = 255;
                 dst += ps;
-                dst[RGBA.A] = (byte)(255 - pinPart2);
-                #endregion Save Pin in first line
+                dst[RGBA.A] = (byte)(255 - distancePart2);
+				dst[RGBA.G] = 255;
+				startH++; // One line reserved for saving distance value
+				#endregion Save Pin in startH line
                 
                 src = (byte*)srcData.Scan0.ToPointer();
                 dst = (byte*)dstData.Scan0.ToPointer();
-                // align pointer
-                src += distH * stride + distW * ps;
-                dst += distH * stride + distW * ps;
-
-				byte smallest = 255;
-				int smallestCount = 0;
+				src += startH * stride + startW * ps;
+				dst += startH * stride + startW * ps;
 
                 // for each line
-                for (int y = distH; y < h - distH; y++)
+				for (int y = startH; y < h; y++)
                 {
+					int startX = 0;
+					// when starting, set to correct start in line, otherwise it starts at pos 0
+					if (y == startH) {
+						startX = startW;
+					}
+
                     // for each pixel
-                    for (int x = distW; x < w - distW;
+					for (int x = startX; x < w;
                         x++,
                         src += ps,
                         dst += ps,                        
-                        pinPosition = pinPosition < Pin ? pinPosition + 1 : 0,
-                        indexKey = indexKey == 31 ? 0 : indexKey + 1)
+					     position = position < distance ? position + 1 : 0,
+					     indexKey = indexKey == hashLengthMinus1 ? 0 : indexKey + 1)
                     {
-
-                        if (pinPosition != 0 || indexChar >= linesAsString.Length)
+                        if (position != 0 || indexChar >= linesAsString.Length)
                         {                            
                             continue;
                         }
 
                         char c = linesAsString[indexChar];
-                        indexChar++;
                         int intC = c;
+						// INNER encryption by substracting hash element
+						intC -= hash [indexKey];
 
-                        // INNER encryption by substracting hashArray element
-                        intC -= hashArray[indexKey];
+						byte byteC = (byte)(255 - intC);                           
+						dst [RGBA.A] = byteC;
+						dst [RGBA.R] = 255;
+						avg1 += byteC;
 
-                        byte byteC = (byte)(255 - intC);                           
-                        dst[RGBA.A] = byteC;
-                        // TODO write
-                         Console.WriteLine("Alpha write= " + byteC);
-						smallest = Math.Min (smallest, byteC);
-						if (byteC <= 180) {
-							smallestCount++;
-						}
+						indexChar++;
                     }
 
-                    src += 2 * distW * ps + offset;
-                    dst += 2 * distW * ps + offset;
+					src += offset;
+					dst += offset;
                 }
                 
                 Success = true;
-				Console.WriteLine ("Smallest= " + smallest);
-				Console.WriteLine ("Small counter= " + smallestCount + " / " + linesAsString.Length);
+
+				avg1 = avg1 / linesAsString.Length;
+				Console.WriteLine ("avg1= " + avg1);
             }
             else // read-in mode
             {
-                // TODO read-out PIN
-                #region Read out Pin in first line
-                dst = (byte*)dstData.Scan0.ToPointer();
-                // set PIN position at half of image width
-                dst += (w / 2) * ps;
-                byte pinPart1 = (byte)Math.Abs(dst[RGBA.A] - 255);
-                // do decryption by adding sha256Key element
-                pinPart1 += hashArray[0];
-                dst += ps;
-                byte pinPart2 = (byte)Math.Abs(dst[RGBA.A] - 255);
-                pinPart2 += hashArray[1];
-                Pin = pinPart1 * 100 + pinPart2;                
-                #endregion Read out in first line
+                #region Read out distance in StartH line
+				src = (byte*)srcData.Scan0.ToPointer();
+				src +=  startH * stride + startW * ps;
+				byte pinPart1 = (byte)Math.Abs(src[RGBA.A] - 255);
+                // do decryption by adding hash element
+                pinPart1 += hash[0];
+				src += ps;
+				byte pinPart2 = (byte)Math.Abs(src[RGBA.A] - 255);
+                pinPart2 += hash[1];
+                distance = pinPart1 * 100 + pinPart2;  
+				startH++; // one line reserved for saving distance value
+				#endregion Read out distance in StartH line 
 
-                string tmp = "";
+                string tmp = string.Empty;
 
-                src = (byte*)srcData.Scan0.ToPointer();
-                dst = (byte*)dstData.Scan0.ToPointer();
-                // align pointer
-                src += distH * stride + distW * ps;
-                dst += distH * stride + distW * ps;
+				src = (byte*)srcData.Scan0.ToPointer();
+				src += startH * stride + startW * ps;
 
                 // for each line
-                for (int y = distH; y < h - distH; y++)
-                {                                       
+				for (int y = startH; y < h; y++)
+                {                 
+					int startX = 0;
+					// when starting, set to correct start in line, otherwise it starts at pos 0
+					if (y == startH) {
+						startX = startW;
+					}
+
                     // for each pixel
-                    for (int x = distW; x < w - distW;
+					for (int x = startX; x < w;
                         x++,
                         src += ps,
-                        dst += ps,
-                        pinPosition = pinPosition < Pin ? pinPosition + 1 : 0,
-                        indexKey = indexKey == 31 ? 0 : indexKey + 1)
+                        position = position < distance ? position + 1 : 0,
+					     indexKey = indexKey == hashLengthMinus1 ? 0 : indexKey + 1)
                     {
-                        if (pinPosition != 0)
+                        if (position != 0)
                         {
                             continue;
                         }
 
                         byte byteC = src[RGBA.A];
                         byteC = (byte)Math.Abs(byteC - 255);
-
-
                         // INNER decryption by adding hashArray element
-                        byteC += hashArray[indexKey];
-
+                        byteC += hash[indexKey];
                         char c = (char)byteC;
 
-                        //// replaces white space and control characters
-                        //if (c == '\0' || c == '\f' || c == '\n' || c == '\t' ||
-                        //    c == '\v' || c == '\r')
-                        //{
-                        //    c = 'X';
-                        //}
-                        //else if (char.IsControl(c))
-                        //{
-                        //    c = 'Z';
-                        //}
-
-                        if (c == '~')
+                        if (c == (char)endByte)
                         {
-                            // OUTER decryption by using RC4
-							tmp = AsciiInvertCharEncryption.Process(tmp, endByte, 1);
+                            // OUTER decryption
+							tmp = AsciiTableCharMove.MovingByAdding(tmp, asciiMoveValue);
                             lines.Add(tmp);
-                            tmp = "";
+							tmp = string.Empty;
                         }
                         else
                         {
@@ -299,86 +292,96 @@ namespace Picturez_Lib
                         }
                     }
 
-                    src += 2 * distW * ps + offset;
-                    dst += 2 * distW * ps + offset;
+                    src += offset;
                 }
             }
-
-//            // close form
-//            form.End();
         }
 
         #region private helper methods
 
-        private static byte[] GetHashArray(byte[] pwSha, byte[] pwMurmur)
+		private static int GetSumOfElements(byte[] array)
+		{
+			int sum = 0;
+			foreach (byte item in array) {
+				sum += item;
+			}
+
+			return sum;
+		}
+
+        private static byte[] GetHashByShaAndMurmur(byte[] pwSha, byte[] pwMurmur)
         {
-            SHA256 sha256 = new SHA256CryptoServiceProvider();
-            // byte[] textToHash = Encoding.ASCII.GetBytes(key);
-            
-            uint seedMurmur = 0;
-            foreach (byte b in pwMurmur)
-            {
-                seedMurmur += b;
-            }
-            byte[] hashArray = sha256.ComputeHash(pwSha);
-            sha256.Clear();
+//            SHA256 sha256 = new SHA256CryptoServiceProvider();
+			SHA512 sha512 = new SHA512Managed();			       
+            byte[] hashArray = sha512.ComputeHash(pwSha);
+            sha512.Clear();
 
-
+			uint seedMurmur = 0;
+			foreach (byte b in pwMurmur)
+			{
+				seedMurmur += b;
+			}
             Murmur3 m = new Murmur3(seedMurmur);
             byte[] murmur = m.ComputeHash(pwMurmur);
             // m = null;
-            
-            
-            for (int i = 0, j = 0; i < 32; i++, j++ )
+                        
+			for (int i = 0, j = 0; i < hashArray.Length; i++, j++ )
             {
-                if (j == 16)
+                if (j == murmur.Length)
                 {
                     j = 0;
                 }
                 hashArray[i] = (byte) (hashArray[i] + murmur[j]);
             }
 
-            hashArray = GetQuerSumOfBytes(hashArray);
-
             return hashArray;
         }
+
+		private static byte GetQuerSumOfByte(byte b)
+		{
+			int three = (int)(b / 100);
+			int two = (int)((b - (three * 100)) / 10);
+			int one = (int)(b - three * 100 - two * 10);
+			b = (byte)(three + two + one);
+
+			return b;
+		}
 
         private static byte[] GetQuerSumOfBytes(byte[] array)
         {
             for (int i = 0; i < array.Length; i++)
             {
-                float b = array[i];
-
-                int three = (int)(b / 100);
-                int two = (int)((b - (three * 100)) / 10);
-                int one = (int)(b - three * 100 - two * 10);
-                array[i] = (byte)(three + two + one);
+				array[i] = GetQuerSumOfByte(array[i]);
             }
 
             return array;
         }
         
-        private static int GetborderDist(int w, int h)
-        {
-            int res = w * h; // resolution
-            // shifting right (e.g. 8 >> 2 = 2 --> 8 / 2 = 4 / 2 = 2)            
-            string shift = (res >> 2).ToString(CultureInfo.InvariantCulture);
-            int a = int.Parse(shift.Substring(0, 1));            
-            return Math.Max(a, 1);
-        }
+//        private static int GetborderDist(int w, int h)
+//        {
+//            int res = w * h; // resolution
+//            // shifting right (e.g. 8 >> 2 = 2 --> 8 / 2 = 4 / 2 = 2)            
+//            string shift = (res >> 2).ToString(CultureInfo.InvariantCulture);
+//            int a = int.Parse(shift.Substring(0, 1));            
+//            return Math.Max(a, 1);
+//        }
 
-        private static byte[] GetPassword(string key, bool appendKey)
+		/// <summary>
+		/// (Simple) Encrypts the passed key. Two simple algorithms are available. 
+		/// If parameter useVersion2 is set to true, algorithm 2 is used. Otherwise algorithm 1.
+		/// </summary>
+		private static byte[] EncryptKey(string key, bool useAlgorithm2)
         {
             double e = Math.E;
             double pi = Math.PI;
 
-            if (!appendKey)
+            if (!useAlgorithm2)
             {
                 e = e * pi * pi;
                 pi = pi * e * e;
             }
 
-            byte[] keyBytes = AsciiInvertCharEncryption.GetBytesFromString(key);
+            byte[] keyBytes = AsciiTableCharMove.GetBytesFromString(key);
             double t1 = 0;
             double t2 = 0;
             double t3 = 0;
@@ -419,7 +422,7 @@ namespace Picturez_Lib
 
             for (int i = 0; i < keyBytes.Length; i++)
             {
-                result[n + i] = appendKey ? keyBytes[i] : result[i];    
+                result[n + i] = useAlgorithm2 ? keyBytes[i] : result[i];    
             }
 
             return result;

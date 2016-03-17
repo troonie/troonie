@@ -2,7 +2,7 @@
 {
     using System;
 
-    public static class AsciiInvertCharEncryption
+    public static class AsciiTableCharMove
     {
         /// <summary>
         /// Own Encoding.ASCII.GetBytes() method, because original one does not 
@@ -22,29 +22,30 @@
             return bytes;
         }
 
-        public static string Process(string text, byte endByte, int mod)
-        {
-            Byte[] bytes = GetBytesFromString(text);
-            string result = "";
-            
-            for (int i = 0; i < bytes.Length; i++)
-            {
-				if (mod == 0 && bytes[i] != endByte)
-                {
-                    bytes[i] = (byte) (bytes[i] - 2);
-                }
-				else if (mod == 1)
-                {
-                    bytes[i] = (byte)(bytes[i] + 2);
-                }
-//				else if (bytes[i] == endByte && mod == 1){
-//					Console.WriteLine ("Is not possible?");
-//				}
+		public static string MovingBySubtracting(string text, byte endByte, int value)
+		{
+			Byte[] bytes = GetBytesFromString(text);
+			string result = string.Empty;
 
-                result += (char)bytes[i];
-            }                        
+			for (int i = 0; i < bytes.Length; i++)
+			{
+				result += bytes[i] == endByte ? (char)bytes[i] : (char)(bytes[i] - value);
+			}                        
 
-            return result;            
+			return result;            
+		}
+
+		public static string MovingByAdding(string text, int value)
+        { 
+			Byte[] bytes = GetBytesFromString(text);
+			string result = string.Empty;
+
+			for (int i = 0; i < bytes.Length; i++)
+			{
+				result += (char)(bytes[i] + value);
+			}                        
+
+			return result;  
         }
     }
 
@@ -52,7 +53,7 @@
     {
         public static string Process(string text, Byte[] key)
         {
-            Byte[] bytes = AsciiInvertCharEncryption.GetBytesFromString(text);
+            Byte[] bytes = AsciiTableCharMove.GetBytesFromString(text);
 
             Byte[] s = new Byte[256];
             Byte[] k = new Byte[256];

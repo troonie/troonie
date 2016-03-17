@@ -51,7 +51,7 @@ File already exists. Overwrite?;Datei existiert bereits. Überschreiben?
 No image file or image cannot be loaded.;Keine Bilddatei oder Bild kann nicht geladen werden.
 Too small image and too much text to decrypt correctly.;Zu kleines Bild und zu viel Text für korrekte Verschlüsselung.
 ERROR.;FEHLER.
-A slender tool to convert and edit photos.;Ein schlankes Tool zum Umwandeln und Bearbeiten von Fotos.
+A slender tool to convert, edit and filter photos as well as work with steganography.;Ein schlankes Tool zum Konvertieren, Bearbeiten und Filtern von Fotos sowie für Steganografie.
 *********;*********
 *********;*********
 Should Picturez add context menu entries for the desktop?; Soll Picturez Kontextmenüeinträge für den Desktop anlegen? 

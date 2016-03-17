@@ -51,7 +51,6 @@
     <Compile Include="Language.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="RotateBilinear.cs" />
-    <Compile Include="AsciiInvertCharEncryption.cs" />
     <Compile Include="Murmur3.cs" />
     <Compile Include="ConfigConvert.cs" />
     <Compile Include="ConfigEdit.cs" />
@@ -63,6 +62,7 @@
     <Compile Include="filter\ExtractOrRotateChannelsFilter.cs" />
     <Compile Include="filter\GaussianBlurFilter.cs" />
     <Compile Include="filter\CannyEdgeDetectorFilter.cs" />
+    <Compile Include="AsciiTableCharMove.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

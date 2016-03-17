@@ -157,11 +157,6 @@
             h1 ^= MixKey1(k1);
             h2 ^= MixKey2(k2);
         }
-
-        //public Murmur3(uint seed)
-        //{
-        //    this.seed = seed;
-        //}
  
         private byte[] Hash
         {

@@ -361,8 +361,8 @@ namespace Picturez
 					pseudo.Label2 =  Language.I.L [52];
 				}
 
-				// reset Success
-				filter.Success = false;
+//				// reset Success
+//				filter.Success = false;
 
 			} else {
 				b1 = filter.Apply (bt.Bitmap);
