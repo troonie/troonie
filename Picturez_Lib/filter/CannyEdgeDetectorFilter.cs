@@ -24,9 +24,9 @@ namespace Picturez_Lib
 	/// orientation with colors of canny edge's chromatic circle (see image below).
 	/// </para>
 	/// </remarks>
-	public class CannyEdgeDetectorFilter : AbstractFilter
+	public class CannyEdgeDetectorFilter : GaussianBlurFilter
 	{
-		private readonly GaussianBlurFilter gaussianFilter;        
+//		private readonly GaussianBlurFilter gaussianFilter;        
 		private bool orientationColored;
 
 		#region public properties
@@ -58,32 +58,6 @@ namespace Picturez_Lib
 		public byte HighThreshold { get; set; }
 
 		/// <summary>
-		/// Gaussian sigma.
-		/// </summary>
-		/// 
-		/// <remarks>Sigma value for <see cref="TPGaussianBlur.Sigma">
-		/// Gaussian bluring</see>.</remarks>
-		/// 
-		public double GaussianSigma
-		{
-			get { return gaussianFilter.Sigma; }
-			set { gaussianFilter.Sigma = value; }
-		}
-
-		/// <summary>
-		/// Gaussian size.
-		/// </summary>
-		/// 
-		/// <remarks>Size of <see cref="TPGaussianBlur.Size">
-		/// Gaussian kernel</see>.</remarks>
-		/// 
-		public int GaussianSize
-		{
-			get { return gaussianFilter.Size; }
-			set { gaussianFilter.Size = value; }
-		}
-
-		/// <summary>
 		/// Determines whether the color palette of the filter bitmap is set to  
 		/// values of canny edges chromatic circle. Default: false.
 		/// </summary>
@@ -104,8 +78,6 @@ namespace Picturez_Lib
 			SupportedDstPixelFormat = PixelFormatFlags.Format8BppIndexed;            
 			LowThreshold = 20;
 			HighThreshold = 40;
-
-			gaussianFilter = new GaussianBlurFilter();
 		}
 
 		protected override void SetColorPalette(Bitmap b)
@@ -151,6 +123,8 @@ namespace Picturez_Lib
 			//			BitmapData srcData = source.LockBits(rect, ImageLockMode.ReadWrite, source.PixelFormat);
 			BitmapData blurData = blur.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
 			GaussianBlurFilter gaussianFilter = new GaussianBlurFilter();
+			gaussianFilter.Sigma = Sigma;
+			gaussianFilter.Size = Size;
 			gaussianFilter.Process(dstData, blurData);
 
 //			Rectangle rect = new Rectangle(0, 0, blur.Width, blur.Height);

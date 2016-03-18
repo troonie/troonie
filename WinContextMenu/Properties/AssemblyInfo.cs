@@ -5,10 +5,10 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle ("WinContextMenu")]
-[assembly: AssemblyDescription ("Picturez Installer")]
+[assembly: AssemblyDescription ("Windows context menu for Picturez")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("www.picturez-project.de")]
-[assembly: AssemblyProduct ("Picturez Installer")]
+[assembly: AssemblyProduct ("Windows context menu for Picturez")]
 [assembly: AssemblyCopyright ("Picturez Project")]
 [assembly: AssemblyTrademark ("www.picturez-project.de")]
 [assembly: AssemblyCulture ("")]
@@ -17,7 +17,7 @@ using System.Runtime.CompilerServices;
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-[assembly: AssemblyVersion ("1.0.*")]
+[assembly: AssemblyVersion ("3.1.0.1")]
 
 // The following attributes are used to specify the signing key for the assembly,
 // if desired. See the Mono documentation for more information about signing.

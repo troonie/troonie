@@ -106,3 +106,12 @@ Sigma;Sigma
 Kernel size;Filterkern-Länge
 255 for Alpha channel;255 für Alpha-Kanal
 Canny edge detector;Canny-Kantendetektor
+Too short key;Zu kurzer Schlüssel
+Used key (;Der verwendete Schlüssel (
+ character) is very short and thereby unsafe.; Zeichen) ist sehr kurz und damit unsicher. 
+The key should not have less than 10 character. Continue anyway?;Der Schlüssel sollte mindestens 10 Zeichen haben. Trotzdem fortfahren?
+Low Threshold;Unterer Schwellwert
+High Threshold;Oberer Schwellwert
+Orientation colored; Orientierung farb-kodiert
+On;An
+Off;Aus

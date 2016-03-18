@@ -6,6 +6,62 @@ namespace Picturez
 {
 	public partial class FilterWidget
 	{
+		#region Canny
+		private bool CannyEdgeDetector_HscaleTimeoutHandler()
+		{
+			cannyEdgeDetector.Sigma = hscale1.Value;
+			cannyEdgeDetector.Size = (int) hscale2.Value;
+			cannyEdgeDetector.LowThreshold = (byte) hscale3.Value;
+			cannyEdgeDetector.HighThreshold = (byte) hscale4.Value;
+			ProcessPreview ();
+
+			repeatTimeout = false;
+			return false;
+		}
+
+		protected void CannyEdgeDetector_Combobox1Changed (object sender, EventArgs e)
+		{
+			cannyEdgeDetector.OrientationColored = combobox1.Active == 0;
+			ProcessPreview ();
+		}
+
+		protected void CannyEdgeDetector_Hscale1ChangeValue (object sender, ChangeValueArgs args)
+		{
+			if (repeatTimeout)
+				return;
+
+			repeatTimeout = true;
+			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(CannyEdgeDetector_HscaleTimeoutHandler));
+		}
+
+		protected void CannyEdgeDetector_Hscale2ChangeValue (object sender, ChangeValueArgs args)
+		{
+			if (repeatTimeout)
+				return;
+
+			repeatTimeout = true;
+			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(CannyEdgeDetector_HscaleTimeoutHandler));
+		}
+
+		protected void CannyEdgeDetector_Hscale3ChangeValue (object sender, ChangeValueArgs args)
+		{
+			if (repeatTimeout)
+				return;
+
+			repeatTimeout = true;
+			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(CannyEdgeDetector_HscaleTimeoutHandler));
+		}
+
+		protected void CannyEdgeDetector_Hscale4ChangeValue (object sender, ChangeValueArgs args)
+		{
+			if (repeatTimeout)
+				return;
+
+			repeatTimeout = true;
+			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(CannyEdgeDetector_HscaleTimeoutHandler));
+		}
+		#endregion
+
 		#region GaussianBlur
 	
 		private bool GaussianBlur_HscaleTimeoutHandler()

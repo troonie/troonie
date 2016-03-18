@@ -23,7 +23,6 @@ namespace Picturez
 		{
 			// Does this work?
 			// button.ModifyBg(StateType.Prelight, new Gdk.Color(220, 220, 220));
-
 			Constants.I.Init ();
 			GetProgramIcon ();
 
@@ -32,7 +31,7 @@ namespace Picturez
 
 			string filename = null;
 			// START VALUE
-			args = new string[] { "-s"};
+//			args = new string[] { "-e"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args);

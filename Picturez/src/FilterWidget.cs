@@ -117,7 +117,12 @@ namespace Picturez
 			abstractFilter = gaussianBlur;
 
 			Title = Language.I.L [104];
+			SetGaussianBlurProperties (GaussianBlur_Hscale1ChangeValue, GaussianBlur_Hscale2ChangeValue);
+			ProcessPreview ();
+		}
 
+		private void SetGaussianBlurProperties(ChangeValueHandler changeValue1, ChangeValueHandler changeValue2)
+		{
 			frameHScales.Visible = true;
 			// Gaussian sigma value, [0.1, 7.0]. Default: 1.4
 			frame_hscale1.Visible = true;
@@ -127,7 +132,7 @@ namespace Picturez
 			hscale1.Adjustment.Upper = 7.0;
 			hscale1.Adjustment.StepIncrement = 0.01;
 			hscale1.Digits = 2;
-			hscale1.ChangeValue += new ChangeValueHandler (GaussianBlur_Hscale1ChangeValue);
+			hscale1.ChangeValue += changeValue1;
 			// Kernel size, [3, 11]. Default: 5
 			frame_hscale2.Visible = true;
 			lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[106] + "</b>";
@@ -136,19 +141,46 @@ namespace Picturez
 			hscale2.Adjustment.Upper = 11;
 			hscale2.Adjustment.StepIncrement = 1;
 			hscale2.Digits = 0;
-			hscale2.ChangeValue += new ChangeValueHandler (GaussianBlur_Hscale2ChangeValue);
-
-			ProcessPreview ();
+			hscale2.ChangeValue += changeValue2;
 		}
 
 		public FilterWidget (string pFilename, CannyEdgeDetectorFilter cannyEdgeDetector) : this (pFilename)
 		{
 			this.cannyEdgeDetector = cannyEdgeDetector;
 			abstractFilter = cannyEdgeDetector;
-			// TODO: Handle it as Property.
-			this.cannyEdgeDetector.OrientationColored = true;
 
 			Title = Language.I.L [108];
+			SetGaussianBlurProperties (CannyEdgeDetector_Hscale1ChangeValue, CannyEdgeDetector_Hscale2ChangeValue);
+
+			// OrientationColored. Default: false
+			frameComboboxes.Visible = true;
+			frame_combobox1.Visible = true;
+			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[115] + "</b>";
+			combobox1.AppendText(Language.I.L[116]);
+			combobox1.AppendText(Language.I.L[117]);
+			combobox1.Active = 1;
+			combobox1.Changed += new EventHandler (CannyEdgeDetector_Combobox1Changed);
+
+			// LowThreshold. Default: 20
+			frame_hscale3.Visible = true;
+			lbFrame_hscale3.LabelProp = "<b>" + Language.I.L[113] + "</b>";
+			hscale3.Value = 20;
+			hscale3.Adjustment.Lower = 1;
+			hscale3.Adjustment.Upper = 100;
+			hscale3.Adjustment.StepIncrement = 1;
+			hscale3.Digits = 0;
+			hscale3.ChangeValue += CannyEdgeDetector_Hscale3ChangeValue;
+
+			// HighThreshold. Default: 40
+			frame_hscale4.Visible = true;
+			lbFrame_hscale4.LabelProp = "<b>" + Language.I.L[114] + "</b>";
+			hscale4.Value = 40;
+			hscale4.Adjustment.Lower = 1;
+			hscale4.Adjustment.Upper = 100;
+			hscale4.Adjustment.StepIncrement = 1;
+			hscale4.Digits = 0;
+			hscale4.ChangeValue += CannyEdgeDetector_Hscale4ChangeValue;
+
 			ProcessPreview ();
 		}
 

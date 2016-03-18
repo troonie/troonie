@@ -12,13 +12,6 @@ namespace Picturez_Lib
 	/// </summary>
     public class SteganographyFilter : AbstractFilter
     {
-		/// <summary>
-		/// The minimum alpha fill value, used for filling random values in the range [AlphaFillValueMinimum, 255].
-		/// Note: The bigger the value, the image noise AS WELL AS the obfuscation will be reduced. 
-		/// Default: 100 (no reduced obfuscation).
-		/// </summary>
-		public byte AlphaFillValueMinimum { get; set; }
-
         /// <summary>
         /// Determines whether the <see cref="Steganography"/> algorithm reads 
         /// out or writes into the image.
@@ -70,7 +63,6 @@ namespace Picturez_Lib
             foreach (string s in pLines)
             {
 				string s2 = s + (char)endByte;
-                // TODO: OUTER encryption by using RC4 or other
 				s2 = AsciiTableCharMove.MovingBySubtracting(s2, endByte, asciiMoveValue);
 
                 linesAsString += s2;
@@ -80,18 +72,13 @@ namespace Picturez_Lib
 
         #endregion lines properties
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Steganography"/> class.
-        /// </summary>
         public SteganographyFilter()
         {
-			// TODO: Maybe allowing also 24 bit images?
 			SupportedSrcPixelFormat = PixelFormatFlags.Format32All;
 			SupportedDstPixelFormat = PixelFormatFlags.Format32BppArgb;
 
 			lines = new List<string>();
-			Key = "Steganography";
-			AlphaFillValueMinimum = 100;
+			Key = string.Empty;
         }
 
 		protected override internal unsafe void Process(BitmapData srcData, BitmapData dstData)
@@ -104,14 +91,13 @@ namespace Picturez_Lib
             byte[] hash = GetHashByShaAndMurmur(pwSha, pwMurmur);
 			hash = GetQuerSumOfBytes(hash);
 			int hashLengthMinus1 = hash.Length - 1;
-			int sumHashElements = GetSumOfElements (hash); // 1216; // 64 * 19(=1+9+9)  
-			Console.WriteLine ("sumHashElements: " + sumHashElements);
+			int sumHashElements = GetSumOfElements (hash); 
+//			Console.WriteLine ("sumHashElements: " + sumHashElements);
 			int distance;
             int position = 0;            
             int indexKey = 0;          
             int w = srcData.Width;
             int h = srcData.Height;
-            // int borderDistInPercent = GetborderDist(w, h);
             int stride = srcData.Stride;
             int offset = stride - w * ps;
 
@@ -127,7 +113,7 @@ namespace Picturez_Lib
 
 			#region clone bitmap
 			Random r = new Random();
-			long avg0 = 0;
+//			long avg0 = 0;
 			// for each line
 			for (int y = 0; y < h; y++)
 			{
@@ -142,20 +128,20 @@ namespace Picturez_Lib
 					if (WritingMode)
 					{                        
 						// original: dst[RGBA.A] = (byte)r.Next(200, 255);
-						dst[RGBA.A] = (byte)r.Next(AlphaFillValueMinimum, 255);
-						avg0 += dst[RGBA.A];
+						dst[RGBA.A] = (byte)r.Next(100, 255);
+//						avg0 += dst[RGBA.A];
 					}
 				}
 				src += offset;
 				dst += offset;
 			}
-			avg0 = avg0 / (w * h);
-			Console.WriteLine ("avg0= " + avg0);
+//			avg0 = avg0 / (w * h);
+//			Console.WriteLine ("avg0= " + avg0);
 			#endregion clone bitmap
            
             if (WritingMode)
             {
-				long avg1 = 0;
+//				long avg1 = 0;
 				int indexChar = 0;
 				// -w as one line reserved for saving distance value
 				int numberUsablePx = w * h - sumHashElements - w; 
@@ -176,10 +162,10 @@ namespace Picturez_Lib
 				dst = (byte*)dstData.Scan0.ToPointer();
 				dst +=  startH * stride + startW * ps;
                 dst[RGBA.A] = (byte)(255 - distancePart1);
-				dst[RGBA.G] = 255;
+//				dst[RGBA.G] = 255;
                 dst += ps;
                 dst[RGBA.A] = (byte)(255 - distancePart2);
-				dst[RGBA.G] = 255;
+//				dst[RGBA.G] = 255;
 				startH++; // One line reserved for saving distance value
 				#endregion Save Pin in startH line
                 
@@ -217,8 +203,8 @@ namespace Picturez_Lib
 
 						byte byteC = (byte)(255 - intC);                           
 						dst [RGBA.A] = byteC;
-						dst [RGBA.R] = 255;
-						avg1 += byteC;
+//						dst [RGBA.R] = 255;
+//						avg1 += byteC;
 
 						indexChar++;
                     }
@@ -229,8 +215,8 @@ namespace Picturez_Lib
                 
                 Success = true;
 
-				avg1 = avg1 / linesAsString.Length;
-				Console.WriteLine ("avg1= " + avg1);
+//				avg1 = avg1 / linesAsString.Length;
+//				Console.WriteLine ("avg1= " + avg1);
             }
             else // read-in mode
             {
@@ -357,15 +343,6 @@ namespace Picturez_Lib
             return array;
         }
         
-//        private static int GetborderDist(int w, int h)
-//        {
-//            int res = w * h; // resolution
-//            // shifting right (e.g. 8 >> 2 = 2 --> 8 / 2 = 4 / 2 = 2)            
-//            string shift = (res >> 2).ToString(CultureInfo.InvariantCulture);
-//            int a = int.Parse(shift.Substring(0, 1));            
-//            return Math.Max(a, 1);
-//        }
-
 		/// <summary>
 		/// (Simple) Encrypts the passed key. Two simple algorithms are available. 
 		/// If parameter useVersion2 is set to true, algorithm 2 is used. Otherwise algorithm 1.

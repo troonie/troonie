@@ -63,6 +63,7 @@
     <Compile Include="filter\GaussianBlurFilter.cs" />
     <Compile Include="filter\CannyEdgeDetectorFilter.cs" />
     <Compile Include="AsciiTableCharMove.cs" />
+    <Compile Include="Rc4.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

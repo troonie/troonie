@@ -265,6 +265,50 @@ namespace Picturez
 			lbFrameContent.LabelProp = "<b>" + Language.I.L[78] + "</b>";
 		}
 
+		private void DoSteganography()
+		{
+			Bitmap b1 = null;
+			SteganographyFilter filter = new SteganographyFilter ();
+			filter.Key = entryKey.Text;
+			filter.WritingMode = rdBtnWrite.Active;
+
+			PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
+			pseudo.Title = Language.I.L [80];
+			pseudo.Label1 = Language.I.L [81];
+			// pseudo.Label2 = Language.I.L [82];
+			pseudo.OkButtontext = Language.I.L [16];
+			pseudo.CancelButtontext = Language.I.L [17];
+
+			if (filter.WritingMode) {
+				string[] content = textviewContent.Buffer.Text.Split ('\n');
+				filter.FillLines (content);
+				b1 = ImageConverter.To32Bpp(bt.Bitmap);
+				b1 = filter.Apply (b1);
+
+				if (filter.Success) {
+					pseudo.Label2 = Language.I.L [83];
+				} else {
+					pseudo.Label1 =  Language.I.L [53];
+					pseudo.Label2 =  Language.I.L [52];
+				}
+			} 
+			else {
+				b1 = filter.Apply (bt.Bitmap);
+				textviewContent.Buffer.Text = string.Empty;
+				foreach (var item in filter.GetLines()) {
+					textviewContent.Buffer.Text += item + "\n";
+				}
+				pseudo.Label2 = Language.I.L [82];
+			}				
+
+			bt.Bitmap.Dispose ();
+			bt.ChangeBitmapButNotTags(b1);
+
+			Initialize (false);
+
+			pseudo.Show ();
+		}
+
 		private void OnCursorPosChanged(int x, int y)
 		{
 			lbCursorPos.Text = 	x.ToString() + " x " +	y.ToString();
@@ -280,11 +324,6 @@ namespace Picturez
 			}
 			File.Delete (tempScaledImageFileName);
 			File.Delete (Constants.I.EXEPATH + blackFileName);
-		}
-
-		protected void OnExit (object sender, EventArgs e)
-		{	
-			OnDeleteEvent (sender, e as DeleteEventArgs);
 		}
 
 		protected void OnDragDrop (object sender, Gtk.DragDropArgs args)
@@ -327,59 +366,19 @@ namespace Picturez
 
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-//			for (int i = 0; i < textviewContent.Buffer.LineCount; i++) {
-//				TextIter ti = textviewContent.Buffer.Get;	
-//				Console.WriteLine ("Line: " + i + ti.Buffer.Text);
-//			}
+			if (rdBtnWrite.Active && entryKey.Text.Length < 10) {
+				PseudoPicturezContextMenu warn = new PseudoPicturezContextMenu (false);
+				warn.Title = Language.I.L [109];
+				warn.Label1 = Language.I.L [110] + entryKey.Text.Length + Language.I.L [111];
+				warn.Label2 = Language.I.L [112];
+				warn.OkButtontext = Language.I.L [16];
+				warn.CancelButtontext = Language.I.L [17];	
+				warn.Show ();
 
-			Bitmap b1 = null;
-			SteganographyFilter filter = new SteganographyFilter ();
-			filter.Key = entryKey.Text;
-			filter.WritingMode = rdBtnWrite.Active;
-
-			PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
-			pseudo.Title = Language.I.L [80];
-			pseudo.Label1 = Language.I.L [81];
-//			pseudo.Label2 = Language.I.L [82];
-			pseudo.OkButtontext = Language.I.L [16];
-			pseudo.CancelButtontext = Language.I.L [17];
-			// pseudo.OnReleasedOkButton += delegate{Process.Start (Constants.WEBSITE);};
-//			pseudo.OnReleasedOkButton += () => Process.Start (Constants.WEBSITE);
-
-
-
-			if (filter.WritingMode) {
-				string[] content = textviewContent.Buffer.Text.Split ('\n');
-				filter.FillLines (content);
-				b1 = ImageConverter.To32Bpp(bt.Bitmap);
-				b1 = filter.Apply (b1);
-
-				if (filter.Success) {
-					pseudo.Label2 = Language.I.L [83];
-				} else {
-					pseudo.Label1 =  Language.I.L [53];
-					pseudo.Label2 =  Language.I.L [52];
-				}
-
-//				// reset Success
-//				filter.Success = false;
-
+				warn.OnReleasedOkButton += DoSteganography;
 			} else {
-				b1 = filter.Apply (bt.Bitmap);
-				textviewContent.Buffer.Text = string.Empty;
-				foreach (var item in filter.GetLines()) {
-					textviewContent.Buffer.Text += item + "\n";
-				}
-
-				pseudo.Label2 = Language.I.L [82];
-			}				
-
-			bt.Bitmap.Dispose ();
-			bt.ChangeBitmapButNotTags(b1);
-
-			Initialize (false);
-
-			pseudo.Show ();
+				DoSteganography ();
+			}
 		}
 
 		protected void OnEntryKeyKeyReleaseEvent (object o, KeyReleaseEventArgs args)

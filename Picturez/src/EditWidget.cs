@@ -45,7 +45,7 @@ namespace Picturez
 
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
-			filterNames = new List<string> { "Shader-based Filter", 
+			filterNames = new List<string> { "Filter", 
 												Language.I.L[90], 
 												Language.I.L[91], 
 												Language.I.L[92], 
