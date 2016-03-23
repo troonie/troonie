@@ -18,24 +18,17 @@ namespace Picturez
 
 	public partial class FilterWidget : Gtk.Window
 	{
-		private const uint timeoutInterval = 500; // in ms
+		private const uint timeoutInterval = 300; // in ms
 
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
-//		private Constants constants = Constants.I;
 		private bool repeatTimeout;
 		private int imageW; 
 		private int imageH;
 		private string tempFilterImageFileName;
 		private Bitmap filterImage, workingImage;
-
-		#region filter
+		private GLib.TimeoutHandler timeoutHandler;
+		private double[] filterProperties;
 		private AbstractFilter abstractFilter;
-		private GrayscaleFilter grayscale;
-//		private InvertFilter invert;
-		private ExtractOrRotateChannelsFilter extractOrRotateChannels;
-		private GaussianBlurFilter gaussianBlur;
-		CannyEdgeDetectorFilter cannyEdgeDetector;
-		#endregion filter
 
 		public FilterEventhandler FilterEvent;
 		public string FileName { get; set; }
@@ -46,29 +39,41 @@ namespace Picturez
 		{
 			FileName = pFilename;
 			KeepAbove = true;
+			filterProperties = new double[8];
 			Build ();
-
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 
 			SetGuiColors ();
 			SetLanguageToGui ();
 			Initialize();
 
+			timeoutHandler = () => {
+				filterProperties[0] = (double)combobox1.Active;
+				filterProperties[1] = (double)combobox2.Active;
+				filterProperties[2] = (double)combobox3.Active;
+
+				filterProperties[3] = hscale1.Value;
+				filterProperties[4] = hscale2.Value;
+				filterProperties[5] = hscale3.Value;
+				filterProperties[6] = hscale4.Value;
+				filterProperties[7] = hscale5.Value;
+				ProcessPreview ();
+
+				repeatTimeout = false;
+				return false;
+			};
 			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
 		}
 
 		public FilterWidget (string pFilename, InvertFilter invert) : this (pFilename)
 		{
-//			this.invert = invert;
 			abstractFilter = invert;
-
 			Title = Language.I.L [90];
 			ProcessPreview ();
 		}
 
 		public FilterWidget (string pFilename, GrayscaleFilter grayscale) : this (pFilename)
 		{
-			this.grayscale = grayscale;
 			abstractFilter = grayscale;
 
 			Title = Language.I.L [91];
@@ -79,15 +84,11 @@ namespace Picturez
 			combobox1.AppendText(Language.I.L[87]);
 			combobox1.AppendText(Language.I.L[88]);
 			combobox1.AppendText(Language.I.L[89]);
-			combobox1.Active = 0;
-			combobox1.Changed += new EventHandler (Grayscale_Combobox1Changed);
-
-			ProcessPreview ();
+			combobox1.Active = (int)grayscale.Algorithm;
 		}
 
 		public FilterWidget (string pFilename, ExtractOrRotateChannelsFilter extractOrRotateChannels) : this (pFilename)
 		{
-			this.extractOrRotateChannels = extractOrRotateChannels;
 			abstractFilter = extractOrRotateChannels;
 
 			Title = Language.I.L [92];
@@ -104,53 +105,64 @@ namespace Picturez
 			combobox1.AppendText(Language.I.L[101]);
 			combobox1.AppendText(Language.I.L[102]);
 			combobox1.AppendText(Language.I.L[103]);
-
-			combobox1.Active = 8; // GBR
-			combobox1.Changed += new EventHandler (ExtractOrRotateChannels_Combobox1Changed);
-
-			ProcessPreview ();
+			combobox1.Active = (int)extractOrRotateChannels.Order;
 		}
 
 		public FilterWidget (string pFilename, GaussianBlurFilter gaussianBlur) : this (pFilename)
 		{
-			this.gaussianBlur = gaussianBlur;
 			abstractFilter = gaussianBlur;
 
 			Title = Language.I.L [104];
-			SetGaussianBlurProperties (GaussianBlur_Hscale1ChangeValue, GaussianBlur_Hscale2ChangeValue);
-			ProcessPreview ();
+			SetGaussianBlurProperties (gaussianBlur.Sigma, gaussianBlur.Size);
 		}
 
-		private void SetGaussianBlurProperties(ChangeValueHandler changeValue1, ChangeValueHandler changeValue2)
+		private void SetGaussianBlurProperties(double sigma, int size)
 		{
 			frameHScales.Visible = true;
 			// Gaussian sigma value, [0.1, 7.0]. Default: 1.4
 			frame_hscale1.Visible = true;
 			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[105] + "</b>";
-			hscale1.Value = 1.40;
+			hscale1.Value = sigma;
 			hscale1.Adjustment.Lower = 0.11;
 			hscale1.Adjustment.Upper = 7.0;
 			hscale1.Adjustment.StepIncrement = 0.01;
+			hscale1.Adjustment.PageIncrement = 0.3;
 			hscale1.Digits = 2;
-			hscale1.ChangeValue += changeValue1;
+
 			// Kernel size, [3, 11]. Default: 5
 			frame_hscale2.Visible = true;
 			lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[106] + "</b>";
-			hscale2.Value = 5;
+			hscale2.Value = size;
 			hscale2.Adjustment.Lower = 3;
 			hscale2.Adjustment.Upper = 11;
 			hscale2.Adjustment.StepIncrement = 1;
 			hscale2.Digits = 0;
-			hscale2.ChangeValue += changeValue2;
 		}
 
 		public FilterWidget (string pFilename, CannyEdgeDetectorFilter cannyEdgeDetector) : this (pFilename)
 		{
-			this.cannyEdgeDetector = cannyEdgeDetector;
 			abstractFilter = cannyEdgeDetector;
 
 			Title = Language.I.L [108];
-			SetGaussianBlurProperties (CannyEdgeDetector_Hscale1ChangeValue, CannyEdgeDetector_Hscale2ChangeValue);
+			SetGaussianBlurProperties (cannyEdgeDetector.Sigma, cannyEdgeDetector.Size);
+
+			// LowThreshold. Default: 20
+			frame_hscale3.Visible = true;
+			lbFrame_hscale3.LabelProp = "<b>" + Language.I.L[113] + "</b>";
+			hscale3.Value = cannyEdgeDetector.LowThreshold;
+			hscale3.Adjustment.Lower = 1;
+			hscale3.Adjustment.Upper = 100;
+			hscale3.Adjustment.StepIncrement = 1;
+			hscale3.Digits = 0;
+
+			// HighThreshold. Default: 40
+			frame_hscale4.Visible = true;
+			lbFrame_hscale4.LabelProp = "<b>" + Language.I.L[114] + "</b>";
+			hscale4.Value = cannyEdgeDetector.HighThreshold;
+			hscale4.Adjustment.Lower = 1;
+			hscale4.Adjustment.Upper = 100;
+			hscale4.Adjustment.StepIncrement = 1;
+			hscale4.Digits = 0;
 
 			// OrientationColored. Default: false
 			frameComboboxes.Visible = true;
@@ -158,37 +170,40 @@ namespace Picturez
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[115] + "</b>";
 			combobox1.AppendText(Language.I.L[116]);
 			combobox1.AppendText(Language.I.L[117]);
-			combobox1.Active = 1;
-			combobox1.Changed += new EventHandler (CannyEdgeDetector_Combobox1Changed);
+			combobox1.Active = cannyEdgeDetector.OrientationColored ? 0 : 1;
+		}
 
-			// LowThreshold. Default: 20
-			frame_hscale3.Visible = true;
-			lbFrame_hscale3.LabelProp = "<b>" + Language.I.L[113] + "</b>";
-			hscale3.Value = 20;
-			hscale3.Adjustment.Lower = 1;
-			hscale3.Adjustment.Upper = 100;
-			hscale3.Adjustment.StepIncrement = 1;
-			hscale3.Digits = 0;
-			hscale3.ChangeValue += CannyEdgeDetector_Hscale3ChangeValue;
+		public FilterWidget (string pFilename, SepiaFilter sepia) : this (pFilename)
+		{
+			abstractFilter = sepia;
+			Title = Language.I.L [120];
+			frameHScales.Visible = true;
 
-			// HighThreshold. Default: 40
-			frame_hscale4.Visible = true;
-			lbFrame_hscale4.LabelProp = "<b>" + Language.I.L[114] + "</b>";
-			hscale4.Value = 40;
-			hscale4.Adjustment.Lower = 1;
-			hscale4.Adjustment.Upper = 100;
-			hscale4.Adjustment.StepIncrement = 1;
-			hscale4.Digits = 0;
-			hscale4.ChangeValue += CannyEdgeDetector_Hscale4ChangeValue;
+			// Q coefficient of YIQ color space [0.0, 10.0]. Default: 0.0
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[121] + "</b>";
+			hscale1.Value = sepia.Q; // 0.0;
+			hscale1.Adjustment.Lower = 0.0;
+			hscale1.Adjustment.Upper = 10.0;
+			hscale1.Adjustment.StepIncrement = 0.1;
+			hscale1.Adjustment.PageIncrement = 1.0;
+			hscale1.Digits = 1;
 
-			ProcessPreview ();
+			// I coefficient of YIQ color space [1, 255]. Default: 51.
+			frame_hscale2.Visible = true;
+			lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[122] + "</b>";
+			hscale2.Value = sepia.I; // 51;
+			hscale2.Adjustment.Lower = 1;
+			hscale2.Adjustment.Upper = 255;
+			hscale2.Adjustment.StepIncrement = 1;
+			hscale2.Digits = 0;
 		}
 
 		#endregion Constructors
 
 		private void ProcessPreview()
 		{
-			Bitmap tempImage = abstractFilter.Apply (workingImage);
+			Bitmap tempImage = abstractFilter.Apply (workingImage, filterProperties);
 			tempImage.Save(tempFilterImageFileName, ImageFormat.Png);
 			tempImage.Dispose ();
 			simpleimagepanel1.Initialize();
@@ -343,7 +358,7 @@ namespace Picturez
 
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			filterImage = abstractFilter.Apply (filterImage);
+			filterImage = abstractFilter.Apply (filterImage, filterProperties);
 			FireFilterEvent (filterImage);
 			OnDeleteEvent (o, null);
 		}
@@ -357,6 +372,20 @@ namespace Picturez
 		{
 			abstractFilter.Use255ForAlpha = checkBtnUse255ForAlpha.Active;
 			ProcessPreview ();
+		}
+
+		protected void OnHscaleValueChanged (object sender, EventArgs e)
+		{
+			if (repeatTimeout)
+				return;
+
+			repeatTimeout = true;
+			GLib.Timeout.Add(timeoutInterval, timeoutHandler);
+		}
+
+		protected void OnComboboxChanged (object sender, EventArgs args)
+		{
+			timeoutHandler.Invoke ();
 		}
 	}
 }

@@ -29,8 +29,6 @@ namespace Picturez_Lib
 		public const string EXENAME = "Picturez.exe";
 		public const string ICONNAME = "icon.ico";
 		public const string WEBSITE = "http://picturez-project.de";
-//		public const string UPDATESERVERFILE = 
-//			"http://www.picturez-project.de/PicturezVersion";
 		public const string UPDATESERVERFILE = 
 			"http://picturez-project.de/PicturezVersion";
 		public const string TITLE = "Picturez";
@@ -52,9 +50,6 @@ namespace Picturez_Lib
 		private string description;
 		public string DESCRIPTION { get {	return description; } }
 
-//		private bool editmode;
-//		public bool EDITMODE { get { return editmode; }}
-
 		private bool windows;
 		public bool WINDOWS { get { return windows; }}
 				
@@ -66,17 +61,12 @@ namespace Picturez_Lib
 
 		public void Init()
 		{
-//			editmode = true;
 			windows = IsWindows ();
 			exepath = AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar;
 			homepath = windows ? Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%")
 				: Environment.GetEnvironmentVariable("HOME");
 			homepath += Path.DirectorySeparatorChar;
-
-			// picturezName = Language.I.L[52]; // Now: Constants.TITLE
-//			picturezVersion = Language.I.L[53];
 			description = Language.I.L[54];
-//			picturezPublishdate = Language.I.L[55];
 			versionFloat = GetFloatVersionNumber (VERSION);
 			CheckUpdateAsThread ();
 		}	

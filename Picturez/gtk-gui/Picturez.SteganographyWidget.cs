@@ -149,6 +149,7 @@ namespace Picturez
 			this.entryKey.Name = "entryKey";
 			this.entryKey.IsEditable = true;
 			this.entryKey.MaxLength = 128;
+			this.entryKey.Visibility = false;
 			this.entryKey.InvisibleChar = '●';
 			this.AlignmentFrameKey.Add (this.entryKey);
 			this.frameKey.Add (this.AlignmentFrameKey);

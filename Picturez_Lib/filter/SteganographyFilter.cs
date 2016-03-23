@@ -81,6 +81,11 @@ namespace Picturez_Lib
 			Key = string.Empty;
         }
 
+		protected override void SetProperties (double[] filterProperties)
+		{
+
+		}
+
 		protected override internal unsafe void Process(BitmapData srcData, BitmapData dstData)
         {
 			const int ps = 4;     
@@ -145,7 +150,11 @@ namespace Picturez_Lib
 				int indexChar = 0;
 				// -w as one line reserved for saving distance value
 				int numberUsablePx = w * h - sumHashElements - w; 
-				distance = Math.Min(numberUsablePx / charCount - 1, 9999);
+//				distance = Math.Min(numberUsablePx / charCount - 1, 9999); // old
+				distance = numberUsablePx / charCount - 1;
+				while (distance > 25599) {
+					distance /= 10; 
+				}
 
 				if (charCount > numberUsablePx || charCount == 0)
                 {

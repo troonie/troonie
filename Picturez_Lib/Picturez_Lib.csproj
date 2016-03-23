@@ -64,6 +64,7 @@
     <Compile Include="filter\CannyEdgeDetectorFilter.cs" />
     <Compile Include="AsciiTableCharMove.cs" />
     <Compile Include="Rc4.cs" />
+    <Compile Include="filter\SepiaFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

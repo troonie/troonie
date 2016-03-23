@@ -103,6 +103,20 @@ namespace Picturez_Lib
 		}
 
 		/// <summary>
+		/// Sets the properties by GUI elements. 
+		/// 
+		/// filterProperties[0] = (double)combobox1.Active;</br> 
+		/// filterProperties[1] = (double)combobox2.Active;
+		/// filterProperties[2] = (double)combobox3.Active;
+		/// filterProperties[3] = hscale1.Value;
+		/// filterProperties[4] = hscale2.Value;
+		/// filterProperties[5] = hscale3.Value;
+		/// filterProperties[6] = hscale4.Value;
+		/// filterProperties[7] = hscale5.Value;
+		/// </summary>
+		protected abstract void SetProperties (double[] filterProperties); 
+
+		/// <summary>
 		/// Processes the filter on the passed <paramref name="srcData"/> 
 		/// resulting into <paramref name="dstData"/>.
 		/// </summary>
@@ -166,9 +180,10 @@ namespace Picturez_Lib
 		/// </summary>
 		/// <param name="source">The source image to process.</param>
 		/// <returns>The filter result as a new bitmap.</returns>
-		public Bitmap Apply(Bitmap source)
+		public Bitmap Apply(Bitmap source, double[] filterproperties)
 		{
 			CheckPixelFormat(source.PixelFormat);
+			SetProperties (filterproperties);
 			Bitmap destination = new Bitmap(source.Width, source.Height, dstPixelFormat);
 			Rectangle rect = new Rectangle(0, 0, source.Width, source.Height);
 			BitmapData srcData = source.LockBits(rect, ImageLockMode.ReadWrite, source.PixelFormat);

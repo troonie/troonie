@@ -992,7 +992,6 @@
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Label" translatable="yes">JPEG</property>
-                            <property name="Active">True</property>
                             <property name="DrawIndicator">True</property>
                             <property name="HasLabel">True</property>
                             <property name="UseUnderline">True</property>
@@ -2189,7 +2188,6 @@
                                         <property name="MemberName" />
                                         <property name="CanFocus">True</property>
                                         <property name="Label" translatable="yes">Retain original size</property>
-                                        <property name="Active">True</property>
                                         <property name="DrawIndicator">True</property>
                                         <property name="HasLabel">True</property>
                                         <property name="UseUnderline">True</property>
@@ -3055,6 +3053,7 @@
                                         <property name="CanFocus">True</property>
                                         <property name="IsEditable">True</property>
                                         <property name="MaxLength">128</property>
+                                        <property name="Visibility">False</property>
                                         <property name="InvisibleChar">●</property>
                                         <signal name="KeyReleaseEvent" handler="OnEntryKeyKeyReleaseEvent" />
                                       </widget>
@@ -3401,6 +3400,7 @@
                                         <property name="MemberName" />
                                         <property name="IsTextCombo">True</property>
                                         <property name="Items" translatable="yes" />
+                                        <signal name="Changed" handler="OnComboboxChanged" />
                                       </widget>
                                     </child>
                                   </widget>
@@ -3439,6 +3439,7 @@
                                         <property name="MemberName" />
                                         <property name="IsTextCombo">True</property>
                                         <property name="Items" translatable="yes" />
+                                        <signal name="Changed" handler="OnComboboxChanged" />
                                       </widget>
                                     </child>
                                   </widget>
@@ -3477,6 +3478,7 @@
                                         <property name="MemberName" />
                                         <property name="IsTextCombo">True</property>
                                         <property name="Items" translatable="yes" />
+                                        <signal name="Changed" handler="OnComboboxChanged" />
                                       </widget>
                                     </child>
                                   </widget>
@@ -3549,6 +3551,7 @@
                                         <property name="DrawValue">True</property>
                                         <property name="Digits">0</property>
                                         <property name="ValuePos">Top</property>
+                                        <signal name="ValueChanged" handler="OnHscaleValueChanged" />
                                       </widget>
                                     </child>
                                   </widget>
@@ -3592,6 +3595,7 @@
                                         <property name="DrawValue">True</property>
                                         <property name="Digits">0</property>
                                         <property name="ValuePos">Top</property>
+                                        <signal name="ValueChanged" handler="OnHscaleValueChanged" />
                                       </widget>
                                     </child>
                                   </widget>
@@ -3635,6 +3639,7 @@
                                         <property name="DrawValue">True</property>
                                         <property name="Digits">0</property>
                                         <property name="ValuePos">Top</property>
+                                        <signal name="ValueChanged" handler="OnHscaleValueChanged" />
                                       </widget>
                                     </child>
                                   </widget>
@@ -3678,6 +3683,7 @@
                                         <property name="DrawValue">True</property>
                                         <property name="Digits">0</property>
                                         <property name="ValuePos">Top</property>
+                                        <signal name="ValueChanged" handler="OnHscaleValueChanged" />
                                       </widget>
                                     </child>
                                   </widget>
@@ -3721,6 +3727,7 @@
                                         <property name="DrawValue">True</property>
                                         <property name="Digits">0</property>
                                         <property name="ValuePos">Top</property>
+                                        <signal name="ValueChanged" handler="OnHscaleValueChanged" />
                                       </widget>
                                     </child>
                                   </widget>

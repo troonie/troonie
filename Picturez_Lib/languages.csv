@@ -115,3 +115,8 @@ High Threshold;Oberer Schwellwert
 Orientation colored; Orientierung farb-kodiert
 On;An
 Off;Aus
+No key;Kein Schlüssel
+Please enter a key.;Bitte einen Schlüssel eingeben.
+Sepia;Sepia
+Q coefficient of YIQ color space;Q-Koeffizient des YIQ-Farbraumes
+I coefficient of YIQ color space;I-Koeffizient des YIQ-Farbraumes

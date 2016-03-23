@@ -80,6 +80,17 @@ namespace Picturez_Lib
 			HighThreshold = 40;
 		}
 
+		protected override void SetProperties (double[] filterProperties)
+		{
+//			Sigma = filterProperties [3];
+//			Size = (int)filterProperties [4];
+			base.SetProperties (filterProperties);
+
+			OrientationColored = filterProperties[0] == 0;
+			LowThreshold = (byte)filterProperties [5];
+			HighThreshold = (byte)filterProperties [6];
+		}
+
 		protected override void SetColorPalette(Bitmap b)
 		{
 			if (orientationColored)

@@ -453,6 +453,14 @@ namespace Picturez
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.checkBtnUse255ForAlpha.Toggled += new global::System.EventHandler (this.OnCheckBtnUse255ForAlphaToggled);
+			this.combobox1.Changed += new global::System.EventHandler (this.OnComboboxChanged);
+			this.combobox2.Changed += new global::System.EventHandler (this.OnComboboxChanged);
+			this.combobox3.Changed += new global::System.EventHandler (this.OnComboboxChanged);
+			this.hscale1.ValueChanged += new global::System.EventHandler (this.OnHscaleValueChanged);
+			this.hscale2.ValueChanged += new global::System.EventHandler (this.OnHscaleValueChanged);
+			this.hscale3.ValueChanged += new global::System.EventHandler (this.OnHscaleValueChanged);
+			this.hscale4.ValueChanged += new global::System.EventHandler (this.OnHscaleValueChanged);
+			this.hscale5.ValueChanged += new global::System.EventHandler (this.OnHscaleValueChanged);
 			this.btnCancel.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnCancelButtonReleaseEvent);
 			this.btnOk.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnOkButtonReleaseEvent);
 		}

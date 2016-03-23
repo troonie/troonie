@@ -270,12 +270,12 @@ namespace Picturez
 			Bitmap b1 = null;
 			SteganographyFilter filter = new SteganographyFilter ();
 			filter.Key = entryKey.Text;
+			entryKey.Text = string.Empty;
 			filter.WritingMode = rdBtnWrite.Active;
 
 			PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
 			pseudo.Title = Language.I.L [80];
 			pseudo.Label1 = Language.I.L [81];
-			// pseudo.Label2 = Language.I.L [82];
 			pseudo.OkButtontext = Language.I.L [16];
 			pseudo.CancelButtontext = Language.I.L [17];
 
@@ -283,7 +283,7 @@ namespace Picturez
 				string[] content = textviewContent.Buffer.Text.Split ('\n');
 				filter.FillLines (content);
 				b1 = ImageConverter.To32Bpp(bt.Bitmap);
-				b1 = filter.Apply (b1);
+				b1 = filter.Apply (b1, null);
 
 				if (filter.Success) {
 					pseudo.Label2 = Language.I.L [83];
@@ -293,7 +293,7 @@ namespace Picturez
 				}
 			} 
 			else {
-				b1 = filter.Apply (bt.Bitmap);
+				b1 = filter.Apply (bt.Bitmap, null);
 				textviewContent.Buffer.Text = string.Empty;
 				foreach (var item in filter.GetLines()) {
 					textviewContent.Buffer.Text += item + "\n";
@@ -366,6 +366,18 @@ namespace Picturez
 
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
+			if (entryKey.Text.Length == 0) {
+				PseudoPicturezContextMenu warn = new PseudoPicturezContextMenu (true);
+				warn.Title = Language.I.L [118];
+				warn.Label1 = string.Empty;
+				warn.Label2 = Language.I.L [119];
+				warn.OkButtontext = Language.I.L [16];
+//				warn.CancelButtontext = Language.I.L [17];	
+				warn.Show ();
+
+				return;
+			}
+
 			if (rdBtnWrite.Active && entryKey.Text.Length < 10) {
 				PseudoPicturezContextMenu warn = new PseudoPicturezContextMenu (false);
 				warn.Title = Language.I.L [109];

@@ -130,7 +130,6 @@
     <Compile Include="gtk-gui\Picturez.StarterWidget.cs" />
     <Compile Include="src\FilterWidget.cs" />
     <Compile Include="gtk-gui\Picturez.FilterWidget.cs" />
-    <Compile Include="src\FilterWidget.ComboboxHscaleEvents.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

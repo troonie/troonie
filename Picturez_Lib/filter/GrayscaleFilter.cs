@@ -89,6 +89,11 @@ namespace Picturez_Lib
 
 		#region protected methods
 
+		protected override void SetProperties (double[] filterProperties)
+		{
+			Algorithm = (CommonAlgorithms)filterProperties[0];
+		}
+
 		/// <summary>
 		/// Processes the filter on the passed <paramref name="srcData"/>
 		/// resulting into <paramref name="dstData"/>.

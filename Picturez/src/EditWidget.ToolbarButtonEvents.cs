@@ -83,6 +83,10 @@ namespace Picturez
 				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 				fw = new FilterWidget (FileName, new CannyEdgeDetectorFilter());
 				break;
+			case 6:
+				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
+				fw = new FilterWidget (FileName, new SepiaFilter());
+				break;
 			}
 
 			fw.FilterEvent += FilterEvent;
