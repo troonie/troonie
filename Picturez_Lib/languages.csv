@@ -25,13 +25,13 @@ black-white;Schwarz-weiß
 color + transparancy;Farbe + Transparenz
 Alpha color;Alpha-Farbe
 Other;Andere
-Resize;Beschneiden
+Resize;Größenanpassung
 Original;Original
 Retain original size;Originalgröße beibehalten
 Length bigger side;Länge längere Bildseite
 Length of bigger side will be;Länge der längeren Bildseite soll sein
 Fix image size;Feste Bildabmessungen
-Using fix image size (width x height);Verwende feste Bildamessung (Breite x Höhe)
+Using fix image size (width x height);Verwende feste Bildabmessung (Breite x Höhe)
 Stretch image;Strecke/Stauche Bild
 Output directory;Ausgabeverzeichnis
 Use original directory;Verwende Originalverzeichnis

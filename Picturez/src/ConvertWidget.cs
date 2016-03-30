@@ -51,6 +51,14 @@ namespace Picturez
 				rdBmp1bit.Sensitive = true;
 				Gtk.Drag.DestSet (this, 0, null, 0);
 			} else {
+				// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+				// Otherwise ShadowType.In looks terrible at Win10.
+				frameImageFormat.ShadowType = ShadowType.In;
+				frameImageResize.ShadowType = ShadowType.In;
+				frameImageList.ShadowType = ShadowType.In;
+				frameImageFormat.ShadowType = ShadowType.In;
+				frameOutputDirectory.ShadowType = ShadowType.In;
+
 				rdJpegGray.Sensitive = true;
 				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 			}		
@@ -59,13 +67,29 @@ namespace Picturez
 			if (pFilenames != null)
 				FillImageList (new List<string>(pFilenames));
 
+			SetCorrectWindowSize ();
+
 			if (config.AskForDesktopContextMenu)
 				new AskForDesktopContextMenuWindow (true, config).Show();
+		}
+
+		private void SetCorrectWindowSize()
+		{
+			// best linux mint 17.3 values
+			const int originalWidth = 765;
+			const int originalHeight = 833;
+			const int taskbarHeight = 90;
+			int maxW = Screen.Width;
+			int maxH = Screen.Height - taskbarHeight;
+
+			this.WidthRequest = Math.Min(originalWidth, maxW);
+			this.HeightRequest = Math.Min(originalHeight, maxH);
 		}
 
 		private void SetGuiColors()
 		{
 			this.ModifyBg(StateType.Normal, colorConverter.GRID);
+			eventboxRoot.ModifyBg(StateType.Normal, colorConverter.GRID);
 			eventboxToolbar.ModifyBg(StateType.Normal, colorConverter.GRID);
 
 			entryBiggerLength.ModifyBase(StateType.Normal, colorConverter.White);
@@ -80,10 +104,7 @@ namespace Picturez
 			GtkLabel11.ModifyFg(StateType.Normal, colorConverter.FONT);
 			GtkLabel15.ModifyFg(StateType.Normal, colorConverter.FONT);
 			GtkLabel21.ModifyFg(StateType.Normal, colorConverter.FONT);
-			GtkLabel24.ModifyFg(StateType.Normal, colorConverter.FONT);
-			GtkLabel26.ModifyFg(StateType.Normal, colorConverter.FONT);
 			GtkLabel29.ModifyFg(StateType.Normal, colorConverter.FONT);
-			GtkLabel30.ModifyFg(StateType.Normal, colorConverter.FONT);
 			GtkLabel6.ModifyFg(StateType.Normal, colorConverter.FONT);
 		}
 
@@ -109,11 +130,11 @@ namespace Picturez
 			GtkLabel21.LabelProp = "<b>" + Language.I.L[27] + "</b>";
 
 			lbFrameImageResize.LabelProp = "<b>" + Language.I.L[28] + "</b>";
-			GtkLabel24.LabelProp = "<b>" + Language.I.L[29] + "</b>";
+//			GtkLabel24.LabelProp = "<b>" + Language.I.L[29] + "</b>";
 			rdOriginalSize.Label = Language.I.L[30];
-			GtkLabel26.LabelProp = "<b>" + Language.I.L[31] + "</b>";
+//			GtkLabel26.LabelProp = "<b>" + Language.I.L[31] + "</b>";
 			rdBiggerLength.Label = Language.I.L[32];
-			GtkLabel30.LabelProp = "<b>" + Language.I.L[33] + "</b>";
+//			GtkLabel30.LabelProp = "<b>" + Language.I.L[33] + "</b>";
 			rdFixSize.Label = Language.I.L[34];
 			checkBtnStretch.Label = Language.I.L[35];
 
@@ -323,6 +344,8 @@ namespace Picturez
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
 			ConfigConvert.Save (config);
+			this.DestroyAll ();
+
 			Application.Quit ();
 			a.RetVal = true;
 		}

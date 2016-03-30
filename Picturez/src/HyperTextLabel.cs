@@ -63,6 +63,14 @@ namespace Picturez
 			this.Add(da);
 		}
 
+		public override void Destroy ()
+		{
+			da.Destroy ();
+			da.Dispose ();
+			base.Destroy ();
+//			base.Dispose ();
+		}
+
 		public void InitDefaultValues()
 		{
 			// default values

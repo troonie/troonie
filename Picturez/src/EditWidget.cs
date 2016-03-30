@@ -39,7 +39,7 @@ namespace Picturez
 		public BitmapWithTag bt;
 		private List<string> filterNames;
 
-		public EditWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
+		public EditWidget (string pFilename) : base (Gtk.WindowType.Toplevel)
 		{
 			FileName = pFilename;
 
@@ -68,15 +68,31 @@ namespace Picturez
 			SetLanguageToGui ();
 			Initialize(true);
 
-			if (constants.WINDOWS)
-			 	Gtk.Drag.DestSet (this, 0, null, 0);
-			else
-				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+		if (constants.WINDOWS) {
+			Gtk.Drag.DestSet (this, 0, null, 0);
+		} else {
+			// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+			// Otherwise ShadowType.In looks terrible at Win10.
+			frameCutPoints.ShadowType = ShadowType.In;
+			frameRotation.ShadowType = ShadowType.In;
+			frameImageDimensions.ShadowType = ShadowType.In;
+			frameCursorPos.ShadowType = ShadowType.In;
+
+			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+		}
 
 			imagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+		}
 
-			// TODO: Image filter: Remove, when implemented
-//			hboxToolbarButtons.Children [6].Visible = false;
+		public override void Destroy ()
+		{
+			if (bt != null) {
+				bt.Dispose ();
+			}
+
+//			imagepanel1.Dispose ();
+
+			base.Destroy ();
 		}
 
 		private void LoadException()
@@ -395,14 +411,16 @@ namespace Picturez
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
+//			if (bt != null) {
+//				bt.Dispose ();
+//			}
+
+			this.DestroyAll ();
+//			imagepanel1.Dispose ();
+
 			Application.Quit ();
 			a.RetVal = true;
 
-			if (bt != null) {
-				bt.Dispose ();
-			}
-
-			imagepanel1.Dispose ();
 			File.Delete (tempScaledImageFileName);
 			File.Delete (Constants.I.EXEPATH + blackFileName);
 		}

@@ -44,12 +44,28 @@ namespace Picturez
 			SetLanguageToGui ();
 			Initialize(true);
 
-			if (constants.WINDOWS)
-				Gtk.Drag.DestSet (this, 0, null, 0);
-			else
-				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+		if (constants.WINDOWS) {
+			Gtk.Drag.DestSet (this, 0, null, 0);
+		} else {
+			// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+			// Otherwise ShadowType.In looks terrible at Win10.
+			frameCursorPos.ShadowType = ShadowType.In;
+			frameSteganography.ShadowType = ShadowType.In;
+			frameModus.ShadowType = ShadowType.In;
+			frameKey.ShadowType = ShadowType.In;
+			frameContent.ShadowType = ShadowType.In;
+			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+		}
 
 			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+		}
+
+		public override void Destroy ()
+		{
+			if (bt != null) {
+				bt.Dispose ();
+			}
+			base.Destroy ();
 		}
 
 		private void LoadException()
@@ -316,12 +332,14 @@ namespace Picturez
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
-			Application.Quit ();
-			a.RetVal = true;
-
 			if (bt != null) {
 				bt.Dispose ();
 			}
+			this.DestroyAll ();
+
+			Application.Quit ();
+			a.RetVal = true;
+
 			File.Delete (tempScaledImageFileName);
 			File.Delete (Constants.I.EXEPATH + blackFileName);
 		}

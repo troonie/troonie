@@ -80,7 +80,6 @@ namespace Picturez
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameSteganography = new global::Gtk.Frame ();
 			this.frameSteganography.Name = "frameSteganography";
-			this.frameSteganography.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameSteganography.Gtk.Container+ContainerChild
 			this.AlignmentFrameSteganography = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.AlignmentFrameSteganography.Name = "AlignmentFrameSteganography";
@@ -94,7 +93,6 @@ namespace Picturez
 			// Container child vboxSteganography.Gtk.Box+BoxChild
 			this.frameModus = new global::Gtk.Frame ();
 			this.frameModus.Name = "frameModus";
-			this.frameModus.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameModus.Gtk.Container+ContainerChild
 			this.AlignmentFrameModus = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.AlignmentFrameModus.Name = "AlignmentFrameModus";
@@ -138,7 +136,6 @@ namespace Picturez
 			// Container child vboxSteganography.Gtk.Box+BoxChild
 			this.frameKey = new global::Gtk.Frame ();
 			this.frameKey.Name = "frameKey";
-			this.frameKey.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameKey.Gtk.Container+ContainerChild
 			this.AlignmentFrameKey = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.AlignmentFrameKey.Name = "AlignmentFrameKey";
@@ -166,7 +163,6 @@ namespace Picturez
 			// Container child vboxSteganography.Gtk.Box+BoxChild
 			this.frameContent = new global::Gtk.Frame ();
 			this.frameContent.Name = "frameContent";
-			this.frameContent.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameContent.Gtk.Container+ContainerChild
 			this.AlignmentFrameContent = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.AlignmentFrameContent.Name = "AlignmentFrameContent";
@@ -205,7 +201,6 @@ namespace Picturez
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameCursorPos = new global::Gtk.Frame ();
 			this.frameCursorPos.Name = "frameCursorPos";
-			this.frameCursorPos.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameCursorPos.Gtk.Container+ContainerChild
 			this.GtkAlignment1 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment1.Name = "GtkAlignment1";

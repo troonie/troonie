@@ -52,6 +52,14 @@ namespace Picturez
 			ButtonReleaseEvent+=new ButtonReleaseEventHandler(OnButtonReleased);
 			// Focused += OnFocused;
 		}
+
+//		public override void Destroy ()
+//		{
+//			da.Destroy ();
+//			da.Dispose ();
+//			base.Destroy ();
+//			base.Dispose ();
+//		}
 			
 		public void SetPressedIn (bool p_IsPressedin)
 		{
@@ -73,10 +81,13 @@ namespace Picturez
 			} else {
 				sw_doubleClick.Stop ();
 				if (sw_doubleClick.ElapsedMilliseconds < Constants.TIME_DOUBLECLICK) {
-					Process p = new Process ();
-					p.StartInfo.FileName = Constants.I.EXEPATH + Constants.EXENAME;
-					p.StartInfo.Arguments = " -e \"" + FullText + "\"";
-					p.Start ();
+//					Process p = new Process ();
+//					p.StartInfo.FileName = Constants.I.EXEPATH + Constants.EXENAME;
+//					p.StartInfo.Arguments = " -e \"" + FullText + "\"";
+//					p.Start ();
+
+					StarterWidget start = new StarterWidget (new string[] {FullText});
+					start.Show ();
 				}
 				firstClick = true;
 			}

@@ -76,11 +76,13 @@ namespace Picturez
 			this.Build ();
 		}	
 
-		public override void Dispose ()
+		public override void Destroy ()
 		{
 			DisposeFixedWidgetChildrenAndSurface();
+			drawingAreaImage.Destroy ();
 			drawingAreaImage.Dispose();
-			base.Dispose ();
+			base.Destroy ();
+//			base.Dispose ();
 		}
 
 		public void Initialize()
@@ -405,6 +407,7 @@ namespace Picturez
 					fixed1.Remove (w);
 					i--;
 					w.Destroy ();
+					w.Dispose ();
 					w = null;
 				}
 			}

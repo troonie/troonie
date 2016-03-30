@@ -86,6 +86,7 @@ namespace Picturez
 			w1.Position = 0;
 			w1.Expand = false;
 			w1.Fill = false;
+			w1.Padding = ((uint)(5));
 			// Container child vboxImagePanel.Gtk.Box+BoxChild
 			this.checkBtnUse255ForAlpha = new global::Gtk.CheckButton ();
 			this.checkBtnUse255ForAlpha.CanFocus = true;
@@ -104,6 +105,7 @@ namespace Picturez
 			w3.Position = 0;
 			w3.Expand = false;
 			w3.Fill = false;
+			w3.Padding = ((uint)(5));
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
@@ -111,7 +113,6 @@ namespace Picturez
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameComboboxes = new global::Gtk.Frame ();
 			this.frameComboboxes.Name = "frameComboboxes";
-			this.frameComboboxes.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameComboboxes.Gtk.Container+ContainerChild
 			this.AlignmentFrameComboboxes = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.AlignmentFrameComboboxes.Name = "AlignmentFrameComboboxes";
@@ -125,7 +126,6 @@ namespace Picturez
 			// Container child vboxSteganography1.Gtk.Box+BoxChild
 			this.frame_combobox1 = new global::Gtk.Frame ();
 			this.frame_combobox1.Name = "frame_combobox1";
-			this.frame_combobox1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame_combobox1.Gtk.Container+ContainerChild
 			this.alignment_combobox1 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.alignment_combobox1.Name = "alignment_combobox1";
@@ -148,7 +148,6 @@ namespace Picturez
 			// Container child vboxSteganography1.Gtk.Box+BoxChild
 			this.frame_combobox2 = new global::Gtk.Frame ();
 			this.frame_combobox2.Name = "frame_combobox2";
-			this.frame_combobox2.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame_combobox2.Gtk.Container+ContainerChild
 			this.alignment_combobox2 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.alignment_combobox2.Name = "alignment_combobox2";
@@ -171,7 +170,6 @@ namespace Picturez
 			// Container child vboxSteganography1.Gtk.Box+BoxChild
 			this.frame_combobox3 = new global::Gtk.Frame ();
 			this.frame_combobox3.Name = "frame_combobox3";
-			this.frame_combobox3.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame_combobox3.Gtk.Container+ContainerChild
 			this.alignment_combobox3 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.alignment_combobox3.Name = "alignment_combobox3";
@@ -201,7 +199,6 @@ namespace Picturez
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameHScales = new global::Gtk.Frame ();
 			this.frameHScales.Name = "frameHScales";
-			this.frameHScales.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameHScales.Gtk.Container+ContainerChild
 			this.AlignmentFrameHScales = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.AlignmentFrameHScales.Name = "AlignmentFrameHScales";
@@ -215,7 +212,6 @@ namespace Picturez
 			// Container child vboxFrameHScales.Gtk.Box+BoxChild
 			this.frame_hscale1 = new global::Gtk.Frame ();
 			this.frame_hscale1.Name = "frame_hscale1";
-			this.frame_hscale1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame_hscale1.Gtk.Container+ContainerChild
 			this.alignment_hscale1 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.alignment_hscale1.Name = "alignment_hscale1";
@@ -245,7 +241,6 @@ namespace Picturez
 			// Container child vboxFrameHScales.Gtk.Box+BoxChild
 			this.frame_hscale2 = new global::Gtk.Frame ();
 			this.frame_hscale2.Name = "frame_hscale2";
-			this.frame_hscale2.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame_hscale2.Gtk.Container+ContainerChild
 			this.alignment_hscale2 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.alignment_hscale2.Name = "alignment_hscale2";
@@ -275,7 +270,6 @@ namespace Picturez
 			// Container child vboxFrameHScales.Gtk.Box+BoxChild
 			this.frame_hscale3 = new global::Gtk.Frame ();
 			this.frame_hscale3.Name = "frame_hscale3";
-			this.frame_hscale3.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame_hscale3.Gtk.Container+ContainerChild
 			this.alignment_hscale3 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.alignment_hscale3.Name = "alignment_hscale3";
@@ -305,7 +299,6 @@ namespace Picturez
 			// Container child vboxFrameHScales.Gtk.Box+BoxChild
 			this.frame_hscale4 = new global::Gtk.Frame ();
 			this.frame_hscale4.Name = "frame_hscale4";
-			this.frame_hscale4.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame_hscale4.Gtk.Container+ContainerChild
 			this.alignment_hscale4 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.alignment_hscale4.Name = "alignment_hscale4";
@@ -335,7 +328,6 @@ namespace Picturez
 			// Container child vboxFrameHScales.Gtk.Box+BoxChild
 			this.frame_hscale5 = new global::Gtk.Frame ();
 			this.frame_hscale5.Name = "frame_hscale5";
-			this.frame_hscale5.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame_hscale5.Gtk.Container+ContainerChild
 			this.alignment_hscale5 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.alignment_hscale5.Name = "alignment_hscale5";
@@ -372,7 +364,6 @@ namespace Picturez
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameCursorPos = new global::Gtk.Frame ();
 			this.frameCursorPos.Name = "frameCursorPos";
-			this.frameCursorPos.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameCursorPos.Gtk.Container+ContainerChild
 			this.GtkAlignment1 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment1.Name = "GtkAlignment1";

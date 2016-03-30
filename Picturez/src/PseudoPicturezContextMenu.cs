@@ -54,7 +54,8 @@ namespace Picturez
 				OnReleasedOkButton.Invoke(); //calls its EventHandler                
 			} //if not, ignore
 
-			Destroy();
+//			Destroy();
+			this.DestroyAll ();
 		}
 
 		protected void OnPicBtnCancelButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
@@ -65,7 +66,8 @@ namespace Picturez
 				OnReleasedCancelButton.Invoke(); //calls its EventHandler                
 			} //if not, ignore
 
-			Destroy();
+//			Destroy();
+			this.DestroyAll ();
 		}
 	}
 }

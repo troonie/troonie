@@ -63,7 +63,15 @@ namespace Picturez
 			LeaveNotifyEvent += OnLeaveNotify;
 			ButtonPressEvent+=new ButtonPressEventHandler(OnButtonPressed);
 			ButtonReleaseEvent+=new ButtonReleaseEventHandler(OnButtonReleased);
-		}			
+		}	
+
+//		public override void Destroy ()
+//		{
+//			da.Destroy ();
+//			da.Dispose ();
+//			base.Destroy ();
+////			base.Dispose ();
+//		}
 
 		public void Redraw()
 		{

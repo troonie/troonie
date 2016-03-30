@@ -97,7 +97,6 @@ namespace Picturez
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameCutPoints = new global::Gtk.Frame ();
 			this.frameCutPoints.Name = "frameCutPoints";
-			this.frameCutPoints.ShadowType = ((global::Gtk.ShadowType)(0));
 			// Container child frameCutPoints.Gtk.Container+ContainerChild
 			this.GtkAlignment2 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment2.Name = "GtkAlignment2";
@@ -346,7 +345,6 @@ namespace Picturez
 			this.frameRotation = new global::Gtk.Frame ();
 			this.frameRotation.TooltipMarkup = "Ready in next version.";
 			this.frameRotation.Name = "frameRotation";
-			this.frameRotation.ShadowType = ((global::Gtk.ShadowType)(0));
 			// Container child frameRotation.Gtk.Container+ContainerChild
 			this.GtkAlignment3 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment3.Name = "GtkAlignment3";
@@ -421,7 +419,6 @@ namespace Picturez
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameImageDimensions = new global::Gtk.Frame ();
 			this.frameImageDimensions.Name = "frameImageDimensions";
-			this.frameImageDimensions.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameImageDimensions.Gtk.Container+ContainerChild
 			this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment.Name = "GtkAlignment";
@@ -486,7 +483,6 @@ namespace Picturez
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameCursorPos = new global::Gtk.Frame ();
 			this.frameCursorPos.Name = "frameCursorPos";
-			this.frameCursorPos.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameCursorPos.Gtk.Container+ContainerChild
 			this.GtkAlignment1 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment1.Name = "GtkAlignment1";

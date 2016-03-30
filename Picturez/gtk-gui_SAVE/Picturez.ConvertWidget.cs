@@ -6,6 +6,8 @@ namespace Picturez
 	{
 		private global::Gtk.UIManager UIManager;
 		private global::Gtk.Action openAction;
+		private global::Gtk.ScrolledWindow scrolledwindowRoot;
+		private global::Gtk.EventBox eventboxRoot;
 		private global::Gtk.VBox vbox1;
 		private global::Gtk.EventBox eventboxToolbar;
 		private global::Gtk.HBox hboxToolbarButtons;
@@ -51,6 +53,7 @@ namespace Picturez
 		private global::Gtk.Frame frame6;
 		private global::Gtk.Alignment GtkAlignment7;
 		private global::Gtk.VBox vbox7;
+		private global::Gtk.HBox hbox4;
 		private global::Gtk.RadioButton rdTiff;
 		private global::Gtk.RadioButton rdGif;
 		private global::Gtk.RadioButton rdWmf;
@@ -61,21 +64,13 @@ namespace Picturez
 		private global::Gtk.Frame frameImageResize;
 		private global::Gtk.Alignment GtkAlignment8;
 		private global::Gtk.VBox vbox6;
-		private global::Gtk.Frame frame7;
-		private global::Gtk.Alignment GtkAlignment9;
 		private global::Gtk.RadioButton rdOriginalSize;
-		private global::Gtk.Label GtkLabel24;
-		private global::Gtk.Frame frame8;
-		private global::Gtk.Alignment GtkAlignment10;
 		private global::Gtk.VBox vbox9;
 		private global::Gtk.RadioButton rdBiggerLength;
 		private global::Gtk.HBox hbox7;
 		private global::Gtk.Fixed fixed4;
 		private global::Gtk.Entry entryBiggerLength;
 		private global::Gtk.Label lbPixel_BiggerLength;
-		private global::Gtk.Label GtkLabel26;
-		private global::Gtk.Frame frame9;
-		private global::Gtk.Alignment GtkAlignment11;
 		private global::Gtk.VBox vbox8;
 		private global::Gtk.RadioButton rdFixSize;
 		private global::Gtk.HBox hbox3;
@@ -87,7 +82,6 @@ namespace Picturez
 		private global::Gtk.Label lbX;
 		private global::Gtk.Entry entryFixSizeHeight;
 		private global::Gtk.Label lbPixel_FixSize;
-		private global::Gtk.Label GtkLabel30;
 		private global::Gtk.Label lbFrameImageResize;
 		private global::Gtk.Frame frameOutputDirectory;
 		private global::Gtk.Alignment GtkAlignment12;
@@ -111,6 +105,17 @@ namespace Picturez
 			this.UIManager.InsertActionGroup (w2, 0);
 			this.Name = "Picturez.ConvertWidget";
 			// Container child Picturez.ConvertWidget.Gtk.Container+ContainerChild
+			this.scrolledwindowRoot = new global::Gtk.ScrolledWindow ();
+			this.scrolledwindowRoot.CanFocus = true;
+			this.scrolledwindowRoot.Name = "scrolledwindowRoot";
+			this.scrolledwindowRoot.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child scrolledwindowRoot.Gtk.Container+ContainerChild
+			global::Gtk.Viewport w3 = new global::Gtk.Viewport ();
+			w3.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child GtkViewport.Gtk.Container+ContainerChild
+			this.eventboxRoot = new global::Gtk.EventBox ();
+			this.eventboxRoot.Name = "eventboxRoot";
+			// Container child eventboxRoot.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
 			this.vbox1.Spacing = 6;
@@ -123,9 +128,9 @@ namespace Picturez
 			this.hboxToolbarButtons.Spacing = 6;
 			this.eventboxToolbar.Add (this.hboxToolbarButtons);
 			this.vbox1.Add (this.eventboxToolbar);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.eventboxToolbar]));
-			w4.Position = 0;
-			w4.Expand = false;
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.eventboxToolbar]));
+			w5.Position = 0;
+			w5.Expand = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.hbox1 = new global::Gtk.HBox ();
 			this.hbox1.Name = "hbox1";
@@ -135,7 +140,6 @@ namespace Picturez
 			this.frameImageList = new global::Gtk.Frame ();
 			this.frameImageList.WidthRequest = 200;
 			this.frameImageList.Name = "frameImageList";
-			this.frameImageList.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameImageList.Gtk.Container+ContainerChild
 			this.AlignmentImageList = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.AlignmentImageList.Name = "AlignmentImageList";
@@ -146,9 +150,9 @@ namespace Picturez
 			this.scrolledWinImageList.Name = "scrolledWinImageList";
 			this.scrolledWinImageList.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child scrolledWinImageList.Gtk.Container+ContainerChild
-			global::Gtk.Viewport w5 = new global::Gtk.Viewport ();
-			w5.ShadowType = ((global::Gtk.ShadowType)(0));
-			// Container child GtkViewport.Gtk.Container+ContainerChild
+			global::Gtk.Viewport w6 = new global::Gtk.Viewport ();
+			w6.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child GtkViewport1.Gtk.Container+ContainerChild
 			this.eventboxImageList = new global::Gtk.EventBox ();
 			this.eventboxImageList.Name = "eventboxImageList";
 			// Container child eventboxImageList.Gtk.Container+ContainerChild
@@ -156,8 +160,8 @@ namespace Picturez
 			this.vboxImageList.Name = "vboxImageList";
 			this.vboxImageList.Spacing = 6;
 			this.eventboxImageList.Add (this.vboxImageList);
-			w5.Add (this.eventboxImageList);
-			this.scrolledWinImageList.Add (w5);
+			w6.Add (this.eventboxImageList);
+			this.scrolledWinImageList.Add (w6);
 			this.AlignmentImageList.Add (this.scrolledWinImageList);
 			this.frameImageList.Add (this.AlignmentImageList);
 			this.GtkLabel29 = new global::Gtk.Label ();
@@ -166,8 +170,8 @@ namespace Picturez
 			this.GtkLabel29.UseMarkup = true;
 			this.frameImageList.LabelWidget = this.GtkLabel29;
 			this.hbox1.Add (this.frameImageList);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.frameImageList]));
-			w11.Position = 0;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.frameImageList]));
+			w12.Position = 0;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.vbox2 = new global::Gtk.VBox ();
 			this.vbox2.Name = "vbox2";
@@ -175,7 +179,6 @@ namespace Picturez
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.frameImageFormat = new global::Gtk.Frame ();
 			this.frameImageFormat.Name = "frameImageFormat";
-			this.frameImageFormat.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameImageFormat.Gtk.Container+ContainerChild
 			this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment.Name = "GtkAlignment";
@@ -208,17 +211,17 @@ namespace Picturez
 			this.rdJpeg.UseUnderline = true;
 			this.rdJpeg.Group = new global::GLib.SList (global::System.IntPtr.Zero);
 			this.hbox2.Add (this.rdJpeg);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.rdJpeg]));
-			w12.Position = 0;
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.rdJpeg]));
+			w13.Position = 0;
 			// Container child hbox2.Gtk.Box+BoxChild
 			this.lbQuality = new global::Gtk.Label ();
 			this.lbQuality.Name = "lbQuality";
 			this.lbQuality.LabelProp = global::Mono.Unix.Catalog.GetString ("Quality");
 			this.hbox2.Add (this.lbQuality);
-			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.lbQuality]));
-			w13.Position = 1;
-			w13.Expand = false;
-			w13.Fill = false;
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.lbQuality]));
+			w14.Position = 1;
+			w14.Expand = false;
+			w14.Fill = false;
 			// Container child hbox2.Gtk.Box+BoxChild
 			this.hscaleQuality = new global::Gtk.HScale (null);
 			this.hscaleQuality.CanFocus = true;
@@ -232,13 +235,13 @@ namespace Picturez
 			this.hscaleQuality.Digits = 0;
 			this.hscaleQuality.ValuePos = ((global::Gtk.PositionType)(2));
 			this.hbox2.Add (this.hscaleQuality);
-			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.hscaleQuality]));
-			w14.Position = 2;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.hscaleQuality]));
+			w15.Position = 2;
 			this.vbox3.Add (this.hbox2);
-			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.hbox2]));
-			w15.Position = 0;
-			w15.Expand = false;
-			w15.Fill = false;
+			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.hbox2]));
+			w16.Position = 0;
+			w16.Expand = false;
+			w16.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.rdJpegGray = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("JPEG (grayscale)"));
 			this.rdJpegGray.Sensitive = false;
@@ -248,10 +251,10 @@ namespace Picturez
 			this.rdJpegGray.UseUnderline = true;
 			this.rdJpegGray.Group = this.rdJpeg.Group;
 			this.vbox3.Add (this.rdJpegGray);
-			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.rdJpegGray]));
-			w16.Position = 1;
-			w16.Expand = false;
-			w16.Fill = false;
+			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.rdJpegGray]));
+			w17.Position = 1;
+			w17.Expand = false;
+			w17.Fill = false;
 			this.GtkAlignment4.Add (this.vbox3);
 			this.frame3.Add (this.GtkAlignment4);
 			this.GtkLabel6 = new global::Gtk.Label ();
@@ -260,10 +263,10 @@ namespace Picturez
 			this.GtkLabel6.UseMarkup = true;
 			this.frame3.LabelWidget = this.GtkLabel6;
 			this.VBoxImageFormat.Add (this.frame3);
-			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.VBoxImageFormat [this.frame3]));
-			w19.Position = 0;
-			w19.Expand = false;
-			w19.Fill = false;
+			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.VBoxImageFormat [this.frame3]));
+			w20.Position = 0;
+			w20.Expand = false;
+			w20.Fill = false;
 			// Container child VBoxImageFormat.Gtk.Box+BoxChild
 			this.frame4 = new global::Gtk.Frame ();
 			this.frame4.Name = "frame4";
@@ -285,10 +288,10 @@ namespace Picturez
 			this.rdPng1bit.UseUnderline = true;
 			this.rdPng1bit.Group = this.rdJpeg.Group;
 			this.vbox4.Add (this.rdPng1bit);
-			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.rdPng1bit]));
-			w20.Position = 0;
-			w20.Expand = false;
-			w20.Fill = false;
+			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.rdPng1bit]));
+			w21.Position = 0;
+			w21.Expand = false;
+			w21.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.rdPng8Bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("8 Bit PNG grayscale"));
 			this.rdPng8Bit.CanFocus = true;
@@ -297,10 +300,10 @@ namespace Picturez
 			this.rdPng8Bit.UseUnderline = true;
 			this.rdPng8Bit.Group = this.rdJpeg.Group;
 			this.vbox4.Add (this.rdPng8Bit);
-			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.rdPng8Bit]));
-			w21.Position = 1;
-			w21.Expand = false;
-			w21.Fill = false;
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.rdPng8Bit]));
+			w22.Position = 1;
+			w22.Expand = false;
+			w22.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.rdPng24Bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("24 Bit PNG"));
 			this.rdPng24Bit.CanFocus = true;
@@ -309,10 +312,10 @@ namespace Picturez
 			this.rdPng24Bit.UseUnderline = true;
 			this.rdPng24Bit.Group = this.rdJpeg.Group;
 			this.vbox4.Add (this.rdPng24Bit);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.rdPng24Bit]));
-			w22.Position = 2;
-			w22.Expand = false;
-			w22.Fill = false;
+			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.rdPng24Bit]));
+			w23.Position = 2;
+			w23.Expand = false;
+			w23.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.hbox5 = new global::Gtk.HBox ();
 			this.hbox5.Name = "hbox5";
@@ -325,18 +328,18 @@ namespace Picturez
 			this.rdPNG32bit.UseUnderline = true;
 			this.rdPNG32bit.Group = this.rdJpeg.Group;
 			this.hbox5.Add (this.rdPNG32bit);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.rdPNG32bit]));
-			w23.Position = 0;
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.rdPNG32bit]));
+			w24.Position = 0;
 			// Container child hbox5.Gtk.Box+BoxChild
 			this.lbTransparencyColor = new global::Gtk.Label ();
 			this.lbTransparencyColor.Sensitive = false;
 			this.lbTransparencyColor.Name = "lbTransparencyColor";
 			this.lbTransparencyColor.LabelProp = global::Mono.Unix.Catalog.GetString ("Transparancy color");
 			this.hbox5.Add (this.lbTransparencyColor);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.lbTransparencyColor]));
-			w24.Position = 1;
-			w24.Expand = false;
-			w24.Fill = false;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.lbTransparencyColor]));
+			w25.Position = 1;
+			w25.Expand = false;
+			w25.Fill = false;
 			// Container child hbox5.Gtk.Box+BoxChild
 			this.btnColor = new global::Gtk.ColorButton ();
 			this.btnColor.Sensitive = false;
@@ -344,15 +347,15 @@ namespace Picturez
 			this.btnColor.Events = ((global::Gdk.EventMask)(784));
 			this.btnColor.Name = "btnColor";
 			this.hbox5.Add (this.btnColor);
-			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.btnColor]));
-			w25.Position = 2;
-			w25.Expand = false;
-			w25.Fill = false;
-			this.vbox4.Add (this.hbox5);
-			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.hbox5]));
-			w26.Position = 3;
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.btnColor]));
+			w26.Position = 2;
 			w26.Expand = false;
 			w26.Fill = false;
+			this.vbox4.Add (this.hbox5);
+			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.hbox5]));
+			w27.Position = 3;
+			w27.Expand = false;
+			w27.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.rdPng32BitAlphaAsValue = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("32 Bit PNG (store alpha value)"));
 			this.rdPng32BitAlphaAsValue.CanFocus = true;
@@ -361,10 +364,10 @@ namespace Picturez
 			this.rdPng32BitAlphaAsValue.UseUnderline = true;
 			this.rdPng32BitAlphaAsValue.Group = this.rdJpeg.Group;
 			this.vbox4.Add (this.rdPng32BitAlphaAsValue);
-			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.rdPng32BitAlphaAsValue]));
-			w27.Position = 4;
-			w27.Expand = false;
-			w27.Fill = false;
+			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.rdPng32BitAlphaAsValue]));
+			w28.Position = 4;
+			w28.Expand = false;
+			w28.Fill = false;
 			this.GtkAlignment5.Add (this.vbox4);
 			this.frame4.Add (this.GtkAlignment5);
 			this.GtkLabel11 = new global::Gtk.Label ();
@@ -373,10 +376,10 @@ namespace Picturez
 			this.GtkLabel11.UseMarkup = true;
 			this.frame4.LabelWidget = this.GtkLabel11;
 			this.VBoxImageFormat.Add (this.frame4);
-			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.VBoxImageFormat [this.frame4]));
-			w30.Position = 1;
-			w30.Expand = false;
-			w30.Fill = false;
+			global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.VBoxImageFormat [this.frame4]));
+			w31.Position = 1;
+			w31.Expand = false;
+			w31.Fill = false;
 			// Container child VBoxImageFormat.Gtk.Box+BoxChild
 			this.frame5 = new global::Gtk.Frame ();
 			this.frame5.Name = "frame5";
@@ -398,10 +401,10 @@ namespace Picturez
 			this.rdBmp1bit.UseUnderline = true;
 			this.rdBmp1bit.Group = this.rdJpeg.Group;
 			this.vbox5.Add (this.rdBmp1bit);
-			global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.rdBmp1bit]));
-			w31.Position = 0;
-			w31.Expand = false;
-			w31.Fill = false;
+			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.rdBmp1bit]));
+			w32.Position = 0;
+			w32.Expand = false;
+			w32.Fill = false;
 			// Container child vbox5.Gtk.Box+BoxChild
 			this.rdBmp8bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("8 Bit BMP grayscale"));
 			this.rdBmp8bit.CanFocus = true;
@@ -410,10 +413,10 @@ namespace Picturez
 			this.rdBmp8bit.UseUnderline = true;
 			this.rdBmp8bit.Group = this.rdJpeg.Group;
 			this.vbox5.Add (this.rdBmp8bit);
-			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.rdBmp8bit]));
-			w32.Position = 1;
-			w32.Expand = false;
-			w32.Fill = false;
+			global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.rdBmp8bit]));
+			w33.Position = 1;
+			w33.Expand = false;
+			w33.Fill = false;
 			// Container child vbox5.Gtk.Box+BoxChild
 			this.rdBmp24bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("24 Bit BMP"));
 			this.rdBmp24bit.CanFocus = true;
@@ -422,10 +425,10 @@ namespace Picturez
 			this.rdBmp24bit.UseUnderline = true;
 			this.rdBmp24bit.Group = this.rdJpeg.Group;
 			this.vbox5.Add (this.rdBmp24bit);
-			global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.rdBmp24bit]));
-			w33.Position = 2;
-			w33.Expand = false;
-			w33.Fill = false;
+			global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.rdBmp24bit]));
+			w34.Position = 2;
+			w34.Expand = false;
+			w34.Fill = false;
 			this.GtkAlignment6.Add (this.vbox5);
 			this.frame5.Add (this.GtkAlignment6);
 			this.GtkLabel15 = new global::Gtk.Label ();
@@ -434,10 +437,10 @@ namespace Picturez
 			this.GtkLabel15.UseMarkup = true;
 			this.frame5.LabelWidget = this.GtkLabel15;
 			this.VBoxImageFormat.Add (this.frame5);
-			global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.VBoxImageFormat [this.frame5]));
-			w36.Position = 2;
-			w36.Expand = false;
-			w36.Fill = false;
+			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.VBoxImageFormat [this.frame5]));
+			w37.Position = 2;
+			w37.Expand = false;
+			w37.Fill = false;
 			// Container child VBoxImageFormat.Gtk.Box+BoxChild
 			this.frame6 = new global::Gtk.Frame ();
 			this.frame6.Name = "frame6";
@@ -451,65 +454,64 @@ namespace Picturez
 			this.vbox7.Name = "vbox7";
 			this.vbox7.Spacing = 6;
 			// Container child vbox7.Gtk.Box+BoxChild
+			this.hbox4 = new global::Gtk.HBox ();
+			this.hbox4.Name = "hbox4";
+			this.hbox4.Spacing = 6;
+			// Container child hbox4.Gtk.Box+BoxChild
 			this.rdTiff = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("TIFF"));
 			this.rdTiff.CanFocus = true;
 			this.rdTiff.Name = "rdTiff";
 			this.rdTiff.DrawIndicator = true;
 			this.rdTiff.UseUnderline = true;
 			this.rdTiff.Group = this.rdJpeg.Group;
-			this.vbox7.Add (this.rdTiff);
-			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.rdTiff]));
-			w37.Position = 0;
-			w37.Expand = false;
-			w37.Fill = false;
-			// Container child vbox7.Gtk.Box+BoxChild
+			this.hbox4.Add (this.rdTiff);
+			global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.rdTiff]));
+			w38.Position = 0;
+			// Container child hbox4.Gtk.Box+BoxChild
 			this.rdGif = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("GIF"));
 			this.rdGif.CanFocus = true;
 			this.rdGif.Name = "rdGif";
 			this.rdGif.DrawIndicator = true;
 			this.rdGif.UseUnderline = true;
 			this.rdGif.Group = this.rdJpeg.Group;
-			this.vbox7.Add (this.rdGif);
-			global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.rdGif]));
-			w38.Position = 1;
-			w38.Expand = false;
-			w38.Fill = false;
-			// Container child vbox7.Gtk.Box+BoxChild
+			this.hbox4.Add (this.rdGif);
+			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.rdGif]));
+			w39.Position = 1;
+			// Container child hbox4.Gtk.Box+BoxChild
 			this.rdWmf = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("WMF"));
 			this.rdWmf.CanFocus = true;
 			this.rdWmf.Name = "rdWmf";
 			this.rdWmf.DrawIndicator = true;
 			this.rdWmf.UseUnderline = true;
 			this.rdWmf.Group = this.rdJpeg.Group;
-			this.vbox7.Add (this.rdWmf);
-			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.rdWmf]));
-			w39.Position = 2;
-			w39.Expand = false;
-			w39.Fill = false;
-			// Container child vbox7.Gtk.Box+BoxChild
+			this.hbox4.Add (this.rdWmf);
+			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.rdWmf]));
+			w40.Position = 2;
+			// Container child hbox4.Gtk.Box+BoxChild
 			this.rdEmf = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("EMF"));
 			this.rdEmf.CanFocus = true;
 			this.rdEmf.Name = "rdEmf";
 			this.rdEmf.DrawIndicator = true;
 			this.rdEmf.UseUnderline = true;
 			this.rdEmf.Group = this.rdJpeg.Group;
-			this.vbox7.Add (this.rdEmf);
-			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.rdEmf]));
-			w40.Position = 3;
-			w40.Expand = false;
-			w40.Fill = false;
-			// Container child vbox7.Gtk.Box+BoxChild
+			this.hbox4.Add (this.rdEmf);
+			global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.rdEmf]));
+			w41.Position = 3;
+			// Container child hbox4.Gtk.Box+BoxChild
 			this.rdIcon = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("ICON"));
 			this.rdIcon.CanFocus = true;
 			this.rdIcon.Name = "rdIcon";
 			this.rdIcon.DrawIndicator = true;
 			this.rdIcon.UseUnderline = true;
 			this.rdIcon.Group = this.rdJpeg.Group;
-			this.vbox7.Add (this.rdIcon);
-			global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.rdIcon]));
-			w41.Position = 4;
-			w41.Expand = false;
-			w41.Fill = false;
+			this.hbox4.Add (this.rdIcon);
+			global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.rdIcon]));
+			w42.Position = 4;
+			this.vbox7.Add (this.hbox4);
+			global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.hbox4]));
+			w43.Position = 0;
+			w43.Expand = false;
+			w43.Fill = false;
 			this.GtkAlignment7.Add (this.vbox7);
 			this.frame6.Add (this.GtkAlignment7);
 			this.GtkLabel21 = new global::Gtk.Label ();
@@ -518,10 +520,8 @@ namespace Picturez
 			this.GtkLabel21.UseMarkup = true;
 			this.frame6.LabelWidget = this.GtkLabel21;
 			this.VBoxImageFormat.Add (this.frame6);
-			global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.VBoxImageFormat [this.frame6]));
-			w44.Position = 3;
-			w44.Expand = false;
-			w44.Fill = false;
+			global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.VBoxImageFormat [this.frame6]));
+			w46.Position = 3;
 			this.GtkAlignment.Add (this.VBoxImageFormat);
 			this.frameImageFormat.Add (this.GtkAlignment);
 			this.lbFrameImageFormat = new global::Gtk.Label ();
@@ -530,14 +530,11 @@ namespace Picturez
 			this.lbFrameImageFormat.UseMarkup = true;
 			this.frameImageFormat.LabelWidget = this.lbFrameImageFormat;
 			this.vbox2.Add (this.frameImageFormat);
-			global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.frameImageFormat]));
-			w47.Position = 0;
-			w47.Expand = false;
-			w47.Fill = false;
+			global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.frameImageFormat]));
+			w49.Position = 0;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.frameImageResize = new global::Gtk.Frame ();
 			this.frameImageResize.Name = "frameImageResize";
-			this.frameImageResize.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameImageResize.Gtk.Container+ContainerChild
 			this.GtkAlignment8 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment8.Name = "GtkAlignment8";
@@ -547,42 +544,18 @@ namespace Picturez
 			this.vbox6.Name = "vbox6";
 			this.vbox6.Spacing = 6;
 			// Container child vbox6.Gtk.Box+BoxChild
-			this.frame7 = new global::Gtk.Frame ();
-			this.frame7.Name = "frame7";
-			this.frame7.ShadowType = ((global::Gtk.ShadowType)(0));
-			// Container child frame7.Gtk.Container+ContainerChild
-			this.GtkAlignment9 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.GtkAlignment9.Name = "GtkAlignment9";
-			this.GtkAlignment9.LeftPadding = ((uint)(12));
-			// Container child GtkAlignment9.Gtk.Container+ContainerChild
 			this.rdOriginalSize = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Retain original size"));
 			this.rdOriginalSize.CanFocus = true;
 			this.rdOriginalSize.Name = "rdOriginalSize";
-			this.rdOriginalSize.Active = true;
 			this.rdOriginalSize.DrawIndicator = true;
 			this.rdOriginalSize.UseUnderline = true;
 			this.rdOriginalSize.Group = new global::GLib.SList (global::System.IntPtr.Zero);
-			this.GtkAlignment9.Add (this.rdOriginalSize);
-			this.frame7.Add (this.GtkAlignment9);
-			this.GtkLabel24 = new global::Gtk.Label ();
-			this.GtkLabel24.Name = "GtkLabel24";
-			this.GtkLabel24.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Original Size</b>");
-			this.GtkLabel24.UseMarkup = true;
-			this.frame7.LabelWidget = this.GtkLabel24;
-			this.vbox6.Add (this.frame7);
-			global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.frame7]));
+			this.vbox6.Add (this.rdOriginalSize);
+			global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.rdOriginalSize]));
 			w50.Position = 0;
 			w50.Expand = false;
 			w50.Fill = false;
 			// Container child vbox6.Gtk.Box+BoxChild
-			this.frame8 = new global::Gtk.Frame ();
-			this.frame8.Name = "frame8";
-			this.frame8.ShadowType = ((global::Gtk.ShadowType)(0));
-			// Container child frame8.Gtk.Container+ContainerChild
-			this.GtkAlignment10 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.GtkAlignment10.Name = "GtkAlignment10";
-			this.GtkAlignment10.LeftPadding = ((uint)(12));
-			// Container child GtkAlignment10.Gtk.Container+ContainerChild
 			this.vbox9 = new global::Gtk.VBox ();
 			this.vbox9.Name = "vbox9";
 			this.vbox9.Spacing = 6;
@@ -639,27 +612,12 @@ namespace Picturez
 			w55.Position = 1;
 			w55.Expand = false;
 			w55.Fill = false;
-			this.GtkAlignment10.Add (this.vbox9);
-			this.frame8.Add (this.GtkAlignment10);
-			this.GtkLabel26 = new global::Gtk.Label ();
-			this.GtkLabel26.Name = "GtkLabel26";
-			this.GtkLabel26.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Length Bigger Side</b>");
-			this.GtkLabel26.UseMarkup = true;
-			this.frame8.LabelWidget = this.GtkLabel26;
-			this.vbox6.Add (this.frame8);
-			global::Gtk.Box.BoxChild w58 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.frame8]));
-			w58.Position = 1;
-			w58.Expand = false;
-			w58.Fill = false;
+			this.vbox6.Add (this.vbox9);
+			global::Gtk.Box.BoxChild w56 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.vbox9]));
+			w56.Position = 1;
+			w56.Expand = false;
+			w56.Fill = false;
 			// Container child vbox6.Gtk.Box+BoxChild
-			this.frame9 = new global::Gtk.Frame ();
-			this.frame9.Name = "frame9";
-			this.frame9.ShadowType = ((global::Gtk.ShadowType)(0));
-			// Container child frame9.Gtk.Container+ContainerChild
-			this.GtkAlignment11 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.GtkAlignment11.Name = "GtkAlignment11";
-			this.GtkAlignment11.LeftPadding = ((uint)(12));
-			// Container child GtkAlignment11.Gtk.Container+ContainerChild
 			this.vbox8 = new global::Gtk.VBox ();
 			this.vbox8.Name = "vbox8";
 			this.vbox8.Spacing = 6;
@@ -671,10 +629,10 @@ namespace Picturez
 			this.rdFixSize.UseUnderline = true;
 			this.rdFixSize.Group = this.rdOriginalSize.Group;
 			this.vbox8.Add (this.rdFixSize);
-			global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.rdFixSize]));
-			w59.Position = 0;
-			w59.Expand = false;
-			w59.Fill = false;
+			global::Gtk.Box.BoxChild w57 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.rdFixSize]));
+			w57.Position = 0;
+			w57.Expand = false;
+			w57.Fill = false;
 			// Container child vbox8.Gtk.Box+BoxChild
 			this.hbox3 = new global::Gtk.HBox ();
 			this.hbox3.Name = "hbox3";
@@ -685,9 +643,9 @@ namespace Picturez
 			this.fixed1.Name = "fixed1";
 			this.fixed1.HasWindow = false;
 			this.hbox3.Add (this.fixed1);
-			global::Gtk.Box.BoxChild w60 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.fixed1]));
-			w60.Position = 0;
-			w60.Expand = false;
+			global::Gtk.Box.BoxChild w58 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.fixed1]));
+			w58.Position = 0;
+			w58.Expand = false;
 			// Container child hbox3.Gtk.Box+BoxChild
 			this.checkBtnStretch = new global::Gtk.CheckButton ();
 			this.checkBtnStretch.Sensitive = false;
@@ -697,13 +655,13 @@ namespace Picturez
 			this.checkBtnStretch.DrawIndicator = true;
 			this.checkBtnStretch.UseUnderline = true;
 			this.hbox3.Add (this.checkBtnStretch);
-			global::Gtk.Box.BoxChild w61 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.checkBtnStretch]));
-			w61.Position = 1;
+			global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.checkBtnStretch]));
+			w59.Position = 1;
 			this.vbox8.Add (this.hbox3);
-			global::Gtk.Box.BoxChild w62 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.hbox3]));
-			w62.Position = 1;
-			w62.Expand = false;
-			w62.Fill = false;
+			global::Gtk.Box.BoxChild w60 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.hbox3]));
+			w60.Position = 1;
+			w60.Expand = false;
+			w60.Fill = false;
 			// Container child vbox8.Gtk.Box+BoxChild
 			this.hbox6 = new global::Gtk.HBox ();
 			this.hbox6.Name = "hbox6";
@@ -714,9 +672,9 @@ namespace Picturez
 			this.fixed3.Name = "fixed3";
 			this.fixed3.HasWindow = false;
 			this.hbox6.Add (this.fixed3);
-			global::Gtk.Box.BoxChild w63 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.fixed3]));
-			w63.Position = 0;
-			w63.Expand = false;
+			global::Gtk.Box.BoxChild w61 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.fixed3]));
+			w61.Position = 0;
+			w61.Expand = false;
 			// Container child hbox6.Gtk.Box+BoxChild
 			this.entryFixSizeWidth = new global::Gtk.Entry ();
 			this.entryFixSizeWidth.Sensitive = false;
@@ -727,19 +685,19 @@ namespace Picturez
 			this.entryFixSizeWidth.MaxLength = 8;
 			this.entryFixSizeWidth.InvisibleChar = '●';
 			this.hbox6.Add (this.entryFixSizeWidth);
-			global::Gtk.Box.BoxChild w64 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.entryFixSizeWidth]));
-			w64.Position = 1;
-			w64.Expand = false;
+			global::Gtk.Box.BoxChild w62 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.entryFixSizeWidth]));
+			w62.Position = 1;
+			w62.Expand = false;
 			// Container child hbox6.Gtk.Box+BoxChild
 			this.lbX = new global::Gtk.Label ();
 			this.lbX.Sensitive = false;
 			this.lbX.Name = "lbX";
 			this.lbX.LabelProp = global::Mono.Unix.Catalog.GetString ("x");
 			this.hbox6.Add (this.lbX);
-			global::Gtk.Box.BoxChild w65 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.lbX]));
-			w65.Position = 2;
-			w65.Expand = false;
-			w65.Fill = false;
+			global::Gtk.Box.BoxChild w63 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.lbX]));
+			w63.Position = 2;
+			w63.Expand = false;
+			w63.Fill = false;
 			// Container child hbox6.Gtk.Box+BoxChild
 			this.entryFixSizeHeight = new global::Gtk.Entry ();
 			this.entryFixSizeHeight.Sensitive = false;
@@ -750,36 +708,29 @@ namespace Picturez
 			this.entryFixSizeHeight.MaxLength = 8;
 			this.entryFixSizeHeight.InvisibleChar = '●';
 			this.hbox6.Add (this.entryFixSizeHeight);
-			global::Gtk.Box.BoxChild w66 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.entryFixSizeHeight]));
-			w66.Position = 3;
-			w66.Expand = false;
+			global::Gtk.Box.BoxChild w64 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.entryFixSizeHeight]));
+			w64.Position = 3;
+			w64.Expand = false;
 			// Container child hbox6.Gtk.Box+BoxChild
 			this.lbPixel_FixSize = new global::Gtk.Label ();
 			this.lbPixel_FixSize.Sensitive = false;
 			this.lbPixel_FixSize.Name = "lbPixel_FixSize";
 			this.lbPixel_FixSize.LabelProp = global::Mono.Unix.Catalog.GetString ("Pixel");
 			this.hbox6.Add (this.lbPixel_FixSize);
-			global::Gtk.Box.BoxChild w67 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.lbPixel_FixSize]));
-			w67.Position = 4;
+			global::Gtk.Box.BoxChild w65 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.lbPixel_FixSize]));
+			w65.Position = 4;
+			w65.Expand = false;
+			w65.Fill = false;
+			this.vbox8.Add (this.hbox6);
+			global::Gtk.Box.BoxChild w66 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.hbox6]));
+			w66.Position = 2;
+			w66.Expand = false;
+			w66.Fill = false;
+			this.vbox6.Add (this.vbox8);
+			global::Gtk.Box.BoxChild w67 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.vbox8]));
+			w67.Position = 2;
 			w67.Expand = false;
 			w67.Fill = false;
-			this.vbox8.Add (this.hbox6);
-			global::Gtk.Box.BoxChild w68 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.hbox6]));
-			w68.Position = 2;
-			w68.Expand = false;
-			w68.Fill = false;
-			this.GtkAlignment11.Add (this.vbox8);
-			this.frame9.Add (this.GtkAlignment11);
-			this.GtkLabel30 = new global::Gtk.Label ();
-			this.GtkLabel30.Name = "GtkLabel30";
-			this.GtkLabel30.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Fix Image Size</b>");
-			this.GtkLabel30.UseMarkup = true;
-			this.frame9.LabelWidget = this.GtkLabel30;
-			this.vbox6.Add (this.frame9);
-			global::Gtk.Box.BoxChild w71 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.frame9]));
-			w71.Position = 2;
-			w71.Expand = false;
-			w71.Fill = false;
 			this.GtkAlignment8.Add (this.vbox6);
 			this.frameImageResize.Add (this.GtkAlignment8);
 			this.lbFrameImageResize = new global::Gtk.Label ();
@@ -788,14 +739,13 @@ namespace Picturez
 			this.lbFrameImageResize.UseMarkup = true;
 			this.frameImageResize.LabelWidget = this.lbFrameImageResize;
 			this.vbox2.Add (this.frameImageResize);
-			global::Gtk.Box.BoxChild w74 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.frameImageResize]));
-			w74.Position = 1;
-			w74.Expand = false;
-			w74.Fill = false;
+			global::Gtk.Box.BoxChild w70 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.frameImageResize]));
+			w70.Position = 1;
+			w70.Expand = false;
+			w70.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.frameOutputDirectory = new global::Gtk.Frame ();
 			this.frameOutputDirectory.Name = "frameOutputDirectory";
-			this.frameOutputDirectory.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frameOutputDirectory.Gtk.Container+ContainerChild
 			this.GtkAlignment12 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment12.Name = "GtkAlignment12";
@@ -818,10 +768,10 @@ namespace Picturez
 			this.htlbOutputDirectory.Bold = false;
 			this.htlbOutputDirectory.Italic = false;
 			this.vboxOutputDirectory.Add (this.htlbOutputDirectory);
-			global::Gtk.Box.BoxChild w75 = ((global::Gtk.Box.BoxChild)(this.vboxOutputDirectory [this.htlbOutputDirectory]));
-			w75.Position = 0;
-			w75.Expand = false;
-			w75.Fill = false;
+			global::Gtk.Box.BoxChild w71 = ((global::Gtk.Box.BoxChild)(this.vboxOutputDirectory [this.htlbOutputDirectory]));
+			w71.Position = 0;
+			w71.Expand = false;
+			w71.Fill = false;
 			// Container child vboxOutputDirectory.Gtk.Box+BoxChild
 			this.checkBtnUseOriginalDirectory = new global::Gtk.CheckButton ();
 			this.checkBtnUseOriginalDirectory.CanFocus = true;
@@ -830,10 +780,10 @@ namespace Picturez
 			this.checkBtnUseOriginalDirectory.DrawIndicator = true;
 			this.checkBtnUseOriginalDirectory.UseUnderline = true;
 			this.vboxOutputDirectory.Add (this.checkBtnUseOriginalDirectory);
-			global::Gtk.Box.BoxChild w76 = ((global::Gtk.Box.BoxChild)(this.vboxOutputDirectory [this.checkBtnUseOriginalDirectory]));
-			w76.Position = 1;
-			w76.Expand = false;
-			w76.Fill = false;
+			global::Gtk.Box.BoxChild w72 = ((global::Gtk.Box.BoxChild)(this.vboxOutputDirectory [this.checkBtnUseOriginalDirectory]));
+			w72.Position = 1;
+			w72.Expand = false;
+			w72.Fill = false;
 			// Container child vboxOutputDirectory.Gtk.Box+BoxChild
 			this.checkBtnOverwriteOriginalImage = new global::Gtk.CheckButton ();
 			this.checkBtnOverwriteOriginalImage.CanFocus = true;
@@ -842,10 +792,10 @@ namespace Picturez
 			this.checkBtnOverwriteOriginalImage.DrawIndicator = true;
 			this.checkBtnOverwriteOriginalImage.UseUnderline = true;
 			this.vboxOutputDirectory.Add (this.checkBtnOverwriteOriginalImage);
-			global::Gtk.Box.BoxChild w77 = ((global::Gtk.Box.BoxChild)(this.vboxOutputDirectory [this.checkBtnOverwriteOriginalImage]));
-			w77.Position = 2;
-			w77.Expand = false;
-			w77.Fill = false;
+			global::Gtk.Box.BoxChild w73 = ((global::Gtk.Box.BoxChild)(this.vboxOutputDirectory [this.checkBtnOverwriteOriginalImage]));
+			w73.Position = 2;
+			w73.Expand = false;
+			w73.Fill = false;
 			this.GtkAlignment12.Add (this.vboxOutputDirectory);
 			this.frameOutputDirectory.Add (this.GtkAlignment12);
 			this.lbFrameOutputDirectory = new global::Gtk.Label ();
@@ -854,40 +804,44 @@ namespace Picturez
 			this.lbFrameOutputDirectory.UseMarkup = true;
 			this.frameOutputDirectory.LabelWidget = this.lbFrameOutputDirectory;
 			this.vbox2.Add (this.frameOutputDirectory);
-			global::Gtk.Box.BoxChild w80 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.frameOutputDirectory]));
-			w80.Position = 2;
-			w80.Expand = false;
-			w80.Fill = false;
+			global::Gtk.Box.BoxChild w76 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.frameOutputDirectory]));
+			w76.Position = 2;
+			w76.Expand = false;
+			w76.Fill = false;
 			this.hbox1.Add (this.vbox2);
-			global::Gtk.Box.BoxChild w81 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox2]));
-			w81.Position = 1;
-			w81.Padding = ((uint)(3));
+			global::Gtk.Box.BoxChild w77 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox2]));
+			w77.Position = 1;
+			w77.Padding = ((uint)(3));
 			this.vbox1.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w82 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
-			w82.Position = 1;
+			global::Gtk.Box.BoxChild w78 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
+			w78.Position = 1;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.progressbar1 = new global::Gtk.ProgressBar ();
 			this.progressbar1.Name = "progressbar1";
 			this.progressbar1.Text = global::Mono.Unix.Catalog.GetString (" ");
 			this.vbox1.Add (this.progressbar1);
-			global::Gtk.Box.BoxChild w83 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.progressbar1]));
-			w83.Position = 2;
-			w83.Expand = false;
-			w83.Fill = false;
+			global::Gtk.Box.BoxChild w79 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.progressbar1]));
+			w79.Position = 2;
+			w79.Expand = false;
+			w79.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.btnConvert = new global::Picturez.PicturezButton ();
 			this.btnConvert.Name = "btnConvert";
 			this.btnConvert.CheckReleaseState = false;
 			this.btnConvert.BorderlineWidth = 3;
-			this.btnConvert.ButtonHeight = 40;
+			this.btnConvert.ButtonHeight = 35;
 			this.btnConvert.Font = "Arial";
 			this.btnConvert.Text = "Convert";
-			this.btnConvert.TextSize = 18;
+			this.btnConvert.TextSize = 16;
 			this.vbox1.Add (this.btnConvert);
-			global::Gtk.Box.BoxChild w84 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnConvert]));
-			w84.Position = 3;
-			w84.Padding = ((uint)(3));
-			this.Add (this.vbox1);
+			global::Gtk.Box.BoxChild w80 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnConvert]));
+			w80.Position = 3;
+			w80.Expand = false;
+			w80.Fill = false;
+			this.eventboxRoot.Add (this.vbox1);
+			w3.Add (this.eventboxRoot);
+			this.scrolledwindowRoot.Add (w3);
+			this.Add (this.scrolledwindowRoot);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}

@@ -31,7 +31,7 @@ namespace Picturez
 
 			string filename = null;
 			// START VALUE
-//			args = new string[] { "-s"};
+//			args = new string[] { "-e"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args);
@@ -79,43 +79,6 @@ namespace Picturez
 				}
 			}
 
-//			if (args.Length != 0)
-//			{
-//				if (args [0] == "-e")
-//					edit = true;
-//				else if (args [0] == "-s")
-//					steg = true;
-//				else if (args [0] == "-d") {
-//					DirectoryInfo di = new DirectoryInfo (args [args.Length - 1]);
-//					if (di.Exists) {
-//						FileInfo[] fi = di.GetFiles ();
-//						int fiLength = fi.Length;
-//						args = new string[fiLength];
-//						for (int i = 0; i < fiLength; i++) {
-//							args[i] = fi [i].FullName;
-//						}
-//					};
-//				}
-//			}
-
-//			string filename = null;
-//			if (args.Length > 1)
-//				filename = args [args.Length - 1];
-//
-//			if (edit) {
-//				EditWidget win = new EditWidget (filename);
-//				win.Show ();
-//			} else if (steg){
-//				SteganographyWidget win = new SteganographyWidget ("test.jpg");
-//				win.Show ();
-//			} else {
-//				ConvertWidget convWidget = new ConvertWidget (args);
-//				convWidget.Show ();
-//			}
-
-//			StarterWidget start = new StarterWidget ();
-//			start.Visible = true;
-//			start.Show ();
 			Application.Run ();
 		}	
 

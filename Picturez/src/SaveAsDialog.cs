@@ -38,8 +38,8 @@ namespace Picturez
 
 			this.ModifyBg(StateType.Normal, colorConverter.GRID);
 			GtkLabel3.ModifyFg(StateType.Normal, colorConverter.FONT);
-			GtkLabel7.ModifyFg(StateType.Normal, colorConverter.FONT);
-			GtkLabel11.ModifyFg(StateType.Normal, colorConverter.FONT);
+			GtkLabel8.ModifyFg(StateType.Normal, colorConverter.FONT);
+			GtkLabel12.ModifyFg(StateType.Normal, colorConverter.FONT);
 			GtkLabel17.ModifyFg(StateType.Normal, colorConverter.FONT);
 			lbFile.ModifyFg(StateType.Normal, colorConverter.FONT);
 
@@ -47,6 +47,9 @@ namespace Picturez
 
 			// set path and filename
 			int lastDirectorySeparator = bitmap.FileName.LastIndexOf(IOPath.DirectorySeparatorChar);
+			if (lastDirectorySeparator == -1) {
+				lastDirectorySeparator = bitmap.FileName.LastIndexOf(IOPath.AltDirectorySeparatorChar);
+			}
 			int lastDot = bitmap.FileName.LastIndexOf('.');
 			int fileNameLength = lastDot - (lastDirectorySeparator + 1);
 			entryFilename.Text = bitmap.FileName.Substring (lastDirectorySeparator + 1, fileNameLength);
@@ -122,6 +125,14 @@ namespace Picturez
 				rdPng1bit.Sensitive = true;
 				rdBmp1bit.Sensitive = true;
 			} else {
+				// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+				// Otherwise ShadowType.In looks terrible at Win10.
+				frame3.ShadowType = ShadowType.In;
+				frame4.ShadowType = ShadowType.In;
+				frame5.ShadowType = ShadowType.In;
+				frame6.ShadowType = ShadowType.In;
+				frame7.ShadowType = ShadowType.In;
+
 				rdJpegGray.Sensitive = true;
 			}		
 		}

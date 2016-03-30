@@ -23,6 +23,7 @@ namespace Picturez
 			ConfigEdit.Save (config);
 
 			if (imagepanel1.Angle != 0) {
+				Console.WriteLine ("imagepanel1.Angle != 0, aber: =" + imagepanel1.Angle );
 				RotateBilinear rb = new RotateBilinear (imagepanel1.Angle, false);
 				b1 = imagepanel1.Angle == 0 ? bt.Bitmap : rb.Apply (bt.Bitmap);
 			} else {

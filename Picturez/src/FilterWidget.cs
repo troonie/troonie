@@ -47,6 +47,22 @@ namespace Picturez
 			SetLanguageToGui ();
 			Initialize();
 
+			if (!Constants.I.WINDOWS) {
+				// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+				// Otherwise ShadowType.In looks terrible at Win10.
+				frameCursorPos.ShadowType = ShadowType.In;
+				frameComboboxes.ShadowType = ShadowType.In;
+				frame_combobox1.ShadowType = ShadowType.In;
+				frame_combobox2.ShadowType = ShadowType.In;
+				frame_combobox3.ShadowType = ShadowType.In;
+				frameHScales.ShadowType = ShadowType.In;
+				frame_hscale1.ShadowType = ShadowType.In;
+				frame_hscale2.ShadowType = ShadowType.In;
+				frame_hscale3.ShadowType = ShadowType.In;
+				frame_hscale4.ShadowType = ShadowType.In;
+				frame_hscale5.ShadowType = ShadowType.In;
+			}
+
 			timeoutHandler = () => {
 				filterProperties[0] = (double)combobox1.Active;
 				filterProperties[1] = (double)combobox2.Active;
@@ -201,6 +217,21 @@ namespace Picturez
 
 		#endregion Constructors
 
+		public override void Destroy ()
+		{
+			// Do not dispose it here! It will be given to EditWidget by 
+			// FilterEventhandler, see FireFilterEvent(..)-method
+//			if (filterImage != null) {
+//				filterImage.Dispose ();
+//			}
+
+			if (workingImage != null) {
+				workingImage.Dispose ();
+			}
+
+			base.Destroy ();
+		}
+
 		private void ProcessPreview()
 		{
 			Bitmap tempImage = abstractFilter.Apply (workingImage, filterProperties);
@@ -262,10 +293,6 @@ namespace Picturez
 			//			int panelH = winH - (int)(paddingOffset * multiplicatorHeight);
 			int panelW = 300;
 			int panelH = 200;
-
-			// setting padding for left and right side
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.simpleimagepanel1]));
-			w4.Padding = ((uint)(paddingOffset / 4.0f + 0.5f));
 
 			if (panelW < imageW || panelH < imageH)
 			{
@@ -347,12 +374,7 @@ namespace Picturez
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
-			workingImage.Dispose ();
-			// Do not dispose it here!
-//			filterImage.Dispose ();
-			simpleimagepanel1.Dispose ();
-			this.Destroy ();
-//			this.Dispose ();
+			this.DestroyAll ();
 			File.Delete (tempFilterImageFileName);
 		}
 
