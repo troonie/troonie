@@ -26,11 +26,11 @@ color + transparancy;Farbe + Transparenz
 Alpha color;Alpha-Farbe
 Other;Andere
 Resize;Größenanpassung
-Original;Original
+Minimum transparency value;Kleinster Transparenzwert
 Retain original size;Originalgröße beibehalten
-Length bigger side;Länge längere Bildseite
+Note: ;Beachte: 
 Length of bigger side will be;Länge der längeren Bildseite soll sein
-Fix image size;Feste Bildabmessungen
+Most secure value is 100.;Sicherster Wert ist 100.
 Using fix image size (width x height);Verwende feste Bildabmessung (Breite x Höhe)
 Stretch image;Strecke/Stauche Bild
 Output directory;Ausgabeverzeichnis
@@ -52,8 +52,8 @@ No image file or image cannot be loaded.;Keine Bilddatei oder Bild kann nicht ge
 Too small image and too much text to decrypt correctly.;Zu kleines Bild und zu viel Text für korrekte Verschlüsselung.
 ERROR.;FEHLER.
 A slender tool to convert, edit and filter photos as well as work with steganography.;Ein schlankes Tool zum Konvertieren, Bearbeiten und Filtern von Fotos sowie für Steganografie.
-*********;*********
-*********;*********
+No Steganography image.;Kein Steganografiebild.
+Image needs to contain 32 bit alpha transparency.;Bild muss 32-Bit-Alpha-Transparenz besitzen.
 Should Picturez add context menu entries for the desktop?; Soll Picturez Kontextmenüeinträge für den Desktop anlegen? 
   So Picturez could be started by clicking with right mouse key on an image.  ;  Somit kann Picturez mit rechter Maustaste auf ein Bild gestartet werden.  
 Context menu entries for desktop;Kontextmenüeinträge für Desktop
@@ -120,3 +120,5 @@ Please enter a key.;Bitte einen Schlüssel eingeben.
 Sepia;Sepia
 Q coefficient of YIQ color space;Q-Koeffizient des YIQ-Farbraumes
 I coefficient of YIQ color space;I-Koeffizient des YIQ-Farbraumes
+Oil Painting;Ölgemälde
+Brush size;Pinselgröße

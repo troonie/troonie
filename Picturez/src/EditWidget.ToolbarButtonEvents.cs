@@ -61,34 +61,31 @@ namespace Picturez
 
 			switch (index) {
 			case 0:
-				Console.WriteLine ("ShaderFilter[0]: " + x);
+				// nothing
 				break;
 			case 1:
-				Console.WriteLine ("ShaderFilter[1]: " + x);
 				fw = new FilterWidget (FileName, new InvertFilter());
 				break;
 			case 2:
-				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 				fw = new FilterWidget (FileName, new GrayscaleFilter());
 				break;
 			case 3:
-				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 				fw = new FilterWidget (FileName, new ExtractOrRotateChannelsFilter());
 				break;
 			case 4:
-				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 				fw = new FilterWidget (FileName, new GaussianBlurFilter());
 				break;
 			case 5:
-				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 				fw = new FilterWidget (FileName, new CannyEdgeDetectorFilter());
 				break;
 			case 6:
-				Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 				fw = new FilterWidget (FileName, new SepiaFilter());
 				break;
+			case 7:
+				fw = new FilterWidget (FileName, new OilPaintingFilter());
+				break;
 			}
-
+			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 			fw.FilterEvent += FilterEvent;
 			int posx, posy;
 			this.GetPosition (out posx, out posy);

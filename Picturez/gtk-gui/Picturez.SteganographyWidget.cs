@@ -13,12 +13,17 @@ namespace Picturez
 		private global::Gtk.Frame frameSteganography;
 		private global::Gtk.Alignment AlignmentFrameSteganography;
 		private global::Gtk.VBox vboxSteganography;
+		private global::Gtk.HBox hboxOptions;
 		private global::Gtk.Frame frameModus;
 		private global::Gtk.Alignment AlignmentFrameModus;
 		private global::Gtk.HBox hboxModus;
 		private global::Gtk.RadioButton rdBtnRead;
 		private global::Gtk.RadioButton rdBtnWrite;
 		private global::Gtk.Label lbFrameModus;
+		private global::Gtk.Frame frameMinAlphaValue;
+		private global::Gtk.Alignment AlignmentFrameMinAlphaValue;
+		private global::Gtk.ComboBox comboboxMinAlphaValue;
+		private global::Gtk.Label lbFrameMinAlphaValue;
 		private global::Gtk.Frame frameKey;
 		private global::Gtk.Alignment AlignmentFrameKey;
 		private global::Gtk.Entry entryKey;
@@ -91,6 +96,10 @@ namespace Picturez
 			this.vboxSteganography.Name = "vboxSteganography";
 			this.vboxSteganography.Spacing = 6;
 			// Container child vboxSteganography.Gtk.Box+BoxChild
+			this.hboxOptions = new global::Gtk.HBox ();
+			this.hboxOptions.Name = "hboxOptions";
+			this.hboxOptions.Spacing = 6;
+			// Container child hboxOptions.Gtk.Box+BoxChild
 			this.frameModus = new global::Gtk.Frame ();
 			this.frameModus.Name = "frameModus";
 			// Container child frameModus.Gtk.Container+ContainerChild
@@ -128,11 +137,46 @@ namespace Picturez
 			this.lbFrameModus.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Modus</b>");
 			this.lbFrameModus.UseMarkup = true;
 			this.frameModus.LabelWidget = this.lbFrameModus;
-			this.vboxSteganography.Add (this.frameModus);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameModus]));
+			this.hboxOptions.Add (this.frameModus);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hboxOptions [this.frameModus]));
 			w8.Position = 0;
 			w8.Expand = false;
 			w8.Fill = false;
+			// Container child hboxOptions.Gtk.Box+BoxChild
+			this.frameMinAlphaValue = new global::Gtk.Frame ();
+			this.frameMinAlphaValue.Sensitive = false;
+			this.frameMinAlphaValue.Name = "frameMinAlphaValue";
+			// Container child frameMinAlphaValue.Gtk.Container+ContainerChild
+			this.AlignmentFrameMinAlphaValue = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.AlignmentFrameMinAlphaValue.Name = "AlignmentFrameMinAlphaValue";
+			this.AlignmentFrameMinAlphaValue.LeftPadding = ((uint)(12));
+			// Container child AlignmentFrameMinAlphaValue.Gtk.Container+ContainerChild
+			this.comboboxMinAlphaValue = global::Gtk.ComboBox.NewText ();
+			this.comboboxMinAlphaValue.AppendText (global::Mono.Unix.Catalog.GetString ("100"));
+			this.comboboxMinAlphaValue.AppendText (global::Mono.Unix.Catalog.GetString ("120"));
+			this.comboboxMinAlphaValue.AppendText (global::Mono.Unix.Catalog.GetString ("140"));
+			this.comboboxMinAlphaValue.AppendText (global::Mono.Unix.Catalog.GetString ("160"));
+			this.comboboxMinAlphaValue.AppendText (global::Mono.Unix.Catalog.GetString ("180"));
+			this.comboboxMinAlphaValue.AppendText (global::Mono.Unix.Catalog.GetString ("200"));
+			this.comboboxMinAlphaValue.Name = "comboboxMinAlphaValue";
+			this.comboboxMinAlphaValue.Active = 5;
+			this.AlignmentFrameMinAlphaValue.Add (this.comboboxMinAlphaValue);
+			this.frameMinAlphaValue.Add (this.AlignmentFrameMinAlphaValue);
+			this.lbFrameMinAlphaValue = new global::Gtk.Label ();
+			this.lbFrameMinAlphaValue.Name = "lbFrameMinAlphaValue";
+			this.lbFrameMinAlphaValue.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>GtkFrame</b>");
+			this.lbFrameMinAlphaValue.UseMarkup = true;
+			this.frameMinAlphaValue.LabelWidget = this.lbFrameMinAlphaValue;
+			this.hboxOptions.Add (this.frameMinAlphaValue);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hboxOptions [this.frameMinAlphaValue]));
+			w11.Position = 1;
+			w11.Expand = false;
+			w11.Fill = false;
+			this.vboxSteganography.Add (this.hboxOptions);
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.hboxOptions]));
+			w12.Position = 0;
+			w12.Expand = false;
+			w12.Fill = false;
 			// Container child vboxSteganography.Gtk.Box+BoxChild
 			this.frameKey = new global::Gtk.Frame ();
 			this.frameKey.Name = "frameKey";
@@ -156,10 +200,10 @@ namespace Picturez
 			this.lbFrameKey.UseMarkup = true;
 			this.frameKey.LabelWidget = this.lbFrameKey;
 			this.vboxSteganography.Add (this.frameKey);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameKey]));
-			w11.Position = 1;
-			w11.Expand = false;
-			w11.Fill = false;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameKey]));
+			w15.Position = 1;
+			w15.Expand = false;
+			w15.Fill = false;
 			// Container child vboxSteganography.Gtk.Box+BoxChild
 			this.frameContent = new global::Gtk.Frame ();
 			this.frameContent.Name = "frameContent";
@@ -186,8 +230,8 @@ namespace Picturez
 			this.lbFrameContent.UseMarkup = true;
 			this.frameContent.LabelWidget = this.lbFrameContent;
 			this.vboxSteganography.Add (this.frameContent);
-			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameContent]));
-			w15.Position = 2;
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameContent]));
+			w19.Position = 2;
 			this.AlignmentFrameSteganography.Add (this.vboxSteganography);
 			this.frameSteganography.Add (this.AlignmentFrameSteganography);
 			this.lbFrameSteganography = new global::Gtk.Label ();
@@ -196,8 +240,8 @@ namespace Picturez
 			this.lbFrameSteganography.UseMarkup = true;
 			this.frameSteganography.LabelWidget = this.lbFrameSteganography;
 			this.vbox1.Add (this.frameSteganography);
-			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameSteganography]));
-			w18.Position = 0;
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameSteganography]));
+			w22.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameCursorPos = new global::Gtk.Frame ();
 			this.frameCursorPos.Name = "frameCursorPos";
@@ -217,10 +261,10 @@ namespace Picturez
 			this.lbFrameCursorPos.UseMarkup = true;
 			this.frameCursorPos.LabelWidget = this.lbFrameCursorPos;
 			this.vbox1.Add (this.frameCursorPos);
-			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
-			w21.Position = 1;
-			w21.Expand = false;
-			w21.Fill = false;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
+			w25.Position = 1;
+			w25.Expand = false;
+			w25.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.btnOk = new global::Picturez.PicturezButton ();
 			this.btnOk.Name = "btnOk";
@@ -231,17 +275,17 @@ namespace Picturez
 			this.btnOk.Text = "OK";
 			this.btnOk.TextSize = 14;
 			this.vbox1.Add (this.btnOk);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
-			w22.Position = 2;
-			w22.Expand = false;
-			w22.Fill = false;
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
+			w26.Position = 2;
+			w26.Expand = false;
+			w26.Fill = false;
 			this.hbox1.Add (this.vbox1);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
-			w23.Position = 1;
-			w23.Padding = ((uint)(5));
+			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
+			w27.Position = 1;
+			w27.Padding = ((uint)(5));
 			this.vboxA.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
-			w24.Position = 1;
+			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
+			w28.Position = 1;
 			this.Add (this.vboxA);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
@@ -252,6 +296,7 @@ namespace Picturez
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.DragDrop += new global::Gtk.DragDropHandler (this.OnDragDrop);
 			this.DragDataReceived += new global::Gtk.DragDataReceivedHandler (this.OnDragDataReceived);
+			this.rdBtnWrite.Toggled += new global::System.EventHandler (this.OnRdBtnWriteToggled);
 			this.entryKey.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnEntryKeyKeyReleaseEvent);
 			this.btnOk.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnOkButtonReleaseEvent);
 		}

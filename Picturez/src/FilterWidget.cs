@@ -215,6 +215,23 @@ namespace Picturez
 			hscale2.Digits = 0;
 		}
 
+		public FilterWidget (string pFilename, OilPaintingFilter oilPainting) : this (pFilename)
+		{
+			abstractFilter = oilPainting;
+			Title = Language.I.L [123];
+			frameHScales.Visible = true;
+
+			// Brush size to search for most frequent pixels' intensity. [1, 10]. Default: 5
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[124] + "</b>";
+			hscale1.Value = oilPainting.BrushSize;
+			hscale1.Adjustment.Lower = 1;
+			hscale1.Adjustment.Upper = 25;
+			hscale1.Adjustment.StepIncrement = 2;
+			hscale1.Adjustment.PageIncrement = 4;
+			hscale1.Digits = 0;
+		}
+
 		#endregion Constructors
 
 		public override void Destroy ()
@@ -381,6 +398,7 @@ namespace Picturez
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
 			filterImage = abstractFilter.Apply (filterImage, filterProperties);
+			filterImage.Save ("WAS.png", ImageFormat.Png);
 			FireFilterEvent (filterImage);
 			OnDeleteEvent (o, null);
 		}

@@ -65,6 +65,8 @@
     <Compile Include="AsciiTableCharMove.cs" />
     <Compile Include="Rc4.cs" />
     <Compile Include="filter\SepiaFilter.cs" />
+    <Compile Include="filter\SteganographyFilter2.cs" />
+    <Compile Include="filter\OilPaintingFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

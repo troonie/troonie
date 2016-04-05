@@ -54,6 +54,7 @@ namespace Picturez
 			frameModus.ShadowType = ShadowType.In;
 			frameKey.ShadowType = ShadowType.In;
 			frameContent.ShadowType = ShadowType.In;
+			frameMinAlphaValue.ShadowType = ShadowType.In;
 			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 		}
 
@@ -256,6 +257,7 @@ namespace Picturez
 			lbFrameModus.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameKey.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameContent.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameMinAlphaValue.ModifyFg (StateType.Normal, colorConverter.FONT);
 		}
 
 		private void SetLanguageToGui()
@@ -279,12 +281,16 @@ namespace Picturez
 			rdBtnWrite.Label = Language.I.L[76];
 			lbFrameKey.LabelProp = "<b>" + Language.I.L[77] + "</b>";
 			lbFrameContent.LabelProp = "<b>" + Language.I.L[78] + "</b>";
+			lbFrameMinAlphaValue.LabelProp = "<b>" + Language.I.L[29] + "</b>";
+
+			frameMinAlphaValue.TooltipMarkup = "<b>" + Language.I.L[31] + "</b>" + Language.I.L[33];
 		}
 
 		private void DoSteganography()
 		{
 			Bitmap b1 = null;
 			SteganographyFilter filter = new SteganographyFilter ();
+			filter.MinAlphaValue = int.Parse(comboboxMinAlphaValue.ActiveText);
 			filter.Key = entryKey.Text;
 			entryKey.Text = string.Empty;
 			filter.WritingMode = rdBtnWrite.Active;
@@ -309,6 +315,18 @@ namespace Picturez
 				}
 			} 
 			else {
+				if (bt.Bitmap.PixelFormat != PixelFormat.Format32bppArgb) {
+					pseudo.DestroyAll ();
+					PseudoPicturezContextMenu wrongImageContextMenu = new PseudoPicturezContextMenu (true);
+					wrongImageContextMenu.Title = Language.I.L [53];
+					wrongImageContextMenu.Label1 = Language.I.L [55];
+					wrongImageContextMenu.Label2 = Language.I.L [56];
+					wrongImageContextMenu.OkButtontext = Language.I.L [16];
+					//					wrongImageContextMenu.CancelButtontext = Language.I.L [17];
+					wrongImageContextMenu.Show ();
+					return;
+				}
+
 				b1 = filter.Apply (bt.Bitmap, null);
 				textviewContent.Buffer.Text = string.Empty;
 				foreach (var item in filter.GetLines()) {
@@ -420,6 +438,11 @@ namespace Picturez
 			if (c == ' ') {
 				entryKey.DeleteText (entryKey.CursorPosition - 1, entryKey.CursorPosition);
 			}
+		}
+
+		protected void OnRdBtnWriteToggled (object sender, EventArgs e)
+		{
+			frameMinAlphaValue.Sensitive = rdBtnWrite.Active;
 		}
 	}
 }
