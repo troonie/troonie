@@ -223,7 +223,7 @@ namespace Picturez_Lib
 			try{
 				tagFile = TagLib.File.Create(FileName);
 			}
-			catch (UnsupportedFormatException) {
+			catch (Exception /* UnsupportedFormatException */) {
 				return;
 			}
 
@@ -300,7 +300,7 @@ namespace Picturez_Lib
 			try{
 				tagFile = TagLib.File.Create(fileName);
 			}
-			catch (UnsupportedFormatException) {
+			catch (Exception /* UnsupportedFormatException */) {
 				return null;
 			}
 

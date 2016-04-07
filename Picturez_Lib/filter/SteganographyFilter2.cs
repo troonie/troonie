@@ -1,63 +1,99 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+
 namespace Picturez_Lib
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Drawing.Imaging;
-    using System.Globalization;
-    using System.Security.Cryptography;
-    
+{    
 	/// <summary>
 	/// Steganography filter. All rights are reserved. 
 	/// Copyright © Picturez Project
 	/// </summary>
 	public class SteganographyFilter2 : SteganographyFilter
     {
+		protected List<int> charTriple;
+
         public SteganographyFilter2()
         {
 			SupportedSrcPixelFormat = PixelFormatFlags.Color;
 			SupportedDstPixelFormat = PixelFormatFlags.SameLikeSource;
 
-//			lines = new List<string>();
-//			Key = string.Empty;
+			charTriple = new List<int> ();
         }
 
-		private void Fractionalize(int number, out int two, out int one)
+		public override void FillLines(string[] pLines)
 		{
-			if (number > 99)
-				throw new ArgumentException ("Number cannot be larger than 99.", "number");
+			int indexKey = 0;
+			lines.Clear ();
+			lines.AddRange(pLines);   
+			charTriple.Clear ();
 
-//			int three = (int)(number / 100);
-//			int two = (int)((number - (three * 100)) / 10);
-//			int one = (int)(number - three * 100 - two * 10);
+			foreach (string s in pLines)
+			{
+				string s2 = s + (char)endByte;
+				// OUTER encryption
+				s2 = AsciiTableCharMove.MovingBySubtracting(s2, endByte, asciiMoveValue);
+				byte[] byteArray = AsciiTableCharMove.GetBytesFromString (s2);
 
-			two = (int)(number / 10);
-			one = (int)(number - two * 10);
+				foreach (byte item in byteArray) {
+					int one, ten, hundred;
+					// INNER encryption by substracting hash element
+					byte itemEncrypted = (byte)(item - hash [indexKey]);
+					Fractionalize3D (itemEncrypted, out hundred, out ten, out one);
+					charTriple.Add (hundred);
+					charTriple.Add (ten);
+					charTriple.Add (one);
+					indexKey = indexKey == hashLengthMinus1 ? 0 : indexKey + 1;
+				}
+			}
 		}
 
-		private int Defractionalize(int two, int one)
+		protected void DecryptLines()
 		{
-			return (two * 10 + one);
+			int hundred, ten, one;
+			string tmp = string.Empty;
+			lines.Clear ();
+
+			for (int i = 0, indexKey = 0; 
+			     i < charTriple.Count - 2; 
+			     i+=3, indexKey = indexKey == hashLengthMinus1 ? 0 : indexKey + 1) {
+				hundred = charTriple [i];
+				ten = charTriple [i+1];
+				one = charTriple [i+2];
+				int item = Defractionalize3D (hundred, ten, one);
+				// INNER decryption by adding hash element
+				byte itemEncrypted = (byte)(item + hash [indexKey]);
+				char c = (char)itemEncrypted;
+
+				if (c == (char)endByte)
+				{
+					// OUTER decryption
+					tmp = AsciiTableCharMove.MovingByAdding(tmp, asciiMoveValue);
+					lines.Add(tmp);
+					tmp = string.Empty;
+				}
+				else
+				{
+					tmp += c;
+				}
+			}
 		}
 
 		protected override internal unsafe void Process(BitmapData srcData, BitmapData dstData)
         {
-			const int ps = 4;     
-			const int numberOfPinChar = 2;
-
-            byte[] pwSha = EncryptKey(Key, false);
-            byte[] pwMurmur = EncryptKey(Key, true);
-            byte[] hash = GetHashByShaAndMurmur(pwSha, pwMurmur);
-			hash = GetQuerSumOfBytes(hash);
-			int hashLengthMinus1 = hash.Length - 1;
-			int sumHashElements = GetSumOfElements (hash); 
-//			Console.WriteLine ("sumHashElements: " + sumHashElements);
-			int distance;
-            int position = 0;            
-            int indexKey = 0;          
+			int ps = Image.GetPixelFormatSize(srcData.PixelFormat) / 8;     
+			const int numberOfPinChar = 4;
+			int distance, tenthousend, thousend, hundred, ten, one;
+            int position = 0;                              
             int w = srcData.Width;
             int h = srcData.Height;
             int stride = srcData.Stride;
             int offset = stride - w * ps;
+
+			Fractionalize5D (sumHashElements, out tenthousend, out thousend, out hundred, out ten, out one);
+			int querSumOfHashElements = tenthousend + thousend + hundred + ten + one;
+			byte hashDistance = hash[querSumOfHashElements];
+			hashDistance = GetQuerSumOfByte (hashDistance);
 
 			int startH = sumHashElements / w;
 			int startW = sumHashElements - w * startH;
@@ -70,8 +106,6 @@ namespace Picturez_Lib
 			byte* dst = (byte*)dstData.Scan0.ToPointer();
 
 			#region clone bitmap
-			Random r = new Random();
-//			long avg0 = 0;
 			// for each line
 			for (int y = 0; y < h; y++)
 			{
@@ -81,27 +115,14 @@ namespace Picturez_Lib
 					dst[RGBA.R] = src[RGBA.R];
 					dst[RGBA.G] = src[RGBA.G];
 					dst[RGBA.B] = src[RGBA.B];
-					dst[RGBA.A] = src[RGBA.A];
-
-					if (WritingMode)
-					{                        
-						// original: dst[RGBA.A] = (byte)r.Next(200, 255);
-						dst[RGBA.A] = (byte)r.Next(100, 255);
-//						avg0 += dst[RGBA.A];
-
-//						RGB rgb = new RGB(dst[RGBA.R], dst[RGBA.G], dst[RGBA.B]);
-//						ConvertColorspace(rgb);
-//						ColorTriple ct = colorspace.To<RGB>().Color;
-//						dst[RGBA.R] = (byte) ct.A;
-//						dst[RGBA.G] = (byte) ct.B;
-//						dst[RGBA.B] = (byte) ct.C;
+					// alpha, 32 bit
+					if (ps == 4) {
+						dst [RGBA.A] = src [RGBA.A];
 					}
 				}
 				src += offset;
 				dst += offset;
 			}
-//			avg0 = avg0 / (w * h);
-//			Console.WriteLine ("avg0= " + avg0);
 			#endregion clone bitmap
            
             if (WritingMode)
@@ -110,34 +131,34 @@ namespace Picturez_Lib
 				int indexChar = 0;
 				// -w as one line reserved for saving distance value
 				int numberUsablePx = w * h - sumHashElements - w; 
-//				distance = Math.Min(numberUsablePx / charCount - 1, 9999); // old
-				distance = numberUsablePx / charCount - 1;
-				while (distance > 25599) {
-					distance /= 10; 
+				distance = numberUsablePx / charTriple.Count - 1;
+				while (distance > 9999) {  // old: 25599
+					distance = (int)(distance / Math.PI);
 				}
 
-				if (charCount > numberUsablePx || charCount == 0)
+				if (charTriple.Count > numberUsablePx || charTriple.Count == 0 || hashDistance >= distance)
                 {
                     Success = false;
                     return;
                 }
 
 				#region Save Pin in startH line                
-                int distancePart1 = distance / 100;
-                int distancePart2 = distance - distancePart1 * 100;
                 // do encryption by substracting hash element
-                distancePart1 -= hash[0];
-                distancePart2 -= hash[1];
+				int encrpytedDistance = distance - hashDistance;
+				Fractionalize4D(encrpytedDistance, out thousend, out hundred, out ten, out one);
+				src = (byte*)srcData.Scan0.ToPointer();
 				dst = (byte*)dstData.Scan0.ToPointer();
+				src +=  startH * stride + startW * ps;
 				dst +=  startH * stride + startW * ps;
 
-//				SetValue(dst, distancePart1);
-                dst[RGBA.A] = (byte)(255 - distancePart1);
-//				dst[RGBA.G] = 255;
-                dst += ps;
-//				SetValue(dst, distancePart2);
-                dst[RGBA.A] = (byte)(255 - distancePart2);
-//				dst[RGBA.G] = 255;
+				dst[RGBA.R] = ManipulateByte(src[RGBA.R], thousend);
+				dst += ps;
+				dst[RGBA.G] = ManipulateByte(src[RGBA.G], hundred);
+				dst += ps;
+				dst[RGBA.B] = ManipulateByte(src[RGBA.B], ten);
+				dst += ps;
+				dst[RGBA.R] = ManipulateByte(src[RGBA.R], one);
+
 				startH++; // One line reserved for saving distance value
 				#endregion Save Pin in startH line
                 
@@ -160,24 +181,17 @@ namespace Picturez_Lib
                         x++,
                         src += ps,
                         dst += ps,                        
-					     position = position < distance ? position + 1 : 0,
-					     indexKey = indexKey == hashLengthMinus1 ? 0 : indexKey + 1)
+					    position = position < distance ? position + 1 : 0)
                     {
-                        if (position != 0 || indexChar >= linesAsString.Length)
+						if (position != 0 || indexChar >= charTriple.Count)
                         {                            
                             continue;
                         }
 
-                        char c = linesAsString[indexChar];
-                        int intC = c;
-						// INNER encryption by substracting hash element
-						intC -= hash [indexKey];
-
-						byte byteC = (byte)(255 - intC);                           
-						dst [RGBA.A] = byteC;
-//						dst [RGBA.R] = 255;
-//						avg1 += byteC;
-
+						if (indexChar == 60)
+							Console.WriteLine ("indexChar == 60");
+						int intC = charTriple[indexChar];
+						dst[RGBA.R] = ManipulateByte(src[RGBA.R], intC);
 						indexChar++;
                     }
 
@@ -186,29 +200,33 @@ namespace Picturez_Lib
                 }
                 
                 Success = true;
-
-//				avg1 = avg1 / linesAsString.Length;
-//				Console.WriteLine ("avg1= " + avg1);
             }
             else // read-in mode
             {
                 #region Read out distance in StartH line
+
 				src = (byte*)srcData.Scan0.ToPointer();
 				src +=  startH * stride + startW * ps;
-//				GetValue(src);
-				byte pinPart1 = (byte)Math.Abs(src[RGBA.A] - 255);
-                // do decryption by adding hash element
-                pinPart1 += hash[0];
+				thousend = (byte)Math.Abs(src[RGBA.R]);
+				thousend = GetManipulatedByte(thousend);
 				src += ps;
-//				GetValue(src);
-				byte pinPart2 = (byte)Math.Abs(src[RGBA.A] - 255);
-                pinPart2 += hash[1];
-                distance = pinPart1 * 100 + pinPart2;  
-				startH++; // one line reserved for saving distance value
+				hundred = (byte)Math.Abs(src[RGBA.G]);
+				hundred = GetManipulatedByte(hundred);
+				src += ps;
+				ten = (byte)Math.Abs(src[RGBA.B]);
+				ten = GetManipulatedByte(ten);
+				src += ps;
+				one = (byte)Math.Abs(src[RGBA.R]);
+				one = GetManipulatedByte(one);
+				distance = Defractionalize4D(thousend, hundred, ten, one);
+				// do decryption by adding hash element
+				distance += hashDistance;
+
+				startH++; // One line reserved for saving distance value
+
 				#endregion Read out distance in StartH line 
 
-                string tmp = string.Empty;
-
+				charTriple.Clear ();
 				src = (byte*)srcData.Scan0.ToPointer();
 				src += startH * stride + startW * ps;
 
@@ -225,36 +243,102 @@ namespace Picturez_Lib
 					for (int x = startX; x < w;
                         x++,
                         src += ps,
-                        position = position < distance ? position + 1 : 0,
-					     indexKey = indexKey == hashLengthMinus1 ? 0 : indexKey + 1)
+                        position = position < distance ? position + 1 : 0)
                     {
                         if (position != 0)
                         {
                             continue;
                         }
 
-                        byte byteC = src[RGBA.A];
-                        byteC = (byte)Math.Abs(byteC - 255);
-                        // INNER decryption by adding hashArray element
-                        byteC += hash[indexKey];
-                        char c = (char)byteC;
-
-                        if (c == (char)endByte)
-                        {
-                            // OUTER decryption
-							tmp = AsciiTableCharMove.MovingByAdding(tmp, asciiMoveValue);
-                            lines.Add(tmp);
-							tmp = string.Empty;
-                        }
-                        else
-                        {
-                            tmp += c;
-                        }
+						int intC = src[RGBA.R];
+						intC = GetManipulatedByte(intC);
+						charTriple.Add(intC);                        
                     }
 
                     src += offset;
                 }
+
+				DecryptLines ();
             }
         }
+
+		#region Private Helper functions
+
+		private static int GetManipulatedByte(int sourceByte)
+		{
+			int hundred, ten, one;
+			Fractionalize3D (sourceByte, out hundred, out ten, out one);
+			return one;
+		}
+
+		private static byte ManipulateByte(byte sourceByte, int number)
+		{
+			if (sourceByte >= 250) {
+				sourceByte = 240;
+			}
+			int hundred, ten, one, destbyte;
+			Fractionalize3D (sourceByte, out hundred, out ten, out one);
+			destbyte = Defractionalize3D (hundred, ten, number);
+			return (byte)destbyte;
+		}
+
+		private static void Fractionalize5D(int number, out int tenthousend, out int thousend, out int hundred, out int ten, out int one)
+		{
+			if (number > 99999)
+				throw new ArgumentException ("Number cannot be larger than 9999.", "number");
+
+			tenthousend = (int)(number / 10000);
+			thousend = (int)((number - tenthousend * 10000) / 1000);
+			hundred = (int)((number - tenthousend * 10000 - thousend * 1000) / 100);
+			ten = (int)((number - tenthousend * 10000 - thousend * 1000 - hundred * 100) / 10);
+			one = (int)(number - tenthousend * 10000 - thousend * 1000 - hundred * 100 - ten * 10);
+		}
+
+		private static void Fractionalize4D(int number, out int thousend, out int hundred, out int ten, out int one)
+		{
+			if (number > 9999)
+				throw new ArgumentException ("Number cannot be larger than 9999.", "number");
+
+			thousend = (int)(number / 1000);
+			hundred = (int)((number - thousend * 1000) / 100);
+			ten = (int)((number - thousend * 1000 - hundred * 100) / 10);
+			one = (int)(number - thousend * 1000 - hundred * 100 - ten * 10);
+		}
+
+		private static int Defractionalize4D(int thousend, int hundred, int ten, int one)
+		{
+			return (thousend * 1000 + hundred * 100 + ten * 10 + one);
+		}
+
+		private static void Fractionalize3D(int number, out int hundred, out int ten, out int one)
+		{
+			if (number > 999)
+				throw new ArgumentException ("Number cannot be larger than 999.", "number");
+
+			hundred = (int)(number / 100);
+			ten = (int)((number - (hundred * 100)) / 10);
+			one = (int)(number - hundred * 100 - ten * 10);
+		}
+
+		private static int Defractionalize3D(int hundred, int ten, int one)
+		{
+			return (hundred * 100 + ten * 10 + one);
+		}
+
+		private static void Fractionalize2D(int number, out int ten, out int one)
+		{
+			if (number > 99)
+				throw new ArgumentException ("Number cannot be larger than 99.", "number");
+
+			ten = (int)(number / 10);
+			one = (int)(number - ten * 10);
+		}
+
+		private static int Defractionalize2D(int ten, int one)
+		{
+			return (ten * 10 + one);
+		}
+
+		#endregion
     }
 }

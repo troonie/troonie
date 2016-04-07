@@ -289,7 +289,7 @@ namespace Picturez
 		private void DoSteganography()
 		{
 			Bitmap b1 = null;
-			SteganographyFilter filter = new SteganographyFilter ();
+			SteganographyFilter2 filter = new SteganographyFilter2 ();
 			filter.MinAlphaValue = int.Parse(comboboxMinAlphaValue.ActiveText);
 			filter.Key = entryKey.Text;
 			entryKey.Text = string.Empty;
@@ -304,8 +304,10 @@ namespace Picturez
 			if (filter.WritingMode) {
 				string[] content = textviewContent.Buffer.Text.Split ('\n');
 				filter.FillLines (content);
-				b1 = ImageConverter.To32Bpp(bt.Bitmap);
-				b1 = filter.Apply (b1, null);
+				// only necessary by Steganography1
+//				b1 = ImageConverter.To32Bpp(bt.Bitmap);
+//				b1 = filter.Apply (b1, null);
+				b1 = filter.Apply (bt.Bitmap, null);
 
 				if (filter.Success) {
 					pseudo.Label2 = Language.I.L [83];

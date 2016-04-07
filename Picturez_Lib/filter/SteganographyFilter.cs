@@ -35,6 +35,9 @@ namespace Picturez_Lib
 			set {
 				key = value;
 				asciiMoveValue = GetQuerSumOfByte((byte)value.Length);
+				hash = GetCryptedHash (value, !(this is SteganographyFilter2));
+				hashLengthMinus1 = hash.Length - 1;
+				sumHashElements = GetSumOfElements (hash); 
 			}
 		}
 
@@ -47,6 +50,9 @@ namespace Picturez_Lib
 		/// <summary>Final byte, added in the end of a line. Signals line wrapping. </summary>
 		protected const byte endByte = 126; // '~' 
 		protected byte asciiMoveValue; 
+		protected byte[] hash;
+		protected int hashLengthMinus1;
+		protected int sumHashElements; 
 		protected string linesAsString;
 
 		protected int charCount;
@@ -60,7 +66,7 @@ namespace Picturez_Lib
             return lines.ToArray();
         }
 
-        public void FillLines(string[] pLines)
+        public virtual void FillLines(string[] pLines)
         {
 			charCount = 0;
 			linesAsString = string.Empty;
@@ -96,12 +102,12 @@ namespace Picturez_Lib
 			const int ps = 4;     
 			const int numberOfPinChar = 2;
 
-            byte[] pwSha = EncryptKey(Key, false);
-            byte[] pwMurmur = EncryptKey(Key, true);
-            byte[] hash = GetHashByShaAndMurmur(pwSha, pwMurmur);
-			hash = GetQuerSumOfBytes(hash);
-			int hashLengthMinus1 = hash.Length - 1;
-			int sumHashElements = GetSumOfElements (hash); 
+//            byte[] pwSha = EncryptKey(Key, false);
+//            byte[] pwMurmur = EncryptKey(Key, true);
+//            byte[] hash = GetHashByShaAndMurmur(pwSha, pwMurmur);
+//			hash = GetQuerSumOfBytes(hash);
+//			int hashLengthMinus1 = hash.Length - 1;
+//			int sumHashElements = GetSumOfElements (hash); 
 //			Console.WriteLine ("sumHashElements: " + sumHashElements);
 			int distance;
             int position = 0;            
@@ -336,6 +342,17 @@ namespace Picturez_Lib
 
             return hashArray;
         }
+
+		protected static byte[] GetCryptedHash(string key, bool asQuerSum)
+		{
+			byte[] pwSha = EncryptKey(key, false);
+			byte[] pwMurmur = EncryptKey(key, true);
+			byte[] hash = GetHashByShaAndMurmur(pwSha, pwMurmur);
+			if (asQuerSum) {
+				hash = GetQuerSumOfBytes (hash);
+			}
+			return hash;
+		}
 
 		protected static byte GetQuerSumOfByte(byte b)
 		{
