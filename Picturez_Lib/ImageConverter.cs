@@ -75,6 +75,12 @@ namespace Picturez_Lib
 
 		#region Public functions
 
+		public static bool IsColorImage(Bitmap b)
+		{
+			int bitNumber = Image.GetPixelFormatSize(b.PixelFormat);
+			return (bitNumber >= 24);
+		}
+
 		public static RectangleF GetRectangle( 
 		                                      int sourceWidth, 
 		                                      int sourceHeight, 

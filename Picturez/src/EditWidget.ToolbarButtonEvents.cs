@@ -26,26 +26,7 @@ namespace Picturez
 
 		protected void OnToolbarBtn_SaveAsPressed (object sender, EventArgs e)
 		{
-			SaveAsDialog dialog = new SaveAsDialog(bt, ConvertMode.Editor);
-			bool runDialog = true;
-
-			do
-			{
-				if (dialog.Run () == (int)ResponseType.Ok) {
-					if (dialog.Process ()) {
-						FileName = dialog.SavedFileName;
-						bt.Dispose ();
-						Initialize (true);
-						runDialog = false;
-					}
-				}
-				else {
-					runDialog = false;
-				}
-			}
-			while (runDialog);
-
-			dialog.Destroy();			
+			OpenSaveAsDialog ();
 		}
 
 		protected void OnToolbarBtn_LanguagePressed (object sender, EventArgs e)
@@ -85,7 +66,7 @@ namespace Picturez
 				fw = new FilterWidget (FileName, new OilPaintingFilter());
 				break;
 			}
-			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
+//			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 			fw.FilterEvent += FilterEvent;
 			int posx, posy;
 			this.GetPosition (out posx, out posy);

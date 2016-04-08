@@ -835,6 +835,7 @@
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>
+    <signal name="KeyPressEvent" handler="OnKeyPressEvent" />
     <child internal-child="VBox">
       <widget class="Gtk.VBox" id="dialog1_VBox">
         <property name="MemberName" />
@@ -986,7 +987,6 @@
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Label" translatable="yes">JPEG</property>
-                            <property name="Active">True</property>
                             <property name="DrawIndicator">True</property>
                             <property name="HasLabel">True</property>
                             <property name="UseUnderline">True</property>
@@ -2750,6 +2750,7 @@
     <property name="MemberName" />
     <property name="Title" translatable="yes">PseudoPicturezContextMenu</property>
     <property name="WindowPosition">Mouse</property>
+    <signal name="KeyPressEvent" handler="OnKeyPressEvent" />
     <child>
       <widget class="Gtk.VBox" id="vbox2">
         <property name="MemberName" />
@@ -2843,6 +2844,7 @@
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <signal name="DragDrop" handler="OnDragDrop" />
     <signal name="DragDataReceived" handler="OnDragDataReceived" />
+    <signal name="KeyPressEvent" handler="OnKeyPressEvent" />
     <child>
       <widget class="Gtk.VBox" id="vboxA">
         <property name="MemberName" />
@@ -2910,120 +2912,61 @@
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.HBox" id="hboxOptions">
+                              <widget class="Gtk.Frame" id="frameModus">
                                 <property name="MemberName" />
-                                <property name="Spacing">6</property>
                                 <child>
-                                  <widget class="Gtk.Frame" id="frameModus">
+                                  <widget class="Gtk.Alignment" id="AlignmentFrameModus">
                                     <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
                                     <child>
-                                      <widget class="Gtk.Alignment" id="AlignmentFrameModus">
+                                      <widget class="Gtk.HBox" id="hboxModus">
                                         <property name="MemberName" />
-                                        <property name="Xalign">0</property>
-                                        <property name="Yalign">0</property>
-                                        <property name="LeftPadding">12</property>
+                                        <property name="Spacing">6</property>
                                         <child>
-                                          <widget class="Gtk.HBox" id="hboxModus">
+                                          <widget class="Gtk.RadioButton" id="rdBtnRead">
                                             <property name="MemberName" />
-                                            <property name="Spacing">6</property>
-                                            <child>
-                                              <widget class="Gtk.RadioButton" id="rdBtnRead">
-                                                <property name="MemberName" />
-                                                <property name="CanFocus">True</property>
-                                                <property name="Label" translatable="yes">Read</property>
-                                                <property name="DrawIndicator">True</property>
-                                                <property name="HasLabel">True</property>
-                                                <property name="UseUnderline">True</property>
-                                                <property name="Group">group1</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="Position">0</property>
-                                                <property name="AutoSize">True</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="Gtk.RadioButton" id="rdBtnWrite">
-                                                <property name="MemberName" />
-                                                <property name="CanFocus">True</property>
-                                                <property name="Label" translatable="yes">Write</property>
-                                                <property name="DrawIndicator">True</property>
-                                                <property name="HasLabel">True</property>
-                                                <property name="UseUnderline">True</property>
-                                                <property name="Group">group1</property>
-                                                <signal name="Toggled" handler="OnRdBtnWriteToggled" />
-                                              </widget>
-                                              <packing>
-                                                <property name="Position">1</property>
-                                                <property name="AutoSize">True</property>
-                                              </packing>
-                                            </child>
+                                            <property name="CanFocus">True</property>
+                                            <property name="Label" translatable="yes">Read</property>
+                                            <property name="DrawIndicator">True</property>
+                                            <property name="HasLabel">True</property>
+                                            <property name="UseUnderline">True</property>
+                                            <property name="Group">group1</property>
                                           </widget>
+                                          <packing>
+                                            <property name="Position">0</property>
+                                            <property name="AutoSize">True</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.RadioButton" id="rdBtnWrite">
+                                            <property name="MemberName" />
+                                            <property name="CanFocus">True</property>
+                                            <property name="Label" translatable="yes">Write</property>
+                                            <property name="DrawIndicator">True</property>
+                                            <property name="HasLabel">True</property>
+                                            <property name="UseUnderline">True</property>
+                                            <property name="Group">group1</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">1</property>
+                                            <property name="AutoSize">True</property>
+                                          </packing>
                                         </child>
                                       </widget>
                                     </child>
-                                    <child>
-                                      <widget class="Gtk.Label" id="lbFrameModus">
-                                        <property name="MemberName" />
-                                        <property name="LabelProp" translatable="yes">&lt;b&gt;Modus&lt;/b&gt;</property>
-                                        <property name="UseMarkup">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="type">label_item</property>
-                                      </packing>
-                                    </child>
                                   </widget>
-                                  <packing>
-                                    <property name="Position">0</property>
-                                    <property name="AutoSize">True</property>
-                                    <property name="Expand">False</property>
-                                    <property name="Fill">False</property>
-                                  </packing>
                                 </child>
                                 <child>
-                                  <widget class="Gtk.Frame" id="frameMinAlphaValue">
+                                  <widget class="Gtk.Label" id="lbFrameModus">
                                     <property name="MemberName" />
-                                    <property name="Sensitive">False</property>
-                                    <child>
-                                      <widget class="Gtk.Alignment" id="AlignmentFrameMinAlphaValue">
-                                        <property name="MemberName" />
-                                        <property name="Xalign">0</property>
-                                        <property name="Yalign">0</property>
-                                        <property name="LeftPadding">12</property>
-                                        <child>
-                                          <widget class="Gtk.ComboBox" id="comboboxMinAlphaValue">
-                                            <property name="MemberName" />
-                                            <property name="IsTextCombo">True</property>
-                                            <property name="Items" translatable="yes">100
-120
-140
-160
-180
-200</property>
-                                            <property name="Active">5</property>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                    </child>
-                                    <child>
-                                      <widget class="Gtk.Label" id="lbFrameMinAlphaValue">
-                                        <property name="MemberName" />
-                                        <property name="LabelProp" translatable="yes">&lt;b&gt;GtkFrame&lt;/b&gt;</property>
-                                        <property name="UseMarkup">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="type">label_item</property>
-                                      </packing>
-                                    </child>
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;Modus&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
                                   </widget>
                                   <packing>
-                                    <property name="Position">1</property>
-                                    <property name="AutoSize">True</property>
-                                    <property name="Expand">False</property>
-                                    <property name="Fill">False</property>
+                                    <property name="type">label_item</property>
                                   </packing>
-                                </child>
-                                <child>
-                                  <placeholder />
                                 </child>
                               </widget>
                               <packing>

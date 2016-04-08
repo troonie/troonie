@@ -88,6 +88,7 @@ namespace Picturez
 			this.DefaultWidth = 325;
 			this.DefaultHeight = 120;
 			this.Show ();
+			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
 			this.picBtnOk.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnOkButtonReleaseEvent);
 			this.picBtnCancel.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnCancelButtonReleaseEvent);
 		}

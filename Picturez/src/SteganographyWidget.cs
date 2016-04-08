@@ -54,7 +54,6 @@ namespace Picturez
 			frameModus.ShadowType = ShadowType.In;
 			frameKey.ShadowType = ShadowType.In;
 			frameContent.ShadowType = ShadowType.In;
-			frameMinAlphaValue.ShadowType = ShadowType.In;
 			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 		}
 
@@ -257,7 +256,6 @@ namespace Picturez
 			lbFrameModus.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameKey.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameContent.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbFrameMinAlphaValue.ModifyFg (StateType.Normal, colorConverter.FONT);
 		}
 
 		private void SetLanguageToGui()
@@ -281,16 +279,12 @@ namespace Picturez
 			rdBtnWrite.Label = Language.I.L[76];
 			lbFrameKey.LabelProp = "<b>" + Language.I.L[77] + "</b>";
 			lbFrameContent.LabelProp = "<b>" + Language.I.L[78] + "</b>";
-			lbFrameMinAlphaValue.LabelProp = "<b>" + Language.I.L[29] + "</b>";
-
-			frameMinAlphaValue.TooltipMarkup = "<b>" + Language.I.L[31] + "</b>" + Language.I.L[33];
 		}
 
 		private void DoSteganography()
 		{
 			Bitmap b1 = null;
-			SteganographyFilter2 filter = new SteganographyFilter2 ();
-			filter.MinAlphaValue = int.Parse(comboboxMinAlphaValue.ActiveText);
+			SteganographyRGBFilter filter = new SteganographyRGBFilter ();
 			filter.Key = entryKey.Text;
 			entryKey.Text = string.Empty;
 			filter.WritingMode = rdBtnWrite.Active;
@@ -317,7 +311,7 @@ namespace Picturez
 				}
 			} 
 			else {
-				if (bt.Bitmap.PixelFormat != PixelFormat.Format32bppArgb) {
+				if (!ImageConverter.IsColorImage(bt.Bitmap)) {
 					pseudo.DestroyAll ();
 					PseudoPicturezContextMenu wrongImageContextMenu = new PseudoPicturezContextMenu (true);
 					wrongImageContextMenu.Title = Language.I.L [53];
@@ -348,6 +342,31 @@ namespace Picturez
 		private void OnCursorPosChanged(int x, int y)
 		{
 			lbCursorPos.Text = 	x.ToString() + " x " +	y.ToString();
+		}
+
+		private void OpenSaveAsDialog()
+		{
+			SaveAsDialog dialog = new SaveAsDialog(bt, ConvertMode.Editor);
+			bool runDialog = true;
+			dialog.AllowOnlyColorLoselessSaving ();
+
+			do
+			{
+				if (dialog.Run () == (int)ResponseType.Ok) {
+					if (dialog.Process ()) {
+						FileName = dialog.SavedFileName;
+						bt.Dispose ();
+						Initialize (true);
+						runDialog = false;
+					}
+				}
+				else {
+					runDialog = false;
+				}
+			}
+			while (runDialog);
+
+			dialog.Destroy();
 		}
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -440,12 +459,26 @@ namespace Picturez
 			if (c == ' ') {
 				entryKey.DeleteText (entryKey.CursorPosition - 1, entryKey.CursorPosition);
 			}
+
+			if (args.Event.Key == Gdk.Key.Return) {
+				OnBtnOkButtonReleaseEvent (o, null);
+			}
 		}
 
-		protected void OnRdBtnWriteToggled (object sender, EventArgs e)
+		[GLib.ConnectBefore ()] 
+		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
 		{
-			frameMinAlphaValue.Sensitive = rdBtnWrite.Active;
-		}
+//			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
+
+			switch (args.Event.Key) {
+			case Gdk.Key.s:
+				if (args.Event.State == (Gdk.ModifierType.ControlMask /* | Gdk.ModifierType.Mod2Mask*/))
+					OpenSaveAsDialog ();
+				break;
+				default:
+				break;
+			}
+		}	
 	}
 }
 

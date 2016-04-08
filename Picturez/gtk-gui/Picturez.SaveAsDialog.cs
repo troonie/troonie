@@ -528,6 +528,7 @@ namespace Picturez
 			this.DefaultWidth = 400;
 			this.DefaultHeight = 512;
 			this.Show ();
+			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
 			this.rdJpeg.Toggled += new global::System.EventHandler (this.OnRdJpegToggled);
 			this.hscaleQuality.ValueChanged += new global::System.EventHandler (this.OnHscaleQualityValueChanged);
 			this.rdJpegGray.Toggled += new global::System.EventHandler (this.OnRdJpegGrayToggled);

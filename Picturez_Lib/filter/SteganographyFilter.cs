@@ -8,7 +8,7 @@ namespace Picturez_Lib
     
 	/// <summary>
 	/// Steganography filter. All rights are reserved. 
-	/// Copyright © Picturez Project
+	/// Copyright © Picturez Project, http://picturez-project.de
 	/// </summary>
     public class SteganographyFilter : AbstractFilter
     {
@@ -35,7 +35,7 @@ namespace Picturez_Lib
 			set {
 				key = value;
 				asciiMoveValue = GetQuerSumOfByte((byte)value.Length);
-				hash = GetCryptedHash (value, !(this is SteganographyFilter2));
+				hash = GetCryptedHash (value, !(this is SteganographyRGBFilter));
 				hashLengthMinus1 = hash.Length - 1;
 				sumHashElements = GetSumOfElements (hash); 
 			}

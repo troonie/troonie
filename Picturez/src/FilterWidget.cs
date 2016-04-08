@@ -242,6 +242,10 @@ namespace Picturez
 //				filterImage.Dispose ();
 //			}
 
+			if (tempFilterImageFileName != null) {
+				File.Delete (tempFilterImageFileName);
+			}
+
 			if (workingImage != null) {
 				workingImage.Dispose ();
 			}
@@ -251,7 +255,21 @@ namespace Picturez
 
 		private void ProcessPreview()
 		{
-			Bitmap tempImage = abstractFilter.Apply (workingImage, filterProperties);
+			Bitmap tempImage;
+			try {
+				tempImage = abstractFilter.Apply (workingImage, filterProperties);
+			}
+			catch(ArgumentException) {
+				PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
+				pseudo.Title = Language.I.L [125];
+				pseudo.Label1 = string.Empty; // Language.I.L [125];
+				pseudo.Label2 = Language.I.L [126];
+				pseudo.OkButtontext = Language.I.L [16];
+				pseudo.SetPosition (WindowPosition.CenterAlways);
+//				pseudo.Show ();
+				this.DestroyAll ();
+				return;
+			}
 			tempImage.Save(tempFilterImageFileName, ImageFormat.Png);
 			tempImage.Dispose ();
 			simpleimagepanel1.Initialize();
@@ -392,20 +410,34 @@ namespace Picturez
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
 			this.DestroyAll ();
-			File.Delete (tempFilterImageFileName);
+//			File.Delete (tempFilterImageFileName);
 		}
 
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			filterImage = abstractFilter.Apply (filterImage, filterProperties);
-			filterImage.Save ("WAS.png", ImageFormat.Png);
-			FireFilterEvent (filterImage);
-			OnDeleteEvent (o, null);
+			const int maxRes = 1100 * 1100;
+
+			if (filterImage.Width * filterImage.Height > maxRes && 
+			    (abstractFilter is OilPaintingFilter ||
+			 	 abstractFilter is CannyEdgeDetectorFilter ||
+			     abstractFilter is GaussianBlurFilter) ) {
+				PseudoPicturezContextMenu warn = new PseudoPicturezContextMenu (false);
+				warn.Title = Language.I.L [29];
+				warn.Label1 = Language.I.L [31];
+				warn.Label2 = Language.I.L [33];
+				warn.OkButtontext = Language.I.L [16];
+				warn.CancelButtontext = Language.I.L [17];	
+				warn.Show ();
+
+				warn.OnReleasedOkButton += ProcessFilter;
+			} else {
+				ProcessFilter ();
+			}
 		}
 
 		protected void OnBtnCancelButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			OnDeleteEvent (o, null);
+			this.DestroyAll ();
 		}
 
 		protected void OnCheckBtnUse255ForAlphaToggled (object sender, EventArgs e)
@@ -426,6 +458,13 @@ namespace Picturez
 		protected void OnComboboxChanged (object sender, EventArgs args)
 		{
 			timeoutHandler.Invoke ();
+		}
+
+		private void ProcessFilter()
+		{
+			filterImage = abstractFilter.Apply (filterImage, filterProperties);
+			FireFilterEvent (filterImage);
+			this.DestroyAll ();
 		}
 	}
 }

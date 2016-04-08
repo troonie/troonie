@@ -191,17 +191,19 @@ namespace Picturez
 			return true;
 		}
 
-		public void AllowOnlyPng32BitAlphaAsValueSaving()
+		public void AllowOnlyColorLoselessSaving()
 		{
 			rdPng1bit.Sensitive = false;
 			rdPng8Bit.Sensitive = false;
-			rdPng24Bit.Sensitive = false;
 			rdPNG32bit.Sensitive = false;
+			rdBmp1bit.Sensitive = false;
+			rdBmp8bit.Sensitive = false;
 			frame3.Sensitive = false; // jpg
-			frame5.Sensitive = false; // bmp
-			frame6.Sensitive = false; // other
+//			frame6.Sensitive = false; // other
+			rdGif.Sensitive = false;
+			rdIcon.Sensitive = false;
 
-			rdPng32BitAlphaAsValue.Active = true;
+			rdPng24Bit.Active = true;
 		}
 
 		#region RadioButton toggle events
@@ -315,7 +317,21 @@ namespace Picturez
 			config.TransparencyColorRed = r;
 			config.TransparencyColorGreen = g;
 			config.TransparencyColorBlue = b;
-		}								
+		}		
+
+		[GLib.ConnectBefore ()] 
+		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
+		{
+//			 System.Console.WriteLine("Keypress: {0}", args.Event.Key);
+			switch (args.Event.Key) {
+			case Gdk.Key.Return:
+				this.Respond (ResponseType.Ok);
+				break;
+				case Gdk.Key.Escape:
+				this.Respond (ResponseType.Cancel);
+				break;
+			}
+		}
 	}
 }
 

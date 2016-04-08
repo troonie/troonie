@@ -35,7 +35,7 @@ namespace Picturez_Lib
 		public const string TITLE_LIB = "Picturez_Lib";
 		public const string DESCRIPTION_FIX_IN_ENGLISH = 
 		"A slender tool to convert, edit and filter photos as well as work with steganography.";
-		public const string VERSION = "3.1.1.1";
+		public const string VERSION = "3.0.0";
 		public static DateTime PUBLISHDATE =  DateTime.Today; // new DateTime (2016, 03, 18);
 		public static string PUBLISHDATE_STRING {
 			get {

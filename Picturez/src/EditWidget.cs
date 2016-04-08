@@ -476,7 +476,7 @@ namespace Picturez
 		{
 //			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
 
-			if (args.Event.State == (Gdk.ModifierType.ControlMask | Gdk.ModifierType.Mod2Mask)) {
+			if (args.Event.State == (Gdk.ModifierType.ControlMask /* | Gdk.ModifierType.Mod2Mask*/)) {
 				switch (args.Event.Key) {
 					case Gdk.Key.l:
 						entryLeft.Text = config.Left.ToString ();
@@ -497,6 +497,9 @@ namespace Picturez
 						entryRotate.Text = config.Rotation.ToString ();
 						OnEntryRotateKeyReleaseEvent (entryRotate, null);
 						break;
+				case Gdk.Key.s:
+					OpenSaveAsDialog ();
+					break;
 					default:
 						break;
 				}
@@ -505,9 +508,33 @@ namespace Picturez
 			imagepanel1.MoveSliderByKey (args.Event.Key, 1);
 		}	
 
+		private void OpenSaveAsDialog()
+		{
+			SaveAsDialog dialog = new SaveAsDialog(bt, ConvertMode.Editor);
+			bool runDialog = true;
+
+			do
+			{
+				if (dialog.Run () == (int)ResponseType.Ok) {
+					if (dialog.Process ()) {
+						FileName = dialog.SavedFileName;
+						bt.Dispose ();
+						Initialize (true);
+						runDialog = false;
+					}
+				}
+				else {
+					runDialog = false;
+				}
+			}
+			while (runDialog);
+
+			dialog.Destroy();
+		}
+
 		private void FilterEvent(Bitmap filterBitmap)
 		{
-			Console.WriteLine ("FilterEvent");
+//			Console.WriteLine ("FilterEvent");
 
 			bt.Bitmap.Dispose ();
 			bt.ChangeBitmapButNotTags(filterBitmap);

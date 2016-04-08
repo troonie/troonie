@@ -69,6 +69,16 @@ namespace Picturez
 //			Destroy();
 			this.DestroyAll ();
 		}
+
+		[GLib.ConnectBefore ()] 
+		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
+		{
+			//			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
+
+			if (args.Event.Key == Gdk.Key.Return && !picBtnCancel.Visible) {
+				OnPicBtnOkButtonReleaseEvent(o, null);
+			}
+		}
 	}
 }
 

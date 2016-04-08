@@ -26,11 +26,11 @@ color + transparancy;Farbe + Transparenz
 Alpha color;Alpha-Farbe
 Other;Andere
 Resize;Größenanpassung
-Minimum transparency value;Kleinster Transparenzwert
+CAUTION!;ACHTUNG!
 Retain original size;Originalgröße beibehalten
-Note: ;Beachte: 
+Image has big resolution.;Bild ist sehr groß.
 Length of bigger side will be;Länge der längeren Bildseite soll sein
-Most secure value is 100.;Sicherster Wert ist 100.
+Filter needs several minutes to process, caused by big image size. Start filter? ;Filter arbeitet aufgrund der Bildgröße mehrere Minuten. Wirklich Filter starten? 
 Using fix image size (width x height);Verwende feste Bildabmessung (Breite x Höhe)
 Stretch image;Strecke/Stauche Bild
 Output directory;Ausgabeverzeichnis
@@ -122,3 +122,5 @@ Q coefficient of YIQ color space;Q-Koeffizient des YIQ-Farbraumes
 I coefficient of YIQ color space;I-Koeffizient des YIQ-Farbraumes
 Oil Painting;Ölgemälde
 Brush size;Pinselgröße
+Wrong pixel format.;Falsches Pixelformat.
+Filter does not support the pixelformat ot this image. ;Filter unterstützt nicht das Pixelformat des Bildes. 
