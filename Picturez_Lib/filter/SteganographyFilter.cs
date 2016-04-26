@@ -34,7 +34,7 @@ namespace Picturez_Lib
 			}
 			set {
 				key = value;
-				asciiMoveValue = GetQuerSumOfByte((byte)value.Length);
+				asciiMoveValue = GetDigitSumOfByte((byte)value.Length);
 				hash = GetCryptedHash (value, !(this is SteganographyRGBFilter));
 				hashLengthMinus1 = hash.Length - 1;
 				sumHashElements = GetSumOfElements (hash); 
@@ -349,12 +349,12 @@ namespace Picturez_Lib
 			byte[] pwMurmur = EncryptKey(key, true);
 			byte[] hash = GetHashByShaAndMurmur(pwSha, pwMurmur);
 			if (asQuerSum) {
-				hash = GetQuerSumOfBytes (hash);
+				hash = GetDigitSumOfBytes (hash);
 			}
 			return hash;
 		}
 
-		protected static byte GetQuerSumOfByte(byte b)
+		protected static byte GetDigitSumOfByte(byte b)
 		{
 			int three = (int)(b / 100);
 			int two = (int)((b - (three * 100)) / 10);
@@ -364,11 +364,11 @@ namespace Picturez_Lib
 			return b;
 		}
 
-		protected static byte[] GetQuerSumOfBytes(byte[] array)
+		protected static byte[] GetDigitSumOfBytes(byte[] array)
         {
             for (int i = 0; i < array.Length; i++)
             {
-				array[i] = GetQuerSumOfByte(array[i]);
+				array[i] = GetDigitSumOfByte(array[i]);
             }
 
             return array;

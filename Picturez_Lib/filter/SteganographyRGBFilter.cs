@@ -91,9 +91,9 @@ namespace Picturez_Lib
             int offset = stride - w * ps;
 
 			Fraction.Fractionalize5D (sumHashElements, out tenthousend, out thousend, out hundred, out ten, out one);
-			int querSumOfHashElements = tenthousend + thousend + hundred + ten + one;
-			byte hashDistance = hash[querSumOfHashElements];
-			hashDistance = GetQuerSumOfByte (hashDistance);
+			int digitSumOfHashElements = tenthousend + thousend + hundred + ten + one;
+			byte encodeValueForDistance = hash[digitSumOfHashElements];
+			encodeValueForDistance = GetDigitSumOfByte (encodeValueForDistance);
 
 			int startH = sumHashElements / w;
 			int startW = sumHashElements - w * startH;
@@ -136,7 +136,7 @@ namespace Picturez_Lib
 					distance = (int)(distance / Math.PI);
 				}
 
-				if (charTriple.Count > numberUsablePx || charTriple.Count == 0 || hashDistance >= distance)
+				if (charTriple.Count > numberUsablePx || charTriple.Count == 0 || encodeValueForDistance >= distance)
                 {
                     Success = false;
                     return;
@@ -144,8 +144,8 @@ namespace Picturez_Lib
 
 				#region Save Pin in startH line                
                 // do encryption by substracting hash element
-				int encrpytedDistance = distance - hashDistance;
-				Fraction.Fractionalize4D(encrpytedDistance, out thousend, out hundred, out ten, out one);
+				int encodedDistance = distance - encodeValueForDistance;
+				Fraction.Fractionalize4D(encodedDistance, out thousend, out hundred, out ten, out one);
 				src = (byte*)srcData.Scan0.ToPointer();
 				dst = (byte*)dstData.Scan0.ToPointer();
 				src +=  startH * stride + startW * ps;
@@ -231,7 +231,7 @@ namespace Picturez_Lib
 				one = GetManipulatedByte(one);
 				distance = Fraction.Defractionalize4D(thousend, hundred, ten, one);
 				// do decryption by adding hash element
-				distance += hashDistance;
+				distance += encodeValueForDistance;
 
 				startH++; // One line reserved for saving distance value
 
