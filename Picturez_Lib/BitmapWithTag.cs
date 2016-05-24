@@ -127,8 +127,18 @@ namespace Picturez_Lib
 						IOFile.Delete(FileName);
 					}
 				}else {
+					int countImage = 0;
 					while(FileHelper.I.Exists(tmpNewFileName)){
-						tmpNewFileName = tmpNewFileName.Insert(tmpNewFileName.LastIndexOf('.'), "_1");				
+						countImage++;
+						string identifier = "__n";
+						int lastindexofIdentifier = tmpNewFileName.LastIndexOf(identifier);
+						if (lastindexofIdentifier != -1){
+							string part1 = tmpNewFileName.Remove(lastindexofIdentifier);
+							string part2 = tmpNewFileName.Substring(tmpNewFileName.LastIndexOf('.'));
+							tmpNewFileName = part1 + part2;
+						}
+
+						tmpNewFileName = tmpNewFileName.Insert(tmpNewFileName.LastIndexOf('.'), identifier + countImage);				
 					}
 				}
 			}

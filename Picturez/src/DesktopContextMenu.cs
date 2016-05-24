@@ -51,10 +51,10 @@ namespace Picturez
 				"[Desktop Entry]", 
 				"Name=" + Constants.TITLE, // + " " + Language.I.L[67],
 				"Comment=" + Language.I.L[54], 
-				"Exec=mono " + Constants.I.EXEPATH + Constants.EXENAME + " %F",
+				"Exec=mono '" + Constants.I.EXEPATH + Constants.EXENAME + "' %F",
 				"Type=Application",
-				"Icon=" + Constants.I.EXEPATH + Constants.ICONNAME,
 				"Terminal=false", 
+				"Icon=" + Constants.I.EXEPATH + Constants.ICONNAME,
 				// Constants.I.PICTUREZ_COMMENT, 
 				"Categories=GTK;Graphics;Viewer;RasterGraphics;2DGraphics;Photography;", 
 				"MimeType=image/bmp;image/gif;image/jpeg;image/jpg;image/pjpeg;image/png;" + 
@@ -62,7 +62,6 @@ namespace Picturez
 				"image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;" + 
 				"image/x-portable-pixmap;image/x-xbitmap;image/x-xpixmap;image/x-pcx;",
 				// "image/svg+xml;image/svg+xml-compressed;image/vnd.wap.wbmp;",
-				"Type=Application",
 				"StartupNotify=false"};
 
 			// WriteAllLines creates a file, writes a collection of strings to the file,
@@ -83,14 +82,13 @@ namespace Picturez
 				"[Desktop Entry]", 
 				"Name=" + Constants.TITLE, // + " " + Language.I.L[68],
 				"Comment=" + Language.I.L[54], 
-				"Exec=mono " + Constants.I.EXEPATH + Constants.EXENAME + " -d %f",
+				"Exec=mono '" + Constants.I.EXEPATH + Constants.EXENAME + "' -d %f",
 				"Type=Application",
-				"Icon=" + Constants.I.EXEPATH + Constants.ICONNAME,
 				"Terminal=false", 
+				"Icon=" + Constants.I.EXEPATH + Constants.ICONNAME,
 				// Constants.I.PICTUREZ_COMMENT, 
 				"Categories=GTK;Graphics;Viewer;RasterGraphics;2DGraphics;Photography;", 
 				"MimeType=inode/directory;",
-				"Type=Application",
 				"StartupNotify=false"};
 
 			// WriteAllLines creates a file, writes a collection of strings to the file,
