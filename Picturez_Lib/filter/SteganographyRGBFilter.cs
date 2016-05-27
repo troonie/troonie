@@ -23,7 +23,7 @@ namespace Picturez_Lib
 
 		public override void FillLines(string[] pLines)
 		{
-			int indexKey = 0;
+			int index = 0;
 			lines.Clear ();
 			lines.AddRange(pLines);   
 			charTriple.Clear ();
@@ -33,17 +33,17 @@ namespace Picturez_Lib
 				string s2 = s + (char)endByte;
 				// OUTER encryption
 				s2 = AsciiTableCharMove.MovingBySubtracting(s2, endByte, asciiMoveValue);
-				byte[] byteArray = AsciiTableCharMove.GetBytesFromString (s2);
+				byte[] textInByte = AsciiTableCharMove.GetBytesFromString (s2);
 
-				foreach (byte item in byteArray) {
+				foreach (byte item in textInByte) {
 					int one, ten, hundred;
 					// INNER encryption by substracting hash element
-					byte itemEncrypted = (byte)(item - hash [indexKey]);
-					Fraction.Fractionalize3D (itemEncrypted, out hundred, out ten, out one);
+					byte encodedItem = (byte)(item - hash [index]);
+					Fraction.Fractionalize3D (encodedItem, out hundred, out ten, out one);
 					charTriple.Add (hundred);
 					charTriple.Add (ten);
 					charTriple.Add (one);
-					indexKey = indexKey == hashLengthMinus1 ? 0 : indexKey + 1;
+					index = index == hashLengthMinus1 ? 0 : index + 1;
 				}
 			}
 		}

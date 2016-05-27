@@ -22,6 +22,14 @@ namespace Picturez
 		private const int timeoutInterval = 20;
 		private const int timeoutIntervalFirst = 500;
 
+		private static Size[] shortcutFormats = {
+			Size.Empty,
+			new Size(10, 15),
+			new Size(15, 10),
+			new Size(3, 4),
+			new Size(4, 3)
+		};
+
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
 		private Constants constants = Constants.I;
 		private int imageW; 
@@ -63,6 +71,10 @@ namespace Picturez
 			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 6, "help-about-3.png", 
 			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());
 
+			for (int i = 1; i < shortcutFormats.Length; i++) {
+				comboboxShortcuts.AppendText (shortcutFormats[i].Width + " x " + shortcutFormats[i].Height);
+			}
+
 			timeoutSw = new Stopwatch();
 			config = ConfigEdit.Load ();
 			SetGuiColors ();
@@ -78,6 +90,7 @@ namespace Picturez
 			frameRotation.ShadowType = ShadowType.In;
 			frameImageDimensions.ShadowType = ShadowType.In;
 			frameCursorPos.ShadowType = ShadowType.In;
+			frameShortcuts.ShadowType = ShadowType.In;
 
 			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 		}
@@ -304,6 +317,8 @@ namespace Picturez
 
 			lbFrameRotation.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbRotateText.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameShortcuts.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbShortcutsText.ModifyFg (StateType.Normal, colorConverter.FONT);
 
 			lbFrameImageDimensions.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbOriginal.ModifyFg (StateType.Normal, colorConverter.FONT);
@@ -326,6 +341,9 @@ namespace Picturez
 				Language.I.L[44] +	": \n" +
 				Language.AllLanguagesAsString;
 			hboxToolbarButtons.Children[6].TooltipText = Language.I.L[84];
+
+			lbFrameShortcuts.LabelProp = "<b>" + Language.I.L[127] + "</b>";
+			lbShortcutsText.Text = Language.I.L[128];
 
 			lbFrameCutDimensions.LabelProp = "<b>" + Language.I.L[5] + "</b>";
 			lbLeftText.Text = Language.I.L[6];
@@ -470,13 +488,80 @@ namespace Picturez
 			}
 		}
 
+		protected void OnComboboxShortcutsChanged (object sender, EventArgs e)
+		{
+			if (comboboxShortcuts.Active == 0) {
+
+				entryLeft.Text = 0.ToString();
+				OnEntryLeftKeyReleaseEvent (entryLeft, null);
+
+				entryRight.Text = imageW.ToString ();
+				OnEntryRightKeyReleaseEvent (entryRight, null);
+
+				entryTop.Text = 0.ToString ();
+				OnEntryTopKeyReleaseEvent (entryTop, null);
+
+				entryBottom.Text = imageH.ToString ();
+				OnEntryBottomKeyReleaseEvent (entryBottom, null);
+
+				return;
+			}
+
+			float ratioShortcut = (float)shortcutFormats [comboboxShortcuts.Active].Width / 
+								 shortcutFormats [comboboxShortcuts.Active].Height;
+
+			Console.WriteLine ("ratioShortcut=" + ratioShortcut);
+
+			float ratioImage = (float)imageW / imageH;
+
+			if (ratioShortcut > ratioImage) {
+			
+				int newHeight = (int)Math.Round(imageW / ratioShortcut); 
+				int diff = imageH - newHeight;
+
+				int diffTop = (int)Math.Round (diff / 2.0);
+				int diffBottom = diff - diffTop;
+
+				entryTop.Text = diffTop.ToString ();
+				OnEntryTopKeyReleaseEvent (entryTop, null);
+
+				entryBottom.Text = (imageH - diffBottom).ToString ();
+				OnEntryBottomKeyReleaseEvent (entryBottom, null);
+
+				entryLeft.Text = 0.ToString();
+				OnEntryLeftKeyReleaseEvent (entryLeft, null);
+
+				entryRight.Text = imageW.ToString ();
+				OnEntryRightKeyReleaseEvent (entryRight, null);
+
+			} else {
+				int newWidth = (int)Math.Round(imageH * ratioShortcut); 
+				int diff = imageW - newWidth;
+
+				int diffLeft = (int)Math.Round (diff / 2.0);
+				int diffRight = diff - diffLeft;
+
+				entryLeft.Text = diffLeft.ToString();
+				OnEntryLeftKeyReleaseEvent (entryLeft, null);
+
+				entryRight.Text = (imageW - diffRight).ToString ();
+				OnEntryRightKeyReleaseEvent (entryRight, null);
+
+				entryTop.Text = 0.ToString ();
+				OnEntryTopKeyReleaseEvent (entryTop, null);
+
+				entryBottom.Text = imageH.ToString ();
+				OnEntryBottomKeyReleaseEvent (entryBottom, null);
+			}		
+		}
+
 
 		[GLib.ConnectBefore ()] 
 		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
 		{
-//			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
+			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
 
-			if (args.Event.State == (Gdk.ModifierType.ControlMask /* | Gdk.ModifierType.Mod2Mask*/)) {
+			if (args.Event.State == (Gdk.ModifierType.ControlMask | Gdk.ModifierType.Mod2Mask)) {
 				switch (args.Event.Key) {
 					case Gdk.Key.l:
 						entryLeft.Text = config.Left.ToString ();

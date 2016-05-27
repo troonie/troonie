@@ -472,7 +472,7 @@ namespace Picturez
 
 			switch (args.Event.Key) {
 			case Gdk.Key.s:
-				if (args.Event.State == (Gdk.ModifierType.ControlMask /* | Gdk.ModifierType.Mod2Mask*/))
+				if (args.Event.State == (Gdk.ModifierType.ControlMask | Gdk.ModifierType.Mod2Mask))
 					OpenSaveAsDialog ();
 				break;
 				default:

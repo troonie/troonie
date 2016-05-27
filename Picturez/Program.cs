@@ -21,6 +21,17 @@ namespace Picturez
 
 		public static void Main (string[] args)
 		{
+//			#region Compare images testing
+//			CompareFilter cf = new CompareFilter ();
+//			cf.Smallest = 0;
+//			cf.Highest = 9;
+//			cf.CompareBitmap = System.Drawing.Bitmap.FromFile ("result.png") as System.Drawing.Bitmap;
+//
+//			System.Drawing.Bitmap b = System.Drawing.Bitmap.FromFile ("test.jpg") as System.Drawing.Bitmap;
+//			b = cf.Apply (b, null);
+//			b.Save ("diff.png", System.Drawing.Imaging.ImageFormat.Png);
+//			#endregion Compare images testing
+
 			// Does this work?
 			// button.ModifyBg(StateType.Prelight, new Gdk.Color(220, 220, 220));
 			Constants.I.Init ();

@@ -68,6 +68,7 @@
     <Compile Include="filter\OilPaintingFilter.cs" />
     <Compile Include="filter\SteganographyRGBFilter.cs" />
     <Compile Include="Fraction.cs" />
+    <Compile Include="filter\DifferenceFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
