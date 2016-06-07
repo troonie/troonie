@@ -18,18 +18,18 @@ namespace Picturez
 {
 	public partial class EditWidget : Gtk.Window
 	{
+		private struct shortcutFormatStruct
+		{
+			public int Width;
+			public int Height;
+			public string Name;
+		}
+
 		private const string blackFileName = "black.png";
 		private const int timeoutInterval = 20;
 		private const int timeoutIntervalFirst = 500;
 
-		private static Size[] shortcutFormats = {
-			Size.Empty,
-			new Size(10, 15),
-			new Size(15, 10),
-			new Size(3, 4),
-			new Size(4, 3)
-		};
-
+		private shortcutFormatStruct[] shortcutFormats2;
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
 		private Constants constants = Constants.I;
 		private int imageW; 
@@ -70,10 +70,6 @@ namespace Picturez
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
 			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 6, "help-about-3.png", 
 			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());
-
-			for (int i = 1; i < shortcutFormats.Length; i++) {
-				comboboxShortcuts.AppendText (shortcutFormats[i].Width + " x " + shortcutFormats[i].Height);
-			}
 
 			timeoutSw = new Stopwatch();
 			config = ConfigEdit.Load ();
@@ -363,6 +359,55 @@ namespace Picturez
 			btnOk.Redraw ();
 
 			//lbLeftText.Text = Language.I.L[0];
+
+			//		private static Size[] shortcutFormats = {
+			//			Size.Empty,
+			//			new Size(10, 15),
+			//			new Size(15, 10),
+			//			new Size(3, 4),
+			//			new Size(4, 3),
+			//			new Size(16, 10),
+			//			new Size(10, 16)
+			//		};
+
+
+			shortcutFormats2 = new shortcutFormatStruct[]{
+				new shortcutFormatStruct { Width = 0, Height = 0, Name = "Empty" },
+
+				new shortcutFormatStruct { Width = 13, Height = 9 },
+				new shortcutFormatStruct { Width = 9, Height = 13 },
+
+				new shortcutFormatStruct { Width = 15, Height = 10 },
+				new shortcutFormatStruct { Width = 10, Height = 15 },
+
+				new shortcutFormatStruct { Width = 18, Height = 13 },
+				new shortcutFormatStruct { Width = 13, Height = 18 },
+
+				new shortcutFormatStruct { Width = 30, Height = 20 },
+				new shortcutFormatStruct { Width = 20, Height = 30 },
+
+				new shortcutFormatStruct { Width = 4, Height = 3 },
+				new shortcutFormatStruct { Width = 3, Height = 4 },
+
+				new shortcutFormatStruct { Width = 16, Height = 10 },
+				new shortcutFormatStruct { Width = 10, Height = 16 },
+
+				new shortcutFormatStruct { Width = 297, Height = 210, Name = "A4 " + Language.I.L[129] /*landscape*/ },
+				new shortcutFormatStruct { Width = 210, Height = 297, Name = "A4 " + Language.I.L[130] /*portrait*/ }
+			};
+
+			this.comboboxShortcuts.Active = 0;
+
+			for (int i = 1; i < shortcutFormats2.Length; i++) {
+				string s = shortcutFormats2 [i].Width + " x " + shortcutFormats2 [i].Height;
+				if (shortcutFormats2 [i].Name != null) {
+					s = shortcutFormats2 [i].Name + " ( " + s + " )"; 
+				}
+
+				comboboxShortcuts.RemoveText (i);
+				comboboxShortcuts.InsertText (i, s);
+//				comboboxShortcuts.AppendText (s);
+			}
 		}
 
 		private void Rotate()
@@ -507,8 +552,8 @@ namespace Picturez
 				return;
 			}
 
-			float ratioShortcut = (float)shortcutFormats [comboboxShortcuts.Active].Width / 
-								 shortcutFormats [comboboxShortcuts.Active].Height;
+			float ratioShortcut = (float)shortcutFormats2 [comboboxShortcuts.Active].Width / 
+								 shortcutFormats2 [comboboxShortcuts.Active].Height;
 
 			Console.WriteLine ("ratioShortcut=" + ratioShortcut);
 

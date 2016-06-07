@@ -6,7 +6,7 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../bin/Release/Picturez.exe" internal="true" />
+    <widget-library name="../bin/Debug/Picturez.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Picturez.EditWidget" design-size="688 1115">
     <property name="MemberName" />
@@ -1070,7 +1070,6 @@
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Label" translatable="yes">JPEG</property>
-                            <property name="Active">True</property>
                             <property name="DrawIndicator">True</property>
                             <property name="HasLabel">True</property>
                             <property name="UseUnderline">True</property>
@@ -3864,6 +3863,719 @@
           </widget>
           <packing>
             <property name="Position">0</property>
+            <property name="AutoSize">False</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder />
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="Picturez.StitchWidget" design-size="524 418">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">StitchWidget</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <signal name="DragDrop" handler="OnDragDrop" />
+    <signal name="DragDataReceived" handler="OnDragDataReceived" />
+    <signal name="KeyPressEvent" handler="OnKeyPressEvent" />
+    <child>
+      <widget class="Gtk.VBox" id="vboxA">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <child>
+          <widget class="Gtk.EventBox" id="eventboxToolbar">
+            <property name="MemberName" />
+            <child>
+              <widget class="Gtk.HBox" id="hboxToolbarButtons">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <placeholder />
+                </child>
+                <child>
+                  <placeholder />
+                </child>
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">False</property>
+            <property name="Expand">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.HBox" id="hbox1">
+            <property name="MemberName" />
+            <property name="Spacing">6</property>
+            <child>
+              <widget class="Picturez.SimpleImagePanel" id="simpleimagepanel1">
+                <property name="MemberName" />
+                <property name="Events">ButtonPressMask</property>
+                <property name="ScaleCursorX">0</property>
+                <property name="ScaleCursorY">0</property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VBox" id="vbox1">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.Frame" id="frameStitch">
+                    <property name="MemberName" />
+                    <child>
+                      <widget class="Gtk.Alignment" id="AlignmentFrameStitch">
+                        <property name="MemberName" />
+                        <property name="Xalign">0</property>
+                        <property name="Yalign">0</property>
+                        <property name="LeftPadding">12</property>
+                        <property name="RightPadding">12</property>
+                        <property name="BottomPadding">12</property>
+                        <child>
+                          <widget class="Gtk.VBox" id="vboxStitch">
+                            <property name="MemberName" />
+                            <property name="Spacing">6</property>
+                            <child>
+                              <widget class="Gtk.Frame" id="frameModus">
+                                <property name="MemberName" />
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentFrameModus">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <widget class="Gtk.HBox" id="hboxModus">
+                                        <property name="MemberName" />
+                                        <property name="Spacing">6</property>
+                                        <child>
+                                          <widget class="Gtk.RadioButton" id="rdBtnLandscape">
+                                            <property name="MemberName" />
+                                            <property name="CanFocus">True</property>
+                                            <property name="Label" translatable="yes">Landscape</property>
+                                            <property name="Active">True</property>
+                                            <property name="DrawIndicator">True</property>
+                                            <property name="HasLabel">True</property>
+                                            <property name="UseUnderline">True</property>
+                                            <property name="Group">group1</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">0</property>
+                                            <property name="AutoSize">True</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.RadioButton" id="rdBtnPortrait">
+                                            <property name="MemberName" />
+                                            <property name="CanFocus">True</property>
+                                            <property name="Label" translatable="yes">Portrait</property>
+                                            <property name="DrawIndicator">True</property>
+                                            <property name="HasLabel">True</property>
+                                            <property name="UseUnderline">True</property>
+                                            <property name="Group">group1</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">1</property>
+                                            <property name="AutoSize">True</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameModus">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;Modus&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">0</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Frame" id="frameImagePositions">
+                                <property name="MemberName" />
+                                <property name="ShadowType">None</property>
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentImagePositions">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <widget class="Gtk.Table" id="table1">
+                                        <property name="MemberName" />
+                                        <property name="NRows">3</property>
+                                        <property name="NColumns">10</property>
+                                        <property name="RowSpacing">6</property>
+                                        <property name="ColumnSpacing">6</property>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <widget class="Picturez.PicturezButton" id="btn01BottomMinus">
+                                            <property name="MemberName" />
+                                            <property name="CheckReleaseState">False</property>
+                                            <property name="BorderlineWidth">3</property>
+                                            <property name="ButtonHeight">25</property>
+                                            <property name="Font">Arial</property>
+                                            <property name="Text">-</property>
+                                            <property name="TextSize">14</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">2</property>
+                                            <property name="BottomAttach">3</property>
+                                            <property name="LeftAttach">3</property>
+                                            <property name="RightAttach">4</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Picturez.PicturezButton" id="btn01BottomPlus">
+                                            <property name="MemberName" />
+                                            <property name="CheckReleaseState">False</property>
+                                            <property name="BorderlineWidth">3</property>
+                                            <property name="ButtonHeight">25</property>
+                                            <property name="Font">Arial</property>
+                                            <property name="Text">+</property>
+                                            <property name="TextSize">14</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">2</property>
+                                            <property name="BottomAttach">3</property>
+                                            <property name="LeftAttach">2</property>
+                                            <property name="RightAttach">3</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Picturez.PicturezButton" id="btn01LeftMinus">
+                                            <property name="MemberName" />
+                                            <property name="CheckReleaseState">False</property>
+                                            <property name="BorderlineWidth">3</property>
+                                            <property name="ButtonHeight">25</property>
+                                            <property name="Font">Arial</property>
+                                            <property name="Text">-</property>
+                                            <property name="TextSize">14</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">1</property>
+                                            <property name="BottomAttach">2</property>
+                                            <property name="LeftAttach">1</property>
+                                            <property name="RightAttach">2</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Picturez.PicturezButton" id="btn01LeftPlus">
+                                            <property name="MemberName" />
+                                            <property name="CheckReleaseState">False</property>
+                                            <property name="BorderlineWidth">3</property>
+                                            <property name="ButtonHeight">25</property>
+                                            <property name="Font">Arial</property>
+                                            <property name="Text">+</property>
+                                            <property name="TextSize">14</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">1</property>
+                                            <property name="BottomAttach">2</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Picturez.PicturezButton" id="btn01RightMinus">
+                                            <property name="MemberName" />
+                                            <property name="CheckReleaseState">False</property>
+                                            <property name="BorderlineWidth">3</property>
+                                            <property name="ButtonHeight">25</property>
+                                            <property name="Font">Arial</property>
+                                            <property name="Text">-</property>
+                                            <property name="TextSize">14</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">1</property>
+                                            <property name="BottomAttach">2</property>
+                                            <property name="LeftAttach">5</property>
+                                            <property name="RightAttach">6</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Picturez.PicturezButton" id="btn01RightPlus">
+                                            <property name="MemberName" />
+                                            <property name="CheckReleaseState">False</property>
+                                            <property name="BorderlineWidth">3</property>
+                                            <property name="ButtonHeight">25</property>
+                                            <property name="Font">Arial</property>
+                                            <property name="Text">+</property>
+                                            <property name="TextSize">14</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">1</property>
+                                            <property name="BottomAttach">2</property>
+                                            <property name="LeftAttach">4</property>
+                                            <property name="RightAttach">5</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Picturez.PicturezButton" id="btn01TopMinus">
+                                            <property name="MemberName" />
+                                            <property name="CheckReleaseState">False</property>
+                                            <property name="BorderlineWidth">3</property>
+                                            <property name="ButtonHeight">25</property>
+                                            <property name="Font">Arial</property>
+                                            <property name="Text">-</property>
+                                            <property name="TextSize">14</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="LeftAttach">3</property>
+                                            <property name="RightAttach">4</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Picturez.PicturezButton" id="btn01TopPlus">
+                                            <property name="MemberName" />
+                                            <property name="CheckReleaseState">False</property>
+                                            <property name="BorderlineWidth">3</property>
+                                            <property name="ButtonHeight">25</property>
+                                            <property name="Font">Arial</property>
+                                            <property name="Text">+</property>
+                                            <property name="TextSize">14</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="LeftAttach">2</property>
+                                            <property name="RightAttach">3</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.Label" id="label1">
+                                            <property name="MemberName" />
+                                            <property name="LabelProp" translatable="yes">label1</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">1</property>
+                                            <property name="BottomAttach">2</property>
+                                            <property name="LeftAttach">7</property>
+                                            <property name="RightAttach">8</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="XOptions">Fill</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">False</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.Label" id="label2">
+                                            <property name="MemberName" />
+                                            <property name="LabelProp" translatable="yes">label1</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="LeftAttach">8</property>
+                                            <property name="RightAttach">9</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="XOptions">Fill</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">False</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.Label" id="label3">
+                                            <property name="MemberName" />
+                                            <property name="LabelProp" translatable="yes">label1</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">1</property>
+                                            <property name="BottomAttach">2</property>
+                                            <property name="LeftAttach">9</property>
+                                            <property name="RightAttach">10</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="XOptions">Fill</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">False</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.Label" id="label4">
+                                            <property name="MemberName" />
+                                            <property name="LabelProp" translatable="yes">label1</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">2</property>
+                                            <property name="BottomAttach">3</property>
+                                            <property name="LeftAttach">8</property>
+                                            <property name="RightAttach">9</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="XOptions">Fill</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">False</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameImagePositions">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;Image Positions&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">1</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Frame" id="frameImagePositions1">
+                                <property name="MemberName" />
+                                <property name="ShadowType">None</property>
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentImagePositions1">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <placeholder />
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameImagePositions1">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;Image Positions&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">2</property>
+                                <property name="AutoSize">True</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Frame" id="frameKey">
+                                <property name="MemberName" />
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentFrameKey">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <widget class="Gtk.Entry" id="entryKey">
+                                        <property name="MemberName" />
+                                        <property name="CanFocus">True</property>
+                                        <property name="IsEditable">True</property>
+                                        <property name="MaxLength">128</property>
+                                        <property name="Visibility">False</property>
+                                        <property name="InvisibleChar">●</property>
+                                        <signal name="KeyReleaseEvent" handler="OnEntryKeyKeyReleaseEvent" />
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameKey">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;Key&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">3</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Frame" id="frameContent">
+                                <property name="MemberName" />
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentFrameContent">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <widget class="Gtk.ScrolledWindow" id="scrolledwindowContent">
+                                        <property name="MemberName" />
+                                        <property name="CanFocus">True</property>
+                                        <property name="ShadowType">In</property>
+                                        <child>
+                                          <widget class="Gtk.TextView" id="textviewContent">
+                                            <property name="MemberName" />
+                                            <property name="CanFocus">True</property>
+                                            <property name="Text" translatable="yes">Testtext</property>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameContent">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;Content&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">4</property>
+                                <property name="AutoSize">True</property>
+                              </packing>
+                            </child>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Label" id="lbFrameStitch">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">&lt;b&gt;Stitch&lt;/b&gt;</property>
+                        <property name="UseMarkup">True</property>
+                      </widget>
+                      <packing>
+                        <property name="type">label_item</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Frame" id="frameCursorPos">
+                    <property name="MemberName" />
+                    <child>
+                      <widget class="Gtk.Alignment" id="GtkAlignment1">
+                        <property name="MemberName" />
+                        <property name="Xalign">0</property>
+                        <property name="Yalign">0</property>
+                        <property name="LeftPadding">12</property>
+                        <child>
+                          <widget class="Gtk.Label" id="lbCursorPos">
+                            <property name="MemberName" />
+                            <property name="LabelProp" translatable="yes">0 x 0</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Label" id="lbFrameCursorPos">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">&lt;b&gt;Cursor position&lt;/b&gt;</property>
+                        <property name="UseMarkup">True</property>
+                      </widget>
+                      <packing>
+                        <property name="type">label_item</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Picturez.PicturezButton" id="btnOk">
+                    <property name="MemberName" />
+                    <property name="CheckReleaseState">False</property>
+                    <property name="BorderlineWidth">3</property>
+                    <property name="ButtonHeight">35</property>
+                    <property name="Font">Arial</property>
+                    <property name="Text">OK</property>
+                    <property name="TextSize">14</property>
+                    <signal name="ButtonReleaseEvent" handler="OnBtnOkButtonReleaseEvent" />
+                  </widget>
+                  <packing>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">False</property>
+                <property name="Padding">5</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
             <property name="AutoSize">False</property>
           </packing>
         </child>

@@ -35,7 +35,7 @@ namespace Picturez_Lib
 			set {
 				key = value;
 				asciiMoveValue = GetDigitSumOfByte((byte)value.Length);
-				hash = GetCryptedHash (value, !(this is SteganographyRGBFilter));
+				hash = GetCryptedHash (value, !(this is StegHashFilter));
 				hashLengthMinus1 = hash.Length - 1;
 				sumHashElements = GetSumOfElements (hash); 
 			}

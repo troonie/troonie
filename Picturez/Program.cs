@@ -22,12 +22,12 @@ namespace Picturez
 		public static void Main (string[] args)
 		{
 //			#region Compare images testing
-//			CompareFilter cf = new CompareFilter ();
+//			DifferenceFilter cf = new DifferenceFilter ();
 //			cf.Smallest = 0;
 //			cf.Highest = 9;
 //			cf.CompareBitmap = System.Drawing.Bitmap.FromFile ("result.png") as System.Drawing.Bitmap;
 //
-//			System.Drawing.Bitmap b = System.Drawing.Bitmap.FromFile ("test.jpg") as System.Drawing.Bitmap;
+//			System.Drawing.Bitmap b = System.Drawing.Bitmap.FromFile ("test.png") as System.Drawing.Bitmap;
 //			b = cf.Apply (b, null);
 //			b.Save ("diff.png", System.Drawing.Imaging.ImageFormat.Png);
 //			#endregion Compare images testing
@@ -42,7 +42,7 @@ namespace Picturez
 
 			string filename = null;
 			// START VALUE
-//			 args = new string[] { "-s"};
+			 args = new string[] { "-i"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args);
@@ -60,6 +60,10 @@ namespace Picturez
 				case "-s":
 					SteganographyWidget winSteg = new SteganographyWidget (filename);
 					winSteg.Show ();
+					break;
+				case "-i":
+					StitchWidget winStitch = new StitchWidget (filename);
+					winStitch.Show ();
 					break;
 				case "-d":
 					DirectoryInfo di = new DirectoryInfo (args [args.Length - 1]);

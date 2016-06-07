@@ -124,13 +124,16 @@
     <Compile Include="src\EditWidget.ToolbarButtonEvents.cs" />
     <Compile Include="src\SteganographyWidget.cs" />
     <Compile Include="src\SteganographyWidget.ToolbarButtonEvents.cs" />
-    <Compile Include="gtk-gui\Picturez.SteganographyWidget.cs" />
     <Compile Include="src\SimpleImagePanel.cs" />
     <Compile Include="src\StarterWidget.cs" />
     <Compile Include="gtk-gui\Picturez.StarterWidget.cs" />
     <Compile Include="src\FilterWidget.cs" />
     <Compile Include="gtk-gui\Picturez.FilterWidget.cs" />
     <Compile Include="src\WidgetExtension.cs" />
+    <Compile Include="src\StitchWidget.cs" />
+    <Compile Include="gtk-gui\Picturez.StitchWidget.cs" />
+    <Compile Include="src\StitchWidget.ToolbarButtonEvents.cs" />
+    <Compile Include="gtk-gui\Picturez.SteganographyWidget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

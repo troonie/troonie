@@ -6,14 +6,14 @@ using System.Drawing.Imaging;
 namespace Picturez_Lib
 {    
 	/// <summary>
-	/// Steganography filter. All rights are reserved. 
+	/// 'StegHash' steganography filter. All rights are reserved. 
 	/// Copyright © Picturez Project, http://picturez-project.de
 	/// </summary>
-	public class SteganographyRGBFilter : SteganographyFilter
+	public class StegHashFilter : SteganographyFilter
     {
 		protected List<int> charTriple;
 
-        public SteganographyRGBFilter()
+        public StegHashFilter()
         {
 			SupportedSrcPixelFormat = PixelFormatFlags.Color;
 			SupportedDstPixelFormat = PixelFormatFlags.SameLikeSource;
@@ -38,8 +38,8 @@ namespace Picturez_Lib
 				foreach (byte item in textInByte) {
 					int one, ten, hundred;
 					// INNER encryption by substracting hash element
-					byte encodedItem = (byte)(item - hash [index]);
-					Fraction.Fractionalize3D (encodedItem, out hundred, out ten, out one);
+					byte encryptedItem = (byte)(item - hash [index]);
+					Fraction.Fractionalize3D (encryptedItem, out hundred, out ten, out one);
 					charTriple.Add (hundred);
 					charTriple.Add (ten);
 					charTriple.Add (one);
@@ -62,8 +62,8 @@ namespace Picturez_Lib
 				one = charTriple [i+2];
 				int item = Fraction.Defractionalize3D (hundred, ten, one);
 				// INNER decryption by adding hash element
-				byte itemEncrypted = (byte)(item + hash [indexKey]);
-				char c = (char)itemEncrypted;
+				byte decryptedItem = (byte)(item + hash [indexKey]);
+				char c = (char)decryptedItem;
 
 				if (c == (char)endByte)
 				{
@@ -92,8 +92,8 @@ namespace Picturez_Lib
 
 			Fraction.Fractionalize5D (sumHashElements, out tenthousend, out thousend, out hundred, out ten, out one);
 			int digitSumOfHashElements = tenthousend + thousend + hundred + ten + one;
-			byte encodeValueForDistance = hash[digitSumOfHashElements];
-			encodeValueForDistance = GetDigitSumOfByte (encodeValueForDistance);
+			byte encryptValueForDistance = hash[digitSumOfHashElements];
+			encryptValueForDistance = GetDigitSumOfByte (encryptValueForDistance);
 
 			int startH = sumHashElements / w;
 			int startW = sumHashElements - w * startH;
@@ -136,7 +136,7 @@ namespace Picturez_Lib
 					distance = (int)(distance / Math.PI);
 				}
 
-				if (charTriple.Count > numberUsablePx || charTriple.Count == 0 || encodeValueForDistance >= distance)
+				if (charTriple.Count > numberUsablePx || charTriple.Count == 0 || encryptValueForDistance >= distance)
                 {
                     Success = false;
                     return;
@@ -144,8 +144,8 @@ namespace Picturez_Lib
 
 				#region Save Pin in startH line                
                 // do encryption by substracting hash element
-				int encodedDistance = distance - encodeValueForDistance;
-				Fraction.Fractionalize4D(encodedDistance, out thousend, out hundred, out ten, out one);
+				int encryptedDistance = distance - encryptValueForDistance;
+				Fraction.Fractionalize4D(encryptedDistance, out thousend, out hundred, out ten, out one);
 				src = (byte*)srcData.Scan0.ToPointer();
 				dst = (byte*)dstData.Scan0.ToPointer();
 				src +=  startH * stride + startW * ps;
@@ -231,7 +231,7 @@ namespace Picturez_Lib
 				one = GetManipulatedByte(one);
 				distance = Fraction.Defractionalize4D(thousend, hundred, ten, one);
 				// do decryption by adding hash element
-				distance += encodeValueForDistance;
+				distance += encryptValueForDistance;
 
 				startH++; // One line reserved for saving distance value
 

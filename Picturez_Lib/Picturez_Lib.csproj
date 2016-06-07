@@ -66,9 +66,10 @@
     <Compile Include="Rc4.cs" />
     <Compile Include="filter\SepiaFilter.cs" />
     <Compile Include="filter\OilPaintingFilter.cs" />
-    <Compile Include="filter\SteganographyRGBFilter.cs" />
     <Compile Include="Fraction.cs" />
     <Compile Include="filter\DifferenceFilter.cs" />
+    <Compile Include="filter\StegHashFilter.cs" />
+    <Compile Include="filter\ThickPixelFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

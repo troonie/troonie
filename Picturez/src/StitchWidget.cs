@@ -14,7 +14,7 @@ using Picturez_Lib;
 
 namespace Picturez
 {
-	public partial class SteganographyWidget : Gtk.Window
+	public partial class StitchWidget : Gtk.Window
 	{
 		private const string blackFileName = "black.png";
 
@@ -27,7 +27,7 @@ namespace Picturez
 		public string FileName { get; set; }
 		public BitmapWithTag bt;
 
-		public SteganographyWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
+		public StitchWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
 		{
 			FileName = pFilename;
 
@@ -50,7 +50,7 @@ namespace Picturez
 			// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
 			// Otherwise ShadowType.In looks terrible at Win10.
 			frameCursorPos.ShadowType = ShadowType.In;
-			frameSteganography.ShadowType = ShadowType.In;
+			frameStitch.ShadowType = ShadowType.In;
 			frameModus.ShadowType = ShadowType.In;
 			frameKey.ShadowType = ShadowType.In;
 			frameContent.ShadowType = ShadowType.In;
@@ -193,20 +193,20 @@ namespace Picturez
 			// necessary to correct to small height 
 			const float multiplicatorHeight = 1.2f;
 
-			Gdk.Screen screen = this.Screen;
-			int monitor = screen.GetMonitorAtWindow (this.GdkWindow); 
-			Gdk.Rectangle bounds = screen.GetMonitorGeometry (monitor);
-			int winW = bounds.Width;
+//			Gdk.Screen screen = this.Screen;
+//			int monitor = screen.GetMonitorAtWindow (this.GdkWindow); 
+//			Gdk.Rectangle bounds = screen.GetMonitorGeometry (monitor);
+//			int winW = bounds.Width;
 			// DIFFERENCE 1 to EditWidget
 //			int winH = bounds.Height - taskbarHeight - 300;
-//			int winW = 700;
-			int winH = 600;
+			int winW;
+			int winH;
 
 			// DIFFERENCE 2 to EditWidget
 //			int panelW = winW - optionsWidth - paddingOffset;
 //			int panelH = winH - (int)(paddingOffset * multiplicatorHeight);
-			int panelW = 300;
-			int panelH = 200;
+			int panelW = 400;
+			int panelH = 300;
 
 			// setting padding for left and right side
 			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.simpleimagepanel1]));
@@ -219,11 +219,13 @@ namespace Picturez
 				{
 					panelH = (int)(imageH * panelW / (float)imageW  + 0.5f);
 					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
+					winW = panelW + optionsWidth + paddingOffset;
 				}
 				else
 				{
 					panelW = (int)(imageW * panelH / (float)imageH  + 0.5f);
 					winW = panelW + optionsWidth + paddingOffset;
+					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
 				}
 			}
 			else
@@ -252,7 +254,7 @@ namespace Picturez
 			lbFrameCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
 
-			lbFrameSteganography.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameStitch.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameModus.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameKey.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameContent.ModifyFg (StateType.Normal, colorConverter.FONT);
@@ -273,21 +275,21 @@ namespace Picturez
 			btnOk.Text = Language.I.L[16];
 			btnOk.Redraw ();
 
-			lbFrameSteganography.LabelProp = "<b>" + Language.I.L[73] + "</b>";
+			lbFrameStitch.LabelProp = "<b>" + Language.I.L[73] + "</b>";
 			lbFrameModus.LabelProp = "<b>" + Language.I.L[74] + "</b>";
-			rdBtnRead.Label = Language.I.L[75];
-			rdBtnWrite.Label = Language.I.L[76];
+			rdBtnLandscape.Label = Language.I.L[129];
+			rdBtnPortrait.Label = Language.I.L[130];
 			lbFrameKey.LabelProp = "<b>" + Language.I.L[77] + "</b>";
 			lbFrameContent.LabelProp = "<b>" + Language.I.L[78] + "</b>";
 		}
 
-		private void DoSteganography()
+		private void DoStitch()
 		{
 			Bitmap b1 = null;
 			StegHashFilter filter = new StegHashFilter ();
 			filter.Key = entryKey.Text;
 			entryKey.Text = string.Empty;
-			filter.WritingMode = rdBtnWrite.Active;
+			filter.WritingMode = rdBtnPortrait.Active;
 
 			PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
 			pseudo.Title = Language.I.L [80];
@@ -298,7 +300,7 @@ namespace Picturez
 			if (filter.WritingMode) {
 				string[] content = textviewContent.Buffer.Text.Split ('\n');
 				filter.FillLines (content);
-				// only necessary by Steganography1
+				// only necessary by Stitch1
 //				b1 = ImageConverter.To32Bpp(bt.Bitmap);
 //				b1 = filter.Apply (b1, null);
 				b1 = filter.Apply (bt.Bitmap, null);
@@ -435,7 +437,7 @@ namespace Picturez
 				return;
 			}
 
-			if (rdBtnWrite.Active && entryKey.Text.Length < 10) {
+			if (rdBtnPortrait.Active && entryKey.Text.Length < 10) {
 				PseudoPicturezContextMenu warn = new PseudoPicturezContextMenu (false);
 				warn.Title = Language.I.L [109];
 				warn.Label1 = Language.I.L [110] + entryKey.Text.Length + Language.I.L [111];
@@ -444,9 +446,9 @@ namespace Picturez
 				warn.CancelButtontext = Language.I.L [17];	
 				warn.Show ();
 
-				warn.OnReleasedOkButton += DoSteganography;
+				warn.OnReleasedOkButton += DoStitch;
 			} else {
-				DoSteganography ();
+				DoStitch ();
 			}
 		}
 
