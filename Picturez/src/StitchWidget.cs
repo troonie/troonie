@@ -11,18 +11,24 @@ using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using ImageConverter = Picturez_Lib.ImageConverter;
 using Picturez;
 using Picturez_Lib;
+using System.Diagnostics;
 
 namespace Picturez
 {
 	public partial class StitchWidget : Gtk.Window
 	{
 		private const string blackFileName = "black.png";
+		private const int maxpadding = 100;
 
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
 		private Constants constants = Constants.I;
 		private int imageW; 
 		private int imageH;
 		private string tempScaledImageFileName;
+		private Stopwatch timeoutSw;
+		private bool incrementValue;
+		private bool repeatTimeout;
+		private Label pointerLabel;
 
 		public string FileName { get; set; }
 		public BitmapWithTag bt;
@@ -58,6 +64,8 @@ namespace Picturez
 		}
 
 			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+
+			timeoutSw = new Stopwatch();
 		}
 
 		public override void Destroy ()
@@ -218,23 +226,26 @@ namespace Picturez
 				if (wLonger)
 				{
 					panelH = (int)(imageH * panelW / (float)imageW  + 0.5f);
-					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
-					winW = panelW + optionsWidth + paddingOffset;
+//					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
+//					winW = panelW + optionsWidth + paddingOffset;
 				}
 				else
 				{
 					panelW = (int)(imageW * panelH / (float)imageH  + 0.5f);
-					winW = panelW + optionsWidth + paddingOffset;
-					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
+//					winW = panelW + optionsWidth + paddingOffset;
+//					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
 				}
 			}
 			else
 			{
 				panelW = imageW;
 				panelH = imageH;
-				winW = panelW + optionsWidth + paddingOffset;
-				winH = panelH + (int)(paddingOffset * multiplicatorHeight);
-			}						
+//				winW = panelW + optionsWidth + paddingOffset;
+//				winH = panelH + (int)(paddingOffset * multiplicatorHeight);
+			}	
+
+			winW = panelW + optionsWidth + paddingOffset;
+			winH = panelH + (int)(paddingOffset * multiplicatorHeight);
 
 			simpleimagepanel1.WidthRequest = panelW;
 			simpleimagepanel1.HeightRequest = panelH;
@@ -242,8 +253,13 @@ namespace Picturez
 			simpleimagepanel1.ScaleCursorX = imageW / (float)panelW;
 			simpleimagepanel1.ScaleCursorY = imageH / (float)panelH;
 
+//			Console.WriteLine ("WinW=" + winW);
+//			WidthRequest = winW;
+//			HeightRequest = winH;
 			this.Resize (winW, winH);
 			this.Move (0, 0);
+//			Console.WriteLine ("WidthRequest=" + WidthRequest);
+//			this.QueueDraw ();
 		}
 
 		private void SetGuiColors()
@@ -423,34 +439,7 @@ namespace Picturez
 			}
 		}
 
-		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
-		{
-			if (entryKey.Text.Length == 0) {
-				PseudoPicturezContextMenu warn = new PseudoPicturezContextMenu (true);
-				warn.Title = Language.I.L [118];
-				warn.Label1 = string.Empty;
-				warn.Label2 = Language.I.L [119];
-				warn.OkButtontext = Language.I.L [16];
-//				warn.CancelButtontext = Language.I.L [17];	
-				warn.Show ();
 
-				return;
-			}
-
-			if (rdBtnPortrait.Active && entryKey.Text.Length < 10) {
-				PseudoPicturezContextMenu warn = new PseudoPicturezContextMenu (false);
-				warn.Title = Language.I.L [109];
-				warn.Label1 = Language.I.L [110] + entryKey.Text.Length + Language.I.L [111];
-				warn.Label2 = Language.I.L [112];
-				warn.OkButtontext = Language.I.L [16];
-				warn.CancelButtontext = Language.I.L [17];	
-				warn.Show ();
-
-				warn.OnReleasedOkButton += DoStitch;
-			} else {
-				DoStitch ();
-			}
-		}
 
 		protected void OnEntryKeyKeyReleaseEvent (object o, KeyReleaseEventArgs args)
 		{

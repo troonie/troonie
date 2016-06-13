@@ -1,5 +1,6 @@
 ﻿using System;
 using Gtk;
+using Picturez_Lib;
 
 namespace Picturez
 {
@@ -22,11 +23,12 @@ namespace Picturez
 
 		public FileChooserDialog GetImageFileChooserDialog(bool selectMultiple)
 		{
-			object[] o = new object[]{"Cancel",ResponseType.Cancel,
-				"OK",ResponseType.Ok};
+			object[] o = new object[]{Language.I.L[16],ResponseType.Ok, 
+				Language.I.L[17],ResponseType.Cancel};
+			string title = selectMultiple ? Language.I.L[39] : Language.I.L[2];
 
 			FileChooserDialog fc =
-				new FileChooserDialog("Choose image files",
+				new FileChooserDialog(title,
 					null,
 					FileChooserAction.Open,
 					o);

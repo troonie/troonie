@@ -26,6 +26,15 @@ namespace Picturez
 				this.HeightRequest = value;
 			}
 		}
+		public int ButtonWidth {
+			get {
+				return this.WidthRequest;
+			}
+			set {
+				this.WidthRequest = value;
+			}
+		}
+
 
 //  { get; set; }
 		public string Font { get; set; }
@@ -50,6 +59,7 @@ namespace Picturez
 			FontWeight = FontWeight.Bold;
 			FontSlant = FontSlant.Normal;
 			ButtonHeight = 45;
+			ButtonWidth = 45;
 			TextSize = 10;
 			Text = "Test";
 			#endregion default values, will be overwritten by using designer

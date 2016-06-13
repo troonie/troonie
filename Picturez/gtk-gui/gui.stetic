@@ -171,6 +171,7 @@
                                 <property name="CheckReleaseState">True</property>
                                 <property name="BorderlineWidth">2</property>
                                 <property name="ButtonHeight">35</property>
+                                <property name="ButtonWidth">0</property>
                                 <property name="Font">Arial</property>
                                 <property name="Text">-</property>
                                 <property name="TextSize">12</property>
@@ -198,6 +199,7 @@
                                 <property name="CheckReleaseState">True</property>
                                 <property name="BorderlineWidth">2</property>
                                 <property name="ButtonHeight">35</property>
+                                <property name="ButtonWidth">0</property>
                                 <property name="Font">Arial</property>
                                 <property name="Text">+</property>
                                 <property name="TextSize">12</property>
@@ -225,6 +227,7 @@
                                 <property name="CheckReleaseState">True</property>
                                 <property name="BorderlineWidth">2</property>
                                 <property name="ButtonHeight">35</property>
+                                <property name="ButtonWidth">0</property>
                                 <property name="Font">Arial</property>
                                 <property name="Text">-</property>
                                 <property name="TextSize">12</property>
@@ -250,6 +253,7 @@
                                 <property name="CheckReleaseState">True</property>
                                 <property name="BorderlineWidth">2</property>
                                 <property name="ButtonHeight">35</property>
+                                <property name="ButtonWidth">0</property>
                                 <property name="Font">Arial</property>
                                 <property name="Text">+</property>
                                 <property name="TextSize">12</property>
@@ -277,6 +281,7 @@
                                 <property name="CheckReleaseState">True</property>
                                 <property name="BorderlineWidth">2</property>
                                 <property name="ButtonHeight">35</property>
+                                <property name="ButtonWidth">0</property>
                                 <property name="Font">Arial</property>
                                 <property name="Text">-</property>
                                 <property name="TextSize">12</property>
@@ -304,6 +309,7 @@
                                 <property name="CheckReleaseState">True</property>
                                 <property name="BorderlineWidth">2</property>
                                 <property name="ButtonHeight">35</property>
+                                <property name="ButtonWidth">0</property>
                                 <property name="Font">Arial</property>
                                 <property name="Text">-</property>
                                 <property name="TextSize">12</property>
@@ -331,6 +337,7 @@
                                 <property name="CheckReleaseState">True</property>
                                 <property name="BorderlineWidth">2</property>
                                 <property name="ButtonHeight">35</property>
+                                <property name="ButtonWidth">0</property>
                                 <property name="Font">Arial</property>
                                 <property name="Text">+</property>
                                 <property name="TextSize">12</property>
@@ -362,6 +369,7 @@
                                     <property name="CheckReleaseState">True</property>
                                     <property name="BorderlineWidth">2</property>
                                     <property name="ButtonHeight">35</property>
+                                    <property name="ButtonWidth">0</property>
                                     <property name="Font">Arial</property>
                                     <property name="Text">+</property>
                                     <property name="TextSize">12</property>
@@ -597,6 +605,7 @@
                                 <property name="CheckReleaseState">True</property>
                                 <property name="BorderlineWidth">2</property>
                                 <property name="ButtonHeight">35</property>
+                                <property name="ButtonWidth">0</property>
                                 <property name="Font">Arial</property>
                                 <property name="Text">-</property>
                                 <property name="TextSize">12</property>
@@ -622,6 +631,7 @@
                                 <property name="CheckReleaseState">True</property>
                                 <property name="BorderlineWidth">2</property>
                                 <property name="ButtonHeight">35</property>
+                                <property name="ButtonWidth">0</property>
                                 <property name="Font">Arial</property>
                                 <property name="Text">+</property>
                                 <property name="TextSize">12</property>
@@ -860,6 +870,7 @@
                     <property name="CheckReleaseState">False</property>
                     <property name="BorderlineWidth">3</property>
                     <property name="ButtonHeight">35</property>
+                    <property name="ButtonWidth">0</property>
                     <property name="Font">Arial</property>
                     <property name="Text">OK</property>
                     <property name="TextSize">14</property>
@@ -2660,6 +2671,7 @@
                         <property name="CheckReleaseState">False</property>
                         <property name="BorderlineWidth">3</property>
                         <property name="ButtonHeight">35</property>
+                        <property name="ButtonWidth">0</property>
                         <property name="Font">Arial</property>
                         <property name="Text">Convert</property>
                         <property name="TextSize">16</property>
@@ -2791,6 +2803,7 @@
                 <property name="CheckReleaseState">True</property>
                 <property name="BorderlineWidth">2</property>
                 <property name="ButtonHeight">30</property>
+                <property name="ButtonWidth">0</property>
                 <property name="Font">Arial</property>
                 <property name="Text">Yes</property>
                 <property name="TextSize">10</property>
@@ -2807,6 +2820,7 @@
                 <property name="CheckReleaseState">False</property>
                 <property name="BorderlineWidth">2</property>
                 <property name="ButtonHeight">30</property>
+                <property name="ButtonWidth">0</property>
                 <property name="Font">Arial</property>
                 <property name="Text">No</property>
                 <property name="TextSize">10</property>
@@ -2876,6 +2890,7 @@
                 <property name="CheckReleaseState">False</property>
                 <property name="BorderlineWidth">2</property>
                 <property name="ButtonHeight">30</property>
+                <property name="ButtonWidth">0</property>
                 <property name="Font">Arial</property>
                 <property name="Text">OK</property>
                 <property name="TextSize">10</property>
@@ -2896,6 +2911,7 @@
                 <property name="CheckReleaseState">False</property>
                 <property name="BorderlineWidth">2</property>
                 <property name="ButtonHeight">30</property>
+                <property name="ButtonWidth">0</property>
                 <property name="Font">Arial</property>
                 <property name="Text">Cancel</property>
                 <property name="TextSize">10</property>
@@ -3201,6 +3217,7 @@
                     <property name="CheckReleaseState">False</property>
                     <property name="BorderlineWidth">3</property>
                     <property name="ButtonHeight">35</property>
+                    <property name="ButtonWidth">0</property>
                     <property name="Font">Arial</property>
                     <property name="Text">OK</property>
                     <property name="TextSize">14</property>
@@ -3252,6 +3269,7 @@
                 <property name="CheckReleaseState">False</property>
                 <property name="BorderlineWidth">3</property>
                 <property name="ButtonHeight">140</property>
+                <property name="ButtonWidth">0</property>
                 <property name="Font">Arial</property>
                 <property name="Text">Convert</property>
                 <property name="TextSize">20</property>
@@ -3268,6 +3286,7 @@
                 <property name="CheckReleaseState">False</property>
                 <property name="BorderlineWidth">3</property>
                 <property name="ButtonHeight">140</property>
+                <property name="ButtonWidth">0</property>
                 <property name="Font">Arial</property>
                 <property name="Text">Editor</property>
                 <property name="TextSize">20</property>
@@ -3284,6 +3303,7 @@
                 <property name="CheckReleaseState">False</property>
                 <property name="BorderlineWidth">3</property>
                 <property name="ButtonHeight">140</property>
+                <property name="ButtonWidth">0</property>
                 <property name="Font">Arial</property>
                 <property name="Text">Steganography</property>
                 <property name="TextSize">20</property>
@@ -3818,6 +3838,7 @@
                         <property name="CheckReleaseState">False</property>
                         <property name="BorderlineWidth">3</property>
                         <property name="ButtonHeight">35</property>
+                        <property name="ButtonWidth">0</property>
                         <property name="Font">Arial</property>
                         <property name="Text">Cancel</property>
                         <property name="TextSize">14</property>
@@ -3834,6 +3855,7 @@
                         <property name="CheckReleaseState">False</property>
                         <property name="BorderlineWidth">3</property>
                         <property name="ButtonHeight">35</property>
+                        <property name="ButtonWidth">0</property>
                         <property name="Font">Arial</property>
                         <property name="Text">OK</property>
                         <property name="TextSize">14</property>
@@ -3872,7 +3894,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="Picturez.StitchWidget" design-size="524 418">
+  <widget class="Gtk.Window" id="Picturez.StitchWidget" design-size="524 484">
     <property name="MemberName" />
     <property name="Title" translatable="yes">StitchWidget</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -3947,6 +3969,101 @@
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
+                              <widget class="Gtk.Frame" id="frameImageChoose">
+                                <property name="MemberName" />
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentFrameImageChoose">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <widget class="Gtk.Table" id="tableImageChoose">
+                                        <property name="MemberName" />
+                                        <property name="NRows">2</property>
+                                        <property name="NColumns">2</property>
+                                        <property name="RowSpacing">6</property>
+                                        <property name="ColumnSpacing">6</property>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <widget class="Picturez.PicturezButton" id="btn01ImageChoose">
+                                            <property name="MemberName" />
+                                            <property name="CheckReleaseState">False</property>
+                                            <property name="BorderlineWidth">3</property>
+                                            <property name="ButtonHeight">25</property>
+                                            <property name="ButtonWidth">25</property>
+                                            <property name="Font">Arial</property>
+                                            <property name="Text">...</property>
+                                            <property name="TextSize">14</property>
+                                            <signal name="ButtonPressEvent" handler="OnBtn01ImageChoosePressEvent" />
+                                          </widget>
+                                          <packing>
+                                            <property name="LeftAttach">1</property>
+                                            <property name="RightAttach">2</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Picturez.PicturezButton" id="btn02ImageChoose">
+                                            <property name="MemberName" />
+                                            <property name="CheckReleaseState">False</property>
+                                            <property name="BorderlineWidth">3</property>
+                                            <property name="ButtonHeight">25</property>
+                                            <property name="ButtonWidth">25</property>
+                                            <property name="Font">Arial</property>
+                                            <property name="Text">...</property>
+                                            <property name="TextSize">14</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">1</property>
+                                            <property name="BottomAttach">2</property>
+                                            <property name="LeftAttach">1</property>
+                                            <property name="RightAttach">2</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameImageChoose">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;Image Choose&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">0</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
                               <widget class="Gtk.Frame" id="frameModus">
                                 <property name="MemberName" />
                                 <child>
@@ -3964,7 +4081,6 @@
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">Landscape</property>
-                                            <property name="Active">True</property>
                                             <property name="DrawIndicator">True</property>
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>
@@ -4006,7 +4122,7 @@
                                 </child>
                               </widget>
                               <packing>
-                                <property name="Position">0</property>
+                                <property name="Position">1</property>
                                 <property name="AutoSize">True</property>
                                 <property name="Expand">False</property>
                                 <property name="Fill">False</property>
@@ -4023,7 +4139,7 @@
                                     <property name="Yalign">0</property>
                                     <property name="LeftPadding">12</property>
                                     <child>
-                                      <widget class="Gtk.Table" id="table1">
+                                      <widget class="Gtk.Table" id="tableImagePosition1">
                                         <property name="MemberName" />
                                         <property name="NRows">3</property>
                                         <property name="NColumns">10</property>
@@ -4089,6 +4205,7 @@
                                             <property name="CheckReleaseState">False</property>
                                             <property name="BorderlineWidth">3</property>
                                             <property name="ButtonHeight">25</property>
+                                            <property name="ButtonWidth">25</property>
                                             <property name="Font">Arial</property>
                                             <property name="Text">-</property>
                                             <property name="TextSize">14</property>
@@ -4114,6 +4231,7 @@
                                             <property name="CheckReleaseState">False</property>
                                             <property name="BorderlineWidth">3</property>
                                             <property name="ButtonHeight">25</property>
+                                            <property name="ButtonWidth">25</property>
                                             <property name="Font">Arial</property>
                                             <property name="Text">+</property>
                                             <property name="TextSize">14</property>
@@ -4139,6 +4257,7 @@
                                             <property name="CheckReleaseState">False</property>
                                             <property name="BorderlineWidth">3</property>
                                             <property name="ButtonHeight">25</property>
+                                            <property name="ButtonWidth">25</property>
                                             <property name="Font">Arial</property>
                                             <property name="Text">-</property>
                                             <property name="TextSize">14</property>
@@ -4164,6 +4283,7 @@
                                             <property name="CheckReleaseState">False</property>
                                             <property name="BorderlineWidth">3</property>
                                             <property name="ButtonHeight">25</property>
+                                            <property name="ButtonWidth">25</property>
                                             <property name="Font">Arial</property>
                                             <property name="Text">+</property>
                                             <property name="TextSize">14</property>
@@ -4187,6 +4307,7 @@
                                             <property name="CheckReleaseState">False</property>
                                             <property name="BorderlineWidth">3</property>
                                             <property name="ButtonHeight">25</property>
+                                            <property name="ButtonWidth">25</property>
                                             <property name="Font">Arial</property>
                                             <property name="Text">-</property>
                                             <property name="TextSize">14</property>
@@ -4212,6 +4333,7 @@
                                             <property name="CheckReleaseState">False</property>
                                             <property name="BorderlineWidth">3</property>
                                             <property name="ButtonHeight">25</property>
+                                            <property name="ButtonWidth">25</property>
                                             <property name="Font">Arial</property>
                                             <property name="Text">+</property>
                                             <property name="TextSize">14</property>
@@ -4237,6 +4359,7 @@
                                             <property name="CheckReleaseState">False</property>
                                             <property name="BorderlineWidth">3</property>
                                             <property name="ButtonHeight">25</property>
+                                            <property name="ButtonWidth">25</property>
                                             <property name="Font">Arial</property>
                                             <property name="Text">-</property>
                                             <property name="TextSize">14</property>
@@ -4260,6 +4383,7 @@
                                             <property name="CheckReleaseState">False</property>
                                             <property name="BorderlineWidth">3</property>
                                             <property name="ButtonHeight">25</property>
+                                            <property name="ButtonWidth">25</property>
                                             <property name="Font">Arial</property>
                                             <property name="Text">+</property>
                                             <property name="TextSize">14</property>
@@ -4278,9 +4402,30 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="Gtk.Label" id="label1">
+                                          <widget class="Gtk.Label" id="lb01Bottom">
                                             <property name="MemberName" />
-                                            <property name="LabelProp" translatable="yes">label1</property>
+                                            <property name="LabelProp" translatable="yes">0</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">2</property>
+                                            <property name="BottomAttach">3</property>
+                                            <property name="LeftAttach">8</property>
+                                            <property name="RightAttach">9</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="XOptions">Fill</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">False</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.Label" id="lb01Left">
+                                            <property name="MemberName" />
+                                            <property name="LabelProp" translatable="yes">0</property>
                                           </widget>
                                           <packing>
                                             <property name="TopAttach">1</property>
@@ -4299,28 +4444,9 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="Gtk.Label" id="label2">
+                                          <widget class="Gtk.Label" id="lb01Right">
                                             <property name="MemberName" />
-                                            <property name="LabelProp" translatable="yes">label1</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="LeftAttach">8</property>
-                                            <property name="RightAttach">9</property>
-                                            <property name="AutoSize">True</property>
-                                            <property name="XOptions">Fill</property>
-                                            <property name="YOptions">Fill</property>
-                                            <property name="XExpand">False</property>
-                                            <property name="XFill">True</property>
-                                            <property name="XShrink">False</property>
-                                            <property name="YExpand">False</property>
-                                            <property name="YFill">True</property>
-                                            <property name="YShrink">False</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="Gtk.Label" id="label3">
-                                            <property name="MemberName" />
-                                            <property name="LabelProp" translatable="yes">label1</property>
+                                            <property name="LabelProp" translatable="yes">0</property>
                                           </widget>
                                           <packing>
                                             <property name="TopAttach">1</property>
@@ -4339,13 +4465,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="Gtk.Label" id="label4">
+                                          <widget class="Gtk.Label" id="lb01Top">
                                             <property name="MemberName" />
-                                            <property name="LabelProp" translatable="yes">label1</property>
+                                            <property name="LabelProp" translatable="yes">0</property>
                                           </widget>
                                           <packing>
-                                            <property name="TopAttach">2</property>
-                                            <property name="BottomAttach">3</property>
                                             <property name="LeftAttach">8</property>
                                             <property name="RightAttach">9</property>
                                             <property name="AutoSize">True</property>
@@ -4375,7 +4499,7 @@
                                 </child>
                               </widget>
                               <packing>
-                                <property name="Position">1</property>
+                                <property name="Position">2</property>
                                 <property name="AutoSize">True</property>
                                 <property name="Expand">False</property>
                                 <property name="Fill">False</property>
@@ -4408,7 +4532,7 @@
                                 </child>
                               </widget>
                               <packing>
-                                <property name="Position">2</property>
+                                <property name="Position">3</property>
                                 <property name="AutoSize">True</property>
                               </packing>
                             </child>
@@ -4446,7 +4570,7 @@
                                 </child>
                               </widget>
                               <packing>
-                                <property name="Position">3</property>
+                                <property name="Position">4</property>
                                 <property name="AutoSize">True</property>
                                 <property name="Expand">False</property>
                                 <property name="Fill">False</property>
@@ -4489,7 +4613,7 @@
                                 </child>
                               </widget>
                               <packing>
-                                <property name="Position">4</property>
+                                <property name="Position">5</property>
                                 <property name="AutoSize">True</property>
                               </packing>
                             </child>
@@ -4554,10 +4678,10 @@
                     <property name="CheckReleaseState">False</property>
                     <property name="BorderlineWidth">3</property>
                     <property name="ButtonHeight">35</property>
+                    <property name="ButtonWidth">0</property>
                     <property name="Font">Arial</property>
                     <property name="Text">OK</property>
                     <property name="TextSize">14</property>
-                    <signal name="ButtonReleaseEvent" handler="OnBtnOkButtonReleaseEvent" />
                   </widget>
                   <packing>
                     <property name="Position">2</property>

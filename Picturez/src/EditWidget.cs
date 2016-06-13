@@ -26,8 +26,8 @@ namespace Picturez
 		}
 
 		private const string blackFileName = "black.png";
-		private const int timeoutInterval = 20;
-		private const int timeoutIntervalFirst = 500;
+//		private const int timeoutInterval = 20;
+//		private const int timeoutIntervalFirst = 500;
 
 		private shortcutFormatStruct[] shortcutFormats2;
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
@@ -420,7 +420,7 @@ namespace Picturez
 
 		private bool RotateByTimeoutHandler()
 		{
-			if (timeoutSw.ElapsedMilliseconds < timeoutIntervalFirst) {
+			if (timeoutSw.ElapsedMilliseconds < Constants.TIMEOUT_INTERVAL_FIRST) {
 				return repeatTimeout;
 			}
 			Rotate();
@@ -436,7 +436,7 @@ namespace Picturez
 
 		private bool MoveSliderByTimeoutHandler()
 		{
-			if (timeoutSw.ElapsedMilliseconds < timeoutIntervalFirst) {
+			if (timeoutSw.ElapsedMilliseconds < Constants.TIMEOUT_INTERVAL_FIRST) {
 				return repeatTimeout;
 			}
 

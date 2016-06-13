@@ -70,6 +70,7 @@
     <Compile Include="filter\DifferenceFilter.cs" />
     <Compile Include="filter\StegHashFilter.cs" />
     <Compile Include="filter\ThickPixelFilter.cs" />
+    <Compile Include="filter\StitchMIFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -64,7 +64,7 @@ namespace Picturez
 			timeoutRotateValue = 1;
 			repeatTimeout = true;
 			Rotate ();
-			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(RotateByTimeoutHandler));
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(RotateByTimeoutHandler));
 		}
 
 		protected void OnBtnRotateMinusButtonPressEvent (object o, ButtonPressEventArgs args)
@@ -76,7 +76,7 @@ namespace Picturez
 			timeoutRotateValue = -1;
 			repeatTimeout = true;
 			Rotate ();
-			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(RotateByTimeoutHandler));
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(RotateByTimeoutHandler));
 		}
 
 		protected void OnBtnLeftPlusButtonPressEvent (object o, ButtonPressEventArgs args)
@@ -89,7 +89,7 @@ namespace Picturez
 			timeoutKey = Gdk.Key.Right;
 			repeatTimeout = true;
 			MoveTimeoutSlider ();
-			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
 		}
 
 		protected void OnBtnLeftMinusButtonPressEvent (object o, ButtonPressEventArgs args)
@@ -102,7 +102,7 @@ namespace Picturez
 			timeoutKey = Gdk.Key.Left;
 			repeatTimeout = true;
 			MoveTimeoutSlider ();
-			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
 		}
 
 		protected void OnBtnBottomMinusButtonPressEvent (object o, ButtonPressEventArgs args)
@@ -115,7 +115,7 @@ namespace Picturez
 			timeoutKey = Gdk.Key.Down;
 			repeatTimeout = true;
 			MoveTimeoutSlider ();
-			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
 		}
 		protected void OnBtnBottomPlusButtonPressEvent (object o, ButtonPressEventArgs args)
 		{
@@ -127,7 +127,7 @@ namespace Picturez
 			timeoutKey = Gdk.Key.Up;
 			repeatTimeout = true;
 			MoveTimeoutSlider ();
-			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
 		}
 
 		protected void OnBtnTopMinusButtonPressEvent (object o, ButtonPressEventArgs args)
@@ -140,7 +140,7 @@ namespace Picturez
 			timeoutKey = Gdk.Key.Up;
 			repeatTimeout = true;
 			MoveTimeoutSlider ();
-			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
 		}
 
 		protected void OnBtnTopPlusButtonPressEvent (object o, ButtonPressEventArgs args)
@@ -153,7 +153,7 @@ namespace Picturez
 			timeoutKey = Gdk.Key.Down;
 			repeatTimeout = true;
 			MoveTimeoutSlider ();
-			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
 		}
 
 		protected void OnBtnRightMinusButtonPressEvent (object o, ButtonPressEventArgs args)
@@ -166,7 +166,7 @@ namespace Picturez
 			timeoutKey = Gdk.Key.Right;
 			repeatTimeout = true;
 			MoveTimeoutSlider ();
-			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
 		}
 
 		protected void OnBtnRightPlusButtonPressEvent (object o, ButtonPressEventArgs args)
@@ -179,7 +179,7 @@ namespace Picturez
 			timeoutKey = Gdk.Key.Left;
 			repeatTimeout = true;
 			MoveTimeoutSlider ();
-			GLib.Timeout.Add(timeoutInterval, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(MoveSliderByTimeoutHandler));
 		}
 
 		#endregion button events	

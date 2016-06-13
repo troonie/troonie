@@ -161,6 +161,7 @@ namespace Picturez
 			this.btnBottomMinus.CheckReleaseState = true;
 			this.btnBottomMinus.BorderlineWidth = 2;
 			this.btnBottomMinus.ButtonHeight = 35;
+			this.btnBottomMinus.ButtonWidth = 0;
 			this.btnBottomMinus.Font = "Arial";
 			this.btnBottomMinus.Text = "-";
 			this.btnBottomMinus.TextSize = 12;
@@ -177,6 +178,7 @@ namespace Picturez
 			this.btnBottomPlus.CheckReleaseState = true;
 			this.btnBottomPlus.BorderlineWidth = 2;
 			this.btnBottomPlus.ButtonHeight = 35;
+			this.btnBottomPlus.ButtonWidth = 0;
 			this.btnBottomPlus.Font = "Arial";
 			this.btnBottomPlus.Text = "+";
 			this.btnBottomPlus.TextSize = 12;
@@ -193,6 +195,7 @@ namespace Picturez
 			this.btnLeftMinus.CheckReleaseState = true;
 			this.btnLeftMinus.BorderlineWidth = 2;
 			this.btnLeftMinus.ButtonHeight = 35;
+			this.btnLeftMinus.ButtonWidth = 0;
 			this.btnLeftMinus.Font = "Arial";
 			this.btnLeftMinus.Text = "-";
 			this.btnLeftMinus.TextSize = 12;
@@ -207,6 +210,7 @@ namespace Picturez
 			this.btnLeftPlus.CheckReleaseState = true;
 			this.btnLeftPlus.BorderlineWidth = 2;
 			this.btnLeftPlus.ButtonHeight = 35;
+			this.btnLeftPlus.ButtonWidth = 0;
 			this.btnLeftPlus.Font = "Arial";
 			this.btnLeftPlus.Text = "+";
 			this.btnLeftPlus.TextSize = 12;
@@ -223,6 +227,7 @@ namespace Picturez
 			this.btnRightMinus.CheckReleaseState = true;
 			this.btnRightMinus.BorderlineWidth = 2;
 			this.btnRightMinus.ButtonHeight = 35;
+			this.btnRightMinus.ButtonWidth = 0;
 			this.btnRightMinus.Font = "Arial";
 			this.btnRightMinus.Text = "-";
 			this.btnRightMinus.TextSize = 12;
@@ -239,6 +244,7 @@ namespace Picturez
 			this.btnTopMinus.CheckReleaseState = true;
 			this.btnTopMinus.BorderlineWidth = 2;
 			this.btnTopMinus.ButtonHeight = 35;
+			this.btnTopMinus.ButtonWidth = 0;
 			this.btnTopMinus.Font = "Arial";
 			this.btnTopMinus.Text = "-";
 			this.btnTopMinus.TextSize = 12;
@@ -255,6 +261,7 @@ namespace Picturez
 			this.btnTopPlus.CheckReleaseState = true;
 			this.btnTopPlus.BorderlineWidth = 2;
 			this.btnTopPlus.ButtonHeight = 35;
+			this.btnTopPlus.ButtonWidth = 0;
 			this.btnTopPlus.Font = "Arial";
 			this.btnTopPlus.Text = "+";
 			this.btnTopPlus.TextSize = 12;
@@ -275,6 +282,7 @@ namespace Picturez
 			this.btnRightPlus.CheckReleaseState = true;
 			this.btnRightPlus.BorderlineWidth = 2;
 			this.btnRightPlus.ButtonHeight = 35;
+			this.btnRightPlus.ButtonWidth = 0;
 			this.btnRightPlus.Font = "Arial";
 			this.btnRightPlus.Text = "+";
 			this.btnRightPlus.TextSize = 12;
@@ -409,6 +417,7 @@ namespace Picturez
 			this.btnRotateMinus.CheckReleaseState = true;
 			this.btnRotateMinus.BorderlineWidth = 2;
 			this.btnRotateMinus.ButtonHeight = 35;
+			this.btnRotateMinus.ButtonWidth = 0;
 			this.btnRotateMinus.Font = "Arial";
 			this.btnRotateMinus.Text = "-";
 			this.btnRotateMinus.TextSize = 12;
@@ -423,6 +432,7 @@ namespace Picturez
 			this.btnRotatePlus.CheckReleaseState = true;
 			this.btnRotatePlus.BorderlineWidth = 2;
 			this.btnRotatePlus.ButtonHeight = 35;
+			this.btnRotatePlus.ButtonWidth = 0;
 			this.btnRotatePlus.Font = "Arial";
 			this.btnRotatePlus.Text = "+";
 			this.btnRotatePlus.TextSize = 12;
@@ -558,6 +568,7 @@ namespace Picturez
 			this.btnOk.CheckReleaseState = false;
 			this.btnOk.BorderlineWidth = 3;
 			this.btnOk.ButtonHeight = 35;
+			this.btnOk.ButtonWidth = 0;
 			this.btnOk.Font = "Arial";
 			this.btnOk.Text = "OK";
 			this.btnOk.TextSize = 14;

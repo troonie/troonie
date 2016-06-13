@@ -134,6 +134,7 @@
     <Compile Include="gtk-gui\Picturez.StitchWidget.cs" />
     <Compile Include="src\StitchWidget.ToolbarButtonEvents.cs" />
     <Compile Include="gtk-gui\Picturez.SteganographyWidget.cs" />
+    <Compile Include="src\StitchWidget.ButtonEvents.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
