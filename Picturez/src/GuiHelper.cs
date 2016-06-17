@@ -21,6 +21,83 @@ namespace Picturez
 			}
 		}
 
+		public void SetPanelSize(Window window, SimpleImagePanel simpleimagepanel, HBox hbox, int maxPanelWidth, int maxPanelHeight, int imageW, int imageH, int minWinWidth = 0, int minWinHeight = 0)
+		{		
+			const int optionsWidth = 390;
+			// general taskbar size in win_8.1
+			const int taskbarHeight = 90;
+			const int paddingOffset = 44;
+			// necessary to correct to small height 
+			const float multiplicatorHeight = 1.2f;
+
+			//			Gdk.Screen screen = this.Screen;
+			//			int monitor = screen.GetMonitorAtWindow (this.GdkWindow); 
+			//			Gdk.Rectangle bounds = screen.GetMonitorGeometry (monitor);
+			//			int winW = bounds.Width;
+			// DIFFERENCE 1 to EditWidget
+			//			int winH = bounds.Height - taskbarHeight - 300;
+			int winW;
+			int winH;
+
+			// DIFFERENCE 2 to EditWidget
+			//			int panelW = winW - optionsWidth - paddingOffset;
+			//			int panelH = winH - (int)(paddingOffset * multiplicatorHeight);
+//			int panelW = 400;
+//			int panelH = 300;
+
+			// setting padding for left and right side
+			Box.BoxChild w4 = ((Box.BoxChild)(hbox [simpleimagepanel]));
+			w4.Padding = ((uint)(paddingOffset / 4.0f + 0.5f));
+
+			if (maxPanelWidth < imageW || maxPanelHeight < imageH)
+			{
+				bool wLonger = (imageW / (float)imageH) > (maxPanelWidth / (float)maxPanelHeight);
+				if (wLonger)
+				{
+					maxPanelHeight = (int)(imageH * maxPanelWidth / (float)imageW  + 0.5f);
+					//					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
+					//					winW = panelW + optionsWidth + paddingOffset;
+				}
+				else
+				{
+					maxPanelWidth = (int)(imageW * maxPanelHeight / (float)imageH  + 0.5f);
+					//					winW = panelW + optionsWidth + paddingOffset;
+					//					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
+				}
+			}
+			else
+			{
+				maxPanelWidth = imageW;
+				maxPanelHeight = imageH;
+				//				winW = panelW + optionsWidth + paddingOffset;
+				//				winH = panelH + (int)(paddingOffset * multiplicatorHeight);
+			}	
+
+			winW = Math.Max(minWinWidth, maxPanelWidth + optionsWidth + paddingOffset);
+			winH = Math.Max(minWinHeight, maxPanelHeight + (int)(paddingOffset * multiplicatorHeight));
+
+			simpleimagepanel.WidthRequest = maxPanelWidth;
+			simpleimagepanel.HeightRequest = maxPanelHeight;
+
+			simpleimagepanel.ScaleCursorX = imageW / (float)maxPanelWidth;
+			simpleimagepanel.ScaleCursorY = imageH / (float)maxPanelHeight;
+
+			window.WidthRequest = winW;
+			window.HeightRequest = winH;
+
+
+			// work around by GLib timeout to fix the GTK#-resizing bug
+			GLib.TimeoutHandler timeoutHandler = () => {
+				window.WidthRequest = winW;
+				window.HeightRequest = winH;
+				window.Move (0, 0);
+				window.Resize (winW, winH);
+				// false, because usage only one time
+				return false;
+			};
+			GLib.Timeout.Add(200, timeoutHandler);
+		}
+
 		public FileChooserDialog GetImageFileChooserDialog(bool selectMultiple)
 		{
 			object[] o = new object[]{Language.I.L[16],ResponseType.Ok, 

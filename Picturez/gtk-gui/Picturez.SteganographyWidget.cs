@@ -227,6 +227,7 @@ namespace Picturez
 			this.btnOk.CheckReleaseState = false;
 			this.btnOk.BorderlineWidth = 3;
 			this.btnOk.ButtonHeight = 35;
+			this.btnOk.ButtonWidth = 0;
 			this.btnOk.Font = "Arial";
 			this.btnOk.Text = "OK";
 			this.btnOk.TextSize = 14;

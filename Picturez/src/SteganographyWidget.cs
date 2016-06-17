@@ -135,7 +135,7 @@ namespace Picturez
 
 			// Gdk.Pixbuf.GetFileInfo(FileName, out imageW, out imageH);
 
-			SetPanelSize();	
+			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 500, 600, imageW, imageH, 1200, 650);
 
 			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
 
@@ -183,66 +183,6 @@ namespace Picturez
 
 			ShowAll();
 		}		
-
-		private void SetPanelSize()
-		{		
-			const int optionsWidth = 390;
-			// general taskbar size in win_8.1
-			const int taskbarHeight = 90;
-			const int paddingOffset = 44;
-			// necessary to correct to small height 
-			const float multiplicatorHeight = 1.2f;
-
-			Gdk.Screen screen = this.Screen;
-			int monitor = screen.GetMonitorAtWindow (this.GdkWindow); 
-			Gdk.Rectangle bounds = screen.GetMonitorGeometry (monitor);
-			int winW = bounds.Width;
-			// DIFFERENCE 1 to EditWidget
-//			int winH = bounds.Height - taskbarHeight - 300;
-//			int winW = 700;
-			int winH = 600;
-
-			// DIFFERENCE 2 to EditWidget
-//			int panelW = winW - optionsWidth - paddingOffset;
-//			int panelH = winH - (int)(paddingOffset * multiplicatorHeight);
-			int panelW = 300;
-			int panelH = 200;
-
-			// setting padding for left and right side
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.simpleimagepanel1]));
-			w4.Padding = ((uint)(paddingOffset / 4.0f + 0.5f));
-
-			if (panelW < imageW || panelH < imageH)
-			{
-				bool wLonger = (imageW / (float)imageH) > (panelW / (float)panelH);
-				if (wLonger)
-				{
-					panelH = (int)(imageH * panelW / (float)imageW  + 0.5f);
-					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
-				}
-				else
-				{
-					panelW = (int)(imageW * panelH / (float)imageH  + 0.5f);
-					winW = panelW + optionsWidth + paddingOffset;
-				}
-			}
-			else
-			{
-				panelW = imageW;
-				panelH = imageH;
-				winW = panelW + optionsWidth + paddingOffset;
-				winH = panelH + (int)(paddingOffset * multiplicatorHeight);
-			}						
-
-			simpleimagepanel1.WidthRequest = panelW;
-			simpleimagepanel1.HeightRequest = panelH;
-
-			simpleimagepanel1.ScaleCursorX = imageW / (float)panelW;
-			simpleimagepanel1.ScaleCursorY = imageH / (float)panelH;
-
-			this.Resize (winW, winH);
-			this.Move (0, 0);
-		}
 
 		private void SetGuiColors()
 		{

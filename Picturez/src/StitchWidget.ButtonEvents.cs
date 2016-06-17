@@ -6,14 +6,23 @@ namespace Picturez
 {
 	public partial class StitchWidget
 	{
-		protected void OnBtn01ImageChoosePressEvent (object o, ButtonPressEventArgs args)
+		protected void OnBtnImageChooseReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
 			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false);
+			Label l;
+			if (o == btn01ImageChoose) {
+				l = lbImage1;
+			} 
+			else /* if (o == btn02ImageChoose) */{
+				l = lbImage2;
+			}
+
 
 			if (fc.Run() == (int)ResponseType.Ok) 
 			{
-				Console.WriteLine (fc.Filename);
-			}
+				int count = Math.Max (0, fc.Filename.Length - l.MaxWidthChars + 3);
+				l.Text = count != 0 ? "..." + fc.Filename.Substring (count) : fc.Filename;
+			} 
 
 			fc.Destroy();
 		}

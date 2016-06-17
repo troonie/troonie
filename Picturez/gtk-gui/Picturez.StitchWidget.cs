@@ -8,7 +8,7 @@ namespace Picturez
 		private global::Gtk.EventBox eventboxToolbar;
 		private global::Gtk.HBox hboxToolbarButtons;
 		private global::Gtk.HBox hbox1;
-		private global::Picturez.SimpleImagePanel simpleimagepanel1;
+		private global::Picturez.StitchImagePanel stitchimagepanel1;
 		private global::Gtk.VBox vbox1;
 		private global::Gtk.Frame frameStitch;
 		private global::Gtk.Alignment AlignmentFrameStitch;
@@ -18,6 +18,8 @@ namespace Picturez
 		private global::Gtk.Table tableImageChoose;
 		private global::Picturez.PicturezButton btn01ImageChoose;
 		private global::Picturez.PicturezButton btn02ImageChoose;
+		private global::Gtk.Label lbImage1;
+		private global::Gtk.Label lbImage2;
 		private global::Gtk.Label lbFrameImageChoose;
 		private global::Gtk.Frame frameModus;
 		private global::Gtk.Alignment AlignmentFrameModus;
@@ -88,13 +90,13 @@ namespace Picturez
 			this.hbox1.Name = "hbox1";
 			this.hbox1.Spacing = 6;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.simpleimagepanel1 = new global::Picturez.SimpleImagePanel ();
-			this.simpleimagepanel1.Events = ((global::Gdk.EventMask)(256));
-			this.simpleimagepanel1.Name = "simpleimagepanel1";
-			this.simpleimagepanel1.ScaleCursorX = 0F;
-			this.simpleimagepanel1.ScaleCursorY = 0F;
-			this.hbox1.Add (this.simpleimagepanel1);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.simpleimagepanel1]));
+			this.stitchimagepanel1 = new global::Picturez.StitchImagePanel ();
+			this.stitchimagepanel1.Events = ((global::Gdk.EventMask)(256));
+			this.stitchimagepanel1.Name = "stitchimagepanel1";
+			this.stitchimagepanel1.ScaleCursorX = 0F;
+			this.stitchimagepanel1.ScaleCursorY = 0F;
+			this.hbox1.Add (this.stitchimagepanel1);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.stitchimagepanel1]));
 			w3.Position = 0;
 			w3.Expand = false;
 			w3.Fill = false;
@@ -159,6 +161,30 @@ namespace Picturez
 			w5.LeftAttach = ((uint)(1));
 			w5.RightAttach = ((uint)(2));
 			w5.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child tableImageChoose.Gtk.Table+TableChild
+			this.lbImage1 = new global::Gtk.Label ();
+			this.lbImage1.Name = "lbImage1";
+			this.lbImage1.LabelProp = global::Mono.Unix.Catalog.GetString ("Image 01");
+			this.lbImage1.Justify = ((global::Gtk.Justification)(1));
+			this.lbImage1.WidthChars = 30;
+			this.lbImage1.MaxWidthChars = 30;
+			this.tableImageChoose.Add (this.lbImage1);
+			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.tableImageChoose [this.lbImage1]));
+			w6.XOptions = ((global::Gtk.AttachOptions)(4));
+			w6.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child tableImageChoose.Gtk.Table+TableChild
+			this.lbImage2 = new global::Gtk.Label ();
+			this.lbImage2.Name = "lbImage2";
+			this.lbImage2.LabelProp = global::Mono.Unix.Catalog.GetString ("Image 02");
+			this.lbImage2.Justify = ((global::Gtk.Justification)(1));
+			this.lbImage2.WidthChars = 30;
+			this.lbImage2.MaxWidthChars = 30;
+			this.tableImageChoose.Add (this.lbImage2);
+			global::Gtk.Table.TableChild w7 = ((global::Gtk.Table.TableChild)(this.tableImageChoose [this.lbImage2]));
+			w7.TopAttach = ((uint)(1));
+			w7.BottomAttach = ((uint)(2));
+			w7.XOptions = ((global::Gtk.AttachOptions)(4));
+			w7.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.AlignmentFrameImageChoose.Add (this.tableImageChoose);
 			this.frameImageChoose.Add (this.AlignmentFrameImageChoose);
 			this.lbFrameImageChoose = new global::Gtk.Label ();
@@ -167,10 +193,10 @@ namespace Picturez
 			this.lbFrameImageChoose.UseMarkup = true;
 			this.frameImageChoose.LabelWidget = this.lbFrameImageChoose;
 			this.vboxStitch.Add (this.frameImageChoose);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameImageChoose]));
-			w8.Position = 0;
-			w8.Expand = false;
-			w8.Fill = false;
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameImageChoose]));
+			w10.Position = 0;
+			w10.Expand = false;
+			w10.Fill = false;
 			// Container child vboxStitch.Gtk.Box+BoxChild
 			this.frameModus = new global::Gtk.Frame ();
 			this.frameModus.Name = "frameModus";
@@ -190,8 +216,8 @@ namespace Picturez
 			this.rdBtnLandscape.UseUnderline = true;
 			this.rdBtnLandscape.Group = new global::GLib.SList (global::System.IntPtr.Zero);
 			this.hboxModus.Add (this.rdBtnLandscape);
-			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.rdBtnLandscape]));
-			w9.Position = 0;
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.rdBtnLandscape]));
+			w11.Position = 0;
 			// Container child hboxModus.Gtk.Box+BoxChild
 			this.rdBtnPortrait = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Portrait"));
 			this.rdBtnPortrait.CanFocus = true;
@@ -200,8 +226,8 @@ namespace Picturez
 			this.rdBtnPortrait.UseUnderline = true;
 			this.rdBtnPortrait.Group = this.rdBtnLandscape.Group;
 			this.hboxModus.Add (this.rdBtnPortrait);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.rdBtnPortrait]));
-			w10.Position = 1;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.rdBtnPortrait]));
+			w12.Position = 1;
 			this.AlignmentFrameModus.Add (this.hboxModus);
 			this.frameModus.Add (this.AlignmentFrameModus);
 			this.lbFrameModus = new global::Gtk.Label ();
@@ -210,10 +236,10 @@ namespace Picturez
 			this.lbFrameModus.UseMarkup = true;
 			this.frameModus.LabelWidget = this.lbFrameModus;
 			this.vboxStitch.Add (this.frameModus);
-			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameModus]));
-			w13.Position = 1;
-			w13.Expand = false;
-			w13.Fill = false;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameModus]));
+			w15.Position = 1;
+			w15.Expand = false;
+			w15.Fill = false;
 			// Container child vboxStitch.Gtk.Box+BoxChild
 			this.frameImagePositions = new global::Gtk.Frame ();
 			this.frameImagePositions.Name = "frameImagePositions";
@@ -238,12 +264,12 @@ namespace Picturez
 			this.btn01BottomMinus.Text = "-";
 			this.btn01BottomMinus.TextSize = 14;
 			this.tableImagePosition1.Add (this.btn01BottomMinus);
-			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01BottomMinus]));
-			w14.TopAttach = ((uint)(2));
-			w14.BottomAttach = ((uint)(3));
-			w14.LeftAttach = ((uint)(3));
-			w14.RightAttach = ((uint)(4));
-			w14.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01BottomMinus]));
+			w16.TopAttach = ((uint)(2));
+			w16.BottomAttach = ((uint)(3));
+			w16.LeftAttach = ((uint)(3));
+			w16.RightAttach = ((uint)(4));
+			w16.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.btn01BottomPlus = new global::Picturez.PicturezButton ();
 			this.btn01BottomPlus.Name = "btn01BottomPlus";
@@ -255,12 +281,12 @@ namespace Picturez
 			this.btn01BottomPlus.Text = "+";
 			this.btn01BottomPlus.TextSize = 14;
 			this.tableImagePosition1.Add (this.btn01BottomPlus);
-			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01BottomPlus]));
-			w15.TopAttach = ((uint)(2));
-			w15.BottomAttach = ((uint)(3));
-			w15.LeftAttach = ((uint)(2));
-			w15.RightAttach = ((uint)(3));
-			w15.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01BottomPlus]));
+			w17.TopAttach = ((uint)(2));
+			w17.BottomAttach = ((uint)(3));
+			w17.LeftAttach = ((uint)(2));
+			w17.RightAttach = ((uint)(3));
+			w17.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.btn01LeftMinus = new global::Picturez.PicturezButton ();
 			this.btn01LeftMinus.Name = "btn01LeftMinus";
@@ -272,12 +298,12 @@ namespace Picturez
 			this.btn01LeftMinus.Text = "-";
 			this.btn01LeftMinus.TextSize = 14;
 			this.tableImagePosition1.Add (this.btn01LeftMinus);
-			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01LeftMinus]));
-			w16.TopAttach = ((uint)(1));
-			w16.BottomAttach = ((uint)(2));
-			w16.LeftAttach = ((uint)(1));
-			w16.RightAttach = ((uint)(2));
-			w16.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01LeftMinus]));
+			w18.TopAttach = ((uint)(1));
+			w18.BottomAttach = ((uint)(2));
+			w18.LeftAttach = ((uint)(1));
+			w18.RightAttach = ((uint)(2));
+			w18.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.btn01LeftPlus = new global::Picturez.PicturezButton ();
 			this.btn01LeftPlus.Name = "btn01LeftPlus";
@@ -289,10 +315,10 @@ namespace Picturez
 			this.btn01LeftPlus.Text = "+";
 			this.btn01LeftPlus.TextSize = 14;
 			this.tableImagePosition1.Add (this.btn01LeftPlus);
-			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01LeftPlus]));
-			w17.TopAttach = ((uint)(1));
-			w17.BottomAttach = ((uint)(2));
-			w17.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01LeftPlus]));
+			w19.TopAttach = ((uint)(1));
+			w19.BottomAttach = ((uint)(2));
+			w19.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.btn01RightMinus = new global::Picturez.PicturezButton ();
 			this.btn01RightMinus.Name = "btn01RightMinus";
@@ -304,12 +330,12 @@ namespace Picturez
 			this.btn01RightMinus.Text = "-";
 			this.btn01RightMinus.TextSize = 14;
 			this.tableImagePosition1.Add (this.btn01RightMinus);
-			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01RightMinus]));
-			w18.TopAttach = ((uint)(1));
-			w18.BottomAttach = ((uint)(2));
-			w18.LeftAttach = ((uint)(5));
-			w18.RightAttach = ((uint)(6));
-			w18.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01RightMinus]));
+			w20.TopAttach = ((uint)(1));
+			w20.BottomAttach = ((uint)(2));
+			w20.LeftAttach = ((uint)(5));
+			w20.RightAttach = ((uint)(6));
+			w20.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.btn01RightPlus = new global::Picturez.PicturezButton ();
 			this.btn01RightPlus.Name = "btn01RightPlus";
@@ -321,12 +347,12 @@ namespace Picturez
 			this.btn01RightPlus.Text = "+";
 			this.btn01RightPlus.TextSize = 14;
 			this.tableImagePosition1.Add (this.btn01RightPlus);
-			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01RightPlus]));
-			w19.TopAttach = ((uint)(1));
-			w19.BottomAttach = ((uint)(2));
-			w19.LeftAttach = ((uint)(4));
-			w19.RightAttach = ((uint)(5));
-			w19.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01RightPlus]));
+			w21.TopAttach = ((uint)(1));
+			w21.BottomAttach = ((uint)(2));
+			w21.LeftAttach = ((uint)(4));
+			w21.RightAttach = ((uint)(5));
+			w21.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.btn01TopMinus = new global::Picturez.PicturezButton ();
 			this.btn01TopMinus.Name = "btn01TopMinus";
@@ -338,10 +364,10 @@ namespace Picturez
 			this.btn01TopMinus.Text = "-";
 			this.btn01TopMinus.TextSize = 14;
 			this.tableImagePosition1.Add (this.btn01TopMinus);
-			global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01TopMinus]));
-			w20.LeftAttach = ((uint)(3));
-			w20.RightAttach = ((uint)(4));
-			w20.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01TopMinus]));
+			w22.LeftAttach = ((uint)(3));
+			w22.RightAttach = ((uint)(4));
+			w22.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.btn01TopPlus = new global::Picturez.PicturezButton ();
 			this.btn01TopPlus.Name = "btn01TopPlus";
@@ -353,56 +379,56 @@ namespace Picturez
 			this.btn01TopPlus.Text = "+";
 			this.btn01TopPlus.TextSize = 14;
 			this.tableImagePosition1.Add (this.btn01TopPlus);
-			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01TopPlus]));
-			w21.LeftAttach = ((uint)(2));
-			w21.RightAttach = ((uint)(3));
-			w21.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01TopPlus]));
+			w23.LeftAttach = ((uint)(2));
+			w23.RightAttach = ((uint)(3));
+			w23.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.lb01Bottom = new global::Gtk.Label ();
 			this.lb01Bottom.Name = "lb01Bottom";
 			this.lb01Bottom.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
 			this.tableImagePosition1.Add (this.lb01Bottom);
-			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Bottom]));
-			w22.TopAttach = ((uint)(2));
-			w22.BottomAttach = ((uint)(3));
-			w22.LeftAttach = ((uint)(8));
-			w22.RightAttach = ((uint)(9));
-			w22.XOptions = ((global::Gtk.AttachOptions)(4));
-			w22.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Bottom]));
+			w24.TopAttach = ((uint)(2));
+			w24.BottomAttach = ((uint)(3));
+			w24.LeftAttach = ((uint)(8));
+			w24.RightAttach = ((uint)(9));
+			w24.XOptions = ((global::Gtk.AttachOptions)(4));
+			w24.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.lb01Left = new global::Gtk.Label ();
 			this.lb01Left.Name = "lb01Left";
 			this.lb01Left.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
 			this.tableImagePosition1.Add (this.lb01Left);
-			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Left]));
-			w23.TopAttach = ((uint)(1));
-			w23.BottomAttach = ((uint)(2));
-			w23.LeftAttach = ((uint)(7));
-			w23.RightAttach = ((uint)(8));
-			w23.XOptions = ((global::Gtk.AttachOptions)(4));
-			w23.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Left]));
+			w25.TopAttach = ((uint)(1));
+			w25.BottomAttach = ((uint)(2));
+			w25.LeftAttach = ((uint)(7));
+			w25.RightAttach = ((uint)(8));
+			w25.XOptions = ((global::Gtk.AttachOptions)(4));
+			w25.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.lb01Right = new global::Gtk.Label ();
 			this.lb01Right.Name = "lb01Right";
 			this.lb01Right.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
 			this.tableImagePosition1.Add (this.lb01Right);
-			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Right]));
-			w24.TopAttach = ((uint)(1));
-			w24.BottomAttach = ((uint)(2));
-			w24.LeftAttach = ((uint)(9));
-			w24.RightAttach = ((uint)(10));
-			w24.XOptions = ((global::Gtk.AttachOptions)(4));
-			w24.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w26 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Right]));
+			w26.TopAttach = ((uint)(1));
+			w26.BottomAttach = ((uint)(2));
+			w26.LeftAttach = ((uint)(9));
+			w26.RightAttach = ((uint)(10));
+			w26.XOptions = ((global::Gtk.AttachOptions)(4));
+			w26.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.lb01Top = new global::Gtk.Label ();
 			this.lb01Top.Name = "lb01Top";
 			this.lb01Top.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
 			this.tableImagePosition1.Add (this.lb01Top);
-			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Top]));
-			w25.LeftAttach = ((uint)(8));
-			w25.RightAttach = ((uint)(9));
-			w25.XOptions = ((global::Gtk.AttachOptions)(4));
-			w25.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w27 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Top]));
+			w27.LeftAttach = ((uint)(8));
+			w27.RightAttach = ((uint)(9));
+			w27.XOptions = ((global::Gtk.AttachOptions)(4));
+			w27.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.AlignmentImagePositions.Add (this.tableImagePosition1);
 			this.frameImagePositions.Add (this.AlignmentImagePositions);
 			this.lbFrameImagePositions = new global::Gtk.Label ();
@@ -411,10 +437,10 @@ namespace Picturez
 			this.lbFrameImagePositions.UseMarkup = true;
 			this.frameImagePositions.LabelWidget = this.lbFrameImagePositions;
 			this.vboxStitch.Add (this.frameImagePositions);
-			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameImagePositions]));
-			w28.Position = 2;
-			w28.Expand = false;
-			w28.Fill = false;
+			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameImagePositions]));
+			w30.Position = 2;
+			w30.Expand = false;
+			w30.Fill = false;
 			// Container child vboxStitch.Gtk.Box+BoxChild
 			this.frameImagePositions1 = new global::Gtk.Frame ();
 			this.frameImagePositions1.Name = "frameImagePositions1";
@@ -430,8 +456,8 @@ namespace Picturez
 			this.lbFrameImagePositions1.UseMarkup = true;
 			this.frameImagePositions1.LabelWidget = this.lbFrameImagePositions1;
 			this.vboxStitch.Add (this.frameImagePositions1);
-			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameImagePositions1]));
-			w30.Position = 3;
+			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameImagePositions1]));
+			w32.Position = 3;
 			// Container child vboxStitch.Gtk.Box+BoxChild
 			this.frameKey = new global::Gtk.Frame ();
 			this.frameKey.Name = "frameKey";
@@ -455,10 +481,10 @@ namespace Picturez
 			this.lbFrameKey.UseMarkup = true;
 			this.frameKey.LabelWidget = this.lbFrameKey;
 			this.vboxStitch.Add (this.frameKey);
-			global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameKey]));
-			w33.Position = 4;
-			w33.Expand = false;
-			w33.Fill = false;
+			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameKey]));
+			w35.Position = 4;
+			w35.Expand = false;
+			w35.Fill = false;
 			// Container child vboxStitch.Gtk.Box+BoxChild
 			this.frameContent = new global::Gtk.Frame ();
 			this.frameContent.Name = "frameContent";
@@ -485,8 +511,8 @@ namespace Picturez
 			this.lbFrameContent.UseMarkup = true;
 			this.frameContent.LabelWidget = this.lbFrameContent;
 			this.vboxStitch.Add (this.frameContent);
-			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameContent]));
-			w37.Position = 5;
+			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vboxStitch [this.frameContent]));
+			w39.Position = 5;
 			this.AlignmentFrameStitch.Add (this.vboxStitch);
 			this.frameStitch.Add (this.AlignmentFrameStitch);
 			this.lbFrameStitch = new global::Gtk.Label ();
@@ -495,8 +521,8 @@ namespace Picturez
 			this.lbFrameStitch.UseMarkup = true;
 			this.frameStitch.LabelWidget = this.lbFrameStitch;
 			this.vbox1.Add (this.frameStitch);
-			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameStitch]));
-			w40.Position = 0;
+			global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameStitch]));
+			w42.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameCursorPos = new global::Gtk.Frame ();
 			this.frameCursorPos.Name = "frameCursorPos";
@@ -516,10 +542,10 @@ namespace Picturez
 			this.lbFrameCursorPos.UseMarkup = true;
 			this.frameCursorPos.LabelWidget = this.lbFrameCursorPos;
 			this.vbox1.Add (this.frameCursorPos);
-			global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
-			w43.Position = 1;
-			w43.Expand = false;
-			w43.Fill = false;
+			global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
+			w45.Position = 1;
+			w45.Expand = false;
+			w45.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.btnOk = new global::Picturez.PicturezButton ();
 			this.btnOk.Name = "btnOk";
@@ -531,17 +557,17 @@ namespace Picturez
 			this.btnOk.Text = "OK";
 			this.btnOk.TextSize = 14;
 			this.vbox1.Add (this.btnOk);
-			global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
-			w44.Position = 2;
-			w44.Expand = false;
-			w44.Fill = false;
+			global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
+			w46.Position = 2;
+			w46.Expand = false;
+			w46.Fill = false;
 			this.hbox1.Add (this.vbox1);
-			global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
-			w45.Position = 1;
-			w45.Padding = ((uint)(5));
+			global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
+			w47.Position = 1;
+			w47.Padding = ((uint)(5));
 			this.vboxA.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
-			w46.Position = 1;
+			global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
+			w48.Position = 1;
 			this.Add (this.vboxA);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
@@ -553,7 +579,24 @@ namespace Picturez
 			this.DragDrop += new global::Gtk.DragDropHandler (this.OnDragDrop);
 			this.DragDataReceived += new global::Gtk.DragDataReceivedHandler (this.OnDragDataReceived);
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
-			this.btn01ImageChoose.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtn01ImageChoosePressEvent);
+			this.btn02ImageChoose.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnImageChooseReleaseEvent);
+			this.btn01ImageChoose.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnImageChooseReleaseEvent);
+			this.btn01TopPlus.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnReleaseEvent);
+			this.btn01TopPlus.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnPressEvent);
+			this.btn01TopMinus.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnReleaseEvent);
+			this.btn01TopMinus.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnPressEvent);
+			this.btn01RightPlus.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnReleaseEvent);
+			this.btn01RightPlus.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnPressEvent);
+			this.btn01RightMinus.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnReleaseEvent);
+			this.btn01RightMinus.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnPressEvent);
+			this.btn01LeftPlus.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnReleaseEvent);
+			this.btn01LeftPlus.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnPressEvent);
+			this.btn01LeftMinus.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnReleaseEvent);
+			this.btn01LeftMinus.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnPressEvent);
+			this.btn01BottomPlus.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnReleaseEvent);
+			this.btn01BottomPlus.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnPressEvent);
+			this.btn01BottomMinus.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnReleaseEvent);
+			this.btn01BottomMinus.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnPressEvent);
 			this.entryKey.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnEntryKeyKeyReleaseEvent);
 		}
 	}

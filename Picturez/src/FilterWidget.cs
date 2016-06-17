@@ -18,8 +18,6 @@ namespace Picturez
 
 	public partial class FilterWidget : Gtk.Window
 	{
-		private const uint timeoutInterval = 300; // in ms
-
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
 		private bool repeatTimeout;
 		private int imageW; 
@@ -282,7 +280,7 @@ namespace Picturez
 			imageW = filterImage.Width;
 			imageH = filterImage.Height;
 
-			SetPanelSize();	
+			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 400, 300, imageW, imageH);	
 
 			tempFilterImageFileName = Constants.I.EXEPATH + "tempFilterImageFileName.png";
 
@@ -304,62 +302,6 @@ namespace Picturez
 			// do not use, otherwise all invisible widgets becomes visible
 //			ShowAll();
 		}		
-
-		private void SetPanelSize()
-		{		
-			const int optionsWidth = 390;
-			// general taskbar size in win_8.1
-			const int taskbarHeight = 90;
-			const int paddingOffset = 44;
-			// necessary to correct to small height 
-			const float multiplicatorHeight = 1.2f;
-
-			Gdk.Screen screen = this.Screen;
-			int monitor = screen.GetMonitorAtWindow (this.GdkWindow); 
-			Gdk.Rectangle bounds = screen.GetMonitorGeometry (monitor);
-			int winW = bounds.Width;
-			// DIFFERENCE 1 to EditWidget
-			//			int winH = bounds.Height - taskbarHeight - 300;
-			//			int winW = 700;
-			int winH = 600;
-
-			// DIFFERENCE 2 to EditWidget
-			//			int panelW = winW - optionsWidth - paddingOffset;
-			//			int panelH = winH - (int)(paddingOffset * multiplicatorHeight);
-			int panelW = 300;
-			int panelH = 200;
-
-			if (panelW < imageW || panelH < imageH)
-			{
-				bool wLonger = (imageW / (float)imageH) > (panelW / (float)panelH);
-				if (wLonger)
-				{
-					panelH = (int)(imageH * panelW / (float)imageW  + 0.5f);
-					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
-				}
-				else
-				{
-					panelW = (int)(imageW * panelH / (float)imageH  + 0.5f);
-					winW = panelW + optionsWidth + paddingOffset;
-				}
-			}
-			else
-			{
-				panelW = imageW;
-				panelH = imageH;
-				winW = panelW + optionsWidth + paddingOffset;
-				winH = panelH + (int)(paddingOffset * multiplicatorHeight);
-			}						
-
-			simpleimagepanel1.WidthRequest = panelW;
-			simpleimagepanel1.HeightRequest = panelH;
-
-			simpleimagepanel1.ScaleCursorX = imageW / (float)panelW;
-			simpleimagepanel1.ScaleCursorY = imageH / (float)panelH;
-
-			this.Resize (winW, winH);
-			this.Move (0, 0);
-		}
 
 		private void SetGuiColors()
 		{
@@ -452,7 +394,7 @@ namespace Picturez
 				return;
 
 			repeatTimeout = true;
-			GLib.Timeout.Add(timeoutInterval, timeoutHandler);
+			GLib.Timeout.Add(Constants.TIMEOUT_FILTER_PROCESS_PREVIEW, timeoutHandler);
 		}
 
 		protected void OnComboboxChanged (object sender, EventArgs args)

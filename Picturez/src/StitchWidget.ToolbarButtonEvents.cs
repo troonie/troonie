@@ -12,7 +12,7 @@ namespace Picturez
 
 			if (fc.Run() == (int)ResponseType.Ok) 
 			{
-				FileName = fc.Filename;
+				FileName01 = fc.Filename;
 				Initialize(true);
 			}
 

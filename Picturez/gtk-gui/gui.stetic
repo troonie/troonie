@@ -3028,6 +3028,7 @@
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">Read</property>
+                                            <property name="Active">True</property>
                                             <property name="DrawIndicator">True</property>
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>
@@ -3936,7 +3937,7 @@
             <property name="MemberName" />
             <property name="Spacing">6</property>
             <child>
-              <widget class="Picturez.SimpleImagePanel" id="simpleimagepanel1">
+              <widget class="Picturez.StitchImagePanel" id="stitchimagepanel1">
                 <property name="MemberName" />
                 <property name="Events">ButtonPressMask</property>
                 <property name="ScaleCursorX">0</property>
@@ -3985,12 +3986,6 @@
                                         <property name="RowSpacing">6</property>
                                         <property name="ColumnSpacing">6</property>
                                         <child>
-                                          <placeholder />
-                                        </child>
-                                        <child>
-                                          <placeholder />
-                                        </child>
-                                        <child>
                                           <widget class="Picturez.PicturezButton" id="btn01ImageChoose">
                                             <property name="MemberName" />
                                             <property name="CheckReleaseState">False</property>
@@ -4000,7 +3995,7 @@
                                             <property name="Font">Arial</property>
                                             <property name="Text">...</property>
                                             <property name="TextSize">14</property>
-                                            <signal name="ButtonPressEvent" handler="OnBtn01ImageChoosePressEvent" />
+                                            <signal name="ButtonReleaseEvent" handler="OnBtnImageChooseReleaseEvent" />
                                           </widget>
                                           <packing>
                                             <property name="LeftAttach">1</property>
@@ -4025,6 +4020,7 @@
                                             <property name="Font">Arial</property>
                                             <property name="Text">...</property>
                                             <property name="TextSize">14</property>
+                                            <signal name="ButtonReleaseEvent" handler="OnBtnImageChooseReleaseEvent" />
                                           </widget>
                                           <packing>
                                             <property name="TopAttach">1</property>
@@ -4034,6 +4030,48 @@
                                             <property name="AutoSize">True</property>
                                             <property name="YOptions">Fill</property>
                                             <property name="XExpand">True</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.Label" id="lbImage1">
+                                            <property name="MemberName" />
+                                            <property name="LabelProp" translatable="yes">Image 01</property>
+                                            <property name="Justify">Right</property>
+                                            <property name="WidthChars">30</property>
+                                            <property name="MaxWidthChars">30</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="AutoSize">True</property>
+                                            <property name="XOptions">Fill</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">False</property>
+                                            <property name="XFill">True</property>
+                                            <property name="XShrink">False</property>
+                                            <property name="YExpand">False</property>
+                                            <property name="YFill">True</property>
+                                            <property name="YShrink">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.Label" id="lbImage2">
+                                            <property name="MemberName" />
+                                            <property name="LabelProp" translatable="yes">Image 02</property>
+                                            <property name="Justify">Right</property>
+                                            <property name="WidthChars">30</property>
+                                            <property name="MaxWidthChars">30</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="TopAttach">1</property>
+                                            <property name="BottomAttach">2</property>
+                                            <property name="AutoSize">True</property>
+                                            <property name="XOptions">Fill</property>
+                                            <property name="YOptions">Fill</property>
+                                            <property name="XExpand">False</property>
                                             <property name="XFill">True</property>
                                             <property name="XShrink">False</property>
                                             <property name="YExpand">False</property>
@@ -4209,6 +4247,8 @@
                                             <property name="Font">Arial</property>
                                             <property name="Text">-</property>
                                             <property name="TextSize">14</property>
+                                            <signal name="ButtonReleaseEvent" handler="OnBtnReleaseEvent" />
+                                            <signal name="ButtonPressEvent" handler="OnBtnPressEvent" />
                                           </widget>
                                           <packing>
                                             <property name="TopAttach">2</property>
@@ -4235,6 +4275,8 @@
                                             <property name="Font">Arial</property>
                                             <property name="Text">+</property>
                                             <property name="TextSize">14</property>
+                                            <signal name="ButtonReleaseEvent" handler="OnBtnReleaseEvent" />
+                                            <signal name="ButtonPressEvent" handler="OnBtnPressEvent" />
                                           </widget>
                                           <packing>
                                             <property name="TopAttach">2</property>
@@ -4261,6 +4303,8 @@
                                             <property name="Font">Arial</property>
                                             <property name="Text">-</property>
                                             <property name="TextSize">14</property>
+                                            <signal name="ButtonReleaseEvent" handler="OnBtnReleaseEvent" />
+                                            <signal name="ButtonPressEvent" handler="OnBtnPressEvent" />
                                           </widget>
                                           <packing>
                                             <property name="TopAttach">1</property>
@@ -4287,6 +4331,8 @@
                                             <property name="Font">Arial</property>
                                             <property name="Text">+</property>
                                             <property name="TextSize">14</property>
+                                            <signal name="ButtonReleaseEvent" handler="OnBtnReleaseEvent" />
+                                            <signal name="ButtonPressEvent" handler="OnBtnPressEvent" />
                                           </widget>
                                           <packing>
                                             <property name="TopAttach">1</property>
@@ -4311,6 +4357,8 @@
                                             <property name="Font">Arial</property>
                                             <property name="Text">-</property>
                                             <property name="TextSize">14</property>
+                                            <signal name="ButtonReleaseEvent" handler="OnBtnReleaseEvent" />
+                                            <signal name="ButtonPressEvent" handler="OnBtnPressEvent" />
                                           </widget>
                                           <packing>
                                             <property name="TopAttach">1</property>
@@ -4337,6 +4385,8 @@
                                             <property name="Font">Arial</property>
                                             <property name="Text">+</property>
                                             <property name="TextSize">14</property>
+                                            <signal name="ButtonReleaseEvent" handler="OnBtnReleaseEvent" />
+                                            <signal name="ButtonPressEvent" handler="OnBtnPressEvent" />
                                           </widget>
                                           <packing>
                                             <property name="TopAttach">1</property>
@@ -4363,6 +4413,8 @@
                                             <property name="Font">Arial</property>
                                             <property name="Text">-</property>
                                             <property name="TextSize">14</property>
+                                            <signal name="ButtonReleaseEvent" handler="OnBtnReleaseEvent" />
+                                            <signal name="ButtonPressEvent" handler="OnBtnPressEvent" />
                                           </widget>
                                           <packing>
                                             <property name="LeftAttach">3</property>
@@ -4387,6 +4439,8 @@
                                             <property name="Font">Arial</property>
                                             <property name="Text">+</property>
                                             <property name="TextSize">14</property>
+                                            <signal name="ButtonReleaseEvent" handler="OnBtnReleaseEvent" />
+                                            <signal name="ButtonPressEvent" handler="OnBtnPressEvent" />
                                           </widget>
                                           <packing>
                                             <property name="LeftAttach">2</property>

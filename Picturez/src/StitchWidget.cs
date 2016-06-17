@@ -16,7 +16,7 @@ using System.Diagnostics;
 namespace Picturez
 {
 	public partial class StitchWidget : Gtk.Window
-	{
+	{ 
 		private const string blackFileName = "black.png";
 		private const int maxpadding = 100;
 
@@ -29,13 +29,17 @@ namespace Picturez
 		private bool incrementValue;
 		private bool repeatTimeout;
 		private Label pointerLabel;
+		// Glib.Timout for proccessing preview
+		private GLib.TimeoutHandler timeoutHandler;
 
-		public string FileName { get; set; }
+
+		public string FileName01 { get; set; }
+		public string FileName02 { get; set; }
 		public BitmapWithTag bt;
 
 		public StitchWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
 		{
-			FileName = pFilename;
+			FileName01 = pFilename;
 
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
@@ -63,7 +67,7 @@ namespace Picturez
 			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 		}
 
-			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+			stitchimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
 
 			timeoutSw = new Stopwatch();
 		}
@@ -78,7 +82,7 @@ namespace Picturez
 
 		private void LoadException()
 		{
-			FileName = null;
+			FileName01 = null;
 			Initialize (true);
 
 			MessageDialog md = new MessageDialog (
@@ -91,14 +95,14 @@ namespace Picturez
 
 		private void Initialize(bool newFileName)
 		{
-			if (FileName == null)
+			if (FileName01 == null)
 			{
-				FileName = constants.EXEPATH + blackFileName;
-				Title = FileName;
-				bt = new BitmapWithTag (FileName, false);
+				FileName01 = constants.EXEPATH + blackFileName;
+				Title = FileName01;
+				bt = new BitmapWithTag (FileName01, false);
 				imageW = bt.Bitmap.Width;
 				imageH = bt.Bitmap.Height;
-				bt.Bitmap.Save(FileName, ImageFormat.Png);
+				bt.Bitmap.Save(FileName01, ImageFormat.Png);
 			}
 			else
 			{          
@@ -110,7 +114,7 @@ namespace Picturez
 				{
 					try 
 					{
-						FileInfo info = new FileInfo (FileName);
+						FileInfo info = new FileInfo (FileName01);
 						string ext = info.Extension.ToLower ();
 
 						switch (ext) {
@@ -124,8 +128,8 @@ namespace Picturez
 							case ".jpeg":
 							case ".jpg":
 							case ".ico":
-							Title = FileName;
-							bt = new BitmapWithTag(FileName, true);
+							Title = FileName01;
+							bt = new BitmapWithTag(FileName01, true);
 							imageW = bt.Bitmap.Width;
 							imageH = bt.Bitmap.Height;
 							break;
@@ -147,11 +151,11 @@ namespace Picturez
 
 			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
 
-			simpleimagepanel1.SurfaceFileName = tempScaledImageFileName;
+			stitchimagepanel1.SurfaceFileName = tempScaledImageFileName;
 
 			if (newFileName) 
 			{
-				Bitmap pic = new Bitmap(FileName);                              
+				Bitmap pic = new Bitmap(FileName01);                              
 				Bitmap croppedPic;
 
 				ImageConverter.ScaleAndCut (
@@ -159,8 +163,8 @@ namespace Picturez
 					out croppedPic, 
 					0,
 					0,
-					simpleimagepanel1.WidthRequest,
-					simpleimagepanel1.HeightRequest,
+					stitchimagepanel1.WidthRequest,
+					stitchimagepanel1.HeightRequest,
 					ConvertMode.StretchForge,
 					false);
 
@@ -178,8 +182,8 @@ namespace Picturez
 					out b2,
 					0 /*xStart*/, 
 					0 /*yStart*/,
-					simpleimagepanel1.WidthRequest,
-					simpleimagepanel1.HeightRequest,
+					stitchimagepanel1.WidthRequest,
+					stitchimagepanel1.HeightRequest,
 					ConvertMode.StretchForge,
 					false);
 
@@ -187,7 +191,7 @@ namespace Picturez
 				b2.Dispose ();
 			}
 
-			simpleimagepanel1.Initialize();
+			stitchimagepanel1.Initialize();
 
 			ShowAll();
 		}		
@@ -217,7 +221,7 @@ namespace Picturez
 			int panelH = 300;
 
 			// setting padding for left and right side
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.simpleimagepanel1]));
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.stitchimagepanel1]));
 			w4.Padding = ((uint)(paddingOffset / 4.0f + 0.5f));
 
 			if (panelW < imageW || panelH < imageH)
@@ -247,11 +251,11 @@ namespace Picturez
 			winW = panelW + optionsWidth + paddingOffset;
 			winH = panelH + (int)(paddingOffset * multiplicatorHeight);
 
-			simpleimagepanel1.WidthRequest = panelW;
-			simpleimagepanel1.HeightRequest = panelH;
+			stitchimagepanel1.WidthRequest = panelW;
+			stitchimagepanel1.HeightRequest = panelH;
 
-			simpleimagepanel1.ScaleCursorX = imageW / (float)panelW;
-			simpleimagepanel1.ScaleCursorY = imageH / (float)panelH;
+			stitchimagepanel1.ScaleCursorX = imageW / (float)panelW;
+			stitchimagepanel1.ScaleCursorY = imageH / (float)panelH;
 
 //			Console.WriteLine ("WinW=" + winW);
 //			WidthRequest = winW;
@@ -372,7 +376,7 @@ namespace Picturez
 			{
 				if (dialog.Run () == (int)ResponseType.Ok) {
 					if (dialog.Process ()) {
-						FileName = dialog.SavedFileName;
+						FileName01 = dialog.SavedFileName;
 						bt.Dispose ();
 						Initialize (true);
 						runDialog = false;
@@ -432,7 +436,7 @@ namespace Picturez
 					string waste = constants.WINDOWS ? "file:///" : "file://";
 					paths [i] = paths [i].Replace (@waste, "");
 					// Console.WriteLine (paths[i]);
-					FileName = paths [i];
+					FileName01 = paths [i];
 				}
 
 				Initialize(true);				
