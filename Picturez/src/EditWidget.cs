@@ -67,9 +67,10 @@ namespace Picturez
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "help-about-3.png", OnToolbarBtn_AboutPressed);
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 3);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "tools-check-spelling-5.png", OnToolbarBtn_LanguagePressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
-			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 6, "help-about-3.png", 
-			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 5, "help-about-3.png", OnToolbarBtn_StitchPressed, "Stitch");
+			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 6);
+			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 7, "help-about-3.png", 
+			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());			
 
 			timeoutSw = new Stopwatch();
 			config = ConfigEdit.Load ();
@@ -336,7 +337,9 @@ namespace Picturez
 				Language.I.L[0] + "\n\n" + 
 				Language.I.L[44] +	": \n" +
 				Language.AllLanguagesAsString;
-			hboxToolbarButtons.Children[6].TooltipText = Language.I.L[84];
+			hboxToolbarButtons.Children[5].TooltipText = Language.I.L[131];
+//			hboxToolbarButtons.Children[6].TooltipText = Language.I.L[84];
+			hboxToolbarButtons.Children[7].TooltipText = Language.I.L[84];
 
 			lbFrameShortcuts.LabelProp = "<b>" + Language.I.L[127] + "</b>";
 			lbShortcutsText.Text = Language.I.L[128];

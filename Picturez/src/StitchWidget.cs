@@ -22,37 +22,51 @@ namespace Picturez
 
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
 		private Constants constants = Constants.I;
-		private int imageW; 
-		private int imageH;
-		private string tempScaledImageFileName;
+//		private int imageW; 
+//		private int imageH;
+		float imageScaleFactor;
+		private int origImage01W, origImage01H, origImage02W, origImage02H;
+		private string tempStitchImageFileName;
+		private Bitmap workingImage;
+		/// <summary>The scaled image 01. </summary>
+		private Bitmap image01;
+		/// <summary>The scaled image 02. </summary>
+		private Bitmap image02;
+		#region Stopwatch for picturez buttons
 		private Stopwatch timeoutSw;
 		private bool incrementValue;
-		private bool repeatTimeout;
+		private bool repeatTimeoutStopwatch;
+		#endregion Stopwatch for picturez buttons
+
 		private Label pointerLabel;
-		// Glib.Timout for proccessing preview
-		private GLib.TimeoutHandler timeoutHandler;
+		private StitchMIFilter st;
+		#region Glib.Timout for proccessing preview
+		private GLib.TimeoutHandler timeoutHandlerPreprocessing;
+		private bool repeatTimeoutPreprocessing;
+//		private bool preprocessingNecessary;
+		#endregion Glib.Timout for proccessing preview
 
-
+		public FilterEventhandler FilterEvent;
 		public string FileName01 { get; set; }
 		public string FileName02 { get; set; }
-		public BitmapWithTag bt;
 
-		public StitchWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
+		public StitchWidget (string pFilename01, string pFilename02) : base (Gtk.WindowType.Toplevel)
 		{
-			FileName01 = pFilename;
-
+			FileName01 = pFilename01;
+			FileName02 = pFilename02;
+			tempStitchImageFileName = Constants.I.EXEPATH + "PreStitchImageFileName.png";
+			KeepAbove = true;
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
-
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", OnToolbarBtn_OpenPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", OnToolbarBtn_SaveAsPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "help-about-3.png", OnToolbarBtn_AboutPressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 3);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "tools-check-spelling-5.png", OnToolbarBtn_LanguagePressed);
-
+			Title = FileName01 + " & " + FileName02;
 			SetGuiColors ();
 			SetLanguageToGui ();
-			Initialize(true);
+			simpleimagepanel1.SurfaceFileName = tempStitchImageFileName;
+			timeoutSw = new Stopwatch();
+
+			CalcWorkingImages ();
+
+			ProcessPreview();
 
 		if (constants.WINDOWS) {
 			Gtk.Drag.DestSet (this, 0, null, 0);
@@ -60,420 +74,339 @@ namespace Picturez
 			// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
 			// Otherwise ShadowType.In looks terrible at Win10.
 			frameCursorPos.ShadowType = ShadowType.In;
+			frameImageResolution.ShadowType = ShadowType.In;
 			frameStitch.ShadowType = ShadowType.In;
 			frameModus.ShadowType = ShadowType.In;
-			frameKey.ShadowType = ShadowType.In;
-			frameContent.ShadowType = ShadowType.In;
+			frameImagePositions.ShadowType = ShadowType.In;
+			frameImagePositions2.ShadowType = ShadowType.In;
 			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 		}
-
-			stitchimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
-
-			timeoutSw = new Stopwatch();
+			timeoutHandlerPreprocessing = ProcessPreview;
+			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
 		}
 
 		public override void Destroy ()
 		{
-			if (bt != null) {
-				bt.Dispose ();
+			if (tempStitchImageFileName != null) {
+				File.Delete (tempStitchImageFileName);
 			}
+
+			if (workingImage != null) {
+				workingImage.Dispose ();
+			}
+
 			base.Destroy ();
 		}
-
-		private void LoadException()
+			
+		private void CalcWorkingImages()
 		{
-			FileName01 = null;
-			Initialize (true);
+			const int maxLength = 500;
+			Bitmap b1, b2;
+			// fast reading-out of image sizes
+			using (FileStream fs = new FileStream (FileName01, FileMode.Open)) 
+			{
+				b1 = Image.FromStream (fs, true, false) as Bitmap;
+				origImage01W = b1.Width;
+				origImage01H = b1.Height;
+			}
+			using (FileStream fs = new FileStream (FileName02, FileMode.Open)) 
+			{
+				b2 = Image.FromStream (fs, true, false) as Bitmap;
+				origImage02W = b2.Width;
+				origImage02H = b2.Height;
+			}
 
-			MessageDialog md = new MessageDialog (
-				null, DialogFlags.Modal, 
-				MessageType.Info, 
-				ButtonsType.Ok, Language.I.L[51]);
-			md.Run ();
-			md.Destroy ();		
+			int biggestLength = Math.Max(
+				Math.Max (origImage01W, origImage01H), Math.Max (origImage02W, origImage02H));
+			imageScaleFactor = biggestLength > maxLength ? biggestLength / maxLength : 1;
+
+			ImageConverter.ScaleAndCut (
+				b1, 
+				out image01, 
+				0,
+				0,
+				(int)(origImage01W / imageScaleFactor + 0.5f),
+				(int)(origImage01H / imageScaleFactor + 0.5f),
+				ConvertMode.StretchForge,
+				false);
+
+			ImageConverter.ScaleAndCut (
+				b2, 
+				out image02, 
+				0,
+				0,
+				(int)(origImage02W / imageScaleFactor + 0.5f),
+				(int)(origImage02H / imageScaleFactor + 0.5f),
+				ConvertMode.StretchForge,
+				false);
+
+			b1.Dispose ();
+			b2.Dispose ();
 		}
-
-		private void Initialize(bool newFileName)
-		{
-			if (FileName01 == null)
-			{
-				FileName01 = constants.EXEPATH + blackFileName;
-				Title = FileName01;
-				bt = new BitmapWithTag (FileName01, false);
-				imageW = bt.Bitmap.Width;
-				imageH = bt.Bitmap.Height;
-				bt.Bitmap.Save(FileName01, ImageFormat.Png);
-			}
-			else
-			{          
-				if (!newFileName) {
-					imageW = bt.Bitmap.Width;
-					imageH = bt.Bitmap.Height;
-				} 
-				else 
-				{
-					try 
-					{
-						FileInfo info = new FileInfo (FileName01);
-						string ext = info.Extension.ToLower ();
-
-						switch (ext) {
-							case ".wmf":
-							case ".tiff":
-							case ".tif":
-							case ".gif":
-							case ".emf":
-							case ".png":
-							case ".bmp":
-							case ".jpeg":
-							case ".jpg":
-							case ".ico":
-							Title = FileName01;
-							bt = new BitmapWithTag(FileName01, true);
-							imageW = bt.Bitmap.Width;
-							imageH = bt.Bitmap.Height;
-							break;
-							default:
-							LoadException ();
-							return;
-						} // switch end
-					} // try end
-					catch (ArgumentException) {
-						LoadException ();
-						return;
-					}
-				} // else end
-			}			
-
-			// Gdk.Pixbuf.GetFileInfo(FileName, out imageW, out imageH);
-
-			SetPanelSize();	
-
-			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
-
-			stitchimagepanel1.SurfaceFileName = tempScaledImageFileName;
-
-			if (newFileName) 
-			{
-				Bitmap pic = new Bitmap(FileName01);                              
-				Bitmap croppedPic;
-
-				ImageConverter.ScaleAndCut (
-					pic, 
-					out croppedPic, 
-					0,
-					0,
-					stitchimagepanel1.WidthRequest,
-					stitchimagepanel1.HeightRequest,
-					ConvertMode.StretchForge,
-					false);
-
-				pic.Dispose ();
-				croppedPic.Save(tempScaledImageFileName, ImageFormat.Png);
-				croppedPic.Dispose();
-
-			} 
-			else 
-			{
-				Bitmap b2;
-
-				ImageConverter.ScaleAndCut (
-					bt.Bitmap, 
-					out b2,
-					0 /*xStart*/, 
-					0 /*yStart*/,
-					stitchimagepanel1.WidthRequest,
-					stitchimagepanel1.HeightRequest,
-					ConvertMode.StretchForge,
-					false);
-
-				b2.Save (tempScaledImageFileName, ImageFormat.Png);
-				b2.Dispose ();
-			}
-
-			stitchimagepanel1.Initialize();
-
-			ShowAll();
-		}		
-
-		private void SetPanelSize()
-		{		
-			const int optionsWidth = 390;
-			// general taskbar size in win_8.1
-			const int taskbarHeight = 90;
-			const int paddingOffset = 44;
-			// necessary to correct to small height 
-			const float multiplicatorHeight = 1.2f;
-
-//			Gdk.Screen screen = this.Screen;
-//			int monitor = screen.GetMonitorAtWindow (this.GdkWindow); 
-//			Gdk.Rectangle bounds = screen.GetMonitorGeometry (monitor);
-//			int winW = bounds.Width;
-			// DIFFERENCE 1 to EditWidget
-//			int winH = bounds.Height - taskbarHeight - 300;
-			int winW;
-			int winH;
-
-			// DIFFERENCE 2 to EditWidget
-//			int panelW = winW - optionsWidth - paddingOffset;
-//			int panelH = winH - (int)(paddingOffset * multiplicatorHeight);
-			int panelW = 400;
-			int panelH = 300;
-
-			// setting padding for left and right side
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.stitchimagepanel1]));
-			w4.Padding = ((uint)(paddingOffset / 4.0f + 0.5f));
-
-			if (panelW < imageW || panelH < imageH)
-			{
-				bool wLonger = (imageW / (float)imageH) > (panelW / (float)panelH);
-				if (wLonger)
-				{
-					panelH = (int)(imageH * panelW / (float)imageW  + 0.5f);
-//					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
-//					winW = panelW + optionsWidth + paddingOffset;
-				}
-				else
-				{
-					panelW = (int)(imageW * panelH / (float)imageH  + 0.5f);
-//					winW = panelW + optionsWidth + paddingOffset;
-//					winH = panelH + (int)(paddingOffset * multiplicatorHeight);
-				}
-			}
-			else
-			{
-				panelW = imageW;
-				panelH = imageH;
-//				winW = panelW + optionsWidth + paddingOffset;
-//				winH = panelH + (int)(paddingOffset * multiplicatorHeight);
-			}	
-
-			winW = panelW + optionsWidth + paddingOffset;
-			winH = panelH + (int)(paddingOffset * multiplicatorHeight);
-
-			stitchimagepanel1.WidthRequest = panelW;
-			stitchimagepanel1.HeightRequest = panelH;
-
-			stitchimagepanel1.ScaleCursorX = imageW / (float)panelW;
-			stitchimagepanel1.ScaleCursorY = imageH / (float)panelH;
-
-//			Console.WriteLine ("WinW=" + winW);
-//			WidthRequest = winW;
-//			HeightRequest = winH;
-			this.Resize (winW, winH);
-			this.Move (0, 0);
-//			Console.WriteLine ("WidthRequest=" + WidthRequest);
-//			this.QueueDraw ();
-		}
-
+			
 		private void SetGuiColors()
 		{
 			this.ModifyBg(StateType.Normal, colorConverter.GRID);
 			eventboxToolbar.ModifyBg(StateType.Normal, colorConverter.GRID);
 
 			lbFrameCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbImageResolution.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
 
 			lbFrameStitch.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameImageResolution.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameModus.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbFrameKey.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbFrameContent.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameImagePositions.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameImagePositions2.ModifyFg (StateType.Normal, colorConverter.FONT);
+
+			lb01Bottom.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lb01Left.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lb01Right.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lb01Top.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lb02Bottom.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lb02Left.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lb02Right.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lb02Top.ModifyFg (StateType.Normal, colorConverter.FONT);
 		}
 
 		private void SetLanguageToGui()
 		{
-			hboxToolbarButtons.Children[0].TooltipText = Language.I.L[2];
-			hboxToolbarButtons.Children[1].TooltipText = Language.I.L[3];
-			hboxToolbarButtons.Children[2].TooltipText = Language.I.L[4];
-			hboxToolbarButtons.Children[4].TooltipText = 
-				Language.I.L[43] +	": " + 
-					Language.I.L[0] + "\n\n" + 
-					Language.I.L[44] +	": \n" +
-					Language.AllLanguagesAsString;
-
 			lbFrameCursorPos.LabelProp = "<b>" + Language.I.L[15] + "</b>";
 			btnOk.Text = Language.I.L[16];
 			btnOk.Redraw ();
 
-			lbFrameStitch.LabelProp = "<b>" + Language.I.L[73] + "</b>";
+			lbFrameStitch.LabelProp = "<b>" + Language.I.L[131] + "</b>";
+			lbFrameImageResolution.LabelProp = "<b>" + Language.I.L[12] + "</b>";
 			lbFrameModus.LabelProp = "<b>" + Language.I.L[74] + "</b>";
 			rdBtnLandscape.Label = Language.I.L[129];
 			rdBtnPortrait.Label = Language.I.L[130];
-			lbFrameKey.LabelProp = "<b>" + Language.I.L[77] + "</b>";
-			lbFrameContent.LabelProp = "<b>" + Language.I.L[78] + "</b>";
-		}
-
-		private void DoStitch()
-		{
-			Bitmap b1 = null;
-			StegHashFilter filter = new StegHashFilter ();
-			filter.Key = entryKey.Text;
-			entryKey.Text = string.Empty;
-			filter.WritingMode = rdBtnPortrait.Active;
-
-			PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
-			pseudo.Title = Language.I.L [80];
-			pseudo.Label1 = Language.I.L [81];
-			pseudo.OkButtontext = Language.I.L [16];
-			pseudo.CancelButtontext = Language.I.L [17];
-
-			if (filter.WritingMode) {
-				string[] content = textviewContent.Buffer.Text.Split ('\n');
-				filter.FillLines (content);
-				// only necessary by Stitch1
-//				b1 = ImageConverter.To32Bpp(bt.Bitmap);
-//				b1 = filter.Apply (b1, null);
-				b1 = filter.Apply (bt.Bitmap, null);
-
-				if (filter.Success) {
-					pseudo.Label2 = Language.I.L [83];
-				} else {
-					pseudo.Label1 =  Language.I.L [53];
-					pseudo.Label2 =  Language.I.L [52];
-				}
-			} 
-			else {
-				if (!ImageConverter.IsColorImage(bt.Bitmap)) {
-					pseudo.DestroyAll ();
-					PseudoPicturezContextMenu wrongImageContextMenu = new PseudoPicturezContextMenu (true);
-					wrongImageContextMenu.Title = Language.I.L [53];
-					wrongImageContextMenu.Label1 = Language.I.L [55];
-					wrongImageContextMenu.Label2 = Language.I.L [56];
-					wrongImageContextMenu.OkButtontext = Language.I.L [16];
-					//					wrongImageContextMenu.CancelButtontext = Language.I.L [17];
-					wrongImageContextMenu.Show ();
-					return;
-				}
-
-				b1 = filter.Apply (bt.Bitmap, null);
-				textviewContent.Buffer.Text = string.Empty;
-				foreach (var item in filter.GetLines()) {
-					textviewContent.Buffer.Text += item + "\n";
-				}
-				pseudo.Label2 = Language.I.L [82];
-			}				
-
-			bt.Bitmap.Dispose ();
-			bt.ChangeBitmapButNotTags(b1);
-
-			Initialize (false);
-
-			pseudo.Show ();
+			lbFrameImagePositions.LabelProp = "<b>" + Language.I.L[132] + "</b>";
+			lbFrameImagePositions2.LabelProp = "<b>" + Language.I.L[133] + "</b>";
 		}
 
 		private void OnCursorPosChanged(int x, int y)
 		{
-			lbCursorPos.Text = 	x.ToString() + " x " +	y.ToString();
-		}
-
-		private void OpenSaveAsDialog()
-		{
-			SaveAsDialog dialog = new SaveAsDialog(bt, ConvertMode.Editor);
-			bool runDialog = true;
-			dialog.AllowOnlyColorLoselessSaving ();
-
-			do
-			{
-				if (dialog.Run () == (int)ResponseType.Ok) {
-					if (dialog.Process ()) {
-						FileName01 = dialog.SavedFileName;
-						bt.Dispose ();
-						Initialize (true);
-						runDialog = false;
-					}
-				}
-				else {
-					runDialog = false;
-				}
-			}
-			while (runDialog);
-
-			dialog.Destroy();
+			lbCursorPos.Text = 	((int)(x * imageScaleFactor + 0.5f)).ToString() + " x " +	
+								((int)(y * imageScaleFactor + 0.5f)).ToString();
 		}
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
-			if (bt != null) {
-				bt.Dispose ();
-			}
 			this.DestroyAll ();
+		}			
 
-			Application.Quit ();
-			a.RetVal = true;
-
-			File.Delete (tempScaledImageFileName);
-			File.Delete (Constants.I.EXEPATH + blackFileName);
-		}
-
-		protected void OnDragDrop (object sender, Gtk.DragDropArgs args)
+		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			Gtk.Drag.GetData
-				((Gtk.Widget)sender, args.Context,
-				 args.Context.Targets[0], args.Time);
-		}
+			image01 = new Bitmap (FileName01);
+			image02 = new Bitmap (FileName02);
 
-		void OnDragDataReceived (object sender, Gtk.DragDataReceivedArgs args)
-		{
-			if (args.SelectionData.Length > 0
-			    && args.SelectionData.Format == 8) {
+			try {
+				#region StitchMIFilter
+				st = new StitchMIFilter(image01, image02);
+				st.Landscape = false;
+				st.Left01 = int.Parse(lb01Left.Text);
+				st.Left02 = int.Parse(lb02Left.Text);
+				st.Right01 = int.Parse(lb01Right.Text);
+				st.Right02 = int.Parse(lb02Right.Text);
+				st.Top01 = int.Parse(lb01Top.Text);
+				st.Top02 = int.Parse(lb02Top.Text);
+				st.Bottom01 = int.Parse(lb01Bottom.Text);
+				st.Bottom02 = int.Parse(lb02Bottom.Text);
 
-				byte[] data = args.SelectionData.Data;
-				string encoded = System.Text.Encoding.UTF8.GetString (data);
-				// drag n drop at linux wont accept spaces, so it has to be replaced
-				encoded = encoded.Replace ("%20", " ");
-
-				List<string> paths
-					= new List<string> (encoded.Split ('\r', '\n'));
-				paths.RemoveAll (string.IsNullOrEmpty);
-
-				// I don't know what last object (when Windows) is,
-				//  but I tested and noticed that it is not a path
-				if (constants.WINDOWS)
-					paths.RemoveAt (paths.Count-1);
-
-				for (int i=0; i<paths.Count; ++i)
-				{
-					string waste = constants.WINDOWS ? "file:///" : "file://";
-					paths [i] = paths [i].Replace (@waste, "");
-					// Console.WriteLine (paths[i]);
-					FileName01 = paths [i];
-				}
-
-				Initialize(true);				
+				st.Process();
+//				st.ResultBitmap.Save ("StitchMIFilter_full.png", System.Drawing.Imaging.ImageFormat.Png);
+				#endregion
 			}
+			catch(ArgumentException) {
+				PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
+				pseudo.Title = Language.I.L [125];
+				pseudo.Label1 = string.Empty; // Language.I.L [125];
+				pseudo.Label2 = Language.I.L [126];
+				pseudo.OkButtontext = Language.I.L [16];
+				pseudo.SetPosition (WindowPosition.CenterAlways);
+				//				pseudo.Show ();
+				this.DestroyAll ();
+				repeatTimeoutPreprocessing = false;
+			}
+
+			FireFilterEvent (st.ResultBitmap);
+			this.DestroyAll ();
 		}
 
-
-
-		protected void OnEntryKeyKeyReleaseEvent (object o, KeyReleaseEventArgs args)
+		protected void OnBtnReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			if (entryKey.Text.Length == 0)
+
+			timeoutSw.Stop ();
+			repeatTimeoutStopwatch = false;
+
+			if (repeatTimeoutPreprocessing)
 				return;
 
-			char c = entryKey.Text [entryKey.Text.Length - 1];
-			if (c == ' ') {
-				entryKey.DeleteText (entryKey.CursorPosition - 1, entryKey.CursorPosition);
-			}
-
-			if (args.Event.Key == Gdk.Key.Return) {
-				OnBtnOkButtonReleaseEvent (o, null);
-			}
+			repeatTimeoutPreprocessing = true;
+			GLib.Timeout.Add(Constants.TIMEOUT_STITCH_PROCESS_PREVIEW, timeoutHandlerPreprocessing);
 		}
 
-		[GLib.ConnectBefore ()] 
-		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
+		protected void OnBtnPressEvent (object o, ButtonPressEventArgs args)
 		{
-//			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
+			if (repeatTimeoutStopwatch)
+				return;
 
-			switch (args.Event.Key) {
-			case Gdk.Key.s:
-				if (args.Event.State == (Gdk.ModifierType.ControlMask | Gdk.ModifierType.Mod2Mask))
-					OpenSaveAsDialog ();
-				break;
-				default:
-				break;
+			if (o == btn01LeftPlus) {
+				pointerLabel = lb01Left;
+				incrementValue = true;
 			}
-		}	
+			else if (o == btn01LeftMinus) {
+				pointerLabel = lb01Left;
+				incrementValue = false;
+			}
+			else if (o == btn01RightPlus) {
+				pointerLabel = lb01Right;
+				incrementValue = true;
+			}
+			else if (o == btn01RightMinus) {
+				pointerLabel = lb01Right;
+				incrementValue = false;
+			}
+			else if (o == btn01TopPlus) {
+				pointerLabel = lb01Top;
+				incrementValue = true;
+			}
+			else if (o == btn01TopMinus) {
+				pointerLabel = lb01Top;
+				incrementValue = false;
+			}
+			else if (o == btn01BottomPlus) {
+				pointerLabel = lb01Bottom;
+				incrementValue = true;
+			}
+			else if (o == btn01BottomMinus) {
+				pointerLabel = lb01Bottom;
+				incrementValue = false;
+			}
+			else if (o == btn02LeftPlus) {
+				pointerLabel = lb02Left;
+				incrementValue = true;
+			}
+			else if (o == btn02LeftMinus) {
+				pointerLabel = lb02Left;
+				incrementValue = false;
+			}
+			else if (o == btn02RightPlus) {
+				pointerLabel = lb02Right;
+				incrementValue = true;
+			}
+			else if (o == btn02RightMinus) {
+				pointerLabel = lb02Right;
+				incrementValue = false;
+			}
+			else if (o == btn02TopPlus) {
+				pointerLabel = lb02Top;
+				incrementValue = true;
+			}
+			else if (o == btn02TopMinus) {
+				pointerLabel = lb02Top;
+				incrementValue = false;
+			}
+			else if (o == btn02BottomPlus) {
+				pointerLabel = lb02Bottom;
+				incrementValue = true;
+			}
+			else if (o == btn02BottomMinus) {
+				pointerLabel = lb02Bottom;
+				incrementValue = false;
+			}
+
+
+			timeoutSw.Restart ();
+			repeatTimeoutStopwatch = true;
+			SetImagePaddingAndLabel ();
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(SetImagePaddingAndLabelByTimeoutHandler));
+		}
+
+		private void SetImagePaddingAndLabel()
+		{
+			int v = int.Parse (pointerLabel.Text);
+			if (incrementValue && v < maxpadding) {
+				v++;
+			}
+			else if (!incrementValue && v > 0) {
+				v--;
+			}
+			pointerLabel.Text = v.ToString ();
+		}
+
+		private bool SetImagePaddingAndLabelByTimeoutHandler()
+		{
+			if (timeoutSw.ElapsedMilliseconds < Constants.TIMEOUT_INTERVAL_FIRST) {
+				return repeatTimeoutStopwatch;
+			}
+
+			SetImagePaddingAndLabel();
+			return repeatTimeoutStopwatch;
+		}
+			
+		private void FireFilterEvent(Bitmap resultBitmap)
+		{
+			//fire the event now
+			if (FilterEvent != null) //is there a EventHandler?
+			{
+				FilterEvent.Invoke(resultBitmap); //calls its EventHandler                
+			}
+			else { } //if not, ignore
+		}
+
+		private bool ProcessPreview()
+		{
+			try {
+				#region StitchMIFilter
+				st = new StitchMIFilter(image01, image02);
+				st.Landscape = false;
+				st.Left01 = (int)(int.Parse(lb01Left.Text) / imageScaleFactor + 0.5f);
+				st.Left02 = (int)(int.Parse(lb02Left.Text) / imageScaleFactor + 0.5f);
+				st.Right01 = (int)(int.Parse(lb01Right.Text) / imageScaleFactor + 0.5f);
+				st.Right02 = (int)(int.Parse(lb02Right.Text) / imageScaleFactor + 0.5f);
+				st.Top01 = (int)(int.Parse(lb01Top.Text) / imageScaleFactor + 0.5f);
+				st.Top02 = (int)(int.Parse(lb02Top.Text) / imageScaleFactor + 0.5f);
+				st.Bottom01 = (int)(int.Parse(lb01Bottom.Text) / imageScaleFactor + 0.5f);
+				st.Bottom02 = (int)(int.Parse(lb02Bottom.Text) / imageScaleFactor + 0.5f);
+	
+				st.Process();
+				st.ResultBitmap.Save ("StitchMIFilter.png", System.Drawing.Imaging.ImageFormat.Png);
+				#endregion
+			}
+			catch(ArgumentException) {
+				PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
+				pseudo.Title = Language.I.L [125];
+				pseudo.Label1 = string.Empty; // Language.I.L [125];
+				pseudo.Label2 = Language.I.L [126];
+				pseudo.OkButtontext = Language.I.L [16];
+				pseudo.SetPosition (WindowPosition.CenterAlways);
+				//				pseudo.Show ();
+				this.DestroyAll ();
+				repeatTimeoutPreprocessing = false;
+				return false;
+			}
+
+			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 400, 300, st.ResultBitmap.Width, st.ResultBitmap.Height, 600, 500);	
+			ImageConverter.ScaleAndCut (
+				st.ResultBitmap, 
+				out workingImage, 
+				0,
+				0,
+				simpleimagepanel1.WidthRequest,
+				simpleimagepanel1.HeightRequest,
+				ConvertMode.StretchForge,
+				false);
+			workingImage.Save (tempStitchImageFileName, System.Drawing.Imaging.ImageFormat.Png);
+
+			simpleimagepanel1.Initialize();
+
+			lbImageResolution.Text = ((int)(st.ResultBitmap.Width * imageScaleFactor + 0.5f)) + " x " +	
+									 ((int)(st.ResultBitmap.Height * imageScaleFactor + 0.5f));
+
+			repeatTimeoutPreprocessing = false;
+			return false;
+		}
 	}
 }
 

@@ -28,6 +28,7 @@ namespace Picturez_Lib
 		public const int TIMEOUT_INTERVAL = 20;
 		public const int TIMEOUT_INTERVAL_FIRST = 500;
 		public const uint TIMEOUT_FILTER_PROCESS_PREVIEW = 300;
+		public const uint TIMEOUT_STITCH_PROCESS_PREVIEW = 1000;
 		public const string AUTHOR = "Picturez Project";
 		public const string EXENAME = "Picturez.exe";
 		public const string ICONNAME = "icon.ico";

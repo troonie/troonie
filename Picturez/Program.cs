@@ -60,7 +60,7 @@ namespace Picturez
 
 			string filename = null;
 			// START VALUE
-//			 args = new string[] { "-s"};
+			 args = new string[] { "-e"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args);
@@ -79,10 +79,10 @@ namespace Picturez
 					SteganographyWidget winSteg = new SteganographyWidget (filename);
 					winSteg.Show ();
 					break;
-				case "-i":
-					StitchWidget winStitch = new StitchWidget (filename);
-					winStitch.Show ();
-					break;
+//				case "-i":
+//					StitchWidget winStitch = new StitchWidget ("pic.png", "pic.png");
+//					winStitch.Show ();
+//					break;
 				case "-d":
 					DirectoryInfo di = new DirectoryInfo (args [args.Length - 1]);
 					if (di.Exists) {

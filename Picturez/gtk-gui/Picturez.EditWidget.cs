@@ -5,58 +5,111 @@ namespace Picturez
 	public partial class EditWidget
 	{
 		private global::Gtk.VBox vboxA;
+		
 		private global::Gtk.EventBox eventboxToolbar;
+		
 		private global::Gtk.HBox hboxToolbarButtons;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Picturez.ImagePanel imagepanel1;
+		
 		private global::Gtk.VBox vbox1;
+		
 		private global::Gtk.Frame frameShortcuts;
+		
 		private global::Gtk.Alignment GtkAlignmentShortcuts;
+		
 		private global::Gtk.Table table3;
+		
 		private global::Gtk.ComboBox comboboxShortcuts;
+		
 		private global::Gtk.Label lbShortcutsText;
+		
 		private global::Gtk.Label lbFrameShortcuts;
+		
 		private global::Gtk.Frame frameCutPoints;
+		
 		private global::Gtk.Alignment GtkAlignment2;
+		
 		private global::Gtk.Table table1;
+		
 		private global::Picturez.PicturezButton btnBottomMinus;
+		
 		private global::Picturez.PicturezButton btnBottomPlus;
+		
 		private global::Picturez.PicturezButton btnLeftMinus;
+		
 		private global::Picturez.PicturezButton btnLeftPlus;
+		
 		private global::Picturez.PicturezButton btnRightMinus;
+		
 		private global::Picturez.PicturezButton btnTopMinus;
+		
 		private global::Picturez.PicturezButton btnTopPlus;
+		
 		private global::Gtk.EventBox ebBtnRightPlus;
+		
 		private global::Picturez.PicturezButton btnRightPlus;
+		
 		private global::Gtk.Entry entryBottom;
+		
 		private global::Gtk.Entry entryLeft;
+		
 		private global::Gtk.Entry entryRight;
+		
 		private global::Gtk.Entry entryTop;
+		
 		private global::Gtk.Label lbBottomText;
+		
 		private global::Gtk.Label lbLeftText;
+		
 		private global::Gtk.Label lbRightText;
+		
 		private global::Gtk.Label lbTopText;
+		
 		private global::Gtk.Label lbFrameCutDimensions;
+		
 		private global::Gtk.Frame frameRotation;
+		
 		private global::Gtk.Alignment GtkAlignment3;
+		
 		private global::Gtk.Table table2;
+		
 		private global::Picturez.PicturezButton btnRotateMinus;
+		
 		private global::Picturez.PicturezButton btnRotatePlus;
+		
 		private global::Gtk.Entry entryRotate;
+		
 		private global::Gtk.Label lbRotateText;
+		
 		private global::Gtk.Label lbFrameRotation;
+		
 		private global::Gtk.Frame frameImageDimensions;
+		
 		private global::Gtk.Alignment GtkAlignment;
+		
 		private global::Gtk.Table tableImageDimensions;
+		
 		private global::Gtk.Label lbNew;
+		
 		private global::Gtk.Label lbNewText;
+		
 		private global::Gtk.Label lbOriginal;
+		
 		private global::Gtk.Label lbOriginalText;
+		
 		private global::Gtk.Label lbFrameImageDimensions;
+		
 		private global::Gtk.Frame frameCursorPos;
+		
 		private global::Gtk.Alignment GtkAlignment1;
+		
 		private global::Gtk.Label lbCursorPos;
+		
 		private global::Gtk.Label lbFrameCursorPos;
+		
 		private global::Picturez.PicturezButton btnOk;
 
 		protected virtual void Build ()

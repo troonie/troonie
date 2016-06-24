@@ -8,8 +8,6 @@
     <RootNamespace>Picturez</RootNamespace>
     <AssemblyName>Picturez</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ApplicationIcon>src\icons\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -131,11 +129,8 @@
     <Compile Include="gtk-gui\Picturez.FilterWidget.cs" />
     <Compile Include="src\WidgetExtension.cs" />
     <Compile Include="src\StitchWidget.cs" />
-    <Compile Include="gtk-gui\Picturez.StitchWidget.cs" />
-    <Compile Include="src\StitchWidget.ToolbarButtonEvents.cs" />
     <Compile Include="gtk-gui\Picturez.SteganographyWidget.cs" />
-    <Compile Include="src\StitchWidget.ButtonEvents.cs" />
-    <Compile Include="src\StitchImagePanel.cs" />
+    <Compile Include="gtk-gui\Picturez.StitchWidget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

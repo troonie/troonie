@@ -75,6 +75,25 @@ namespace Picturez
 
 			return index;
 		}
+
+		protected void OnToolbarBtn_StitchPressed (object sender, EventArgs e)
+		{
+			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false);
+
+			if (fc.Run() == (int)ResponseType.Ok) 
+			{
+//				FillImageList (new List<string>(fc.Filenames));
+				StitchWidget sw = new StitchWidget(FileName, fc.Filename);
+
+				sw.FilterEvent += FilterEvent;
+				int posx, posy;
+				this.GetPosition (out posx, out posy);
+				sw.Move (posx + 50, posy + 50);
+				sw.Show ();
+			}
+
+			fc.Destroy();
+		}
 	}
 }
 
