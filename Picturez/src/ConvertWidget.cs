@@ -28,7 +28,7 @@ namespace Picturez
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "help-about-3.png", OnToolbarBtn_InfoPressed);
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 6, "tools-check-spelling-5.png", OnToolbarBtn_LanguagePressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 7, "folder-new-4.png", OnToolbarBtn_PropertiesPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 7, "folder-new-4.png", OnToolbarBtn_DesktopContextMenuPressed);
 
 			// CheckContextMenu ();
 
@@ -75,15 +75,16 @@ namespace Picturez
 
 		private void SetCorrectWindowSize()
 		{
-			// best linux mint 17.3 values
-			const int originalWidth = 765;
-			const int originalHeight = 833;
+			// best ubuntu 16.04 values // linux mint 17.3
+			const int originalWidth = 900; // 765;
+			const int originalHeight = 900; // 833;
 			const int taskbarHeight = 90;
 			int maxW = Screen.Width;
 			int maxH = Screen.Height - taskbarHeight;
 
 			this.WidthRequest = Math.Min(originalWidth, maxW);
 			this.HeightRequest = Math.Min(originalHeight, maxH);
+			this.Move (0, 0);
 		}
 
 		private void SetGuiColors()

@@ -59,7 +59,7 @@ namespace Picturez
 			SetLanguageToGui ();
 		}
 
-		protected void OnToolbarBtn_PropertiesPressed (object sender, EventArgs e)
+		protected void OnToolbarBtn_DesktopContextMenuPressed (object sender, EventArgs e)
 		{
 			new AskForDesktopContextMenuWindow (false, config).Show();
 		}

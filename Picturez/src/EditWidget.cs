@@ -67,9 +67,9 @@ namespace Picturez
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "help-about-3.png", OnToolbarBtn_AboutPressed);
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 3);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "tools-check-spelling-5.png", OnToolbarBtn_LanguagePressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 5, "help-about-3.png", OnToolbarBtn_StitchPressed, "Stitch");
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 5, "view-split-left-right-2.png", OnToolbarBtn_StitchPressed, "Stitch");
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 6);
-			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 7, "help-about-3.png", 
+			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 7, "filter.png", 
 			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());			
 
 			timeoutSw = new Stopwatch();
@@ -284,8 +284,22 @@ namespace Picturez
 			imagepanel1.ScaleCursorX = imageW / (float)panelW;
 			imagepanel1.ScaleCursorY = imageH / (float)panelH;
 
-			this.Resize (winW, winH);
-			this.Move (0, 0);
+//			this.Resize (winW, winH);
+//			this.Move (0, 0);
+
+			winH = Math.Max (490, winH);
+//			WidthRequest = winW;
+//			HeightRequest = winH;
+			// work around by GLib timeout to fix the GTK#-resizing bug
+			GLib.TimeoutHandler timeoutHandler = () => {
+				WidthRequest = winW;
+				HeightRequest = winH;
+				Move (0, 0);
+				Resize (winW, winH);
+				// false, because usage only one time
+				return false;
+			};
+			GLib.Timeout.Add(200, timeoutHandler);
 
 			lbOriginal.Text = imageW + " x " + imageH;
 			lbNew.Text = lbOriginal.Text;

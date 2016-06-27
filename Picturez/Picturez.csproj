@@ -90,6 +90,12 @@
     <EmbeddedResource Include="src\icons\icon.ico">
       <LogicalName>icon.ico</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\icons\view-split-left-right-2.png">
+      <LogicalName>view-split-left-right-2.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\icons\filter.png">
+      <LogicalName>filter.png</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />

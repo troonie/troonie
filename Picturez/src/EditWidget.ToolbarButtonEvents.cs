@@ -33,7 +33,7 @@ namespace Picturez
 		{
 			Language.I.LanguageID++;
 			SetLanguageToGui ();
-		}
+		}			
 
 		protected int OnToolbarBtn_ShaderFilterPressed (object sender, EventArgs e, string x)
 		{

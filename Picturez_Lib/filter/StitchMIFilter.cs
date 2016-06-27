@@ -6,6 +6,8 @@ namespace Picturez_Lib
 {
 	public class StitchMIFilter
 	{
+		/// <summary> Background color. Default: White. </summary>
+		public Color BackgroundColor { get; set; }
 		public Bitmap Bitmap1 { get; set; }
 		public Bitmap Bitmap2 { get; set; }
 		public Bitmap ResultBitmap { get; private set; }
@@ -27,6 +29,8 @@ namespace Picturez_Lib
 		{
 			Bitmap1 = bitmap1;
 			Bitmap2 = bitmap2;
+			BackgroundColor = Color.White;
+//			Use255ForAlpha = true;
 		}
 
 		private static PixelFormat CalcPixelFormatFromPixelSize(int ps)
@@ -80,6 +84,11 @@ namespace Picturez_Lib
 				for (int y = 0; y < h3; y++) {
 					// b3: for each pixel
 					for (int x = 0; x < w3; x++, b3 += ps3) {
+						// initial color for background
+						b3 [RGBA.B] = BackgroundColor.B;
+						b3 [RGBA.G] = BackgroundColor.G;
+						b3 [RGBA.R] = BackgroundColor.R;
+						b3 [RGBA.A] = 255;
 						if ((y >= Top01 && y < Top01 + h1) && 
 							(x >= Left01 && x < Left01 + w1)) {
 
@@ -113,7 +122,7 @@ namespace Picturez_Lib
 							b3 [RGBA.B] = b2 [RGBA.B];
 
 							// rgb, 24 and 32 bit
-							if (ps2 == 2 && ps3 >= 3) {
+							if (ps2 == 1 && ps3 >= 3) {
 								b3 [RGBA.G] = b2 [RGBA.B];
 								b3 [RGBA.R] = b2 [RGBA.B];
 							} else if (ps2 >= 3) {
@@ -154,6 +163,12 @@ namespace Picturez_Lib
 					// b3: for each pixel
 					for (int x = 0; x < w3; x++, b3 += ps3)
 					{
+						// initial color for background
+						b3 [RGBA.B] = BackgroundColor.B;
+						b3 [RGBA.G] = BackgroundColor.G;
+						b3 [RGBA.R] = BackgroundColor.R;
+						b3 [RGBA.A] = 255;
+
 						if ((y >= Top01 && y < Top01 + h1) && 
 						    (x >= Left01 && x < Left01 + w1)) {
 

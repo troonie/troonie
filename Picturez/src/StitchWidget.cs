@@ -22,8 +22,6 @@ namespace Picturez
 
 		private Picturez.ColorConverter colorConverter = Picturez.ColorConverter.Instance;
 		private Constants constants = Constants.I;
-//		private int imageW; 
-//		private int imageH;
 		float imageScaleFactor;
 		private int origImage01W, origImage01H, origImage02W, origImage02H;
 		private string tempStitchImageFileName;
@@ -184,16 +182,108 @@ namespace Picturez
 			lbFrameImagePositions2.LabelProp = "<b>" + Language.I.L[133] + "</b>";
 		}
 
+		private void SetImagePaddingAndLabel()
+		{
+			int v = int.Parse (pointerLabel.Text);
+			if (incrementValue && v < maxpadding) {
+				v++;
+			}
+			else if (!incrementValue && v > 0) {
+				v--;
+			}
+			pointerLabel.Text = v.ToString ();
+		}
+
+		private bool SetImagePaddingAndLabelByTimeoutHandler()
+		{
+			if (timeoutSw.ElapsedMilliseconds < Constants.TIMEOUT_INTERVAL_FIRST) {
+				return repeatTimeoutStopwatch;
+			}
+
+			SetImagePaddingAndLabel();
+			return repeatTimeoutStopwatch;
+		}
+			
+		private void FireFilterEvent(Bitmap resultBitmap)
+		{
+			//fire the event now
+			if (FilterEvent != null) //is there a EventHandler?
+			{
+				FilterEvent.Invoke(resultBitmap); //calls its EventHandler                
+			}
+			else { } //if not, ignore
+		}
+
+		private bool ProcessPreview()
+		{
+			try {
+				#region StitchMIFilter
+				st = new StitchMIFilter(image01, image02);
+				st.Landscape = rdBtnLandscape.Active;
+				st.Left01 = (int)(int.Parse(lb01Left.Text) / imageScaleFactor + 0.5f);
+				st.Left02 = (int)(int.Parse(lb02Left.Text) / imageScaleFactor + 0.5f);
+				st.Right01 = (int)(int.Parse(lb01Right.Text) / imageScaleFactor + 0.5f);
+				st.Right02 = (int)(int.Parse(lb02Right.Text) / imageScaleFactor + 0.5f);
+				st.Top01 = (int)(int.Parse(lb01Top.Text) / imageScaleFactor + 0.5f);
+				st.Top02 = (int)(int.Parse(lb02Top.Text) / imageScaleFactor + 0.5f);
+				st.Bottom01 = (int)(int.Parse(lb01Bottom.Text) / imageScaleFactor + 0.5f);
+				st.Bottom02 = (int)(int.Parse(lb02Bottom.Text) / imageScaleFactor + 0.5f);
+	
+				st.Process();
+//				st.ResultBitmap.Save ("StitchMIFilter_pre.png", System.Drawing.Imaging.ImageFormat.Png);
+				#endregion
+			}
+			catch(ArgumentException) {
+				PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
+				pseudo.Title = Language.I.L [125];
+				pseudo.Label1 = string.Empty; // Language.I.L [125];
+				pseudo.Label2 = Language.I.L [126];
+				pseudo.OkButtontext = Language.I.L [16];
+				pseudo.SetPosition (WindowPosition.CenterAlways);
+				//				pseudo.Show ();
+				this.DestroyAll ();
+				repeatTimeoutPreprocessing = false;
+				return false;
+			}
+
+			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 400, 300, st.ResultBitmap.Width, st.ResultBitmap.Height, 600, 500);	
+			ImageConverter.ScaleAndCut (
+				st.ResultBitmap, 
+				out workingImage, 
+				0,
+				0,
+				simpleimagepanel1.WidthRequest,
+				simpleimagepanel1.HeightRequest,
+				ConvertMode.StretchForge,
+				false);
+			workingImage.Save (tempStitchImageFileName, System.Drawing.Imaging.ImageFormat.Png);
+
+			simpleimagepanel1.Initialize();
+
+			lbImageResolution.Text = ((int)(st.ResultBitmap.Width * imageScaleFactor + 0.5f)) + " x " +	
+									 ((int)(st.ResultBitmap.Height * imageScaleFactor + 0.5f));
+
+			repeatTimeoutPreprocessing = false;
+			return false;
+		}
+
+		#region gui events
+
 		private void OnCursorPosChanged(int x, int y)
 		{
 			lbCursorPos.Text = 	((int)(x * imageScaleFactor + 0.5f)).ToString() + " x " +	
-								((int)(y * imageScaleFactor + 0.5f)).ToString();
+				((int)(y * imageScaleFactor + 0.5f)).ToString();
 		}
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
 			this.DestroyAll ();
 		}			
+
+		protected void OnRdBtnToggled (object sender, EventArgs e)
+		{
+			ProcessPreview();
+		}
 
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
@@ -203,7 +293,7 @@ namespace Picturez
 			try {
 				#region StitchMIFilter
 				st = new StitchMIFilter(image01, image02);
-				st.Landscape = false;
+				st.Landscape = rdBtnLandscape.Active;
 				st.Left01 = int.Parse(lb01Left.Text);
 				st.Left02 = int.Parse(lb02Left.Text);
 				st.Right01 = int.Parse(lb01Right.Text);
@@ -224,7 +314,7 @@ namespace Picturez
 				pseudo.Label2 = Language.I.L [126];
 				pseudo.OkButtontext = Language.I.L [16];
 				pseudo.SetPosition (WindowPosition.CenterAlways);
-				//				pseudo.Show ();
+				// pseudo.Show ();
 				this.DestroyAll ();
 				repeatTimeoutPreprocessing = false;
 			}
@@ -323,90 +413,7 @@ namespace Picturez
 			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(SetImagePaddingAndLabelByTimeoutHandler));
 		}
 
-		private void SetImagePaddingAndLabel()
-		{
-			int v = int.Parse (pointerLabel.Text);
-			if (incrementValue && v < maxpadding) {
-				v++;
-			}
-			else if (!incrementValue && v > 0) {
-				v--;
-			}
-			pointerLabel.Text = v.ToString ();
-		}
-
-		private bool SetImagePaddingAndLabelByTimeoutHandler()
-		{
-			if (timeoutSw.ElapsedMilliseconds < Constants.TIMEOUT_INTERVAL_FIRST) {
-				return repeatTimeoutStopwatch;
-			}
-
-			SetImagePaddingAndLabel();
-			return repeatTimeoutStopwatch;
-		}
-			
-		private void FireFilterEvent(Bitmap resultBitmap)
-		{
-			//fire the event now
-			if (FilterEvent != null) //is there a EventHandler?
-			{
-				FilterEvent.Invoke(resultBitmap); //calls its EventHandler                
-			}
-			else { } //if not, ignore
-		}
-
-		private bool ProcessPreview()
-		{
-			try {
-				#region StitchMIFilter
-				st = new StitchMIFilter(image01, image02);
-				st.Landscape = false;
-				st.Left01 = (int)(int.Parse(lb01Left.Text) / imageScaleFactor + 0.5f);
-				st.Left02 = (int)(int.Parse(lb02Left.Text) / imageScaleFactor + 0.5f);
-				st.Right01 = (int)(int.Parse(lb01Right.Text) / imageScaleFactor + 0.5f);
-				st.Right02 = (int)(int.Parse(lb02Right.Text) / imageScaleFactor + 0.5f);
-				st.Top01 = (int)(int.Parse(lb01Top.Text) / imageScaleFactor + 0.5f);
-				st.Top02 = (int)(int.Parse(lb02Top.Text) / imageScaleFactor + 0.5f);
-				st.Bottom01 = (int)(int.Parse(lb01Bottom.Text) / imageScaleFactor + 0.5f);
-				st.Bottom02 = (int)(int.Parse(lb02Bottom.Text) / imageScaleFactor + 0.5f);
-	
-				st.Process();
-				st.ResultBitmap.Save ("StitchMIFilter.png", System.Drawing.Imaging.ImageFormat.Png);
-				#endregion
-			}
-			catch(ArgumentException) {
-				PseudoPicturezContextMenu pseudo = new PseudoPicturezContextMenu (true);
-				pseudo.Title = Language.I.L [125];
-				pseudo.Label1 = string.Empty; // Language.I.L [125];
-				pseudo.Label2 = Language.I.L [126];
-				pseudo.OkButtontext = Language.I.L [16];
-				pseudo.SetPosition (WindowPosition.CenterAlways);
-				//				pseudo.Show ();
-				this.DestroyAll ();
-				repeatTimeoutPreprocessing = false;
-				return false;
-			}
-
-			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 400, 300, st.ResultBitmap.Width, st.ResultBitmap.Height, 600, 500);	
-			ImageConverter.ScaleAndCut (
-				st.ResultBitmap, 
-				out workingImage, 
-				0,
-				0,
-				simpleimagepanel1.WidthRequest,
-				simpleimagepanel1.HeightRequest,
-				ConvertMode.StretchForge,
-				false);
-			workingImage.Save (tempStitchImageFileName, System.Drawing.Imaging.ImageFormat.Png);
-
-			simpleimagepanel1.Initialize();
-
-			lbImageResolution.Text = ((int)(st.ResultBitmap.Width * imageScaleFactor + 0.5f)) + " x " +	
-									 ((int)(st.ResultBitmap.Height * imageScaleFactor + 0.5f));
-
-			repeatTimeoutPreprocessing = false;
-			return false;
-		}
+		#endregion gui events
 	}
 }
 

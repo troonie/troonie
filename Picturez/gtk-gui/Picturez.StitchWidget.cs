@@ -695,6 +695,8 @@ namespace Picturez
 			this.DefaultHeight = 508;
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+			this.rdBtnLandscape.Toggled += new global::System.EventHandler (this.OnRdBtnToggled);
+			this.rdBtnPortrait.Toggled += new global::System.EventHandler (this.OnRdBtnToggled);
 			this.btn01TopPlus.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnReleaseEvent);
 			this.btn01TopPlus.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnPressEvent);
 			this.btn01TopMinus.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnReleaseEvent);
