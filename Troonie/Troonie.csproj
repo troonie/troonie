@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{6D92E59B-13E2-42EA-90D7-E93CDBE20DBB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Picturez</RootNamespace>
-    <AssemblyName>Picturez</AssemblyName>
+    <RootNamespace>Troonie</RootNamespace>
+    <AssemblyName>Troonie</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <ApplicationIcon>src\icons\icon.ico</ApplicationIcon>
   </PropertyGroup>
@@ -110,13 +110,13 @@
     <Compile Include="src\ConvertWidget.RadioCheckboxEntryEvents.cs" />
     <Compile Include="src\ConvertWidget.ToolbarButtonEvents.cs" />
     <Compile Include="src\PressedInButton.cs" />
-    <Compile Include="src\PicturezButton.cs" />
+    <Compile Include="src\TroonieButton.cs" />
     <Compile Include="src\GuiHelper.cs" />
     <Compile Include="src\EditWidget.cs" />
     <Compile Include="src\DesktopContextMenu.cs" />
-    <Compile Include="src\PicturezAboutDialog.cs" />
+    <Compile Include="src\TroonieAboutDialog.cs" />
     <Compile Include="src\AskForDesktopContextMenuWindow.cs" />
-    <Compile Include="src\PseudoPicturezContextMenu.cs" />
+    <Compile Include="src\PseudoTroonieContextMenu.cs" />
     <Compile Include="src\EditWidget.EntryEvents.cs" />
     <Compile Include="src\EditWidget.ButtonEvents.cs" />
     <Compile Include="src\EditWidget.ToolbarButtonEvents.cs" />

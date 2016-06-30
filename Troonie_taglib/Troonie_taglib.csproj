@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B91271CF-29E8-495D-A462-56C6DDDBD67E}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>PIC_taglib</RootNamespace>
-    <AssemblyName>PIC_taglib</AssemblyName>
+    <RootNamespace>Troonie_taglib</RootNamespace>
+    <AssemblyName>Troonie_taglib</AssemblyName>
     <ReleaseVersion>1.0 (Orig 2.1.0.0)</ReleaseVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <Description>taglib_sharp_2.1.0.0 reduced to only supporting image tags (no video, no sound).</Description>
