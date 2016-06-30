@@ -1,0 +1,3 @@
+Used version: 3.0.0 
+Download date: 2016-06-28
+Source: https://code.jquery.com/jquery-3.0.0.min.js
