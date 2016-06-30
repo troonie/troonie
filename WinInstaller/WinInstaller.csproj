@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{42A44B9D-D1D3-4C13-8CB4-482DE0B9D386}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>WinInstaller</RootNamespace>
+    <AssemblyName>WinInstaller</AssemblyName>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Files\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Files\Troonie_taglib.dll">
+      <LogicalName>Troonie_taglib.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Files\Troonie.exe">
+      <LogicalName>Troonie.exe</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Files\Troonie_Lib.dll">
+      <LogicalName>Troonie_Lib.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Files\WinContextMenu.exe">
+      <LogicalName>WinContextMenu.exe</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Files\gtk-sharp-2.12.30.msi">
+      <LogicalName>gtk-sharp-2.12.30.msi</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

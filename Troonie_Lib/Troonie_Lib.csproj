@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{86AC3579-4361-4861-B86E-DFA6D9704EB6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Picturez_Lib</RootNamespace>
+    <AssemblyName>Picturez_Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="JpegEncoder.cs" />
+    <Compile Include="RGBA.cs" />
+    <Compile Include="PixelFormatFlags.cs" />
+    <Compile Include="ColorPalette.cs" />
+    <Compile Include="BitmapWithTag.cs" />
+    <Compile Include="ImageConverter.cs" />
+    <Compile Include="ImageFormatEnums.cs" />
+    <Compile Include="ResizeVersion.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Language.cs" />
+    <Compile Include="FileHelper.cs" />
+    <Compile Include="RotateBilinear.cs" />
+    <Compile Include="Murmur3.cs" />
+    <Compile Include="ConfigConvert.cs" />
+    <Compile Include="ConfigEdit.cs" />
+    <Compile Include="filter\GrayscaleFilter.cs" />
+    <Compile Include="filter\AbstractFilter.cs" />
+    <Compile Include="filter\SteganographyFilter.cs" />
+    <Compile Include="filter\InvertFilter.cs" />
+    <Compile Include="AforgeImage.cs" />
+    <Compile Include="filter\ExtractOrRotateChannelsFilter.cs" />
+    <Compile Include="filter\GaussianBlurFilter.cs" />
+    <Compile Include="filter\CannyEdgeDetectorFilter.cs" />
+    <Compile Include="AsciiTableCharMove.cs" />
+    <Compile Include="Rc4.cs" />
+    <Compile Include="filter\SepiaFilter.cs" />
+    <Compile Include="filter\OilPaintingFilter.cs" />
+    <Compile Include="Fraction.cs" />
+    <Compile Include="filter\DifferenceFilter.cs" />
+    <Compile Include="filter\StegHashFilter.cs" />
+    <Compile Include="filter\ThickPixelFilter.cs" />
+    <Compile Include="filter\StitchMIFilter.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Troonie_taglib\Troonie_taglib.csproj">
+      <Project>{B91271CF-29E8-495D-A462-56C6DDDBD67E}</Project>
+      <Name>Troonie_taglib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="languages.csv">
+      <LogicalName>languages.csv</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="filter\" />
+  </ItemGroup>
+</Project>

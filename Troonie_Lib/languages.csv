@@ -1,0 +1,134 @@
+English;Deutsch
+Open image file;Bilddatei öffnen
+Save as;Speichern als
+Info;Info
+Cut points (in pixel);Zuschneidepunkte (in Pixel)
+Left;Links
+Right;Rechts
+Top;Oben
+Bottom;Unten
+Rotation in 1/10 degrees (e.g. 900 = 90′);Drehen in Schritten mit 1/10 Grad (z.B. 900 = 90′)
+Angle;Winkel
+Image dimension;Bildabmessung
+Original;Original
+New;Neu
+Cursor position;Cursor-Position
+OK;OK
+Cancel;Abbrechen
+DUMMY;DUMMY
+Image list;Bildliste
+Format;Format
+grayscale;Graustufen
+color;Farbe
+Quality;Qualität
+black-white;Schwarz-weiß
+color + transparancy;Farbe + Transparenz
+Alpha color;Alpha-Farbe
+Other;Andere
+Resize;Größenanpassung
+CAUTION!;ACHTUNG!
+Retain original size;Originalgröße beibehalten
+Image has big resolution.;Bild ist sehr groß.
+Length of bigger side will be;Länge der längeren Bildseite soll sein
+Filter needs several minutes to process, caused by big image size. Start filter? ;Filter arbeitet aufgrund der Bildgröße mehrere Minuten. Wirklich Filter starten? 
+Using fix image size (width x height);Verwende feste Bildabmessung (Breite x Höhe)
+Stretch image;Strecke/Stauche Bild
+Output directory;Ausgabeverzeichnis
+Use original directory;Verwende Originalverzeichnis
+Overwrite / Delete original image   (CAUTION!);Überschreibe / Lösche Originalbild   (VORSICHT!)
+Open image files;Bilddateien öffnen
+Select all images;Alle Bilddateien markieren
+Unselect all images;Markierungen aufheben
+Remove selected images from list;Markierte Bilder aus der Liste entfernen
+Current language;Aktuelle Spachen
+Available languages;Verfügbare Sprachen
+Convert;Konvertiere
+File;Datei
+Directory;Verzeichnis
+File name;Dateiname
+Pixel format is not supported.;Pixelformat wird nicht unterstützt.
+File already exists. Overwrite?;Datei existiert bereits. Überschreiben?
+No image file or image cannot be loaded.;Keine Bilddatei oder Bild kann nicht geladen werden.
+Too small image and too much text to decrypt correctly.;Zu kleines Bild und zu viel Text für korrekte Verschlüsselung.
+ERROR.;FEHLER.
+A slender tool to convert, edit and filter photos as well as work with steganography.;Ein schlankes Tool zum Konvertieren, Bearbeiten und Filtern von Fotos sowie für Steganografie.
+No Steganography image.;Kein Steganografiebild.
+Image needs to contain 32 bit alpha transparency.;Bild muss 32-Bit-Alpha-Transparenz besitzen.
+Should Troonie add context menu entries for the desktop?; Soll Troonie Kontextmenüeinträge für den Desktop anlegen? 
+  So Troonie could be started by clicking with right mouse key on an image.  ;  Somit kann Troonie mit rechter Maustaste auf ein Bild gestartet werden.  
+Context menu entries for desktop;Kontextmenüeinträge für Desktop
+Ask always when Troonie starts;Immer bei Programmstart fragen
+Yes;Ja
+No;Nein
+  Context menu entries added successfully.  ;  Kontextmenüeinträge erfolgreich angelegt.  
+Add;Anlegen
+Remove;Löschen
+  Context menu entries removed successfully.  ;  Kontextmenüeinträge erfolgreich gelöscht.  
+Converter;Konverter
+Editor;Editor
+UPDATE     ;UPDATE     
+Update available. New version: ;Update verfügbar. Neue Version: 
+Download the new version from website?;Neue Version von Website herunterladen?
+Rotating works only with 24bit-RGB-images or 8bit-grayscale-images;Drehen funktioniert momentan nur mit 24Bit-RGB-Bildern und 8-Bit-Graustufenbildern
+Steganography;Steganografie
+Mode;Modus
+Read;Lesen
+Write;Schreiben
+Key;Schlüssel
+Content;Inhalt
+store alpha value;Alpha-Wert beibehalten
+Steganography;Steganografie
+Success.;Erfolg.
+Reading process finished.;Lesevorgang abgeschlossen.
+Writing process finished successfully.;Schreibvorgang erfolgreich abgeschlossen.
+Image filter;Bildfilter
+Used algorithm;Verwendeter Algorithmus
+BT709;BT709
+RMY;RMY
+Y;Y
+Linear;Linear
+Invert;Invertierung
+Grayscale;Graustufen
+RGB Channels;RGB-Kanäle
+RGB Order;RGB-Reihenfolge
+R;R
+G;G
+B;B
+A;A
+RGB;RGB
+RBG;RBG
+BRG;BRG
+BGR;BGR
+GBR;GBR
+GRB;GRB
+Gaussian Blur;Gauss-Weichzeichner
+Sigma;Sigma
+Kernel size;Filterkern-Länge
+255 for Alpha channel;255 für Alpha-Kanal
+Canny edge detector;Canny-Kantendetektor
+Too short key;Zu kurzer Schlüssel
+Used key (;Der verwendete Schlüssel (
+ character) is very short and thereby unsafe.; Zeichen) ist sehr kurz und damit unsicher. 
+The key should not have less than 10 character. Continue anyway?;Der Schlüssel sollte mindestens 10 Zeichen haben. Trotzdem fortfahren?
+Low Threshold;Unterer Schwellwert
+High Threshold;Oberer Schwellwert
+Orientation colored; Orientierung farb-kodiert
+On;An
+Off;Aus
+No key;Kein Schlüssel
+Please enter a key.;Bitte einen Schlüssel eingeben.
+Sepia;Sepia
+Q coefficient of YIQ color space;Q-Koeffizient des YIQ-Farbraumes
+I coefficient of YIQ color space;I-Koeffizient des YIQ-Farbraumes
+Oil Painting;Ölgemälde
+Brush size;Pinselgröße
+Wrong pixel format.;Falsches Pixelformat.
+Filter does not support the pixelformat ot this image. ;Filter unterstützt nicht das Pixelformat des Bildes. 
+Common picture formats;Typische Bildformate
+Cutting to ;Beschneiden zu 
+landscape;Querformat
+portrait;Hochformat
+Image stitching;Bilder zusammenkleben
+Image 1 position;Position Bild 1
+Image 2 position;Position Bild 2
+Image choice;Bildauswahl
