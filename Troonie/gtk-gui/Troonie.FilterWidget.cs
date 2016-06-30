@@ -5,55 +5,105 @@ namespace Troonie
 	public partial class FilterWidget
 	{
 		private global::Gtk.VBox vboxA;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Gtk.VBox vboxImagePanel;
+		
 		private global::Troonie.SimpleImagePanel simpleimagepanel1;
+		
 		private global::Gtk.CheckButton checkBtnUse255ForAlpha;
+		
 		private global::Gtk.VBox vbox1;
+		
 		private global::Gtk.Frame frameComboboxes;
+		
 		private global::Gtk.Alignment AlignmentFrameComboboxes;
+		
 		private global::Gtk.VBox vboxSteganography1;
+		
 		private global::Gtk.Frame frame_combobox1;
+		
 		private global::Gtk.Alignment alignment_combobox1;
+		
 		private global::Gtk.ComboBox combobox1;
+		
 		private global::Gtk.Label lbFrame_combobox1;
+		
 		private global::Gtk.Frame frame_combobox2;
+		
 		private global::Gtk.Alignment alignment_combobox2;
+		
 		private global::Gtk.ComboBox combobox2;
+		
 		private global::Gtk.Label lbFrame_combobox2;
+		
 		private global::Gtk.Frame frame_combobox3;
+		
 		private global::Gtk.Alignment alignment_combobox3;
+		
 		private global::Gtk.ComboBox combobox3;
+		
 		private global::Gtk.Label lbFrame_combobox3;
+		
 		private global::Gtk.Frame frameHScales;
+		
 		private global::Gtk.Alignment AlignmentFrameHScales;
+		
 		private global::Gtk.VBox vboxFrameHScales;
+		
 		private global::Gtk.Frame frame_hscale1;
+		
 		private global::Gtk.Alignment alignment_hscale1;
+		
 		private global::Gtk.HScale hscale1;
+		
 		private global::Gtk.Label lbFrame_hscale1;
+		
 		private global::Gtk.Frame frame_hscale2;
+		
 		private global::Gtk.Alignment alignment_hscale2;
+		
 		private global::Gtk.HScale hscale2;
+		
 		private global::Gtk.Label lbFrame_hscale2;
+		
 		private global::Gtk.Frame frame_hscale3;
+		
 		private global::Gtk.Alignment alignment_hscale3;
+		
 		private global::Gtk.HScale hscale3;
+		
 		private global::Gtk.Label lbFrame_hscale3;
+		
 		private global::Gtk.Frame frame_hscale4;
+		
 		private global::Gtk.Alignment alignment_hscale4;
+		
 		private global::Gtk.HScale hscale4;
+		
 		private global::Gtk.Label lbFrame_hscale4;
+		
 		private global::Gtk.Frame frame_hscale5;
+		
 		private global::Gtk.Alignment alignment_hscale5;
+		
 		private global::Gtk.HScale hscale5;
+		
 		private global::Gtk.Label lbFrame_hscale5;
+		
 		private global::Gtk.Frame frameCursorPos;
+		
 		private global::Gtk.Alignment GtkAlignment1;
+		
 		private global::Gtk.Label lbCursorPos;
+		
 		private global::Gtk.Label lbFrameCursorPos;
+		
 		private global::Gtk.HBox hboxButtons;
+		
 		private global::Troonie.TroonieButton btnCancel;
+		
 		private global::Troonie.TroonieButton btnOk;
 
 		protected virtual void Build ()
@@ -394,6 +444,7 @@ namespace Troonie
 			this.btnCancel.CheckReleaseState = false;
 			this.btnCancel.BorderlineWidth = 3;
 			this.btnCancel.ButtonHeight = 35;
+			this.btnCancel.ButtonWidth = 0;
 			this.btnCancel.Font = "Arial";
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.TextSize = 14;
@@ -406,6 +457,7 @@ namespace Troonie
 			this.btnOk.CheckReleaseState = false;
 			this.btnOk.BorderlineWidth = 3;
 			this.btnOk.ButtonHeight = 35;
+			this.btnOk.ButtonWidth = 0;
 			this.btnOk.Font = "Arial";
 			this.btnOk.Text = "OK";
 			this.btnOk.TextSize = 14;

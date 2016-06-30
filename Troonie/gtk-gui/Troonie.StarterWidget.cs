@@ -5,10 +5,15 @@ namespace Troonie
 	public partial class StarterWidget
 	{
 		private global::Gtk.VBox vbox1;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Troonie.TroonieButton picBtnConvert;
+		
 		private global::Troonie.TroonieButton picBtnEdit;
+		
 		private global::Troonie.TroonieButton picBtnSteganography;
+		
 		private global::Gtk.HBox hbox2;
 
 		protected virtual void Build ()
@@ -34,6 +39,7 @@ namespace Troonie
 			this.picBtnConvert.CheckReleaseState = false;
 			this.picBtnConvert.BorderlineWidth = 3;
 			this.picBtnConvert.ButtonHeight = 140;
+			this.picBtnConvert.ButtonWidth = 0;
 			this.picBtnConvert.Font = "Arial";
 			this.picBtnConvert.Text = "Convert";
 			this.picBtnConvert.TextSize = 20;
@@ -46,6 +52,7 @@ namespace Troonie
 			this.picBtnEdit.CheckReleaseState = false;
 			this.picBtnEdit.BorderlineWidth = 3;
 			this.picBtnEdit.ButtonHeight = 140;
+			this.picBtnEdit.ButtonWidth = 0;
 			this.picBtnEdit.Font = "Arial";
 			this.picBtnEdit.Text = "Editor";
 			this.picBtnEdit.TextSize = 20;
@@ -58,6 +65,7 @@ namespace Troonie
 			this.picBtnSteganography.CheckReleaseState = false;
 			this.picBtnSteganography.BorderlineWidth = 3;
 			this.picBtnSteganography.ButtonHeight = 140;
+			this.picBtnSteganography.ButtonWidth = 0;
 			this.picBtnSteganography.Font = "Arial";
 			this.picBtnSteganography.Text = "Steganography";
 			this.picBtnSteganography.TextSize = 20;
