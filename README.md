@@ -1,4 +1,4 @@
-# Troonie (get latest <a href="https://github.com/troonie/troonie/releases" target="_blank">version 3.0 beta2</a>)
+# Troonie (get <a href="https://github.com/troonie/troonie/releases" target="_blank">version 1.0 beta1</a>)
 
 ##A slender tool to convert, trim, stitch, filter photos and work with steganography.
 
@@ -18,7 +18,7 @@
 
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;The 3 Components of Troonie&nbsp;</span></p>
 
-<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/editor.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/editor_thumb.jpg" alt="Troonie editor"/></a>
+<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/editor.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/editor_thumb.jpg" alt="Troonie editor" target="_blank"/></a>
 </br>`1. Troonie editor`
 </br> 
 </br>
