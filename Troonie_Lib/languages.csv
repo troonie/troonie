@@ -51,7 +51,7 @@ File already exists. Overwrite?;Datei existiert bereits. Überschreiben?
 No image file or image cannot be loaded.;Keine Bilddatei oder Bild kann nicht geladen werden.
 Too small image and too much text to decrypt correctly.;Zu kleines Bild und zu viel Text für korrekte Verschlüsselung.
 ERROR.;FEHLER.
-A slender tool to convert, edit and filter photos as well as work with steganography.;Ein schlankes Tool zum Konvertieren, Bearbeiten und Filtern von Fotos sowie für Steganografie.
+A slender tool to convert, trim, stitch, filter photos and work with steganography.;Ein schlankes Tool zum Konvertieren, Beschneiden, Zusammenkleben und Filtern von Fotos sowie für Steganografie.
 No Steganography image.;Kein Steganografiebild.
 Image needs to contain 32 bit alpha transparency.;Bild muss 32-Bit-Alpha-Transparenz besitzen.
 Should Troonie add context menu entries for the desktop?; Soll Troonie Kontextmenüeinträge für den Desktop anlegen? 
@@ -132,3 +132,17 @@ Image stitching;Bilder zusammenkleben
 Image 1 position;Position Bild 1
 Image 2 position;Position Bild 2
 Image choice;Bildauswahl
+Editor values;Editorwerte
+Editor values saved.;Editorwerte gespeichert.
+Usage of values by 'CTRL+L';Verwenden der Werte durch 'STRG+L'.
+SHORTCUTS;SHORTCUTS
+CONVERTER KEYS;TASTENBELEGUNG KONVERTER
+CTRL+A: Select all images;STRG+A: Alle Bilder auswählen
+ESC: Remove all image selections;ESC: Bildauswahl entfernen
+DEL: Remove selected images from list;ENTF: Ausgewählte Bilder entfernen
+EDITOR KEYS;TASTENBELEGUNG EDITOR
+CTRL+L: Use saved cut points;STRG+L: Verwendung gespeicherter Schnittpunkte 
+CTRL+K: Save cut points;STRG+K: Schnittpunkte speichern
+CTRL+S: Save image;STRG+S: Bild speichern
+STEGANOGRAPHY KEYS;TASTENBELEGUNG STEGANOGRAFIE
+CTRL+S: Save image;STRG+S: Bild speichern

@@ -102,7 +102,7 @@ namespace Troonie_Lib
 //			SaveTag ();
 //		}			
 
-		public void Save(ConfigConvert config, string relativeFileName)
+		public void Save(Config config, string relativeFileName)
 		{			
 			Bitmap dest;
 			int w = Bitmap.Width;

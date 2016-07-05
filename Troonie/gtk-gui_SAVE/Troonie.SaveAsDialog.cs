@@ -5,55 +5,105 @@ namespace Troonie
 	public partial class SaveAsDialog
 	{
 		private global::Gtk.Frame frame7;
+		
 		private global::Gtk.Alignment GtkAlignment10;
+		
 		private global::Gtk.VBox vbox6;
+		
 		private global::Gtk.HBox hbox4;
+		
 		private global::Gtk.Label lbDirectoryText;
+		
 		private global::Troonie.HyperTextLabel htLabelDirectory;
+		
 		private global::Gtk.HBox hbox3;
+		
 		private global::Gtk.Label label3;
+		
 		private global::Gtk.Entry entryFilename;
+		
 		private global::Gtk.Label lbFormat;
+		
 		private global::Gtk.Label lbFile;
+		
 		private global::Gtk.Frame frame3;
+		
 		private global::Gtk.Alignment GtkAlignment4;
+		
 		private global::Gtk.VBox vbox2;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Gtk.RadioButton rdJpeg;
+		
 		private global::Gtk.Label lbQuality;
+		
 		private global::Gtk.HScale hscaleQuality;
+		
 		private global::Gtk.RadioButton rdJpegGray;
+		
 		private global::Gtk.Label GtkLabel3;
+		
 		private global::Gtk.Frame frame4;
+		
 		private global::Gtk.Alignment GtkAlignment5;
+		
 		private global::Gtk.VBox vbox3;
+		
 		private global::Gtk.RadioButton rdPng1bit;
+		
 		private global::Gtk.RadioButton rdPng8Bit;
+		
 		private global::Gtk.RadioButton rdPng24Bit;
+		
 		private global::Gtk.HBox hbox2;
+		
 		private global::Gtk.RadioButton rdPNG32bit;
+		
 		private global::Gtk.Label lbTransparencyColor;
+		
 		private global::Gtk.ColorButton btnColor;
+		
 		private global::Gtk.RadioButton rdPng32BitAlphaAsValue;
+		
 		private global::Gtk.Label GtkLabel8;
+		
 		private global::Gtk.Frame frame5;
+		
 		private global::Gtk.Alignment GtkAlignment6;
+		
 		private global::Gtk.VBox vbox4;
+		
 		private global::Gtk.RadioButton rdBmp1bit;
+		
 		private global::Gtk.RadioButton rdBmp8bit;
+		
 		private global::Gtk.RadioButton rdBmp24bit;
+		
 		private global::Gtk.Label GtkLabel12;
+		
 		private global::Gtk.Frame frame6;
+		
 		private global::Gtk.Alignment GtkAlignment7;
+		
 		private global::Gtk.VBox vbox5;
+		
 		private global::Gtk.HBox hbox5;
+		
 		private global::Gtk.RadioButton rdTiff;
+		
 		private global::Gtk.RadioButton rdGif;
+		
 		private global::Gtk.RadioButton rdWmf;
+		
 		private global::Gtk.RadioButton rdEmf;
+		
 		private global::Gtk.RadioButton rdIcon;
+		
 		private global::Gtk.Label GtkLabel17;
+		
 		private global::Gtk.Button buttonCancel;
+		
 		private global::Gtk.Button buttonOk;
 
 		protected virtual void Build ()

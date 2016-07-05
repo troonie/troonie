@@ -34,11 +34,11 @@ namespace Troonie
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", OnToolbarBtn_OpenPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", OnToolbarBtn_SaveAsPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "help-about-3.png", OnToolbarBtn_AboutPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", "", OnToolbarBtn_OpenPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", "", OnToolbarBtn_SaveAsPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "help-about-3.png", "", OnToolbarBtn_AboutPressed);
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 3);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "tools-check-spelling-5.png", OnToolbarBtn_LanguagePressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "tools-check-spelling-5.png", "", OnToolbarBtn_LanguagePressed);
 
 			SetGuiColors ();
 			SetLanguageToGui ();
@@ -412,7 +412,7 @@ namespace Troonie
 
 			switch (args.Event.Key) {
 			case Gdk.Key.s:
-				if (args.Event.State == (Gdk.ModifierType.ControlMask | Gdk.ModifierType.Mod2Mask))
+				if (args.Event.State == (Gdk.ModifierType.ControlMask /* | Gdk.ModifierType.Mod2Mask */))
 					OpenSaveAsDialog ();
 				break;
 				default:

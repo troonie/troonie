@@ -38,7 +38,7 @@ namespace Troonie_Lib
 		public const string TITLE = "Troonie";
 		public const string TITLE_LIB = "Troonie_Lib";
 		public const string DESCRIPTION_FIX_IN_ENGLISH = 
-		"A slender tool to convert, trim, stitch, filter photos and work with steganography.";
+			"A slender tool to convert, trim, stitch, filter photos and work with steganography.";
 		public const string VERSION = "1.0.0";
 		public static DateTime PUBLISHDATE =  DateTime.Today; // new DateTime (2016, 03, 18);
 		public static string PUBLISHDATE_STRING {
@@ -47,6 +47,8 @@ namespace Troonie_Lib
 				 return PUBLISHDATE.ToString ("d", CultureInfo.CurrentUICulture);
 			}
 		}
+		/// <summary>Shortcut for 'Environment.NewLine'.</summary>
+		public static string N = Environment.NewLine;
 
 		private float versionFloat;
 		public float VERSION_FLOAT { get {	return versionFloat; } }

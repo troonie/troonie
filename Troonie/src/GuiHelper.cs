@@ -134,7 +134,7 @@ namespace Troonie
 			return fc;
 		}
 
-		public void CreateMenubarInToolbar(HBox hboxToolbarButtons, int position, string stockicon, 
+		public void CreateMenubarInToolbar(HBox hboxToolbarButtons, int position, string stockicon, string tooltipText,
 		                                   OnToolbarMenuBarAsBtnPressed pressed, string[] menuitems)
 		{
 			MenuBar mb = new MenuBar();
@@ -146,6 +146,7 @@ namespace Troonie
 			rootitem.Image = Image.LoadFromResource(stockicon);
 			rootitem.Image.Visible = true;
 			rootitem.Submenu = filemenu;
+			rootitem.TooltipText = tooltipText;
 
 
 			for (int i = 1; i < menuitems.Length; i++) {
@@ -164,11 +165,12 @@ namespace Troonie
 			w3x.Fill = false;
 		}
 
-		public void CreateToolbarIconButton(HBox hboxToolbarButtons, int position, string stockicon, OnToolbarBtnPressed pressed, string label = null)
+		public void CreateToolbarIconButton(HBox hboxToolbarButtons, int position, string stockicon, string tooltipText, OnToolbarBtnPressed pressed, string label = null)
 		{
 			Button l_button = new Button();
 			l_button.Image = Image.LoadFromResource(stockicon);
 			l_button.Visible = true;
+			l_button.TooltipText = tooltipText;
 			l_button.Label = label;
 			l_button.Image.Visible = true;
 			l_button.Pressed += new EventHandler (pressed);

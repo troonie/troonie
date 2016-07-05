@@ -5,15 +5,25 @@ namespace Troonie
 	public partial class AskForDesktopContextMenuWindow
 	{
 		private global::Gtk.VBox vbox2;
+		
 		private global::Gtk.Fixed fixed1;
+		
 		private global::Gtk.Label label1;
+		
 		private global::Gtk.Label label2;
+		
 		private global::Gtk.HSeparator hseparator1;
+		
 		private global::Gtk.CheckButton chkBtn;
+		
 		private global::Gtk.HSeparator hseparator2;
+		
 		private global::Gtk.Fixed fixed2;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Troonie.TroonieButton picbtnYes;
+		
 		private global::Troonie.TroonieButton picbtnNo;
 
 		protected virtual void Build ()
@@ -106,6 +116,7 @@ namespace Troonie
 			this.picbtnYes.CheckReleaseState = true;
 			this.picbtnYes.BorderlineWidth = 2;
 			this.picbtnYes.ButtonHeight = 30;
+			this.picbtnYes.ButtonWidth = 0;
 			this.picbtnYes.Font = "Arial";
 			this.picbtnYes.Text = "Yes";
 			this.picbtnYes.TextSize = 10;
@@ -118,6 +129,7 @@ namespace Troonie
 			this.picbtnNo.CheckReleaseState = false;
 			this.picbtnNo.BorderlineWidth = 2;
 			this.picbtnNo.ButtonHeight = 30;
+			this.picbtnNo.ButtonWidth = 0;
 			this.picbtnNo.Font = "Arial";
 			this.picbtnNo.Text = "No";
 			this.picbtnNo.TextSize = 10;

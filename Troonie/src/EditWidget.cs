@@ -26,17 +26,15 @@ namespace Troonie
 		}
 
 		private const string blackFileName = "black.png";
-//		private const int timeoutInterval = 20;
-//		private const int timeoutIntervalFirst = 500;
 
-		private shortcutFormatStruct[] shortcutFormats2;
+		private shortcutFormatStruct[] shortcutFormats;
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
 		private int imageW; 
 		private int imageH;
 		private string tempScaledImageFileName;
 
-		private ConfigEdit config;
+		private Config config;
 		private bool repeatTimeout;
 		private Slider timeoutSlider;
 		private Gdk.Key timeoutKey;
@@ -62,18 +60,41 @@ namespace Troonie
 												Language.I.L[120],
 												Language.I.L[123]};
 
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", OnToolbarBtn_OpenPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", OnToolbarBtn_SaveAsPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "help-about-3.png", OnToolbarBtn_AboutPressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 3);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "tools-check-spelling-5.png", OnToolbarBtn_LanguagePressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 5, "view-split-left-right-2.png", OnToolbarBtn_StitchPressed, "Stitch");
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);
+			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 2);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "folder-new-4.png", Language.I.L[59], OnToolbarBtn_DesktopContextMenuPressed);
+			GuiHelper.I.CreateToolbarIconButton (	hboxToolbarButtons, 
+				4, "tools-check-spelling-5.png", 				
+				Language.I.L[43] +	": " + 
+				Language.I.L[0] + Constants.N + Constants.N + 
+				Language.I.L[44] +	": "+ Constants.N +
+				Language.AllLanguagesAsString, 
+				OnToolbarBtn_LanguagePressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 5, "help-about-3.png", Language.I.L[4], OnToolbarBtn_InfoPressed);
+
+
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 6);
-			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 7, "filter.png", 
-			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());			
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 7, "view-split-left-right-2.png", Language.I.L[131], OnToolbarBtn_StitchPressed, "Stitch");
+			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 8, "filter.png", Language.I.L[84],
+			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());		
+
+
+//			hboxToolbarButtons.Children[0].TooltipText = Language.I.L[2];
+//			hboxToolbarButtons.Children[1].TooltipText = Language.I.L[3];
+//			hboxToolbarButtons.Children[2].TooltipText = Language.I.L[4];
+//			hboxToolbarButtons.Children[4].TooltipText = 
+//				Language.I.L[43] +	": " + 
+//				Language.I.L[0] + "\n\n" + 
+//				Language.I.L[44] +	": \n" +
+//				Language.AllLanguagesAsString;
+//			hboxToolbarButtons.Children[5].TooltipText = Language.I.L[131];
+//			//			hboxToolbarButtons.Children[6].TooltipText = Language.I.L[84];
+//			hboxToolbarButtons.Children[7].TooltipText = Language.I.L[84];
+
 
 			timeoutSw = new Stopwatch();
-			config = ConfigEdit.Load ();
+			config = Config.Load ();
 			SetGuiColors ();
 			SetLanguageToGui ();
 			Initialize(true);
@@ -343,17 +364,17 @@ namespace Troonie
 
 		private void SetLanguageToGui()
 		{
-			hboxToolbarButtons.Children[0].TooltipText = Language.I.L[2];
-			hboxToolbarButtons.Children[1].TooltipText = Language.I.L[3];
-			hboxToolbarButtons.Children[2].TooltipText = Language.I.L[4];
-			hboxToolbarButtons.Children[4].TooltipText = 
-				Language.I.L[43] +	": " + 
-				Language.I.L[0] + "\n\n" + 
-				Language.I.L[44] +	": \n" +
-				Language.AllLanguagesAsString;
-			hboxToolbarButtons.Children[5].TooltipText = Language.I.L[131];
-//			hboxToolbarButtons.Children[6].TooltipText = Language.I.L[84];
-			hboxToolbarButtons.Children[7].TooltipText = Language.I.L[84];
+//			hboxToolbarButtons.Children[0].TooltipText = Language.I.L[2];
+//			hboxToolbarButtons.Children[1].TooltipText = Language.I.L[3];
+//			hboxToolbarButtons.Children[2].TooltipText = Language.I.L[4];
+//			hboxToolbarButtons.Children[4].TooltipText = 
+//				Language.I.L[43] +	": " + 
+//				Language.I.L[0] + "\n\n" + 
+//				Language.I.L[44] +	": \n" +
+//				Language.AllLanguagesAsString;
+//			hboxToolbarButtons.Children[5].TooltipText = Language.I.L[131];
+////			hboxToolbarButtons.Children[6].TooltipText = Language.I.L[84];
+//			hboxToolbarButtons.Children[7].TooltipText = Language.I.L[84];
 
 			lbFrameShortcuts.LabelProp = "<b>" + Language.I.L[127] + "</b>";
 			lbShortcutsText.Text = Language.I.L[128];
@@ -388,7 +409,7 @@ namespace Troonie
 			//		};
 
 
-			shortcutFormats2 = new shortcutFormatStruct[]{
+			shortcutFormats = new shortcutFormatStruct[]{
 				new shortcutFormatStruct { Width = 0, Height = 0, Name = "Empty" },
 
 				new shortcutFormatStruct { Width = 13, Height = 9 },
@@ -415,10 +436,10 @@ namespace Troonie
 
 			this.comboboxShortcuts.Active = 0;
 
-			for (int i = 1; i < shortcutFormats2.Length; i++) {
-				string s = shortcutFormats2 [i].Width + " x " + shortcutFormats2 [i].Height;
-				if (shortcutFormats2 [i].Name != null) {
-					s = shortcutFormats2 [i].Name + " ( " + s + " )"; 
+			for (int i = 1; i < shortcutFormats.Length; i++) {
+				string s = shortcutFormats [i].Width + " x " + shortcutFormats [i].Height;
+				if (shortcutFormats [i].Name != null) {
+					s = shortcutFormats [i].Name + " ( " + s + " )"; 
 				}
 
 				comboboxShortcuts.RemoveText (i);
@@ -569,10 +590,10 @@ namespace Troonie
 				return;
 			}
 
-			float ratioShortcut = (float)shortcutFormats2 [comboboxShortcuts.Active].Width / 
-								 shortcutFormats2 [comboboxShortcuts.Active].Height;
+			float ratioShortcut = (float)shortcutFormats [comboboxShortcuts.Active].Width / 
+								 shortcutFormats [comboboxShortcuts.Active].Height;
 
-			Console.WriteLine ("ratioShortcut=" + ratioShortcut);
+//			Console.WriteLine ("ratioShortcut=" + ratioShortcut);
 
 			float ratioImage = (float)imageW / imageH;
 
@@ -621,29 +642,38 @@ namespace Troonie
 		[GLib.ConnectBefore ()] 
 		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
 		{
-			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
+//			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
 
-			if (args.Event.State == (Gdk.ModifierType.ControlMask | Gdk.ModifierType.Mod2Mask)) {
+			if (args.Event.State == (Gdk.ModifierType.ControlMask /* | Gdk.ModifierType.Mod2Mask*/ )) {
 				switch (args.Event.Key) {
 					case Gdk.Key.l:
-						entryLeft.Text = config.Left.ToString ();
+						entryLeft.Text = config.eLeft.ToString ();
 						OnEntryLeftKeyReleaseEvent (entryLeft, null);
 
-						entryRight.Text = config.Right.ToString ();
+						entryRight.Text = config.eRight.ToString ();
 						OnEntryRightKeyReleaseEvent (entryRight, null);
 
-						entryTop.Text = config.Top.ToString ();
+						entryTop.Text = config.eTop.ToString ();
 						OnEntryTopKeyReleaseEvent (entryTop, null);
 
-						entryBottom.Text = config.Bottom.ToString ();
+						entryBottom.Text = config.eBottom.ToString ();
 						OnEntryBottomKeyReleaseEvent (entryBottom, null);
 						break;
 					case Gdk.Key.r:
 						if (!frameRotation.Sensitive)
 							break;
-						entryRotate.Text = config.Rotation.ToString ();
+						entryRotate.Text = config.eRotation.ToString ();
 						OnEntryRotateKeyReleaseEvent (entryRotate, null);
 						break;
+				case Gdk.Key.k:
+					SaveConfigFromGui ();
+					PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
+					pseudo.Title = Language.I.L [135];
+					pseudo.Label1 = Language.I.L [136];
+					pseudo.Label2 = Language.I.L [137];
+					pseudo.OkButtontext = Language.I.L [16];
+//					pseudo.CancelButtontext = Language.I.L [17];
+					break;
 				case Gdk.Key.s:
 					OpenSaveAsDialog ();
 					break;
@@ -687,6 +717,17 @@ namespace Troonie
 			bt.ChangeBitmapButNotTags(filterBitmap);
 
 			Initialize (false);
+		}
+
+		private void SaveConfigFromGui()
+		{
+			config.eLeft = int.Parse (entryLeft.Text);
+			config.eRight = int.Parse (entryRight.Text);
+			config.eTop =  int.Parse (entryTop.Text);
+			config.eBottom =  int.Parse (entryBottom.Text);
+			config.eRotation =  int.Parse (entryRotate.Text);
+
+			Config.Save (config);			
 		}
 	}
 }

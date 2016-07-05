@@ -18,7 +18,7 @@ namespace Troonie
 //		private TroonieImageFormat format;
 //		private byte jpegQuality;
 //		private Gdk.Color transparencyColor;
-		private ConfigConvert config;
+		private Config config;
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 
 		public string SavedFileName { get { return htLabelDirectory.Text + IOPath.DirectorySeparatorChar + entryFilename.Text +
@@ -29,7 +29,7 @@ namespace Troonie
 			this.Build ();
 
 			bitmap = b;
-			config = new ConfigConvert ();
+			config = new Config ();
 			config.StretchImage = cm;
 
 			btnColor.Color = colorConverter.White;
@@ -116,6 +116,10 @@ namespace Troonie
 			case TroonieImageFormat.EMF:
 				rdEmf.Active = true;
 				OnRdEmfToggled (rdEmf, null);				
+				break;
+			case TroonieImageFormat.ICO:
+				rdIcon.Active = true;
+				OnRdIconToggled (rdIcon, null);				
 				break;
 			default:
 				throw new NotSupportedException (Language.I.L[49]);

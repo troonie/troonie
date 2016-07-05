@@ -6,11 +6,11 @@ using System.Xml.Serialization;
 namespace Troonie_Lib
 {
     /// <summary> Data container for configure Troonie. </summary>
-    public class ConfigConvert
+	public class Config
     {
-		private static string convertXmlFile = Constants.I.EXEPATH + "convert.xml"; 
+		private static string xmlFile = Constants.I.EXEPATH + "config.xml"; 
 
-        #region public properties 
+        #region converter properties 
 
 		public bool AskForDesktopContextMenu { get; set; }
 
@@ -61,9 +61,28 @@ namespace Troonie_Lib
         /// <summary>The new width of the image(s) to convert.</summary>
         public int Width;
 
-        #endregion public properties
+		#endregion converter properties
 
-		public ConfigConvert() {
+		#region editor properties 
+
+		/// <summary>The bottom value. </summary>
+		public int eBottom { get; set; }
+		/// <summary>The left value. </summary>
+		public int eLeft { get; set; }
+		//        /// <summary>The name of the configuration.</summary>
+		//        [XmlAttribute("Name", DataType = "string")]
+		//        public string Name { get; set; }
+		/// <summary>The right value. </summary>
+		public int eRight { get; set; }
+		/// <summary>The rotation value. </summary>
+		public int eRotation { get; set; }
+		/// <summary>The top value. </summary>
+		public int eTop { get; set; }
+
+		#endregion editor properties 
+
+
+		public Config() {
 			AskForDesktopContextMenu = true;
 			BiggestLength = 1280;
 			FileOverwriting = false;
@@ -84,27 +103,27 @@ namespace Troonie_Lib
 			TransparencyColorBlue = 255;
 		}
 
-		public static ConfigConvert Load()
+		public static Config Load()
 		{
-			if (!File.Exists (convertXmlFile)) {
-				Save(new ConfigConvert());
+			if (!File.Exists (xmlFile)) {
+				Save(new Config());
 			}
 
-			XmlSerializer serializer = new XmlSerializer(typeof(ConfigConvert));
-			StreamReader sr = new StreamReader(convertXmlFile);
-			ConfigConvert c = (ConfigConvert)serializer.Deserialize(sr);
+			XmlSerializer serializer = new XmlSerializer(typeof(Config));
+			StreamReader sr = new StreamReader(xmlFile);
+			Config c = (Config)serializer.Deserialize(sr);
 
 			sr.Close();
 			return c;
 		}
 
-		public static void Save(ConfigConvert c)
+		public static void Save(Config c)
 		{
 			// Just to be cautious
 			c.FileOverwriting = false;
 
-			XmlSerializer serializer = new XmlSerializer(typeof(ConfigConvert));
-			FileStream fs = new FileStream(convertXmlFile, FileMode.Create); 
+			XmlSerializer serializer = new XmlSerializer(typeof(Config));
+			FileStream fs = new FileStream(xmlFile, FileMode.Create); 
 			serializer.Serialize(fs, c);
 			fs.Close();
 		}

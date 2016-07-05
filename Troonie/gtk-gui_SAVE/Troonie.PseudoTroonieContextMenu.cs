@@ -5,10 +5,15 @@ namespace Troonie
 	public partial class PseudoTroonieContextMenu
 	{
 		private global::Gtk.VBox vbox2;
+		
 		private global::Gtk.Label label1;
+		
 		private global::Gtk.Label label2;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Troonie.TroonieButton picBtnOk;
+		
 		private global::Troonie.TroonieButton picBtnCancel;
 
 		protected virtual void Build ()
@@ -54,6 +59,7 @@ namespace Troonie
 			this.picBtnOk.CheckReleaseState = false;
 			this.picBtnOk.BorderlineWidth = 2;
 			this.picBtnOk.ButtonHeight = 30;
+			this.picBtnOk.ButtonWidth = 0;
 			this.picBtnOk.Font = "Arial";
 			this.picBtnOk.Text = "OK";
 			this.picBtnOk.TextSize = 10;
@@ -67,6 +73,7 @@ namespace Troonie
 			this.picBtnCancel.CheckReleaseState = false;
 			this.picBtnCancel.BorderlineWidth = 2;
 			this.picBtnCancel.ButtonHeight = 30;
+			this.picBtnCancel.ButtonWidth = 0;
 			this.picBtnCancel.Font = "Arial";
 			this.picBtnCancel.Text = "Cancel";
 			this.picBtnCancel.TextSize = 10;

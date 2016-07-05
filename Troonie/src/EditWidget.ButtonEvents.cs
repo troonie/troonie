@@ -14,16 +14,10 @@ namespace Troonie
 		{
 			Bitmap b1;
 
-			config.Left = int.Parse (entryLeft.Text);
-			config.Right = int.Parse (entryRight.Text);
-			config.Top =  int.Parse (entryTop.Text);
-			config.Bottom =  int.Parse (entryBottom.Text);
-			config.Rotation =  int.Parse (entryRotate.Text);
-
-			ConfigEdit.Save (config);
+			SaveConfigFromGui ();
 
 			if (imagepanel1.Angle != 0) {
-				Console.WriteLine ("imagepanel1.Angle != 0, aber: =" + imagepanel1.Angle );
+//				Console.WriteLine ("imagepanel1.Angle != 0, aber: =" + imagepanel1.Angle );
 				RotateBilinear rb = new RotateBilinear (imagepanel1.Angle, false);
 				b1 = imagepanel1.Angle == 0 ? bt.Bitmap : rb.Apply (bt.Bitmap);
 			} else {

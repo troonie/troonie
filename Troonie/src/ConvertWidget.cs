@@ -14,23 +14,27 @@ namespace Troonie
 		private Troonie.ColorConverter colorConverter;
 		private string format;
 		private float newVersion;
-		private ConfigConvert config;
+		private Config config;
 
 		public ConvertWidget (string[] pFilenames = null) : base (Gtk.WindowType.Toplevel)
 		{
 			this.Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", OnToolbarBtn_OpenPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "edit-select-all.png", OnToolbarBtn_SelectAllPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "edit-clear-3.png", OnToolbarBtn_ClearPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "window-close-2.png", OnToolbarBtn_RemovePressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "help-about-3.png", OnToolbarBtn_InfoPressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 6, "tools-check-spelling-5.png", OnToolbarBtn_LanguagePressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 7, "folder-new-4.png", OnToolbarBtn_DesktopContextMenuPressed);
-
-			// CheckContextMenu ();
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[39], OnToolbarBtn_OpenPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "edit-select-all.png", Language.I.L[40], OnToolbarBtn_SelectAllPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "edit-clear-3.png", Language.I.L[41], OnToolbarBtn_ClearPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "window-close-2.png", Language.I.L[42], OnToolbarBtn_RemovePressed);
+			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 4);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 5, "folder-new-4.png", Language.I.L[59], OnToolbarBtn_DesktopContextMenuPressed);
+			GuiHelper.I.CreateToolbarIconButton (	hboxToolbarButtons, 
+													6, "tools-check-spelling-5.png", 				
+													Language.I.L[43] +	": " + 
+														Language.I.L[0] + Constants.N + Constants.N + 
+														Language.I.L[44] +	": "+ Constants.N +
+														Language.AllLanguagesAsString, 
+													OnToolbarBtn_LanguagePressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 7, "help-about-3.png", Language.I.L[4], OnToolbarBtn_InfoPressed);
 
 			format = ".jpg";
 			colorConverter = Troonie.ColorConverter.Instance;
@@ -38,7 +42,7 @@ namespace Troonie
 			SetLanguageToGui();
 
 			htlbOutputDirectory.InitDefaultValues ();
-			config = ConfigConvert.Load ();
+			config = Config.Load ();
 			if (config.StretchImage == ConvertMode.Editor)
 				config.StretchImage = ConvertMode.StretchForge;
 
@@ -142,18 +146,6 @@ namespace Troonie
 			lbFrameOutputDirectory.LabelProp = "<b>" + Language.I.L[36] + "</b>";
 			checkBtnUseOriginalDirectory.Label = Language.I.L[37];
 			checkBtnOverwriteOriginalImage.Label = Language.I.L[38];
-
-			hboxToolbarButtons.Children[0].TooltipText = Language.I.L[39];
-			hboxToolbarButtons.Children[1].TooltipText = Language.I.L[40];
-			hboxToolbarButtons.Children[2].TooltipText = Language.I.L[41];
-			hboxToolbarButtons.Children[3].TooltipText = Language.I.L[42];
-			hboxToolbarButtons.Children[4].TooltipText = Language.I.L[4];
-			hboxToolbarButtons.Children[6].TooltipText = 
-				Language.I.L[43] +	": " + 
-				Language.I.L[0] + "\n\n" + 
-				Language.I.L[44] +	": \n" +
-				Language.AllLanguagesAsString;
-			hboxToolbarButtons.Children[7].TooltipText = Language.I.L[59];
 
 			btnConvert.Text = Language.I.L[45];
 			btnConvert.Redraw ();
@@ -280,7 +272,7 @@ namespace Troonie
 		{
 			this.newVersion = newVersion;
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 10, 
-				"security-medium-2.png", OnToolbarBtn_UpdatePressed, Language.I.L[69]);
+				"security-medium-2.png", Language.I.L[70] + newVersion, OnToolbarBtn_UpdatePressed, Language.I.L[69]);
 		}
 
 		#region drag and drop
@@ -344,7 +336,7 @@ namespace Troonie
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
-			ConfigConvert.Save (config);
+			Config.Save (config);
 			this.DestroyAll ();
 
 			Application.Quit ();

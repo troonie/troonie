@@ -7,9 +7,9 @@ namespace Troonie
 	public partial class AskForDesktopContextMenuWindow : Gtk.Window
 	{
 		private bool isProgramstart;
-		private ConfigConvert current;
+		private Config current;
 
-		public AskForDesktopContextMenuWindow (bool isProgramstart, ConfigConvert current) : 
+		public AskForDesktopContextMenuWindow (bool isProgramstart, Config current) : 
 				base(Gtk.WindowType.Toplevel)
 		{
 			this.current = current;

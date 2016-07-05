@@ -5,34 +5,63 @@ namespace Troonie
 	public partial class SteganographyWidget
 	{
 		private global::Gtk.VBox vboxA;
+		
 		private global::Gtk.EventBox eventboxToolbar;
+		
 		private global::Gtk.HBox hboxToolbarButtons;
+		
 		private global::Gtk.HBox hbox1;
+		
 		private global::Troonie.SimpleImagePanel simpleimagepanel1;
+		
 		private global::Gtk.VBox vbox1;
+		
 		private global::Gtk.Frame frameSteganography;
+		
 		private global::Gtk.Alignment AlignmentFrameSteganography;
+		
 		private global::Gtk.VBox vboxSteganography;
+		
 		private global::Gtk.Frame frameModus;
+		
 		private global::Gtk.Alignment AlignmentFrameModus;
+		
 		private global::Gtk.HBox hboxModus;
+		
 		private global::Gtk.RadioButton rdBtnRead;
+		
 		private global::Gtk.RadioButton rdBtnWrite;
+		
 		private global::Gtk.Label lbFrameModus;
+		
 		private global::Gtk.Frame frameKey;
+		
 		private global::Gtk.Alignment AlignmentFrameKey;
+		
 		private global::Gtk.Entry entryKey;
+		
 		private global::Gtk.Label lbFrameKey;
+		
 		private global::Gtk.Frame frameContent;
+		
 		private global::Gtk.Alignment AlignmentFrameContent;
+		
 		private global::Gtk.ScrolledWindow scrolledwindowContent;
+		
 		private global::Gtk.TextView textviewContent;
+		
 		private global::Gtk.Label lbFrameContent;
+		
 		private global::Gtk.Label lbFrameSteganography;
+		
 		private global::Gtk.Frame frameCursorPos;
+		
 		private global::Gtk.Alignment GtkAlignment1;
+		
 		private global::Gtk.Label lbCursorPos;
+		
 		private global::Gtk.Label lbFrameCursorPos;
+		
 		private global::Troonie.TroonieButton btnOk;
 
 		protected virtual void Build ()

@@ -6,7 +6,7 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../bin/Debug/Picturez.exe" internal="true" />
+    <widget-library name="../bin/Debug/Troonie.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Troonie.EditWidget" design-size="688 1115">
     <property name="MemberName" />
@@ -2276,7 +2276,6 @@
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">Retain original size</property>
-                                            <property name="Active">True</property>
                                             <property name="DrawIndicator">True</property>
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>
