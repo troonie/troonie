@@ -18,17 +18,7 @@ namespace Troonie
 
 			fc.Destroy();
 		} 
-
-		protected void OnToolbarBtn_DesktopContextMenuPressed (object sender, EventArgs e)
-		{
-			new AskForDesktopContextMenuWindow (false, config).Show();
-		}
-
-		protected virtual void OnToolbarBtn_InfoPressed(object sender, EventArgs e)
-		{
-			TroonieAboutDialog.I.Run();
-		} 
-
+			
 		protected void OnToolbarBtn_SaveAsPressed (object sender, EventArgs e)
 		{
 			OpenSaveAsDialog ();

@@ -13,8 +13,8 @@ namespace Troonie
 		private bool leftControlPressed;
 		private Troonie.ColorConverter colorConverter;
 		private string format;
-		private float newVersion;
-		private Config config;
+//		private float newVersion;
+//		private Config config;
 
 		public ConvertWidget (string[] pFilenames = null) : base (Gtk.WindowType.Toplevel)
 		{
@@ -26,15 +26,7 @@ namespace Troonie
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "edit-clear-3.png", Language.I.L[41], OnToolbarBtn_ClearPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "window-close-2.png", Language.I.L[42], OnToolbarBtn_RemovePressed);
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 4);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 5, "folder-new-4.png", Language.I.L[59], OnToolbarBtn_DesktopContextMenuPressed);
-			GuiHelper.I.CreateToolbarIconButton (	hboxToolbarButtons, 
-													6, "tools-check-spelling-5.png", 				
-													Language.I.L[43] +	": " + 
-														Language.I.L[0] + Constants.N + Constants.N + 
-														Language.I.L[44] +	": "+ Constants.N +
-														Language.AllLanguagesAsString, 
-													OnToolbarBtn_LanguagePressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 7, "help-about-3.png", Language.I.L[4], OnToolbarBtn_InfoPressed);
+			GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 5, OnToolbarBtn_LanguagePressed);
 
 			format = ".jpg";
 			colorConverter = Troonie.ColorConverter.Instance;
@@ -42,13 +34,12 @@ namespace Troonie
 			SetLanguageToGui();
 
 			htlbOutputDirectory.InitDefaultValues ();
-			config = Config.Load ();
-			if (config.StretchImage == ConvertMode.Editor)
-				config.StretchImage = ConvertMode.StretchForge;
+
+			if (Constants.I.CONFIG.StretchImage == ConvertMode.Editor)
+				Constants.I.CONFIG.StretchImage = ConvertMode.StretchForge;
 
 			SetGuiToCurrentConfiguration();
 			htlbOutputDirectory.OnHyperTextLabelTextChanged += OnHyperTextLabelTextChanged;
-			Constants.I.OnUpdateAvailable += OnUpdateAvailable;
 
 			if (Constants.I.WINDOWS) {
 				rdPng1bit.Sensitive = true;
@@ -73,8 +64,9 @@ namespace Troonie
 
 			SetCorrectWindowSize ();
 
-			if (config.AskForDesktopContextMenu)
-				new AskForDesktopContextMenuWindow (true, config).Show();
+			if (Constants.I.CONFIG.AskForDesktopContextMenu) {
+				new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
+			}
 		}
 
 		private void SetCorrectWindowSize()
@@ -156,7 +148,7 @@ namespace Troonie
 			isSettingGuiToCurrentConfiguration = true;
 
 			// image format radio buttons
-			switch (config.Format)
+			switch (Constants.I.CONFIG.Format)
 			{
 			case TroonieImageFormat.BMP1:
 				rdBmp1bit.Active = true;
@@ -206,10 +198,10 @@ namespace Troonie
 			}
 
 			// jpg quality track bar
-			hscaleQuality.Value = config.JpgQuality;
+			hscaleQuality.Value = Constants.I.CONFIG.JpgQuality;
 
 			// resize version radio button
-			switch (config.ResizeVersion)
+			switch (Constants.I.CONFIG.ResizeVersion)
 			{
 			case ResizeVersion.No:
 				rdOriginalSize.Active = true;
@@ -223,39 +215,39 @@ namespace Troonie
 			}
 
 			// BiggestLength text box
-			entryBiggerLength.Text = config.BiggestLength.ToString();
+			entryBiggerLength.Text = Constants.I.CONFIG.BiggestLength.ToString();
 
 			// stretch image check box
-			checkBtnStretch.Active = config.StretchImage == ConvertMode.StretchForge;
+			checkBtnStretch.Active = Constants.I.CONFIG.StretchImage == ConvertMode.StretchForge;
 
 			// Fixed width and height text boxes
-			entryFixSizeHeight.Text = config.Height.ToString();
-			entryFixSizeWidth.Text = config.Width.ToString();
+			entryFixSizeHeight.Text = Constants.I.CONFIG.Height.ToString();
+			entryFixSizeWidth.Text = Constants.I.CONFIG.Width.ToString();
 
 			// path
-			htlbOutputDirectory.Text = config.Path;
+			htlbOutputDirectory.Text = Constants.I.CONFIG.Path;
 			// htlbOutputDirectory.QueueDraw ();
 
 			// using original path and overwrite image check boxes
-			checkBtnUseOriginalDirectory.Active = config.UseOriginalPath;
-			htlbOutputDirectory.Sensitive = !config.UseOriginalPath;
-			checkBtnOverwriteOriginalImage.Active = config.FileOverwriting;
+			checkBtnUseOriginalDirectory.Active = Constants.I.CONFIG.UseOriginalPath;
+			htlbOutputDirectory.Sensitive = !Constants.I.CONFIG.UseOriginalPath;
+			checkBtnOverwriteOriginalImage.Active = Constants.I.CONFIG.FileOverwriting;
 
 			// NEW: transparency color button
-			btnColor.Color = new Gdk.Color(config.TransparencyColorRed,
-				config.TransparencyColorGreen, config.TransparencyColorBlue);
+			btnColor.Color = new Gdk.Color(Constants.I.CONFIG.TransparencyColorRed,
+				Constants.I.CONFIG.TransparencyColorGreen, Constants.I.CONFIG.TransparencyColorBlue);
 
 			isSettingGuiToCurrentConfiguration = false;
 		}
 
 		private void OnHyperTextLabelTextChanged()
 		{
-			config.Path = htlbOutputDirectory.Text;
+			Constants.I.CONFIG.Path = htlbOutputDirectory.Text;
 		}			
 
 		protected void OnHscaleQualityValueChanged (object sender, EventArgs e)
 		{
-			config.JpgQuality = (byte)hscaleQuality.Value;
+			Constants.I.CONFIG.JpgQuality = (byte)hscaleQuality.Value;
 		}
 
 		protected void OnBtnColorColorSet (object sender, EventArgs e)
@@ -263,17 +255,21 @@ namespace Troonie
 			byte r, g, b;
 			colorConverter.ToDotNetColor (btnColor.Color, out r, out g,out b);
 
-			config.TransparencyColorRed = r;
-			config.TransparencyColorGreen = g;
-			config.TransparencyColorBlue = b;
+			Constants.I.CONFIG.TransparencyColorRed = r;
+			Constants.I.CONFIG.TransparencyColorGreen = g;
+			Constants.I.CONFIG.TransparencyColorBlue = b;
 		}
 
-		private void OnUpdateAvailable(float newVersion)
-		{
-			this.newVersion = newVersion;
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 10, 
-				"security-medium-2.png", Language.I.L[70] + newVersion, OnToolbarBtn_UpdatePressed, Language.I.L[69]);
-		}
+//		private void OnUpdateAvailable(float newVersion)
+//		{
+//			this.newVersion = newVersion;
+////			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 10, 
+////				"security-medium-2.png", Language.I.L[70] + newVersion, OnToolbarBtn_UpdatePressed, Language.I.L[69]);
+//
+//			GuiHelper.I.CreateToolbarUpdateButton (hboxToolbarButtons, 8, 
+//				"security-medium-2.png", Language.I.L[70], newVersion);			
+//
+//		}
 
 		#region drag and drop
 
@@ -336,7 +332,7 @@ namespace Troonie
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
-			Config.Save (config);
+			Config.Save (Constants.I.CONFIG);
 			this.DestroyAll ();
 
 			Application.Quit ();
@@ -406,7 +402,7 @@ namespace Troonie
 					imageFile.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
 				relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
 				relativeImageName = relativeImageName + format;
-				bt.Save (config, relativeImageName);
+					bt.Save (Constants.I.CONFIG, relativeImageName);
 				}
 				catch(Exception){
 					errors.Add (imageFile);			

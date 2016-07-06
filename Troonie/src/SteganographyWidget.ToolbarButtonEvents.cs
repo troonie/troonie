@@ -17,12 +17,7 @@ namespace Troonie
 			}
 
 			fc.Destroy();
-		} 
-
-		protected virtual void OnToolbarBtn_AboutPressed(object sender, EventArgs e)
-		{
-			TroonieAboutDialog.I.Run();
-		} 
+		}			
 
 		protected void OnToolbarBtn_SaveAsPressed (object sender, EventArgs e)
 		{

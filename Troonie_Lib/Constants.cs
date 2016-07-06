@@ -22,7 +22,7 @@ namespace Troonie_Lib
 			}
 		}
 
-		public OnUpdateAvailableDelegate OnUpdateAvailable;
+//		public OnUpdateAvailableDelegate OnUpdateAvailable;
 
 		public const int TIME_DOUBLECLICK = 500; 
 		public const int TIMEOUT_INTERVAL = 20;
@@ -53,6 +53,9 @@ namespace Troonie_Lib
 		private float versionFloat;
 		public float VERSION_FLOAT { get {	return versionFloat; } }
 
+		private float serverVersionFloat;
+		public float SERVER_VERSION_FLOAT { get {	return serverVersionFloat; } }
+
 		private string description;
 		public string DESCRIPTION { get {	return description; } }
 
@@ -65,6 +68,9 @@ namespace Troonie_Lib
 		private string homepath;
 		public string HOMEPATH { get { return homepath; }}
 
+		private Config config;
+		public Config CONFIG { get { return config; }}
+
 		public void Init()
 		{
 			windows = IsWindows ();
@@ -74,6 +80,7 @@ namespace Troonie_Lib
 			homepath += Path.DirectorySeparatorChar;
 			description = Language.I.L[54];
 			versionFloat = GetFloatVersionNumber (VERSION);
+			config = Config.Load ();
 			CheckUpdateAsThread ();
 		}	
 
@@ -90,7 +97,7 @@ namespace Troonie_Lib
 			}
 		}
 
-		private void CheckUpdateAsThread()
+		public void CheckUpdateAsThread()
 		{
 			Thread thread = new Thread(CheckUpdate);
 			thread.IsBackground = true;
@@ -107,13 +114,13 @@ namespace Troonie_Lib
 				StreamReader r = new StreamReader(response.GetResponseStream());
 				string serverVersion = r.ReadLine();
 				r.Close();
-				float serverVersionFloat = GetFloatVersionNumber(serverVersion);
-				bool updateAvailable = versionFloat < serverVersionFloat;
-				//fire the event now
-				if (updateAvailable && this.OnUpdateAvailable != null) //is there a EventHandler?
-				{
-					this.OnUpdateAvailable.Invoke(serverVersionFloat); //calls its EventHandler                
-				} //if not, ignore
+				serverVersionFloat = GetFloatVersionNumber(serverVersion);
+//				bool updateAvailable = versionFloat < serverVersionFloat;
+//				//fire the event now
+//				if (updateAvailable && this.OnUpdateAvailable != null) //is there a EventHandler?
+//				{
+//					this.OnUpdateAvailable.Invoke(serverVersionFloat); //calls its EventHandler                
+//				} //if not, ignore
 
 //				Console.WriteLine("serverVersionFloat: " + serverVersionFloat);
 			}

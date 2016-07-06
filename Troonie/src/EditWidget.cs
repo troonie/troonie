@@ -34,7 +34,6 @@ namespace Troonie
 		private int imageH;
 		private string tempScaledImageFileName;
 
-		private Config config;
 		private bool repeatTimeout;
 		private Slider timeoutSlider;
 		private Gdk.Key timeoutKey;
@@ -63,38 +62,13 @@ namespace Troonie
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);
 			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 2);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "folder-new-4.png", Language.I.L[59], OnToolbarBtn_DesktopContextMenuPressed);
-			GuiHelper.I.CreateToolbarIconButton (	hboxToolbarButtons, 
-				4, "tools-check-spelling-5.png", 				
-				Language.I.L[43] +	": " + 
-				Language.I.L[0] + Constants.N + Constants.N + 
-				Language.I.L[44] +	": "+ Constants.N +
-				Language.AllLanguagesAsString, 
-				OnToolbarBtn_LanguagePressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 5, "help-about-3.png", Language.I.L[4], OnToolbarBtn_InfoPressed);
-
-
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 6);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 7, "view-split-left-right-2.png", Language.I.L[131], OnToolbarBtn_StitchPressed, "Stitch");
-			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 8, "filter.png", Language.I.L[84],
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "view-split-left-right-2.png", Language.I.L[131], OnToolbarBtn_StitchPressed, "Stitch");
+			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 4, "filter.png", Language.I.L[84],
 			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());		
-
-
-//			hboxToolbarButtons.Children[0].TooltipText = Language.I.L[2];
-//			hboxToolbarButtons.Children[1].TooltipText = Language.I.L[3];
-//			hboxToolbarButtons.Children[2].TooltipText = Language.I.L[4];
-//			hboxToolbarButtons.Children[4].TooltipText = 
-//				Language.I.L[43] +	": " + 
-//				Language.I.L[0] + "\n\n" + 
-//				Language.I.L[44] +	": \n" +
-//				Language.AllLanguagesAsString;
-//			hboxToolbarButtons.Children[5].TooltipText = Language.I.L[131];
-//			//			hboxToolbarButtons.Children[6].TooltipText = Language.I.L[84];
-//			hboxToolbarButtons.Children[7].TooltipText = Language.I.L[84];
-
+			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
+			GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 6, OnToolbarBtn_LanguagePressed);
 
 			timeoutSw = new Stopwatch();
-			config = Config.Load ();
 			SetGuiColors ();
 			SetLanguageToGui ();
 			Initialize(true);
@@ -114,6 +88,10 @@ namespace Troonie
 		}
 
 			imagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+
+			if (Constants.I.CONFIG.AskForDesktopContextMenu) {
+				new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
+			}
 		}
 
 		public override void Destroy ()
@@ -516,7 +494,6 @@ namespace Troonie
 //			if (bt != null) {
 //				bt.Dispose ();
 //			}
-
 			this.DestroyAll ();
 //			imagepanel1.Dispose ();
 
@@ -647,22 +624,22 @@ namespace Troonie
 			if (args.Event.State == (Gdk.ModifierType.ControlMask /* | Gdk.ModifierType.Mod2Mask*/ )) {
 				switch (args.Event.Key) {
 					case Gdk.Key.l:
-						entryLeft.Text = config.eLeft.ToString ();
+					entryLeft.Text = Constants.I.CONFIG.eLeft.ToString ();
 						OnEntryLeftKeyReleaseEvent (entryLeft, null);
 
-						entryRight.Text = config.eRight.ToString ();
+						entryRight.Text = Constants.I.CONFIG.eRight.ToString ();
 						OnEntryRightKeyReleaseEvent (entryRight, null);
 
-						entryTop.Text = config.eTop.ToString ();
+						entryTop.Text = Constants.I.CONFIG.eTop.ToString ();
 						OnEntryTopKeyReleaseEvent (entryTop, null);
 
-						entryBottom.Text = config.eBottom.ToString ();
+						entryBottom.Text = Constants.I.CONFIG.eBottom.ToString ();
 						OnEntryBottomKeyReleaseEvent (entryBottom, null);
 						break;
 					case Gdk.Key.r:
 						if (!frameRotation.Sensitive)
 							break;
-						entryRotate.Text = config.eRotation.ToString ();
+						entryRotate.Text = Constants.I.CONFIG.eRotation.ToString ();
 						OnEntryRotateKeyReleaseEvent (entryRotate, null);
 						break;
 				case Gdk.Key.k:
@@ -721,13 +698,13 @@ namespace Troonie
 
 		private void SaveConfigFromGui()
 		{
-			config.eLeft = int.Parse (entryLeft.Text);
-			config.eRight = int.Parse (entryRight.Text);
-			config.eTop =  int.Parse (entryTop.Text);
-			config.eBottom =  int.Parse (entryBottom.Text);
-			config.eRotation =  int.Parse (entryRotate.Text);
+			Constants.I.CONFIG.eLeft = int.Parse (entryLeft.Text);
+			Constants.I.CONFIG.eRight = int.Parse (entryRight.Text);
+			Constants.I.CONFIG.eTop =  int.Parse (entryTop.Text);
+			Constants.I.CONFIG.eBottom =  int.Parse (entryBottom.Text);
+			Constants.I.CONFIG.eRotation =  int.Parse (entryRotate.Text);
 
-			Config.Save (config);			
+			Config.Save (Constants.I.CONFIG);			
 		}
 	}
 }

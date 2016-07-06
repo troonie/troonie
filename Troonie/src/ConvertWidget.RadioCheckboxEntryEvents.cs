@@ -11,7 +11,7 @@ namespace Troonie
 		private void SetToggledProperties(object sender, TroonieImageFormat f, string s)
 		{
 			if (((RadioButton)sender).Active) {
-				config.Format = f;
+				Constants.I.CONFIG.Format = f;
 				format = s;
 			}				
 		}
@@ -106,7 +106,7 @@ namespace Troonie
 		protected void OnRdOriginalSizeToggled (object sender, EventArgs e)
 		{
 			if (rdOriginalSize.Active) {
-				config.ResizeVersion = ResizeVersion.No;
+				Constants.I.CONFIG.ResizeVersion = ResizeVersion.No;
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace Troonie
 			lbPixel_BiggerLength.Sensitive = rdBiggerLength.Active;
 
 			if (rdBiggerLength.Active) {
-				config.ResizeVersion = ResizeVersion.BiggestLength;
+				Constants.I.CONFIG.ResizeVersion = ResizeVersion.BiggestLength;
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace Troonie
 			lbX.Sensitive = rdFixSize.Active;
 
 			if (rdFixSize.Active) {
-				config.ResizeVersion = ResizeVersion.FixedSize;
+				Constants.I.CONFIG.ResizeVersion = ResizeVersion.FixedSize;
 			}
 		}
 
@@ -140,10 +140,10 @@ namespace Troonie
 		{
 			if (isSettingGuiToCurrentConfiguration)
 				return;
-			config.StretchImage = checkBtnStretch.Active ? ConvertMode.StretchForge : ConvertMode.NoStretchForge;
-			config.FileOverwriting = checkBtnOverwriteOriginalImage.Active;
-			config.UseOriginalPath = checkBtnUseOriginalDirectory.Active;
-			htlbOutputDirectory.Sensitive = !config.UseOriginalPath;
+			Constants.I.CONFIG.StretchImage = checkBtnStretch.Active ? ConvertMode.StretchForge : ConvertMode.NoStretchForge;
+			Constants.I.CONFIG.FileOverwriting = checkBtnOverwriteOriginalImage.Active;
+			Constants.I.CONFIG.UseOriginalPath = checkBtnUseOriginalDirectory.Active;
+			htlbOutputDirectory.Sensitive = !Constants.I.CONFIG.UseOriginalPath;
 		}			
 
 		#endregion Checkbox AND convert button toogle events
@@ -154,7 +154,7 @@ namespace Troonie
 		{
 			int number;
 			if (int.TryParse (entryBiggerLength.Text, out number)) {
-				config.BiggestLength = number;
+				Constants.I.CONFIG.BiggestLength = number;
 			} else {
 				entryBiggerLength.DeleteText (entryBiggerLength.CursorPosition, entryBiggerLength.CursorPosition + 1);
 			}
@@ -164,7 +164,7 @@ namespace Troonie
 		{
 			int number;
 			if (int.TryParse (entryFixSizeHeight.Text, out number)) {
-				config.Height = number;
+				Constants.I.CONFIG.Height = number;
 			} else {
 				entryFixSizeHeight.DeleteText (entryFixSizeHeight.CursorPosition, entryFixSizeHeight.CursorPosition + 1);
 			}
@@ -174,7 +174,7 @@ namespace Troonie
 		{
 			int number;
 			if (int.TryParse (entryFixSizeWidth.Text, out number)) {
-				config.Width = number;
+				Constants.I.CONFIG.Width = number;
 			} else {
 				entryFixSizeWidth.DeleteText (entryFixSizeWidth.CursorPosition, entryFixSizeWidth.CursorPosition + 1);
 			}

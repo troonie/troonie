@@ -34,11 +34,10 @@ namespace Troonie
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", "", OnToolbarBtn_OpenPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", "", OnToolbarBtn_SaveAsPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "help-about-3.png", "", OnToolbarBtn_AboutPressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 3);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "tools-check-spelling-5.png", "", OnToolbarBtn_LanguagePressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);
+			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 2);
+			GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 3, OnToolbarBtn_LanguagePressed);
 
 			SetGuiColors ();
 			SetLanguageToGui ();
@@ -58,6 +57,10 @@ namespace Troonie
 		}
 
 			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+
+			if (Constants.I.CONFIG.AskForDesktopContextMenu) {
+				new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
+			}
 		}
 
 		public override void Destroy ()
@@ -200,15 +203,6 @@ namespace Troonie
 
 		private void SetLanguageToGui()
 		{
-			hboxToolbarButtons.Children[0].TooltipText = Language.I.L[2];
-			hboxToolbarButtons.Children[1].TooltipText = Language.I.L[3];
-			hboxToolbarButtons.Children[2].TooltipText = Language.I.L[4];
-			hboxToolbarButtons.Children[4].TooltipText = 
-				Language.I.L[43] +	": " + 
-					Language.I.L[0] + "\n\n" + 
-					Language.I.L[44] +	": \n" +
-					Language.AllLanguagesAsString;
-
 			lbFrameCursorPos.LabelProp = "<b>" + Language.I.L[15] + "</b>";
 			btnOk.Text = Language.I.L[16];
 			btnOk.Redraw ();

@@ -1,6 +1,7 @@
 ﻿using System;
 using Gtk;
 using Troonie_Lib;
+using System.Globalization;
 
 namespace Troonie
 {
@@ -19,6 +20,39 @@ namespace Troonie
 
 				return instance;
 			}
+		}
+
+		private float newVersion;
+
+		private void UpdatePressed (object sender, EventArgs e)
+		{
+			PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (false);
+			pseudo.Title = Language.I.L [69];
+			pseudo.Label1 = Language.I.L [70] + newVersion.ToString(CultureInfo.InvariantCulture);
+			pseudo.Label2 = Language.I.L [71];
+			pseudo.OkButtontext = Language.I.L [16];
+			pseudo.CancelButtontext = Language.I.L [17];
+			// pseudo.OnReleasedOkButton += delegate{Process.Start (Constants.WEBSITE);};
+			pseudo.OnReleasedOkButton += () => System.Diagnostics.Process.Start (Constants.WEBSITE);
+
+			pseudo.Show ();
+		}
+
+		private void CreateToolbarUpdateButton(HBox hboxToolbarButtons, int position, string stockicon, string tooltipText, float newVersion)
+		{
+			this.newVersion = newVersion;
+			Button l_button = new Button();
+			l_button.Image = Image.LoadFromResource(stockicon);
+			l_button.Visible = true;
+			l_button.TooltipText = tooltipText + newVersion.ToString(CultureInfo.InvariantCulture);
+			l_button.Label = Language.I.L[69];
+			l_button.Image.Visible = true;
+			l_button.Pressed += UpdatePressed;
+			hboxToolbarButtons.Add (l_button);		
+			Box.BoxChild w3x = (Box.BoxChild)hboxToolbarButtons [l_button];
+			w3x.Position = position;
+			w3x.Expand = false;
+			w3x.Fill = false;
 		}
 
 		public void SetPanelSize(Window window, SimpleImagePanel simpleimagepanel, HBox hbox, int maxPanelWidth, int maxPanelHeight, int imageW, int imageH, int minWinWidth = 0, int minWinHeight = 0)
@@ -181,6 +215,43 @@ namespace Troonie
 			w3x.Fill = false;
 		}
 
+		public void CreateToolbarUpdateButtonByTimer(HBox hboxToolbarButtons, int position)
+		{
+//			Console.WriteLine("SERVER_VERSION_FLOAT:  " + Constants.I.SERVER_VERSION_FLOAT);
+
+			// First update check in Constants.Init()
+			if (Constants.I.SERVER_VERSION_FLOAT > Constants.I.VERSION_FLOAT){
+				GuiHelper.I.CreateToolbarUpdateButton (hboxToolbarButtons, position, 
+					"security-medium-2.png", Language.I.L[70], Constants.I.SERVER_VERSION_FLOAT);				
+			}
+
+			if (Constants.I.SERVER_VERSION_FLOAT != 0) {
+				return;
+			}
+
+			// Second update check
+			Constants.I.CheckUpdateAsThread ();
+
+			GLib.TimeoutHandler timeoutHandler = () => {
+				if (Constants.I.SERVER_VERSION_FLOAT > Constants.I.VERSION_FLOAT){
+					GuiHelper.I.CreateToolbarUpdateButton (hboxToolbarButtons, position, 
+						"security-medium-2.png", Language.I.L[70], Constants.I.SERVER_VERSION_FLOAT);	
+				}
+					
+//				bool retValue = Constants.I.SERVER_VERSION_FLOAT == 0;
+//				Console.WriteLine("SERVER_VERSION_FLOAT==0:  " + retValue);
+
+//				if (retValue){
+//					// Third and further update checks
+//					Constants.I.CheckUpdateAsThread ();
+//				}
+
+				return /*retValue*/ false;
+			};
+			// waiting 5 seconds
+			GLib.Timeout.Add(5 * 1000, timeoutHandler);			
+		}			
+
 		public void CreateToolbarSeparator(HBox hboxToolbarButtons, int position)
 		{
 			VSeparator vsep = new VSeparator ();
@@ -190,6 +261,31 @@ namespace Troonie
 			w3x.Position = position;
 			w3x.Expand = false;
 			w3x.Fill = false;
+		}
+			
+		public void CreateDesktopcontextmenuLanguageAndInfoToolbarButtons(HBox hboxToolbarButtons, int position, OnToolbarBtnPressed languageChanged)
+		{			
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, position, "folder-new-4.png", Language.I.L[59], 
+				(s, e) => { 
+					new AskForDesktopContextMenuWindow (false, Constants.I.CONFIG).Show(); 
+					Config.Save (Constants.I.CONFIG);
+				});
+			position++;
+
+			GuiHelper.I.CreateToolbarIconButton (	hboxToolbarButtons, 
+				position, "tools-check-spelling-5.png", 				
+				Language.I.L[43] +	": " + 
+				Language.I.L[0] + Constants.N + Constants.N + 
+				Language.I.L[44] +	": "+ Constants.N +
+				Language.AllLanguagesAsString, 
+				languageChanged);
+			position++;
+
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, position, "help-about-3.png", Language.I.L[4], 
+				(s, e) => { TroonieAboutDialog.I.Run (); });
+			position++;
+
+			GuiHelper.I.CreateToolbarUpdateButtonByTimer(hboxToolbarButtons, position);			
 		}
 	}
 }

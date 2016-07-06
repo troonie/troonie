@@ -7,12 +7,12 @@ namespace Troonie
 	public partial class AskForDesktopContextMenuWindow : Gtk.Window
 	{
 		private bool isProgramstart;
-		private Config current;
+		private Config config;
 
-		public AskForDesktopContextMenuWindow (bool isProgramstart, Config current) : 
+		public AskForDesktopContextMenuWindow (bool isProgramstart, Config config) : 
 				base(Gtk.WindowType.Toplevel)
 		{
-			this.current = current;
+			this.config = config;
 			this.isProgramstart = isProgramstart;
 			this.KeepAbove = true;
 			Build ();
@@ -40,7 +40,7 @@ namespace Troonie
 			else 
 				DesktopContextMenu.I.LinuxDesktopContextMenu (true);			
 
-			current.AskForDesktopContextMenu = false;
+			config.AskForDesktopContextMenu = false;
 
 			MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, Language.I.L[63]);
 			md.ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);
@@ -49,6 +49,8 @@ namespace Troonie
 				md.Destroy ();
 				this.Destroy ();
 			}
+
+			Config.Save (Constants.I.CONFIG);
 		}	
 
 		protected void OnPicbtnNoButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
@@ -59,22 +61,23 @@ namespace Troonie
 				else 
 					DesktopContextMenu.I.LinuxDesktopContextMenu(false);
 				
-				current.AskForDesktopContextMenu = true;
+				config.AskForDesktopContextMenu = true;
 
 				MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, Language.I.L[66]);
 				md.ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);
 				md.KeepAbove = true;
 				if (md.Run () == (int)ResponseType.Ok) {
 					md.Destroy ();
-				}				
+				}					
 			}
 
+			Config.Save (Constants.I.CONFIG);
 			this.Destroy ();
 		}
 
 		protected void OnChkBtnToggled (object sender, EventArgs e)
 		{
-			current.AskForDesktopContextMenu = chkBtn.Active;
+			config.AskForDesktopContextMenu = chkBtn.Active;
 		}
 	}
 }
