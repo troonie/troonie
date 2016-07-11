@@ -68,6 +68,7 @@
     <Compile Include="filter\ThickPixelFilter.cs" />
     <Compile Include="filter\StitchMIFilter.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="filter\CopyFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

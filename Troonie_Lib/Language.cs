@@ -36,6 +36,8 @@ namespace Troonie_Lib
 			set {
 				languageID = value >= allLanguages.Count ? 0 : value;
 				allLanguages.TryGetValue (languageID, out language);
+				Constants.I.CONFIG.LanguageID = languageID;
+				Config.Save (Constants.I.CONFIG);
 			}
 		}
 	
@@ -43,7 +45,6 @@ namespace Troonie_Lib
 		{			
 			allLanguages = new Dictionary<int, List<string>> ();
 			Init ();
-			LanguageID = SetLanguageID ();
 		}
 			
 		private void Init()
@@ -78,18 +79,15 @@ namespace Troonie_Lib
 			}
 
 			file.Close();			
-		}
+		}		
 
-		private int SetLanguageID()
-		{
-			switch (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName) {
-			case "de":
-				return 1;
-			case "en":
-			default:
-				return 0;
-			}
-		}
+//		public void IncrementLanguageID(Config config, int summand = 1)
+//		{
+//			int tmp = languageID + summand;
+//			languageID = tmp >= allLanguages.Count ? 0 : tmp;
+//			allLanguages.TryGetValue (languageID, out language);
+//			Config.Save (config);
+//		}
 	}
 }
 

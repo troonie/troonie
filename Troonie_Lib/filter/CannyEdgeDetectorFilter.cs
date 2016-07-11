@@ -126,6 +126,11 @@ namespace Troonie_Lib
 				GrayscaleFilter grayscaleFilter = new GrayscaleFilter();
 				grayscaleFilter.Process(srcData, dstData);
 			}
+			else{
+				// make deep copy
+				CopyFilter copyFilter = new CopyFilter();
+				copyFilter.Process(srcData, dstData);
+			}
 
 			// STEP 1 - blur image
 //			blur = gaussianFilter.Apply(blur);

@@ -60,7 +60,7 @@ namespace Troonie
 
 			string filename = null;
 			// START VALUE
-//			 args = new string[] { "-s"};
+			 args = new string[] { "-e"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args);

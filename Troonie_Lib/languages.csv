@@ -135,7 +135,7 @@ Image choice;Bildauswahl
 Editor values;Editorwerte
 Editor values saved.;Editorwerte gespeichert.
 Usage of values by 'CTRL+L';Verwenden der Werte durch 'STRG+L'.
-SHORTCUTS;SHORTCUTS
+SHORTCUTS;TASTENBELEGUNG
 CONVERTER KEYS;TASTENBELEGUNG KONVERTER
 CTRL+A: Select all images;STRG+A: Alle Bilder auswählen
 ESC: Remove all image selections;ESC: Bildauswahl entfernen
@@ -146,3 +146,4 @@ CTRL+K: Save cut points;STRG+K: Schnittpunkte speichern
 CTRL+S: Save image;STRG+S: Bild speichern
 STEGANOGRAPHY KEYS;TASTENBELEGUNG STEGANOGRAFIE
 CTRL+S: Save image;STRG+S: Bild speichern
+About;Über

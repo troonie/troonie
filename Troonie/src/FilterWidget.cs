@@ -279,8 +279,10 @@ namespace Troonie
 			filterImage = new Bitmap(FileName); 
 			imageW = filterImage.Width;
 			imageH = filterImage.Height;
-
-			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 400, 300, imageW, imageH);	
+			int w, h;
+			// get full size, also all gui elements are not visible
+			this.vboxA.GdkWindow.GetSize(out w, out h);
+			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 400, 300, imageW, imageH, w, h);	
 
 			tempFilterImageFileName = Constants.I.EXEPATH + "tempFilterImageFileName.png";
 
@@ -293,6 +295,10 @@ namespace Troonie
 				simpleimagepanel1.HeightRequest,
 				ConvertMode.StretchForge,
 				false);
+
+			if (filterImage.PixelFormat == PixelFormat.Format8bppIndexed) {
+				workingImage = ImageConverter.To8Bpp (workingImage);
+			}
 
 			workingImage.Save(tempFilterImageFileName, ImageFormat.Png);
 
@@ -399,7 +405,13 @@ namespace Troonie
 
 		protected void OnComboboxChanged (object sender, EventArgs args)
 		{
-			timeoutHandler.Invoke ();
+//			timeoutHandler.Invoke ();
+
+			if (repeatTimeout)
+				return;
+
+			repeatTimeout = true;
+			GLib.Timeout.Add(0, timeoutHandler);
 		}
 
 		private void ProcessFilter()

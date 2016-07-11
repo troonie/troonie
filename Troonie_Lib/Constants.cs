@@ -37,6 +37,7 @@ namespace Troonie_Lib
 			"http://www.troonie.com/TroonieVersion";
 		public const string TITLE = "Troonie";
 		public const string TITLE_LIB = "Troonie_Lib";
+		/// <summary>Constant non-changeable text. For changeable value, see Language.I.L[54].</summary>
 		public const string DESCRIPTION_FIX_IN_ENGLISH = 
 			"A slender tool to convert, trim, stitch, filter photos and work with steganography.";
 		public const string VERSION = "1.0.0";
@@ -56,8 +57,8 @@ namespace Troonie_Lib
 		private float serverVersionFloat;
 		public float SERVER_VERSION_FLOAT { get {	return serverVersionFloat; } }
 
-		private string description;
-		public string DESCRIPTION { get {	return description; } }
+//		private string description;
+//		public string DESCRIPTION { get {	return description; } }
 
 		private bool windows;
 		public bool WINDOWS { get { return windows; }}
@@ -78,9 +79,10 @@ namespace Troonie_Lib
 			homepath = windows ? Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%")
 				: Environment.GetEnvironmentVariable("HOME");
 			homepath += Path.DirectorySeparatorChar;
-			description = Language.I.L[54];
-			versionFloat = GetFloatVersionNumber (VERSION);
 			config = Config.Load ();
+			Language.I.LanguageID = config.LanguageID;
+//			description = Language.I.L[54];
+			versionFloat = GetFloatVersionNumber (VERSION);
 			CheckUpdateAsThread ();
 		}	
 

@@ -25,7 +25,8 @@ namespace Troonie
 			ad.ProgramName = Constants.TITLE;
 			ad.Version = Constants.VERSION;
 			ad.Website = Constants.WEBSITE;
-			ad.Comments = Constants.I.DESCRIPTION;
+			ad.Comments = Language.I.L [54]; // Constants.I.DESCRIPTION;
+			ad.Title = Language.I.L[149] + " " + Constants.TITLE;
 //			ad.Authors = new string[1] { Constants.AUTHOR};
 //			ad.Artists = new string[1] { Constants.AUTHOR };
 //			ad.Documenters = new string[1] { Constants.AUTHOR };

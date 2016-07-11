@@ -10,6 +10,12 @@ namespace Troonie_Lib
     {
 		private static string xmlFile = Constants.I.EXEPATH + "config.xml"; 
 
+		#region global properties
+
+		public int LanguageID{ get; set; }
+
+		#endregion global properties
+
         #region converter properties 
 
 		public bool AskForDesktopContextMenu { get; set; }
@@ -83,6 +89,9 @@ namespace Troonie_Lib
 
 
 		public Config() {
+
+			LanguageID = SetLanguageID ();
+
 			AskForDesktopContextMenu = true;
 			BiggestLength = 1280;
 			FileOverwriting = false;
@@ -101,6 +110,17 @@ namespace Troonie_Lib
 			TransparencyColorRed = 255;
 			TransparencyColorGreen = 255;
 			TransparencyColorBlue = 255;
+		}
+
+		private static int SetLanguageID()
+		{
+			switch (System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName) {
+			case "de":
+				return 1;
+			case "en":
+			default:
+				return 0;
+			}
 		}
 
 		public static Config Load()
