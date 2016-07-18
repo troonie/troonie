@@ -206,7 +206,7 @@ namespace Troonie_Lib
 							b3[RGBA.B] = b2[RGBA.B];
 
 							// rgb, 24 and 32 bit
-							if (ps2 == 2 && ps3 >= 3) {
+							if (ps2 == 1 && ps3 >= 3) {
 								b3 [RGBA.G] = b2 [RGBA.B];
 								b3 [RGBA.R] = b2 [RGBA.B];
 							}

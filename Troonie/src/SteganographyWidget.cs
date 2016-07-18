@@ -222,6 +222,7 @@ namespace Troonie
 			filter.Key = entryKey.Text;
 			entryKey.Text = string.Empty;
 			filter.WritingMode = rdBtnWrite.Active;
+			filter.UseStrongObfuscation = true;
 
 			PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
 			pseudo.Title = Language.I.L [80];
@@ -235,6 +236,11 @@ namespace Troonie
 				// only necessary by Steganography1
 //				b1 = ImageConverter.To32Bpp(bt.Bitmap);
 //				b1 = filter.Apply (b1, null);
+
+				// check and convert, if 8-bit source image
+				if (bt.Bitmap.PixelFormat == PixelFormat.Format8bppIndexed) {
+					bt.ChangeBitmapButNotTags(ImageConverter.To24Bpp (bt.Bitmap));
+				}
 				b1 = filter.Apply (bt.Bitmap, null);
 
 				if (filter.Success) {

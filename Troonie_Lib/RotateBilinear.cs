@@ -35,6 +35,8 @@ namespace Troonie_Lib
 //			}
 //		}
 
+		public bool Use255ForAlpha { get; set; }
+
         /// <summary>
         /// Rotation angle.
         /// </summary>
@@ -111,6 +113,11 @@ namespace Troonie_Lib
             destination.UnlockBits(dstData);
             source.UnlockBits(srcData);
 
+			if (destination.PixelFormat == PixelFormat.Format8bppIndexed)
+			{
+				ColorPalette.I.SetColorPaletteToGray (destination);
+			}
+
             return destination;
         }
 
@@ -186,9 +193,12 @@ namespace Troonie_Lib
 			double angleSin = Math.Sin( angleRad );
 
             int srcStride = sourceData.Stride;
-            int dstOffset = destinationData.Stride -
-                ((destinationData.PixelFormat == PixelFormat.Format8bppIndexed) 
-                  ? newWidth : newWidth * 3 );
+//            int dstOffset = destinationData.Stride -
+//                ((destinationData.PixelFormat == PixelFormat.Format8bppIndexed) 
+//                  ? newWidth : newWidth * 3 );
+
+			int dstPs = Image.GetPixelFormatSize(destinationData.PixelFormat) / 8;
+			int dstOffset = destinationData.Stride - newWidth * dstPs;
 
             // fill values
             byte fillR = FillColor.R;
@@ -270,7 +280,7 @@ namespace Troonie_Lib
             }
             else
             {
-                // RGB
+                // RGB & ARGB
                 cy = -halfNewHeight;
                 for ( int y = 0; y < newHeight; y++ )
                 {
@@ -281,7 +291,7 @@ namespace Troonie_Lib
                     ty = angleCos * cy + halfHeight;
 
                     cx = -halfNewWidth;
-                    for ( int x = 0; x < newWidth; x++, dst += 3 )
+					for ( int x = 0; x < newWidth; x++, dst += dstPs )
                     {
                         // coordinates of source point
                         ox = tx + angleCos * cx;
@@ -298,6 +308,9 @@ namespace Troonie_Lib
                             dst[RGBA.R] = fillR;
                             dst[RGBA.G] = fillG;
                             dst[RGBA.B] = fillB;
+							if (dstPs == 4) {
+								dst[RGBA.A] = 255;
+							}
                         }
                         else
                         {
@@ -315,13 +328,13 @@ namespace Troonie_Lib
 
                             // get four points
                             p1 = p2 = src + oy1 * srcStride;
-                            p1 += ox1 * 3;
-                            p2 += ox2 * 3;
+							p1 += ox1 * dstPs;
+							p2 += ox2 * dstPs;
 
                             byte* p4;
                             byte* p3 = p4 = src + oy2 * srcStride;
-                            p3 += ox1 * 3;
-                            p4 += ox2 * 3;
+							p3 += ox1 * dstPs;
+							p4 += ox2 * dstPs;
 
                             // interpolate using 4 points
 
@@ -339,6 +352,13 @@ namespace Troonie_Lib
                             dst[RGBA.B] = (byte) (
                                 dy2 * ( dx2 * p1[RGBA.B] + dx1 * p2[RGBA.B] ) +
                                 dy1 * ( dx2 * p3[RGBA.B] + dx1 * p4[RGBA.B] ) );
+
+							// alpha, 32 bit
+							if (dstPs == 4) {
+								dst [RGBA.A] = Use255ForAlpha ? (byte)255 : (byte) (
+													dy2 * ( dx2 * p1[RGBA.A] + dx1 * p2[RGBA.A] ) +
+													dy1 * ( dx2 * p3[RGBA.A] + dx1 * p4[RGBA.A] ) );
+							}
                         }
                         cx++;
                     }

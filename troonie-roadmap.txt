@@ -1,0 +1,33 @@
+TODO
+- Difference-Filter einbinden, mit Optionen (Kanalwahl, Skalierung)
+- Skript oder c#-Lösung für 'Starten ohne Konsole'
+- Win10-Installer mit Forms ohne Konsole
+- libjpeg-Check unter Linux
+
+
+DONE
+- Steganography erweitern / Pixel-Obfuscation härten
+- Bug beim Umschalten Zielverzeichnis (eigenes oder fremdes Verzeichnis)
+- Filter+Stitch+Rotation(!) für alle Formate
+- AboutDialog Sprache anpassen
+- Sprache speicherbar machen
+- ICO-Bug/Crash fixen
+- Desktop-Menu unter EditWidget/SteganoW anbieten
+- CHECK-Desktop-Menu auch in EditWidget/SteganoW
+- Updater anpassen, evtl auch unter EditWidget/SteganoW anbieten
+
+
+DEPENDENCIES
+
+sudo apt install mono-runtime
+sudo apt install gtk-sharp2
+sudo apt install libjpeg-progs
+ODER
+sudo apt-get install mono-runtime
+sudo apt-get install gtk-sharp2
+sudo apt-get install libjpeg-progs
+
+
+SUSE
+sudo zypper install mono-runtime
+sudo zypper install gtk-sharp2

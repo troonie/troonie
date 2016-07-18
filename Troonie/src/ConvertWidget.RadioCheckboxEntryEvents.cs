@@ -143,6 +143,12 @@ namespace Troonie
 			Constants.I.CONFIG.StretchImage = checkBtnStretch.Active ? ConvertMode.StretchForge : ConvertMode.NoStretchForge;
 			Constants.I.CONFIG.FileOverwriting = checkBtnOverwriteOriginalImage.Active;
 			Constants.I.CONFIG.UseOriginalPath = checkBtnUseOriginalDirectory.Active;
+
+			// adapt path, if necessary
+			if (!Constants.I.CONFIG.UseOriginalPath) {
+				Constants.I.CONFIG.Path = htlbOutputDirectory.Text;
+			}
+
 			htlbOutputDirectory.Sensitive = !Constants.I.CONFIG.UseOriginalPath;
 		}			
 

@@ -25,11 +25,11 @@ namespace Troonie
 //			DifferenceFilter cf = new DifferenceFilter ();
 //			cf.Smallest = 0;
 //			cf.Highest = 9;
-//			cf.CompareBitmap = System.Drawing.Bitmap.FromFile ("result.png") as System.Drawing.Bitmap;
+//			cf.CompareBitmap = System.Drawing.Bitmap.FromFile ("b.png") as System.Drawing.Bitmap;
 //
-//			System.Drawing.Bitmap b = System.Drawing.Bitmap.FromFile ("test.png") as System.Drawing.Bitmap;
+//			System.Drawing.Bitmap b = System.Drawing.Bitmap.FromFile ("a.jpg") as System.Drawing.Bitmap;
 //			b = cf.Apply (b, null);
-//			b.Save ("diff.png", System.Drawing.Imaging.ImageFormat.Png);
+//			b.Save ("c.png", System.Drawing.Imaging.ImageFormat.Png);
 //			#endregion Compare images testing
 
 //			#region StitchMIFilter
@@ -60,7 +60,7 @@ namespace Troonie
 
 			string filename = null;
 			// START VALUE
-			 args = new string[] { "-e"};
+//			args = new string[] { "-s"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args);

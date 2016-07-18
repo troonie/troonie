@@ -222,14 +222,14 @@ namespace Troonie
 			imagepanel1.TopSlider.OnSliderChangedValue += OnSliderChangedValue;
 			imagepanel1.BottomSlider.OnSliderChangedValue += OnSliderChangedValue;
 
-			if (bt.Bitmap.PixelFormat == PixelFormat.Format24bppRgb ||
-				bt.Bitmap.PixelFormat == PixelFormat.Format8bppIndexed) {
-				// entryRotate
-				frameRotation.Sensitive = true;
-			} else {
-				frameRotation.Sensitive = false;
-				frameRotation.TooltipText = Language.I.L[72];
-			}
+//			if (bt.Bitmap.PixelFormat == PixelFormat.Format24bppRgb ||
+//				bt.Bitmap.PixelFormat == PixelFormat.Format8bppIndexed) {
+//				// entryRotate
+//				frameRotation.Sensitive = true;
+//			} else {
+//				frameRotation.Sensitive = false;
+//				frameRotation.TooltipText = Language.I.L[72];
+//			}
 
 			ShowAll();
 		}		
@@ -637,8 +637,6 @@ namespace Troonie
 						OnEntryBottomKeyReleaseEvent (entryBottom, null);
 						break;
 					case Gdk.Key.r:
-						if (!frameRotation.Sensitive)
-							break;
 						entryRotate.Text = Constants.I.CONFIG.eRotation.ToString ();
 						OnEntryRotateKeyReleaseEvent (entryRotate, null);
 						break;

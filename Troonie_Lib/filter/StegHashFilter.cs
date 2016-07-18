@@ -13,6 +13,12 @@ namespace Troonie_Lib
     {
 		protected List<int> charTriple;
 
+		/// <summary>
+		/// Indicates whether StegHash manipulates one channel of ALL or only relavant pixel. 
+		/// Irrelevant pixel will get dummy values.
+		/// </summary>
+		public bool UseStrongObfuscation{ get; set; }
+
         public StegHashFilter()
         {
 			SupportedSrcPixelFormat = PixelFormatFlags.Color;
@@ -89,6 +95,7 @@ namespace Troonie_Lib
             int h = srcData.Height;
             int stride = srcData.Stride;
             int offset = stride - w * ps;
+			Random r = new Random();
 
 			Fraction.Fractionalize5D (sumHashElements, out tenthousend, out thousend, out hundred, out ten, out one);
 			int digitSumOfHashElements = tenthousend + thousend + hundred + ten + one;
@@ -118,6 +125,12 @@ namespace Troonie_Lib
 					// alpha, 32 bit
 					if (ps == 4) {
 						dst [RGBA.A] = src [RGBA.A];
+					}
+
+					if (UseStrongObfuscation) {
+						rgbIndex = r.Next(3);
+						int dummy = r.Next(10);
+						dst[rgbIndex] = ManipulateByte(src[rgbIndex], dummy);
 					}
 				}
 				src += offset;
