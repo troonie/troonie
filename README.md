@@ -7,7 +7,7 @@
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Windows Requirements&nbsp;</span></p>
  <ul>
 	<li>.NET 4.5 (already included in Win8.1 and Win10)</li>
-	<li>GTK-Sharp v2.12 (download <a href="http://download.xamarin.com/GTKforWindows/Windows/gtk-sharp-2.12.30.msi" target="_blank">here</a>)</li>
+	<li>GTK-Sharp v2.12 (download <a href="http://download.xamarin.com/GTKforWindows/Windows/gtk-sharp-2.12.38.msi" target="_blank">here</a>)</li>
 </ul>
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Linux Package Dependencies&nbsp;</span></p>
  <ul>
