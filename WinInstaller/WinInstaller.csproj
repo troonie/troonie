@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -30,6 +30,9 @@
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
@@ -38,13 +41,13 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="InstallForm.cs" />
+    <Compile Include="InstallForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="InstallForm.Designer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Files\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Files\Troonie_taglib.dll">
       <LogicalName>Troonie_taglib.dll</LogicalName>
@@ -64,5 +67,14 @@
     <EmbeddedResource Include="Files\icon.ico">
       <LogicalName>icon.ico</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Files\vc_runtimeMinimum_x86.msi">
+      <LogicalName>vc_runtimeMinimum_x86.msi</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Files\cab1.cab">
+      <LogicalName>cab1.cab</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.manifest" />
   </ItemGroup>
 </Project>
