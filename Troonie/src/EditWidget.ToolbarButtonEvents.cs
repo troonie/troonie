@@ -1,6 +1,7 @@
 using System;
 using Gtk;
 using Troonie_Lib;
+using System.Drawing.Imaging;
 
 namespace Troonie
 {
@@ -60,6 +61,51 @@ namespace Troonie
 			case 7:
 				fw = new FilterWidget (FileName, new OilPaintingFilter());
 				break;
+			case 8:
+				FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, Language.I.L [152]);
+				if (fc.Run () == (int)ResponseType.Ok) {
+					int w, h, wCompare, hCompare;
+					PixelFormat pf;
+					ImageConverter.GetImageDimension (FileName, out w, out h, out pf);
+					int ps = System.Drawing.Image.GetPixelFormatSize(pf) / 8;
+					ImageConverter.GetImageDimension (fc.Filename, out wCompare, out hCompare, out pf);
+					int psCompare = System.Drawing.Image.GetPixelFormatSize(pf) / 8;
+
+					if (Math.Abs(psCompare - ps) > 1) {
+//						string errorMsg = "Cannot compare grayscale with color image.";
+//						throw new ArgumentException(errorMsg);
+						PseudoTroonieContextMenu warn = new PseudoTroonieContextMenu (true);
+						warn.Title = Language.I.L [153];
+						warn.Label1 = Language.I.L [154];
+						warn.Label2 = string.Empty;
+						warn.OkButtontext = Language.I.L [16];
+						warn.Show ();
+						fc.Destroy ();
+						return index; 
+					}
+
+					if (w != wCompare || h != hCompare) {
+//						string errorMsg = "Cannot compare different image sizes.";
+//						throw new ArgumentException(errorMsg);
+						PseudoTroonieContextMenu warn = new PseudoTroonieContextMenu (true);
+						warn.Title = Language.I.L [153];
+						warn.Label1 = Language.I.L [155];
+						warn.Label2 = string.Empty;
+						warn.OkButtontext = Language.I.L [16];
+						warn.Show ();
+						fc.Destroy ();
+						return index; 
+					}
+
+					DifferenceFilter diff = new DifferenceFilter ();
+					diff.CompareBitmap = new System.Drawing.Bitmap (fc.Filename);
+					fw = new FilterWidget (FileName, diff);
+					fc.Destroy ();
+					break;
+				} else {
+					fc.Destroy ();
+					return index; 
+				}					
 			}
 //			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 			fw.FilterEvent += FilterEvent;
@@ -73,7 +119,7 @@ namespace Troonie
 
 		protected void OnToolbarBtn_StitchPressed (object sender, EventArgs e)
 		{
-			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false);
+			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, Language.I.L[151]);
 
 			if (fc.Run() == (int)ResponseType.Ok) 
 			{

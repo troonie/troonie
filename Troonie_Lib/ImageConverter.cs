@@ -75,6 +75,21 @@ namespace Troonie_Lib
 
 		#region Public functions
 
+		/// <summary>
+		/// Fast reading-out of image dimension.
+		/// </summary>
+		public static void GetImageDimension(string imagePath, out int width, out int height, out PixelFormat pixelFormat)
+		{
+			// fast reading-out of image sizes
+			using (FileStream fs = new FileStream (imagePath, FileMode.Open)) 
+			{
+				Image image = Image.FromStream (fs, true, false);
+				width = image.Width;
+				height = image.Height;
+				pixelFormat = image.PixelFormat;
+			}
+		}
+
 		public static bool IsColorImage(Bitmap b)
 		{
 			int bitNumber = Image.GetPixelFormatSize(b.PixelFormat);

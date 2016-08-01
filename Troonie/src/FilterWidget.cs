@@ -230,6 +230,41 @@ namespace Troonie
 			hscale1.Digits = 0;
 		}
 
+		public FilterWidget (string pFilename, DifferenceFilter diff) : this (pFilename)
+		{
+			abstractFilter = diff;
+			Title = Language.I.L [150];
+			frameHScales.Visible = true;
+
+			// ThickPixel usage. Default: false
+			frameComboboxes.Visible = true;
+			frame_combobox1.Visible = true;
+			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[159] + "</b>";
+			combobox1.AppendText(Language.I.L[117]);
+			combobox1.AppendText(Language.I.L[116]);
+			combobox1.Active = diff.DrawThick3x3Pixels ? 1 : 0;
+
+			// 	Smallest allowed value in the resulting range [0, 255]. Default: 0. 
+			// When <see cref="Highest"/> is also default value (255), no mapping is done.
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[157] + "</b>";
+			hscale1.Adjustment.Lower = 0;
+			hscale1.Adjustment.Upper = 255;
+			hscale1.Adjustment.StepIncrement = 1;
+			hscale1.Adjustment.PageIncrement = 5;
+			hscale1.Value = diff.Smallest;
+
+			// 	Highest allowed value in the resulting range [1, 255]. Default: 255. 
+			// When <see cref="Smallest"/> is also default value (0), no mapping is done.
+			frame_hscale2.Visible = true;
+			lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[158] + "</b>";
+			hscale2.Adjustment.Lower = 1;
+			hscale2.Adjustment.Upper = 255;
+			hscale2.Adjustment.StepIncrement = 1;
+			hscale2.Adjustment.PageIncrement = 5;
+			hscale2.Value = diff.Highest;
+		}
+
 		#endregion Constructors
 
 		public override void Destroy ()
@@ -256,6 +291,7 @@ namespace Troonie
 			Bitmap tempImage;
 			try {
 				tempImage = abstractFilter.Apply (workingImage, filterProperties);
+				// filterImage = abstractFilter.Apply (filterImage, filterProperties);
 			}
 			catch(ArgumentException) {
 				PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);

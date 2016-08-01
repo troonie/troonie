@@ -32,6 +32,8 @@ namespace Troonie
 		
 		private global::Gtk.RadioButton rdBtnWrite;
 		
+		private global::Gtk.CheckButton checkBtnStrongObfuscation;
+		
 		private global::Gtk.Label lbFrameModus;
 		
 		private global::Gtk.Frame frameKey;
@@ -150,6 +152,17 @@ namespace Troonie
 			this.hboxModus.Add (this.rdBtnWrite);
 			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.rdBtnWrite]));
 			w5.Position = 1;
+			// Container child hboxModus.Gtk.Box+BoxChild
+			this.checkBtnStrongObfuscation = new global::Gtk.CheckButton ();
+			this.checkBtnStrongObfuscation.Sensitive = false;
+			this.checkBtnStrongObfuscation.CanFocus = true;
+			this.checkBtnStrongObfuscation.Name = "checkBtnStrongObfuscation";
+			this.checkBtnStrongObfuscation.Label = global::Mono.Unix.Catalog.GetString ("Strong Obfuscation");
+			this.checkBtnStrongObfuscation.DrawIndicator = true;
+			this.checkBtnStrongObfuscation.UseUnderline = true;
+			this.hboxModus.Add (this.checkBtnStrongObfuscation);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.checkBtnStrongObfuscation]));
+			w6.Position = 2;
 			this.AlignmentFrameModus.Add (this.hboxModus);
 			this.frameModus.Add (this.AlignmentFrameModus);
 			this.lbFrameModus = new global::Gtk.Label ();
@@ -158,10 +171,10 @@ namespace Troonie
 			this.lbFrameModus.UseMarkup = true;
 			this.frameModus.LabelWidget = this.lbFrameModus;
 			this.vboxSteganography.Add (this.frameModus);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameModus]));
-			w8.Position = 0;
-			w8.Expand = false;
-			w8.Fill = false;
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameModus]));
+			w9.Position = 0;
+			w9.Expand = false;
+			w9.Fill = false;
 			// Container child vboxSteganography.Gtk.Box+BoxChild
 			this.frameKey = new global::Gtk.Frame ();
 			this.frameKey.Name = "frameKey";
@@ -185,10 +198,10 @@ namespace Troonie
 			this.lbFrameKey.UseMarkup = true;
 			this.frameKey.LabelWidget = this.lbFrameKey;
 			this.vboxSteganography.Add (this.frameKey);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameKey]));
-			w11.Position = 1;
-			w11.Expand = false;
-			w11.Fill = false;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameKey]));
+			w12.Position = 1;
+			w12.Expand = false;
+			w12.Fill = false;
 			// Container child vboxSteganography.Gtk.Box+BoxChild
 			this.frameContent = new global::Gtk.Frame ();
 			this.frameContent.Name = "frameContent";
@@ -215,8 +228,8 @@ namespace Troonie
 			this.lbFrameContent.UseMarkup = true;
 			this.frameContent.LabelWidget = this.lbFrameContent;
 			this.vboxSteganography.Add (this.frameContent);
-			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameContent]));
-			w15.Position = 2;
+			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameContent]));
+			w16.Position = 2;
 			this.AlignmentFrameSteganography.Add (this.vboxSteganography);
 			this.frameSteganography.Add (this.AlignmentFrameSteganography);
 			this.lbFrameSteganography = new global::Gtk.Label ();
@@ -225,8 +238,8 @@ namespace Troonie
 			this.lbFrameSteganography.UseMarkup = true;
 			this.frameSteganography.LabelWidget = this.lbFrameSteganography;
 			this.vbox1.Add (this.frameSteganography);
-			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameSteganography]));
-			w18.Position = 0;
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameSteganography]));
+			w19.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameCursorPos = new global::Gtk.Frame ();
 			this.frameCursorPos.Name = "frameCursorPos";
@@ -246,10 +259,10 @@ namespace Troonie
 			this.lbFrameCursorPos.UseMarkup = true;
 			this.frameCursorPos.LabelWidget = this.lbFrameCursorPos;
 			this.vbox1.Add (this.frameCursorPos);
-			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
-			w21.Position = 1;
-			w21.Expand = false;
-			w21.Fill = false;
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
+			w22.Position = 1;
+			w22.Expand = false;
+			w22.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.btnOk = new global::Troonie.TroonieButton ();
 			this.btnOk.Name = "btnOk";
@@ -261,17 +274,17 @@ namespace Troonie
 			this.btnOk.Text = "OK";
 			this.btnOk.TextSize = 14;
 			this.vbox1.Add (this.btnOk);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
-			w22.Position = 2;
-			w22.Expand = false;
-			w22.Fill = false;
+			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
+			w23.Position = 2;
+			w23.Expand = false;
+			w23.Fill = false;
 			this.hbox1.Add (this.vbox1);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
-			w23.Position = 1;
-			w23.Padding = ((uint)(5));
-			this.vboxA.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
 			w24.Position = 1;
+			w24.Padding = ((uint)(5));
+			this.vboxA.Add (this.hbox1);
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
+			w25.Position = 1;
 			this.Add (this.vboxA);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
@@ -283,6 +296,7 @@ namespace Troonie
 			this.DragDrop += new global::Gtk.DragDropHandler (this.OnDragDrop);
 			this.DragDataReceived += new global::Gtk.DragDataReceivedHandler (this.OnDragDataReceived);
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
+			this.rdBtnWrite.Toggled += new global::System.EventHandler (this.OnRdBtnWriteToggled);
 			this.entryKey.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnEntryKeyKeyReleaseEvent);
 			this.btnOk.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnOkButtonReleaseEvent);
 		}

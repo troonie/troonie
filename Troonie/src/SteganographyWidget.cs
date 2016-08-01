@@ -211,6 +211,7 @@ namespace Troonie
 			lbFrameModus.LabelProp = "<b>" + Language.I.L[74] + "</b>";
 			rdBtnRead.Label = Language.I.L[75];
 			rdBtnWrite.Label = Language.I.L[76];
+			checkBtnStrongObfuscation.Label = Language.I.L[160];
 			lbFrameKey.LabelProp = "<b>" + Language.I.L[77] + "</b>";
 			lbFrameContent.LabelProp = "<b>" + Language.I.L[78] + "</b>";
 		}
@@ -222,7 +223,7 @@ namespace Troonie
 			filter.Key = entryKey.Text;
 			entryKey.Text = string.Empty;
 			filter.WritingMode = rdBtnWrite.Active;
-			filter.UseStrongObfuscation = true;
+			filter.UseStrongObfuscation = checkBtnStrongObfuscation.Active;
 
 			PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
 			pseudo.Title = Language.I.L [80];
@@ -419,6 +420,11 @@ namespace Troonie
 				break;
 			}
 		}	
+
+		protected void OnRdBtnWriteToggled (object sender, EventArgs e)
+		{
+				checkBtnStrongObfuscation.Sensitive = rdBtnWrite.Active;
+		}
 	}
 }
 

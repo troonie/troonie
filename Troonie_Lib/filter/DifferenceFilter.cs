@@ -7,6 +7,11 @@ namespace Troonie_Lib
 	public class DifferenceFilter : AbstractFilter
 	{
 		/// <summary>
+		/// Determines whether pixels will be drawn as 3x3 thick pixels. Default: false.
+		/// </summary>
+		public bool DrawThick3x3Pixels { get; set; }
+
+		/// <summary>
 		/// Smallest allowed value in the resulting range. Default: 0.
 		/// When <see cref="Highest"/> is also default value (255), 
 		/// no mapping is done.
@@ -36,33 +41,34 @@ namespace Troonie_Lib
 		#region protected methods
 
 		protected override void SetProperties (double[] filterProperties)
-		{
-
+		{			
+			DrawThick3x3Pixels = filterProperties[0] == 1;
+			Smallest = (byte)filterProperties[3];
+			Highest = (byte)filterProperties[4];
 		}
-
-		/// <summary>
-		/// Processes the filter on the passed <paramref name="srcData"/>
-		/// resulting into <paramref name="dstData"/>.
-		/// </summary>
-		/// <param name="srcData">The source bitmap data.</param>
-		/// <param name="dstData">The destination bitmap data.</param>
+			
 		protected internal override unsafe void Process(BitmapData srcData, BitmapData dstData)
 		{
+			// will be checked by application, not by filter
+//			if (Math.Abs(psCompare - ps) > 1 || 
+//				CompareBitmap.Width != srcData.Width || 
+//				CompareBitmap.Height != srcData.Height) {
+//				string errorMsg = "Cannot compare grayscale with color image as well as different image sizes.";
+//				throw new ArgumentException(errorMsg);
+//			}
+
 			float mapper = 255.0f / (Highest - Smallest);
-
-			int psCompare = Image.GetPixelFormatSize(CompareBitmap.PixelFormat) / 8;
-			int ps = Image.GetPixelFormatSize(srcData.PixelFormat) / 8;
-			if (psCompare != ps) {
-				string errorMsg = "Not same pixel format of comparing images.";
-				throw new ArgumentException(errorMsg);
-			}
-
-			Rectangle rectCompare = new Rectangle(0, 0, CompareBitmap.Width, CompareBitmap.Height);
-			BitmapData compareData = CompareBitmap.LockBits(rectCompare, ImageLockMode.ReadOnly, CompareBitmap.PixelFormat);		
-
 			int w = srcData.Width;
 			int h = srcData.Height;
-			int offset = srcData.Stride - w * ps;
+			int stride = srcData.Stride;
+			PixelFormat pf = srcData.PixelFormat;
+			int ps = Image.GetPixelFormatSize(pf) / 8;
+			int psCompare = Image.GetPixelFormatSize(CompareBitmap.PixelFormat) / 8;
+			Rectangle rect = new Rectangle(0, 0, w, h);
+			BitmapData compareData = CompareBitmap.LockBits(rect, ImageLockMode.ReadOnly, CompareBitmap.PixelFormat);		
+
+			int offset = stride - w * ps;
+			int compareOffset = compareData.Stride - w * psCompare;
 
 			byte* src = (byte*)srcData.Scan0.ToPointer();
 			byte* comp = (byte*)compareData.Scan0.ToPointer();
@@ -72,7 +78,7 @@ namespace Troonie_Lib
 			for (int y = 0; y < h; y++)
 			{
 				// for each pixel
-				for (int x = 0; x < w; x++, src += ps, dst += ps, comp += ps)
+				for (int x = 0; x < w; x++, src += ps, dst += ps, comp += psCompare)
 				{
 					// 8 bit grayscale
 					dst[RGBA.B] = (byte)(Math.Round(Math.Abs(src[RGBA.B] - comp[RGBA.B]) * mapper));
@@ -85,16 +91,39 @@ namespace Troonie_Lib
 
 					// alpha, 32 bit
 					if (ps == 4) {
-						dst [RGBA.A] = Use255ForAlpha ? (byte)255 : (byte)(Math.Round(Math.Abs(src[RGBA.A] - comp[RGBA.A]) * mapper));
+						dst [RGBA.A] = 255;
+						if (psCompare == 4 && !Use255ForAlpha) {
+							dst [RGBA.A] = (byte)(Math.Round(Math.Abs(src[RGBA.A] - comp[RGBA.A]) * mapper));
+						}
 					}
 
 				}
 				src += offset;
 				dst += offset;
-				comp += offset;
-			}
+				comp += compareOffset;
+			}				
 
 			CompareBitmap.UnlockBits(compareData);
+
+			#region thick pixel drawing
+			if (DrawThick3x3Pixels) {
+				
+				Bitmap bd = new Bitmap(w, h, pf);
+				BitmapData bdData = bd.LockBits(rect, ImageLockMode.WriteOnly, pf);
+				dst = (byte*)dstData.Scan0.ToPointer();
+				byte* bdPtr = (byte*)bdData.Scan0.ToPointer();
+					
+				for (int i = 0; i < stride * h; i++)
+				{
+					bdPtr[i] = dst[i];
+				}
+
+				ThickPixelFilter thickPixelFilter = new ThickPixelFilter();
+				thickPixelFilter.Process(bdData, dstData);
+				bd.UnlockBits(bdData);
+				bd.Dispose();
+			}
+			#endregion thick pixel drawing
 		}
 
 		#endregion protected methods             

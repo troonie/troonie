@@ -586,7 +586,7 @@
                 <child>
                   <widget class="Gtk.Frame" id="frameRotation">
                     <property name="MemberName" />
-                    <property name="Tooltip" translatable="yes">Ready in next version.</property>
+                    <property name="Tooltip" translatable="yes" />
                     <child>
                       <widget class="Gtk.Alignment" id="GtkAlignment3">
                         <property name="MemberName" />
@@ -2276,6 +2276,7 @@
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">Retain original size</property>
+                                            <property name="Active">True</property>
                                             <property name="DrawIndicator">True</property>
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>
@@ -3027,6 +3028,7 @@
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">Read</property>
+                                            <property name="Active">True</property>
                                             <property name="DrawIndicator">True</property>
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>
@@ -3046,9 +3048,25 @@
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>
                                             <property name="Group">group1</property>
+                                            <signal name="Toggled" handler="OnRdBtnWriteToggled" />
                                           </widget>
                                           <packing>
                                             <property name="Position">1</property>
+                                            <property name="AutoSize">True</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="Gtk.CheckButton" id="checkBtnStrongObfuscation">
+                                            <property name="MemberName" />
+                                            <property name="Sensitive">False</property>
+                                            <property name="CanFocus">True</property>
+                                            <property name="Label" translatable="yes">Strong Obfuscation</property>
+                                            <property name="DrawIndicator">True</property>
+                                            <property name="HasLabel">True</property>
+                                            <property name="UseUnderline">True</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">2</property>
                                             <property name="AutoSize">True</property>
                                           </packing>
                                         </child>

@@ -21,16 +21,24 @@ namespace Troonie
 
 		public static void Main (string[] args)
 		{
-//			#region Compare images testing
+			#region Compare images testing
 //			DifferenceFilter cf = new DifferenceFilter ();
 //			cf.Smallest = 0;
 //			cf.Highest = 9;
 //			cf.CompareBitmap = System.Drawing.Bitmap.FromFile ("b.png") as System.Drawing.Bitmap;
 //
-//			System.Drawing.Bitmap b = System.Drawing.Bitmap.FromFile ("a.jpg") as System.Drawing.Bitmap;
+//			System.Drawing.Bitmap b = System.Drawing.Bitmap.FromFile ("a.png") as System.Drawing.Bitmap;
+////			b = cf.Apply (b, null);
+////			b.Save ("c.png", System.Drawing.Imaging.ImageFormat.Png);
+//			cf.DrawThick3x3Pixels = true;
 //			b = cf.Apply (b, null);
-//			b.Save ("c.png", System.Drawing.Imaging.ImageFormat.Png);
-//			#endregion Compare images testing
+//			b.Save ("c2.png", System.Drawing.Imaging.ImageFormat.Png);
+
+//			ThickPixelFilter tpf = new ThickPixelFilter();
+//			b = tpf.Apply (b, null);
+//			b.Save ("d.png", System.Drawing.Imaging.ImageFormat.Png);
+
+			#endregion Compare images testing
 
 //			#region StitchMIFilter
 //			System.Drawing.Bitmap b1 = System.Drawing.Bitmap.FromFile ("test1.jpg") as System.Drawing.Bitmap;

@@ -132,11 +132,17 @@ namespace Troonie
 			GLib.Timeout.Add(200, timeoutHandler);
 		}
 
-		public FileChooserDialog GetImageFileChooserDialog(bool selectMultiple)
+		public FileChooserDialog GetImageFileChooserDialog(bool selectMultiple, string alternativeTitle = null)
 		{
 			object[] o = new object[]{Language.I.L[16],ResponseType.Ok, 
 				Language.I.L[17],ResponseType.Cancel};
-			string title = selectMultiple ? Language.I.L[39] : Language.I.L[2];
+			string title;
+
+			if (alternativeTitle == null) {
+				title = selectMultiple ? Language.I.L[39] : Language.I.L[2];
+			} else {
+				title = alternativeTitle;
+			}
 
 			FileChooserDialog fc =
 				new FileChooserDialog(title,

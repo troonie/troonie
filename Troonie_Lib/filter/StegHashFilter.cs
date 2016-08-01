@@ -15,7 +15,7 @@ namespace Troonie_Lib
 
 		/// <summary>
 		/// Indicates whether StegHash manipulates one channel of ALL or only relavant pixel. 
-		/// Irrelevant pixel will get dummy values.
+		/// Irrelevant pixel will get dummy values. Default: false.
 		/// </summary>
 		public bool UseStrongObfuscation{ get; set; }
 

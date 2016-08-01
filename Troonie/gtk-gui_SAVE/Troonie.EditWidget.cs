@@ -453,7 +453,6 @@ namespace Troonie
 			w28.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameRotation = new global::Gtk.Frame ();
-			this.frameRotation.TooltipMarkup = "Ready in next version.";
 			this.frameRotation.Name = "frameRotation";
 			// Container child frameRotation.Gtk.Container+ContainerChild
 			this.GtkAlignment3 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);

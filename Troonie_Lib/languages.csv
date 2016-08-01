@@ -147,3 +147,14 @@ CTRL+S: Save image;STRG+S: Bild speichern
 STEGANOGRAPHY KEYS;TASTENBELEGUNG STEGANOGRAFIE
 CTRL+S: Save image;STRG+S: Bild speichern
 About;Über
+Difference;Differenz
+Open second image to stitch;Zweites Bild für das Zusammenkleben (Stitching) öffnen
+Open second image for difference filtering;Zweites Bild für den Differenz-Filter öffnen
+Error;Fehler
+Cannot compare grayscale with color image.;Vergleichen von Graustufen- und Farbbildern nicht möglich.
+Cannot compare images with different width and height.;Vergleichen von Bildern mit unterschiedlicher Höhe und Breite nicht möglich.
+Brush size;Pinselgröße
+Smallest allowed value in resulting range;Kleinstmöglicher Wert im Ergebnis
+Highest allowed value in resulting range;Größtmöglicher Wert im Ergebnis
+Draw thick pixels;Dicke Pixel zeichnen
+Strong obfuscation (not recommended);Starke Obfuskation (nicht empfohlen)

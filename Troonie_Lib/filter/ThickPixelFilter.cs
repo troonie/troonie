@@ -11,7 +11,7 @@ namespace Troonie_Lib
 	{
 		public ThickPixelFilter()
 		{
-			SupportedSrcPixelFormat = PixelFormatFlags.Color;
+			SupportedSrcPixelFormat = PixelFormatFlags.All;
 			SupportedDstPixelFormat = PixelFormatFlags.SameLikeSource;
 		}
 
@@ -40,13 +40,17 @@ namespace Troonie_Lib
 
 			byte* src = (byte*)srcData.Scan0.ToPointer();
 			byte* dst = (byte*)dstData.Scan0.ToPointer();
+			// align pointers
+			src += stride + ps;
+			dst += stride + ps;
 
 			// for each line
-			for (int y = 0; y < h; y++)
+			for (int y = 1; y < h - 1; y++)
 			{
 				// for each pixel
-				for (int x = 0; x < w; x++, src += ps, dst += ps)
+				for (int x = 1; x < w - 1; x++, src += ps, dst += ps)
 				{
+					// 8 bit grayscale
 					if (src [RGBA.B] != 0) {
 
 						dst [RGBA.B] = src [RGBA.B];
@@ -62,34 +66,37 @@ namespace Troonie_Lib
 						dst [RGBA.B + stride + ps] = src [RGBA.B]; //down right
 					}
 
-					if (src [RGBA.G] != 0) {
+					// rgb, 24 and 32 bit
+					if (ps >= 3) {
+						if (src [RGBA.G] != 0) {
 
-						dst [RGBA.G] = src [RGBA.G];
-						dst [RGBA.G - stride - ps] = src [RGBA.G]; //up left
-						dst [RGBA.G - stride] = src [RGBA.G]; //up
-						dst [RGBA.G - stride + ps] = src [RGBA.G]; //up right
+							dst [RGBA.G] = src [RGBA.G];
+							dst [RGBA.G - stride - ps] = src [RGBA.G]; //up left
+							dst [RGBA.G - stride] = src [RGBA.G]; //up
+							dst [RGBA.G - stride + ps] = src [RGBA.G]; //up right
 
-						dst [RGBA.G - ps] = src [RGBA.G]; //left
-						dst [RGBA.G + ps] = src [RGBA.G]; //right
+							dst [RGBA.G - ps] = src [RGBA.G]; //left
+							dst [RGBA.G + ps] = src [RGBA.G]; //right
 
-						dst [RGBA.G + stride - ps] = src [RGBA.G]; //down left
-						dst [RGBA.G + stride] = src [RGBA.G]; //down
-						dst [RGBA.G + stride + ps] = src [RGBA.G]; //down right
-					}
+							dst [RGBA.G + stride - ps] = src [RGBA.G]; //down left
+							dst [RGBA.G + stride] = src [RGBA.G]; //down
+							dst [RGBA.G + stride + ps] = src [RGBA.G]; //down right
+						}
 
-					if (src [RGBA.R] != 0) {
+						if (src [RGBA.R] != 0) {
 
-						dst [RGBA.R] = src [RGBA.R];
-						dst [RGBA.R - stride - ps] = src [RGBA.R]; //up left
-						dst [RGBA.R - stride] = src [RGBA.R]; //up
-						dst [RGBA.R - stride + ps] = src [RGBA.R]; //up right
+							dst [RGBA.R] = src [RGBA.R];
+							dst [RGBA.R - stride - ps] = src [RGBA.R]; //up left
+							dst [RGBA.R - stride] = src [RGBA.R]; //up
+							dst [RGBA.R - stride + ps] = src [RGBA.R]; //up right
 
-						dst [RGBA.R - ps] = src [RGBA.R]; //left
-						dst [RGBA.R + ps] = src [RGBA.R]; //right
+							dst [RGBA.R - ps] = src [RGBA.R]; //left
+							dst [RGBA.R + ps] = src [RGBA.R]; //right
 
-						dst [RGBA.R + stride - ps] = src [RGBA.R]; //down left
-						dst [RGBA.R + stride] = src [RGBA.R]; //down
-						dst [RGBA.R + stride + ps] = src [RGBA.R]; //down right
+							dst [RGBA.R + stride - ps] = src [RGBA.R]; //down left
+							dst [RGBA.R + stride] = src [RGBA.R]; //down
+							dst [RGBA.R + stride + ps] = src [RGBA.R]; //down right
+						}
 					}
 
 					// alpha, 32 bit
@@ -125,8 +132,8 @@ namespace Troonie_Lib
 
 					}
 				}
-				src += offset;
-				dst += offset;
+				src += 2 * ps + offset;
+				dst += 2 * ps + offset;
 			}
 		}
 
