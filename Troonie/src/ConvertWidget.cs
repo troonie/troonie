@@ -55,7 +55,21 @@ namespace Troonie
 				frameOutputDirectory.ShadowType = ShadowType.In;
 
 				rdJpegGray.Sensitive = true;
+				frame3.Sensitive = Constants.I.CJPEG;
 				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+
+				if (!Constants.I.CJPEG) {
+					PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
+					pseudo.Title = Language.I.L [161];
+					pseudo.Label1 = Language.I.L [162];
+					pseudo.Label2 = Language.I.L [165] + Constants.N + Language.I.L [164];
+					pseudo.OkButtontext = Language.I.L [16];
+					pseudo.Show ();
+
+					if (rdJpeg.Active || rdJpegGray.Active) {
+						rdPng24Bit.Active = true;
+					}
+				}
 			}		
 			// insertIter = textview1.Buffer.StartIter;
 

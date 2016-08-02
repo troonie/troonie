@@ -69,6 +69,7 @@
     <Compile Include="filter\StitchMIFilter.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="filter\CopyFilter.cs" />
+    <Compile Include="Version.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

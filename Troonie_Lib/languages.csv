@@ -158,3 +158,8 @@ Smallest allowed value in resulting range;Kleinstmöglicher Wert im Ergebnis
 Highest allowed value in resulting range;Größtmöglicher Wert im Ergebnis
 Draw thick pixels;Dicke Pixel zeichnen
 Strong obfuscation (not recommended);Starke Obfuskation (nicht empfohlen)
+Error with 'cjpeg';Fehler mit 'cjpeg'
+'cjpeg' from package 'libjpeg-progs' is not installed;'cjpeg' vom Paket 'libjpeg-progs' ist nicht installiert.
+Hence Troonie cannot save images in JPEG format.;Daher kann Troonie Bilder nicht im JPEG-Format speichern.
+Please install 'libjpeg-progs' or 'libjpeg-turbo-progs';Bitte installiere 'libjpeg-progs' oder 'libjpeg-turbo-progs'.
+Hence Troonie cannot convert images to JPEG format.;Daher kann Troonie Bilder nicht ins JPEG-Format umwandeln.

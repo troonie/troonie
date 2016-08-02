@@ -86,6 +86,15 @@ namespace Troonie
 			frameShortcuts.ShadowType = ShadowType.In;
 
 			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+
+			if (!Constants.I.CJPEG) {
+					PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
+					pseudo.Title = Language.I.L [161];
+					pseudo.Label1 = Language.I.L [162];
+					pseudo.Label2 = Language.I.L [163] + Constants.N + Language.I.L [164];
+					pseudo.OkButtontext = Language.I.L [16];
+					pseudo.Show ();
+			}
 		}
 
 			imagepanel1.OnCursorPosChanged += OnCursorPosChanged;

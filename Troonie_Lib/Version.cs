@@ -1,0 +1,1 @@
+﻿namespace Troonie_Lib {	public class Version { public const string VERSION = "0.1.0"; } }

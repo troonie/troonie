@@ -40,7 +40,7 @@ namespace Troonie_Lib
 		/// <summary>Constant non-changeable text. For changeable value, see Language.I.L[54].</summary>
 		public const string DESCRIPTION_FIX_IN_ENGLISH = 
 			"A slender tool to convert, trim, stitch, filter photos and work with steganography.";
-		public const string VERSION = "1.0.0";
+//		public const string VERSION = "0.1.0";
 		public static DateTime PUBLISHDATE =  DateTime.Today; // new DateTime (2016, 03, 18);
 		public static string PUBLISHDATE_STRING {
 			get {
@@ -62,7 +62,10 @@ namespace Troonie_Lib
 
 		private bool windows;
 		public bool WINDOWS { get { return windows; }}
-				
+
+		private bool cjpeg;
+		public bool CJPEG { get { return cjpeg; }}
+
 		private string exepath;
 		public string EXEPATH { get { return exepath; }}
 
@@ -75,6 +78,7 @@ namespace Troonie_Lib
 		public void Init()
 		{
 			windows = IsWindows ();
+			cjpeg = JpegEncoder.ExistsCjpeg ();
 			exepath = AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar;
 			homepath = windows ? Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%")
 				: Environment.GetEnvironmentVariable("HOME");
@@ -82,7 +86,7 @@ namespace Troonie_Lib
 			config = Config.Load ();
 			Language.I.LanguageID = config.LanguageID;
 //			description = Language.I.L[54];
-			versionFloat = GetFloatVersionNumber (VERSION);
+			versionFloat = GetFloatVersionNumber (Version.VERSION);
 			CheckUpdateAsThread ();
 		}	
 
@@ -108,13 +112,18 @@ namespace Troonie_Lib
 
 		private void CheckUpdate()
 		{
+			string test = "https://raw.githubusercontent.com/troonie/troonie/master/website/TroonieVersion";
 			try
 			{
-				WebRequest request = WebRequest.Create(UPDATESERVERFILE);
+				WebRequest request = WebRequest.Create(test);
+//				WebRequest request = WebRequest.Create(UPDATESERVERFILE);
 				// this step is the problem for sometimes delaying
 				WebResponse response = request.GetResponse();
 				StreamReader r = new StreamReader(response.GetResponseStream());
 				string serverVersion = r.ReadLine();
+				int s = serverVersion.IndexOf('"');
+				int l = serverVersion.LastIndexOf('"');
+				serverVersion = serverVersion.Substring(s, l - s);
 				r.Close();
 				serverVersionFloat = GetFloatVersionNumber(serverVersion);
 //				bool updateAvailable = versionFloat < serverVersionFloat;

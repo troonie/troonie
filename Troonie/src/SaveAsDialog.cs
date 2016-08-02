@@ -138,6 +138,11 @@ namespace Troonie
 				frame7.ShadowType = ShadowType.In;
 
 				rdJpegGray.Sensitive = true;
+				frame3.Sensitive = Constants.I.CJPEG;
+
+				if (!Constants.I.CJPEG && (rdJpeg.Active || rdJpegGray.Active)) {
+					rdPng24Bit.Active = true;
+				}
 			}		
 		}
 

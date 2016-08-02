@@ -23,7 +23,7 @@ namespace Troonie
 			AboutDialog ad = new AboutDialog ();
 			ad.ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);
 			ad.ProgramName = Constants.TITLE;
-			ad.Version = Constants.VERSION;
+			ad.Version = Troonie_Lib.Version.VERSION;
 			ad.Website = Constants.WEBSITE;
 			ad.Comments = Language.I.L [54]; // Constants.I.DESCRIPTION;
 			ad.Title = Language.I.L[149] + " " + Constants.TITLE;

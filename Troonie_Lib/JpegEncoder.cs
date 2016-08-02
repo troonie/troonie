@@ -11,6 +11,41 @@ namespace Troonie_Lib
     /// </summary>
     public static class JpegEncoder
     {
+		public static bool ExistsCjpeg()
+		{
+			try
+			{
+				Process proc = new Process();
+				proc.StartInfo.FileName = "cjpeg";   
+				proc.StartInfo.Arguments = "x";
+				proc.StartInfo.UseShellExecute = false; 
+				proc.StartInfo.RedirectStandardOutput = true;
+				proc.StartInfo.RedirectStandardError = true;
+				proc.Start();
+				proc.WaitForExit();
+
+//				StreamReader srOutput = proc.StandardOutput;
+//				string standardOutput = srOutput.ReadToEnd();
+//				Console.WriteLine ("Output: " + standardOutput);
+//				srOutput.Close();
+	
+//				StreamReader srError = proc.StandardError;
+//				string standardError = srError.ReadToEnd();
+//				Console.WriteLine ("Error: " + standardError);
+//				srError.Close();
+
+//				int exitCode = proc.ExitCode;
+				proc.Close();
+
+				return true;
+			}
+			catch  (Exception ) {
+//				Console.WriteLine ("e = " + e.Message);
+				return false;
+			}
+		}
+
+
         /// <summary>
         /// Saves an image as a jpeg image, with the given quality
         /// </summary>
@@ -78,8 +113,8 @@ namespace Troonie_Lib
 			proc.StartInfo.FileName = "cjpeg";   
 			proc.StartInfo.Arguments = args; 
 			proc.StartInfo.UseShellExecute = false; 
-//			proc.StartInfo.RedirectStandardOutput = true;
-//			proc.StartInfo.RedirectStandardError = true;
+			proc.StartInfo.RedirectStandardOutput = true;
+			proc.StartInfo.RedirectStandardError = true;
 
 			proc.Start();
 
