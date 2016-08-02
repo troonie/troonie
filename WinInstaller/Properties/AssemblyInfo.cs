@@ -6,10 +6,10 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle (Version.AssemblyTitle)]
 [assembly: AssemblyDescription (Version.AssemblyTitle)]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("www.Troonie-project.de")]
+[assembly: AssemblyCompany ("www.troonie.com")]
 [assembly: AssemblyProduct (Version.AssemblyProduct)]
 [assembly: AssemblyCopyright ("Troonie Project")]
-[assembly: AssemblyTrademark ("www.Troonie-project.de")]
+[assembly: AssemblyTrademark ("www.troonie.com")]
 [assembly: AssemblyCulture ("")]
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
@@ -22,7 +22,7 @@ using System.Runtime.CompilerServices;
 
 public class Version
 {
-	public const string Number = "1.0.0";
-	public const string AssemblyTitle = "Troonie Installer for Windows 7, 8.1 and 10";
-	public const string AssemblyProduct = "Troonie 1.0 beta2";
+	public const string Number = "1.0.1";
+	public const string AssemblyTitle = "Troonie Installer for Windows 10, 8.1 and 7";
+	public const string AssemblyProduct = "Troonie 1.0.1 beta";
 }

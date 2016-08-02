@@ -34,13 +34,12 @@ namespace Troonie_Lib
 		public const string ICONNAME = "icon.ico";
 		public const string WEBSITE = "http://www.troonie.com";
 		public const string UPDATESERVERFILE = 
-			"http://www.troonie.com/TroonieVersion";
+			"https://raw.githubusercontent.com/troonie/troonie/master/Troonie_Lib/Version.cs";
 		public const string TITLE = "Troonie";
 		public const string TITLE_LIB = "Troonie_Lib";
 		/// <summary>Constant non-changeable text. For changeable value, see Language.I.L[54].</summary>
 		public const string DESCRIPTION_FIX_IN_ENGLISH = 
 			"A slender tool to convert, trim, stitch, filter photos and work with steganography.";
-//		public const string VERSION = "0.1.0";
 		public static DateTime PUBLISHDATE =  DateTime.Today; // new DateTime (2016, 03, 18);
 		public static string PUBLISHDATE_STRING {
 			get {
@@ -111,19 +110,17 @@ namespace Troonie_Lib
 		}
 
 		private void CheckUpdate()
-		{
-			string test = "https://raw.githubusercontent.com/troonie/troonie/master/website/TroonieVersion";
+		{			
 			try
 			{
-				WebRequest request = WebRequest.Create(test);
-//				WebRequest request = WebRequest.Create(UPDATESERVERFILE);
+				WebRequest request = WebRequest.Create(UPDATESERVERFILE);
 				// this step is the problem for sometimes delaying
 				WebResponse response = request.GetResponse();
 				StreamReader r = new StreamReader(response.GetResponseStream());
 				string serverVersion = r.ReadLine();
 				int s = serverVersion.IndexOf('"');
 				int l = serverVersion.LastIndexOf('"');
-				serverVersion = serverVersion.Substring(s, l - s);
+				serverVersion = serverVersion.Substring(s + 1, l - s - 1);
 				r.Close();
 				serverVersionFloat = GetFloatVersionNumber(serverVersion);
 //				bool updateAvailable = versionFloat < serverVersionFloat;
