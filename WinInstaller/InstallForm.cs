@@ -94,6 +94,8 @@ namespace WinInstaller
 			if (p1 != null && p1.WaitForExit (3 * 60 * 1000)) {
 				count = 1;
 			}
+
+			this.Refresh ();
 				
 			// install Visual-C++-Redist-2013_x86
 			ProcessStartInfo info2 = new ProcessStartInfo();

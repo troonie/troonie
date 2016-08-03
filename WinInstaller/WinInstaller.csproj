@@ -6,7 +6,7 @@
     <ProjectGuid>{42A44B9D-D1D3-4C13-8CB4-482DE0B9D386}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>WinInstaller</RootNamespace>
-    <AssemblyName>WinInstaller</AssemblyName>
+    <AssemblyName>Troonie-Win10-Installer</AssemblyName>
     <ApplicationIcon>Files\icon.ico</ApplicationIcon>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
