@@ -39,7 +39,7 @@ namespace Troonie_Lib
 		public const string TITLE_LIB = "Troonie_Lib";
 		/// <summary>Constant non-changeable text. For changeable value, see Language.I.L[54].</summary>
 		public const string DESCRIPTION_FIX_IN_ENGLISH = 
-			"A slender tool to convert, trim, stitch, filter photos and work with steganography.";
+			"A portable tool to convert, trim, stitch, filter photos and work with steganography.";
 		public static DateTime PUBLISHDATE =  DateTime.Today; // new DateTime (2016, 03, 18);
 		public static string PUBLISHDATE_STRING {
 			get {

@@ -1,6 +1,6 @@
 # Troonie (get <a href="https://github.com/troonie/troonie/releases" target="_blank">version 1.0.1 beta</a>)
 
-##A slender tool to convert, trim, stitch, filter photos and work with steganography.
+##A portable tool to convert, trim, stitch, filter photos and work with steganography.
 
 <b>Troonie</b> is a cross-platform and open source tool, hosted at <a href="https://github.com/troonie/troonie" target="_blank">Github</a>. Troonie has a modern (GTK#-based) graphical user interface and a very easy handling. Just right-click on a picture or folder and use the explorer context menu (Linux and Windows).
 

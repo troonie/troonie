@@ -116,7 +116,6 @@
     <Compile Include="src\DesktopContextMenu.cs" />
     <Compile Include="src\TroonieAboutDialog.cs" />
     <Compile Include="src\AskForDesktopContextMenuWindow.cs" />
-    <Compile Include="src\PseudoTroonieContextMenu.cs" />
     <Compile Include="src\EditWidget.EntryEvents.cs" />
     <Compile Include="src\EditWidget.ButtonEvents.cs" />
     <Compile Include="src\EditWidget.ToolbarButtonEvents.cs" />
@@ -132,11 +131,14 @@
     <Compile Include="gtk-gui\Troonie.SaveAsDialog.cs" />
     <Compile Include="gtk-gui\Troonie.ConvertWidget.cs" />
     <Compile Include="gtk-gui\Troonie.AskForDesktopContextMenuWindow.cs" />
-    <Compile Include="gtk-gui\Troonie.PseudoTroonieContextMenu.cs" />
     <Compile Include="gtk-gui\Troonie.SteganographyWidget.cs" />
     <Compile Include="gtk-gui\Troonie.StarterWidget.cs" />
     <Compile Include="gtk-gui\Troonie.FilterWidget.cs" />
     <Compile Include="gtk-gui\Troonie.StitchWidget.cs" />
+    <Compile Include="src\PasswordDialog.cs" />
+    <Compile Include="gtk-gui\Troonie.PasswordDialog.cs" />
+    <Compile Include="src\OkCancelDialog.cs" />
+    <Compile Include="gtk-gui\Troonie.OkCancelDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

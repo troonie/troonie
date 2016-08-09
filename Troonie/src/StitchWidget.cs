@@ -234,7 +234,7 @@ namespace Troonie
 				#endregion
 			}
 			catch(ArgumentException) {
-				PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
+				OkCancelDialog pseudo = new OkCancelDialog (true);
 				pseudo.Title = Language.I.L [125];
 				pseudo.Label1 = string.Empty; // Language.I.L [125];
 				pseudo.Label2 = Language.I.L [126];
@@ -308,7 +308,7 @@ namespace Troonie
 				#endregion
 			}
 			catch(ArgumentException) {
-				PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
+				OkCancelDialog pseudo = new OkCancelDialog (true);
 				pseudo.Title = Language.I.L [125];
 				pseudo.Label1 = string.Empty; // Language.I.L [125];
 				pseudo.Label2 = Language.I.L [126];

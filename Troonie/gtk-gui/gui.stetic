@@ -6,7 +6,7 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../bin/Release/Troonie.exe" internal="true" />
+    <widget-library name="../bin/Debug/Troonie.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Troonie.EditWidget" design-size="688 1115">
     <property name="MemberName" />
@@ -2843,7 +2843,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="Troonie.PseudoTroonieContextMenu" design-size="325 120">
+  <widget class="Gtk.Window" id="Troonie.OkCancelDialog" design-size="325 120">
     <property name="MemberName" />
     <property name="Title" translatable="yes">PseudoTroonieContextMenu</property>
     <property name="WindowPosition">Mouse</property>
@@ -4950,6 +4950,57 @@
         </child>
         <child>
           <placeholder />
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="Troonie.PasswordDialog" design-size="348 97">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">PasswordWidget</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <widget class="Gtk.VBox" id="vbox1">
+        <property name="MemberName" />
+        <property name="Spacing">10</property>
+        <property name="BorderWidth">10</property>
+        <child>
+          <widget class="Gtk.Entry" id="entryPassword">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="IsEditable">True</property>
+            <property name="MaxLength">128</property>
+            <property name="Visibility">False</property>
+            <property name="InvisibleChar">●</property>
+            <signal name="KeyReleaseEvent" handler="OnEntryKeyKeyReleaseEvent" />
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <widget class="Troonie.TroonieButton" id="btnOk">
+            <property name="MemberName" />
+            <property name="CheckReleaseState">False</property>
+            <property name="BorderlineWidth">3</property>
+            <property name="ButtonHeight">35</property>
+            <property name="ButtonWidth">0</property>
+            <property name="Font">Arial</property>
+            <property name="Text">OK</property>
+            <property name="TextSize">14</property>
+            <signal name="ButtonReleaseEvent" handler="OnBtnOkReleaseEvent" />
+          </widget>
+          <packing>
+            <property name="Position">2</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
         </child>
       </widget>
     </child>

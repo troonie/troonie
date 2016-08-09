@@ -26,7 +26,7 @@ namespace Troonie
 
 		private void UpdatePressed (object sender, EventArgs e)
 		{
-			PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (false);
+			OkCancelDialog pseudo = new OkCancelDialog (false);
 			pseudo.Title = Language.I.L [69];
 			pseudo.Label1 = Language.I.L [70] + newVersion.ToString(CultureInfo.InvariantCulture);
 			pseudo.Label2 = Language.I.L [71];

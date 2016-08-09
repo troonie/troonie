@@ -51,7 +51,7 @@ File already exists. Overwrite?;Datei existiert bereits. Überschreiben?
 No image file or image cannot be loaded.;Keine Bilddatei oder Bild kann nicht geladen werden.
 Too small image and too much text to decrypt correctly.;Zu kleines Bild und zu viel Text für korrekte Verschlüsselung.
 ERROR.;FEHLER.
-A slender tool to convert, trim, stitch, filter photos and work with steganography.;Ein schlankes Tool zum Konvertieren, Beschneiden, Zusammenkleben und Filtern von Fotos sowie für Steganografie.
+A portable tool to convert, trim, stitch, filter photos and work with steganography.;Ein schlankes Tool zum Konvertieren, Beschneiden, Zusammenkleben und Filtern von Fotos sowie für Steganografie.
 No Steganography image.;Kein Steganografiebild.
 Image needs to contain 32 bit alpha transparency.;Bild muss 32-Bit-Alpha-Transparenz besitzen.
 Should Troonie add context menu entries for the desktop?; Soll Troonie Kontextmenüeinträge für den Desktop anlegen? 
@@ -163,3 +163,5 @@ Error with 'cjpeg';Fehler mit 'cjpeg'
 Hence Troonie cannot save images in JPEG format.;Daher kann Troonie Bilder nicht im JPEG-Format speichern.
 Please install 'libjpeg-progs' or 'libjpeg-turbo-progs';Bitte installiere 'libjpeg-progs' oder 'libjpeg-turbo-progs'.
 Hence Troonie cannot convert images to JPEG format.;Daher kann Troonie Bilder nicht ins JPEG-Format umwandeln.
+Keys do not match.;Schlüssel stimmen nicht überein.
+Please confirm key.;Bitte Schlüssel erneut eingeben.

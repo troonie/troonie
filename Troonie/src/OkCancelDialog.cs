@@ -6,7 +6,7 @@ namespace Troonie
 {
 	public delegate void OnReleasedButtonDelegate();
 
-	public partial class PseudoTroonieContextMenu : Gtk.Window
+	public partial class OkCancelDialog : Gtk.Window
 	{
 		public OnReleasedButtonDelegate OnReleasedOkButton;
 		public OnReleasedButtonDelegate OnReleasedCancelButton;
@@ -35,7 +35,7 @@ namespace Troonie
 			set { label2.Text = value; }
 		}
 
-		public PseudoTroonieContextMenu (bool showOnlyOkButton) : 
+		public OkCancelDialog (bool showOnlyOkButton) : 
 				base(Gtk.WindowType.Toplevel)
 		{
 			KeepAbove = true;

@@ -74,7 +74,7 @@ namespace Troonie
 					if (Math.Abs(psCompare - ps) > 1) {
 //						string errorMsg = "Cannot compare grayscale with color image.";
 //						throw new ArgumentException(errorMsg);
-						PseudoTroonieContextMenu warn = new PseudoTroonieContextMenu (true);
+						OkCancelDialog warn = new OkCancelDialog (true);
 						warn.Title = Language.I.L [153];
 						warn.Label1 = Language.I.L [154];
 						warn.Label2 = string.Empty;
@@ -87,7 +87,7 @@ namespace Troonie
 					if (w != wCompare || h != hCompare) {
 //						string errorMsg = "Cannot compare different image sizes.";
 //						throw new ArgumentException(errorMsg);
-						PseudoTroonieContextMenu warn = new PseudoTroonieContextMenu (true);
+						OkCancelDialog warn = new OkCancelDialog (true);
 						warn.Title = Language.I.L [153];
 						warn.Label1 = Language.I.L [155];
 						warn.Label2 = string.Empty;

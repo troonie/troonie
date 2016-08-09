@@ -88,7 +88,7 @@ namespace Troonie
 			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 
 			if (!Constants.I.CJPEG) {
-					PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
+					OkCancelDialog pseudo = new OkCancelDialog (true);
 					pseudo.Title = Language.I.L [161];
 					pseudo.Label1 = Language.I.L [162];
 					pseudo.Label2 = Language.I.L [163] + Constants.N + Language.I.L [164];
@@ -652,7 +652,7 @@ namespace Troonie
 						break;
 				case Gdk.Key.k:
 					SaveConfigFromGui ();
-					PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
+					OkCancelDialog pseudo = new OkCancelDialog (true);
 					pseudo.Title = Language.I.L [135];
 					pseudo.Label1 = Language.I.L [136];
 					pseudo.Label2 = Language.I.L [137];

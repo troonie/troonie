@@ -294,7 +294,7 @@ namespace Troonie
 				// filterImage = abstractFilter.Apply (filterImage, filterProperties);
 			}
 			catch(ArgumentException) {
-				PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
+				OkCancelDialog pseudo = new OkCancelDialog (true);
 				pseudo.Title = Language.I.L [125];
 				pseudo.Label1 = string.Empty; // Language.I.L [125];
 				pseudo.Label2 = Language.I.L [126];
@@ -405,7 +405,7 @@ namespace Troonie
 			    (abstractFilter is OilPaintingFilter ||
 			 	 abstractFilter is CannyEdgeDetectorFilter ||
 			     abstractFilter is GaussianBlurFilter) ) {
-				PseudoTroonieContextMenu warn = new PseudoTroonieContextMenu (false);
+				OkCancelDialog warn = new OkCancelDialog (false);
 				warn.Title = Language.I.L [29];
 				warn.Label1 = Language.I.L [31];
 				warn.Label2 = Language.I.L [33];

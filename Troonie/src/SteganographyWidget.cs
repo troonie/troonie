@@ -225,7 +225,7 @@ namespace Troonie
 			filter.WritingMode = rdBtnWrite.Active;
 			filter.UseStrongObfuscation = checkBtnStrongObfuscation.Active;
 
-			PseudoTroonieContextMenu pseudo = new PseudoTroonieContextMenu (true);
+			OkCancelDialog pseudo = new OkCancelDialog (true);
 			pseudo.Title = Language.I.L [80];
 			pseudo.Label1 = Language.I.L [81];
 			pseudo.OkButtontext = Language.I.L [16];
@@ -254,7 +254,7 @@ namespace Troonie
 			else {
 				if (!ImageConverter.IsColorImage(bt.Bitmap)) {
 					pseudo.DestroyAll ();
-					PseudoTroonieContextMenu wrongImageContextMenu = new PseudoTroonieContextMenu (true);
+					OkCancelDialog wrongImageContextMenu = new OkCancelDialog (true);
 					wrongImageContextMenu.Title = Language.I.L [53];
 					wrongImageContextMenu.Label1 = Language.I.L [55];
 					wrongImageContextMenu.Label2 = Language.I.L [56];
@@ -365,29 +365,57 @@ namespace Troonie
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
 			if (entryKey.Text.Length == 0) {
-				PseudoTroonieContextMenu warn = new PseudoTroonieContextMenu (true);
+				OkCancelDialog warn = new OkCancelDialog (true);
 				warn.Title = Language.I.L [118];
 				warn.Label1 = string.Empty;
 				warn.Label2 = Language.I.L [119];
 				warn.OkButtontext = Language.I.L [16];
-//				warn.CancelButtontext = Language.I.L [17];	
+				//				warn.CancelButtontext = Language.I.L [17];	
 				warn.Show ();
 
 				return;
 			}
 
-			if (rdBtnWrite.Active && entryKey.Text.Length < 10) {
-				PseudoTroonieContextMenu warn = new PseudoTroonieContextMenu (false);
-				warn.Title = Language.I.L [109];
-				warn.Label1 = Language.I.L [110] + entryKey.Text.Length + Language.I.L [111];
-				warn.Label2 = Language.I.L [112];
-				warn.OkButtontext = Language.I.L [16];
-				warn.CancelButtontext = Language.I.L [17];	
-				warn.Show ();
+			if (rdBtnWrite.Active) {
+				if (entryKey.Text.Length < 10) {
+					OkCancelDialog warn = new OkCancelDialog (false);
+					warn.Title = Language.I.L [109];
+					warn.Label1 = Language.I.L [110] + entryKey.Text.Length + Language.I.L [111];
+					warn.Label2 = Language.I.L [112];
+					warn.OkButtontext = Language.I.L [16];
+					warn.CancelButtontext = Language.I.L [17];	
+					warn.Show ();
 
-				warn.OnReleasedOkButton += DoSteganography;
-			} else {
+					warn.OnReleasedOkButton += StartPasswordDialog;
+				} else {
+					StartPasswordDialog ();
+				}				
+			}
+			else /* if (rdBtnRead.Active) */ {
 				DoSteganography ();
+			}				
+		}
+
+		private void StartPasswordDialog()
+		{
+			PasswordDialog pw = new PasswordDialog ();
+			pw.Title = Language.I.L [167];
+			pw.OkButtontext = Language.I.L [16];
+			pw.OnReleasedOkButton += ConfirmKey;
+			pw.Show ();
+		}
+
+		private void ConfirmKey(string password)
+		{
+			if (password == entryKey.Text) {
+				DoSteganography ();
+			} else {
+				OkCancelDialog warn = new OkCancelDialog (true);
+				warn.Title = Language.I.L [166];
+				warn.Label1 = Language.I.L [166];
+				warn.Label2 = Language.I.L [167];
+				warn.OkButtontext = Language.I.L [16];	
+				warn.Show ();
 			}
 		}
 
