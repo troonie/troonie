@@ -165,3 +165,5 @@ Please install 'libjpeg-progs' or 'libjpeg-turbo-progs';Bitte installiere 'libjp
 Hence Troonie cannot convert images to JPEG format.;Daher kann Troonie Bilder nicht ins JPEG-Format umwandeln.
 Keys do not match.;Schlüssel stimmen nicht überein.
 Please confirm key.;Bitte Schlüssel erneut eingeben.
+Posterization;Posterisation
+Divisor;Divisor

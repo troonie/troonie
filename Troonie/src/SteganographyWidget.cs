@@ -226,6 +226,7 @@ namespace Troonie
 			filter.UseStrongObfuscation = checkBtnStrongObfuscation.Active;
 
 			OkCancelDialog pseudo = new OkCancelDialog (true);
+			pseudo.WindowPosition = WindowPosition.CenterAlways;
 			pseudo.Title = Language.I.L [80];
 			pseudo.Label1 = Language.I.L [81];
 			pseudo.OkButtontext = Language.I.L [16];
@@ -255,6 +256,7 @@ namespace Troonie
 				if (!ImageConverter.IsColorImage(bt.Bitmap)) {
 					pseudo.DestroyAll ();
 					OkCancelDialog wrongImageContextMenu = new OkCancelDialog (true);
+					wrongImageContextMenu.WindowPosition = WindowPosition.CenterAlways;
 					wrongImageContextMenu.Title = Language.I.L [53];
 					wrongImageContextMenu.Label1 = Language.I.L [55];
 					wrongImageContextMenu.Label2 = Language.I.L [56];
@@ -366,6 +368,7 @@ namespace Troonie
 		{
 			if (entryKey.Text.Length == 0) {
 				OkCancelDialog warn = new OkCancelDialog (true);
+				warn.WindowPosition = WindowPosition.CenterAlways;
 				warn.Title = Language.I.L [118];
 				warn.Label1 = string.Empty;
 				warn.Label2 = Language.I.L [119];
@@ -379,6 +382,7 @@ namespace Troonie
 			if (rdBtnWrite.Active) {
 				if (entryKey.Text.Length < 10) {
 					OkCancelDialog warn = new OkCancelDialog (false);
+					warn.WindowPosition = WindowPosition.CenterAlways;
 					warn.Title = Language.I.L [109];
 					warn.Label1 = Language.I.L [110] + entryKey.Text.Length + Language.I.L [111];
 					warn.Label2 = Language.I.L [112];
@@ -399,6 +403,7 @@ namespace Troonie
 		private void StartPasswordDialog()
 		{
 			PasswordDialog pw = new PasswordDialog ();
+			pw.WindowPosition = WindowPosition.CenterAlways;
 			pw.Title = Language.I.L [167];
 			pw.OkButtontext = Language.I.L [16];
 			pw.OnReleasedOkButton += ConfirmKey;
@@ -411,11 +416,13 @@ namespace Troonie
 				DoSteganography ();
 			} else {
 				OkCancelDialog warn = new OkCancelDialog (true);
+				warn.WindowPosition = WindowPosition.CenterAlways;
 				warn.Title = Language.I.L [166];
 				warn.Label1 = Language.I.L [166];
 				warn.Label2 = Language.I.L [167];
 				warn.OkButtontext = Language.I.L [16];	
 				warn.Show ();
+				warn.OnReleasedOkButton += StartPasswordDialog;
 			}
 		}
 

@@ -33,3 +33,7 @@ sudo apt-get install libjpeg-progs
 SUSE
 sudo zypper install mono-runtime
 sudo zypper install gtk-sharp2
+
+whatis mono
+FALSCH
+sudo zypper install mono-runtime

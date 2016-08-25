@@ -265,6 +265,23 @@ namespace Troonie
 			hscale2.Value = diff.Highest;
 		}
 
+		public FilterWidget (string pFilename, PosterizationFilter posterization) : this (pFilename)
+		{
+			abstractFilter = posterization;
+			Title = Language.I.L [168];
+			frameHScales.Visible = true;
+
+			// Brush size to search for most frequent pixels' intensity. [1, 10]. Default: 5
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[169] + "</b>";
+			hscale1.Value = posterization.Divisor;
+			hscale1.Adjustment.Lower = 1;
+			hscale1.Adjustment.Upper = 255;
+			hscale1.Adjustment.StepIncrement = 1;
+			hscale1.Adjustment.PageIncrement = 5;
+			hscale1.Digits = 0;
+		}
+
 		#endregion Constructors
 
 		public override void Destroy ()

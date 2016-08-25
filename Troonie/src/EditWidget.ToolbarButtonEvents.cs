@@ -105,7 +105,10 @@ namespace Troonie
 				} else {
 					fc.Destroy ();
 					return index; 
-				}					
+				}
+			case 9:
+				fw = new FilterWidget (FileName, new PosterizationFilter());
+				break;
 			}
 //			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 			fw.FilterEvent += FilterEvent;

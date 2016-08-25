@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using TagLib;
-using TagLib.Gif;
-using TagLib.IFD;
 using TagLib.Image;
-using TagLib.Jpeg;
-using TagLib.Png;
 using NetColor = System.Drawing.Color;
 using IOFile = System.IO.File;
 using IOPath = System.IO.Path;
@@ -16,13 +12,10 @@ namespace Troonie_Lib
 {
 	public class BitmapWithTag
 	{		
-		private TroonieImageFormat newFormat;
-
 		public TroonieImageFormat OrigFormat { get; private set; }
 		public Bitmap Bitmap { get; private set; }
 		public string FileName { get; private set; }
 		public CombinedImageTag ImageTag { get; private set; }
-		// public Configuration Config { get; private set; }
 
 		public BitmapWithTag (string filename, bool exists)
 		{
@@ -32,38 +25,12 @@ namespace Troonie_Lib
 
 			if (exists) {
 				Bitmap = new Bitmap (filename);
-				OrigFormat = newFormat = ImageFormatConverter.I.ConvertToPIF(Bitmap.RawFormat, Bitmap.PixelFormat);
-				// Config.Format = ImageFormatConverter.I.ConvertToPIF(Bitmap.RawFormat);
+				OrigFormat = ImageFormatConverter.I.ConvertToPIF(Bitmap.RawFormat, Bitmap.PixelFormat);
 				ImageTag = ExtractTags (filename);
-
-				if (ImageTag != null && ImageTag.AllTags.Count == 0) 
-				{
-					switch (OrigFormat) 
-					{
-					case TroonieImageFormat.PNG1:
-					case TroonieImageFormat.PNG8:
-					case TroonieImageFormat.PNG24:
-					case TroonieImageFormat.PNG32Transparency:
-					case TroonieImageFormat.PNG32AlphaAsValue:
-							ImageTag.PIC_ENHANCE_AddTag (new PngTag ());
-							break;
-					case TroonieImageFormat.JPEG8:
-					case TroonieImageFormat.JPEG24:
-							ImageTag.PIC_ENHANCE_AddTag (new IFDTag ());
-							ImageTag.PIC_ENHANCE_AddTag (new JpegCommentTag ());
-							break;
-					case TroonieImageFormat.TIFF:
-							ImageTag.PIC_ENHANCE_AddTag (new IFDTag ());
-							break;
-					case TroonieImageFormat.GIF:
-							ImageTag.PIC_ENHANCE_AddTag (new GifCommentTag ());
-							break;
-					}
-				}
 			} 
 			else {
 				Bitmap = new Bitmap (180, 180, PixelFormat.Format32bppArgb);
-				OrigFormat = newFormat = TroonieImageFormat.PNG32AlphaAsValue;
+				OrigFormat = TroonieImageFormat.PNG32AlphaAsValue;
 				ImageTag = new CombinedImageTag (TagTypes.Png);
 			}				
 		}			
@@ -107,7 +74,6 @@ namespace Troonie_Lib
 			Bitmap dest;
 			int w = Bitmap.Width;
 			int h = Bitmap.Height;
-			newFormat = config.Format;
 
 			if (config.UseOriginalPath) {
 				config.Path = System.IO.Directory.GetParent(FileName).FullName;
@@ -158,32 +124,25 @@ namespace Troonie_Lib
 				break;
 			}
 
-			// TODO: Was already merged with ScaleAndCut(..)-method, experimaental, take care.
-//			if (config.Format == TroonieImageFormat.PNG32AlphaAsValue)	{
-//				RectangleF rec = ImageConverter.GetRectangle(Bitmap.Width, Bitmap.Height, 0,0 , w, h, config.StretchImage);
-//				dest = null;
-//				dest = Bitmap.Clone(rec, PixelFormat.Format32bppArgb);
-//			}else{
-				ImageConverter.ScaleAndCut (Bitmap, 
-					out dest,
-					0,
-					0,
-					w,
-					h,
-					config.StretchImage,
-					config.HighQuality);
-//			}
+			ImageConverter.ScaleAndCut (Bitmap, 
+				out dest,
+				0,
+				0,
+				w,
+				h,
+				config.StretchImage,
+				config.HighQuality);
 			#endregion Resizing
 
 			#region Saving by using TroonieImageFormat
 			switch (config.Format) {
 			case TroonieImageFormat.JPEG8:
 				JpegEncoder.SaveJpeg (FileName, dest, config.JpgQuality, true);
-				SaveTag ();
+				SaveTag (FileName, ImageTag);
 				return;
 			case TroonieImageFormat.JPEG24:
 				JpegEncoder.SaveJpeg (FileName, dest, config.JpgQuality, false);
-				SaveTag ();
+				SaveTag (FileName, ImageTag);
 				return;
 			case TroonieImageFormat.BMP1:
 			case TroonieImageFormat.PNG1:
@@ -221,102 +180,77 @@ namespace Troonie_Lib
 			#endregion Saving by using TroonieImageFormat
 
 			Bitmap = dest;
-			SaveTag ();
+			SaveTag (FileName, ImageTag);
 		}
 
-		private void SaveTag()
+		private static void SaveTag(string fileName, CombinedImageTag origTag)
 		{
-			if (ImageTag == null)
+			if (origTag == null)
 				return;
 
-			TagLib.File tagFile;
+			TagLib.Image.File imageTagFile;
 			try{
-				tagFile = TagLib.File.Create(FileName);
+				imageTagFile = TagLib.File.Create(fileName) as TagLib.Image.File;
 			}
 			catch (Exception /* UnsupportedFormatException */) {
 				return;
 			}
 
-			var image = tagFile as TagLib.Image.File;
-//			// TODO examples for setting properties manually
-//			ImageTag.Software = "Converted by Troonie 3.0";
-//			ImageTag.Comment = "El commentaro";
-//			ImageTag.Creator = "Max Mustermann";
+			imageTagFile.EnsureAvailableTags();
 
-			// if (OrigFormat == newFormat) {
-			if (ImageFormatConverter.I.IsSameDotNetFormat(OrigFormat, newFormat)) {
-				image.PIC_ENHANCE_SetImageTag(ImageTag);
-				image.Save();
-				tagFile.Dispose ();
-				return;
+			// all general tags
+			origTag.CopyTo(imageTagFile.ImageTag, true);
+
+			// all image tags
+			if (origTag.Keywords != null) imageTagFile.ImageTag.Keywords = origTag.Keywords;
+			if (origTag.Rating != null) imageTagFile.ImageTag.Rating = origTag.Rating;
+			if (origTag.DateTime != null) imageTagFile.ImageTag.DateTime = origTag.DateTime;
+			imageTagFile.ImageTag.Orientation = origTag.Orientation;
+			if (origTag.Software != null) imageTagFile.ImageTag.Software = origTag.Software;
+			if (origTag.Latitude != null) imageTagFile.ImageTag.Latitude = origTag.Latitude;
+			if (origTag.Longitude != null) imageTagFile.ImageTag.Longitude = origTag.Longitude;
+			if (origTag.Altitude != null) imageTagFile.ImageTag.Altitude = origTag.Altitude;
+			if (origTag.ExposureTime != null) imageTagFile.ImageTag.ExposureTime = origTag.ExposureTime;
+			if (origTag.FNumber != null) imageTagFile.ImageTag.FNumber = origTag.FNumber;
+			if (origTag.ISOSpeedRatings != null) imageTagFile.ImageTag.ISOSpeedRatings = origTag.ISOSpeedRatings;
+			if (origTag.FocalLength != null) imageTagFile.ImageTag.FocalLength = origTag.FocalLength;
+			if (origTag.FocalLengthIn35mmFilm != null) imageTagFile.ImageTag.FocalLengthIn35mmFilm = origTag.FocalLengthIn35mmFilm;
+			if (origTag.Make != null) imageTagFile.ImageTag.Make = origTag.Make;
+			if (origTag.Model != null) imageTagFile.ImageTag.Model = origTag.Model;
+			if (origTag.Creator != null) imageTagFile.ImageTag.Creator = origTag.Creator;
+
+			// examples for setting properties manually
+//			imageTagFile.ImageTag.Creator = "MARKI";
+//			imageTagFile.ImageTag.FocalLength = 33.0;
+//			imageTagFile.ImageTag.Rating = 5;
+
+			try{
+				imageTagFile.Save();
 			}
-
-			CombinedImageTag ctag;
-
-			switch (newFormat) {
-			case TroonieImageFormat.PNG1:
-			case TroonieImageFormat.PNG8:
-			case TroonieImageFormat.PNG24:
-			case TroonieImageFormat.PNG32Transparency:
-			case TroonieImageFormat.PNG32AlphaAsValue:
-				//image.GetTag (TagTypes.Png, true);
-				ctag = new CombinedImageTag (TagTypes.Png);
-				PngTag pngTag = image.GetTag (TagTypes.Png, true) as PngTag;
-				ImageTag.CopyTo(pngTag, true);
-				ctag.PIC_ENHANCE_AddTag (pngTag);
-				image.PIC_ENHANCE_SetImageTag(ctag);
-				break;
-			case TroonieImageFormat.JPEG8:
-			case TroonieImageFormat.JPEG24:
-				ctag = new CombinedImageTag (TagTypes.TiffIFD | TagTypes.JpegComment);
-				IFDTag jpgIfdTag = image.GetTag (TagTypes.TiffIFD, true) as IFDTag;
-				// TODO: Why using JpegCommentTag? Comment is also in other tags (e.g. IFDTag)
-				//JpegCommentTag jpgComTag = image.GetTag (TagTypes.JpegComment, true) as JpegCommentTag;
-				ImageTag.CopyTo(jpgIfdTag, true);
-				//imageTag.CopyTo(jpgComTag, true);
-				ctag.PIC_ENHANCE_AddTag (jpgIfdTag);
-				//ctag.PIC_ENHANCE_AddTag (jpgComTag);
-				image.PIC_ENHANCE_SetImageTag(ctag);
-				break;
-			case TroonieImageFormat.TIFF:
-				ctag = new CombinedImageTag (TagTypes.TiffIFD);
-				IFDTag ifdTag = image.GetTag (TagTypes.TiffIFD, true) as IFDTag;
-				ImageTag.CopyTo(ifdTag, true);
-				ctag.PIC_ENHANCE_AddTag (ifdTag);
-				image.PIC_ENHANCE_SetImageTag(ctag);
-				break;
-			case TroonieImageFormat.GIF:
-				ctag = new CombinedImageTag (TagTypes.GifComment);
-				GifCommentTag gifTag = new GifCommentTag (ImageTag.Comment);
-				ctag.PIC_ENHANCE_AddTag (gifTag);
-				image.PIC_ENHANCE_SetImageTag(ctag);
-				break;
-//			case DotNetImageFormatEnum.Bmp:
-//			case DotNetImageFormatEnum.Wmf:
-//			case DotNetImageFormatEnum.Emf:
-//			case DotNetImageFormatEnum.Icon:
-			default:
-				// no metadata	
-				break;
+			catch (Exception /* UnsupportedFormatException */) {
+				// do nothing
 			}
-
-			image.Save();
-			tagFile.Dispose ();
+			
+			imageTagFile.Dispose ();
+			return;
 		}
 
 		private static CombinedImageTag ExtractTags(string fileName)
 		{
-			TagLib.File tagFile;
+			TagLib.Image.File imageTagFile;
 			try{
-				tagFile = TagLib.File.Create(fileName);
+				imageTagFile = TagLib.File.Create(fileName) as TagLib.Image.File;
 			}
 			catch (Exception /* UnsupportedFormatException */) {
 				return null;
+			}				
+
+			if (imageTagFile.ImageTag != null && imageTagFile.ImageTag.AllTags.Count == 0) {
+				imageTagFile.EnsureAvailableTags ();
 			}
 
-			var image = tagFile as TagLib.Image.File;
-			CombinedImageTag tag = image.ImageTag;
-			tagFile.Dispose ();
+			CombinedImageTag tag = imageTagFile.ImageTag;
+			imageTagFile.Dispose ();
 			return tag;
 		}
 	}

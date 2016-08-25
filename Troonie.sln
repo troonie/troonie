@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troonie", "Troonie\Troonie.csproj", "{6D92E59B-13E2-42EA-90D7-E93CDBE20DBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troonie_taglib", "Troonie_taglib\Troonie_taglib.csproj", "{B91271CF-29E8-495D-A462-56C6DDDBD67E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troonie_Lib", "Troonie_Lib\Troonie_Lib.csproj", "{86AC3579-4361-4861-B86E-DFA6D9704EB6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5BAABF3A-243C-4183-88DD-118C89FA2141}"
@@ -34,10 +32,6 @@ Global
 		{86AC3579-4361-4861-B86E-DFA6D9704EB6}.Debug|x86.Build.0 = Debug|Any CPU
 		{86AC3579-4361-4861-B86E-DFA6D9704EB6}.Release|x86.ActiveCfg = Release|Any CPU
 		{86AC3579-4361-4861-B86E-DFA6D9704EB6}.Release|x86.Build.0 = Release|Any CPU
-		{B91271CF-29E8-495D-A462-56C6DDDBD67E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B91271CF-29E8-495D-A462-56C6DDDBD67E}.Debug|x86.Build.0 = Debug|Any CPU
-		{B91271CF-29E8-495D-A462-56C6DDDBD67E}.Release|x86.ActiveCfg = Release|Any CPU
-		{B91271CF-29E8-495D-A462-56C6DDDBD67E}.Release|x86.Build.0 = Release|Any CPU
 		{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}.Debug|x86.ActiveCfg = Debug|x86
 		{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}.Debug|x86.Build.0 = Debug|x86
 		{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}.Release|x86.ActiveCfg = Release|x86
