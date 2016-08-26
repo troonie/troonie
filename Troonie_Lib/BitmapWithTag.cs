@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using TagLib;
@@ -19,8 +18,6 @@ namespace Troonie_Lib
 
 		public BitmapWithTag (string filename, bool exists)
 		{
-//			Config = new Configuration ();
-//			Config.Path = filename;
 			FileName = filename;
 
 			if (exists) {
@@ -48,26 +45,11 @@ namespace Troonie_Lib
 			}
 
 			if (ImageTag != null) {
-				ImageTag.Clear();
+				try {
+					ImageTag.Clear();
+				} catch (NotImplementedException) { /* do nothing */ }
 			}
-		}
-			
-//		public void SaveAsJpeg(string newFileName, byte quality, bool grayscale)
-//		{
-//			FileName = newFileName;
-//			newFormat = grayscale ? TroonieImageFormat.JPEG8 : TroonieImageFormat.JPEG24;
-//			//TODO: Fix quality bug for saving
-//			JpegEncoder.SaveJpeg(FileName, Bitmap, quality, grayscale);
-//			SaveTag ();
-//		}
-			
-//		public void Save(string newFileName, ImageFormat format)
-//		{			
-//			FileName = newFileName;
-//			newFormat = ImageFormatConverter.I.ConvertToPIF(format, Bitmap.PixelFormat);
-//			Bitmap.Save(FileName, format);
-//			SaveTag ();
-//		}			
+		}			
 
 		public void Save(Config config, string relativeFileName)
 		{			
@@ -252,6 +234,16 @@ namespace Troonie_Lib
 			CombinedImageTag tag = imageTagFile.ImageTag;
 			imageTagFile.Dispose ();
 			return tag;
+		}
+
+		public static int GetRating(string fileName)
+		{
+			CombinedImageTag tag = ExtractTags (fileName);
+			if (tag == null || tag.Rating == null) {
+				return -1;
+			} else {
+				return (int)tag.Rating;
+			}
 		}
 	}
 }

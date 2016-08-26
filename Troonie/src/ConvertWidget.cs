@@ -373,6 +373,18 @@ namespace Troonie
 			case Gdk.Key.Delete:
 				OnToolbarBtn_RemovePressed (null, null);
 				break;
+			case Gdk.Key.r:
+
+				OkCancelDialog warn = new OkCancelDialog (false);
+				warn.Title = Language.I.L [29];
+				warn.Label1 = Language.I.L [170];
+				warn.Label2 = Language.I.L [171];
+				warn.OkButtontext = Language.I.L [16];
+				warn.CancelButtontext = Language.I.L [17];	
+				warn.Show ();
+
+				warn.OnReleasedOkButton += RenameByImageTagRating;						
+				break;
 			}
 				
 			// args.RetVal = true;
@@ -437,9 +449,48 @@ namespace Troonie
 				DialogFlags.DestroyWithParent, MessageType.Info, 
 				ButtonsType.Close, mssg);
 			md.Run();
-			md.Destroy();
-			
-		}						
+			md.Destroy();			
+		}				
+
+		private void RenameByImageTagRating()
+		{
+			int nr = 0;
+			foreach (Widget w in vboxImageList.Children) {
+				PressedInButton pib = w as PressedInButton;
+
+				int rating = BitmapWithTag.GetRating (pib.FullText);
+				switch (rating) 
+				{
+				case -1:
+				case 0:
+					break;
+				case 1: 
+					string identifier1 = "-big";
+					RenamePIB (pib, identifier1);
+					break;
+				case 2: 
+					string identifier2 = "-raw";
+					RenamePIB (pib, identifier2);
+					break;
+				}
+				nr++;
+			}			
+		}
+
+		private static void RenamePIB(PressedInButton pib, string identifier)
+		{
+			string s = pib.FullText;
+			int lastIdentifier = s.LastIndexOf (identifier);
+			int lastDot = s.LastIndexOf ('.');
+			if (lastIdentifier == -1 || lastIdentifier + identifier.Length != lastDot) {
+				s = s.Insert (s.LastIndexOf ('.'), identifier);
+				FileHelper.I.Rename (pib.FullText, s);
+
+				pib.FullText = s;
+				pib.Text = s.Substring (s.LastIndexOf (IOPath.DirectorySeparatorChar) + 1);	
+				pib.Redraw ();
+			}
+		}
 	}
 }
 

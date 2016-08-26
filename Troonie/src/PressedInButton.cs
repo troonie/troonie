@@ -73,6 +73,11 @@ namespace Troonie
 			da.QueueDraw ();			
 		}
 
+		public void Redraw()
+		{
+			da.QueueDraw ();
+		}
+
 		protected void OnButtonPressed(object sender, ButtonPressEventArgs a)
 		{     
 			if (firstClick) {
