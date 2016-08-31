@@ -3,6 +3,8 @@ using Troonie_Lib;
 using Gtk;
 using System.Collections.Generic;
 using IOPath = System.IO.Path;
+using System.IO;
+using System.Linq;
 
 namespace Troonie
 {
@@ -298,16 +300,23 @@ namespace Troonie
 				// Also change possible wrong directory separator
 				newImages [i] = newImages [i].Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar);
 
-				l_pressedInButton = new PressedInButton ();
-				l_pressedInButton.FullText = newImages [i];
-				l_pressedInButton.Text = newImages [i].Substring(newImages[i].LastIndexOf(
-					IOPath.DirectorySeparatorChar) + 1);	
-				l_pressedInButton.CanFocus = true;
-				l_pressedInButton.Sensitive = true;
-				l_pressedInButton.TextSize = 10;
-				l_pressedInButton.ShowAll ();
+				// check whether file is image or video
+				FileInfo info = new FileInfo (newImages [i]);
+				string ext = info.Extension.ToLower ();
 
-				vboxImageList.PackStart(l_pressedInButton, false, false, 0);
+				if (Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext) ||
+					Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext)) {
+					l_pressedInButton = new PressedInButton ();
+					l_pressedInButton.FullText = newImages [i];
+					l_pressedInButton.Text = newImages [i].Substring(newImages[i].LastIndexOf(
+						IOPath.DirectorySeparatorChar) + 1);	
+					l_pressedInButton.CanFocus = true;
+					l_pressedInButton.Sensitive = true;
+					l_pressedInButton.TextSize = 10;
+					l_pressedInButton.ShowAll ();
+
+					vboxImageList.PackStart(l_pressedInButton, false, false, 0);
+				}					
 			}	
 		}
 
@@ -383,7 +392,7 @@ namespace Troonie
 				warn.CancelButtontext = Language.I.L [17];	
 				warn.Show ();
 
-				warn.OnReleasedOkButton += RenameByImageTagRating;						
+				warn.OnReleasedOkButton += RenameByRating;						
 				break;
 			}
 				
@@ -434,15 +443,15 @@ namespace Troonie
 					errors.Add (imageFile);			
 				}
 			}
-
-			string mssg = "Finished. " + Environment.NewLine;
+				
+			string mssg = Language.I.L [172] + Environment.NewLine;
 			if (errors.Count != 0) {
-				mssg += "Some images could not be converted: " + Environment.NewLine;
+				mssg += Language.I.L [173] + Environment.NewLine + Environment.NewLine;
 				foreach (string errorimage in errors) {
-					mssg += errorimage + Environment.NewLine;
+					mssg += "  *  ..." + errorimage.Substring(errorimage.Length - 35) + Environment.NewLine;
 				}
 			} else {
-				mssg += "All images are converted. :) " + Environment.NewLine;
+				mssg += Language.I.L [174] + Environment.NewLine;
 			}
 
 			MessageDialog md = new MessageDialog(this, 
@@ -452,25 +461,53 @@ namespace Troonie
 			md.Destroy();			
 		}				
 
-		private void RenameByImageTagRating()
+		private void RenameByRating()
 		{
 			int nr = 0;
 			foreach (Widget w in vboxImageList.Children) {
 				PressedInButton pib = w as PressedInButton;
 
-				int rating = BitmapWithTag.GetRating (pib.FullText);
+
+				// check whether file is image or video
+				FileInfo info = new FileInfo (pib.FullText);
+				string ext = info.Extension.ToLower ();
+				int rating = -1;
+				bool isVideo = false;
+
+				if (Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
+					rating = BitmapWithTag.GetImageRating (pib.FullText);
+				} else {
+					rating = VideoTag.GetVideoRating (pib.FullText);
+					isVideo = true;
+				}
+					
 				switch (rating) 
 				{
 				case -1:
-				case 0:
+				case 1:
+					if (isVideo) {
+						VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
+						RenamePIB (pib, "-vid");
+					}
 					break;
-				case 1: 
-					string identifier1 = "-big";
-					RenamePIB (pib, identifier1);
+				case 0:			
+					/* do nothing with image */
 					break;
+//				case 1: /* video */
+////					VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
+//					RenamePIB (pib, "-vid");
+//					break;
 				case 2: 
-					string identifier2 = "-raw";
-					RenamePIB (pib, identifier2);
+					RenamePIB (pib, "-big");
+					break;
+				case 3: 
+					RenamePIB (pib, "-raw");
+					break;
+				case 4: 
+					RenamePIB (pib, "-gold");
+					break;
+				case 5: 
+					RenamePIB (pib, "-platin");
 					break;
 				}
 				nr++;

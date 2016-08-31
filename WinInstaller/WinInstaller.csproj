@@ -49,9 +49,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Files\Troonie_taglib.dll">
-      <LogicalName>Troonie_taglib.dll</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="Files\Troonie.exe">
       <LogicalName>Troonie.exe</LogicalName>
     </EmbeddedResource>
@@ -72,6 +69,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Files\cab1.cab">
       <LogicalName>cab1.cab</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Files\taglib-sharp.dll">
+      <LogicalName>taglib-sharp.dll</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -46,7 +46,6 @@
     <Compile Include="ColorPalette.cs" />
     <Compile Include="BitmapWithTag.cs" />
     <Compile Include="ImageConverter.cs" />
-    <Compile Include="ImageFormatEnums.cs" />
     <Compile Include="ResizeVersion.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Language.cs" />
@@ -74,6 +73,8 @@
     <Compile Include="filter\CopyFilter.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="filter\PosterizationFilter.cs" />
+    <Compile Include="ImageFormatConverter.cs" />
+    <Compile Include="VideoTag.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

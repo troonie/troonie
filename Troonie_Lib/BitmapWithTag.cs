@@ -23,7 +23,7 @@ namespace Troonie_Lib
 			if (exists) {
 				Bitmap = new Bitmap (filename);
 				OrigFormat = ImageFormatConverter.I.ConvertToPIF(Bitmap.RawFormat, Bitmap.PixelFormat);
-				ImageTag = ExtractTags (filename);
+				ImageTag = ExtractImageTag (filename);
 			} 
 			else {
 				Bitmap = new Bitmap (180, 180, PixelFormat.Format32bppArgb);
@@ -217,11 +217,14 @@ namespace Troonie_Lib
 			return;
 		}
 
-		private static CombinedImageTag ExtractTags(string fileName)
+		private static CombinedImageTag ExtractImageTag(string fileName)
 		{
 			TagLib.Image.File imageTagFile;
 			try{
 				imageTagFile = TagLib.File.Create(fileName) as TagLib.Image.File;
+				if (imageTagFile == null){
+					return null;
+				}
 			}
 			catch (Exception /* UnsupportedFormatException */) {
 				return null;
@@ -235,16 +238,16 @@ namespace Troonie_Lib
 			imageTagFile.Dispose ();
 			return tag;
 		}
-
-		public static int GetRating(string fileName)
+			
+		public static int GetImageRating(string fileName)
 		{
-			CombinedImageTag tag = ExtractTags (fileName);
+			CombinedImageTag tag = ExtractImageTag (fileName);
 			if (tag == null || tag.Rating == null) {
 				return -1;
 			} else {
 				return (int)tag.Rating;
 			}
-		}
+		}			
 	}
 }
 

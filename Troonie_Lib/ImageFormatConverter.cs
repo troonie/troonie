@@ -28,6 +28,13 @@ namespace Troonie_Lib
 		Undefined
 	} 
 
+	public enum TroonieVideoFormat
+	{
+		AVI,
+		MPEG,
+		MP4
+	} 
+
 //	public enum DotNetImageFormat
 //	{
 //		Bmp,
@@ -56,24 +63,6 @@ namespace Troonie_Lib
 				return instance;
 			}
 		}
-
-//		// TODO: Complete it.
-//		public DotNetImageFormat ConvertTo(ImageFormat f)
-//		{
-//			if (f.Guid == ImageFormat.Bmp.Guid)
-//				return DotNetImageFormat.Bmp;
-//			else if (f.Guid == ImageFormat.Jpeg.Guid)
-//				return DotNetImageFormat.Jpeg;
-//			else if (f.Guid == ImageFormat.Png.Guid)
-//				return DotNetImageFormat.Png;
-//			else if (f.Guid == ImageFormat.Tiff.Guid)
-//				return DotNetImageFormat.Tiff;		
-//			else if (f.Guid == ImageFormat.Gif.Guid)
-//				return DotNetImageFormat.Gif;	
-//
-//			return DotNetImageFormat.Undefined;
-//			//throw new NotSupportedException ("Image format is not supported.");
-//		}
 
 		public ImageFormat ConvertFromPIF(TroonieImageFormat f)
 		{

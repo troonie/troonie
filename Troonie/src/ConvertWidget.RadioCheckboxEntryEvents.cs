@@ -1,6 +1,7 @@
 ﻿using System;
 using Gtk;
 using Troonie_Lib;
+using System.Linq;
 
 namespace Troonie
 {	
@@ -8,11 +9,13 @@ namespace Troonie
 	{
 		#region RadioButton image format toggle events
 
-		private void SetToggledProperties(object sender, TroonieImageFormat f, string s)
+		private void SetToggledProperties(object sender, TroonieImageFormat f)
 		{
+			var pair = Constants.Extensions.First(x => x.Key == f);
+
 			if (((RadioButton)sender).Active) {
 				Constants.I.CONFIG.Format = f;
-				format = s;
+				format = pair.Value.Item1;
 			}				
 		}
 
@@ -21,7 +24,7 @@ namespace Troonie
 			hscaleQuality.Sensitive = rdJpeg.Active;
 			lbQuality.Sensitive = rdJpeg.Active;
 
-			SetToggledProperties (sender, TroonieImageFormat.JPEG24, ".jpg");
+			SetToggledProperties (sender, TroonieImageFormat.JPEG24);
 		}
 
 		protected void OnRdJpegGrayToggled (object sender, EventArgs e)
@@ -29,22 +32,22 @@ namespace Troonie
 			hscaleQuality.Sensitive = rdJpegGray.Active;
 			lbQuality.Sensitive = rdJpegGray.Active;
 
-			SetToggledProperties (sender, TroonieImageFormat.JPEG8, ".jpg");
+			SetToggledProperties (sender, TroonieImageFormat.JPEG8);
 		}
 
 		protected void OnRdPng1bitToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.PNG1, ".png");
+			SetToggledProperties (sender, TroonieImageFormat.PNG1);
 		}
 
 		protected void OnRdPng8BitToggled (object sender, EventArgs e)
 		{			
-			SetToggledProperties (sender, TroonieImageFormat.PNG8, ".png");
+			SetToggledProperties (sender, TroonieImageFormat.PNG8);
 		}						
 
 		protected void OnRdPng24BitToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.PNG24, ".png");
+			SetToggledProperties (sender, TroonieImageFormat.PNG24);
 		}
 
 		protected void OnRdPNG32bitToggled (object sender, EventArgs e)
@@ -52,52 +55,52 @@ namespace Troonie
 			lbTransparencyColor.Sensitive = rdPNG32bit.Active;
 			btnColor.Sensitive = rdPNG32bit.Active;
 
-			SetToggledProperties (sender, TroonieImageFormat.PNG32Transparency, ".png");
+			SetToggledProperties (sender, TroonieImageFormat.PNG32Transparency);
 		}
 
 		protected void OnRdPng32BitAlphaAsValueToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.PNG32AlphaAsValue, ".png");
+			SetToggledProperties (sender, TroonieImageFormat.PNG32AlphaAsValue);
 		}
 
 		protected void OnRdBmp1bitToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.BMP1, ".bmp");
+			SetToggledProperties (sender, TroonieImageFormat.BMP1);
 		}
 
 		protected void OnRdBmp8bitToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.BMP8, ".bmp");
+			SetToggledProperties (sender, TroonieImageFormat.BMP8);
 		}
 
 		protected void OnRdBmp24bitToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.BMP24, ".bmp");
+			SetToggledProperties (sender, TroonieImageFormat.BMP24);
 		}	
 
 		protected void OnRdTiffToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.TIFF, ".tif");
+			SetToggledProperties (sender, TroonieImageFormat.TIFF);
 		}
 
 		protected void OnRdGifToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.GIF, ".gif");
+			SetToggledProperties (sender, TroonieImageFormat.GIF);
 		}
 
 		protected void OnRdWmfToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.WMF, ".wmf");
+			SetToggledProperties (sender, TroonieImageFormat.WMF);
 		}
 
 		protected void OnRdEmfToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.EMF, ".emf");
+			SetToggledProperties (sender, TroonieImageFormat.EMF);
 		}
 
 		protected void OnRdIconToggled (object sender, EventArgs e)
 		{
-			SetToggledProperties (sender, TroonieImageFormat.ICO, ".ico");
+			SetToggledProperties (sender, TroonieImageFormat.ICO);
 		}			
 
 		#endregion RadioButton image format toggle events

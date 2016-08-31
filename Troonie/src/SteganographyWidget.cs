@@ -11,6 +11,7 @@ using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using ImageConverter = Troonie_Lib.ImageConverter;
 using Troonie;
 using Troonie_Lib;
+using System.Linq;
 
 namespace Troonie
 {
@@ -108,26 +109,15 @@ namespace Troonie
 						FileInfo info = new FileInfo (FileName);
 						string ext = info.Extension.ToLower ();
 
-						switch (ext) {
-							case ".wmf":
-							case ".tiff":
-							case ".tif":
-							case ".gif":
-							case ".emf":
-							case ".png":
-							case ".bmp":
-							case ".jpeg":
-							case ".jpg":
-							case ".ico":
+						if (Constants.Extensions.Any(x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
 							Title = FileName;
 							bt = new BitmapWithTag(FileName, true);
 							imageW = bt.Bitmap.Width;
 							imageH = bt.Bitmap.Height;
-							break;
-							default:
+						}
+						else{
 							LoadException ();
-							return;
-						} // switch end
+						}
 					} // try end
 					catch (ArgumentException) {
 						LoadException ();

@@ -3,6 +3,7 @@ using Gtk;
 using System.IO;
 using Troonie_Lib;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Troonie
 {
