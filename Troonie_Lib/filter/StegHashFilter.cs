@@ -104,10 +104,24 @@ namespace Troonie_Lib
 
 			int startH = sumHashElements / w;
 			int startW = sumHashElements - w * startH;
-			// check and correct special startW border position
+
+			// NEW check [2016-09-14]
+			if (startH >= h) {
+				startH = 0;
+			}
+			if (startW < 0) {
+				startW = Math.Abs (startW);
+			}
 			if (startW >= w - numberOfPinChar) {
-				startW -= numberOfPinChar;
-			} 
+				startW = w - numberOfPinChar - 1;
+			}
+
+//			// check and correct special startW border position
+//			if (startW >= w - numberOfPinChar) {
+//				startW -= numberOfPinChar;
+//			} 
+
+			// END NEW
 
             byte* src = (byte*)srcData.Scan0.ToPointer();      
 			byte* dst = (byte*)dstData.Scan0.ToPointer();
