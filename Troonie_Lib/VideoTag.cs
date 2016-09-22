@@ -30,7 +30,7 @@ namespace Troonie_Lib
 					return;
 				}
 			}
-			catch (Exception ex /* UnsupportedFormatException */) {
+			catch (Exception /* UnsupportedFormatException */) {
 				return;
 			}
 				

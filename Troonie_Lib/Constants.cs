@@ -64,6 +64,7 @@ namespace Troonie_Lib
 			{ TroonieImageFormat.EMF, Tuple.Create(".emf", string.Empty) },
 			{ TroonieImageFormat.GIF, Tuple.Create(".gif", string.Empty) },
 			{ TroonieImageFormat.ICO, Tuple.Create(".ico", string.Empty) },
+			{ TroonieImageFormat.JPEG8, Tuple.Create(".jpg", ".jpeg") },
 			{ TroonieImageFormat.JPEG24, Tuple.Create(".jpg", ".jpeg") },
 			{ TroonieImageFormat.PNG1, Tuple.Create(".png", string.Empty) },
 			{ TroonieImageFormat.PNG24, Tuple.Create(".png", string.Empty) },

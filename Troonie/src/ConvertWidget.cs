@@ -467,7 +467,6 @@ namespace Troonie
 			foreach (Widget w in vboxImageList.Children) {
 				PressedInButton pib = w as PressedInButton;
 
-
 				// check whether file is image or video
 				FileInfo info = new FileInfo (pib.FullText);
 				string ext = info.Extension.ToLower ();
@@ -479,48 +478,144 @@ namespace Troonie
 				} else {
 					rating = VideoTag.GetVideoRating (pib.FullText);
 					isVideo = true;
+
+					VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
+					//						AppendIdentifier (pib, "-vid");
+					InsertIdentifierAtBegin(pib, "V-");
 				}
+
+				long limitInBytes = Math.Max (rating * 1050000, 350000);
 					
 				switch (rating) 
 				{
 				case -1:
-				case 1:
-					if (isVideo) {
-						VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
-						RenamePIB (pib, "-vid");
-					}
-					break;
 				case 0:			
-					/* do nothing with image */
+					if (!isVideo)
+						ReduceImageSize (pib, 2000, 90);
 					break;
-//				case 1: /* video */
-////					VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
-//					RenamePIB (pib, "-vid");
-//					break;
+				case 1:
+					AppendIdentifier (pib, "_+");
+					break;
 				case 2: 
-					RenamePIB (pib, "-big");
+					AppendIdentifier (pib, "_++");
 					break;
 				case 3: 
-					RenamePIB (pib, "-raw");
+					AppendIdentifier (pib, "_+++");
 					break;
 				case 4: 
-					RenamePIB (pib, "-gold");
+					AppendIdentifier (pib, "_++++");
 					break;
 				case 5: 
-					RenamePIB (pib, "-platin");
+					AppendIdentifier (pib, "_+++++");
+					limitInBytes = long.MaxValue; // avoid any jpg compression
 					break;
 				}
+				if (!isVideo)
+					ConvertByRating (pib, limitInBytes);
 				nr++;
 			}			
 		}
 
-		private static void RenamePIB(PressedInButton pib, string identifier)
+		private static void ReduceImageSize(PressedInButton pib, int biggestLength, byte jpgQuality, long limitInBytes)
+		{
+			BitmapWithTag bt_final = new BitmapWithTag (pib.FullText, true);
+			Config c_final = new Config ();				
+			c_final.UseOriginalPath = true;
+			c_final.HighQuality = true;
+			c_final.ResizeVersion = ResizeVersion.BiggestLength;
+			c_final.BiggestLength = biggestLength;
+			c_final.JpgQuality = jpgQuality;
+			c_final.FileOverwriting = true;
+
+			bt_final.Save (c_final, pib.Text);
+			bt_final.Dispose ();
+		}
+
+		private static bool ConvertByRating(PressedInButton pib, long limitInBytes)
+		{
+			FileInfo info = new FileInfo (pib.FullText);
+			long l = info.Length;
+			byte jpgQuality = 96;
+		
+			string relativeImageName = pib.Text.Substring(0, pib.Text.LastIndexOf('.')) + "_tmp.jpg";
+
+
+			while (l > limitInBytes && jpgQuality > 5)
+			{
+				try {
+					jpgQuality--;
+
+					BitmapWithTag bt = new BitmapWithTag (pib.FullText, true);
+					Config c = new Config();				
+					c.UseOriginalPath = false;
+					c.Path = Constants.I.EXEPATH;
+					c.HighQuality = true;
+					c.ResizeVersion = ResizeVersion.No;
+					c.JpgQuality = jpgQuality;
+					c.FileOverwriting = false;
+					bt.Save (c, relativeImageName);
+					bt.Dispose();
+
+					FileInfo info_inner = new FileInfo (c.Path + relativeImageName);
+					l = info_inner.Length;
+					info_inner.Delete();
+				}
+				catch(Exception){
+					l = info.Length;
+				}
+			}
+
+			if (l == info.Length) {
+				// no jpg compression was done
+				BitmapWithTag.SetAndSaveTag(pib.FullText, "Creator", "Jpg-Quality: Original value");
+			} else {
+
+				BitmapWithTag bt_final = new BitmapWithTag (pib.FullText, true);
+				Config c_final = new Config ();				
+				c_final.UseOriginalPath = true;
+				c_final.HighQuality = true;
+				c_final.ResizeVersion = ResizeVersion.No;
+				c_final.JpgQuality = jpgQuality;
+				c_final.FileOverwriting = true;
+
+				bt_final.ChangeImageTag ("Creator", "Jpg-Quality: " + jpgQuality.ToString ());
+//			bt_final.SetTag("Conductor", "Conductor-JpgQuality: " + jpgQuality.ToString());
+//			bt_final.SetTag("Copyright", "Copyright-JpgQuality: " + jpgQuality.ToString());
+
+				bt_final.Save (c_final, pib.Text);
+				bt_final.Dispose ();
+			}
+			return true;
+		}
+
+		private static void AppendIdentifier(PressedInButton pib, string identifier)
 		{
 			string s = pib.FullText;
+			// remove old identifier
+			s = s.Replace("-big", "");
+			s = s.Replace("-raw", "");
+
 			int lastIdentifier = s.LastIndexOf (identifier);
 			int lastDot = s.LastIndexOf ('.');
 			if (lastIdentifier == -1 || lastIdentifier + identifier.Length != lastDot) {
 				s = s.Insert (s.LastIndexOf ('.'), identifier);
+				FileHelper.I.Rename (pib.FullText, s);
+
+				pib.FullText = s;
+				pib.Text = s.Substring (s.LastIndexOf (IOPath.DirectorySeparatorChar) + 1);	
+				pib.Redraw ();
+			}
+		}
+
+		private static void InsertIdentifierAtBegin(PressedInButton pib, string identifier)
+		{
+			string s = pib.Text;
+			// remove old identifier
+			s = s.Replace("-vid", "");
+
+			int firstIdentifier = s.IndexOf (identifier);
+			if (firstIdentifier == -1 || firstIdentifier != 0) {
+				s = s.Insert (0, identifier);
 				FileHelper.I.Rename (pib.FullText, s);
 
 				pib.FullText = s;

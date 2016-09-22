@@ -56,7 +56,6 @@
     <Compile Include="filter\AbstractFilter.cs" />
     <Compile Include="filter\SteganographyFilter.cs" />
     <Compile Include="filter\InvertFilter.cs" />
-    <Compile Include="AforgeImage.cs" />
     <Compile Include="filter\ExtractOrRotateChannelsFilter.cs" />
     <Compile Include="filter\GaussianBlurFilter.cs" />
     <Compile Include="filter\CannyEdgeDetectorFilter.cs" />
@@ -75,6 +74,7 @@
     <Compile Include="filter\PosterizationFilter.cs" />
     <Compile Include="ImageFormatConverter.cs" />
     <Compile Include="VideoTag.cs" />
+    <Compile Include="TroonieBitmap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

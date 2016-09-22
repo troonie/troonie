@@ -7,10 +7,19 @@ using DNColorPalette = System.Drawing.Imaging.ColorPalette;
 namespace Troonie_Lib
 {
 	/// <summary>
-	/// Source code adapted form AFroge.NET (www.aforgenet.com).
+	/// Troonie helper class for extending bitmap class. Some Source code frgaments 
+	/// adapted form AFroge.NET (www.aforgenet.com).
 	/// </summary>
-	public class AforgeImage
+	public class TroonieBitmap
 	{
+		public static int GetBiggestLength(string fileName)
+		{
+			Bitmap b = FromFile (fileName);
+			int l = Math.Max (b.Width, b.Height);
+			b.Dispose ();
+			return l;
+		}
+
 		/// <summary>
 		/// [Source: AForge.Net] Loads bitmap from file without file-locking.
 		/// </summary>
