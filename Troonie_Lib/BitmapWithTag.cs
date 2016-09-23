@@ -49,24 +49,7 @@ namespace Troonie_Lib
 					ImageTag.Clear();
 				} catch (NotImplementedException) { /* do nothing */ }
 			}
-		}	
-
-		public void ChangeImageTag(string tagName, string newValue)
-		{
-			switch (tagName) {
-			case "Creator":
-				ImageTag.Creator = newValue;
-				break;
-			case "Conductor":
-				ImageTag.Conductor = newValue;
-				break;
-			case "Copyright":
-				ImageTag.Copyright = newValue;
-				break;
-			default:
-				throw new NotImplementedException ();
-			}				
-		}
+		}				
 
 		public void Save(Config config, string relativeFileName)
 		{			
@@ -284,22 +267,9 @@ namespace Troonie_Lib
 			imageTagFile.Dispose ();
 			return tag;
 		}
-			
-		public static int GetImageRating(string fileName)
-		{
-			CombinedImageTag tag = ExtractImageTag (fileName);
-			if (tag == null || tag.Rating == null) {
-				return -1;
-			} else {
-				return (int)tag.Rating;
-			}
-		}
 
-		public static void SetAndSaveTag(string fileName, string tagName, string newValue)
+		private static void ChangeTag(CombinedImageTag imageTag, string tagName, string newValue)
 		{
-			TagLib.Image.File imageTagFile = LoadTagFile (fileName);
-			CombinedImageTag imageTag = imageTagFile.ImageTag;
-
 			switch (tagName) {
 			case "Creator":
 				imageTag.Creator = newValue;
@@ -312,7 +282,33 @@ namespace Troonie_Lib
 				break;
 			default:
 				throw new NotImplementedException ();
-			}				
+			}	
+		}
+			
+		public static void GetImageRating(string fileName, out int rating, out DateTime? dateTime)
+		{
+			CombinedImageTag tag = ExtractImageTag (fileName);
+			if (tag == null || tag.Rating == null) {
+				rating = -1;
+				dateTime = null;
+				return;
+			} else {
+				rating = (int)tag.Rating;
+				dateTime = tag.DateTime;
+			}
+		}
+
+		public void SetAndSaveTag(string tagName, string newValue)
+		{
+			ChangeTag (ImageTag, tagName, newValue);	
+		}
+
+		public static void SetAndSaveTag(string fileName, string tagName, string newValue)
+		{
+			TagLib.Image.File imageTagFile = LoadTagFile (fileName);
+			CombinedImageTag imageTag = imageTagFile.ImageTag;
+
+			ChangeTag (imageTag, tagName, newValue);				
 
 			try{
 				imageTagFile.Save();
@@ -323,7 +319,7 @@ namespace Troonie_Lib
 
 			imageTagFile.Dispose ();
 		}
-
+			
 		#endregion taglib stuff
 	}
 }
