@@ -12,8 +12,6 @@ namespace Troonie
 	public partial class ConvertWidget : Gtk.Window
 	{
 		private const string separator = "; ";
-		private bool renameByDate;
-
 		private bool isSettingGuiToCurrentConfiguration;
 		private bool leftControlPressed;
 		private Troonie.ColorConverter colorConverter;
@@ -386,19 +384,18 @@ namespace Troonie
 				OnToolbarBtn_RemovePressed (null, null);
 				break;
 
-			case Gdk.Key.d:
-				renameByDate = !renameByDate;
-				OkCancelDialog warn = new OkCancelDialog (true);
+			case Gdk.Key.r:
+				OkCancelDialog warn = new OkCancelDialog (false);
 				warn.Title = Language.I.L [29];
-				warn.Label1 = Language.I.L [175] + renameByDate;
-				warn.Label2 = ""; // Language.I.L [171];
+				warn.Label1 = Language.I.L [175];
+				warn.Label2 = Language.I.L [171];
 				warn.OkButtontext = Language.I.L [16];
-//				warn.CancelButtontext = Language.I.L [17];	
+				warn.CancelButtontext = Language.I.L [17];	
 				warn.Show ();
 
-//				warn.OnReleasedOkButton += RenameByRating;						
+				warn.OnReleasedOkButton += RenameByCreationDate;
 				break;
-			case Gdk.Key.r:
+			case Gdk.Key.c:
 
 				OkCancelDialog warn2 = new OkCancelDialog (false);
 				warn2.Title = Language.I.L [29];
@@ -408,7 +405,7 @@ namespace Troonie
 				warn2.CancelButtontext = Language.I.L [17];	
 				warn2.Show ();
 
-				warn2.OnReleasedOkButton += RenameByRating;						
+				warn2.OnReleasedOkButton += AppendIdAndCompressionByRating;						
 				break;
 			}
 				
@@ -475,9 +472,21 @@ namespace Troonie
 				ButtonsType.Close, mssg);
 			md.Run();
 			md.Destroy();			
-		}				
+		}	
 
-		private void RenameByRating()
+		private void RenameByCreationDate()
+		{
+			foreach (Widget w in vboxImageList.Children) {
+
+				PressedInButton pib = w as PressedInButton;
+				DateTime? dt = null;
+				BitmapWithTag.GetDateTime (pib.FullText, out dt);
+				if (dt.HasValue)
+					RenameFileByDate (pib, dt.Value);
+			}			
+		}
+
+		private void AppendIdAndCompressionByRating()
 		{			
 			int nr = 0;
 			foreach (Widget w in vboxImageList.Children) {
@@ -491,16 +500,15 @@ namespace Troonie
 				long origLength = info.Length; 
 				int rating;
 				bool isVideo = false;
-				DateTime? dt = null;
+//				DateTime? dt = null;
 
 				if (Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
-					BitmapWithTag.GetImageRating (pib.FullText, out rating, out dt);
+					BitmapWithTag.GetImageRating (pib.FullText, out rating);
 				} else {
 					rating = VideoTag.GetVideoRating (pib.FullText);
 					isVideo = true;
 
-					VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
-					//						AppendIdentifier (pib, "-vid");
+//					VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
 					InsertIdentifierAtBegin(pib, "V-");
 				}
 
@@ -514,11 +522,7 @@ namespace Troonie
 				case 0:			
 					break;
 				case 1:
-					// TODO Go on
-//					if (renameByDate && dt.HasValue)
-//						RenameFileByDateAndAppendIdentifier (pib, dt.Value, "_+");
-//					else 
-						AppendIdentifier (pib, "_+");
+					AppendIdentifier (pib, "_+");
 					break;
 				case 2: 
 					AppendIdentifier (pib, "_++");
@@ -536,7 +540,7 @@ namespace Troonie
 				}
 
 				if (!isVideo) {
-					byte jpqQuality = 94;
+					byte jpqQuality = 95;
 					biggestLength = 1800 + 1200 * rating;
 					if (origLength > limitInBytes &&
 						TroonieBitmap.GetBiggestLength (pib.FullText) > biggestLength) 
@@ -551,6 +555,7 @@ namespace Troonie
 			}			
 		}
 			
+		#region Image changing and adapting
 		private static void ReduceImageSize(PressedInButton pib, ref string creatorText, int biggestLength, byte jpgQuality)
 		{
 			BitmapWithTag bt_final = new BitmapWithTag (pib.FullText, true);
@@ -565,7 +570,7 @@ namespace Troonie
 			bt_final.Save (c_final, pib.Text);
 			bt_final.Dispose ();
 
-			creatorText += "Convert BiggestLength=" + biggestLength + separator;
+			creatorText += "BLength=" + biggestLength + separator;
 		}
 
 		private static bool ConvertByRating(PressedInButton pib, ref string creatorText, long limitInBytes, byte jpgQuality)
@@ -604,7 +609,7 @@ namespace Troonie
 
 			if (l == info.Length) {
 				// no jpg compression was done
-				creatorText += "Jpg-Quality: Original value" + separator;
+				creatorText += "Jpg-Q=Original" + separator;
 				BitmapWithTag.SetAndSaveTag(pib.FullText, "Creator", creatorText);
 			} else {
 
@@ -615,7 +620,7 @@ namespace Troonie
 				c_final.ResizeVersion = ResizeVersion.No;
 				c_final.JpgQuality = jpgQuality;
 				c_final.FileOverwriting = true;
-				creatorText += "Jpg-Quality: " + jpgQuality.ToString() + separator;
+				creatorText += "Jpg-Q=" + jpgQuality.ToString() + separator;
 				bt_final.SetAndSaveTag ("Creator", creatorText);
 				bt_final.Save (c_final, pib.Text);
 				bt_final.Dispose ();
@@ -623,17 +628,29 @@ namespace Troonie
 			return true;
 		}
 
-		private static void RenameFileByDateAndAppendIdentifier(PressedInButton pib, DateTime dt, string identifier)
+		private static void RenameFileByDate(PressedInButton pib, DateTime dt)
 		{			
-			DateTime dt2 = new DateTime (2012, 12, 24, 14, 59, 57);
 			string format = "yyyyMMdd-HHmmss";
-			string s = dt2.ToString (format) + identifier + pib.Text.Substring(pib.Text.LastIndexOf("."));
+			string s = dt.ToString (format) + pib.Text.Substring(pib.Text.LastIndexOf(".")).ToLower();
 			string newFullText = pib.FullText.Replace (pib.Text, s);
-			// TODO: Check, if already file exists
+			string tmpNewFullText = newFullText;
+
+			// Check, if already file exists
+			int fileCounter = 1;
+			while (File.Exists (tmpNewFullText)) {
+				fileCounter++;
+				tmpNewFullText = newFullText;
+				tmpNewFullText = tmpNewFullText.Insert(tmpNewFullText.LastIndexOf("."), "_" + fileCounter);
+			}
+
+			if (fileCounter != 1) {
+				newFullText = newFullText.Insert(newFullText.LastIndexOf("."), "_" + fileCounter);
+			}
+				
 			FileHelper.I.Rename (pib.FullText, newFullText);
 
 			pib.FullText = newFullText;
-			pib.Text = s; // .Substring (s.LastIndexOf (IOPath.DirectorySeparatorChar) + 1);	
+			pib.Text = newFullText.Substring (newFullText.LastIndexOf (IOPath.DirectorySeparatorChar) + 1);
 			pib.Redraw ();
 		}
 
@@ -673,6 +690,8 @@ namespace Troonie
 				pib.Redraw ();
 			}
 		}
+
+		#endregion Image changing and adapting
 	}
 }
 

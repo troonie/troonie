@@ -167,9 +167,9 @@ Keys do not match.;Schlüssel stimmen nicht überein.
 Please confirm key.;Bitte Schlüssel erneut eingeben.
 Posterization;Posterisation
 Divisor;Divisor
-File compression AND renaming by image tag rating.;Dateikompression UND -umbenennung nach Bildbewertung.
+File compression AND appending identifier ('_+') by image tag rating.;Dateikompression UND -anhängen eines Identifiers ('_+') nach Bildbewertung.
 Are you sure? This cannot be undone.;Sicher? Dies kann nicht rückgängig gemacht werden.
 Finished.;Fertig.
 Some images could not be converted:;Folgende Bilder konnten nicht verarbeitet werden:
 All images are converted. :);Alle Bilder wurden erfolgreich konvertiert. :)
-File renaming by creation date: ;Dateiumbenennung nach Estellungsdatum: 
+File renaming by creation date.;Dateiumbenennung nach Estellungsdatum.

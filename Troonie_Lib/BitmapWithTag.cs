@@ -284,17 +284,29 @@ namespace Troonie_Lib
 				throw new NotImplementedException ();
 			}	
 		}
+
+		public static void GetDateTime(string fileName, out DateTime? dateTime)
+		{
+			CombinedImageTag tag = ExtractImageTag (fileName);
+			if (tag == null || tag.DateTime == null) {
+				dateTime = null;
+				return;
+			} else {
+				dateTime = tag.DateTime;
+			}
+		}
 			
-		public static void GetImageRating(string fileName, out int rating, out DateTime? dateTime)
+		public static void GetImageRating(string fileName, out int rating)
 		{
 			CombinedImageTag tag = ExtractImageTag (fileName);
 			if (tag == null || tag.Rating == null) {
 				rating = -1;
-				dateTime = null;
+//				dateTime = null;
 				return;
-			} else {
+			} 
+			else {
 				rating = (int)tag.Rating;
-				dateTime = tag.DateTime;
+//				dateTime = tag.DateTime;
 			}
 		}
 
