@@ -407,6 +407,35 @@ namespace Troonie
 
 				warn2.OnReleasedOkButton += AppendIdAndCompressionByRating;						
 				break;
+
+			case Gdk.Key.y:
+
+				string dllTroonieSqlite = @"TroonieSqlite.dll";
+				if (File.Exists(dllTroonieSqlite)){
+					try {
+						var DLL = System.Reflection.Assembly.LoadFile(dllTroonieSqlite);
+
+						foreach(Type type in DLL.GetExportedTypes())
+						{
+							dynamic c = Activator.CreateInstance(type);
+							List<string> filenames = new List<string>();
+
+							foreach (Widget w in vboxImageList.Children) {
+
+								PressedInButton pib = w as PressedInButton;
+								filenames.Add(pib.FullText);
+							}
+
+//							string[] s = new []{"one", "two"};
+							c.Start(filenames);						
+						}
+					}
+					catch (Exception ex) {
+						Console.WriteLine (ex.Message);
+					}
+				}
+					
+				break;
 			}
 				
 			// args.RetVal = true;
