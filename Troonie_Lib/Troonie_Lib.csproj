@@ -75,6 +75,7 @@
     <Compile Include="ImageFormatConverter.cs" />
     <Compile Include="VideoTag.cs" />
     <Compile Include="TroonieBitmap.cs" />
+    <Compile Include="IOFile.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -2,6 +2,7 @@ using System;
 using Gtk;
 using Troonie_Lib;
 using System.Drawing.Imaging;
+using IOPath = System.IO.Path;
 
 namespace Troonie
 {
@@ -64,12 +65,23 @@ namespace Troonie
 			case 8:
 				FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, Language.I.L [152]);
 				if (fc.Run () == (int)ResponseType.Ok) {
-					int w, h, wCompare, hCompare;
+					int w, h, wCompare, hCompare, psCompare;
 					PixelFormat pf;
-					ImageConverter.GetImageDimension (FileName, out w, out h, out pf);
+					w = bt.Bitmap.Width;
+					h = bt.Bitmap.Height;
+					pf = bt.Bitmap.PixelFormat; 
+					// GetImageDimension(..) does not work under Windows
+					//	ImageConverter.GetImageDimension (FileName, out w, out h, out pf);
 					int ps = System.Drawing.Image.GetPixelFormatSize(pf) / 8;
-					ImageConverter.GetImageDimension (fc.Filename, out wCompare, out hCompare, out pf);
-					int psCompare = System.Drawing.Image.GetPixelFormatSize(pf) / 8;
+					if (FileName.Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar) == 
+						fc.Filename.Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar)) {
+						wCompare = w;
+						hCompare = h;
+						psCompare = ps;
+					} else {
+						ImageConverter.GetImageDimension (fc.Filename, out wCompare, out hCompare, out pf);
+						psCompare = System.Drawing.Image.GetPixelFormatSize(pf) / 8;
+					}
 
 					if (Math.Abs(psCompare - ps) > 1) {
 //						string errorMsg = "Cannot compare grayscale with color image.";

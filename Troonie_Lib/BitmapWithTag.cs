@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using TagLib;
 using TagLib.Image;
 using NetColor = System.Drawing.Color;
-using IOFile = System.IO.File;
+using NetIOFile = System.IO.File;
 using IOPath = System.IO.Path;
 
 namespace Troonie_Lib
@@ -72,7 +72,7 @@ namespace Troonie_Lib
 			{
 				if (config.FileOverwriting){
 					if (FileName != tmpNewFileName){
-						IOFile.Delete(FileName);
+						NetIOFile.Delete(FileName);
 					}
 				}else {
 					int countImage = 0;

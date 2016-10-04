@@ -154,7 +154,7 @@ namespace Troonie
 						FileInfo info = new FileInfo (FileName);
 						string ext = info.Extension.ToLower ();
 
-						if (Constants.Extensions.Any(x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
+						if (ext.Length != 0 && Constants.Extensions.Any(x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
 							Title = FileName;
 							bt = new BitmapWithTag(FileName, true);
 							imageW = bt.Bitmap.Width;

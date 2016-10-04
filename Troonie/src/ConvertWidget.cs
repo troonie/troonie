@@ -305,8 +305,8 @@ namespace Troonie
 				FileInfo info = new FileInfo (newImages [i]);
 				string ext = info.Extension.ToLower ();
 
-				if (Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext) ||
-					Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext)) {
+				if (ext.Length != 0 && (Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext) ||
+					Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext))) {
 					l_pressedInButton = new PressedInButton ();
 					l_pressedInButton.FullText = newImages [i];
 					l_pressedInButton.Text = newImages [i].Substring(newImages[i].LastIndexOf(
@@ -531,7 +531,7 @@ namespace Troonie
 				bool isVideo = false;
 //				DateTime? dt = null;
 
-				if (Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
+				if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
 					BitmapWithTag.GetImageRating (pib.FullText, out rating);
 				} else {
 					rating = VideoTag.GetVideoRating (pib.FullText);

@@ -22,46 +22,12 @@ namespace Troonie
 
 		public static void Main (string[] args)
 		{
-			#region Compare images testing
-//			DifferenceFilter cf = new DifferenceFilter ();
-//			cf.Smallest = 0;
-//			cf.Highest = 9;
-//			cf.CompareBitmap = System.Drawing.Bitmap.FromFile ("b.png") as System.Drawing.Bitmap;
-//
-//			System.Drawing.Bitmap b = System.Drawing.Bitmap.FromFile ("a.png") as System.Drawing.Bitmap;
-////			b = cf.Apply (b, null);
-////			b.Save ("c.png", System.Drawing.Imaging.ImageFormat.Png);
-//			cf.DrawThick3x3Pixels = true;
-//			b = cf.Apply (b, null);
-//			b.Save ("c2.png", System.Drawing.Imaging.ImageFormat.Png);
-
-//			ThickPixelFilter tpf = new ThickPixelFilter();
-//			b = tpf.Apply (b, null);
-//			b.Save ("d.png", System.Drawing.Imaging.ImageFormat.Png);
-
-			#endregion Compare images testing
-
-//			#region StitchMIFilter
-//			System.Drawing.Bitmap b1 = System.Drawing.Bitmap.FromFile ("test1.jpg") as System.Drawing.Bitmap;
-//			System.Drawing.Bitmap b2 = System.Drawing.Bitmap.FromFile ("test2.jpg") as System.Drawing.Bitmap;
-//			StitchMIFilter st = new StitchMIFilter(b1, b2);
-//			st.Landscape = false;
-//			st.Left01 = 10;
-//			st.Left02 = 10;
-//			st.Right01 = 10;
-//			st.Right02 = 10;
-//			st.Top01 = 10;
-//			st.Top02 = 10;
-//			st.Bottom01 = 10;
-//			st.Bottom02 = 10;
-//
-//			st.Process();
-//			st.ResultBitmap.Save ("StitchMIFilter.png", System.Drawing.Imaging.ImageFormat.Png);
-//			#endregion
-
-			// Does this work?
-			// button.ModifyBg(StateType.Prelight, new Gdk.Color(220, 220, 220));
 			Constants.I.Init ();
+			#region Set new version number in code
+//			Troonie_Lib.Version.SetNewVersionNumberInAllFiles("1.0.3");
+//			return;
+			#endregion Set new version number in code
+
 			GetProgramIcon ();
 
 			Application.Init ();
