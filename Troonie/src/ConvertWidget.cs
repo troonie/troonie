@@ -415,23 +415,23 @@ namespace Troonie
 					try {
 						var DLL = System.Reflection.Assembly.LoadFile(dllTroonieSqlite);
 
-						foreach(Type type in DLL.GetExportedTypes())
-						{
-							dynamic c = Activator.CreateInstance(type);
-							List<string> filenames = new List<string>();
+						// instanciate namespace and class
+						Type typePlugin = DLL.GetType("TroonieSqlite.MainClass");
+						object objPlugin = Activator.CreateInstance(typePlugin);
+//						// cast to base class
+						IPlugin basePlugin = objPlugin as IPlugin;
 
-							foreach (Widget w in vboxImageList.Children) {
-
-								PressedInButton pib = w as PressedInButton;
-								filenames.Add(pib.FullText);
-							}
-
-//							string[] s = new []{"one", "two"};
-							c.Start(filenames);						
+						List<string> filenames = new List<string>();
+						foreach (Widget w in vboxImageList.Children) {
+							PressedInButton pib = w as PressedInButton;
+							filenames.Add(pib.FullText);
 						}
+
+						// call method
+						basePlugin.Start(filenames);
 					}
-					catch (Exception ex) {
-						Console.WriteLine (ex.Message);
+					catch (Exception) {
+//						Console.WriteLine (ex.Message);
 					}
 				}
 					
@@ -568,7 +568,8 @@ namespace Troonie
 					break;
 				}
 
-				if (!isVideo) {
+				if (!isVideo && (Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
+								 Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext)) {
 					byte jpqQuality = 95;
 					biggestLength = 1800 + 1200 * rating;
 					if (origLength > limitInBytes &&
@@ -714,8 +715,11 @@ namespace Troonie
 				s = s.Insert (0, identifier);
 				FileHelper.I.Rename (pib.FullText, s);
 
-				pib.FullText = s;
-				pib.Text = s.Substring (s.LastIndexOf (IOPath.DirectorySeparatorChar) + 1);	
+
+//				pib.FullText = s;
+				pib.FullText = pib.FullText.Replace(pib.Text, s);
+//				pib.Text = s.Substring (s.LastIndexOf (IOPath.DirectorySeparatorChar) + 1);	
+				pib.Text = s;
 				pib.Redraw ();
 			}
 		}

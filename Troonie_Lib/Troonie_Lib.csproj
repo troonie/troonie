@@ -32,7 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="taglib-sharp">
       <HintPath>..\external\taglib-sharp.dll</HintPath>
@@ -76,6 +75,7 @@
     <Compile Include="VideoTag.cs" />
     <Compile Include="TroonieBitmap.cs" />
     <Compile Include="IOFile.cs" />
+    <Compile Include="IPlugin.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

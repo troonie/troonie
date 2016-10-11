@@ -833,17 +833,7 @@ internal partial class MainWindow
 		this.vboxOutputDirectory.Name = "vboxOutputDirectory";
 		this.vboxOutputDirectory.Spacing = 6;
 		// Container child vboxOutputDirectory.Gtk.Box+BoxChild
-		this.htlbOutputDirectory = new global::TroonieSqlite.Sqlite_HyperTextLabel ();
-		this.htlbOutputDirectory.Sensitive = false;
-		this.htlbOutputDirectory.Name = "htlbOutputDirectory";
-		this.htlbOutputDirectory.Sensitive = false;
-		this.htlbOutputDirectory.Font = "Arial";
-		this.htlbOutputDirectory.Text = "Text";
-		this.htlbOutputDirectory.TextSize = 12;
-		this.htlbOutputDirectory.ShownTextLength = 10;
-		this.htlbOutputDirectory.Underline = false;
-		this.htlbOutputDirectory.Bold = false;
-		this.htlbOutputDirectory.Italic = false;
+		this.htlbOutputDirectory = null;
 		this.vboxOutputDirectory.Add (this.htlbOutputDirectory);
 		global::Gtk.Box.BoxChild w69 = ((global::Gtk.Box.BoxChild)(this.vboxOutputDirectory [this.htlbOutputDirectory]));
 		w69.Position = 0;
@@ -902,15 +892,7 @@ internal partial class MainWindow
 		w77.Expand = false;
 		w77.Fill = false;
 		// Container child vbox1.Gtk.Box+BoxChild
-		this.btnConvert = new global::TroonieSqlite.Sqlite_TroonieButton ();
-		this.btnConvert.Name = "btnConvert";
-		this.btnConvert.CheckReleaseState = false;
-		this.btnConvert.BorderlineWidth = 2;
-		this.btnConvert.ButtonHeight = 25;
-		this.btnConvert.ButtonWidth = 0;
-		this.btnConvert.Font = "Arial";
-		this.btnConvert.Text = "Go";
-		this.btnConvert.TextSize = 12;
+		this.btnConvert = null;
 		this.vbox1.Add (this.btnConvert);
 		global::Gtk.Box.BoxChild w78 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnConvert]));
 		w78.Position = 3;

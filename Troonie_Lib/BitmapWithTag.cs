@@ -177,6 +177,7 @@ namespace Troonie_Lib
 				}
 			}
 			catch (Exception /* UnsupportedFormatException */) {
+				
 				return null;
 			}				
 

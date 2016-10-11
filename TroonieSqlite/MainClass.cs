@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TroonieSqlite
 {
-	public class MainClass
+	public class MainClass : Troonie_Lib.IPlugin
 	{
 		private enum TargetType {
 			String,
@@ -26,9 +26,17 @@ namespace TroonieSqlite
 			Application.Run ();
 		}
 
-		public void Start (List<string> pFilenames)
+		public void Start (List<string> filenames)
 		{
-			MainWindow win = new MainWindow (pFilenames);
+			MainWindow win = new MainWindow (filenames);
+			win.Show ();
+		}
+
+		public void Start (string filename)
+		{
+			List<string> list = new List<string> ();
+			list.Add (filename);
+			MainWindow win = new MainWindow (list);
 			win.Show ();
 		}
 	}
