@@ -35,7 +35,7 @@ namespace Troonie
 
 			string filename = null;
 			// START VALUE
-//			args = new string[] { "-s"};
+//			args = new string[] { "-v"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args);
@@ -58,6 +58,11 @@ namespace Troonie
 //					StitchWidget winStitch = new StitchWidget ("pic.png", "pic.png");
 //					winStitch.Show ();
 //					break;
+				case "-v":
+					ViewerWidget winViewer = new ViewerWidget (
+						new System.Collections.Generic.List<string>() {"/home/james/Schreibtisch/test.png"});
+					winViewer.Show ();
+					break;
 				case "-d":
 					DirectoryInfo di = new DirectoryInfo (args [args.Length - 1]);
 					if (di.Exists) {

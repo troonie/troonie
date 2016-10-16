@@ -136,6 +136,10 @@
     <Compile Include="gtk-gui\Troonie.PasswordDialog.cs" />
     <Compile Include="src\OkCancelDialog.cs" />
     <Compile Include="gtk-gui\Troonie.OkCancelDialog.cs" />
+    <Compile Include="src\ViewerWidget.cs" />
+    <Compile Include="gtk-gui\Troonie.ViewerWidget.cs" />
+    <Compile Include="src\ViewerImagePanel.cs" />
+    <Compile Include="gtk-gui\Troonie.ViewerImagePanel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
