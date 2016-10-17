@@ -51,118 +51,128 @@ namespace Troonie_Lib
 			}
 		}				
 
-		public void Save(Config config, string relativeFileName)
+		public bool Save(Config config, string relativeFileName)
 		{			
-			Bitmap dest;
-			int w = Bitmap.Width;
-			int h = Bitmap.Height;
-
-			if (config.UseOriginalPath) {
-				config.Path = System.IO.Directory.GetParent(FileName).FullName;
-			}
-
-			#region FileOverwriting
-			string tmpNewFileName;
-			if (config.Path[config.Path.Length -1] == IOPath.DirectorySeparatorChar)
-				tmpNewFileName = config.Path + relativeFileName;
-			else 
-				tmpNewFileName = config.Path + IOPath.DirectorySeparatorChar + relativeFileName;
-
-			if (config.StretchImage != ConvertMode.Editor)
+			bool success = true;
+			try 
 			{
-				if (config.FileOverwriting){
-					if (FileName != tmpNewFileName){
-						NetIOFile.Delete(FileName);
-					}
-				}else {
-					int countImage = 0;
-					while(FileHelper.I.Exists(tmpNewFileName)){
-						countImage++;
-						string identifier = "__n";
-						int lastindexofIdentifier = tmpNewFileName.LastIndexOf(identifier);
-						if (lastindexofIdentifier != -1){
-							string part1 = tmpNewFileName.Remove(lastindexofIdentifier);
-							string part2 = tmpNewFileName.Substring(tmpNewFileName.LastIndexOf('.'));
-							tmpNewFileName = part1 + part2;
+				Bitmap dest;
+				int w = Bitmap.Width;
+				int h = Bitmap.Height;
+
+				if (config.UseOriginalPath) {
+					config.Path = System.IO.Directory.GetParent(FileName).FullName;
+				}
+
+				#region FileOverwriting
+				string tmpNewFileName;
+				if (config.Path[config.Path.Length -1] == IOPath.DirectorySeparatorChar)
+					tmpNewFileName = config.Path + relativeFileName;
+				else 
+					tmpNewFileName = config.Path + IOPath.DirectorySeparatorChar + relativeFileName;
+
+				if (config.StretchImage != ConvertMode.Editor)
+				{
+					if (config.FileOverwriting){
+						if (FileName != tmpNewFileName){
+							NetIOFile.Delete(FileName);
 						}
+					}else {
+						int countImage = 0;
+						while(FileHelper.I.Exists(tmpNewFileName)){
+							countImage++;
+							string identifier = "__n";
+							int lastindexofIdentifier = tmpNewFileName.LastIndexOf(identifier);
+							if (lastindexofIdentifier != -1){
+								string part1 = tmpNewFileName.Remove(lastindexofIdentifier);
+								string part2 = tmpNewFileName.Substring(tmpNewFileName.LastIndexOf('.'));
+								tmpNewFileName = part1 + part2;
+							}
 
-						tmpNewFileName = tmpNewFileName.Insert(tmpNewFileName.LastIndexOf('.'), identifier + countImage);				
+							tmpNewFileName = tmpNewFileName.Insert(tmpNewFileName.LastIndexOf('.'), identifier + countImage);				
+						}
 					}
 				}
-			}
-			FileName = tmpNewFileName;
-			#endregion FileOverwriting
+				FileName = tmpNewFileName;
+				#endregion FileOverwriting
 
-			#region Resizing
-			switch (config.ResizeVersion) {
-//			case ResizeVersion.No:
-//				break;
-			case ResizeVersion.BiggestLength:
-				ImageConverter.CalcBiggerSideLength (config.BiggestLength, ref w, ref h);
-				break;
-			case ResizeVersion.FixedSize:
-				w = config.Width;
-				h = config.Height;
-				break;
-			}
-
-			ImageConverter.ScaleAndCut (Bitmap, 
-				out dest,
-				0,
-				0,
-				w,
-				h,
-				config.StretchImage,
-				config.HighQuality);
-			#endregion Resizing
-
-			#region Saving by using TroonieImageFormat
-			switch (config.Format) {
-			case TroonieImageFormat.JPEG8:
-				JpegEncoder.SaveJpeg (FileName, dest, config.JpgQuality, true);
-				CopyTagToFile (FileName, ImageTag);
-				return;
-			case TroonieImageFormat.JPEG24:
-				JpegEncoder.SaveJpeg (FileName, dest, config.JpgQuality, false);
-				CopyTagToFile (FileName, ImageTag);
-				return;
-			case TroonieImageFormat.BMP1:
-			case TroonieImageFormat.PNG1:
-				if (Constants.I.WINDOWS) {
-					dest = ImageConverter.To1Bpp (dest);
-				} else {
-					// throw new NotImplementedException ("Not implemented for linux yet.");
+				#region Resizing
+				switch (config.ResizeVersion) {
+	//			case ResizeVersion.No:
+	//				break;
+				case ResizeVersion.BiggestLength:
+					ImageConverter.CalcBiggerSideLength (config.BiggestLength, ref w, ref h);
+					break;
+				case ResizeVersion.FixedSize:
+					w = config.Width;
+					h = config.Height;
+					break;
 				}
-				break;
-			case TroonieImageFormat.BMP8:
-			case TroonieImageFormat.PNG8:
-				dest = ImageConverter.To8Bpp (dest);
-				break;
-			case TroonieImageFormat.BMP24:
-			case TroonieImageFormat.EMF:
-			case TroonieImageFormat.PNG24:
-			case TroonieImageFormat.TIFF:
-			case TroonieImageFormat.WMF:
-				// TODO: Correct for EMF, TIFF, WMF converting to 24 bit? Alpha?				
-				dest = ImageConverter.To24Bpp (dest);
-				break;
-			case TroonieImageFormat.GIF:
-			case TroonieImageFormat.ICO:
-			case TroonieImageFormat.PNG32Transparency:
-				// TODO: Correct for GIF, ICON using to 32 bit?
-				// MakeTransparent() makes EVERY (also 1bpp) pixel format to 32bit ARGB
-				dest.MakeTransparent (NetColor.FromArgb (config.TransparencyColorRed,
-					config.TransparencyColorGreen, config.TransparencyColorBlue));
-				break;
-			case TroonieImageFormat.PNG32AlphaAsValue:
-				dest = ImageConverter.To32Bpp (dest);
-				break;
-			}								
-			dest.Save(FileName, ImageFormatConverter.I.ConvertFromPIF(config.Format));
-			#endregion Saving by using TroonieImageFormat
 
-			Bitmap = dest;
-			CopyTagToFile (FileName, ImageTag);
+				ImageConverter.ScaleAndCut (Bitmap, 
+					out dest,
+					0,
+					0,
+					w,
+					h,
+					config.StretchImage,
+					config.HighQuality);
+				#endregion Resizing
+
+				#region Saving by using TroonieImageFormat
+				switch (config.Format) {
+				case TroonieImageFormat.JPEG8:
+					JpegEncoder.SaveJpeg (FileName, dest, config.JpgQuality, true);
+					CopyTagToFile (FileName, ImageTag);
+					return success;
+				case TroonieImageFormat.JPEG24:
+					JpegEncoder.SaveJpeg (FileName, dest, config.JpgQuality, false);
+					CopyTagToFile (FileName, ImageTag);
+					return success;
+				case TroonieImageFormat.BMP1:
+				case TroonieImageFormat.PNG1:
+					if (Constants.I.WINDOWS) {
+						dest = ImageConverter.To1Bpp (dest);
+					} else {
+						// throw new NotImplementedException ("Not implemented for linux yet.");
+					}
+					break;
+				case TroonieImageFormat.BMP8:
+				case TroonieImageFormat.PNG8:
+					dest = ImageConverter.To8Bpp (dest);
+					break;
+				case TroonieImageFormat.BMP24:
+				case TroonieImageFormat.EMF:
+				case TroonieImageFormat.PNG24:
+				case TroonieImageFormat.TIFF:
+				case TroonieImageFormat.WMF:
+					// TODO: Correct for EMF, TIFF, WMF converting to 24 bit? Alpha?				
+					dest = ImageConverter.To24Bpp (dest);
+					break;
+				case TroonieImageFormat.GIF:
+				case TroonieImageFormat.ICO:
+				case TroonieImageFormat.PNG32Transparency:
+					// TODO: Correct for GIF, ICON using to 32 bit?
+					// MakeTransparent() makes EVERY (also 1bpp) pixel format to 32bit ARGB
+					dest.MakeTransparent (NetColor.FromArgb (config.TransparencyColorRed,
+						config.TransparencyColorGreen, config.TransparencyColorBlue));
+					break;
+				case TroonieImageFormat.PNG32AlphaAsValue:
+					dest = ImageConverter.To32Bpp (dest);
+					break;
+				}								
+				dest.Save(FileName, ImageFormatConverter.I.ConvertFromPIF(config.Format));
+				#endregion Saving by using TroonieImageFormat
+
+				Bitmap = dest;
+				CopyTagToFile (FileName, ImageTag);
+
+			}
+			catch (Exception ) {
+				success = false;
+			}
+
+			return success;
 		}
 
 		#region static taglib stuff
@@ -311,26 +321,36 @@ namespace Troonie_Lib
 			}
 		}
 
-		public void SetAndSaveTag(string tagName, string newValue)
+		public bool SetAndSaveTag(string tagName, string newValue)
 		{
-			ChangeTag (ImageTag, tagName, newValue);	
-		}
-
-		public static void SetAndSaveTag(string fileName, string tagName, string newValue)
-		{
-			TagLib.Image.File imageTagFile = LoadTagFile (fileName);
-			CombinedImageTag imageTag = imageTagFile.ImageTag;
-
-			ChangeTag (imageTag, tagName, newValue);				
+			bool success = true;
 
 			try{
-				imageTagFile.Save();
+				ChangeTag (ImageTag, tagName, newValue);
 			}
 			catch (Exception /* UnsupportedFormatException */) {
-				// do nothing
+				success = false;
 			}
 
-			imageTagFile.Dispose ();
+			return success;
+		}
+
+		public static bool SetAndSaveTag(string fileName, string tagName, string newValue)
+		{
+			bool success = true;
+			TagLib.Image.File imageTagFile = LoadTagFile (fileName);
+			CombinedImageTag imageTag = imageTagFile.ImageTag;
+						
+			try{
+				ChangeTag (imageTag, tagName, newValue);
+				imageTagFile.Save();
+				imageTagFile.Dispose ();
+			}
+			catch (Exception /* UnsupportedFormatException */) {
+				success = false;
+			}
+				
+			return success;
 		}
 			
 		#endregion taglib stuff

@@ -669,11 +669,20 @@ namespace Troonie
 			do
 			{
 				if (dialog.Run () == (int)ResponseType.Ok) {
-					if (dialog.Process ()) {
+					bool success = dialog.Process ();
+					if (success) {
 						FileName = dialog.SavedFileName;
 						bt.Dispose ();
 						Initialize (true);
 						runDialog = false;
+					}
+					else {
+						MessageDialog md = new MessageDialog (dialog, 
+							DialogFlags.DestroyWithParent, MessageType.Error, 
+							ButtonsType.Ok, Language.I.L[176] + Constants.N + Language.I.L[177]);
+						md.Run();
+						md.Destroy ();
+
 					}
 				}
 				else {

@@ -140,6 +140,7 @@
     <Compile Include="gtk-gui\Troonie.ViewerWidget.cs" />
     <Compile Include="src\ViewerImagePanel.cs" />
     <Compile Include="gtk-gui\Troonie.ViewerImagePanel.cs" />
+    <Compile Include="src\ViewerImagePanel2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

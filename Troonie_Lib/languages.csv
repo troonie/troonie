@@ -173,3 +173,5 @@ Finished.;Fertig.
 Some images could not be converted:;Folgende Bilder konnten nicht verarbeitet werden:
 All images are converted. :);Alle Bilder wurden erfolgreich konvertiert. :)
 File renaming by creation date.;Dateiumbenennung nach Estellungsdatum.
+Error. Image could not be saved.;Fehler. Bild konnte nicht gespeichert werden.
+Do you have writing permissions for the chosen directory?;Sind Schreibrechte für das ausgewählte Verzeichnis vorhanden?

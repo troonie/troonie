@@ -5,16 +5,16 @@ namespace Troonie
 	[System.ComponentModel.ToolboxItem (true)]
 	public partial class ViewerImagePanel : Gtk.Bin
 	{
-		public string SurfaceFileName { 
-			get 
-			{ 
-				return simpleimagepanel.SurfaceFileName; 
-			} 
-			set 
-			{ 
-				simpleimagepanel.SurfaceFileName = value; 
-			}
-		}
+//		public string SurfaceFileName { 
+//			get 
+//			{ 
+//				return simpleimagepanel.SurfaceFileName; 
+//			} 
+//			set 
+//			{ 
+//				simpleimagepanel.SurfaceFileName = value; 
+//			}
+//		}
 
 		public SimpleImagePanel SimpleImagePanel { 
 			get 

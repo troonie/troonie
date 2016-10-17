@@ -60,7 +60,8 @@ namespace Troonie
 //					break;
 				case "-v":
 					ViewerWidget winViewer = new ViewerWidget (
-						new System.Collections.Generic.List<string>() {"/home/james/Schreibtisch/test.png"});
+						new System.Collections.Generic.List<string>() {
+							"/home/james/Schreibtisch/test.png", "/home/james/Schreibtisch/gray.jpg"});
 					winViewer.Show ();
 					break;
 				case "-d":

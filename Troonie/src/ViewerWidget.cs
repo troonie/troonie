@@ -2,6 +2,10 @@
 using Troonie_Lib;
 using System.Collections.Generic;
 using Gtk;
+using System.Drawing;
+using ImageConverter = Troonie_Lib.ImageConverter;
+using IOPath = System.IO.Path;
+using System.IO;
 
 namespace Troonie
 {
@@ -156,22 +160,47 @@ namespace Troonie
 //				}					
 //			}	
 
-			ViewerImagePanel vip = new ViewerImagePanel ();
-//			vip.WidthRequest = 100;
-//			vip.HeightRequest = 100;
-			vip.SimpleImagePanel.SurfaceFileName = newImages[0];
-			vip.SimpleImagePanel.WidthRequest = 200;
-			vip.SimpleImagePanel.HeightRequest = 100;
-			vip.SimpleImagePanel.Initialize ();
-//			vip.SimpleImagePanel.ShowAll ();
-			tableViewer.Attach (vip, 0, 1, 0, 1); //PackStart(l_pressedInButton, false, false, 0);
+			int biggestLength100 = 300;
+			uint n = 0;
+			foreach (string s in newImages) {
+				
+				string path = IOPath.GetDirectoryName (s) + IOPath.DirectorySeparatorChar + "thumb" + 
+					biggestLength100.ToString() + IOPath.DirectorySeparatorChar;
+				Directory.CreateDirectory (path);
+				string relativeImageName = s.Substring(s.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
+				relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
+				relativeImageName = relativeImageName + Constants.Extensions[TroonieImageFormat.PNG24].Item1;
 
-			ViewerImagePanel vip2 = new ViewerImagePanel ();
-			vip2.SimpleImagePanel.SurfaceFileName = newImages[0];
-			vip2.SimpleImagePanel.WidthRequest = 200;
-			vip2.SimpleImagePanel.HeightRequest = 100;
-			vip2.SimpleImagePanel.Initialize ();
-			tableViewer.Attach (vip2, 1, 2, 1, 2);
+				if (!File.Exists (path + relativeImageName)) {
+					BitmapWithTag bt = new BitmapWithTag (s, true);
+					Config c = new Config ();
+					c.BiggestLength = biggestLength100;
+					c.FileOverwriting = false;
+					c.Path = path;
+					c.Format = TroonieImageFormat.PNG24;
+					c.ResizeVersion = ResizeVersion.BiggestLength;
+
+					// TODO: Catch, what should be happen, when success==false
+					bool success = bt.Save (c, relativeImageName);
+					bt.Dispose ();
+				}
+			
+				ViewerImagePanel2 vip2 = new ViewerImagePanel2 ();
+				vip2.SurfaceFileName = path + relativeImageName;
+				vip2.WidthRequest = biggestLength100;
+				vip2.HeightRequest = biggestLength100;
+				vip2.Initialize ();
+				//			vip.SimpleImagePanel.ShowAll ();
+				tableViewer.Attach (vip2, n, n + 1, 0, 1); //PackStart(l_pressedInButton, false, false, 0);
+				n++;
+			}
+				
+//			ViewerImagePanel vip2 = new ViewerImagePanel ();
+//			vip2.SimpleImagePanel.SurfaceFileName = newImages[0];
+//			vip2.SimpleImagePanel.WidthRequest = 200;
+//			vip2.SimpleImagePanel.HeightRequest = 100;
+//			vip2.SimpleImagePanel.Initialize ();
+//			tableViewer.Attach (vip2, 1, 2, 1, 2);
 
 		}
 

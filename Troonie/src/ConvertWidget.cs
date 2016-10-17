@@ -472,17 +472,16 @@ namespace Troonie
 				Main.IterationDo (false);
 				nr++;
 
-				try {
+//				try {
 				bt = new BitmapWithTag (imageFile, true);
 
 				string relativeImageName = imageFile.Substring(
 					imageFile.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
 				relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
 				relativeImageName = relativeImageName + format;
-					bt.Save (Constants.I.CONFIG, relativeImageName);
-				}
-				catch(Exception){
-					errors.Add (imageFile);			
+				bool success = bt.Save (Constants.I.CONFIG, relativeImageName);
+				if (!success) {
+					errors.Add (imageFile);
 				}
 			}
 				
@@ -505,84 +504,110 @@ namespace Troonie
 
 		private void RenameByCreationDate()
 		{
-			foreach (Widget w in vboxImageList.Children) {
+			string tmp = "";
+			try{
+				foreach (Widget w in vboxImageList.Children) {
 
-				PressedInButton pib = w as PressedInButton;
-				DateTime? dt = null;
-				BitmapWithTag.GetDateTime (pib.FullText, out dt);
-				if (dt.HasValue)
-					RenameFileByDate (pib, dt.Value);
-			}			
+					PressedInButton pib = w as PressedInButton;
+					tmp = pib.Text;
+					DateTime? dt = null;
+					BitmapWithTag.GetDateTime (pib.FullText, out dt);
+					if (dt.HasValue)
+						RenameFileByDate (pib, dt.Value);
+				}					
+			}
+			catch (Exception e)
+			{
+				OkCancelDialog pseudo = new OkCancelDialog (true);
+				pseudo.Title = Language.I.L [153];
+				pseudo.Label1 = "Something went wrong by 'RenameByCreationDate'.";
+				pseudo.Label2 = "Stoppage at image '" + tmp + "'. Exception message: " + Constants.N + e.Message;
+				pseudo.OkButtontext = Language.I.L [16];
+				pseudo.Show ();
+			}
 		}
 
 		private void AppendIdAndCompressionByRating()
-		{			
-			int nr = 0;
-			foreach (Widget w in vboxImageList.Children) {
-				
-				PressedInButton pib = w as PressedInButton;
-				string creatorText = "";
-
-				// check whether file is image or video
-				FileInfo info = new FileInfo (pib.FullText);
-				string ext = info.Extension.ToLower ();
-				long origLength = info.Length; 
-				int rating;
-				bool isVideo = false;
-//				DateTime? dt = null;
-
-				if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
-					BitmapWithTag.GetImageRating (pib.FullText, out rating);
-				} else {
-					rating = VideoTag.GetVideoRating (pib.FullText);
-					isVideo = true;
-
-//					VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
-					InsertIdentifierAtBegin(pib, "V-");
-				}
-
-				// avoid negative rating
-				rating = Math.Max (0, rating);
-				long limitInBytes = Math.Max (rating * 1050000, 350000);
-				int biggestLength;
+		{		
+			string tmp = "";
+			try {	
+				int nr = 0;
+				foreach (Widget w in vboxImageList.Children) {
 					
-				switch (rating) 
-				{
-				case 0:			
-					break;
-				case 1:
-					AppendIdentifier (pib, "_+");
-					break;
-				case 2: 
-					AppendIdentifier (pib, "_++");
-					break;
-				case 3: 
-					AppendIdentifier (pib, "_+++");
-					break;
-				case 4: 
-					AppendIdentifier (pib, "_++++");
-					break;
-				case 5: 
-					AppendIdentifier (pib, "_+++++");
-					limitInBytes = long.MaxValue; // avoid any jpg compression
-					break;
-				}
+					PressedInButton pib = w as PressedInButton;
+					tmp = pib.Text;
+					string creatorText = "";
 
-				if (!isVideo && (Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
-								 Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext)) {
-					byte jpqQuality = 95;
-					biggestLength = 1800 + 1200 * rating;
-					if (origLength > limitInBytes &&
-						TroonieBitmap.GetBiggestLength (pib.FullText) > biggestLength) 
-					{
-						ReduceImageSize (pib, ref creatorText, biggestLength, jpqQuality);
+					// check whether file is image or video
+					FileInfo info = new FileInfo (pib.FullText);
+					string ext = info.Extension.ToLower ();
+					long origLength = info.Length; 
+					int rating;
+					bool isVideo = false;
+	//				DateTime? dt = null;
+
+					if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
+						BitmapWithTag.GetImageRating (pib.FullText, out rating);
+					} else {
+						rating = VideoTag.GetVideoRating (pib.FullText);
+						isVideo = true;
+
+	//					VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
+						InsertIdentifierAtBegin(pib, "V-");
 					}
 
-					ConvertByRating (pib, ref creatorText, limitInBytes, jpqQuality);
+					// avoid negative rating
+					rating = Math.Max (0, rating);
+					long limitInBytes = Math.Max (rating * 1050000, 350000);
+					int biggestLength;
+						
+					switch (rating) 
+					{
+					case 0:			
+						break;
+					case 1:
+						AppendIdentifier (pib, "_+");
+						break;
+					case 2: 
+						AppendIdentifier (pib, "_++");
+						break;
+					case 3: 
+//						AppendIdentifier (pib, "_+++");
+						break;
+					case 4: 
+						AppendIdentifier (pib, "_++++");
+						break;
+					case 5: 
+						AppendIdentifier (pib, "_+++++");
+						limitInBytes = long.MaxValue; // avoid any jpg compression
+						break;
+					}
+
+					if (!isVideo && (Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
+									 Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext)) {
+						byte jpqQuality = 95;
+						biggestLength = 1800 + 1200 * rating;
+						if (origLength > limitInBytes &&
+							TroonieBitmap.GetBiggestLength (pib.FullText) > biggestLength) 
+						{
+							ReduceImageSize (pib, ref creatorText, biggestLength, jpqQuality);
+						}
+
+						ConvertByRating (pib, ref creatorText, limitInBytes, jpqQuality);
+					}
+						
+					nr++;
 				}
-					
-				nr++;
-			}			
+			}
+			catch (Exception e)
+			{
+				OkCancelDialog pseudo = new OkCancelDialog (true);
+				pseudo.Title = Language.I.L [153];
+				pseudo.Label1 = "Something went wrong by 'AppendIdAndCompressionByRating'.";
+				pseudo.Label2 = "Stoppage at image '" + tmp + "'. Exception message: " + Constants.N + e.Message;
+				pseudo.OkButtontext = Language.I.L [16];
+				pseudo.Show ();
+			}
 		}
 			
 		#region Image changing and adapting
@@ -597,14 +622,17 @@ namespace Troonie
 			c_final.JpgQuality = jpgQuality;
 			c_final.FileOverwriting = true;
 
-			bt_final.Save (c_final, pib.Text);
+			bool success = bt_final.Save (c_final, pib.Text);
 			bt_final.Dispose ();
 
-			creatorText += "BLength=" + biggestLength + separator;
+			if (success) {
+				creatorText += "BLength=" + biggestLength + separator;
+			}
 		}
 
 		private static bool ConvertByRating(PressedInButton pib, ref string creatorText, long limitInBytes, byte jpgQuality)
 		{
+			bool success = true;
 			FileInfo info = new FileInfo (pib.FullText);
 			long l = info.Length;
 			jpgQuality++;
@@ -614,33 +642,34 @@ namespace Troonie
 
 			while (l > limitInBytes && jpgQuality > 5)
 			{
-				try {
-					jpgQuality--;
+				jpgQuality--;
 
-					BitmapWithTag bt = new BitmapWithTag (pib.FullText, true);
-					Config c = new Config();				
-					c.UseOriginalPath = false;
-					c.Path = Constants.I.EXEPATH;
-					c.HighQuality = true;
-					c.ResizeVersion = ResizeVersion.No;
-					c.JpgQuality = jpgQuality;
-					c.FileOverwriting = false;
-					bt.Save (c, relativeImageName);
-					bt.Dispose();
+				BitmapWithTag bt = new BitmapWithTag (pib.FullText, true);
+				Config c = new Config();				
+				c.UseOriginalPath = false;
+				c.Path = Constants.I.EXEPATH;
+				c.HighQuality = true;
+				c.ResizeVersion = ResizeVersion.No;
+				c.JpgQuality = jpgQuality;
+				c.FileOverwriting = false;
+				bool success_inner = bt.Save (c, relativeImageName);
+				bt.Dispose();
 
+				if (success_inner) {
 					FileInfo info_inner = new FileInfo (c.Path + relativeImageName);
 					l = info_inner.Length;
-					info_inner.Delete();
+					info_inner.Delete ();
 				}
-				catch(Exception){
+				else{
 					l = info.Length;
+					break;
 				}
 			}
 
 			if (l == info.Length) {
 				// no jpg compression was done
 				creatorText += "Jpg-Q=Original" + separator;
-				BitmapWithTag.SetAndSaveTag(pib.FullText, "Creator", creatorText);
+				success = BitmapWithTag.SetAndSaveTag(pib.FullText, "Creator", creatorText);
 			} else {
 
 				BitmapWithTag bt_final = new BitmapWithTag (pib.FullText, true);
@@ -651,11 +680,13 @@ namespace Troonie
 				c_final.JpgQuality = jpgQuality;
 				c_final.FileOverwriting = true;
 				creatorText += "Jpg-Q=" + jpgQuality.ToString() + separator;
-				bt_final.SetAndSaveTag ("Creator", creatorText);
-				bt_final.Save (c_final, pib.Text);
+				success = bt_final.SetAndSaveTag ("Creator", creatorText);
+				if (success) {
+					success = bt_final.Save (c_final, pib.Text);
+				}
 				bt_final.Dispose ();
 			}
-			return true;
+			return success;
 		}
 
 		private static void RenameFileByDate(PressedInButton pib, DateTime dt)

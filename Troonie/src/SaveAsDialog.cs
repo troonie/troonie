@@ -197,8 +197,9 @@ namespace Troonie
 				config.FileOverwriting = true;
 			}		
 
-			bitmap.Save (config, entryFilename.Text + lbFormat.Text);
-			return true;
+			bool success;
+			success = bitmap.Save (config, entryFilename.Text + lbFormat.Text);
+			return success;
 		}
 
 		public void AllowOnlyColorLoselessSaving()
