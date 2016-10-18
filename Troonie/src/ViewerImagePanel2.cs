@@ -3,6 +3,8 @@ using Gtk;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Cairo;
+using Cc = Troonie.ColorConverter;
+using CairoColor = Cairo.Color;
 
 namespace Troonie
 {
@@ -12,19 +14,51 @@ namespace Troonie
 	[System.ComponentModel.ToolboxItem (true)]
 	public partial class ViewerImagePanel2 : Bin
 	{	
+		/// <summary> Padding distance between border of ViewerImagePanel2 and the image itself. </summary>
+		private const int padding = 10;
+		private const double transparency = 0.8; 
+
 		private static double[] RectColor = new double[4]{ 220/255.0, 220/255.0, 1, 220/255.0 };
 		private static double[] RedColor = new double[4]{ 255/255.0, 0/255.0, 0, 255/255.0 };
 
-		private Fixed fixed1;
-		private DrawingArea drawingAreaImage;
+		private EventBox eb;
+		private DrawingArea da;
 		private double translateX, translateY;
+		private int biggestLength;
+		private bool isEntered, IsPressedin;
 
 		private Cairo.ImageSurface surface;
+		private CairoColor workingColor;
 
-		/// <summary> Shortcut for <see cref="ImagePanel.WidthRequest"/>.</summary>
-		public int W { get { return this.WidthRequest; } }
-		/// <summary> Shortcut for <see cref="ImagePanel.HeightRequest"/>.</summary>
-		public int H { get { return this.HeightRequest; } }
+
+
+		/// <summary> Shortcut for <see cref="WidthRequest"/> as well as <see cref="drawingAreaImage.WidthRequest"/>.</summary>
+		public int W 
+		{ 
+			get 
+			{ 
+				return WidthRequest; 
+			}
+			set
+			{
+				WidthRequest = value;
+				da.WidthRequest= value;
+			}
+		}
+
+		/// <summary> Shortcut for <see cref="HeightRequest"/> as well as <see cref="drawingAreaImage.HeightRequest"/>.</summary>
+		public int H 
+		{ 
+			get 
+			{ 
+				return HeightRequest; 
+			}
+			set
+			{
+				HeightRequest = value;
+				da.HeightRequest= value;
+			}
+		}
 
 		/// <summary>
 		/// Factor for multiplying cursor's X-coordinate at image panel 
@@ -43,31 +77,33 @@ namespace Troonie
 		public ViewerImagePanel2 ()
 		{
 			//			this.Build ();
+			Stetic.Gui.Initialize (this);
+			Stetic.BinContainer.Attach (this);
 
-			global::Stetic.Gui.Initialize (this);
-			// Widget Troonie.ImagePanel
-			global::Stetic.BinContainer.Attach (this);
-			this.Events = ((global::Gdk.EventMask)(1024));
-			this.Name = "Troonie.ViewerImagePanel";
+			Events = ((Gdk.EventMask)(1024));
 
-			this.fixed1 = new global::Gtk.Fixed ();
-			this.fixed1.Name = "fixed1";
-			this.fixed1.HasWindow = false;
+			eb = new EventBox ();
+//			this.fixed1.Name = "fixed1";
+//			this.fixed1.HasWindow = false;
 			// Container child fixed1.Gtk.Fixed+FixedChild
-			this.drawingAreaImage = new global::Gtk.DrawingArea ();
-			this.drawingAreaImage.CanFocus = true;
-			this.drawingAreaImage.Events = ((global::Gdk.EventMask)(772));
-			this.drawingAreaImage.Name = "drawingAreaImage";
-			this.fixed1.Add (this.drawingAreaImage);
-			this.Add (this.fixed1);
-			if ((this.Child != null)) {
-				this.Child.ShowAll ();
-			}
-			//			this.Hide ();
-			this.drawingAreaImage.ExposeEvent += new global::Gtk.ExposeEventHandler (this.OnDrawingAreaImageExposeEvent);
-			this.drawingAreaImage.MotionNotifyEvent += new global::Gtk.MotionNotifyEventHandler (this.OnDrawingAreaImageMotionNotifyEvent);
-			this.drawingAreaImage.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnDrawingAreaImageButtonPressEvent);
-			this.drawingAreaImage.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnDrawingAreaImageButtonReleaseEvent);
+			da = new DrawingArea ();
+			da.CanFocus = true;
+			da.Events = ((Gdk.EventMask)(772)); 
+			eb.Add (da);
+
+			Add (eb);
+//			if (Child != null) {
+//				Child.ShowAll ();
+//			}
+			da.ExposeEvent += OnDaExpose;
+			da.MotionNotifyEvent += OnDaMotionNotify;
+			eb.ButtonPressEvent += OnDaButtonPress;
+			eb.ButtonReleaseEvent += OnDaButtonRelease;
+
+			eb.EnterNotifyEvent += OnEbEnterNotify;
+			eb.LeaveNotifyEvent += OnEbLeaveNotify;
+
+//			ModifyBg(StateType.Normal, Cc.Instance.Green);
 		}
 
 		public override void Destroy ()
@@ -87,29 +123,71 @@ namespace Troonie
 				surface = null;
 			}
 			surface = new Cairo.ImageSurface (SurfaceFileName);
+
+			biggestLength = Math.Max (surface.Width, surface.Height);
 			translateX = Math.Max (0, surface.Height - surface.Width) / 2.0;
 			translateY = Math.Max (0, surface.Width - surface.Height) / 2.0;
 
-			drawingAreaImage.WidthRequest = W;
-			drawingAreaImage.HeightRequest = H;
+			translateX += padding / 2;
+			translateY += padding / 2;
 
-			fixed1.QueueDraw();
+			W = biggestLength + padding;
+			H = biggestLength + padding;
+
+			workingColor = Cc.Instance.C_GRID;
+
+			QueueDraw();
+
+		}
+
+		public void SetPressedIn (bool p_IsPressedin)
+		{
+			IsPressedin = p_IsPressedin;
+			if (IsPressedin) {
+				workingColor = Cc.BtnPressedin.I.Down;
+			} else {
+				workingColor = Cc.Instance.C_GRID;
+			}
+
+			da.QueueDraw ();			
 		}
 
 		#region DrawingAreaImage events
 
 		// todo make static?
-		protected void OnDrawingAreaImageExposeEvent (object o, ExposeEventArgs args)
+		protected void OnDaExpose (object o, ExposeEventArgs args)
 		{
-			DrawingArea area = (DrawingArea) o;
-			Cairo.Context cr =  Gdk.CairoHelper.Create(area.GdkWindow);
+//			DrawingArea drawingArea = obj as DrawingArea;
+//
+//			int width = drawingArea.Allocation.Width;
+//			int height = drawingArea.Allocation.Height;
+//
+//			Cairo.Context cr =  Gdk.CairoHelper.Create(drawingArea.GdkWindow);
+
+
+//			DrawingArea area = (DrawingArea) o;
+			Cairo.Context cr =  Gdk.CairoHelper.Create(da.GdkWindow);
 
 			cr.Save();
-
 			cr.Rectangle (0, 0, W, H);
-			cr.SetSourceRGBA (RectColor[0], RectColor[1], RectColor[2], RectColor[3]);
+
+			if (isEntered)
+				cr.SetSourceRGB(Cc.Instance.Cairo_Orange.R, Cc.Instance.Cairo_Orange.G, Cc.Instance.Cairo_Orange.B);
+			else
+				cr.SetSourceRGB(Cc.BtnNormal.I.Top.R, Cc.BtnNormal.I.Top.G, Cc.BtnNormal.I.Top.B);
+//				cr.SetSourceRGB(Cc.Instance.Cairo_Blue.R, Cc.Instance.Cairo_Blue.G, Cc.Instance.Cairo_Blue.B);
+						
 			cr.Fill ();	
 			cr.Restore();
+
+			cr.Save();
+			cr.Rectangle (padding / 2, padding / 2, W - padding, H - padding);
+
+			cr.SetSourceRGB(workingColor.R, workingColor.G, workingColor.B);
+
+			cr.Fill ();	
+			cr.Restore();
+
 
 			cr.Save();
 			cr.Translate(translateX, translateY);
@@ -124,15 +202,15 @@ namespace Troonie
 			cr.Save();
 			cr.SetSourceRGB(RedColor[0], RedColor[1], RedColor[2]);
 			cr.SelectFontFace("Arial", FontSlant.Normal, FontWeight.Bold);
-			cr.SetFontSize(12);
+			cr.SetFontSize(15);
 
-			cr.MoveTo(0, 10);
+			cr.MoveTo(1, 15);
 			cr.ShowText("1");
 
-			cr.MoveTo(0, 20);
+			cr.MoveTo(1, 30);
 			cr.ShowText("2");
 
-			cr.MoveTo(0, 30);
+			cr.MoveTo(1, 45);
 			cr.ShowText("3");
 
 			cr.Restore();
@@ -141,7 +219,7 @@ namespace Troonie
 			((IDisposable) cr).Dispose();
 		}
 
-		protected void OnDrawingAreaImageMotionNotifyEvent (object o, MotionNotifyEventArgs args)
+		protected void OnDaMotionNotify (object o, MotionNotifyEventArgs args)
 		{
 			//fire the event now
 			if (this.OnCursorPosChanged != null) //is there a EventHandler?
@@ -152,15 +230,28 @@ namespace Troonie
 			} //if not, ignore
 		}
 
-		protected void OnDrawingAreaImageButtonPressEvent (object o, ButtonPressEventArgs args)
+		protected void OnDaButtonPress (object o, ButtonPressEventArgs args)
 		{
-			//			isPressed = true;
-			//			fixed1.GetPointer(out xAtPressedBtn, out yAtPressedBtn);
+			IsPressedin = !IsPressedin;
+			workingColor = Cc.Instance.Cairo_Orange;
+			da.QueueDraw ();
 		}
 
-		protected void OnDrawingAreaImageButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
+		protected void OnDaButtonRelease (object o, ButtonReleaseEventArgs args)
 		{
-			//			isPressed = false;
+			SetPressedIn (IsPressedin);
+		}
+
+		public void OnEbEnterNotify(object sender, EnterNotifyEventArgs a)
+		{       
+			isEntered = true;
+			da.QueueDraw ();
+		}
+
+		protected void OnEbLeaveNotify(object sender, LeaveNotifyEventArgs a)
+		{      
+			isEntered = false;
+			da.QueueDraw ();
 		}
 
 		#endregion DrawingAreaImage events

@@ -18,16 +18,23 @@ namespace Troonie
 		private int imageW; 
 		private int imageH;
 		private string tempScaledImageFileName;
+		private int startWidth;
 
 		public string FileName { get; set; }
 		public BitmapWithTag bt;
 
 		public ViewerWidget (List<string> newImages) :	base (Gtk.WindowType.Toplevel)
 		{
-
-
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
+
+			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
+			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
+			int wx = 20;
+			int wy = 20;
+			startWidth = bounds.Width - 2 * wx;
+			GdkWindow.Move (wx, wy);
+			Resize (startWidth, bounds.Height - 2 * wy - 100 /*taskbarHeight*/);
 
 			if (newImages != null)
 				FillImageList (newImages);
@@ -111,6 +118,8 @@ namespace Troonie
 		{
 			this.ModifyBg(StateType.Normal, colorConverter.GRID);
 			eventboxToolbar.ModifyBg(StateType.Normal, colorConverter.GRID);
+//			this.tableViewer.ModifyFg(StateType.Normal, colorConverter.GRID);
+//			this.scrolledwindowViewer.ModifyFg(StateType.Normal, colorConverter.GRID);
 
 //			lbFrameCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
 //			lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
@@ -160,12 +169,14 @@ namespace Troonie
 //				}					
 //			}	
 
-			int biggestLength100 = 300;
-			uint n = 0;
+			int biggestLength = 300;
+			int imagePerRow = (int)((startWidth / 2 - 10) / (biggestLength + tableViewer.ColumnSpacing));
+
+			uint rowNr = 0, colNr = 0;
 			foreach (string s in newImages) {
 				
 				string path = IOPath.GetDirectoryName (s) + IOPath.DirectorySeparatorChar + "thumb" + 
-					biggestLength100.ToString() + IOPath.DirectorySeparatorChar;
+					biggestLength.ToString() + IOPath.DirectorySeparatorChar;
 				Directory.CreateDirectory (path);
 				string relativeImageName = s.Substring(s.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
 				relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
@@ -174,7 +185,7 @@ namespace Troonie
 				if (!File.Exists (path + relativeImageName)) {
 					BitmapWithTag bt = new BitmapWithTag (s, true);
 					Config c = new Config ();
-					c.BiggestLength = biggestLength100;
+					c.BiggestLength = biggestLength;
 					c.FileOverwriting = false;
 					c.Path = path;
 					c.Format = TroonieImageFormat.PNG24;
@@ -186,13 +197,21 @@ namespace Troonie
 				}
 			
 				ViewerImagePanel2 vip2 = new ViewerImagePanel2 ();
+
 				vip2.SurfaceFileName = path + relativeImageName;
-				vip2.WidthRequest = biggestLength100;
-				vip2.HeightRequest = biggestLength100;
+//				vip2.WidthRequest = biggestLength100 + padding;
+//				vip2.HeightRequest = biggestLength100 + padding;
 				vip2.Initialize ();
 				//			vip.SimpleImagePanel.ShowAll ();
-				tableViewer.Attach (vip2, n, n + 1, 0, 1); //PackStart(l_pressedInButton, false, false, 0);
-				n++;
+
+				tableViewer.Attach (vip2, rowNr, rowNr + 1, colNr, colNr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0); //PackStart(l_pressedInButton, false, false, 0);
+
+				if (rowNr + 1 == imagePerRow) {
+					rowNr = 0;
+					colNr++;
+				} else {
+					rowNr++;
+				}
 			}
 				
 //			ViewerImagePanel vip2 = new ViewerImagePanel ();

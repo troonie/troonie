@@ -572,7 +572,7 @@ namespace Troonie
 						AppendIdentifier (pib, "_++");
 						break;
 					case 3: 
-//						AppendIdentifier (pib, "_+++");
+						AppendIdentifier (pib, "_+++");
 						break;
 					case 4: 
 						AppendIdentifier (pib, "_++++");

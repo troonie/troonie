@@ -61,6 +61,9 @@ namespace Troonie
 				case "-v":
 					ViewerWidget winViewer = new ViewerWidget (
 						new System.Collections.Generic.List<string>() {
+							"/home/james/Schreibtisch/test.png", "/home/james/Schreibtisch/gray.jpg",
+							"/home/james/Schreibtisch/test.png", "/home/james/Schreibtisch/gray.jpg",
+							"/home/james/Schreibtisch/test.png", "/home/james/Schreibtisch/gray.jpg",
 							"/home/james/Schreibtisch/test.png", "/home/james/Schreibtisch/gray.jpg"});
 					winViewer.Show ();
 					break;
