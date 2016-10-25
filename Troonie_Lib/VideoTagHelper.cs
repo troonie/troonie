@@ -5,9 +5,9 @@ using System.Globalization;
 
 namespace Troonie_Lib
 {
-	public class VideoTag
+	public class VideoTagHelper
 	{
-		public VideoTag ()
+		public VideoTagHelper ()
 		{
 		}			
 

@@ -6,6 +6,7 @@ using System.Drawing;
 using ImageConverter = Troonie_Lib.ImageConverter;
 using IOPath = System.IO.Path;
 using System.IO;
+using System.Linq;
 
 namespace Troonie
 {
@@ -15,12 +16,14 @@ namespace Troonie
 
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
-		private int imageW; 
-		private int imageH;
-		private string tempScaledImageFileName;
-		private int startWidth;
+//		private int imageW; 
+//		private int imageH;
+//		private string tempScaledImageFileName;
+		private int startWidth, imagePerRow;
+		private uint rowNr, colNr;
+		private bool leftControlPressed;
 
-		public string FileName { get; set; }
+//		public string FileName { get; set; }
 		public BitmapWithTag bt;
 
 		public ViewerWidget (List<string> newImages) :	base (Gtk.WindowType.Toplevel)
@@ -28,25 +31,33 @@ namespace Troonie
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 
-			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
-			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
+//			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
+//			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
 			int wx = 20;
 			int wy = 20;
-			startWidth = bounds.Width - 2 * wx;
-			GdkWindow.Move (wx, wy);
-			Resize (startWidth, bounds.Height - 2 * wy - 100 /*taskbarHeight*/);
+			startWidth = Screen.Width - 2 * wx;
+			Move (wx, wy);
+
+			Resize (startWidth, Screen.Width - 2 * wy - 100 /*taskbarHeight*/);
+
+//			scrolledwindowViewer.WidthRequest = 1300;
+
+			imagePerRow = (int)((startWidth - frame1.WidthRequest - 10) / (ViewerImagePanel2.BiggestLengthSmall + tableViewer.ColumnSpacing));
+			rowNr = 0; 
+			colNr = 0;
 
 			if (newImages != null)
 				FillImageList (newImages);
 
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
-//			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);
-//			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 2);
-//			GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 3, OnToolbarBtn_LanguagePressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[39], OnToolbarBtn_OpenPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "edit-select-all.png", Language.I.L[40], OnToolbarBtn_SelectAllPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "edit-clear-3.png", Language.I.L[41], OnToolbarBtn_ClearPressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "window-close-2.png", Language.I.L[42], OnToolbarBtn_RemovePressed);
+			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 4);
+			GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 5, OnToolbarBtn_LanguagePressed);
 
 			SetGuiColors ();
 			SetLanguageToGui ();
-			Initialize(true);
 
 			if (constants.WINDOWS) {
 				Gtk.Drag.DestSet (this, 0, null, 0);
@@ -60,9 +71,7 @@ namespace Troonie
 //				frameKey.ShadowType = ShadowType.In;
 //				frameContent.ShadowType = ShadowType.In;
 				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
-			}
-
-//			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+			}				
 
 			if (Constants.I.CONFIG.AskForDesktopContextMenu) {
 				new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
@@ -89,30 +98,7 @@ namespace Troonie
 
 //			File.Delete (tempScaledImageFileName);
 //			File.Delete (Constants.I.EXEPATH + blackFileName);
-		}
-
-		private void LoadException()
-		{
-			FileName = null;
-			Initialize (true);
-
-			MessageDialog md = new MessageDialog (
-				null, DialogFlags.Modal, 
-				MessageType.Info, 
-				ButtonsType.Ok, Language.I.L[51]);
-			md.Run ();
-			md.Destroy ();		
-		}
-
-		private void Initialize(bool newFileName)
-		{
-
-//			GuiHelper.I.SetPanelSize(this, simpleimagepanel, hbox1, 500, 600, imageW, imageH, 1200, 650);
-
-//			simpleimagepanel1.Initialize();
-
-			ShowAll();
-		}		
+		}					
 
 		private void SetGuiColors()
 		{
@@ -138,103 +124,146 @@ namespace Troonie
 //
 		}
 
+		private void SetRatingOfSelectedImages(uint rating)
+		{
+			for (int i = 0; i < tableViewer.Children.Length; i++) {
+				ViewerImagePanel2 vip = tableViewer.Children[i] as ViewerImagePanel2;
+				if (vip.IsPressedin) {
+					vip.TagsData.Rating = rating;
+					ImageTagHelper.SetAndSave_Rating (vip.OriginalImageFullName, rating);
+					vip.QueueDraw ();
+//					vip.Rating = rating;
+				}
+			}
+//			tableViewer.ShowAll ();
+		}
+
+		#region drag and drop
 
 		private void FillImageList(List<string> newImages)
 		{
-//			PressedInButton l_pressedInButton;
-//
-//			for (int i=0; i<newImages.Count; ++i)
-//			{
-//				string waste = Constants.I.WINDOWS ? "file:///" : "file://";
-//				newImages [i] = newImages [i].Replace (@waste, "");
-//				// Also change possible wrong directory separator
-//				newImages [i] = newImages [i].Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar);
-//
-//				// check whether file is image or video
-//				FileInfo info = new FileInfo (newImages [i]);
-//				string ext = info.Extension.ToLower ();
-//
-//				if (ext.Length != 0 && (Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext) ||
-//					Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext))) {
-//					l_pressedInButton = new PressedInButton ();
-//					l_pressedInButton.FullText = newImages [i];
-//					l_pressedInButton.Text = newImages [i].Substring(newImages[i].LastIndexOf(
-//						IOPath.DirectorySeparatorChar) + 1);	
-//					l_pressedInButton.CanFocus = true;
-//					l_pressedInButton.Sensitive = true;
-//					l_pressedInButton.TextSize = 10;
-//					l_pressedInButton.ShowAll ();
-//
-//					vboxImageList.PackStart(l_pressedInButton, false, false, 0);
-//				}					
-//			}	
+//			foreach (string s in newImages) {
+			for (int i = 0; i < newImages.Count; ++i) {
 
-			int biggestLength = 300;
-			int imagePerRow = (int)((startWidth / 2 - 10) / (biggestLength + tableViewer.ColumnSpacing));
+				string waste = Constants.I.WINDOWS ? "file:///" : "file://";
+				newImages [i] = newImages [i].Replace (@waste, "");
+				// Also change possible wrong directory separator
+				newImages [i] = newImages [i].Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar);
 
-			uint rowNr = 0, colNr = 0;
-			foreach (string s in newImages) {
-				
-				string path = IOPath.GetDirectoryName (s) + IOPath.DirectorySeparatorChar + "thumb" + 
-					biggestLength.ToString() + IOPath.DirectorySeparatorChar;
-				Directory.CreateDirectory (path);
-				string relativeImageName = s.Substring(s.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
-				relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
-				relativeImageName = relativeImageName + Constants.Extensions[TroonieImageFormat.PNG24].Item1;
+				// check whether file is image or video
+				FileInfo info = new FileInfo (newImages [i]);
+				string ext = info.Extension.ToLower ();
 
-				if (!File.Exists (path + relativeImageName)) {
-					BitmapWithTag bt = new BitmapWithTag (s, true);
-					Config c = new Config ();
-					c.BiggestLength = biggestLength;
-					c.FileOverwriting = false;
-					c.Path = path;
-					c.Format = TroonieImageFormat.PNG24;
-					c.ResizeVersion = ResizeVersion.BiggestLength;
+				if (ext.Length != 0 && (Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)  /* ||
+				    Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext) */ )) {
 
-					// TODO: Catch, what should be happen, when success==false
-					bool success = bt.Save (c, relativeImageName);
-					bt.Dispose ();
-				}
-			
-				ViewerImagePanel2 vip2 = new ViewerImagePanel2 ();
+					ViewerImagePanel2 vip2 = new ViewerImagePanel2 (newImages [i], true /* path  + relativeSmall, path + relativeBig */);
+					tableViewer.Attach (vip2, rowNr, rowNr + 1, colNr, colNr + 1, 
+						AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 
-				vip2.SurfaceFileName = path + relativeImageName;
-//				vip2.WidthRequest = biggestLength100 + padding;
-//				vip2.HeightRequest = biggestLength100 + padding;
-				vip2.Initialize ();
-				//			vip.SimpleImagePanel.ShowAll ();
-
-				tableViewer.Attach (vip2, rowNr, rowNr + 1, colNr, colNr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0); //PackStart(l_pressedInButton, false, false, 0);
-
-				if (rowNr + 1 == imagePerRow) {
-					rowNr = 0;
-					colNr++;
-				} else {
-					rowNr++;
+					if (rowNr + 1 == imagePerRow) {
+						rowNr = 0;
+						colNr++;
+					} else {
+						rowNr++;
+					}
 				}
 			}
-				
-//			ViewerImagePanel vip2 = new ViewerImagePanel ();
-//			vip2.SimpleImagePanel.SurfaceFileName = newImages[0];
-//			vip2.SimpleImagePanel.WidthRequest = 200;
-//			vip2.SimpleImagePanel.HeightRequest = 100;
-//			vip2.SimpleImagePanel.Initialize ();
-//			tableViewer.Attach (vip2, 1, 2, 1, 2);
 
+			ShowAll ();
 		}
 
-		protected void OnToolbarBtn_OpenPressed(object sender, EventArgs e)
+		protected void OnDragDrop (object sender, Gtk.DragDropArgs args)
 		{
-			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false);
+			Gtk.Drag.GetData
+			((Gtk.Widget)sender, args.Context,
+				args.Context.Targets[0], args.Time);
+		}
 
-			if (fc.Run() == (int)ResponseType.Ok) 
-			{
-				FileName = fc.Filename;
-				Initialize(true);
+		protected void OnDragDataReceived (object sender, Gtk.DragDataReceivedArgs args)
+		{
+			if (args.SelectionData.Length > 0
+				&& args.SelectionData.Format == 8) {
+
+				byte[] data = args.SelectionData.Data;
+				string encoded = System.Text.Encoding.UTF8.GetString (data);
+
+				// drag n drop at linux wont accept spaces, so it has to be replaced
+				encoded = encoded.Replace ("%20", " ");
+
+				List<string> newImages = new List<string> (encoded.Split ('\r', '\n'));
+				newImages.RemoveAll (string.IsNullOrEmpty);
+
+				// I don't know what last object (when Windows) is,
+				//  but I tested and noticed that it is not a path
+				if (Constants.I.WINDOWS)
+					newImages.RemoveAt (newImages.Count-1);
+
+				FillImageList (newImages);
+				newImages.Clear ();
+			}
+		}			
+
+		#endregion drag and drop
+
+		#region key events
+
+		[GLib.ConnectBefore ()] 
+		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
+		{
+			// System.Console.WriteLine("Keypress: {0}", args.Event.Key);
+
+			switch (args.Event.Key) {
+			case Gdk.Key.Control_L:
+				leftControlPressed = true;
+				break;
+			case Gdk.Key.a:
+				if (leftControlPressed) {
+					OnToolbarBtn_SelectAllPressed (null, null);
+				}
+				break;
+			case Gdk.Key.Escape:
+				OnToolbarBtn_ClearPressed (null, null);
+				break;
+			case Gdk.Key.Delete:
+				OnToolbarBtn_RemovePressed (null, null);
+				break;
+
+			case Gdk.Key.Key_1:
+//				OnToolbarBtn_RemovePressed (null, null);
+				Console.WriteLine ("ONE!");
+				SetRatingOfSelectedImages (1);
+				break;
+			case Gdk.Key.Key_2:
+				SetRatingOfSelectedImages (2);
+				break;
+			case Gdk.Key.Key_3:
+				SetRatingOfSelectedImages (3);
+				break;
+			case Gdk.Key.Key_4:
+				SetRatingOfSelectedImages (4);
+				break;
+			case Gdk.Key.Key_5:
+				SetRatingOfSelectedImages (5);
+				break;
+
 			}
 
-			fc.Destroy();
+			// args.RetVal = true;
 		}
+
+		[GLib.ConnectBefore ()] 
+		protected void OnKeyReleaseEvent (object o, KeyReleaseEventArgs args)
+		{
+			// System.Console.WriteLine("Keyrelease: {0}", args.Event.Key);
+			if (args.Event.Key == Gdk.Key.Control_L) {
+				leftControlPressed = false;
+			}
+
+			// args.RetVal = true;
+		}
+
+		#endregion key events
 	}
 }
 

@@ -479,7 +479,7 @@ namespace Troonie
 					imageFile.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
 				relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
 				relativeImageName = relativeImageName + format;
-				bool success = bt.Save (Constants.I.CONFIG, relativeImageName);
+				bool success = bt.Save (Constants.I.CONFIG, relativeImageName, true);
 				if (!success) {
 					errors.Add (imageFile);
 				}
@@ -511,7 +511,7 @@ namespace Troonie
 					PressedInButton pib = w as PressedInButton;
 					tmp = pib.Text;
 					DateTime? dt = null;
-					BitmapWithTag.GetDateTime (pib.FullText, out dt);
+					ImageTagHelper.GetDateTime (pib.FullText, out dt);
 					if (dt.HasValue)
 						RenameFileByDate (pib, dt.Value);
 				}					
@@ -547,9 +547,9 @@ namespace Troonie
 	//				DateTime? dt = null;
 
 					if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
-						BitmapWithTag.GetImageRating (pib.FullText, out rating);
+						ImageTagHelper.GetImageRating (pib.FullText, out rating);
 					} else {
-						rating = VideoTag.GetVideoRating (pib.FullText);
+						rating = VideoTagHelper.GetVideoRating (pib.FullText);
 						isVideo = true;
 
 	//					VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
@@ -622,7 +622,7 @@ namespace Troonie
 			c_final.JpgQuality = jpgQuality;
 			c_final.FileOverwriting = true;
 
-			bool success = bt_final.Save (c_final, pib.Text);
+			bool success = bt_final.Save (c_final, pib.Text, true);
 			bt_final.Dispose ();
 
 			if (success) {
@@ -652,7 +652,7 @@ namespace Troonie
 				c.ResizeVersion = ResizeVersion.No;
 				c.JpgQuality = jpgQuality;
 				c.FileOverwriting = false;
-				bool success_inner = bt.Save (c, relativeImageName);
+				bool success_inner = bt.Save (c, relativeImageName, true);
 				bt.Dispose();
 
 				if (success_inner) {
@@ -669,9 +669,8 @@ namespace Troonie
 			if (l == info.Length) {
 				// no jpg compression was done
 				creatorText += "Jpg-Q=Original" + separator;
-				success = BitmapWithTag.SetAndSaveTag(pib.FullText, "Creator", creatorText);
+				success = ImageTagHelper.SetAndSaveTag(pib.FullText, Tags.Creator, creatorText);
 			} else {
-
 				BitmapWithTag bt_final = new BitmapWithTag (pib.FullText, true);
 				Config c_final = new Config ();				
 				c_final.UseOriginalPath = true;
@@ -680,9 +679,9 @@ namespace Troonie
 				c_final.JpgQuality = jpgQuality;
 				c_final.FileOverwriting = true;
 				creatorText += "Jpg-Q=" + jpgQuality.ToString() + separator;
-				success = bt_final.SetAndSaveTag ("Creator", creatorText);
+				success = bt_final.ChangeValueOfTag (Tags.Creator, creatorText);
 				if (success) {
-					success = bt_final.Save (c_final, pib.Text);
+					success = bt_final.Save (c_final, pib.Text, true);
 				}
 				bt_final.Dispose ();
 			}

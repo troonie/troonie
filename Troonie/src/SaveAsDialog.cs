@@ -198,7 +198,7 @@ namespace Troonie
 			}		
 
 			bool success;
-			success = bitmap.Save (config, entryFilename.Text + lbFormat.Text);
+			success = bitmap.Save (config, entryFilename.Text + lbFormat.Text, true);
 			return success;
 		}
 

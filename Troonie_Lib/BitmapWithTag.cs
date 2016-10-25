@@ -11,10 +11,11 @@ namespace Troonie_Lib
 {
 	public class BitmapWithTag
 	{		
+		private CombinedImageTag imageTag;
+
 		public TroonieImageFormat OrigFormat { get; private set; }
 		public Bitmap Bitmap { get; private set; }
 		public string FileName { get; private set; }
-		public CombinedImageTag ImageTag { get; private set; }
 
 		public BitmapWithTag (string filename, bool exists)
 		{
@@ -23,12 +24,12 @@ namespace Troonie_Lib
 			if (exists) {
 				Bitmap = new Bitmap (filename);
 				OrigFormat = ImageFormatConverter.I.ConvertToPIF(Bitmap.RawFormat, Bitmap.PixelFormat);
-				ImageTag = ExtractImageTag (filename);
+				imageTag = ImageTagHelper.ExtractImageTag (filename);
 			} 
 			else {
 				Bitmap = new Bitmap (180, 180, PixelFormat.Format32bppArgb);
 				OrigFormat = TroonieImageFormat.PNG32AlphaAsValue;
-				ImageTag = new CombinedImageTag (TagTypes.Png);
+				imageTag = new CombinedImageTag (TagTypes.Png);
 			}				
 		}			
 
@@ -44,14 +45,14 @@ namespace Troonie_Lib
 				Bitmap = null;
 			}
 
-			if (ImageTag != null) {
+			if (imageTag != null) {
 				try {
-					ImageTag.Clear();
+					imageTag.Clear();
 				} catch (NotImplementedException) { /* do nothing */ }
 			}
 		}				
 
-		public bool Save(Config config, string relativeFileName)
+		public bool Save(Config config, string relativeFileName, bool saveTag)
 		{			
 			bool success = true;
 			try 
@@ -123,11 +124,15 @@ namespace Troonie_Lib
 				switch (config.Format) {
 				case TroonieImageFormat.JPEG8:
 					JpegEncoder.SaveJpeg (FileName, dest, config.JpgQuality, true);
-					CopyTagToFile (FileName, ImageTag);
+					if (saveTag) {
+						ImageTagHelper.CopyTagToFile (FileName, imageTag);
+					}
 					return success;
 				case TroonieImageFormat.JPEG24:
 					JpegEncoder.SaveJpeg (FileName, dest, config.JpgQuality, false);
-					CopyTagToFile (FileName, ImageTag);
+					if (saveTag) {
+						ImageTagHelper.CopyTagToFile (FileName, imageTag);
+					}
 					return success;
 				case TroonieImageFormat.BMP1:
 				case TroonieImageFormat.PNG1:
@@ -165,7 +170,10 @@ namespace Troonie_Lib
 				#endregion Saving by using TroonieImageFormat
 
 				Bitmap = dest;
-				CopyTagToFile (FileName, ImageTag);
+
+				if (saveTag) {
+					ImageTagHelper.CopyTagToFile (FileName, imageTag);
+				}
 
 			}
 			catch (Exception ) {
@@ -175,158 +183,15 @@ namespace Troonie_Lib
 			return success;
 		}
 
-		#region static taglib stuff
 
-		private static TagLib.Image.File LoadTagFile(string fileName)
-		{
-			TagLib.Image.File imageTagFile;
-			try{
-				imageTagFile = TagLib.File.Create(fileName) as TagLib.Image.File;
-				if (imageTagFile == null){
-					return null;
-				}
-			}
-			catch (Exception /* UnsupportedFormatException */) {
-				
-				return null;
-			}				
+		#region taglib stuff
 
-			// comment out comes from earlier version of method ExtractTags(..)
-			//			if (imageTagFile.ImageTag != null && imageTagFile.ImageTag.AllTags.Count == 0) {
-			imageTagFile.EnsureAvailableTags ();
-			//			}			
-
-			return imageTagFile;
-		}
-
-		private static void CopyTagToFile(string fileName, CombinedImageTag tag)
-		{
-//			TagLib.Image.File imageTagFile;
-//			try{
-//				imageTagFile = TagLib.File.Create(fileName) as TagLib.Image.File;
-//			}
-//			catch (Exception /* UnsupportedFormatException */) {
-//				return;
-//			}
-//
-//			imageTagFile.EnsureAvailableTags();
-
-			TagLib.Image.File imageTagFile = LoadTagFile(fileName);
-
-			if (tag == null || imageTagFile == null)
-				return;
-			
-			// all general tags
-			tag.CopyTo(imageTagFile.ImageTag, true);
-
-			// all image tags
-			if (tag.Keywords != null) imageTagFile.ImageTag.Keywords = tag.Keywords;
-			if (tag.Rating != null) imageTagFile.ImageTag.Rating = tag.Rating;
-			if (tag.DateTime != null) imageTagFile.ImageTag.DateTime = tag.DateTime;
-			imageTagFile.ImageTag.Orientation = tag.Orientation;
-			if (tag.Software != null) imageTagFile.ImageTag.Software = tag.Software;
-			if (tag.Latitude != null) imageTagFile.ImageTag.Latitude = tag.Latitude;
-			if (tag.Longitude != null) imageTagFile.ImageTag.Longitude = tag.Longitude;
-			if (tag.Altitude != null) imageTagFile.ImageTag.Altitude = tag.Altitude;
-			if (tag.ExposureTime != null) imageTagFile.ImageTag.ExposureTime = tag.ExposureTime;
-			if (tag.FNumber != null) imageTagFile.ImageTag.FNumber = tag.FNumber;
-			if (tag.ISOSpeedRatings != null) imageTagFile.ImageTag.ISOSpeedRatings = tag.ISOSpeedRatings;
-			if (tag.FocalLength != null) imageTagFile.ImageTag.FocalLength = tag.FocalLength;
-			if (tag.FocalLengthIn35mmFilm != null) imageTagFile.ImageTag.FocalLengthIn35mmFilm = tag.FocalLengthIn35mmFilm;
-			if (tag.Make != null) imageTagFile.ImageTag.Make = tag.Make;
-			if (tag.Model != null) imageTagFile.ImageTag.Model = tag.Model;
-			if (tag.Creator != null) imageTagFile.ImageTag.Creator = tag.Creator;
-
-			// examples for setting properties manually
-//			imageTagFile.ImageTag.Creator = "MARKI";
-//			imageTagFile.ImageTag.FocalLength = 33.0;
-//			imageTagFile.ImageTag.Rating = 5;
-
-			try{
-				imageTagFile.Save();
-			}
-			catch (Exception /* UnsupportedFormatException */) {
-				// do nothing
-			}
-			
-			imageTagFile.Dispose ();
-		}
-
-		private static CombinedImageTag ExtractImageTag(string fileName)
-		{
-//			TagLib.Image.File imageTagFile;
-//			try{
-//				imageTagFile = TagLib.File.Create(fileName) as TagLib.Image.File;
-//				if (imageTagFile == null){
-//					return null;
-//				}
-//			}
-//			catch (Exception /* UnsupportedFormatException */) {
-//				return null;
-//			}				
-//
-////			if (imageTagFile.ImageTag != null && imageTagFile.ImageTag.AllTags.Count == 0) {
-//				imageTagFile.EnsureAvailableTags ();
-////			}
-
-			TagLib.Image.File imageTagFile = LoadTagFile(fileName);
-
-			if (imageTagFile == null)
-				return null;
-			
-			CombinedImageTag tag = imageTagFile.ImageTag;
-			imageTagFile.Dispose ();
-			return tag;
-		}
-
-		private static void ChangeTag(CombinedImageTag imageTag, string tagName, string newValue)
-		{
-			switch (tagName) {
-			case "Creator":
-				imageTag.Creator = newValue;
-				break;
-			case "Conductor":
-				imageTag.Conductor = newValue;
-				break;
-			case "Copyright":
-				imageTag.Copyright = newValue;
-				break;
-			default:
-				throw new NotImplementedException ();
-			}	
-		}
-
-		public static void GetDateTime(string fileName, out DateTime? dateTime)
-		{
-			CombinedImageTag tag = ExtractImageTag (fileName);
-			if (tag == null || tag.DateTime == null) {
-				dateTime = null;
-				return;
-			} else {
-				dateTime = tag.DateTime;
-			}
-		}
-			
-		public static void GetImageRating(string fileName, out int rating)
-		{
-			CombinedImageTag tag = ExtractImageTag (fileName);
-			if (tag == null || tag.Rating == null) {
-				rating = -1;
-//				dateTime = null;
-				return;
-			} 
-			else {
-				rating = (int)tag.Rating;
-//				dateTime = tag.DateTime;
-			}
-		}
-
-		public bool SetAndSaveTag(string tagName, string newValue)
+		public bool ChangeValueOfTag(Tags tag, string newValue)
 		{
 			bool success = true;
 
 			try{
-				ChangeTag (ImageTag, tagName, newValue);
+				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newValue);
 			}
 			catch (Exception /* UnsupportedFormatException */) {
 				success = false;
@@ -335,24 +200,20 @@ namespace Troonie_Lib
 			return success;
 		}
 
-		public static bool SetAndSaveTag(string fileName, string tagName, string newValue)
+		public bool ChangeValueOfTag(Tags tag, int newValue)
 		{
 			bool success = true;
-			TagLib.Image.File imageTagFile = LoadTagFile (fileName);
-			CombinedImageTag imageTag = imageTagFile.ImageTag;
-						
+
 			try{
-				ChangeTag (imageTag, tagName, newValue);
-				imageTagFile.Save();
-				imageTagFile.Dispose ();
+				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newValue);
 			}
 			catch (Exception /* UnsupportedFormatException */) {
 				success = false;
 			}
-				
+
 			return success;
 		}
-			
+					
 		#endregion taglib stuff
 	}
 }

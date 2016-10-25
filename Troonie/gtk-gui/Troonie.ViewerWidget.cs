@@ -17,6 +17,12 @@ namespace Troonie
 		private global::Gtk.Table tableViewer;
 		
 		private global::Gtk.VBox vboxMenu;
+		
+		private global::Gtk.Frame frame1;
+		
+		private global::Gtk.Alignment GtkAlignment;
+		
+		private global::Gtk.Label GtkLabel;
 
 		protected virtual void Build ()
 		{
@@ -67,12 +73,33 @@ namespace Troonie
 			this.vboxMenu = new global::Gtk.VBox ();
 			this.vboxMenu.Name = "vboxMenu";
 			this.vboxMenu.Spacing = 6;
+			// Container child vboxMenu.Gtk.Box+BoxChild
+			this.frame1 = new global::Gtk.Frame ();
+			this.frame1.WidthRequest = 200;
+			this.frame1.Name = "frame1";
+			this.frame1.ShadowType = ((global::Gtk.ShadowType)(1));
+			this.frame1.BorderWidth = ((uint)(1));
+			// Container child frame1.Gtk.Container+ContainerChild
+			this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.GtkAlignment.Name = "GtkAlignment";
+			this.GtkAlignment.LeftPadding = ((uint)(12));
+			this.frame1.Add (this.GtkAlignment);
+			this.GtkLabel = new global::Gtk.Label ();
+			this.GtkLabel.Name = "GtkLabel";
+			this.GtkLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>GtkFrame</b>");
+			this.GtkLabel.UseMarkup = true;
+			this.frame1.LabelWidget = this.GtkLabel;
+			this.vboxMenu.Add (this.frame1);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vboxMenu [this.frame1]));
+			w8.Position = 0;
 			this.hboxViewerAndMenu.Add (this.vboxMenu);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hboxViewerAndMenu [this.vboxMenu]));
-			w7.Position = 1;
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hboxViewerAndMenu [this.vboxMenu]));
+			w9.Position = 1;
+			w9.Expand = false;
+			w9.Fill = false;
 			this.vboxA.Add (this.hboxViewerAndMenu);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hboxViewerAndMenu]));
-			w8.Position = 1;
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hboxViewerAndMenu]));
+			w10.Position = 1;
 			this.Add (this.vboxA);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
@@ -81,6 +108,10 @@ namespace Troonie
 			this.DefaultHeight = 300;
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+			this.DragDrop += new global::Gtk.DragDropHandler (this.OnDragDrop);
+			this.DragDataReceived += new global::Gtk.DragDataReceivedHandler (this.OnDragDataReceived);
+			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
+			this.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnKeyReleaseEvent);
 		}
 	}
 }

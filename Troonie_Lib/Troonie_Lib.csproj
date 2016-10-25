@@ -72,10 +72,11 @@
     <Compile Include="Version.cs" />
     <Compile Include="filter\PosterizationFilter.cs" />
     <Compile Include="ImageFormatConverter.cs" />
-    <Compile Include="VideoTag.cs" />
     <Compile Include="TroonieBitmap.cs" />
     <Compile Include="IOFile.cs" />
     <Compile Include="IPlugin.cs" />
+    <Compile Include="VideoTagHelper.cs" />
+    <Compile Include="ImageTagHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -3,8 +3,14 @@ using Gtk;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Cairo;
+using System.Diagnostics;
+using Troonie_Lib;
+using System.IO;
+using System.Threading;
+using IOPath = System.IO.Path;
 using Cc = Troonie.ColorConverter;
 using CairoColor = Cairo.Color;
+using Ic = Troonie_Lib.ImageConverter;
 
 namespace Troonie
 {
@@ -17,19 +23,30 @@ namespace Troonie
 		/// <summary> Padding distance between border of ViewerImagePanel2 and the image itself. </summary>
 		private const int padding = 10;
 		private const double transparency = 0.8; 
+		private const int BiggestLengthBig = 800;
+		public const int BiggestLengthSmall = 300;
 
-		private static double[] RectColor = new double[4]{ 220/255.0, 220/255.0, 1, 220/255.0 };
+
+//		private static double[] RectColor = new double[4]{ 220/255.0, 220/255.0, 1, 220/255.0 };
 		private static double[] RedColor = new double[4]{ 255/255.0, 0/255.0, 0, 255/255.0 };
 
 		private EventBox eb;
 		private DrawingArea da;
 		private double translateX, translateY;
-		private int biggestLength;
-		private bool isEntered, IsPressedin;
+//		private int biggestLength;
+		private bool isEntered, firstClick, saveThumbnailsPersistent;
+		private Stopwatch sw_doubleClick;
 
 		private Cairo.ImageSurface surface;
 		private CairoColor workingColor;
 
+		private string thumbSmallName, thumbBigName, thumbDirectory;
+		public bool IsPressedin { get; private set;	}
+		public string OriginalImageFullName { get; private set; }
+		public TagsData TagsData; // { get; private set; }
+
+//		public string SmallThumbnailPath { get; private set; }
+//		public string BigThumbnailPath { get; private set; }
 
 
 		/// <summary> Shortcut for <see cref="WidthRequest"/> as well as <see cref="drawingAreaImage.WidthRequest"/>.</summary>
@@ -70,40 +87,86 @@ namespace Troonie
 		/// to get correct image pixel coordinate.
 		/// </summary>
 		public float ScaleCursorY { get; set; }
-		public string SurfaceFileName { get; set; }
+//		public string SurfaceFileName { get; set; }
 		/// <summary>Handles the event at the client.</summary>
 		public OnCursorPosChangedSimpleImagePanelEventHandler OnCursorPosChanged;
 
-		public ViewerImagePanel2 ()
+		public ViewerImagePanel2 (string originalImageFullName, bool saveThumbnailsPersistent)
 		{
-			//			this.Build ();
+			const string thumbDirName = "_TroonieThumbs";
+			this.saveThumbnailsPersistent = saveThumbnailsPersistent;
+
+			if (saveThumbnailsPersistent) {
+				thumbDirectory = IOPath.GetDirectoryName (originalImageFullName) + IOPath.DirectorySeparatorChar + 
+					thumbDirName + IOPath.DirectorySeparatorChar;
+			} else {
+				thumbDirectory = Constants.I.EXEPATH + IOPath.DirectorySeparatorChar + 
+					thumbDirName + IOPath.DirectorySeparatorChar;
+			}
+				
+			Directory.CreateDirectory (thumbDirectory);
+			string relativeImageName = originalImageFullName.Substring(originalImageFullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
+			relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
+			thumbSmallName = relativeImageName + BiggestLengthSmall.ToString() + 
+				Constants.Extensions[TroonieImageFormat.PNG24].Item1;
+			thumbBigName = relativeImageName + BiggestLengthBig.ToString() + 
+				Constants.Extensions[TroonieImageFormat.PNG24].Item1;
+
+			OriginalImageFullName = originalImageFullName;
+			ImageTagHelper.ExtractImageTag (OriginalImageFullName, out TagsData);
+
+			firstClick = true;
+			sw_doubleClick = new Stopwatch();
+
 			Stetic.Gui.Initialize (this);
 			Stetic.BinContainer.Attach (this);
 
 			Events = ((Gdk.EventMask)(1024));
 
 			eb = new EventBox ();
-//			this.fixed1.Name = "fixed1";
-//			this.fixed1.HasWindow = false;
-			// Container child fixed1.Gtk.Fixed+FixedChild
 			da = new DrawingArea ();
 			da.CanFocus = true;
 			da.Events = ((Gdk.EventMask)(772)); 
-			eb.Add (da);
 
+			eb.Add (da);
 			Add (eb);
-//			if (Child != null) {
-//				Child.ShowAll ();
-//			}
+
 			da.ExposeEvent += OnDaExpose;
 			da.MotionNotifyEvent += OnDaMotionNotify;
-			eb.ButtonPressEvent += OnDaButtonPress;
-			eb.ButtonReleaseEvent += OnDaButtonRelease;
 
+			eb.ButtonPressEvent += OnEbButtonPress;
+			eb.ButtonReleaseEvent += OnEbButtonRelease;
 			eb.EnterNotifyEvent += OnEbEnterNotify;
 			eb.LeaveNotifyEvent += OnEbLeaveNotify;
 
 //			ModifyBg(StateType.Normal, Cc.Instance.Green);
+
+//			if (surface != null) {
+//				surface.Dispose ();
+//				surface = null;
+//			}
+			// surface = new Cairo.ImageSurface (SmallThumbnailPath);
+			surface = new Cairo.ImageSurface (Format.A8, 1, 1);
+
+//			biggestLength = Math.Max (surface.Width, surface.Height);
+//			translateX = Math.Max (0, surface.Height - surface.Width) / 2.0;
+//			translateY = Math.Max (0, surface.Width - surface.Height) / 2.0;
+//
+//			translateX += padding / 2;
+//			translateY += padding / 2;
+
+			W = BiggestLengthSmall + padding;
+			H = BiggestLengthSmall + padding;
+
+			workingColor = Cc.Instance.C_GRID;
+
+
+			Thread thread = new Thread(SetThumbnailImage);
+			thread.IsBackground = true;
+			thread.Start();
+
+			//			thread.ThreadState = System.Threading.ThreadState.Sopped;
+//			GLib.Idle.Add(new GLib.IdleHandler(SetThumbnailImage));
 		}
 
 		public override void Destroy ()
@@ -114,31 +177,7 @@ namespace Troonie
 			}
 			//			drawingAreaImage.Destroy();
 			base.Destroy ();
-		}
-
-		public void Initialize()
-		{
-			if (surface != null) {
-				surface.Dispose ();
-				surface = null;
-			}
-			surface = new Cairo.ImageSurface (SurfaceFileName);
-
-			biggestLength = Math.Max (surface.Width, surface.Height);
-			translateX = Math.Max (0, surface.Height - surface.Width) / 2.0;
-			translateY = Math.Max (0, surface.Width - surface.Height) / 2.0;
-
-			translateX += padding / 2;
-			translateY += padding / 2;
-
-			W = biggestLength + padding;
-			H = biggestLength + padding;
-
-			workingColor = Cc.Instance.C_GRID;
-
-			QueueDraw();
-
-		}
+		}			
 
 		public void SetPressedIn (bool p_IsPressedin)
 		{
@@ -151,6 +190,85 @@ namespace Troonie
 
 			da.QueueDraw ();			
 		}
+
+//		public void SetRating(uint rating)
+//		{
+//			if (IsPressedin) {
+////				ImageTagHelper.SetAndSaveTag (vip.OriginalImageFullName, Tags.Rating, rating);
+//				//					vip.Rating = rating;
+//				tagsData.Rating = rating;
+//			}
+//		}
+
+		private void SetThumbnailImage()
+		{
+			if (!File.Exists (thumbDirectory + thumbSmallName)) {
+				
+				BitmapWithTag bt = new BitmapWithTag (OriginalImageFullName, true);
+				Config c = new Config ();
+				c.BiggestLength = BiggestLengthSmall;
+				c.FileOverwriting = false;
+				c.Path = thumbDirectory;
+				c.Format = TroonieImageFormat.PNG24;
+				c.ResizeVersion = ResizeVersion.BiggestLength;
+
+				// TODO: Catch, what should be happen, when success==false
+				bool successSmall = bt.Save (c, thumbSmallName, false);
+
+				if (!File.Exists (thumbDirectory + thumbBigName)) {
+					bt = new BitmapWithTag (OriginalImageFullName, true);
+					c.BiggestLength = BiggestLengthBig;
+					bool successBig = bt.Save (c, thumbBigName, false);
+
+				}
+				bt.Dispose ();
+
+//				Bitmap b = Bitmap.FromFile (OriginalImageFullName, true) as Bitmap;
+//				int w = b.Width;
+//				int h = b.Height;
+//				Ic.CalcBiggerSideLength (BiggestLengthBig, ref w, ref h);
+//
+//				Bitmap dest;
+//				Ic.ScaleAndCut (b, 
+//					out dest,
+//					0,
+//					0,
+//					w,
+//					h,
+//					ConvertMode.NoStretchForge,
+//					true /* config.HighQuality */);
+//
+//				dest.Save (thumbDirectory + thumbBigName, ImageFormat.Png);
+			}
+
+
+			surface.Dispose ();
+			surface = new Cairo.ImageSurface (thumbDirectory + thumbSmallName);
+
+			translateX = Math.Max (0, surface.Height - surface.Width) / 2.0;
+			translateY = Math.Max (0, surface.Width - surface.Height) / 2.0;
+
+			translateX += padding / 2;
+			translateY += padding / 2;
+
+
+
+			// work around by GLib timeout to fix the GTK#-resizing bug
+			GLib.TimeoutHandler timeoutHandler = () => {
+				QueueDraw();
+				// false, because usage only one time
+				return false;
+			};
+			GLib.Timeout.Add(100, timeoutHandler);
+
+//			return false;
+		}
+
+		#region GLib.Idle
+
+
+
+		#endregion
 
 		#region DrawingAreaImage events
 
@@ -202,16 +320,16 @@ namespace Troonie
 			cr.Save();
 			cr.SetSourceRGB(RedColor[0], RedColor[1], RedColor[2]);
 			cr.SelectFontFace("Arial", FontSlant.Normal, FontWeight.Bold);
-			cr.SetFontSize(15);
+			cr.SetFontSize(20);
 
 			cr.MoveTo(1, 15);
-			cr.ShowText("1");
+			cr.ShowText(TagsData.Rating.Value.ToString());
 
-			cr.MoveTo(1, 30);
-			cr.ShowText("2");
-
-			cr.MoveTo(1, 45);
-			cr.ShowText("3");
+//			cr.MoveTo(1, 30);
+//			cr.ShowText("2");
+//
+//			cr.MoveTo(1, 45);
+//			cr.ShowText("3");
 
 			cr.Restore();
 
@@ -230,14 +348,27 @@ namespace Troonie
 			} //if not, ignore
 		}
 
-		protected void OnDaButtonPress (object o, ButtonPressEventArgs args)
+		protected void OnEbButtonPress (object o, ButtonPressEventArgs args)
 		{
+			if (firstClick) {
+				sw_doubleClick.Restart ();	
+				firstClick = false;
+			} else {
+				sw_doubleClick.Stop ();
+				if (sw_doubleClick.ElapsedMilliseconds < Constants.TIME_DOUBLECLICK) {
+					ViewerStandaloneImagePanel vsaip = 
+						new ViewerStandaloneImagePanel (OriginalImageFullName, thumbDirectory + thumbBigName);
+					vsaip.Show ();
+				}
+				firstClick = true;
+			}
+
 			IsPressedin = !IsPressedin;
 			workingColor = Cc.Instance.Cairo_Orange;
 			da.QueueDraw ();
 		}
 
-		protected void OnDaButtonRelease (object o, ButtonReleaseEventArgs args)
+		protected void OnEbButtonRelease (object o, ButtonReleaseEventArgs args)
 		{
 			SetPressedIn (IsPressedin);
 		}
