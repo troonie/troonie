@@ -25,11 +25,13 @@ namespace Troonie
 
 //		public string FileName { get; set; }
 		public BitmapWithTag bt;
+		public List<string>ImageFullPaths { get; private set; }
 
 		public ViewerWidget (List<string> newImages) :	base (Gtk.WindowType.Toplevel)
 		{
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
+			ImageFullPaths = new List<string> ();
 
 //			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
 //			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
@@ -80,6 +82,7 @@ namespace Troonie
 
 		public override void Destroy ()
 		{
+			ImageFullPaths.Clear ();
 			if (bt != null) {
 				bt.Dispose ();
 			}
@@ -129,10 +132,14 @@ namespace Troonie
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel2 vip = tableViewer.Children[i] as ViewerImagePanel2;
 				if (vip.IsPressedin) {
+					uint? old = vip.TagsData.Rating;
 					vip.TagsData.Rating = rating;
-					ImageTagHelper.SetAndSave_Rating (vip.OriginalImageFullName, rating);
-					vip.QueueDraw ();
-//					vip.Rating = rating;
+					bool success = ImageTagHelper.SetTag (vip.OriginalImageFullName, Tags.Rating, vip.TagsData);
+					if (success) {
+						vip.QueueDraw ();
+					} else {
+						vip.TagsData.Rating = old;
+					}
 				}
 			}
 //			tableViewer.ShowAll ();
@@ -155,8 +162,10 @@ namespace Troonie
 				string ext = info.Extension.ToLower ();
 
 				if (ext.Length != 0 && (Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)  /* ||
-				    Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext) */ )) {
+				    Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext) */ ) && 
+					!ImageFullPaths.Contains(newImages[i])) {
 
+					ImageFullPaths.Add (newImages [i]);
 					ViewerImagePanel2 vip2 = new ViewerImagePanel2 (newImages [i], true /* path  + relativeSmall, path + relativeBig */);
 					tableViewer.Attach (vip2, rowNr, rowNr + 1, colNr, colNr + 1, 
 						AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
@@ -229,6 +238,9 @@ namespace Troonie
 				OnToolbarBtn_RemovePressed (null, null);
 				break;
 
+			case Gdk.Key.Key_0:
+				SetRatingOfSelectedImages (0);
+				break;
 			case Gdk.Key.Key_1:
 //				OnToolbarBtn_RemovePressed (null, null);
 				Console.WriteLine ("ONE!");

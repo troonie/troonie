@@ -542,22 +542,24 @@ namespace Troonie
 					FileInfo info = new FileInfo (pib.FullText);
 					string ext = info.Extension.ToLower ();
 					long origLength = info.Length; 
-					int rating;
+					uint rating;
 					bool isVideo = false;
 	//				DateTime? dt = null;
+					TagsData td;
 
-					if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
-						ImageTagHelper.GetImageRating (pib.FullText, out rating);
+					if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {						
+						td = ImageTagHelper.GetTagsData (pib.FullText);
+						rating = td.Rating == null ? 0 : td.Rating.Value;
+
 					} else {
-						rating = VideoTagHelper.GetVideoRating (pib.FullText);
+						td = VideoTagHelper.GetTagsData(pib.FullText);
+						rating = td.Track;
 						isVideo = true;
 
-	//					VideoTag.SetDateAndRatingInVideoTag (pib.FullText, 1);
+//						VideoTagHelper.SetDateAndRatingInVideoTag (pib.FullText, 5);
 						InsertIdentifierAtBegin(pib, "V-");
 					}
-
-					// avoid negative rating
-					rating = Math.Max (0, rating);
+						
 					long limitInBytes = Math.Max (rating * 1050000, 350000);
 					int biggestLength;
 						
@@ -586,7 +588,7 @@ namespace Troonie
 					if (!isVideo && (Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
 									 Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext)) {
 						byte jpqQuality = 95;
-						biggestLength = 1800 + 1200 * rating;
+						biggestLength = 1800 + 1200 * (int)rating;
 						if (origLength > limitInBytes &&
 							TroonieBitmap.GetBiggestLength (pib.FullText) > biggestLength) 
 						{
@@ -669,7 +671,8 @@ namespace Troonie
 			if (l == info.Length) {
 				// no jpg compression was done
 				creatorText += "Jpg-Q=Original" + separator;
-				success = ImageTagHelper.SetAndSaveTag(pib.FullText, Tags.Creator, creatorText);
+//				success = ImageTagHelper.SetAndSaveTag(pib.FullText, Tags.Creator, creatorText);
+				success = ImageTagHelper.SetTag(pib.FullText, Tags.Creator | Tags.Copyright | Tags.Title, new TagsData { Creator = creatorText, Copyright = "oioioi", Title = "MyTitle" });
 			} else {
 				BitmapWithTag bt_final = new BitmapWithTag (pib.FullText, true);
 				Config c_final = new Config ();				
@@ -679,7 +682,8 @@ namespace Troonie
 				c_final.JpgQuality = jpgQuality;
 				c_final.FileOverwriting = true;
 				creatorText += "Jpg-Q=" + jpgQuality.ToString() + separator;
-				success = bt_final.ChangeValueOfTag (Tags.Creator, creatorText);
+//				success = bt_final.ChangeValueOfTag (Tags.Creator, creatorText);
+				success = bt_final.ChangeValueOfTag (Tags.Creator, new TagsData { Creator = creatorText });
 				if (success) {
 					success = bt_final.Save (c_final, pib.Text, true);
 				}

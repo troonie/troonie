@@ -24,7 +24,7 @@ namespace Troonie_Lib
 			if (exists) {
 				Bitmap = new Bitmap (filename);
 				OrigFormat = ImageFormatConverter.I.ConvertToPIF(Bitmap.RawFormat, Bitmap.PixelFormat);
-				imageTag = ImageTagHelper.ExtractImageTag (filename);
+				imageTag = ImageTagHelper.GetTag (filename);
 			} 
 			else {
 				Bitmap = new Bitmap (180, 180, PixelFormat.Format32bppArgb);
@@ -186,12 +186,26 @@ namespace Troonie_Lib
 
 		#region taglib stuff
 
-		public bool ChangeValueOfTag(Tags tag, string newValue)
+//		public bool ChangeValueOfTag(Tags tag, string newValue)
+//		{
+//			bool success = true;
+//
+//			try{
+//				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newValue);
+//			}
+//			catch (Exception /* UnsupportedFormatException */) {
+//				success = false;
+//			}
+//
+//			return success;
+//		}
+
+		public bool ChangeValueOfTag(Tags tag, TagsData newData)
 		{
 			bool success = true;
 
 			try{
-				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newValue);
+				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newData);
 			}
 			catch (Exception /* UnsupportedFormatException */) {
 				success = false;
@@ -200,19 +214,19 @@ namespace Troonie_Lib
 			return success;
 		}
 
-		public bool ChangeValueOfTag(Tags tag, int newValue)
-		{
-			bool success = true;
-
-			try{
-				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newValue);
-			}
-			catch (Exception /* UnsupportedFormatException */) {
-				success = false;
-			}
-
-			return success;
-		}
+//		public bool ChangeValueOfTag(Tags tag, int newValue)
+//		{
+//			bool success = true;
+//
+//			try{
+//				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newValue);
+//			}
+//			catch (Exception /* UnsupportedFormatException */) {
+//				success = false;
+//			}
+//
+//			return success;
+//		}
 					
 		#endregion taglib stuff
 	}

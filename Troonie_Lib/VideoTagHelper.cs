@@ -2,63 +2,112 @@
 using TagLib;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace Troonie_Lib
 {
 	public class VideoTagHelper
 	{
-		public VideoTagHelper ()
+		private static VideoTagHelper instance;
+		public static VideoTagHelper I
 		{
-		}			
-
-		public static int GetVideoRating(string fileName)
-		{
-			Tag tag = ExtractGeneralTag (fileName);
-			if (tag == null || tag.Track == 0) {
-				return -1;
-			} else {
-				return (int)tag.Track;
+			get
+			{
+				if (instance == null) {
+					instance = new VideoTagHelper ();
+				}
+				return instance;
 			}
-		}
+		}			
 			
 		public static void SetDateAndRatingInVideoTag(string fileName, uint rating)
 		{
-			TagLib.File tagFile;
-			try{
-				tagFile = TagLib.File.Create(fileName);
-				if (tagFile == null){
-					return;
-				}
-			}
-			catch (Exception /* UnsupportedFormatException */) {
-				return;
-			}
-				
-			//			tagFile.Tag.Comment = "Rating 1";
-			tagFile.Tag.Track = rating;
+			Tags flag = Tags.Track;
 			uint dateAsUint;
 			string dateAsString;
 			GetDateFromFilenameAsUint (fileName, out dateAsUint, out dateAsString);
+			TagsData td = new TagsData { Track = rating };
+
 			if (dateAsUint != 0) {
-				tagFile.Tag.Year = dateAsUint;
-//				tagFile.Tag.Conductor = "Conductor: " + date.ToString ();
-//				tagFile.Tag.Copyright = "Copyright: " + date.ToString ();
-				tagFile.Tag.Composers = new[]{"Creation date (Troonie): " + dateAsString, "Rating (Troonie): " + rating };
-			}
+				flag = Tags.Track | Tags.Year | Tags.Composers;
+				td.Year = dateAsUint;
+				td.Composers = new List<string>{ "Creation date (Troonie): " + dateAsString, "Rating (Troonie): " + rating };
+			} 
 
-			try{
-				tagFile.Save();
-			}
-			catch (Exception /* UnsupportedFormatException */) {
-				// do nothing
-				//				Console.WriteLine(e2.Message);
-			}
-
-			tagFile.Dispose ();
-			return;
+			SetTag(fileName, flag, td);
 		}
 
-		private static Tag ExtractGeneralTag(string fileName)
+		public static TagsData GetTagsData(string fileName)
+		{
+			TagsData td = new TagsData ();
+			Tag cit = GetTag (fileName);
+			if (cit != null) {
+				td.Comment = cit.Comment;
+				td.Composers = new List<string>(cit.Composers);
+				td.Conductor = cit.Conductor;
+				td.Copyright = cit.Copyright;
+				td.Title = cit.Title;
+				td.Track = cit.Track;
+				td.TrackCount = cit.TrackCount;
+				td.Year = cit.Year;
+			}
+
+			return td;
+		}
+
+		public static Tag GetTag(string fileName)
+		{
+			TagLib.File tagFile = LoadTagFile(fileName);			
+
+			if (tagFile == null)
+				return null;
+			
+			Tag tag = tagFile.Tag;
+			tagFile.Dispose ();
+			return tag;
+		}
+
+		public static void ChangeValueOfTag(Tag tag, Tags flag, TagsData newData)
+		{
+			uint flagValue = int.MaxValue;
+			flagValue += 1;
+
+			while(flagValue != 0)
+			{
+				switch (flag & (Tags)flagValue) {
+				case Tags.Comment:		tag.Comment = newData.Comment;				break;
+				case Tags.Composers:	tag.Composers= newData.Composers.ToArray();	break;
+				case Tags.Conductor:	tag.Conductor = newData.Conductor;			break;
+				case Tags.Copyright:	tag.Copyright = newData.Copyright;			break;
+				case Tags.Title:		tag.Title = newData.Title;					break;
+				case Tags.Track:		tag.Track = newData.Track;					break;
+				case Tags.TrackCount:	tag.TrackCount = newData.TrackCount;		break;
+				case Tags.Year:			tag.Year = newData.Year;					break;
+				}
+
+				flagValue >>= 1;
+			}
+		}
+
+		public static bool SetTag(string fileName, Tags flag, TagsData newData)
+		{
+			bool success = true;
+			TagLib.File tagFile = LoadTagFile (fileName);
+			Tag tag = tagFile.Tag;
+
+			try{
+				ChangeValueOfTag (tag, flag, newData);
+				tagFile.Save();
+				tagFile.Dispose ();
+			}
+			catch (Exception /* UnsupportedFormatException */ ) {
+				success = false;
+			}
+
+			return success;
+		}
+
+		private static TagLib.File LoadTagFile(string fileName)
 		{
 			TagLib.File tagFile;
 			try{
@@ -69,14 +118,11 @@ namespace Troonie_Lib
 			}
 			catch (Exception /* UnsupportedFormatException */) {
 				return null;
-			}				
+			}									
 
-			Tag tag = tagFile.Tag;
-			tagFile.Dispose ();
-			return tag;
+			return tagFile;
 		}
-
-
+			
 		private static void GetDateFromFilenameAsUint(string filename, out uint dateAsUint, out string date)
 		{
 			dateAsUint = 0;

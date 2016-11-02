@@ -113,7 +113,7 @@ namespace Troonie
 				Constants.Extensions[TroonieImageFormat.PNG24].Item1;
 
 			OriginalImageFullName = originalImageFullName;
-			ImageTagHelper.ExtractImageTag (OriginalImageFullName, out TagsData);
+			TagsData = ImageTagHelper.GetTagsData (OriginalImageFullName);
 
 			firstClick = true;
 			sw_doubleClick = new Stopwatch();
@@ -323,7 +323,9 @@ namespace Troonie
 			cr.SetFontSize(20);
 
 			cr.MoveTo(1, 15);
-			cr.ShowText(TagsData.Rating.Value.ToString());
+			if (TagsData.Rating.HasValue && TagsData.Rating.Value != 0) {
+				cr.ShowText (TagsData.Rating.Value.ToString ());
+			}
 
 //			cr.MoveTo(1, 30);
 //			cr.ShowText("2");

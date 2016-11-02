@@ -35,7 +35,7 @@ namespace Troonie
 
 			string filename = null;
 			// START VALUE
-			args = new string[] { "-v"};
+//			args = new string[] { "-v"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args);
@@ -61,10 +61,10 @@ namespace Troonie
 				case "-v":
 					ViewerWidget winViewer = new ViewerWidget (
 						new System.Collections.Generic.List<string>() {
-							"/home/james/Schreibtisch/Brandenburger_Tor_Ban2.png", "/home/james/Schreibtisch/Pilz_dat2.png",
-							"/home/james/Schreibtisch/Brandenburger_Tor_Ban2.png", "/home/james/Schreibtisch/Pilz_dat2.png",
-							"/home/james/Schreibtisch/04.jpg", "/home/james/Schreibtisch/01.jpg",
-							"/home/james/Schreibtisch/02.jpg", "/home/james/Schreibtisch/03.jpg"});
+							"/home/james/Schreibtisch/Tesimages/Brandenburger_Tor_Ban2.png", "/home/james/Schreibtisch/Tesimages/Pilz_dat2.png",
+							"/home/james/Schreibtisch/Tesimages/Brandenburger_Tor_Ban2.png", "/home/james/Schreibtisch/Tesimages/Pilz_dat2.png",
+							"/home/james/Schreibtisch/Tesimages/04.jpg", "/home/james/Schreibtisch/Tesimages/01.jpg",
+							"/home/james/Schreibtisch/Tesimages/02.jpg", "/home/james/Schreibtisch/Tesimages/03.jpg"});
 					winViewer.Show ();
 					break;
 				case "-d":
