@@ -10,6 +10,13 @@ using System.Linq;
 
 namespace Troonie
 {
+	public struct TableTagsViewerRowElement
+	{
+		public Label TagName;
+		public Label TagData;
+		public TroonieButton ChangeBtn;
+	}
+
 	public partial class ViewerWidget : Gtk.Window
 	{
 		private const string blackFileName = "black.png";
@@ -26,12 +33,14 @@ namespace Troonie
 //		public string FileName { get; set; }
 		public BitmapWithTag bt;
 		public List<string>ImageFullPaths { get; private set; }
+		public List<TableTagsViewerRowElement> TableTagsViewerRowElements { get; private set; }
 
 		public ViewerWidget (List<string> newImages) :	base (Gtk.WindowType.Toplevel)
 		{
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 			ImageFullPaths = new List<string> ();
+			TableTagsViewerRowElements = new List<TableTagsViewerRowElement> ();
 
 //			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
 //			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
@@ -48,8 +57,12 @@ namespace Troonie
 			rowNr = 0; 
 			colNr = 0;
 
+			InitTableTagsViewer ();
+
 			if (newImages != null)
 				FillImageList (newImages);
+
+
 
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[39], OnToolbarBtn_OpenPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "edit-select-all.png", Language.I.L[40], OnToolbarBtn_SelectAllPressed);
@@ -101,7 +114,31 @@ namespace Troonie
 
 //			File.Delete (tempScaledImageFileName);
 //			File.Delete (Constants.I.EXEPATH + blackFileName);
-		}					
+		}
+
+		private void InitTableTagsViewer()
+		{
+			const int maxL = 10;
+			uint nr = 0;
+			foreach (string s in Enum.GetNames(typeof(Tags))) {
+				Label lbTagName = new Label (s.Length > maxL ? s.Substring(0, maxL) : s);
+				lbTagName.TooltipText = s;
+				string strTagData = s == "Keywords" ? "data, data, data, data" : "1234";
+				Label lbTagData = new Label (strTagData);
+				TroonieButton b = new TroonieButton ();
+				b.Text = "...";
+//				b.TextSize = 10;
+				b.ButtonHeight = 20;
+				b.ButtonWidth = 30;
+
+				TableTagsViewerRowElements.Add (new TableTagsViewerRowElement { TagName = lbTagName, TagData = lbTagData, ChangeBtn = b });
+				tableTagsViewer.Attach (lbTagName, 0, 1, nr, nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+				tableTagsViewer.Attach (lbTagData, 1, 2, nr, nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+				tableTagsViewer.Attach (b, 2, 3, nr, nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+
+				nr++;
+			}
+		}
 
 		private void SetGuiColors()
 		{

@@ -22,6 +22,10 @@ namespace Troonie
 		
 		private global::Gtk.Alignment GtkAlignment;
 		
+		private global::Gtk.ScrolledWindow scrolledwindowTagsViewer;
+		
+		private global::Gtk.Table tableTagsViewer;
+		
 		private global::Gtk.Label GtkLabel;
 
 		protected virtual void Build ()
@@ -75,7 +79,7 @@ namespace Troonie
 			this.vboxMenu.Spacing = 6;
 			// Container child vboxMenu.Gtk.Box+BoxChild
 			this.frame1 = new global::Gtk.Frame ();
-			this.frame1.WidthRequest = 200;
+			this.frame1.WidthRequest = 250;
 			this.frame1.Name = "frame1";
 			this.frame1.ShadowType = ((global::Gtk.ShadowType)(1));
 			this.frame1.BorderWidth = ((uint)(1));
@@ -83,6 +87,22 @@ namespace Troonie
 			this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment.Name = "GtkAlignment";
 			this.GtkAlignment.LeftPadding = ((uint)(12));
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			this.scrolledwindowTagsViewer = new global::Gtk.ScrolledWindow ();
+			this.scrolledwindowTagsViewer.CanFocus = true;
+			this.scrolledwindowTagsViewer.Name = "scrolledwindowTagsViewer";
+			this.scrolledwindowTagsViewer.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child scrolledwindowTagsViewer.Gtk.Container+ContainerChild
+			global::Gtk.Viewport w7 = new global::Gtk.Viewport ();
+			w7.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child GtkViewport1.Gtk.Container+ContainerChild
+			this.tableTagsViewer = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
+			this.tableTagsViewer.Name = "tableTagsViewer";
+			this.tableTagsViewer.RowSpacing = ((uint)(6));
+			this.tableTagsViewer.ColumnSpacing = ((uint)(6));
+			w7.Add (this.tableTagsViewer);
+			this.scrolledwindowTagsViewer.Add (w7);
+			this.GtkAlignment.Add (this.scrolledwindowTagsViewer);
 			this.frame1.Add (this.GtkAlignment);
 			this.GtkLabel = new global::Gtk.Label ();
 			this.GtkLabel.Name = "GtkLabel";
@@ -90,16 +110,16 @@ namespace Troonie
 			this.GtkLabel.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel;
 			this.vboxMenu.Add (this.frame1);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vboxMenu [this.frame1]));
-			w8.Position = 0;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vboxMenu [this.frame1]));
+			w12.Position = 0;
 			this.hboxViewerAndMenu.Add (this.vboxMenu);
-			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hboxViewerAndMenu [this.vboxMenu]));
-			w9.Position = 1;
-			w9.Expand = false;
-			w9.Fill = false;
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hboxViewerAndMenu [this.vboxMenu]));
+			w13.Position = 1;
+			w13.Expand = false;
+			w13.Fill = false;
 			this.vboxA.Add (this.hboxViewerAndMenu);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hboxViewerAndMenu]));
-			w10.Position = 1;
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hboxViewerAndMenu]));
+			w14.Position = 1;
 			this.Add (this.vboxA);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
