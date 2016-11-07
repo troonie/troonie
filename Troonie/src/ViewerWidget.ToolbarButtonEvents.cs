@@ -25,14 +25,14 @@ namespace Troonie
 
 		protected void OnToolbarBtn_SelectAllPressed (object sender, EventArgs e)
 		{
-			foreach (ViewerImagePanel2 vip in tableViewer.Children) {
+			foreach (ViewerImagePanel vip in tableViewer.Children) {
 				vip.SetPressedIn (true);
 			}
 		}
 
 		protected void OnToolbarBtn_ClearPressed (object sender, EventArgs e)
 		{
-			foreach (ViewerImagePanel2 vip in tableViewer.Children) {
+			foreach (ViewerImagePanel vip in tableViewer.Children) {
 				vip.SetPressedIn (false);
 			}
 		}
@@ -40,8 +40,9 @@ namespace Troonie
 		protected void OnToolbarBtn_RemovePressed (object sender, EventArgs e)
 		{
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
-				ViewerImagePanel2 vip = tableViewer.Children[i] as ViewerImagePanel2;
+				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
 				if (vip.IsPressedin) {
+					vip.OnIsPressedInChanged -= zzz;
 					tableViewer.Remove (vip);
 					i--;
 				}

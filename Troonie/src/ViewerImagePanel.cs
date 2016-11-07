@@ -14,11 +14,11 @@ using Ic = Troonie_Lib.ImageConverter;
 
 namespace Troonie
 {
-	/// <summary>Event handler for changing cursor position on image panel.</summary>
-	public delegate void OnCursorPosChangedViewerImagePanelEventHandler(int x, int y);
+	/// <summary>Event handler for changing property 'IsPressedIn'.</summary>
+	public delegate void OnIsPressedInChangedEventHandler(ViewerImagePanel viewerImagePanel);
 
 	[System.ComponentModel.ToolboxItem (true)]
-	public partial class ViewerImagePanel2 : Bin
+	public partial class ViewerImagePanel : Bin
 	{	
 		/// <summary> Padding distance between border of ViewerImagePanel2 and the image itself. </summary>
 		private const int padding = 10;
@@ -35,13 +35,27 @@ namespace Troonie
 		private double translateX, translateY;
 //		private int biggestLength;
 		private bool isEntered, firstClick, saveThumbnailsPersistent;
+//		/// <summary> DO NOT USE. Use instead its poperty <paramref name="IsPressedin"/>. </summary>
+//		private bool isPressedin;
 		private Stopwatch sw_doubleClick;
 
 		private Cairo.ImageSurface surface;
 		private CairoColor workingColor;
 
 		private string thumbSmallName, thumbBigName, thumbDirectory;
-		public bool IsPressedin { get; private set;	}
+
+		public bool IsPressedin  { get; private set; }
+//		public bool IsPressedin 
+//		{ 
+//			get
+//			{ 
+//				return isPressedin;
+//			} 
+//			private set
+//			{ 
+//				isPressedin = value;
+//			}
+//		}
 		public string OriginalImageFullName { get; private set; }
 		public TagsData TagsData; // { get; private set; }
 
@@ -77,21 +91,9 @@ namespace Troonie
 			}
 		}
 
-		/// <summary>
-		/// Factor for multiplying cursor's X-coordinate at image panel 
-		/// to get correct image pixel coordinate.
-		/// </summary>
-		public float ScaleCursorX { get; set; }
-		/// <summary>
-		/// Factor for multiplying cursor's Y-coordinate at image panel 
-		/// to get correct image pixel coordinate.
-		/// </summary>
-		public float ScaleCursorY { get; set; }
-//		public string SurfaceFileName { get; set; }
-		/// <summary>Handles the event at the client.</summary>
-		public OnCursorPosChangedSimpleImagePanelEventHandler OnCursorPosChanged;
+		public OnIsPressedInChangedEventHandler OnIsPressedInChanged;
 
-		public ViewerImagePanel2 (string originalImageFullName, bool saveThumbnailsPersistent)
+		public ViewerImagePanel (string originalImageFullName, bool saveThumbnailsPersistent)
 		{
 			const string thumbDirName = "_TroonieThumbs";
 			this.saveThumbnailsPersistent = saveThumbnailsPersistent;
@@ -132,7 +134,7 @@ namespace Troonie
 			Add (eb);
 
 			da.ExposeEvent += OnDaExpose;
-			da.MotionNotifyEvent += OnDaMotionNotify;
+//			da.MotionNotifyEvent += OnDaMotionNotify;
 
 			eb.ButtonPressEvent += OnEbButtonPress;
 			eb.ButtonReleaseEvent += OnEbButtonRelease;
@@ -174,7 +176,7 @@ namespace Troonie
 			if (surface != null) {
 				surface.Dispose ();
 				surface = null;
-			}
+			}				
 			//			drawingAreaImage.Destroy();
 			base.Destroy ();
 		}			
@@ -182,6 +184,13 @@ namespace Troonie
 		public void SetPressedIn (bool p_IsPressedin)
 		{
 			IsPressedin = p_IsPressedin;
+
+			//fire the event OnIsPressedInChanged
+			if (OnIsPressedInChanged != null) //is there a EventHandler?
+			{
+				OnIsPressedInChanged.Invoke(this); //calls its EventHandler                
+			} //if not, ignore
+
 			if (IsPressedin) {
 				workingColor = Cc.BtnPressedin.I.Down;
 			} else {
@@ -339,16 +348,16 @@ namespace Troonie
 			((IDisposable) cr).Dispose();
 		}
 
-		protected void OnDaMotionNotify (object o, MotionNotifyEventArgs args)
-		{
-			//fire the event now
-			if (this.OnCursorPosChanged != null) //is there a EventHandler?
-			{
-				int x = (int)Math.Round(args.Event.X * ScaleCursorX);
-				int y = (int)Math.Round(args.Event.Y * ScaleCursorY);
-				this.OnCursorPosChanged.Invoke(x, y); //calls its EventHandler                
-			} //if not, ignore
-		}
+//		protected void OnDaMotionNotify (object o, MotionNotifyEventArgs args)
+//		{
+//			//fire the event now
+//			if (this.OnCursorPosChanged != null) //is there a EventHandler?
+//			{
+//				int x = (int)Math.Round(args.Event.X * ScaleCursorX);
+//				int y = (int)Math.Round(args.Event.Y * ScaleCursorY);
+//				this.OnCursorPosChanged.Invoke(x, y); //calls its EventHandler                
+//			} //if not, ignore
+//		}
 
 		protected void OnEbButtonPress (object o, ButtonPressEventArgs args)
 		{

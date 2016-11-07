@@ -29,17 +29,20 @@ namespace Troonie
 		private int startWidth, imagePerRow;
 		private uint rowNr, colNr;
 		private bool leftControlPressed;
+		private List<ViewerImagePanel> pressedVips;
 
 //		public string FileName { get; set; }
 		public BitmapWithTag bt;
 		public List<string>ImageFullPaths { get; private set; }
 		public List<TableTagsViewerRowElement> TableTagsViewerRowElements { get; private set; }
 
+
 		public ViewerWidget (List<string> newImages) :	base (Gtk.WindowType.Toplevel)
 		{
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 			ImageFullPaths = new List<string> ();
+			pressedVips = new List<ViewerImagePanel> ();
 			TableTagsViewerRowElements = new List<TableTagsViewerRowElement> ();
 
 //			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
@@ -53,7 +56,7 @@ namespace Troonie
 
 //			scrolledwindowViewer.WidthRequest = 1300;
 
-			imagePerRow = (int)((startWidth - frame1.WidthRequest - 10) / (ViewerImagePanel2.BiggestLengthSmall + tableViewer.ColumnSpacing));
+			imagePerRow = (int)((startWidth - frame1.WidthRequest - 10) / (ViewerImagePanel.BiggestLengthSmall + tableViewer.ColumnSpacing));
 			rowNr = 0; 
 			colNr = 0;
 
@@ -98,7 +101,8 @@ namespace Troonie
 			ImageFullPaths.Clear ();
 			if (bt != null) {
 				bt.Dispose ();
-			}
+			}				
+
 			base.Destroy ();
 		}
 
@@ -144,6 +148,8 @@ namespace Troonie
 		{
 			this.ModifyBg(StateType.Normal, colorConverter.GRID);
 			eventboxToolbar.ModifyBg(StateType.Normal, colorConverter.GRID);
+			eventboxTagsViewer.ModifyBg(StateType.Normal, colorConverter.GRID);
+			eventboxViewer.ModifyBg(StateType.Normal, colorConverter.GRID);
 //			this.tableViewer.ModifyFg(StateType.Normal, colorConverter.GRID);
 //			this.scrolledwindowViewer.ModifyFg(StateType.Normal, colorConverter.GRID);
 
@@ -167,7 +173,7 @@ namespace Troonie
 		private void SetRatingOfSelectedImages(uint rating)
 		{
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
-				ViewerImagePanel2 vip = tableViewer.Children[i] as ViewerImagePanel2;
+				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
 				if (vip.IsPressedin) {
 					uint? old = vip.TagsData.Rating;
 					vip.TagsData.Rating = rating;
@@ -180,6 +186,22 @@ namespace Troonie
 				}
 			}
 //			tableViewer.ShowAll ();
+		}
+
+		private void zzz(ViewerImagePanel vip)
+		{
+			if (vip.IsPressedin) {
+				pressedVips.Add (vip);
+			} else {
+				pressedVips.Remove (vip);
+			}
+
+			Console.WriteLine ("IsPressedIn-Anzahl: " + pressedVips.Count);
+//			foreach (var l_vip in pressedVips) {
+//				if (!l_vip.IsPressedin) {
+//					
+//				}
+//			}
 		}
 
 		#region drag and drop
@@ -203,7 +225,8 @@ namespace Troonie
 					!ImageFullPaths.Contains(newImages[i])) {
 
 					ImageFullPaths.Add (newImages [i]);
-					ViewerImagePanel2 vip2 = new ViewerImagePanel2 (newImages [i], true /* path  + relativeSmall, path + relativeBig */);
+					ViewerImagePanel vip2 = new ViewerImagePanel (newImages [i], true /* path  + relativeSmall, path + relativeBig */);
+					vip2.OnIsPressedInChanged += zzz;
 					tableViewer.Attach (vip2, rowNr, rowNr + 1, colNr, colNr + 1, 
 						AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 

@@ -14,6 +14,8 @@ namespace Troonie
 		
 		private global::Gtk.ScrolledWindow scrolledwindowViewer;
 		
+		private global::Gtk.EventBox eventboxViewer;
+		
 		private global::Gtk.Table tableViewer;
 		
 		private global::Gtk.VBox vboxMenu;
@@ -23,6 +25,8 @@ namespace Troonie
 		private global::Gtk.Alignment GtkAlignment;
 		
 		private global::Gtk.ScrolledWindow scrolledwindowTagsViewer;
+		
+		private global::Gtk.EventBox eventboxTagsViewer;
 		
 		private global::Gtk.Table tableTagsViewer;
 		
@@ -64,15 +68,19 @@ namespace Troonie
 			global::Gtk.Viewport w3 = new global::Gtk.Viewport ();
 			w3.ShadowType = ((global::Gtk.ShadowType)(0));
 			// Container child GtkViewport.Gtk.Container+ContainerChild
+			this.eventboxViewer = new global::Gtk.EventBox ();
+			this.eventboxViewer.Name = "eventboxViewer";
+			// Container child eventboxViewer.Gtk.Container+ContainerChild
 			this.tableViewer = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
 			this.tableViewer.Name = "tableViewer";
 			this.tableViewer.RowSpacing = ((uint)(6));
 			this.tableViewer.ColumnSpacing = ((uint)(6));
-			w3.Add (this.tableViewer);
+			this.eventboxViewer.Add (this.tableViewer);
+			w3.Add (this.eventboxViewer);
 			this.scrolledwindowViewer.Add (w3);
 			this.hboxViewerAndMenu.Add (this.scrolledwindowViewer);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hboxViewerAndMenu [this.scrolledwindowViewer]));
-			w6.Position = 0;
+			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hboxViewerAndMenu [this.scrolledwindowViewer]));
+			w7.Position = 0;
 			// Container child hboxViewerAndMenu.Gtk.Box+BoxChild
 			this.vboxMenu = new global::Gtk.VBox ();
 			this.vboxMenu.Name = "vboxMenu";
@@ -91,17 +99,20 @@ namespace Troonie
 			this.scrolledwindowTagsViewer = new global::Gtk.ScrolledWindow ();
 			this.scrolledwindowTagsViewer.CanFocus = true;
 			this.scrolledwindowTagsViewer.Name = "scrolledwindowTagsViewer";
-			this.scrolledwindowTagsViewer.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child scrolledwindowTagsViewer.Gtk.Container+ContainerChild
-			global::Gtk.Viewport w7 = new global::Gtk.Viewport ();
-			w7.ShadowType = ((global::Gtk.ShadowType)(0));
+			global::Gtk.Viewport w8 = new global::Gtk.Viewport ();
+			w8.ShadowType = ((global::Gtk.ShadowType)(0));
 			// Container child GtkViewport1.Gtk.Container+ContainerChild
+			this.eventboxTagsViewer = new global::Gtk.EventBox ();
+			this.eventboxTagsViewer.Name = "eventboxTagsViewer";
+			// Container child eventboxTagsViewer.Gtk.Container+ContainerChild
 			this.tableTagsViewer = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
 			this.tableTagsViewer.Name = "tableTagsViewer";
 			this.tableTagsViewer.RowSpacing = ((uint)(6));
 			this.tableTagsViewer.ColumnSpacing = ((uint)(6));
-			w7.Add (this.tableTagsViewer);
-			this.scrolledwindowTagsViewer.Add (w7);
+			this.eventboxTagsViewer.Add (this.tableTagsViewer);
+			w8.Add (this.eventboxTagsViewer);
+			this.scrolledwindowTagsViewer.Add (w8);
 			this.GtkAlignment.Add (this.scrolledwindowTagsViewer);
 			this.frame1.Add (this.GtkAlignment);
 			this.GtkLabel = new global::Gtk.Label ();
@@ -110,16 +121,16 @@ namespace Troonie
 			this.GtkLabel.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel;
 			this.vboxMenu.Add (this.frame1);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vboxMenu [this.frame1]));
-			w12.Position = 0;
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vboxMenu [this.frame1]));
+			w14.Position = 0;
 			this.hboxViewerAndMenu.Add (this.vboxMenu);
-			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hboxViewerAndMenu [this.vboxMenu]));
-			w13.Position = 1;
-			w13.Expand = false;
-			w13.Fill = false;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.hboxViewerAndMenu [this.vboxMenu]));
+			w15.Position = 1;
+			w15.Expand = false;
+			w15.Fill = false;
 			this.vboxA.Add (this.hboxViewerAndMenu);
-			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hboxViewerAndMenu]));
-			w14.Position = 1;
+			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hboxViewerAndMenu]));
+			w16.Position = 1;
 			this.Add (this.vboxA);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

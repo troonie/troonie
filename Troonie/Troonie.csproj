@@ -138,9 +138,9 @@
     <Compile Include="gtk-gui\Troonie.OkCancelDialog.cs" />
     <Compile Include="src\ViewerWidget.cs" />
     <Compile Include="gtk-gui\Troonie.ViewerWidget.cs" />
-    <Compile Include="src\ViewerImagePanel2.cs" />
     <Compile Include="src\ViewerStandaloneImagePanel.cs" />
     <Compile Include="src\ViewerWidget.ToolbarButtonEvents.cs" />
+    <Compile Include="src\ViewerImagePanel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

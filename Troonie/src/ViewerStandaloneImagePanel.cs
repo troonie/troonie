@@ -31,11 +31,13 @@ namespace Troonie
 		private Cairo.ImageSurface surface;
 //		private CairoColor workingColor;
 		private double maxZoom;
+		private bool leftControlPressed;
 
 		public string OriginalPath { get; private set; }
 		public string ThumbnailPath { get; private set; }
 
 		public double Zoom { get; set; }
+		public TagsData TagsData;
 
 		/// <summary> Shortcut for <see cref="WidthRequest"/> as well as <see cref="drawingAreaImage.WidthRequest"/>.</summary>
 		public int W 
@@ -71,12 +73,15 @@ namespace Troonie
 
 			OriginalPath = originalPath;
 			ThumbnailPath = thumbnailPath;
+			TagsData = ImageTagHelper.GetTagsData (OriginalPath);
 
 			Stetic.Gui.Initialize (this);
 			Stetic.BinContainer.Attach (this);
 
 //			Events = Gdk.EventMask.AllEventsMask;
 			DeleteEvent += OnDeleteEvent;
+			KeyPressEvent += OnKeyPressEvent;
+			KeyReleaseEvent += OnKeyReleaseEvent;
 
 			eb = new EventBox ();
 			da = new DrawingArea ();
@@ -141,6 +146,19 @@ namespace Troonie
 			//
 		}
 
+		private void SetRatingOfSelectedImages(uint rating)
+		{			
+			uint? old = TagsData.Rating;
+			TagsData.Rating = rating;
+			bool success = ImageTagHelper.SetTag (OriginalPath, Tags.Rating, TagsData);
+			if (success) {
+				QueueDraw ();
+			} 
+			else {
+				TagsData.Rating = old;
+			}
+		}
+
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
 			this.DestroyAll ();
@@ -173,19 +191,38 @@ namespace Troonie
 			cr.Paint();
 			cr.Restore();
 
+//			cr.Save();
+//			cr.SetSourceRGB(RedColor[0], RedColor[1], RedColor[2]);
+//			cr.SelectFontFace("Arial", FontSlant.Normal, FontWeight.Bold);
+//			cr.SetFontSize(15);
+//
+//			cr.MoveTo(1, 15);
+//			cr.ShowText("1");
+//
+//			cr.MoveTo(1, 30);
+//			cr.ShowText("2");
+//
+//			cr.MoveTo(1, 45);
+//			cr.ShowText("3");
+//
+//			cr.Restore();
+
+			// Drawing Rating value
 			cr.Save();
 			cr.SetSourceRGB(RedColor[0], RedColor[1], RedColor[2]);
 			cr.SelectFontFace("Arial", FontSlant.Normal, FontWeight.Bold);
-			cr.SetFontSize(15);
+			cr.SetFontSize(20);
 
 			cr.MoveTo(1, 15);
-			cr.ShowText("1");
+			if (TagsData.Rating.HasValue && TagsData.Rating.Value != 0) {
+				cr.ShowText (TagsData.Rating.Value.ToString ());
+			}
 
-			cr.MoveTo(1, 30);
-			cr.ShowText("2");
-
-			cr.MoveTo(1, 45);
-			cr.ShowText("3");
+			//			cr.MoveTo(1, 30);
+			//			cr.ShowText("2");
+			//
+			//			cr.MoveTo(1, 45);
+			//			cr.ShowText("3");
 
 			cr.Restore();
 
@@ -225,7 +262,74 @@ namespace Troonie
 				Console.WriteLine( "Right Mouse button released" );
 				break;
 			}
-		} 
+		}
+
+		#region key events
+
+		[GLib.ConnectBefore ()] 
+		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
+		{
+			// System.Console.WriteLine("Keypress: {0}", args.Event.Key);
+
+			switch (args.Event.Key) {
+			case Gdk.Key.Control_L:
+				leftControlPressed = true;
+				break;
+			case Gdk.Key.a:
+				if (leftControlPressed) {
+					//					OnToolbarBtn_SelectAllPressed (null, null);
+				}
+				break;
+			case Gdk.Key.Escape:
+				//				OnToolbarBtn_ClearPressed (null, null);
+				break;
+			case Gdk.Key.Delete:
+				//				OnToolbarBtn_RemovePressed (null, null);
+				break;
+
+			case Gdk.Key.Key_0:
+				SetRatingOfSelectedImages (0);
+				break;
+			case Gdk.Key.Key_1:
+				SetRatingOfSelectedImages (1);
+				break;
+			case Gdk.Key.Key_2:
+				SetRatingOfSelectedImages (2);
+				break;
+			case Gdk.Key.Key_3:
+				SetRatingOfSelectedImages (3);
+				break;
+			case Gdk.Key.Key_4:
+				SetRatingOfSelectedImages (4);
+				break;
+			case Gdk.Key.Key_5:
+				SetRatingOfSelectedImages (5);
+				break;
+
+			case Gdk.Key.Left:
+				Console.WriteLine( "LEFT" );
+				break;
+			case Gdk.Key.Right:
+				//				xx;
+				break;
+
+			}
+
+			// args.RetVal = true;
+		}
+
+		[GLib.ConnectBefore ()] 
+		protected void OnKeyReleaseEvent (object o, KeyReleaseEventArgs args)
+		{
+			// System.Console.WriteLine("Keyrelease: {0}", args.Event.Key);
+			if (args.Event.Key == Gdk.Key.Control_L) {
+				leftControlPressed = false;
+			}
+
+			// args.RetVal = true;
+		}
+
+		#endregion key events
 	}
 }
 
