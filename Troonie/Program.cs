@@ -64,7 +64,8 @@ namespace Troonie
 							"/home/james/Schreibtisch/Tesimages/Brandenburger_Tor_Ban2.png", "/home/james/Schreibtisch/Tesimages/Pilz_dat2.png",
 							"/home/james/Schreibtisch/Tesimages/Brandenburger_Tor_Ban2.png", "/home/james/Schreibtisch/Tesimages/Pilz_dat2.png",
 							"/home/james/Schreibtisch/Tesimages/04.jpg", "/home/james/Schreibtisch/Tesimages/01.jpg",
-							"/home/james/Schreibtisch/Tesimages/02.jpg", "/home/james/Schreibtisch/Tesimages/03.jpg"});
+							"/home/james/Schreibtisch/Tesimages/green.bmp", "/home/james/Schreibtisch/Tesimages/portrait.jpg",
+							"/home/james/Schreibtisch/Tesimages/green_portrait.png", "/home/james/Schreibtisch/Tesimages/green.png"});
 					winViewer.Show ();
 					break;
 				case "-d":

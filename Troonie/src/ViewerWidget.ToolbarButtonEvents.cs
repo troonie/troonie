@@ -34,6 +34,8 @@ namespace Troonie
 		{
 			foreach (ViewerImagePanel vip in tableViewer.Children) {
 				vip.SetPressedIn (false);
+				vip.IsDoubleClicked = false;
+				vip.Show ();
 			}
 		}
 
@@ -42,7 +44,8 @@ namespace Troonie
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
 				if (vip.IsPressedin) {
-					vip.OnIsPressedInChanged -= zzz;
+					vip.OnIsPressedInChanged -= OnIsPressedIn;
+					vip.OnDoubleClicked -= OnDoubleClicked;
 					tableViewer.Remove (vip);
 					i--;
 				}

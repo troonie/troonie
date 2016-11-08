@@ -20,13 +20,14 @@ namespace Troonie
 	public partial class ViewerWidget : Gtk.Window
 	{
 		private const string blackFileName = "black.png";
+		private static int startW, startH, maxVipWidth, maxVipHeight;
 
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
 //		private int imageW; 
 //		private int imageH;
 //		private string tempScaledImageFileName;
-		private int startWidth, imagePerRow;
+		private int imageId, imagePerRow;
 		private uint rowNr, colNr;
 		private bool leftControlPressed;
 		private List<ViewerImagePanel> pressedVips;
@@ -44,19 +45,24 @@ namespace Troonie
 			ImageFullPaths = new List<string> ();
 			pressedVips = new List<ViewerImagePanel> ();
 			TableTagsViewerRowElements = new List<TableTagsViewerRowElement> ();
+			imageId = -1;
 
 //			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
 //			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
 			int wx = 20;
 			int wy = 20;
-			startWidth = Screen.Width - 2 * wx;
+			startW = Screen.Width - 2 * wx;
+			startH = Screen.Height - 2 * wy - 70 /*taskbarHeight*/;
+			maxVipWidth = startW - frame1.WidthRequest - 60;
+			maxVipHeight = startH - 60  /* ToolbarIconButtonHeight */ ;
+
 			Move (wx, wy);
 
-			Resize (startWidth, Screen.Width - 2 * wy - 100 /*taskbarHeight*/);
+			Resize (startW, startH);
 
 //			scrolledwindowViewer.WidthRequest = 1300;
 
-			imagePerRow = (int)((startWidth - frame1.WidthRequest - 10) / (ViewerImagePanel.BiggestLengthSmall + tableViewer.ColumnSpacing));
+			imagePerRow = (int)((startW - frame1.WidthRequest - 10) / (ViewerImagePanel.BiggestLengthSmall + tableViewer.ColumnSpacing));
 			rowNr = 0; 
 			colNr = 0;
 
@@ -64,8 +70,6 @@ namespace Troonie
 
 			if (newImages != null)
 				FillImageList (newImages);
-
-
 
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[39], OnToolbarBtn_OpenPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "edit-select-all.png", Language.I.L[40], OnToolbarBtn_SelectAllPressed);
@@ -94,6 +98,15 @@ namespace Troonie
 			if (Constants.I.CONFIG.AskForDesktopContextMenu) {
 				new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
 			}					
+		}
+
+		private int IncrementImageID()
+		{
+			if (imageId == int.MaxValue)
+				imageId = -1;
+
+			imageId++;
+			return imageId;
 		}
 
 		public override void Destroy ()
@@ -188,7 +201,19 @@ namespace Troonie
 //			tableViewer.ShowAll ();
 		}
 
-		private void zzz(ViewerImagePanel vip)
+		private void OnDoubleClicked(ViewerImagePanel vip)
+		{
+			for (int i = 0; i < tableViewer.Children.Length; i++) {
+				ViewerImagePanel l_vip = tableViewer.Children[i] as ViewerImagePanel;
+				if (l_vip.ID == vip.ID) {
+
+				} else {
+					l_vip.Hide ();
+				}
+			}				
+		}
+
+		private void OnIsPressedIn(ViewerImagePanel vip)
 		{
 			if (vip.IsPressedin) {
 				pressedVips.Add (vip);
@@ -224,11 +249,12 @@ namespace Troonie
 				    Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext) */ ) && 
 					!ImageFullPaths.Contains(newImages[i])) {
 
+					ViewerImagePanel vip2 = new ViewerImagePanel (IncrementImageID(), newImages [i], maxVipWidth, maxVipHeight);
 					ImageFullPaths.Add (newImages [i]);
-					ViewerImagePanel vip2 = new ViewerImagePanel (newImages [i], true /* path  + relativeSmall, path + relativeBig */);
-					vip2.OnIsPressedInChanged += zzz;
+					vip2.OnIsPressedInChanged += OnIsPressedIn;
+					vip2.OnDoubleClicked += OnDoubleClicked;
 					tableViewer.Attach (vip2, rowNr, rowNr + 1, colNr, colNr + 1, 
-						AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+						AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);					
 
 					if (rowNr + 1 == imagePerRow) {
 						rowNr = 0;
