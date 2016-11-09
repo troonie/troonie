@@ -20,33 +20,53 @@ namespace Troonie
 	[System.ComponentModel.ToolboxItem (true)]
 	public partial class ViewerImagePanel : Bin
 	{	
-		public const int BiggestLengthSmall = 300;
-
-		private const double transparency = 0.8; 
-		private const int BiggestLengthBig = 800;
-		/// <summary> Padding distance between border of ViewerImagePanel2 and the image itself. </summary>
+		/// <summary> Padding distance between border of ViewerImagePanel and the image itself. </summary>
 		private const int padding = 10;
-
 //		private static double[] RectColor = new double[4]{ 220/255.0, 220/255.0, 1, 220/255.0 };
-		private static double[] RedColor = new double[4]{ 255/255.0, 0/255.0, 0, 255/255.0 };
+		private static double[] RedColor = new double[4]{ 1, 0, 0, 1 };
 
 		private EventBox eb;
 		private DrawingArea da;
-		int maxWidth, maxHeight;
+		int maxWidth, maxHeight, smallWidthAndHeight;
 		private double translateX, translateY, scale;
-//		private int biggestLength;
-		private bool isEntered, isDoubleClicked, firstClick, saveThumbnailsPersistent;
-//		/// <summary> DO NOT USE. Use instead its poperty <paramref name="IsPressedin"/>. </summary>
-//		private bool isPressedin;
+		private bool isEntered, isPressedIn, isDoubleClicked, firstClick, saveThumbnailsPersistent;
 		private Stopwatch sw_doubleClick;
 		private string thumbDirectory, thumbSmallName;
-
-//		private Cairo.ImageSurface surface;
 		private Gdk.Pixbuf pix;
 		private CairoColor workingColor;
 
+		public TagsData TagsData;
+		public OnIsPressedInChangedEventHandler OnIsPressedInChanged;
+		public OnIsPressedInChangedEventHandler OnDoubleClicked;
+
+		#region Public properties
+
 		public int ID  { get; private set; }
-		public bool IsPressedin  { get; private set; }
+		public bool IsPressedIn
+		{ 
+			get
+			{ 
+				return isPressedIn;
+			} 
+			set
+			{ 
+				isPressedIn = value;
+
+				//fire the event OnIsPressedInChanged
+				if (OnIsPressedInChanged != null) //is there a EventHandler?
+				{
+					OnIsPressedInChanged.Invoke(this); //calls its EventHandler                
+				} //if not, ignore
+
+				if (value) {
+					workingColor = Cc.BtnPressedin.I.Down;
+				} else {
+					workingColor = Cc.Instance.C_GRID;
+				}
+
+				da.QueueDraw ();
+			}
+		}
 		public bool IsDoubleClicked 
 		{ 
 			get
@@ -57,27 +77,26 @@ namespace Troonie
 			{ 
 				isDoubleClicked = value;
 
-				if (value) {
+				if (value) {					
+					//fire the event OnDoubleClicked
+					if (OnDoubleClicked!= null) //is there a EventHandler?
+					{
+						OnDoubleClicked.Invoke(this); //calls its EventHandler                
+					} //if not, ignore
+
 					W = maxWidth;
 					H = maxHeight;
 
 					SetFullImage( );
-//					SetPixbufImageAndTransformationValues(OriginalImageFullName, Math.Max(W,));
 				} else {
-					W = BiggestLengthSmall + padding;
-					H = BiggestLengthSmall + padding;
+					W = smallWidthAndHeight + padding;
+					H = smallWidthAndHeight + padding;
 
 					SetThumbnailImage ();
 				}
 			}
 		}
 		public string OriginalImageFullName { get; private set; }
-		public TagsData TagsData; // { get; private set; }
-
-//		public string SmallThumbnailPath { get; private set; }
-//		public string BigThumbnailPath { get; private set; }
-
-
 		/// <summary> Shortcut for <see cref="WidthRequest"/> as well as <see cref="drawingAreaImage.WidthRequest"/>.</summary>
 		public int W 
 		{ 
@@ -91,7 +110,6 @@ namespace Troonie
 				da.WidthRequest= value;
 			}
 		}
-
 		/// <summary> Shortcut for <see cref="HeightRequest"/> as well as <see cref="drawingAreaImage.HeightRequest"/>.</summary>
 		public int H 
 		{ 
@@ -106,12 +124,13 @@ namespace Troonie
 			}
 		}
 
-		public OnIsPressedInChangedEventHandler OnIsPressedInChanged;
-		public OnIsPressedInChangedEventHandler OnDoubleClicked;
+		#endregion Public properties
 
-		public ViewerImagePanel (int id, string originalImageFullName, int maxWidth, int maxHeight, bool saveThumbnailsPersistent = true)
+
+		public ViewerImagePanel (int id, string originalImageFullName, int smallWidthAndHeight, int maxWidth, int maxHeight, bool saveThumbnailsPersistent = true)
 		{
 			ID = id;
+			this.smallWidthAndHeight = smallWidthAndHeight;
 			this.maxWidth = maxWidth;
 			this.maxHeight = maxHeight;
 
@@ -132,10 +151,8 @@ namespace Troonie
 			Directory.CreateDirectory (thumbDirectory);
 			string relativeImageName = originalImageFullName.Substring(originalImageFullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
 			relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
-			thumbSmallName = relativeImageName + BiggestLengthSmall.ToString() + 
-				Constants.Extensions[TroonieImageFormat.PNG24].Item1;
-//			thumbBigName = relativeImageName + BiggestLengthBig.ToString() + 
-//				Constants.Extensions[TroonieImageFormat.PNG24].Item1;
+			thumbSmallName = relativeImageName + smallWidthAndHeight.ToString() + 
+				Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
 
 			OriginalImageFullName = originalImageFullName;
 			TagsData = ImageTagHelper.GetTagsData (OriginalImageFullName);
@@ -164,26 +181,8 @@ namespace Troonie
 			eb.EnterNotifyEvent += OnEbEnterNotify;
 			eb.LeaveNotifyEvent += OnEbLeaveNotify;
 
-//			pix = new Gdk.Pixbuf(originalImageFullName);
-//
-//			if (pix.Width > pix.Height) {
-//				double ratio = pix.Height / (double)pix.Width;
-//				translateX = 1;
-//				translateY = (BiggestLengthSmall - BiggestLengthSmall * ratio) / 2.0;
-//				scale = BiggestLengthSmall / (double)pix.Width;
-//
-//			} else {
-//				double ratio = pix.Width / (double)pix.Height;
-//				translateY = 1;
-//				translateX = (BiggestLengthSmall - BiggestLengthSmall * ratio) / 2.0;
-//				scale = BiggestLengthSmall / (double)pix.Height;
-//			}
-//
-//			translateX += Padding / 2;
-//			translateY += Padding / 2;
-
-			W = BiggestLengthSmall + padding;
-			H = BiggestLengthSmall + padding;
+			W = smallWidthAndHeight + padding;
+			H = smallWidthAndHeight + padding;
 
 			workingColor = Cc.Instance.C_GRID;
 
@@ -193,59 +192,22 @@ namespace Troonie
 			thread.IsBackground = true;
 			thread.Start();
 
-		}
-
-		public override void Destroy ()
-		{
-			if (pix != null) {
-				pix.Dispose ();
-				pix = null;
-			}				
-			//			drawingAreaImage.Destroy();
-			base.Destroy ();
 		}			
-
-		public void SetPressedIn (bool p_IsPressedin)
-		{
-			IsPressedin = p_IsPressedin;
-
-			//fire the event OnIsPressedInChanged
-			if (OnIsPressedInChanged != null) //is there a EventHandler?
-			{
-				OnIsPressedInChanged.Invoke(this); //calls its EventHandler                
-			} //if not, ignore
-
-			if (IsPressedin) {
-				workingColor = Cc.BtnPressedin.I.Down;
-			} else {
-				workingColor = Cc.Instance.C_GRID;
-			}
-
-			da.QueueDraw ();			
-		}
-
-//		public void SetRating(uint rating)
-//		{
-//			if (IsPressedin) {
-////				ImageTagHelper.SetAndSaveTag (vip.OriginalImageFullName, Tags.Rating, rating);
-//				//					vip.Rating = rating;
-//				tagsData.Rating = rating;
-//			}
-//		}
-
+			
 		private void SetThumbnailImage()
 		{
 			if (!File.Exists (thumbDirectory + thumbSmallName)) {
 				
 				BitmapWithTag bt = new BitmapWithTag (OriginalImageFullName, true);
 				Config c = new Config ();
-				c.BiggestLength = BiggestLengthSmall;
+				c.BiggestLength = smallWidthAndHeight;
 				c.FileOverwriting = false;
 				c.Path = thumbDirectory;
-				c.Format = TroonieImageFormat.PNG24;
+				c.JpgQuality = 80;
+				c.Format = TroonieImageFormat.JPEG24;
 				c.ResizeVersion = ResizeVersion.BiggestLength;
 
-				// TODO: Catch, what should be done, when success==false
+				// TODO: Catch, what should be done, if success==false
 				bool successSmall = bt.Save (c, thumbSmallName, false);
 
 				bt.Dispose ();
@@ -257,19 +219,18 @@ namespace Troonie
 			if (pix.Width > pix.Height) {
 				double ratio = pix.Height / (double)pix.Width;
 				translateX = 0;
-				translateY = (BiggestLengthSmall - BiggestLengthSmall * ratio) / 2.0;
-				scale = BiggestLengthSmall / (double)pix.Width;
+				translateY = (smallWidthAndHeight - smallWidthAndHeight * ratio) / 2.0;
+				scale = smallWidthAndHeight / (double)pix.Width;
 
 			} else {
 				double ratio = pix.Width / (double)pix.Height;
 				translateY = 0;
-				translateX = (BiggestLengthSmall - BiggestLengthSmall * ratio) / 2.0;
-				scale = BiggestLengthSmall / (double)pix.Height;
+				translateX = (smallWidthAndHeight - smallWidthAndHeight * ratio) / 2.0;
+				scale = smallWidthAndHeight / (double)pix.Height;
 			}
 
 			translateX += padding / 2;
 			translateY += padding / 2;
-//			SetPixbufImageAndTransformationValues(thumbDirectory + thumbSmallName, BiggestLengthSmall);
 
 			// work around by GLib timeout to fix the GTK#-resizing bug
 			GLib.TimeoutHandler timeoutHandler = () => {
@@ -285,27 +246,11 @@ namespace Troonie
 		private void SetFullImage()
 		{
 			pix = new Gdk.Pixbuf(OriginalImageFullName);
-			//			pix = new Gdk.Pixbuf(originalImageFullName);
+			double sW = maxWidth / (double)pix.Width;
+			double sH = maxHeight / (double)pix.Height;
+			scale = Math.Min (sW, sH);
 
-			double tW = maxWidth / (double)pix.Width;
-			double tH = maxHeight / (double)pix.Height;
-//
-//			if (tW > tH) {
-//				double ratio = tH / tW;
-//				translateX = 0;
-//				translateY = (tW - tW * ratio) / 2.0;
-////				scale = BiggestLengthSmall / (double)pix.Width;
-//
-//			} else {
-//				double ratio = pix.Width / (double)pix.Height;
-//				translateY = 0;
-//				translateX = (BiggestLengthSmall - BiggestLengthSmall * ratio) / 2.0;
-//				scale = BiggestLengthSmall / (double)pix.Height;
-//			}
-
-			scale = Math.Min (maxWidth / (double)pix.Width, maxHeight / (double)pix.Height);
-
-			if (tW > tH) {
+			if (sW > sH) {
 				translateX = (maxWidth - pix.Width * scale) / 2.0;
 				translateY = 0;
 			}
@@ -313,19 +258,9 @@ namespace Troonie
 				translateY = (maxHeight - pix.Height * scale) / 2.0;
 				translateX = 0;
 			}
-//			if (maxWidth > maxHeight) {
-////			if (pix.Width > pix.Height) {
-//				scale = maxWidth / (double)pix.Width;
-//
-//			} else {
-//				scale = maxHeight / (double)pix.Height;
-//			}
-
-//			translateX = 0; // + padding / 2;
-//			translateY = 0; // + padding / 2;
 		}
 
-		#region DrawingAreaImage events
+		#region protected events
 
 		// todo make static?
 		protected void OnDaExpose (object o, ExposeEventArgs args)
@@ -384,30 +319,37 @@ namespace Troonie
 				firstClick = false;
 			} else {
 				sw_doubleClick.Stop ();
+				firstClick = true;
 				if (sw_doubleClick.ElapsedMilliseconds < Constants.TIME_DOUBLECLICK) {
 
 					IsDoubleClicked = true;
-					//fire the event OnDoubleClicked
-					if (OnDoubleClicked!= null) //is there a EventHandler?
-					{
-						OnDoubleClicked.Invoke(this); //calls its EventHandler                
-					} //if not, ignore
+//					//fire the event OnDoubleClicked
+//					if (OnDoubleClicked!= null) //is there a EventHandler?
+//					{
+//						OnDoubleClicked.Invoke(this); //calls its EventHandler                
+//					} //if not, ignore
 
 //					ViewerStandaloneImagePanel vsaip = 
 //						new ViewerStandaloneImagePanel (OriginalImageFullName, thumbDirectory + thumbBigName);
 //					vsaip.Show ();
+
+					return;
 				}
-				firstClick = true;
+
 			}
 
-			IsPressedin = !IsPressedin;
+			isPressedIn = !isPressedIn;
 			workingColor = Cc.Instance.Cairo_Orange;
 			da.QueueDraw ();
 		}
 
 		protected void OnEbButtonRelease (object o, ButtonReleaseEventArgs args)
 		{
-			SetPressedIn (IsPressedin);
+			if (IsDoubleClicked) {
+				isPressedIn = true;
+			}
+
+			IsPressedIn = isPressedIn;
 		}
 
 		public void OnEbEnterNotify(object sender, EnterNotifyEventArgs a)
@@ -422,7 +364,19 @@ namespace Troonie
 			da.QueueDraw ();
 		}
 
-		#endregion DrawingAreaImage events
+		#endregion protected events
+
+
+		public override void Destroy ()
+		{
+			if (pix != null) {
+				pix.Dispose ();
+				pix = null;
+			}				
+			//			drawingAreaImage.Destroy();
+			base.Destroy ();
+		}			
+			
 	}
 }
 

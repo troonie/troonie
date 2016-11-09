@@ -17,7 +17,7 @@ namespace Troonie
 
 			if (fc.Run() == (int)ResponseType.Ok) 
 			{
-				FillImageList(new List<string>(fc.Filenames));
+				FillImageList(fc.Filenames);
 			}
 
 			fc.Destroy();
@@ -26,15 +26,19 @@ namespace Troonie
 		protected void OnToolbarBtn_SelectAllPressed (object sender, EventArgs e)
 		{
 			foreach (ViewerImagePanel vip in tableViewer.Children) {
-				vip.SetPressedIn (true);
+				vip.IsPressedIn = true;
 			}
 		}
 
 		protected void OnToolbarBtn_ClearPressed (object sender, EventArgs e)
 		{
 			foreach (ViewerImagePanel vip in tableViewer.Children) {
-				vip.SetPressedIn (false);
-				vip.IsDoubleClicked = false;
+				if (vip.IsDoubleClicked) {
+					doubleClickedMode = false;
+					vip.IsDoubleClicked = false;
+				} else {
+					vip.IsPressedIn = false;
+				}					
 				vip.Show ();
 			}
 		}
@@ -43,7 +47,7 @@ namespace Troonie
 		{
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
-				if (vip.IsPressedin) {
+				if (vip.IsPressedIn) {
 					vip.OnIsPressedInChanged -= OnIsPressedIn;
 					vip.OnDoubleClicked -= OnDoubleClicked;
 					tableViewer.Remove (vip);

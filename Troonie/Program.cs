@@ -38,8 +38,7 @@ namespace Troonie
 //			args = new string[] { "-v"};
 
 			if (args.Length == 0) {
-				StarterWidget start = new StarterWidget (args);
-//				start.Visible = true;
+				StarterWidget start = new StarterWidget (args, true);
 				start.Show ();			
 			} else {
 				if (args.Length > 1)
@@ -60,9 +59,9 @@ namespace Troonie
 //					break;
 				case "-v":
 					ViewerWidget winViewer = new ViewerWidget (
-						new System.Collections.Generic.List<string>() {
+						new string[] {
 							"/home/james/Schreibtisch/Tesimages/Brandenburger_Tor_Ban2.png", "/home/james/Schreibtisch/Tesimages/Pilz_dat2.png",
-							"/home/james/Schreibtisch/Tesimages/Brandenburger_Tor_Ban2.png", "/home/james/Schreibtisch/Tesimages/Pilz_dat2.png",
+//							"/home/james/Schreibtisch/Tesimages/Brandenburger_Tor_Ban2.png", "/home/james/Schreibtisch/Tesimages/Pilz_dat2.png",
 							"/home/james/Schreibtisch/Tesimages/04.jpg", "/home/james/Schreibtisch/Tesimages/01.jpg",
 							"/home/james/Schreibtisch/Tesimages/green.bmp", "/home/james/Schreibtisch/Tesimages/portrait.jpg",
 							"/home/james/Schreibtisch/Tesimages/green_portrait.png", "/home/james/Schreibtisch/Tesimages/green.png"});
@@ -78,8 +77,11 @@ namespace Troonie
 							args[i] = fi [i].FullName;
 						}
 					};
-					ConvertWidget winConvert = new ConvertWidget (args);
-					winConvert.Show ();
+//					ConvertWidget winConvert = new ConvertWidget (args);
+//					winConvert.Show ();
+
+					StarterWidget start_new = new StarterWidget (args, false);
+					start_new.Show ();
 					break;
 				case "-c":
 					string[] argsWithoutFirst = new string[args.Length - 1];
@@ -90,8 +92,7 @@ namespace Troonie
 					winConvert2.Show ();
 					break;
 				default:
-					StarterWidget start = new StarterWidget (args);
-					//				start.Visible = true;
+					StarterWidget start = new StarterWidget (args, true);
 					start.Show ();	
 					break;
 				}

@@ -91,7 +91,7 @@ namespace Troonie
 //					p.StartInfo.Arguments = " -e \"" + FullText + "\"";
 //					p.Start ();
 
-					StarterWidget start = new StarterWidget (new string[] {FullText});
+					StarterWidget start = new StarterWidget (new string[] {FullText}, true);
 					start.Show ();
 				}
 				firstClick = true;

@@ -11,7 +11,7 @@ namespace Troonie
 		string[] args;
 		string lastArg;
 
-		public StarterWidget (string[] args) : base (Gtk.WindowType.Toplevel)
+		public StarterWidget (string[] args, bool showEditAndStegButton) : base (Gtk.WindowType.Toplevel)
 		{		
 			this.args = args;
 			if (args.Length != 0) {
@@ -25,7 +25,16 @@ namespace Troonie
 			picBtnConvert.Text = Language.I.L [67];
 			picBtnEdit.Text = Language.I.L [68];
 			picBtnSteganography.Text = Language.I.L [80];
-		}
+			picBtnViewer.Text = Language.I.L [178];
+
+			if (!showEditAndStegButton) {
+				picBtnEdit.Hide ();
+				picBtnSteganography.Hide ();
+			}
+
+			// for release comment in
+//			picBtnViewer.Hide ();
+		}			
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
@@ -53,6 +62,11 @@ namespace Troonie
 			StartProcess (2);
 		}
 
+		protected void OnPicBtnViewerButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
+		{
+			StartProcess (3);
+		}
+
 		private void StartProcess(int startArg)
 		{
 			switch (startArg) {
@@ -68,8 +82,11 @@ namespace Troonie
 				SteganographyWidget winSteg = new SteganographyWidget (lastArg);
 				winSteg.Show ();
 				break;
+			case 3:
+				ViewerWidget winViewer = new ViewerWidget (args);
+				winViewer.Show ();
+				break;
 			}
-
 			this.DestroyAll ();
 		}
 	}

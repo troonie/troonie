@@ -20,6 +20,7 @@ namespace Troonie
 	public partial class ViewerWidget : Gtk.Window
 	{
 		private const string blackFileName = "black.png";
+		private const int smallVipWidthAndHeight = 300;
 		private static int startW, startH, maxVipWidth, maxVipHeight;
 
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
@@ -29,7 +30,7 @@ namespace Troonie
 //		private string tempScaledImageFileName;
 		private int imageId, imagePerRow;
 		private uint rowNr, colNr;
-		private bool leftControlPressed;
+		private bool leftControlPressed, doubleClickedMode;
 		private List<ViewerImagePanel> pressedVips;
 
 //		public string FileName { get; set; }
@@ -38,7 +39,7 @@ namespace Troonie
 		public List<TableTagsViewerRowElement> TableTagsViewerRowElements { get; private set; }
 
 
-		public ViewerWidget (List<string> newImages) :	base (Gtk.WindowType.Toplevel)
+		public ViewerWidget (string[] newImages) :	base (Gtk.WindowType.Toplevel)
 		{
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
@@ -62,7 +63,7 @@ namespace Troonie
 
 //			scrolledwindowViewer.WidthRequest = 1300;
 
-			imagePerRow = (int)((startW - frame1.WidthRequest - 10) / (ViewerImagePanel.BiggestLengthSmall + tableViewer.ColumnSpacing));
+			imagePerRow = (int)((startW - frame1.WidthRequest - 10) / (smallVipWidthAndHeight + tableViewer.ColumnSpacing));
 			rowNr = 0; 
 			colNr = 0;
 
@@ -187,7 +188,7 @@ namespace Troonie
 		{
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
-				if (vip.IsPressedin) {
+				if (vip.IsPressedIn) {
 					uint? old = vip.TagsData.Rating;
 					vip.TagsData.Rating = rating;
 					bool success = ImageTagHelper.SetTag (vip.OriginalImageFullName, Tags.Rating, vip.TagsData);
@@ -201,13 +202,52 @@ namespace Troonie
 //			tableViewer.ShowAll ();
 		}
 
+		private void zzz(Gdk.Key key)
+		{
+			if (!doubleClickedMode || tableViewer.Children.Length <= 1)
+				return;
+
+			int l = tableViewer.Children.Length;
+			ViewerImagePanel vip_old = null, vip_new;
+			int i_old = 0, i_new = 0;
+
+			for (int i = 0; i < l; i++) {
+				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
+				if (vip.IsDoubleClicked) {
+					i_old = i;
+					vip_old = vip;
+					break;
+				}
+			}
+
+			// NOTE: tableViewer.Children list is inverted (LIFO, last image will be stored as first element in list)
+			switch (key) {
+			case Gdk.Key.Right:
+					i_new = i_old == 0 ? l - 1 : i_old - 1;
+				break;
+			case Gdk.Key.Left:
+					i_new = i_old == l - 1 ? 0 : i_old + 1;
+				break;
+			}
+
+			vip_old.IsDoubleClicked = false;
+
+			vip_new = tableViewer.Children[i_new] as ViewerImagePanel;
+			vip_new.IsDoubleClicked = true;
+			vip_new.IsPressedIn = true;
+			vip_new.Show ();
+		}
+
 		private void OnDoubleClicked(ViewerImagePanel vip)
 		{
+			doubleClickedMode = true;
+
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel l_vip = tableViewer.Children[i] as ViewerImagePanel;
 				if (l_vip.ID == vip.ID) {
-
+//					l_vip.IsPressedIn = true;
 				} else {
+					l_vip.IsPressedIn = false;
 					l_vip.Hide ();
 				}
 			}				
@@ -215,7 +255,7 @@ namespace Troonie
 
 		private void OnIsPressedIn(ViewerImagePanel vip)
 		{
-			if (vip.IsPressedin) {
+			if (vip.IsPressedIn) {
 				pressedVips.Add (vip);
 			} else {
 				pressedVips.Remove (vip);
@@ -230,6 +270,11 @@ namespace Troonie
 		}
 
 		#region drag and drop
+
+		private void FillImageList(string[] newImages)
+		{
+			FillImageList (new List<string>(newImages));
+		}
 
 		private void FillImageList(List<string> newImages)
 		{
@@ -249,7 +294,7 @@ namespace Troonie
 				    Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext) */ ) && 
 					!ImageFullPaths.Contains(newImages[i])) {
 
-					ViewerImagePanel vip2 = new ViewerImagePanel (IncrementImageID(), newImages [i], maxVipWidth, maxVipHeight);
+					ViewerImagePanel vip2 = new ViewerImagePanel (IncrementImageID(), newImages [i], smallVipWidthAndHeight, maxVipWidth, maxVipHeight);
 					ImageFullPaths.Add (newImages [i]);
 					vip2.OnIsPressedInChanged += OnIsPressedIn;
 					vip2.OnDoubleClicked += OnDoubleClicked;
@@ -344,7 +389,12 @@ namespace Troonie
 			case Gdk.Key.Key_5:
 				SetRatingOfSelectedImages (5);
 				break;
-
+			case Gdk.Key.Left:
+				zzz (Gdk.Key.Left);
+				break;
+			case Gdk.Key.Right:
+				zzz (Gdk.Key.Right);
+				break;
 			}
 
 			// args.RetVal = true;
