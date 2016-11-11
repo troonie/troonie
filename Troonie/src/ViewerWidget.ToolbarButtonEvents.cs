@@ -35,6 +35,9 @@ namespace Troonie
 			foreach (ViewerImagePanel vip in tableViewer.Children) {
 				if (vip.IsDoubleClicked) {
 					doubleClickedMode = false;
+					tableViewer.RowSpacing = tableViewerSpacing; 
+					tableViewer.ColumnSpacing = tableViewerSpacing;
+
 					vip.IsDoubleClicked = false;
 				} else {
 					vip.IsPressedIn = false;

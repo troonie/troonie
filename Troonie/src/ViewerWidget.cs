@@ -21,6 +21,7 @@ namespace Troonie
 	{
 		private const string blackFileName = "black.png";
 		private const int smallVipWidthAndHeight = 300;
+		private const int tableViewerSpacing = 6;
 		private static int startW, startH, maxVipWidth, maxVipHeight;
 
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
@@ -30,18 +31,20 @@ namespace Troonie
 //		private string tempScaledImageFileName;
 		private int imageId, imagePerRow;
 		private uint rowNr, colNr;
-		private bool leftControlPressed, doubleClickedMode;
+		private bool leftControlPressed, leftAltPressed, doubleClickedMode;
 		private List<ViewerImagePanel> pressedVips;
 
 //		public string FileName { get; set; }
 		public BitmapWithTag bt;
 		public List<string>ImageFullPaths { get; private set; }
 		public List<TableTagsViewerRowElement> TableTagsViewerRowElements { get; private set; }
-
+		public Table TableViewer { get { return tableViewer; }  }
 
 		public ViewerWidget (string[] newImages) :	base (Gtk.WindowType.Toplevel)
 		{
 			Build ();
+			tableViewer.RowSpacing = tableViewerSpacing;
+			tableViewer.ColumnSpacing = tableViewerSpacing;
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 			ImageFullPaths = new List<string> ();
 			pressedVips = new List<ViewerImagePanel> ();
@@ -108,17 +111,7 @@ namespace Troonie
 
 			imageId++;
 			return imageId;
-		}
-
-		public override void Destroy ()
-		{
-			ImageFullPaths.Clear ();
-			if (bt != null) {
-				bt.Dispose ();
-			}				
-
-			base.Destroy ();
-		}
+		}			
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
@@ -241,6 +234,8 @@ namespace Troonie
 		private void OnDoubleClicked(ViewerImagePanel vip)
 		{
 			doubleClickedMode = true;
+			tableViewer.RowSpacing = 0; 
+			tableViewer.ColumnSpacing = 0;
 
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel l_vip = tableViewer.Children[i] as ViewerImagePanel;
@@ -353,9 +348,37 @@ namespace Troonie
 		{
 			// System.Console.WriteLine("Keypress: {0}", args.Event.Key);
 
+			#region 'alt + ...'
+			if (leftAltPressed) {
+				List<ViewerImagePanel>pressedInVIPs = new List<ViewerImagePanel>();
+				foreach (ViewerImagePanel vip in tableViewer.Children) {
+					//				vip.IsPressedIn = true;
+					if (vip.IsPressedIn) {
+						pressedInVIPs.Add (vip);
+					}
+				}
+
+				switch (args.Event.Key) {
+				case Gdk.Key.t:
+					EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, Tags.Keywords);
+					pw.WindowPosition = WindowPosition.CenterAlways;
+					pw.Title = Language.I.L [167];
+					pw.OkButtontext = Language.I.L [16];
+//					pw.OnReleasedOkButton += SetTag;
+					pw.Show ();
+					break;				
+				}
+
+				return;
+			}
+			#endregion 'alt + ...'
+
 			switch (args.Event.Key) {
 			case Gdk.Key.Control_L:
 				leftControlPressed = true;
+				break;
+			case Gdk.Key.Alt_L:
+				leftAltPressed = true;
 				break;
 			case Gdk.Key.a:
 				if (leftControlPressed) {
@@ -373,8 +396,6 @@ namespace Troonie
 				SetRatingOfSelectedImages (0);
 				break;
 			case Gdk.Key.Key_1:
-//				OnToolbarBtn_RemovePressed (null, null);
-				Console.WriteLine ("ONE!");
 				SetRatingOfSelectedImages (1);
 				break;
 			case Gdk.Key.Key_2:
@@ -403,15 +424,29 @@ namespace Troonie
 		[GLib.ConnectBefore ()] 
 		protected void OnKeyReleaseEvent (object o, KeyReleaseEventArgs args)
 		{
-			// System.Console.WriteLine("Keyrelease: {0}", args.Event.Key);
-			if (args.Event.Key == Gdk.Key.Control_L) {
+			switch (args.Event.Key) {
+			case Gdk.Key.Control_L:
 				leftControlPressed = false;
+				break;
+			case Gdk.Key.Alt_L:
+				leftAltPressed = false;
+				break;
 			}
 
 			// args.RetVal = true;
 		}
 
 		#endregion key events
+
+		public override void Destroy ()
+		{
+			ImageFullPaths.Clear ();
+			if (bt != null) {
+				bt.Dispose ();
+			}				
+
+			base.Destroy ();
+		}			
 	}
 }
 

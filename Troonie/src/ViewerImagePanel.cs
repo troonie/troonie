@@ -27,11 +27,11 @@ namespace Troonie
 
 		private EventBox eb;
 		private DrawingArea da;
-		int maxWidth, maxHeight, smallWidthAndHeight;
+		private int maxWidth, maxHeight, smallWidthAndHeight, fontSize;
 		private double translateX, translateY, scale;
 		private bool isEntered, isPressedIn, isDoubleClicked, firstClick, saveThumbnailsPersistent;
 		private Stopwatch sw_doubleClick;
-		private string thumbDirectory, thumbSmallName;
+		private string thumbDirectory, thumbSmallName, relativeImageName;
 		private Gdk.Pixbuf pix;
 		private CairoColor workingColor;
 
@@ -133,6 +133,7 @@ namespace Troonie
 			this.smallWidthAndHeight = smallWidthAndHeight;
 			this.maxWidth = maxWidth;
 			this.maxHeight = maxHeight;
+			fontSize = (int)Math.Max(12, (Screen.Height * 12 / 1200.0));
 
 			const string thumbDirName = "_TroonieThumbs";
 			this.saveThumbnailsPersistent = saveThumbnailsPersistent;
@@ -149,9 +150,9 @@ namespace Troonie
 									thumbDirName + IOPath.DirectorySeparatorChar;
 				
 			Directory.CreateDirectory (thumbDirectory);
-			string relativeImageName = originalImageFullName.Substring(originalImageFullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
-			relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
-			thumbSmallName = relativeImageName + smallWidthAndHeight.ToString() + 
+			relativeImageName = originalImageFullName.Substring(originalImageFullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
+			string l_relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
+			thumbSmallName = l_relativeImageName + smallWidthAndHeight.ToString() + 
 				Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
 
 			OriginalImageFullName = originalImageFullName;
@@ -297,14 +298,34 @@ namespace Troonie
 			}
 
 			cr.Save();
-			cr.SetSourceRGB(RedColor[0], RedColor[1], RedColor[2]);
+//			cr.SetSourceRGB(RedColor[0], RedColor[1], RedColor[2]);
+			cr.SetSourceRGB(0,0,0);
 			cr.SelectFontFace("Arial", FontSlant.Normal, FontWeight.Bold);
-			cr.SetFontSize(20);
+			cr.SetFontSize(fontSize);
 
-			cr.MoveTo(1, 15);
+			cr.MoveTo(6, 20); // links oben
+			cr.ShowText (relativeImageName);
+
+			cr.SetSourceRGB(RedColor[0], RedColor[1], RedColor[2]);
+			cr.MoveTo(W /*303*/ - fontSize, 20); // rechts oben
+
 			if (TagsData.Rating.HasValue && TagsData.Rating.Value != 0) {
 				cr.ShowText (TagsData.Rating.Value.ToString ());
 			}
+
+			cr.SetSourceRGB(0,0,1);
+			cr.MoveTo(6, H - padding /*300*/); // links unten
+			// cr.MoveTo(303 - fontSize / 2, 303); // rechts unten
+			if (TagsData.Keywords != null && TagsData.Keywords.Count != 0) {
+				string all = "";
+				foreach (var s in TagsData.Keywords) {
+					all += s + ", ";
+				}
+				all = all.Remove(all.Length - 2);
+
+				cr.ShowText (all);
+			}
+
 
 			cr.Restore();
 

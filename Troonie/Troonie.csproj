@@ -141,6 +141,7 @@
     <Compile Include="src\ViewerStandaloneImagePanel.cs" />
     <Compile Include="src\ViewerWidget.ToolbarButtonEvents.cs" />
     <Compile Include="src\ViewerImagePanel.cs" />
+    <Compile Include="src\EnterMetaDataWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

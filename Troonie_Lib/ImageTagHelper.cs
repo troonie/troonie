@@ -80,6 +80,43 @@ namespace Troonie_Lib
 		{
 			Composers = new List<string> (pComposers);
 		}
+
+		public object GetValue (Tags flag)
+		{
+			switch (flag) {
+			// image tags
+			//			case tag.HasFlag(Tags.Copyright): break;
+			case Tags.Altitude:		return Altitude;		
+			case Tags.Creator:		return Creator;			
+			case Tags.DateTime:		return DateTime;		
+			case Tags.ExposureTime:	return ExposureTime;	
+			case Tags.FNumber:		return FNumber;			
+			case Tags.FocalLength:	return FocalLength;	
+			case Tags.FocalLengthIn35mmFilm:return FocalLengthIn35mmFilm;				
+			case Tags.ISOSpeedRatings:		return ISOSpeedRatings;						
+			case Tags.Keywords:		return Keywords;		
+			case Tags.Latitude:		return Latitude;		
+			case Tags.Longitude:	return Longitude;		
+			case Tags.Make:			return Make;			
+			case Tags.Model:		return Model;			
+			case Tags.Orientation:	return Orientation;		
+			case Tags.Rating:		return Rating;			
+			case Tags.Software:		return Software;		
+				// other tags
+			case Tags.Comment:		return Comment;			
+			case Tags.Composers:	return Composers;		
+			case Tags.Conductor:	return Conductor;		
+			case Tags.Copyright:	return Copyright;		
+			case Tags.Title:		return Title;			
+			case Tags.Track:		return Track;			
+			case Tags.TrackCount:	return TrackCount;		
+			case Tags.Year:			return Year;			
+//			default:
+//				throw new NotImplementedException ();
+			}
+
+			return null;
+		}
 	}
 
 	public class ImageTagHelper
