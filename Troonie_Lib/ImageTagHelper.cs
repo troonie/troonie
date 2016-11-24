@@ -1,11 +1,12 @@
 ﻿using System;
 using TagLib.Image;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Troonie_Lib
 {
 	[Flags]
-	public enum Tags
+	public enum TagsFlag
 	{
 		None = 0,
 		#region 16 image tags
@@ -42,22 +43,22 @@ namespace Troonie_Lib
 	public struct TagsData
 	{
 		#region 16 image tagsData elements
-		public List<string> Keywords;
-		public uint? Rating;
-		public DateTime? DateTime;
-		public uint Orientation;
-		public string Software;
-		public double? Latitude;
-		public double? Longitude;
 		public double? Altitude;
+		public string Creator;
+		public DateTime? DateTime;
 		public double? ExposureTime;
 		public double? FNumber;
-		public uint? ISOSpeedRatings;
 		public double? FocalLength;
 		public uint? FocalLengthIn35mmFilm;
+		public uint? ISOSpeedRatings;
+		public List<string> Keywords;
+		public double? Latitude;
+		public double? Longitude;
 		public string Make;
 		public string Model;
-		public string Creator;
+		public uint Orientation;
+		public uint? Rating;
+		public string Software;
 		#endregion
 
 		#region 8 other tagsData elements
@@ -76,47 +77,164 @@ namespace Troonie_Lib
 			Keywords = new List<string> (pKeywords);
 		}
 
+		public void SetKeywords (List<string> pKeywords)
+		{
+			Keywords = pKeywords;
+		}
+
 		public void SetComposers (string[] pComposers)
 		{
 			Composers = new List<string> (pComposers);
 		}
 
-		public object GetValue (Tags flag)
+		public void SetComposers (List<string> pComposers)
+		{
+			Composers = pComposers;
+		}			
+
+		// TODO: Complete function.
+		public bool SetValue (TagsFlag flag, object o)
+		{
+			switch (flag) {
+
+			case TagsFlag.Altitude:		return ExtractNullableDouble (o, ref Altitude);		
+			case TagsFlag.Creator:		return ExtractString(o, ref Creator);			
+//			case TagsFlag.DateTime:		return DateTime;		
+			case TagsFlag.ExposureTime:	return ExtractNullableDouble (o, ref ExposureTime);		
+			case TagsFlag.FNumber:		return ExtractNullableDouble (o, ref FNumber);
+			case TagsFlag.FocalLength:	return ExtractNullableDouble (o, ref FocalLength);
+			case TagsFlag.FocalLengthIn35mmFilm:	return ExtractNullableUint (o, ref FocalLengthIn35mmFilm);				
+			case TagsFlag.ISOSpeedRatings:			return ExtractNullableUint (o, ref ISOSpeedRatings);	
+			case TagsFlag.Keywords:	
+			case TagsFlag.Composers:	
+				List<string> keywordList = o as List<string>;
+				if (keywordList == null || keywordList.Count == 0) {
+					string[] keywordArray = o as string[];
+					if (keywordArray == null || keywordArray.Length == 0) {
+						return false;
+					} else {
+						keywordList = new List<string> (keywordArray);							
+					}
+				}
+
+				if (flag == TagsFlag.Keywords) {
+					SetKeywords (keywordList);
+				} else {
+					SetComposers (keywordList);
+				}
+				return true;		
+			case TagsFlag.Latitude:		return ExtractNullableDouble (o, ref Latitude);			
+			case TagsFlag.Longitude:	return ExtractNullableDouble (o, ref Longitude);			
+			case TagsFlag.Make:			return ExtractString(o, ref Make);			
+			case TagsFlag.Model:		return ExtractString(o, ref Model);			
+//			case TagsFlag.Orientation:	return Orientation;		
+			case TagsFlag.Rating:		return ExtractNullableUint (o, ref Rating);		
+			case TagsFlag.Software:		return ExtractString(o, ref Software);		
+//				// other tags
+			case TagsFlag.Comment:		return ExtractString(o, ref Comment);					
+			case TagsFlag.Conductor:	return ExtractString(o, ref Conductor);		
+			case TagsFlag.Copyright:	return ExtractString(o, ref Copyright);		
+			case TagsFlag.Title:		return ExtractString(o, ref Title);			
+//			case TagsFlag.Track:		return Track;			
+//			case TagsFlag.TrackCount:	return TrackCount;		
+//			case TagsFlag.Year:			return Year;
+
+
+			default:
+				return false;
+			}				
+		}
+			
+		public object GetValue (TagsFlag flag)
 		{
 			switch (flag) {
 			// image tags
-			//			case tag.HasFlag(Tags.Copyright): break;
-			case Tags.Altitude:		return Altitude;		
-			case Tags.Creator:		return Creator;			
-			case Tags.DateTime:		return DateTime;		
-			case Tags.ExposureTime:	return ExposureTime;	
-			case Tags.FNumber:		return FNumber;			
-			case Tags.FocalLength:	return FocalLength;	
-			case Tags.FocalLengthIn35mmFilm:return FocalLengthIn35mmFilm;				
-			case Tags.ISOSpeedRatings:		return ISOSpeedRatings;						
-			case Tags.Keywords:		return Keywords;		
-			case Tags.Latitude:		return Latitude;		
-			case Tags.Longitude:	return Longitude;		
-			case Tags.Make:			return Make;			
-			case Tags.Model:		return Model;			
-			case Tags.Orientation:	return Orientation;		
-			case Tags.Rating:		return Rating;			
-			case Tags.Software:		return Software;		
+			case TagsFlag.Altitude:		return Altitude;		
+			case TagsFlag.Creator:		return Creator;			
+			case TagsFlag.DateTime:		return DateTime;		
+			case TagsFlag.ExposureTime:	return ExposureTime;	
+			case TagsFlag.FNumber:		return FNumber;			
+			case TagsFlag.FocalLength:	return FocalLength;	
+			case TagsFlag.FocalLengthIn35mmFilm:return FocalLengthIn35mmFilm;				
+			case TagsFlag.ISOSpeedRatings:		return ISOSpeedRatings;						
+			case TagsFlag.Keywords:		return Keywords;		
+			case TagsFlag.Latitude:		return Latitude;		
+			case TagsFlag.Longitude:	return Longitude;		
+			case TagsFlag.Make:			return Make;			
+			case TagsFlag.Model:		return Model;			
+			case TagsFlag.Orientation:	return Orientation;		
+			case TagsFlag.Rating:		return Rating;			
+			case TagsFlag.Software:		return Software;		
 				// other tags
-			case Tags.Comment:		return Comment;			
-			case Tags.Composers:	return Composers;		
-			case Tags.Conductor:	return Conductor;		
-			case Tags.Copyright:	return Copyright;		
-			case Tags.Title:		return Title;			
-			case Tags.Track:		return Track;			
-			case Tags.TrackCount:	return TrackCount;		
-			case Tags.Year:			return Year;			
+			case TagsFlag.Comment:		return Comment;			
+			case TagsFlag.Composers:	return Composers;		
+			case TagsFlag.Conductor:	return Conductor;		
+			case TagsFlag.Copyright:	return Copyright;		
+			case TagsFlag.Title:		return Title;			
+			case TagsFlag.Track:		return Track;			
+			case TagsFlag.TrackCount:	return TrackCount;		
+			case TagsFlag.Year:			return Year;			
 //			default:
 //				throw new NotImplementedException ();
 			}
 
 			return null;
 		}
+
+		#region Private static helper functions
+
+		private static bool ExtractNullableDouble(object o, ref double? d)
+		{
+			string s = o.ToString();
+			if (s == null || s.Length == 0) {
+				d = null;
+				// true, because nullable double values
+				return true;
+			}
+
+			s = s.Replace (',', '.');
+			double tmp;
+			bool b = double.TryParse (s, NumberStyles.AllowDecimalPoint, 
+				CultureInfo.CreateSpecificCulture("en-us"), out tmp);
+			if (b) {
+				d = tmp;
+				return true;
+			} else { 
+				return false;
+			}
+		}
+
+		private static bool ExtractNullableUint(object o, ref uint? d)
+		{
+			string s = o.ToString();
+			if (s == null || s.Length == 0) {
+				d = null;
+				// true, because nullable int values
+				return true;
+			}
+
+			uint tmp;
+			bool b = uint.TryParse (s, NumberStyles.AllowDecimalPoint, 
+				CultureInfo.CreateSpecificCulture("en-us"), out tmp);
+			if (b) {
+				d = tmp;
+				return true;
+			} else { 
+				return false;
+			}
+		}
+
+		private static bool ExtractString(object o, ref string s)
+		{
+			s = o.ToString();
+			if (s == null) {
+				return false;
+			}
+
+			return true;
+		}
+
+		#endregion Private static helper functions
 	}
 
 	public class ImageTagHelper
@@ -278,44 +396,44 @@ namespace Troonie_Lib
 			return tag;
 		}
 
-		public static void ChangeValueOfTag(CombinedImageTag imageTag, Tags flag, TagsData newData)
+		public static void ChangeValueOfTag(CombinedImageTag imageTag, TagsFlag flag, TagsData newData)
 		{
 			uint flagValue = int.MaxValue;
 			flagValue += 1;
 
 			while(flagValue != 0)
 			{
-				switch (flag & (Tags)flagValue) {
+				switch (flag & (TagsFlag)flagValue) {
 				// image tags
 	//			case tag.HasFlag(Tags.Copyright): break;
-				case Tags.Altitude:		imageTag.Altitude = newData.Altitude; 			break;
-				case Tags.Creator:		imageTag.Creator = newData.Creator;				break;
-				case Tags.DateTime:		imageTag.DateTime = newData.DateTime; 			break;
-				case Tags.ExposureTime:	imageTag.ExposureTime = newData.ExposureTime;	break;
-				case Tags.FNumber:		imageTag.FNumber = newData.FNumber;				break;
-				case Tags.FocalLength:	imageTag.FocalLength = newData.FocalLength;		break;
-				case Tags.FocalLengthIn35mmFilm: 
+				case TagsFlag.Altitude:		imageTag.Altitude = newData.Altitude; 			break;
+				case TagsFlag.Creator:		imageTag.Creator = newData.Creator;				break;
+				case TagsFlag.DateTime:		imageTag.DateTime = newData.DateTime; 			break;
+				case TagsFlag.ExposureTime:	imageTag.ExposureTime = newData.ExposureTime;	break;
+				case TagsFlag.FNumber:		imageTag.FNumber = newData.FNumber;				break;
+				case TagsFlag.FocalLength:	imageTag.FocalLength = newData.FocalLength;		break;
+				case TagsFlag.FocalLengthIn35mmFilm: 
 					imageTag.FocalLengthIn35mmFilm = newData.FocalLengthIn35mmFilm;		break;
-				case Tags.ISOSpeedRatings:	
+				case TagsFlag.ISOSpeedRatings:	
 					imageTag.ISOSpeedRatings = newData.ISOSpeedRatings;					break;
-				case Tags.Keywords:		imageTag.Keywords = newData.Keywords.ToArray();	break;
-				case Tags.Latitude:		imageTag.Latitude = newData.Latitude;			break;
-				case Tags.Longitude:	imageTag.Longitude = newData.Longitude;			break;
-				case Tags.Make:			imageTag.Make = newData.Make;					break;
-				case Tags.Model:		imageTag.Model = newData.Model;					break;
-				case Tags.Orientation:	imageTag.Orientation = 
+				case TagsFlag.Keywords:		imageTag.Keywords = newData.Keywords.ToArray();	break;
+				case TagsFlag.Latitude:		imageTag.Latitude = newData.Latitude;			break;
+				case TagsFlag.Longitude:	imageTag.Longitude = newData.Longitude;			break;
+				case TagsFlag.Make:			imageTag.Make = newData.Make;					break;
+				case TagsFlag.Model:		imageTag.Model = newData.Model;					break;
+				case TagsFlag.Orientation:	imageTag.Orientation = 
 					(ImageOrientation) newData.Orientation;								break;
-				case Tags.Rating:		imageTag.Rating = newData.Rating;				break;
-				case Tags.Software:		imageTag.Software = newData.Software;			break;
+				case TagsFlag.Rating:		imageTag.Rating = newData.Rating;				break;
+				case TagsFlag.Software:		imageTag.Software = newData.Software;			break;
 				// other tags
-				case Tags.Comment:		imageTag.Comment = newData.Comment;				break;
-				case Tags.Composers:	imageTag.Composers= newData.Composers.ToArray();break;
-				case Tags.Conductor:	imageTag.Conductor = newData.Conductor;			break;
-				case Tags.Copyright:	imageTag.Copyright = newData.Copyright;			break;
-				case Tags.Title:		imageTag.Title = newData.Title;					break;
-				case Tags.Track:		imageTag.Track = newData.Track;					break;
-				case Tags.TrackCount:	imageTag.TrackCount = newData.TrackCount;		break;
-				case Tags.Year:			imageTag.Year = newData.Year;					break;
+				case TagsFlag.Comment:		imageTag.Comment = newData.Comment;				break;
+				case TagsFlag.Composers:	imageTag.Composers= newData.Composers.ToArray();break;
+				case TagsFlag.Conductor:	imageTag.Conductor = newData.Conductor;			break;
+				case TagsFlag.Copyright:	imageTag.Copyright = newData.Copyright;			break;
+				case TagsFlag.Title:		imageTag.Title = newData.Title;					break;
+				case TagsFlag.Track:		imageTag.Track = newData.Track;					break;
+				case TagsFlag.TrackCount:	imageTag.TrackCount = newData.TrackCount;		break;
+				case TagsFlag.Year:			imageTag.Year = newData.Year;					break;
 	//			default:
 	//				throw new NotImplementedException ();
 				}
@@ -324,7 +442,7 @@ namespace Troonie_Lib
 			}
 		}
 
-		public static bool SetTag(string fileName, Tags flag, TagsData newData)
+		public static bool SetTag(string fileName, TagsFlag flag, TagsData newData)
 		{
 			bool success = true;
 			TagLib.Image.File imageTagFile = LoadTagFile (fileName);

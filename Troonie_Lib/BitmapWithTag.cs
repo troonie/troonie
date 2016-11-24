@@ -200,7 +200,7 @@ namespace Troonie_Lib
 //			return success;
 //		}
 
-		public bool ChangeValueOfTag(Tags tag, TagsData newData)
+		public bool ChangeValueOfTag(TagsFlag tag, TagsData newData)
 		{
 			bool success = true;
 

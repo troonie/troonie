@@ -10,12 +10,12 @@ using System.Linq;
 
 namespace Troonie
 {
-	public struct TableTagsViewerRowElement
-	{
-		public Label TagName;
-		public Label TagData;
-		public TroonieButton ChangeBtn;
-	}
+//	public struct TableTagsViewerRowElement
+//	{
+//		public Label TagName;
+//		public Label TagData;
+//		public TroonieButton ChangeBtn;
+//	}
 
 	public partial class ViewerWidget : Gtk.Window
 	{
@@ -37,7 +37,7 @@ namespace Troonie
 //		public string FileName { get; set; }
 		public BitmapWithTag bt;
 		public List<string>ImageFullPaths { get; private set; }
-		public List<TableTagsViewerRowElement> TableTagsViewerRowElements { get; private set; }
+//		public List<TableTagsViewerRowElement> TableTagsViewerRowElements { get; private set; }
 		public Table TableViewer { get { return tableViewer; }  }
 
 		public ViewerWidget (string[] newImages) :	base (Gtk.WindowType.Toplevel)
@@ -48,7 +48,7 @@ namespace Troonie
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 			ImageFullPaths = new List<string> ();
 			pressedVips = new List<ViewerImagePanel> ();
-			TableTagsViewerRowElements = new List<TableTagsViewerRowElement> ();
+//			TableTagsViewerRowElements = new List<TableTagsViewerRowElement> ();
 			imageId = -1;
 
 //			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
@@ -128,21 +128,27 @@ namespace Troonie
 		}
 
 		private void InitTableTagsViewer()
-		{
-			const int maxL = 10;
+		{			
 			uint nr = 0;
-			foreach (string s in Enum.GetNames(typeof(Tags))) {
-				Label lbTagName = new Label (s.Length > maxL ? s.Substring(0, maxL) : s);
+//			foreach (string s in Enum.GetNames(typeof(TagsFlag))) {
+			string[] tagFlagNames = Enum.GetNames(typeof(TagsFlag));
+			for (int i = 1; i < tagFlagNames.Length; i++) {
+				string s = tagFlagNames [i];
+				Label lbTagName = new Label (s);
 				lbTagName.TooltipText = s;
-				string strTagData = s == "Keywords" ? "data, data, data, data" : "1234";
-				Label lbTagData = new Label (strTagData);
+				lbTagName.WidthRequest = 70;
+//				string strTagData = s == "Keywords" ? "data, data, data, data" : "1234";
+				Label lbTagData = new Label ();
+				lbTagData.WidthRequest = 120;
 				TroonieButton b = new TroonieButton ();
 				b.Text = "...";
 //				b.TextSize = 10;
 				b.ButtonHeight = 20;
 				b.ButtonWidth = 30;
+				b.Name = i.ToString();
+				b.ButtonReleaseEvent += OnTroonieBtnReleaseEvent; // (o, args) => {};
 
-				TableTagsViewerRowElements.Add (new TableTagsViewerRowElement { TagName = lbTagName, TagData = lbTagData, ChangeBtn = b });
+//				TableTagsViewerRowElements.Add (new TableTagsViewerRowElement { TagName = lbTagName, TagData = lbTagData, ChangeBtn = b });
 				tableTagsViewer.Attach (lbTagName, 0, 1, nr, nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 				tableTagsViewer.Attach (lbTagData, 1, 2, nr, nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 				tableTagsViewer.Attach (b, 2, 3, nr, nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
@@ -184,7 +190,7 @@ namespace Troonie
 				if (vip.IsPressedIn) {
 					uint? old = vip.TagsData.Rating;
 					vip.TagsData.Rating = rating;
-					bool success = ImageTagHelper.SetTag (vip.OriginalImageFullName, Tags.Rating, vip.TagsData);
+					bool success = ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);
 					if (success) {
 						vip.QueueDraw ();
 					} else {
@@ -195,7 +201,7 @@ namespace Troonie
 //			tableViewer.ShowAll ();
 		}
 
-		private void zzz(Gdk.Key key)
+		private void MoveVIP(Gdk.Key key)
 		{
 			if (!doubleClickedMode || tableViewer.Children.Length <= 1)
 				return;
@@ -254,14 +260,18 @@ namespace Troonie
 				pressedVips.Add (vip);
 			} else {
 				pressedVips.Remove (vip);
-			}
+			}				
 
-			Console.WriteLine ("IsPressedIn-Anzahl: " + pressedVips.Count);
-//			foreach (var l_vip in pressedVips) {
-//				if (!l_vip.IsPressedin) {
-//					
-//				}
-//			}
+			bool addMode = false;
+			int l = tableTagsViewer.Children.Length;
+
+			for (int k = 0, i = l - 2; k < l / 3; i-=3, k++) {
+				TagsFlag flag = (TagsFlag)(1 << k);
+				string s = EnterMetaDataWindow.SetStartText(pressedVips, flag, ref addMode);
+				Label lb = tableTagsViewer.Children[i] as Label;
+				lb.Text = s; //s.Length > maxLengthLabelTagData ? s.Substring(0, maxLengthLabelTagData) : s;
+				lb.TooltipText = s;
+			}
 		}
 
 		#region drag and drop
@@ -358,16 +368,27 @@ namespace Troonie
 					}
 				}
 
+				TagsFlag t;
 				switch (args.Event.Key) {
+				case Gdk.Key.f:
+					t = TagsFlag.FocalLength;
+					break;
 				case Gdk.Key.t:
-					EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, Tags.Keywords);
-					pw.WindowPosition = WindowPosition.CenterAlways;
-					pw.Title = Language.I.L [167];
-					pw.OkButtontext = Language.I.L [16];
-//					pw.OnReleasedOkButton += SetTag;
-					pw.Show ();
-					break;				
+					t = TagsFlag.Keywords;
+					break;
+				case Gdk.Key.c:
+					t = TagsFlag.Comment;
+					break;
+				default:
+					return;
 				}
+
+				EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, t);
+				pw.WindowPosition = WindowPosition.CenterAlways;
+				pw.Title = Language.I.L [167];
+				pw.OkButtontext = Language.I.L [16];
+				//					pw.OnReleasedOkButton += SetTag;
+				pw.Show ();
 
 				return;
 			}
@@ -411,10 +432,10 @@ namespace Troonie
 				SetRatingOfSelectedImages (5);
 				break;
 			case Gdk.Key.Left:
-				zzz (Gdk.Key.Left);
+				MoveVIP (Gdk.Key.Left);
 				break;
 			case Gdk.Key.Right:
-				zzz (Gdk.Key.Right);
+				MoveVIP (Gdk.Key.Right);
 				break;
 			}
 
@@ -437,6 +458,15 @@ namespace Troonie
 		}
 
 		#endregion key events
+
+		protected void OnTroonieBtnReleaseEvent (object o, ButtonReleaseEventArgs args)
+		{
+			TroonieButton tb = o as TroonieButton;
+
+			if (tb != null) {
+				Console.WriteLine ("Trooniebutton-Name: " + tb.Name);
+			}
+		}
 
 		public override void Destroy ()
 		{

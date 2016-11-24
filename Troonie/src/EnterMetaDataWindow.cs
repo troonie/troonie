@@ -5,19 +5,14 @@ using System.Collections.Generic;
 
 namespace Troonie
 {
-	public delegate void EnterMetaDataDelegate(string[] elements);
-
 	public partial class EnterMetaDataWindow : Gtk.Window
 	{
 		private bool addMode;
 		private VBox vbox;
 		private Entry entry;
 		private TroonieButton btnOk;
-//		private ViewerWidget vw;
-		private Tags tags;
+		private TagsFlag tags;
 		private List<ViewerImagePanel> pressedInVIPs;
-
-//		public EnterMetaDataDelegate OnReleasedOkButton;
 
 		public String OkButtontext
 		{
@@ -25,11 +20,9 @@ namespace Troonie
 			set { btnOk.Text = value; }
 		}
 
-		public EnterMetaDataWindow (List<ViewerImagePanel> pressedInVIPs, Tags tags) : base (Gtk.WindowType.Toplevel)
+		public EnterMetaDataWindow (List<ViewerImagePanel> pressedInVIPs, TagsFlag tags) : base (Gtk.WindowType.Toplevel)
 		{
 			KeepAbove = true;
-//			Parent = vw;
-//			this.vw = vw;
 			this.tags = tags;
 			this.pressedInVIPs = pressedInVIPs;
 
@@ -38,7 +31,7 @@ namespace Troonie
 			vbox = new VBox ();
 			vbox.Name = "vbox1";
 			vbox.Spacing = 10;
-			vbox.BorderWidth = ((uint)(10));
+			vbox.BorderWidth = 10;
 			// Container child vbox1.Gtk.Box+BoxChild
 			entry = new Entry ();
 			entry.CanFocus = true;
@@ -84,65 +77,85 @@ namespace Troonie
 
 		private void SetEntryStartText()
 		{
-			if (tags == Tags.Keywords || tags == Tags.Composers){
-				if (pressedInVIPs.Count == 1) {
-					List<string> o = pressedInVIPs [0].TagsData.GetValue (tags) as List<string>;
-					if (o != null && o.Count != 0) {
-						foreach (string s in o) {
-							entry.Text += s + ',';	
-						}
-					}
-				} else {
-					addMode = true;
-				}
-
-//				for (int i = 0; i < pressedInVIPs.Count; i++) {
-//					ViewerImagePanel vip = pressedInVIPs [i];
-////					string[] o = vip.TagsData.GetValue (tags) as string[];
-//					List<string> o = vip.TagsData.GetValue (tags) as List<string>;
-//
-//					if (o != null && o.Count != 0) {
-//						foreach (string s in o) {
-//							entry.Text += s;	
-//						}
-//
-//					}
-//				}
-			} else {
-			}
-
-
-
-			if (pressedInVIPs.Count == 1) {
-				
-			} else {
-			}
-		}			
-
+			entry.Text = SetStartText (pressedInVIPs, tags, ref addMode);
+		}
+			
+		// TODO: Complete function.
 		protected void OnBtnOkReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			if (entry.Text.Length == 0) {
-				OkCancelDialog warn = new OkCancelDialog (true);
-				warn.Title = Language.I.L [118];
-				warn.Label1 = string.Empty;
-				warn.Label2 = Language.I.L [119];
-				warn.OkButtontext = Language.I.L [16];
-				warn.Show ();
 
-				return;
-			}
+			foreach (var vip in pressedInVIPs) {
 
-//			//fire the event now
-//			if (OnReleasedOkButton != null) //is there a EventHandler?
-//			{					
-//				OnReleasedOkButton.Invoke(); //calls its EventHandler                
-//			} //if not, ignore
+				bool setValueSuccess = false;
+				switch (tags) {
+				case TagsFlag.Altitude:			
+				case TagsFlag.Creator:	
+//				case TagsFlag.DateTime:		return DateTime;		
+				case TagsFlag.ExposureTime:	
+				case TagsFlag.FNumber:				
+				case TagsFlag.FocalLength:	
+				case TagsFlag.FocalLengthIn35mmFilm:				
+				case TagsFlag.ISOSpeedRatings:	
+				case TagsFlag.Latitude:				
+				case TagsFlag.Longitude:			
+				case TagsFlag.Make:						
+				case TagsFlag.Model:				
+	//			case TagsFlag.Orientation:	return Orientation;		
+				case TagsFlag.Rating:				
+				case TagsFlag.Software:			
+					// other tags
+				case TagsFlag.Comment:					
+				case TagsFlag.Conductor:		
+				case TagsFlag.Copyright:			
+				case TagsFlag.Title:			
+//				case TagsFlag.Track:		return Track;			
+//				case TagsFlag.TrackCount:	return TrackCount;		
+//				case TagsFlag.Year:			return Year;
+					setValueSuccess = vip.TagsData.SetValue (tags, entry.Text);
+					break;
 
-			string[] elements = entry.Text.Split (',');
-			for (int i = 0; i < elements.Length; i++) {
-				elements [i] = elements [i].Trim ();
-			}
+				case TagsFlag.Keywords:
+				case TagsFlag.Composers:
+					string[] elements = entry.Text.Split (',');
+					for (int i = 0; i < elements.Length; i++) {
+						elements [i] = elements [i].Trim ();
+					}
 
+					if (elements.Length == 0) {
+						break;
+					}
+
+					if (addMode) {
+						List<string> keywordList = vip.TagsData.GetValue (tags) as List<string>;
+						if (keywordList == null) {
+							keywordList = new List<string> ();
+						}
+
+						keywordList.AddRange (elements);
+						setValueSuccess = vip.TagsData.SetValue (tags, keywordList);
+					} else {
+						setValueSuccess = vip.TagsData.SetValue (tags, elements);
+					}
+					break;
+//				case TagsFlag.Comment:
+//					vip.TagsData.Comment = entry.Text;
+//					break;
+//					default:
+//						return false;
+				}
+
+				if (setValueSuccess) {
+					bool success = ImageTagHelper.SetTag (vip.OriginalImageFullName, tags, vip.TagsData);
+					if (success) {
+						vip.QueueDraw ();
+					} else {
+						// TODO: Info, if failed.
+					}
+				} else {
+					// TODO: Info, if failed.
+				}
+
+			}			
 
 			this.DestroyAll ();
 		}
@@ -161,6 +174,69 @@ namespace Troonie
 				OnBtnOkReleaseEvent (o, null);
 			}
 		}
+
+		#region public static helper function
+
+		public static string SetStartText(List<ViewerImagePanel> pressedInVIPs, TagsFlag tags, ref bool addMode)
+		{
+			string startText = string.Empty;
+			if (pressedInVIPs.Count == 0)
+				return startText;
+
+			// multiple tags (Keywords, Composers)
+			if (tags == TagsFlag.Keywords || tags == TagsFlag.Composers){
+				if (pressedInVIPs.Count == 1) {
+					List<string> o = pressedInVIPs [0].TagsData.GetValue (tags) as List<string>;
+					if (o != null && o.Count != 0) {
+						foreach (string s in o) {
+							startText += s + ',';	
+						}
+					}
+				} else {
+					addMode = true;
+				}
+			} 
+			// (other) single tags
+			else {
+				object o = pressedInVIPs [0].TagsData.GetValue (tags);
+				String so;
+				if (o == null) {
+					so = string.Empty;
+				} else {
+					so = o.ToString();
+				}
+
+				if (pressedInVIPs.Count == 1) {					
+					if (so != null) {
+						startText = so;
+					}
+				} else {
+					for (int i = 1; i < pressedInVIPs.Count; i++) {
+						ViewerImagePanel vip = pressedInVIPs [i];
+						o = vip.TagsData.GetValue (tags);
+						String so2;
+						if (o == null) {
+							so2 = string.Empty;
+						} else {
+							so2 = o.ToString();
+						}
+
+						if (so != null && so2 != null && so == so2) {
+							startText = so;
+						} else if (so != null && so2 != null) {
+							startText = "####";
+							break;
+						} else {
+							startText = string.Empty;
+						}
+					}
+				}
+			}
+
+			return startText;
+		}		
+
+		#endregion
 	}
 }
 

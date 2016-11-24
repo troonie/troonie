@@ -671,8 +671,8 @@ namespace Troonie
 			if (l == info.Length) {
 				// no jpg compression was done
 				creatorText += "Jpg-Q=Original" + separator;
-//				success = ImageTagHelper.SetAndSaveTag(pib.FullText, Tags.Creator, creatorText);
-				success = ImageTagHelper.SetTag(pib.FullText, Tags.Creator | Tags.Copyright | Tags.Title, new TagsData { Creator = creatorText, Copyright = "oioioi", Title = "MyTitle" });
+//				success = ImageTagHelper.SetTag(pib.FullText, Tags.Creator | Tags.Copyright | Tags.Title, new TagsData { Creator = creatorText, Copyright = "oioioi", Title = "MyTitle" });
+				success = ImageTagHelper.SetTag(pib.FullText, TagsFlag.Creator, new TagsData { Creator = creatorText });
 			} else {
 				BitmapWithTag bt_final = new BitmapWithTag (pib.FullText, true);
 				Config c_final = new Config ();				
@@ -683,7 +683,7 @@ namespace Troonie
 				c_final.FileOverwriting = true;
 				creatorText += "Jpg-Q=" + jpgQuality.ToString() + separator;
 //				success = bt_final.ChangeValueOfTag (Tags.Creator, creatorText);
-				success = bt_final.ChangeValueOfTag (Tags.Creator, new TagsData { Creator = creatorText });
+				success = bt_final.ChangeValueOfTag (TagsFlag.Creator, new TagsData { Creator = creatorText });
 				if (success) {
 					success = bt_final.Save (c_final, pib.Text, true);
 				}

@@ -150,7 +150,7 @@ namespace Troonie
 		{			
 			uint? old = TagsData.Rating;
 			TagsData.Rating = rating;
-			bool success = ImageTagHelper.SetTag (OriginalPath, Tags.Rating, TagsData);
+			bool success = ImageTagHelper.SetTag (OriginalPath, TagsFlag.Rating, TagsData);
 			if (success) {
 				QueueDraw ();
 			} 

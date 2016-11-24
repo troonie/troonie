@@ -22,14 +22,14 @@ namespace Troonie_Lib
 			
 		public static void SetDateAndRatingInVideoTag(string fileName, uint rating)
 		{
-			Tags flag = Tags.Track;
+			TagsFlag flag = TagsFlag.Track;
 			uint dateAsUint;
 			string dateAsString;
 			GetDateFromFilenameAsUint (fileName, out dateAsUint, out dateAsString);
 			TagsData td = new TagsData { Track = rating };
 
 			if (dateAsUint != 0) {
-				flag = Tags.Track | Tags.Year | Tags.Composers;
+				flag = TagsFlag.Track | TagsFlag.Year | TagsFlag.Composers;
 				td.Year = dateAsUint;
 				td.Composers = new List<string>{ "Creation date (Troonie): " + dateAsString, "Rating (Troonie): " + rating };
 			} 
@@ -67,29 +67,29 @@ namespace Troonie_Lib
 			return tag;
 		}
 
-		public static void ChangeValueOfTag(Tag tag, Tags flag, TagsData newData)
+		public static void ChangeValueOfTag(Tag tag, TagsFlag flag, TagsData newData)
 		{
 			uint flagValue = int.MaxValue;
 			flagValue += 1;
 
 			while(flagValue != 0)
 			{
-				switch (flag & (Tags)flagValue) {
-				case Tags.Comment:		tag.Comment = newData.Comment;				break;
-				case Tags.Composers:	tag.Composers= newData.Composers.ToArray();	break;
-				case Tags.Conductor:	tag.Conductor = newData.Conductor;			break;
-				case Tags.Copyright:	tag.Copyright = newData.Copyright;			break;
-				case Tags.Title:		tag.Title = newData.Title;					break;
-				case Tags.Track:		tag.Track = newData.Track;					break;
-				case Tags.TrackCount:	tag.TrackCount = newData.TrackCount;		break;
-				case Tags.Year:			tag.Year = newData.Year;					break;
+				switch (flag & (TagsFlag)flagValue) {
+				case TagsFlag.Comment:		tag.Comment = newData.Comment;				break;
+				case TagsFlag.Composers:	tag.Composers= newData.Composers.ToArray();	break;
+				case TagsFlag.Conductor:	tag.Conductor = newData.Conductor;			break;
+				case TagsFlag.Copyright:	tag.Copyright = newData.Copyright;			break;
+				case TagsFlag.Title:		tag.Title = newData.Title;					break;
+				case TagsFlag.Track:		tag.Track = newData.Track;					break;
+				case TagsFlag.TrackCount:	tag.TrackCount = newData.TrackCount;		break;
+				case TagsFlag.Year:			tag.Year = newData.Year;					break;
 				}
 
 				flagValue >>= 1;
 			}
 		}
 
-		public static bool SetTag(string fileName, Tags flag, TagsData newData)
+		public static bool SetTag(string fileName, TagsFlag flag, TagsData newData)
 		{
 			bool success = true;
 			TagLib.File tagFile = LoadTagFile (fileName);
