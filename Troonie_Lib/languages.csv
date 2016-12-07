@@ -176,3 +176,12 @@ File renaming by creation date.;Dateiumbenennung nach Estellungsdatum.
 Error. Image could not be saved.;Fehler. Bild konnte nicht gespeichert werden.
 Do you have writing permissions for the chosen directory?;Sind Schreibrechte für das ausgewählte Verzeichnis vorhanden?
 Viewer;Betrachter
+Exif-Tags;Exif-Daten
+This step will overwrite existing data of tag ';Dieser Schritt überschreibt existierende Daten des Tags ' 
+' in all selected images.;' in allen ausgewählten Bildern.
+Adding to ';Hinzufügen zu '
+Setting ';Setzen von '
+Overwriting ';Überschreiben von '
+No correct value entered.;Keinen korrekten Wert eingegeben.
+Please enter correct value.; Bitte korrekten wert eingeben.
+';'

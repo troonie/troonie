@@ -35,7 +35,7 @@ namespace Troonie
 
 			string filename = null;
 			// START VALUE
-//			args = new string[] { "-v"};
+			args = new string[] { "-v"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args, true);

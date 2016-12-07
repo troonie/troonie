@@ -96,7 +96,16 @@ namespace Troonie_Lib
 		public bool SetValue (TagsFlag flag, object o)
 		{
 			switch (flag) {
-
+			case TagsFlag.DateTime:
+				DateTime dt;
+				//	string format1 = "yyyyMMdd-HHmmss";
+				string dt_string = string.Empty;
+				bool b = ExtractString (o, ref dt_string);	
+				if (b) {
+					b = System.DateTime.TryParse (dt_string, out dt);
+					DateTime = dt;
+				}
+				return b;
 			case TagsFlag.Altitude:		return ExtractNullableDouble (o, ref Altitude);		
 			case TagsFlag.Creator:		return ExtractString(o, ref Creator);			
 //			case TagsFlag.DateTime:		return DateTime;		

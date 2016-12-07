@@ -39,7 +39,7 @@ namespace Troonie
 					tableViewer.ColumnSpacing = tableViewerSpacing;
 
 					vip.IsDoubleClicked = false;
-				} else {
+				} else if (vip.IsPressedIn){
 					vip.IsPressedIn = false;
 				}					
 				vip.Show ();
@@ -51,6 +51,7 @@ namespace Troonie
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
 				if (vip.IsPressedIn) {
+					vip.IsPressedIn = false;
 					vip.OnIsPressedInChanged -= OnIsPressedIn;
 					vip.OnDoubleClicked -= OnDoubleClicked;
 					tableViewer.Remove (vip);

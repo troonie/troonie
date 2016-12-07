@@ -32,7 +32,7 @@ namespace Troonie
 		private int imageId, imagePerRow;
 		private uint rowNr, colNr;
 		private bool leftControlPressed, leftAltPressed, doubleClickedMode;
-		private List<ViewerImagePanel> pressedVips;
+		private Dictionary<int, ViewerImagePanel> pressedVipsDict;
 
 //		public string FileName { get; set; }
 		public BitmapWithTag bt;
@@ -47,7 +47,7 @@ namespace Troonie
 			tableViewer.ColumnSpacing = tableViewerSpacing;
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 			ImageFullPaths = new List<string> ();
-			pressedVips = new List<ViewerImagePanel> ();
+			pressedVipsDict = new Dictionary<int, ViewerImagePanel>();
 //			TableTagsViewerRowElements = new List<TableTagsViewerRowElement> ();
 			imageId = -1;
 
@@ -177,6 +177,7 @@ namespace Troonie
 
 		private void SetLanguageToGui()
 		{
+			GtkLabel.LabelProp = "<b>" + Language.I.L[179] + "</b>";
 //			lbFrameCursorPos.LabelProp = "<b>" + Language.I.L[15] + "</b>";
 //			btnOk.Text = Language.I.L[16];
 //			btnOk.Redraw ();
@@ -193,6 +194,8 @@ namespace Troonie
 					bool success = ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);
 					if (success) {
 						vip.QueueDraw ();
+						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
+						vip.IsPressedIn = vip.IsPressedIn;
 					} else {
 						vip.TagsData.Rating = old;
 					}
@@ -256,18 +259,18 @@ namespace Troonie
 
 		private void OnIsPressedIn(ViewerImagePanel vip)
 		{
-			if (vip.IsPressedIn) {
-				pressedVips.Add (vip);
-			} else {
-				pressedVips.Remove (vip);
-			}				
+			if (vip.IsPressedIn && !pressedVipsDict.ContainsKey(vip.ID)) {
+				pressedVipsDict.Add (vip.ID, vip);
+			} else if (!vip.IsPressedIn && pressedVipsDict.ContainsKey(vip.ID)){
+				pressedVipsDict.Remove(vip.ID);
+			}			
 
-			bool addMode = false;
+			SaveTagMode saveTagMode;
 			int l = tableTagsViewer.Children.Length;
 
 			for (int k = 0, i = l - 2; k < l / 3; i-=3, k++) {
 				TagsFlag flag = (TagsFlag)(1 << k);
-				string s = EnterMetaDataWindow.SetStartText(pressedVips, flag, ref addMode);
+				string s = EnterMetaDataWindow.SetStartText(new List<ViewerImagePanel>(pressedVipsDict.Values), flag, out saveTagMode);
 				Label lb = tableTagsViewer.Children[i] as Label;
 				lb.Text = s; //s.Length > maxLengthLabelTagData ? s.Substring(0, maxLengthLabelTagData) : s;
 				lb.TooltipText = s;
@@ -370,25 +373,29 @@ namespace Troonie
 
 				TagsFlag t;
 				switch (args.Event.Key) {
+				case Gdk.Key.d:
+					t = TagsFlag.DateTime;
+					break;
 				case Gdk.Key.f:
 					t = TagsFlag.FocalLength;
 					break;
-				case Gdk.Key.t:
+				case Gdk.Key.k:
 					t = TagsFlag.Keywords;
 					break;
 				case Gdk.Key.c:
 					t = TagsFlag.Comment;
 					break;
 				default:
+					leftAltPressed = false;
 					return;
 				}
 
 				EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, t);
 				pw.WindowPosition = WindowPosition.CenterAlways;
-				pw.Title = Language.I.L [167];
-				pw.OkButtontext = Language.I.L [16];
 				//					pw.OnReleasedOkButton += SetTag;
 				pw.Show ();
+
+				leftAltPressed = false;
 
 				return;
 			}
