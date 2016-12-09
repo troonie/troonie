@@ -145,7 +145,7 @@ namespace Troonie
 //				b.TextSize = 10;
 				b.ButtonHeight = 20;
 				b.ButtonWidth = 30;
-				b.Name = i.ToString();
+				b.Name = (i - 1).ToString();
 				b.ButtonReleaseEvent += OnTroonieBtnReleaseEvent; // (o, args) => {};
 
 //				TableTagsViewerRowElements.Add (new TableTagsViewerRowElement { TagName = lbTagName, TagData = lbTagData, ChangeBtn = b });
@@ -297,16 +297,15 @@ namespace Troonie
 				// check whether file is image or video
 				FileInfo info = new FileInfo (newImages [i]);
 				string ext = info.Extension.ToLower ();
+				bool isImage = Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext);
+				bool isVideo = Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext);
+				if (ext.Length != 0 && (isImage || isVideo) && !ImageFullPaths.Contains(newImages[i])) {
 
-				if (ext.Length != 0 && (Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)  /* ||
-				    Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext) */ ) && 
-					!ImageFullPaths.Contains(newImages[i])) {
-
-					ViewerImagePanel vip2 = new ViewerImagePanel (IncrementImageID(), newImages [i], smallVipWidthAndHeight, maxVipWidth, maxVipHeight);
+					ViewerImagePanel vip = new ViewerImagePanel (IncrementImageID(), isVideo, newImages [i], smallVipWidthAndHeight, maxVipWidth, maxVipHeight);
 					ImageFullPaths.Add (newImages [i]);
-					vip2.OnIsPressedInChanged += OnIsPressedIn;
-					vip2.OnDoubleClicked += OnDoubleClicked;
-					tableViewer.Attach (vip2, rowNr, rowNr + 1, colNr, colNr + 1, 
+					vip.OnIsPressedInChanged += OnIsPressedIn;
+					vip.OnDoubleClicked += OnDoubleClicked;
+					tableViewer.Attach (vip, rowNr, rowNr + 1, colNr, colNr + 1, 
 						AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);					
 
 					if (rowNr + 1 == imagePerRow) {
@@ -373,6 +372,7 @@ namespace Troonie
 
 				TagsFlag t;
 				switch (args.Event.Key) {
+				// image tags
 				case Gdk.Key.d:
 					t = TagsFlag.DateTime;
 					break;
@@ -382,18 +382,29 @@ namespace Troonie
 				case Gdk.Key.k:
 					t = TagsFlag.Keywords;
 					break;
+				// other tags
 				case Gdk.Key.c:
 					t = TagsFlag.Comment;
+					break;
+				case Gdk.Key.t:
+					t = TagsFlag.Title;
+					break;
+				case Gdk.Key.r:
+					t = TagsFlag.TrackCount;
+					break;
+				case Gdk.Key.y:
+					t = TagsFlag.Year;
 					break;
 				default:
 					leftAltPressed = false;
 					return;
 				}
 
-				EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, t);
-				pw.WindowPosition = WindowPosition.CenterAlways;
-				//					pw.OnReleasedOkButton += SetTag;
-				pw.Show ();
+				if (pressedInVIPs.Count != 0) {
+					EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, t);
+	//				pw.WindowPosition = WindowPosition.CenterAlways;
+					pw.Show ();
+				}
 
 				leftAltPressed = false;
 
@@ -469,9 +480,22 @@ namespace Troonie
 		protected void OnTroonieBtnReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
 			TroonieButton tb = o as TroonieButton;
+			int shift;
+			if (tb != null && int.TryParse (tb.Name, out shift)) {
+//				Console.WriteLine ("Trooniebutton-Name: " + tb.Name);
 
-			if (tb != null) {
-				Console.WriteLine ("Trooniebutton-Name: " + tb.Name);
+				List<ViewerImagePanel>pressedInVIPs = new List<ViewerImagePanel>();
+				foreach (ViewerImagePanel vip in tableViewer.Children) {
+					//				vip.IsPressedIn = true;
+					if (vip.IsPressedIn) {
+						pressedInVIPs.Add (vip);
+					}
+				}
+
+				if (pressedInVIPs.Count != 0) {
+					EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, (TagsFlag)(1 << shift));
+					pw.Show ();
+				}
 			}
 		}
 

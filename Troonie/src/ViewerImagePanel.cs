@@ -42,6 +42,7 @@ namespace Troonie
 		#region Public properties
 
 		public int ID  { get; private set; }
+		public bool IsVideo  { get; private set; }
 		public bool IsPressedIn
 		{ 
 			get
@@ -127,9 +128,10 @@ namespace Troonie
 		#endregion Public properties
 
 
-		public ViewerImagePanel (int id, string originalImageFullName, int smallWidthAndHeight, int maxWidth, int maxHeight, bool saveThumbnailsPersistent = true)
+		public ViewerImagePanel (int id, bool isVideo, string originalImageFullName, int smallWidthAndHeight, int maxWidth, int maxHeight, bool saveThumbnailsPersistent = true)
 		{
 			ID = id;
+			this.IsVideo = isVideo;
 			this.smallWidthAndHeight = smallWidthAndHeight;
 			this.maxWidth = maxWidth;
 			this.maxHeight = maxHeight;
@@ -156,7 +158,8 @@ namespace Troonie
 				Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
 
 			OriginalImageFullName = originalImageFullName;
-			TagsData = ImageTagHelper.GetTagsData (OriginalImageFullName);
+			TagsData = IsVideo ? VideoTagHelper.GetTagsData (OriginalImageFullName) : 
+								 ImageTagHelper.GetTagsData (OriginalImageFullName);
 
 			firstClick = true;
 			sw_doubleClick = new Stopwatch();
@@ -197,6 +200,10 @@ namespace Troonie
 			
 		private void SetThumbnailImage()
 		{
+			if (IsVideo) {
+				return;
+			}
+
 			if (!File.Exists (thumbDirectory + thumbSmallName)) {
 				
 				BitmapWithTag bt = new BitmapWithTag (OriginalImageFullName, true);
@@ -246,6 +253,10 @@ namespace Troonie
 
 		private void SetFullImage()
 		{
+			if (IsVideo) {
+				return;
+			}
+
 			pix = new Gdk.Pixbuf(OriginalImageFullName);
 			double sW = maxWidth / (double)pix.Width;
 			double sH = maxHeight / (double)pix.Height;
@@ -295,6 +306,18 @@ namespace Troonie
 //			cr.SetSourceSurface(surface, 0, 0);
 				cr.Paint ();
 				cr.Restore ();
+			} else if (IsVideo) {
+				cr.Save();
+				//			cr.SetSourceRGB(RedColor[0], RedColor[1], RedColor[2]);
+				cr.SetSourceRGB(0.4,0,0.8);
+				cr.SelectFontFace("Arial", FontSlant.Normal, FontWeight.Bold);
+				cr.SetFontSize(fontSize * 2);
+
+//				cr.MoveTo(6, 20); // links oben
+				cr.MoveTo((W - (fontSize * 2)) / 2.6, (H - padding) / 2.0); 
+				cr.ShowText ("VIDEO");
+
+				cr.Restore();
 			}
 
 			cr.Save();

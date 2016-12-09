@@ -42,6 +42,19 @@ namespace Troonie_Lib
 
 	public struct TagsData
 	{
+		public enum ImageOrientation : uint
+		{
+			None,
+			TopLeft,
+			TopRight,
+			BottomRight,
+			BottomLeft,
+			LeftTop,
+			RightTop, // portrait
+			RightBottom,
+			LeftBottom
+		}
+
 		#region 16 image tagsData elements
 		public double? Altitude;
 		public string Creator;
@@ -72,25 +85,25 @@ namespace Troonie_Lib
 		public uint Year;
 		#endregion
 
-		public void SetKeywords (string[] pKeywords)
-		{
-			Keywords = new List<string> (pKeywords);
-		}
-
-		public void SetKeywords (List<string> pKeywords)
-		{
-			Keywords = pKeywords;
-		}
-
-		public void SetComposers (string[] pComposers)
-		{
-			Composers = new List<string> (pComposers);
-		}
-
-		public void SetComposers (List<string> pComposers)
-		{
-			Composers = pComposers;
-		}			
+//		public void SetKeywords (string[] pKeywords)
+//		{
+//			Keywords = new List<string> (pKeywords);
+//		}
+//
+//		public void SetKeywords (List<string> pKeywords)
+//		{
+//			Keywords = pKeywords;
+//		}
+//
+//		public void SetComposers (string[] pComposers)
+//		{
+//			Composers = new List<string> (pComposers);
+//		}
+//
+//		public void SetComposers (List<string> pComposers)
+//		{
+//			Composers = pComposers;
+//		}			
 
 		// TODO: Complete function.
 		public bool SetValue (TagsFlag flag, object o)
@@ -98,7 +111,6 @@ namespace Troonie_Lib
 			switch (flag) {
 			case TagsFlag.DateTime:
 				DateTime dt;
-				//	string format1 = "yyyyMMdd-HHmmss";
 				string dt_string = string.Empty;
 				bool b = ExtractString (o, ref dt_string);	
 				if (b) {
@@ -107,8 +119,7 @@ namespace Troonie_Lib
 				}
 				return b;
 			case TagsFlag.Altitude:		return ExtractNullableDouble (o, ref Altitude);		
-			case TagsFlag.Creator:		return ExtractString(o, ref Creator);			
-//			case TagsFlag.DateTime:		return DateTime;		
+			case TagsFlag.Creator:		return ExtractString(o, ref Creator);					
 			case TagsFlag.ExposureTime:	return ExtractNullableDouble (o, ref ExposureTime);		
 			case TagsFlag.FNumber:		return ExtractNullableDouble (o, ref FNumber);
 			case TagsFlag.FocalLength:	return ExtractNullableDouble (o, ref FocalLength);
@@ -127,9 +138,9 @@ namespace Troonie_Lib
 				}
 
 				if (flag == TagsFlag.Keywords) {
-					SetKeywords (keywordList);
+					Keywords = keywordList;
 				} else {
-					SetComposers (keywordList);
+					Composers = keywordList;
 				}
 				return true;		
 			case TagsFlag.Latitude:		return ExtractNullableDouble (o, ref Latitude);			
@@ -144,9 +155,9 @@ namespace Troonie_Lib
 			case TagsFlag.Conductor:	return ExtractString(o, ref Conductor);		
 			case TagsFlag.Copyright:	return ExtractString(o, ref Copyright);		
 			case TagsFlag.Title:		return ExtractString(o, ref Title);			
-//			case TagsFlag.Track:		return Track;			
-//			case TagsFlag.TrackCount:	return TrackCount;		
-//			case TagsFlag.Year:			return Year;
+			case TagsFlag.Track:		return ExtractUint (o, ref Track);		
+			case TagsFlag.TrackCount:	return ExtractUint (o, ref TrackCount);
+			case TagsFlag.Year:			return ExtractUint (o, ref Year);
 
 
 			default:
@@ -222,6 +233,20 @@ namespace Troonie_Lib
 				return true;
 			}
 
+			uint tmp;
+			bool b = uint.TryParse (s, NumberStyles.AllowDecimalPoint, 
+				CultureInfo.CreateSpecificCulture("en-us"), out tmp);
+			if (b) {
+				d = tmp;
+				return true;
+			} else { 
+				return false;
+			}
+		}
+
+		private static bool ExtractUint(object o, ref uint d)
+		{
+			string s = o.ToString();
 			uint tmp;
 			bool b = uint.TryParse (s, NumberStyles.AllowDecimalPoint, 
 				CultureInfo.CreateSpecificCulture("en-us"), out tmp);

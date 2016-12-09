@@ -58,7 +58,7 @@ namespace Troonie
 			w1.Fill = false;
 
 
-			hbox = new HBox ();;
+			hbox = new HBox ();
 			hbox.Spacing = 6;
 
 			btnOk = new TroonieButton ();
@@ -158,9 +158,9 @@ namespace Troonie
 				case TagsFlag.Conductor:		
 				case TagsFlag.Copyright:			
 				case TagsFlag.Title:			
-					//				case TagsFlag.Track:		return Track;			
-					//				case TagsFlag.TrackCount:	return TrackCount;		
-					//				case TagsFlag.Year:			return Year;
+				case TagsFlag.Track:
+				case TagsFlag.TrackCount:
+				case TagsFlag.Year:
 					setValueSuccess = vip.TagsData.SetValue (tags, entry.Text);
 					break;
 
@@ -186,8 +186,7 @@ namespace Troonie
 					} else if (saveTagMode == SaveTagMode.replaceStringarray) {
 						setValueSuccess = vip.TagsData.SetValue (tags, elements);
 					} else {
-						// SHOULD NOT BE HAPPENED
-						Console.WriteLine("SHOULD NOT BE HAPPENED!");
+						// SHOULD/CAN NOT BE HAPPENED
 					}
 					break;
 					//				case TagsFlag.Comment:
@@ -198,24 +197,26 @@ namespace Troonie
 				}
 
 				if (setValueSuccess) {
-					bool success = ImageTagHelper.SetTag (vip.OriginalImageFullName, tags, vip.TagsData);
+					bool success = vip.IsVideo ? 
+						VideoTagHelper.SetTag (vip.OriginalImageFullName, tags, vip.TagsData) :
+						ImageTagHelper.SetTag (vip.OriginalImageFullName, tags, vip.TagsData);
 					if (success) {
 						vip.QueueDraw ();
 						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
 						vip.IsPressedIn = vip.IsPressedIn;
 					} else {
-						// TODO: Info, if failed.
-						Console.WriteLine("Failure 1.");
+						ShowErrorMessageWindow(tags);
+						break;
 					}
 				} else {
-					// TODO: Info, if failed.
-					Console.WriteLine("Failure 2.");
+					ShowErrorMessageWindow(tags);
+					break;
 				}
 
 			}			
 
 			this.DestroyAll ();
-		}
+		}			
 			
 		// TODO: Complete function.
 		protected void OnBtnOkReleaseEvent (object o, ButtonReleaseEventArgs args)
@@ -267,7 +268,18 @@ namespace Troonie
 			}
 		}
 
-		#region public static helper function
+		#region static helper function
+
+		private static void ShowErrorMessageWindow(TagsFlag flag)
+		{
+			OkCancelDialog info = new OkCancelDialog (true);
+			info.WindowPosition = WindowPosition.CenterAlways;
+			info.Title = Language.I.L [153];
+			info.Label1 = Language.I.L [188] + Enum.GetName(typeof(TagsFlag), flag) + Language.I.L [189];
+			info.Label2 = Language.I.L [190];
+			info.OkButtontext = Language.I.L [16];
+			info.Show ();
+		}
 
 		public static string SetStartText(List<ViewerImagePanel> pressedInVIPs, TagsFlag tags, out SaveTagMode saveTagMode)
 		{

@@ -48,16 +48,47 @@ namespace Troonie
 
 		protected void OnToolbarBtn_RemovePressed (object sender, EventArgs e)
 		{
+			bool needRepoulate = false;
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
 				if (vip.IsPressedIn) {
+					ImageFullPaths.Remove(vip.OriginalImageFullName);
 					vip.IsPressedIn = false;
 					vip.OnIsPressedInChanged -= OnIsPressedIn;
 					vip.OnDoubleClicked -= OnDoubleClicked;
 					tableViewer.Remove (vip);
 					i--;
+					needRepoulate = true;
 				}
 			}
+
+			if (needRepoulate) {
+				rowNr = 0;
+				colNr = 0;
+				Widget[] widgetList = tableViewer.Children;
+
+				foreach (Widget item in widgetList) {
+					tableViewer.Remove (item);
+				}
+
+				for (int i = widgetList.Length - 1; i >= 0;  i--) {
+//				foreach (ViewerImagePanel vip in widgetList) {
+//					ViewerImagePanel vip2 = new ViewerImagePanel (IncrementImageID(), newImages [i], smallVipWidthAndHeight, maxVipWidth, maxVipHeight);
+//					ImageFullPaths.Add (newImages [i]);
+//					vip2.OnIsPressedInChanged += OnIsPressedIn;
+//					vip2.OnDoubleClicked += OnDoubleClicked;
+					tableViewer.Attach (widgetList[i], rowNr, rowNr + 1, colNr, colNr + 1, 
+						AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);					
+
+					if (rowNr + 1 == imagePerRow) {
+						rowNr = 0;
+						colNr++;
+					} else {
+						rowNr++;
+					}
+				}
+			}
+
 		}			
 
 		protected void OnToolbarBtn_LanguagePressed (object sender, EventArgs e)
