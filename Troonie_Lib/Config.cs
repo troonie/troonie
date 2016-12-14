@@ -19,6 +19,7 @@ namespace Troonie_Lib
         #region converter properties 
 
 		public bool AskForDesktopContextMenu { get; set; }
+		public bool ConfirmDeleteImages { get; set; }
 
         /// <summary>The length of the bigger side of the image(s) to convert.
         /// </summary>
@@ -93,6 +94,7 @@ namespace Troonie_Lib
 			LanguageID = SetLanguageID ();
 
 			AskForDesktopContextMenu = true;
+			ConfirmDeleteImages = true;
 			BiggestLength = 1280;
 			FileOverwriting = false;
 			Format = Troonie_Lib.TroonieImageFormat.JPEG24;

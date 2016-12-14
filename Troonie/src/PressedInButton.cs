@@ -19,6 +19,7 @@ namespace Troonie
 
 		public string FullText { get; set; }
 		public bool IsPressedin { get; private set;	}
+		public bool IsVideo { get; set;	}
 		public int BorderlineWidth { get; set; }
 		public string Font { get; set; }
 		public string Text { get; set; }

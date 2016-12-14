@@ -176,7 +176,7 @@ namespace Troonie_Lib
 				}
 
 			}
-			catch (Exception ) {
+			catch (Exception) {
 				success = false;
 			}
 

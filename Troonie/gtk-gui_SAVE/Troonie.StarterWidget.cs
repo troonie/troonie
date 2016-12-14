@@ -14,6 +14,8 @@ namespace Troonie
 		
 		private global::Troonie.TroonieButton picBtnSteganography;
 		
+		private global::Troonie.TroonieButton picBtnViewer;
+		
 		private global::Gtk.HBox hbox2;
 
 		protected virtual void Build ()
@@ -72,16 +74,29 @@ namespace Troonie
 			this.hbox1.Add (this.picBtnSteganography);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnSteganography]));
 			w3.Position = 2;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.picBtnViewer = new global::Troonie.TroonieButton ();
+			this.picBtnViewer.Name = "picBtnViewer";
+			this.picBtnViewer.CheckReleaseState = false;
+			this.picBtnViewer.BorderlineWidth = 3;
+			this.picBtnViewer.ButtonHeight = 140;
+			this.picBtnViewer.ButtonWidth = 0;
+			this.picBtnViewer.Font = "Arial";
+			this.picBtnViewer.Text = "Viewer";
+			this.picBtnViewer.TextSize = 20;
+			this.hbox1.Add (this.picBtnViewer);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnViewer]));
+			w4.Position = 3;
 			this.vbox1.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
-			w4.Position = 0;
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
+			w5.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.hbox2 = new global::Gtk.HBox ();
 			this.hbox2.Name = "hbox2";
 			this.hbox2.Spacing = 6;
 			this.vbox1.Add (this.hbox2);
-			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox2]));
-			w5.Position = 1;
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox2]));
+			w6.Position = 1;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
@@ -91,6 +106,7 @@ namespace Troonie
 			this.picBtnConvert.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnConvertButtonReleaseEvent);
 			this.picBtnEdit.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnEditButtonReleaseEvent);
 			this.picBtnSteganography.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnSteganographyButtonReleaseEvent);
+			this.picBtnViewer.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnViewerButtonReleaseEvent);
 		}
 	}
 }

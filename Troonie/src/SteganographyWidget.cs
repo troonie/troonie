@@ -30,6 +30,9 @@ namespace Troonie
 
 		public SteganographyWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
 		{
+
+			try {
+				
 			FileName = pFilename;
 
 			Build ();
@@ -44,24 +47,40 @@ namespace Troonie
 			SetLanguageToGui ();
 			Initialize(true);
 
-		if (constants.WINDOWS) {
-			Gtk.Drag.DestSet (this, 0, null, 0);
-		} else {
-			// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
-			// Otherwise ShadowType.In looks terrible at Win10.
-			frameCursorPos.ShadowType = ShadowType.In;
-			frameSteganography.ShadowType = ShadowType.In;
-			frameModus.ShadowType = ShadowType.In;
-			frameKey.ShadowType = ShadowType.In;
-			frameContent.ShadowType = ShadowType.In;
-			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
-		}
+			if (constants.WINDOWS) {
+				Gtk.Drag.DestSet (this, 0, null, 0);
+			} else {
+				// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+				// Otherwise ShadowType.In looks terrible at Win10.
+				frameCursorPos.ShadowType = ShadowType.In;
+				frameSteganography.ShadowType = ShadowType.In;
+				frameModus.ShadowType = ShadowType.In;
+				frameKey.ShadowType = ShadowType.In;
+				frameContent.ShadowType = ShadowType.In;
+				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+			}
 
 			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
 
 			if (Constants.I.CONFIG.AskForDesktopContextMenu) {
 				new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
 			}
+
+		}
+		catch (Exception) {
+
+			OkCancelDialog win = new OkCancelDialog (true);
+			win.WindowPosition = WindowPosition.CenterAlways;
+			win.Title = Language.I.L [153];
+			win.Label1 = Language.I.L [194];
+			win.Label2 = Language.I.L [195];
+			win.OkButtontext = Language.I.L [16];
+			DeleteEventArgs args = new DeleteEventArgs ();
+			win.OnReleasedOkButton += () => { OnDeleteEvent(win, args); };
+			win.Show ();
+
+			this.DestroyAll ();
+		}
 		}
 
 		public override void Destroy ()
@@ -318,11 +337,16 @@ namespace Troonie
 			}
 			this.DestroyAll ();
 
+			try {
+				File.Delete (tempScaledImageFileName);
+				File.Delete (Constants.I.EXEPATH + blackFileName);
+			}
+			catch (Exception) {				
+				Console.WriteLine(Constants.ERROR_DELETE_TEMP_FILES);;
+			}
+
 			Application.Quit ();
 			a.RetVal = true;
-
-			File.Delete (tempScaledImageFileName);
-			File.Delete (Constants.I.EXEPATH + blackFileName);
 		}
 
 		protected void OnDragDrop (object sender, Gtk.DragDropArgs args)

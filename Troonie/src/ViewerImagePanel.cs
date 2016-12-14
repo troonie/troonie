@@ -31,7 +31,7 @@ namespace Troonie
 		private double translateX, translateY, scale;
 		private bool isEntered, isPressedIn, isDoubleClicked, firstClick, saveThumbnailsPersistent;
 		private Stopwatch sw_doubleClick;
-		private string thumbDirectory, thumbSmallName, relativeImageName;
+		private string thumbDirectory, thumbSmallName;
 		private Gdk.Pixbuf pix;
 		private CairoColor workingColor;
 
@@ -97,7 +97,8 @@ namespace Troonie
 				}
 			}
 		}
-		public string OriginalImageFullName { get; private set; }
+		public string OriginalImageFullName { get; set; }
+		public string RelativeImageName { get; set; }
 		/// <summary> Shortcut for <see cref="WidthRequest"/> as well as <see cref="drawingAreaImage.WidthRequest"/>.</summary>
 		public int W 
 		{ 
@@ -128,7 +129,7 @@ namespace Troonie
 		#endregion Public properties
 
 
-		public ViewerImagePanel (int id, bool isVideo, string originalImageFullName, int smallWidthAndHeight, int maxWidth, int maxHeight, bool saveThumbnailsPersistent = true)
+		public ViewerImagePanel (int id, bool isVideo, string originalImageFullName, int smallWidthAndHeight, int maxWidth, int maxHeight, bool saveThumbnailsPersistent = false)
 		{
 			ID = id;
 			this.IsVideo = isVideo;
@@ -145,15 +146,15 @@ namespace Troonie
 				thumbDirectory = IOPath.GetDirectoryName (originalImageFullName) + IOPath.DirectorySeparatorChar + 
 					thumbDirName + IOPath.DirectorySeparatorChar;
 			} else {
-				thumbDirectory = Constants.I.EXEPATH + IOPath.DirectorySeparatorChar + 
+				thumbDirectory = Constants.I.EXEPATH + // IOPath.DirectorySeparatorChar + 
 					thumbDirName + IOPath.DirectorySeparatorChar;
 			}
-			thumbDirectory = IOPath.GetDirectoryName (originalImageFullName) + IOPath.DirectorySeparatorChar + 
-									thumbDirName + IOPath.DirectorySeparatorChar;
+//			thumbDirectory = IOPath.GetDirectoryName (originalImageFullName) + IOPath.DirectorySeparatorChar + 
+//									thumbDirName + IOPath.DirectorySeparatorChar;
 				
 			Directory.CreateDirectory (thumbDirectory);
-			relativeImageName = originalImageFullName.Substring(originalImageFullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
-			string l_relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
+			RelativeImageName = originalImageFullName.Substring(originalImageFullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
+			string l_relativeImageName = RelativeImageName.Substring(0, RelativeImageName.LastIndexOf('.'));
 			thumbSmallName = l_relativeImageName + smallWidthAndHeight.ToString() + 
 				Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
 
@@ -327,13 +328,16 @@ namespace Troonie
 			cr.SetFontSize(fontSize);
 
 			cr.MoveTo(6, 20); // links oben
-			cr.ShowText (relativeImageName);
+			cr.ShowText (RelativeImageName);
 
 			cr.SetSourceRGB(RedColor[0], RedColor[1], RedColor[2]);
 			cr.MoveTo(W /*303*/ - fontSize, 20); // rechts oben
 
 			if (TagsData.Rating.HasValue && TagsData.Rating.Value != 0) {
 				cr.ShowText (TagsData.Rating.Value.ToString ());
+			}
+			else if (IsVideo && TagsData.TrackCount != 0){
+				cr.ShowText (TagsData.TrackCount.ToString ());
 			}
 
 			cr.SetSourceRGB(0,0,1);
@@ -410,9 +414,21 @@ namespace Troonie
 
 		#endregion protected events
 
-
+		// TODO Go on!
 		public override void Destroy ()
 		{
+			if (!saveThumbnailsPersistent) {
+				try {
+					File.Delete(thumbDirectory + thumbSmallName);
+					if (Directory.GetFiles(thumbDirectory).Length == 0) {
+						Directory.Delete(thumbDirectory, true);
+					}
+				}
+				catch (Exception) {
+					Console.WriteLine ("Could not delete thumbnail '" + thumbSmallName + "'.");
+				}
+			}
+
 			if (pix != null) {
 				pix.Dispose ();
 				pix = null;

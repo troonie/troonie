@@ -7,6 +7,7 @@ using ImageConverter = Troonie_Lib.ImageConverter;
 using IOPath = System.IO.Path;
 using System.IO;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Troonie
 {
@@ -79,8 +80,9 @@ namespace Troonie
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "edit-select-all.png", Language.I.L[40], OnToolbarBtn_SelectAllPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "edit-clear-3.png", Language.I.L[41], OnToolbarBtn_ClearPressed);
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "window-close-2.png", Language.I.L[42], OnToolbarBtn_RemovePressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 4);
-			GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 5, OnToolbarBtn_LanguagePressed);
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "trash-empty-3.png", Language.I.L[191], OnToolbarBtn_RemoveAndDeleteFilePressed);
+			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
+			GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 6, OnToolbarBtn_LanguagePressed);
 
 			SetGuiColors ();
 			SetLanguageToGui ();
@@ -102,6 +104,19 @@ namespace Troonie
 			if (Constants.I.CONFIG.AskForDesktopContextMenu) {
 				new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
 			}					
+		}
+
+		private List<ViewerImagePanel> GetPressedInVIPs()
+		{
+			List<ViewerImagePanel>pressedInVIPs = new List<ViewerImagePanel>();
+			foreach (ViewerImagePanel vip in tableViewer.Children) {
+				//				vip.IsPressedIn = true;
+				if (vip.IsPressedIn) {
+					pressedInVIPs.Add (vip);
+				}
+			}
+
+			return pressedInVIPs;
 		}
 
 		private int IncrementImageID()
@@ -186,19 +201,26 @@ namespace Troonie
 
 		private void SetRatingOfSelectedImages(uint rating)
 		{
-			for (int i = 0; i < tableViewer.Children.Length; i++) {
-				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
-				if (vip.IsPressedIn) {
-					uint? old = vip.TagsData.Rating;
+			List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
+			foreach (ViewerImagePanel vip in pressedInVIPs) {	
+				uint? old;
+				bool success = false;
+				if (vip.IsVideo) {
+					old = vip.TagsData.TrackCount;
+					vip.TagsData.TrackCount = rating;
+					success = VideoTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.TrackCount, vip.TagsData);	
+				} else {
+					old = vip.TagsData.Rating;
 					vip.TagsData.Rating = rating;
-					bool success = ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);
-					if (success) {
-						vip.QueueDraw ();
-						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
-						vip.IsPressedIn = vip.IsPressedIn;
-					} else {
-						vip.TagsData.Rating = old;
-					}
+					success = ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);	
+				}
+
+				if (success) {
+					vip.QueueDraw ();
+					// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
+					vip.IsPressedIn = vip.IsPressedIn;
+				} else {
+					vip.TagsData.Rating = old;
 				}
 			}
 //			tableViewer.ShowAll ();
@@ -249,6 +271,17 @@ namespace Troonie
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel l_vip = tableViewer.Children[i] as ViewerImagePanel;
 				if (l_vip.ID == vip.ID) {
+					if (vip.IsVideo) {
+						Process proc = new Process();
+						proc.StartInfo.FileName = "xplayer";   //ODER vlc ODER cvlc
+						proc.StartInfo.Arguments = vip.OriginalImageFullName;
+						proc.StartInfo.UseShellExecute = false; 
+						proc.StartInfo.RedirectStandardOutput = true;
+						proc.StartInfo.RedirectStandardError = true;
+						proc.Start();
+						proc.WaitForExit();
+						proc.Close();
+					}
 //					l_vip.IsPressedIn = true;
 				} else {
 					l_vip.IsPressedIn = false;
@@ -362,13 +395,7 @@ namespace Troonie
 
 			#region 'alt + ...'
 			if (leftAltPressed) {
-				List<ViewerImagePanel>pressedInVIPs = new List<ViewerImagePanel>();
-				foreach (ViewerImagePanel vip in tableViewer.Children) {
-					//				vip.IsPressedIn = true;
-					if (vip.IsPressedIn) {
-						pressedInVIPs.Add (vip);
-					}
-				}
+				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
 
 				TagsFlag t;
 				switch (args.Event.Key) {
@@ -412,17 +439,52 @@ namespace Troonie
 			}
 			#endregion 'alt + ...'
 
+			#region 'ctrl + ...'
+			if (leftControlPressed) {
+				switch (args.Event.Key) {
+				case Gdk.Key.a:
+					OnToolbarBtn_SelectAllPressed (null, null);
+					break;
+				case Gdk.Key.c:
+
+					OkCancelDialog warn2 = new OkCancelDialog (false);
+					warn2.Title = Language.I.L [29];
+					warn2.Label1 = Language.I.L [170];
+					warn2.Label2 = Language.I.L [171];
+					warn2.OkButtontext = Language.I.L [16];
+					warn2.CancelButtontext = Language.I.L [17];	
+					warn2.Show ();
+
+					warn2.OnReleasedOkButton += AppendIdAndCompressionByRating;						
+					break;
+				case Gdk.Key.r:
+					OkCancelDialog warn = new OkCancelDialog (false);
+					warn.Title = Language.I.L [29];
+					warn.Label1 = Language.I.L [175];
+					warn.Label2 = Language.I.L [171];
+					warn.OkButtontext = Language.I.L [16];
+					warn.CancelButtontext = Language.I.L [17];	
+					warn.Show ();
+
+					warn.OnReleasedOkButton += RenameByCreationDate;
+					break;
+//				default:
+//					leftControlPressed = false;
+//					return;
+				}
+
+				leftControlPressed = false;
+
+				return;
+			}
+			#endregion 'ctrl + ...'
+
 			switch (args.Event.Key) {
 			case Gdk.Key.Control_L:
 				leftControlPressed = true;
 				break;
 			case Gdk.Key.Alt_L:
 				leftAltPressed = true;
-				break;
-			case Gdk.Key.a:
-				if (leftControlPressed) {
-					OnToolbarBtn_SelectAllPressed (null, null);
-				}
 				break;
 			case Gdk.Key.Escape:
 				OnToolbarBtn_ClearPressed (null, null);
@@ -484,13 +546,7 @@ namespace Troonie
 			if (tb != null && int.TryParse (tb.Name, out shift)) {
 //				Console.WriteLine ("Trooniebutton-Name: " + tb.Name);
 
-				List<ViewerImagePanel>pressedInVIPs = new List<ViewerImagePanel>();
-				foreach (ViewerImagePanel vip in tableViewer.Children) {
-					//				vip.IsPressedIn = true;
-					if (vip.IsPressedIn) {
-						pressedInVIPs.Add (vip);
-					}
-				}
+				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
 
 				if (pressedInVIPs.Count != 0) {
 					EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, (TagsFlag)(1 << shift));

@@ -47,62 +47,80 @@ namespace Troonie
 
 		public EditWidget (string pFilename) : base (Gtk.WindowType.Toplevel)
 		{
-			FileName = pFilename;
+			try {
+				
+				FileName = pFilename;
 
-			Build ();
-			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
-			filterNames = new List<string> { "Filter", 
-												Language.I.L[90], 
-												Language.I.L[91], 
-												Language.I.L[92], 
-												Language.I.L[104],
-												Language.I.L[108],
-												Language.I.L[120],
-												Language.I.L[123],
-												Language.I.L[150],
-												Language.I.L[168]};
+				Build ();
+				this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
+				filterNames = new List<string> { "Filter", 
+													Language.I.L[90], 
+													Language.I.L[91], 
+													Language.I.L[92], 
+													Language.I.L[104],
+													Language.I.L[108],
+													Language.I.L[120],
+													Language.I.L[123],
+													Language.I.L[150],
+													Language.I.L[168]};
 
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 2);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "view-split-left-right-2.png", Language.I.L[131], OnToolbarBtn_StitchPressed, "Stitch");
-			GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 4, "filter.png", Language.I.L[84],
-			                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());		
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
-			GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 6, OnToolbarBtn_LanguagePressed);
+				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
+				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);
+				GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 2);
+				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "view-split-left-right-2.png", Language.I.L[131], OnToolbarBtn_StitchPressed, "Stitch");
+				GuiHelper.I.CreateMenubarInToolbar (hboxToolbarButtons, 4, "filter.png", Language.I.L[84],
+				                                    OnToolbarBtn_ShaderFilterPressed, filterNames.ToArray());		
+				GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
+				GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 6, OnToolbarBtn_LanguagePressed);
 
-			timeoutSw = new Stopwatch();
-			SetGuiColors ();
-			SetLanguageToGui ();
-			Initialize(true);
+				timeoutSw = new Stopwatch();
+				SetGuiColors ();
+				SetLanguageToGui ();
+				Initialize(true);
 
-		if (constants.WINDOWS) {
-			Gtk.Drag.DestSet (this, 0, null, 0);
-		} else {
-			// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
-			// Otherwise ShadowType.In looks terrible at Win10.
-			frameCutPoints.ShadowType = ShadowType.In;
-			frameRotation.ShadowType = ShadowType.In;
-			frameImageDimensions.ShadowType = ShadowType.In;
-			frameCursorPos.ShadowType = ShadowType.In;
-			frameShortcuts.ShadowType = ShadowType.In;
+				if (constants.WINDOWS) {
+					Gtk.Drag.DestSet (this, 0, null, 0);
+				} else {
+					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+					// Otherwise ShadowType.In looks terrible at Win10.
+					frameCutPoints.ShadowType = ShadowType.In;
+					frameRotation.ShadowType = ShadowType.In;
+					frameImageDimensions.ShadowType = ShadowType.In;
+					frameCursorPos.ShadowType = ShadowType.In;
+					frameShortcuts.ShadowType = ShadowType.In;
 
-			Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 
-			if (!Constants.I.CJPEG) {
-					OkCancelDialog pseudo = new OkCancelDialog (true);
-					pseudo.Title = Language.I.L [161];
-					pseudo.Label1 = Language.I.L [162];
-					pseudo.Label2 = Language.I.L [163] + Constants.N + Language.I.L [164];
-					pseudo.OkButtontext = Language.I.L [16];
-					pseudo.Show ();
+					if (!Constants.I.CJPEG) {
+							OkCancelDialog pseudo = new OkCancelDialog (true);
+							pseudo.Title = Language.I.L [161];
+							pseudo.Label1 = Language.I.L [162];
+							pseudo.Label2 = Language.I.L [163] + Constants.N + Language.I.L [164];
+							pseudo.OkButtontext = Language.I.L [16];
+							pseudo.Show ();
+					}
+				}
+
+				imagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+
+				if (Constants.I.CONFIG.AskForDesktopContextMenu) {
+					new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
+				}
+
 			}
-		}
+			catch (Exception) {
 
-			imagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+				OkCancelDialog win = new OkCancelDialog (true);
+				win.WindowPosition = WindowPosition.CenterAlways;
+				win.Title = Language.I.L [153];
+				win.Label1 = Language.I.L [194];
+				win.Label2 = Language.I.L [195];
+				win.OkButtontext = Language.I.L [16];
+				DeleteEventArgs args = new DeleteEventArgs ();
+				win.OnReleasedOkButton += () => { OnDeleteEvent(win, args); };
+				win.Show ();
 
-			if (Constants.I.CONFIG.AskForDesktopContextMenu) {
-				new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
+				this.DestroyAll ();
 			}
 		}
 
@@ -496,13 +514,19 @@ namespace Troonie
 //				bt.Dispose ();
 //			}
 			this.DestroyAll ();
-//			imagepanel1.Dispose ();
+
+			try {
+				File.Delete (tempScaledImageFileName);
+				File.Delete (Constants.I.EXEPATH + blackFileName);
+			}
+			catch (Exception) {				
+				Console.WriteLine(Constants.ERROR_DELETE_TEMP_FILES);;
+			}
 
 			Application.Quit ();
 			a.RetVal = true;
 
-			File.Delete (tempScaledImageFileName);
-			File.Delete (Constants.I.EXEPATH + blackFileName);
+
 		}
 
 

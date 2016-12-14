@@ -22,13 +22,27 @@ namespace Troonie
 
 		public static void Main (string[] args)
 		{
-			Constants.I.Init ();
-			#region Set new version number in code
-//			Troonie_Lib.Version.SetNewVersionNumberInAllFiles("1.0.5");
-//			return;
-			#endregion Set new version number in code
+			try {
+				Constants.I.Init ();
+				#region Set new version number in code
+	//			Troonie_Lib.Version.SetNewVersionNumberInAllFiles("1.0.5");
+	//			return;
+				#endregion Set new version number in code
 
-			GetProgramIcon ();
+				GetProgramIcon ();
+			}
+			catch (Exception) {
+				Console.WriteLine ("Error.");
+				Console.WriteLine ("Troonie cannot work correctly and was closing.");
+				Console.WriteLine ("Troonie (as well as its directory) requires read and write permission.");
+				return;
+//				OkCancelDialog pseudo = new OkCancelDialog (true);
+//				pseudo.Title = Language.I.L [153];
+//				pseudo.Label1 = Language.I.L [194];
+//				pseudo.Label2 = Language.I.L [195];
+//				pseudo.OkButtontext = Language.I.L [16];
+//				pseudo.Show ();
+			}
 
 			Application.Init ();
 			// Gtk.Settings.Default.SetLongProperty ("gtk-button-images", 1, "");		
@@ -97,8 +111,23 @@ namespace Troonie
 					break;
 				}
 			}
+				
 
+//			try{
 			Application.Run ();
+//			}
+//			catch (Exception) {
+//				Console.WriteLine ("Error 2.");
+//				Console.WriteLine ("Troonie cannot work correctly and was closing.");
+//				Console.WriteLine ("Troonie (as well as its directory) requires read and write permission.");
+//				return;
+//				//				OkCancelDialog pseudo = new OkCancelDialog (true);
+//				//				pseudo.Title = Language.I.L [153];
+//				//				pseudo.Label1 = Language.I.L [194];
+//				//				pseudo.Label2 = Language.I.L [195];
+//				//				pseudo.OkButtontext = Language.I.L [16];
+//				//				pseudo.Show ();
+//			}
 		}	
 
 		private static void GetProgramIcon()

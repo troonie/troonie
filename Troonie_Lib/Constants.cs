@@ -36,6 +36,7 @@ namespace Troonie_Lib
 		public const string WEBSITE = "http://www.troonie.com";
 		public const string UPDATESERVERFILE = 
 			"https://raw.githubusercontent.com/troonie/troonie/master/Troonie_Lib/Version.cs";
+		public const string ERROR_DELETE_TEMP_FILES = "Could not delete Troonie temp files.";
 		public const string TITLE = "Troonie";
 		public const string TITLE_LIB = "Troonie_Lib";
 		/// <summary>Constant non-changeable text. For changeable value, see Language.I.L[54].</summary>
@@ -112,7 +113,7 @@ namespace Troonie_Lib
 		{
 			windows = IsWindows ();
 			cjpeg = JpegEncoder.ExistsCjpeg ();
-			exepath = AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar;
+			exepath = AppDomain.CurrentDomain.BaseDirectory; // + Path.DirectorySeparatorChar;
 			homepath = windows ? Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%")
 				: Environment.GetEnvironmentVariable("HOME");
 			homepath += Path.DirectorySeparatorChar;

@@ -46,6 +46,33 @@ namespace Troonie
 			}
 		}
 
+		void RemoveAndDeleteSelectedImages()
+		{
+			List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
+
+			foreach (ViewerImagePanel vip in pressedInVIPs) {
+				try {
+					System.IO.File.Delete(vip.OriginalImageFullName);
+				}
+				catch (Exception)
+				{ /* do nothing */ }
+			}
+
+			OnToolbarBtn_RemovePressed (null, null);
+		}
+
+		protected void OnToolbarBtn_RemoveAndDeleteFilePressed (object sender, EventArgs e)
+		{
+			if (Constants.I.CONFIG.ConfirmDeleteImages) {
+				ConfirmingDeleteImagesWindow conf = new ConfirmingDeleteImagesWindow (Constants.I.CONFIG);
+				conf.OnReleasedOkButton	+= RemoveAndDeleteSelectedImages;
+
+				conf.Show ();
+			} else {
+				RemoveAndDeleteSelectedImages ();
+			}
+		}
+
 		protected void OnToolbarBtn_RemovePressed (object sender, EventArgs e)
 		{
 			bool needRepoulate = false;
@@ -57,6 +84,7 @@ namespace Troonie
 					vip.OnIsPressedInChanged -= OnIsPressedIn;
 					vip.OnDoubleClicked -= OnDoubleClicked;
 					tableViewer.Remove (vip);
+					vip.DestroyAll ();
 					i--;
 					needRepoulate = true;
 				}

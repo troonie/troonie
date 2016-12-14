@@ -188,3 +188,8 @@ Please enter correct value.; Bitte korrekten wert eingeben.
 Entry could not save in tag ';Eingabe konnte nicht in Tag '
 '. ;' gespeichert werden.
 Not correct value entered?;Keinen korrekten Wert eingegeben?
+Delete selected images ( Caution! );Markierte Bilder löschen ( Vorsicht! )
+Sure? Delete all selected images from hard disk?; Sicher? Alle markierten Bilder von der Festplatte löschen?  
+Show always this dialog for confirming;Immer diesen Dialog zur Bestätigung zeigen
+Troonie cannot work correctly.;Troonie kann nicht korrekt arbeiten.
+Troonie as well as its directory need requires read and write permission.;Troonie und dazugehöriges Verzeichnis benötigen Lese- und Schreibrechte.

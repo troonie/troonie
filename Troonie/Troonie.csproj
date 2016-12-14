@@ -93,6 +93,9 @@
     <EmbeddedResource Include="src\icons\filter.png">
       <LogicalName>filter.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\icons\trash-empty-3.png">
+      <LogicalName>trash-empty-3.png</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
@@ -142,6 +145,8 @@
     <Compile Include="src\ViewerWidget.ToolbarButtonEvents.cs" />
     <Compile Include="src\ViewerImagePanel.cs" />
     <Compile Include="src\EnterMetaDataWindow.cs" />
+    <Compile Include="src\ViewerWidget.HiddenFunctionality.cs" />
+    <Compile Include="src\ConfirmingDeleteImagesWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

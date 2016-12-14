@@ -1080,7 +1080,6 @@
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Label" translatable="yes">JPEG</property>
-                            <property name="Active">True</property>
                             <property name="DrawIndicator">True</property>
                             <property name="HasLabel">True</property>
                             <property name="UseUnderline">True</property>
@@ -2276,7 +2275,6 @@
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">Retain original size</property>
-                                            <property name="Active">True</property>
                                             <property name="DrawIndicator">True</property>
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>
@@ -3265,7 +3263,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="Troonie.StarterWidget" design-size="600 300">
+  <widget class="Gtk.Bin" id="Troonie.StarterWidget" design-size="700 300">
     <property name="MemberName" />
     <property name="WidthRequest">600</property>
     <property name="HeightRequest">150</property>
@@ -3327,6 +3325,23 @@
               </widget>
               <packing>
                 <property name="Position">2</property>
+                <property name="AutoSize">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Troonie.TroonieButton" id="picBtnViewer">
+                <property name="MemberName" />
+                <property name="CheckReleaseState">False</property>
+                <property name="BorderlineWidth">3</property>
+                <property name="ButtonHeight">140</property>
+                <property name="ButtonWidth">0</property>
+                <property name="Font">Arial</property>
+                <property name="Text">Viewer</property>
+                <property name="TextSize">20</property>
+                <signal name="ButtonReleaseEvent" handler="OnPicBtnViewerButtonReleaseEvent" />
+              </widget>
+              <packing>
+                <property name="Position">3</property>
                 <property name="AutoSize">True</property>
               </packing>
             </child>
