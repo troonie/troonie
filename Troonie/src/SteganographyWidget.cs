@@ -33,54 +33,54 @@ namespace Troonie
 
 			try {
 				
-			FileName = pFilename;
+				FileName = pFilename;
 
-			Build ();
-			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
+				Build ();
+				this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 2);
-			GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 3, OnToolbarBtn_LanguagePressed);
+				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
+				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);
+				GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 2);
+				GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 3, OnToolbarBtn_LanguagePressed);
 
-			SetGuiColors ();
-			SetLanguageToGui ();
-			Initialize(true);
+				SetGuiColors ();
+				SetLanguageToGui ();
+				Initialize(true);
 
-			if (constants.WINDOWS) {
-				Gtk.Drag.DestSet (this, 0, null, 0);
-			} else {
-				// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
-				// Otherwise ShadowType.In looks terrible at Win10.
-				frameCursorPos.ShadowType = ShadowType.In;
-				frameSteganography.ShadowType = ShadowType.In;
-				frameModus.ShadowType = ShadowType.In;
-				frameKey.ShadowType = ShadowType.In;
-				frameContent.ShadowType = ShadowType.In;
-				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+				if (constants.WINDOWS) {
+					Gtk.Drag.DestSet (this, 0, null, 0);
+				} else {
+					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+					// Otherwise ShadowType.In looks terrible at Win10.
+					frameCursorPos.ShadowType = ShadowType.In;
+					frameSteganography.ShadowType = ShadowType.In;
+					frameModus.ShadowType = ShadowType.In;
+					frameKey.ShadowType = ShadowType.In;
+					frameContent.ShadowType = ShadowType.In;
+					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+				}
+
+				simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+
+				if (Constants.I.CONFIG.AskForDesktopContextMenu) {
+					new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
+				}
+
 			}
+			catch (Exception) {
 
-			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+				OkCancelDialog win = new OkCancelDialog (true);
+				win.WindowPosition = WindowPosition.CenterAlways;
+				win.Title = Language.I.L [153];
+				win.Label1 = Language.I.L [194];
+				win.Label2 = Language.I.L [195];
+				win.OkButtontext = Language.I.L [16];
+				DeleteEventArgs args = new DeleteEventArgs ();
+				win.OnReleasedOkButton += () => { OnDeleteEvent(win, args); };
+				win.Show ();
 
-			if (Constants.I.CONFIG.AskForDesktopContextMenu) {
-				new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
+				this.DestroyAll ();
 			}
-
-		}
-		catch (Exception) {
-
-			OkCancelDialog win = new OkCancelDialog (true);
-			win.WindowPosition = WindowPosition.CenterAlways;
-			win.Title = Language.I.L [153];
-			win.Label1 = Language.I.L [194];
-			win.Label2 = Language.I.L [195];
-			win.OkButtontext = Language.I.L [16];
-			DeleteEventArgs args = new DeleteEventArgs ();
-			win.OnReleasedOkButton += () => { OnDeleteEvent(win, args); };
-			win.Show ();
-
-			this.DestroyAll ();
-		}
 		}
 
 		public override void Destroy ()

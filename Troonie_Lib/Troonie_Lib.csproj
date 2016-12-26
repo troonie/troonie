@@ -45,7 +45,6 @@
     <Compile Include="ColorPalette.cs" />
     <Compile Include="BitmapWithTag.cs" />
     <Compile Include="ImageConverter.cs" />
-    <Compile Include="ResizeVersion.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="FileHelper.cs" />
@@ -77,6 +76,7 @@
     <Compile Include="IPlugin.cs" />
     <Compile Include="VideoTagHelper.cs" />
     <Compile Include="ImageTagHelper.cs" />
+    <Compile Include="Enums.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

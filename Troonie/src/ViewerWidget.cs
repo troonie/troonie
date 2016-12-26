@@ -43,67 +43,89 @@ namespace Troonie
 
 		public ViewerWidget (string[] newImages) :	base (Gtk.WindowType.Toplevel)
 		{
-			Build ();
-			tableViewer.RowSpacing = tableViewerSpacing;
-			tableViewer.ColumnSpacing = tableViewerSpacing;
-			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
-			ImageFullPaths = new List<string> ();
-			pressedVipsDict = new Dictionary<int, ViewerImagePanel>();
-//			TableTagsViewerRowElements = new List<TableTagsViewerRowElement> ();
-			imageId = -1;
+			try {
+				Build ();
+				tableViewer.RowSpacing = tableViewerSpacing;
+				tableViewer.ColumnSpacing = tableViewerSpacing;
+				this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
+				ImageFullPaths = new List<string> ();
+				pressedVipsDict = new Dictionary<int, ViewerImagePanel>();
+	//			TableTagsViewerRowElements = new List<TableTagsViewerRowElement> ();
+				imageId = -1;
 
-//			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
-//			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
-			int wx = 20;
-			int wy = 20;
-			startW = Screen.Width - 2 * wx;
-			startH = Screen.Height - 2 * wy - 70 /*taskbarHeight*/;
-			maxVipWidth = startW - frame1.WidthRequest - 60;
-			maxVipHeight = startH - 60  /* ToolbarIconButtonHeight */ ;
+	//			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
+	//			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
+				int wx = 20;
+				int wy = 20;
+				startW = Screen.Width - 2 * wx;
+				startH = Screen.Height - 2 * wy - 70 /*taskbarHeight*/;
+				maxVipWidth = startW - frame1.WidthRequest - 60;
+				maxVipHeight = startH - 60  /* ToolbarIconButtonHeight */ ;
 
-			Move (wx, wy);
+				Move (wx, wy);
 
-			Resize (startW, startH);
+				Resize (startW, startH);
 
-//			scrolledwindowViewer.WidthRequest = 1300;
+	//			scrolledwindowViewer.WidthRequest = 1300;
 
-			imagePerRow = (int)((startW - frame1.WidthRequest - 10) / (smallVipWidthAndHeight + tableViewer.ColumnSpacing));
-			rowNr = 0; 
-			colNr = 0;
+				imagePerRow = (int)((startW - frame1.WidthRequest - 10) / (smallVipWidthAndHeight + tableViewer.ColumnSpacing));
+				rowNr = 0; 
+				colNr = 0;
 
-			InitTableTagsViewer ();
+				InitTableTagsViewer ();
 
-			if (newImages != null)
-				FillImageList (newImages);
+				if (newImages != null)
+					FillImageList (newImages);
 
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[39], OnToolbarBtn_OpenPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "edit-select-all.png", Language.I.L[40], OnToolbarBtn_SelectAllPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "edit-clear-3.png", Language.I.L[41], OnToolbarBtn_ClearPressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "window-close-2.png", Language.I.L[42], OnToolbarBtn_RemovePressed);
-			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "trash-empty-3.png", Language.I.L[191], OnToolbarBtn_RemoveAndDeleteFilePressed);
-			GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
-			GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 6, OnToolbarBtn_LanguagePressed);
+				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[39], OnToolbarBtn_OpenPressed);
+				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "edit-select-all.png", Language.I.L[40], OnToolbarBtn_SelectAllPressed);
+				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 2, "edit-clear-3.png", Language.I.L[41], OnToolbarBtn_ClearPressed);
+				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 3, "window-close-2.png", Language.I.L[42], OnToolbarBtn_RemovePressed);
+				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 4, "trash-empty-3.png", Language.I.L[191], OnToolbarBtn_RemoveAndDeleteFilePressed);
+				GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 5);
+				GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 6, OnToolbarBtn_LanguagePressed);
 
-			SetGuiColors ();
-			SetLanguageToGui ();
+				SetGuiColors ();
+				SetLanguageToGui ();
 
-			if (constants.WINDOWS) {
-				Gtk.Drag.DestSet (this, 0, null, 0);
-			} else {
-				// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
-				// Otherwise ShadowType.In looks terrible at Win10.
+				if (constants.WINDOWS) {
+					Gtk.Drag.DestSet (this, 0, null, 0);
+				} else {
+					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+					// Otherwise ShadowType.In looks terrible at Win10.
 
-//				frameCursorPos.ShadowType = ShadowType.In;
-//				frameSteganography.ShadowType = ShadowType.In;
-//				frameModus.ShadowType = ShadowType.In;
-//				frameKey.ShadowType = ShadowType.In;
-//				frameContent.ShadowType = ShadowType.In;
-				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
-			}				
+	//				frameCursorPos.ShadowType = ShadowType.In;
+	//				frameSteganography.ShadowType = ShadowType.In;
+	//				frameModus.ShadowType = ShadowType.In;
+	//				frameKey.ShadowType = ShadowType.In;
+	//				frameContent.ShadowType = ShadowType.In;
+					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+				}				
 
-			if (Constants.I.CONFIG.AskForDesktopContextMenu) {
-				new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
-			}					
+				if (Constants.I.CONFIG.AskForDesktopContextMenu) {
+					new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
+				}
+			}
+			catch (Exception ex) {
+
+				OkCancelDialog win = new OkCancelDialog (true);
+				win.WindowPosition = WindowPosition.CenterAlways;
+				win.Title = Language.I.L [153];
+				UnauthorizedAccessException uaaex = ex as UnauthorizedAccessException;
+				if (uaaex != null) {					
+					win.Label1 = Language.I.L [194];
+					win.Label2 = Language.I.L [195];
+				} else {
+					win.Label1 = Language.I.L [194];
+					win.Label2 = Language.I.L [195];
+				}
+				win.OkButtontext = Language.I.L [16];
+				DeleteEventArgs args = new DeleteEventArgs ();
+				win.OnReleasedOkButton += () => { OnDeleteEvent(win, args); };
+				win.Show ();
+
+				this.DestroyAll ();
+			}
 		}
 
 		private List<ViewerImagePanel> GetPressedInVIPs()
@@ -319,6 +341,9 @@ namespace Troonie
 
 		private void FillImageList(List<string> newImages)
 		{
+			const int length = 45;
+			List<Tuple<ExceptionType, string>> errors = new List<Tuple<ExceptionType, string>> ();
+
 //			foreach (string s in newImages) {
 			for (int i = 0; i < newImages.Count; ++i) {
 
@@ -334,21 +359,92 @@ namespace Troonie
 				bool isVideo = Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext);
 				if (ext.Length != 0 && (isImage || isVideo) && !ImageFullPaths.Contains(newImages[i])) {
 
-					ViewerImagePanel vip = new ViewerImagePanel (IncrementImageID(), isVideo, newImages [i], smallVipWidthAndHeight, maxVipWidth, maxVipHeight);
-					ImageFullPaths.Add (newImages [i]);
-					vip.OnIsPressedInChanged += OnIsPressedIn;
-					vip.OnDoubleClicked += OnDoubleClicked;
-					tableViewer.Attach (vip, rowNr, rowNr + 1, colNr, colNr + 1, 
-						AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);					
+					try {
+						ViewerImagePanel vip = new ViewerImagePanel (IncrementImageID(), isVideo, newImages [i], smallVipWidthAndHeight, maxVipWidth, maxVipHeight);
+						if (info.IsReadOnly) {
+							throw new UnauthorizedAccessException();
+						}
+						ImageFullPaths.Add (newImages [i]);
+						vip.OnIsPressedInChanged += OnIsPressedIn;
+						vip.OnDoubleClicked += OnDoubleClicked;
+						tableViewer.Attach (vip, rowNr, rowNr + 1, colNr, colNr + 1, 
+							AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);					
 
-					if (rowNr + 1 == imagePerRow) {
-						rowNr = 0;
-						colNr++;
-					} else {
-						rowNr++;
+						if (rowNr + 1 == imagePerRow) {
+							rowNr = 0;
+							colNr++;
+						} else {
+							rowNr++;
+						}
 					}
+						catch (Exception ex) {
+						ExceptionType errorType;
+						if (ex as UnauthorizedAccessException != null) {
+							errorType = ExceptionType.UnauthorizedAccessException;
+						} else if (ex as System.IO.IOException != null) {
+							errorType = ExceptionType.IO_IOException;
+						} else {
+							errorType = ExceptionType.Exception;
+						}
+						errors.Add (Tuple.Create(errorType, newImages [i]));
+						}
 				}
 			}
+
+			string mssg = string.Empty;
+			if (errors.Count != 0) {
+				var error0 = errors.Where(x => x.Item1 == ExceptionType.UnauthorizedAccessException);
+				if (error0.Count() != 0) {
+					mssg += Language.I.L [196] + Constants.N + Constants.N;
+					foreach (var t in error0) {
+						string errorimage = t.Item2;
+						int l = errorimage.Length;
+						if (l < length) {
+							mssg += "  *  " + errorimage + Constants.N;
+						} else {
+							mssg += "  *  ..." + errorimage.Substring (l - length) + Constants.N;
+						}
+					}						
+				}
+
+				error0 = errors.Where(x => x.Item1 == ExceptionType.IO_IOException);
+				if (error0.Count() != 0) {
+					mssg += Constants.N + Constants.N + Language.I.L [197] + Constants.N + Constants.N;
+					foreach (var t in error0) {
+						string errorimage = t.Item2;
+						int l = errorimage.Length;
+						if (l < length) {
+							mssg += "  *  " + errorimage + Constants.N;
+						} else {
+							mssg += "  *  ..." + errorimage.Substring (l - length) + Constants.N;
+						}
+					}						
+				}
+
+				error0 = errors.Where(x => x.Item1 == ExceptionType.Exception);
+				if (error0.Count() != 0) {
+					mssg += Constants.N + Constants.N + Language.I.L [198] + Constants.N + Constants.N;
+					foreach (var t in error0) {
+						string errorimage = t.Item2;
+						int l = errorimage.Length;
+						if (l < length) {
+							mssg += "  *  " + errorimage + Constants.N;
+						} else {
+							mssg += "  *  ..." + errorimage.Substring (l - length) + Constants.N;
+						}
+					}						
+				}
+
+				OkCancelDialog win = new OkCancelDialog (true);
+				win.WindowPosition = WindowPosition.CenterAlways;
+				win.Title = Language.I.L [153];
+				win.Label1 = mssg;
+				win.Label2 = string.Empty;
+				win.OkButtontext = Language.I.L [16];
+//				DeleteEventArgs args = new DeleteEventArgs ();
+//				win.OnReleasedOkButton += () => { OnDeleteEvent(win, args); };
+				win.Show ();
+			} 
 
 			ShowAll ();
 		}

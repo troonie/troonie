@@ -301,6 +301,15 @@ namespace Troonie
 
 			if (pix != null) {
 				cr.Save ();
+				// ROTATION
+				cr.Translate(W / 2.0, H / 2.0);
+				// invert angle here, because RotateBilinear filter works counter clockwise
+				cr.Rotate (TagsData.OrientationDegree*Math.PI/180);
+//				cr.Scale (ScaleForRotation, ScaleForRotation);
+				cr.Translate(-W / 2.0, -H / 2.0);
+
+//				cr.Rotate (Math.PI * 45 / 180.0);
+				// END ROTATION
 				cr.Translate (translateX, translateY);
 				cr.Scale (scale, scale);
 				Gdk.CairoHelper.SetSourcePixbuf (cr, pix, 0, 0);
@@ -414,7 +423,6 @@ namespace Troonie
 
 		#endregion protected events
 
-		// TODO Go on!
 		public override void Destroy ()
 		{
 			if (!saveThumbnailsPersistent) {

@@ -150,7 +150,7 @@ namespace Troonie
 				case TagsFlag.Longitude:			
 				case TagsFlag.Make:						
 				case TagsFlag.Model:				
-					//			case TagsFlag.Orientation:	return Orientation;		
+				case TagsFlag.Orientation:		
 				case TagsFlag.Rating:				
 				case TagsFlag.Software:			
 					// other tags
@@ -189,8 +189,6 @@ namespace Troonie
 						// SHOULD/CAN NOT BE HAPPENED
 					}
 					break;
-					//				case TagsFlag.Comment:
-					//					vip.TagsData.Comment = entry.Text;
 					//					break;
 					//					default:
 					//						return false;
@@ -218,7 +216,6 @@ namespace Troonie
 			this.DestroyAll ();
 		}			
 			
-		// TODO: Complete function.
 		protected void OnBtnOkReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
 			if (entry.Text == MULTIVALUES) {
@@ -252,14 +249,6 @@ namespace Troonie
 
 		protected void OnEntryKeyKeyReleaseEvent (object o, KeyReleaseEventArgs args)
 		{
-//			if (entry.Text.Length == 0)
-//				return;
-//
-//			char c = entry.Text [entry.Text.Length - 1];
-//			if (c == ' ') {
-//				entry.DeleteText (entry.CursorPosition - 1, entry.CursorPosition);
-//			}
-
 			if (args.Event.Key == Gdk.Key.Return) {
 				OnBtnOkReleaseEvent (o, null);
 			}

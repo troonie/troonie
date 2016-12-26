@@ -476,7 +476,7 @@ namespace Troonie
 //				try {
 				if (pib.IsVideo) {
 					errors.Add (imageFile);
-					break;
+					continue;
 				}
 
 				bt = new BitmapWithTag (imageFile, true);
@@ -491,21 +491,35 @@ namespace Troonie
 				}
 			}
 				
-			string mssg = Language.I.L [172] + Environment.NewLine;
+			string mssg = string.Empty; // Language.I.L [172] + Environment.NewLine;
 			if (errors.Count != 0) {
 				mssg += Language.I.L [173] + Environment.NewLine + Environment.NewLine;
 				foreach (string errorimage in errors) {
-					mssg += "  *  ..." + errorimage.Substring(errorimage.Length - 35) + Environment.NewLine;
+//					mssg += "  *  ..." + errorimage.Substring(errorimage.Length - 35) + Environment.NewLine;
+					int l = errorimage.Length;
+					if (l < 35) {
+						mssg += "  *  " + errorimage + Environment.NewLine;
+					} else {
+						mssg += "  *  ..." + errorimage.Substring (l - 35) + Environment.NewLine;
+					}
 				}
 			} else {
 				mssg += Language.I.L [174] + Environment.NewLine;
 			}
 
-			MessageDialog md = new MessageDialog(this, 
-				DialogFlags.DestroyWithParent, MessageType.Info, 
-				ButtonsType.Close, mssg);
-			md.Run();
-			md.Destroy();			
+//			MessageDialog md = new MessageDialog(this, 
+//				DialogFlags.DestroyWithParent, MessageType.Info, 
+//				ButtonsType.Close, mssg);
+//			md.Run();
+//			md.Destroy();	
+
+			OkCancelDialog win = new OkCancelDialog (true);
+			win.WindowPosition = WindowPosition.CenterAlways;
+			win.Title = Language.I.L [4];
+			win.Label1 = Language.I.L [172] + Environment.NewLine;
+			win.Label2 = mssg;
+			win.OkButtontext = Language.I.L [16];
+			win.Show ();
 		}	
 
 		private void RenameByCreationDate()

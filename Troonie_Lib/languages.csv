@@ -192,4 +192,7 @@ Delete selected images ( Caution! );Markierte Bilder löschen ( Vorsicht! )
 Sure? Delete all selected images from hard disk?; Sicher? Alle markierten Bilder von der Festplatte löschen?  
 Show always this dialog for confirming;Immer diesen Dialog zur Bestätigung zeigen
 Troonie cannot work correctly.;Troonie kann nicht korrekt arbeiten.
-Troonie as well as its directory need requires read and write permission.;Troonie und dazugehöriges Verzeichnis benötigen Lese- und Schreibrechte.
+Troonie as well as its directory need requires read and write permission.;Troonie und das dazugehörige Verzeichnis benötigen Lese- und Schreibrechte.
+Following images (or their directories) have no writing permission:;Folgende Bilder (oder ihre Verzeichnisse) haben keine Schreibrechte:
+Following images have corrupt metadata:;Folgende Bilder haben beschädigte Metadaten:
+An failure was caused by accessing following images:;Es trat ein Fehler beim Zugriff auf folgende Bilder auf:

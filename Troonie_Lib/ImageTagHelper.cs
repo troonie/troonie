@@ -42,19 +42,6 @@ namespace Troonie_Lib
 
 	public struct TagsData
 	{
-		public enum ImageOrientation : uint
-		{
-			None,
-			TopLeft,
-			TopRight,
-			BottomRight,
-			BottomLeft,
-			LeftTop,
-			RightTop, // portrait
-			RightBottom,
-			LeftBottom
-		}
-
 		#region 16 image tagsData elements
 		public double? Altitude;
 		public string Creator;
@@ -85,27 +72,10 @@ namespace Troonie_Lib
 		public uint Year;
 		#endregion
 
-//		public void SetKeywords (string[] pKeywords)
-//		{
-//			Keywords = new List<string> (pKeywords);
-//		}
-//
-//		public void SetKeywords (List<string> pKeywords)
-//		{
-//			Keywords = pKeywords;
-//		}
-//
-//		public void SetComposers (string[] pComposers)
-//		{
-//			Composers = new List<string> (pComposers);
-//		}
-//
-//		public void SetComposers (List<string> pComposers)
-//		{
-//			Composers = pComposers;
-//		}			
+		#region No tagsData elements
+		public double OrientationDegree;
+		#endregion No tagsData elements
 
-		// TODO: Complete function.
 		public bool SetValue (TagsFlag flag, object o)
 		{
 			switch (flag) {
@@ -147,7 +117,10 @@ namespace Troonie_Lib
 			case TagsFlag.Longitude:	return ExtractNullableDouble (o, ref Longitude);			
 			case TagsFlag.Make:			return ExtractString(o, ref Make);			
 			case TagsFlag.Model:		return ExtractString(o, ref Model);			
-//			case TagsFlag.Orientation:	return Orientation;		
+			case TagsFlag.Orientation:	
+				bool result = ExtractUint (o, ref Orientation);
+				CalcOrientationDegree ();
+				return result;		
 			case TagsFlag.Rating:		return ExtractNullableUint (o, ref Rating);		
 			case TagsFlag.Software:		return ExtractString(o, ref Software);		
 //				// other tags
@@ -199,6 +172,65 @@ namespace Troonie_Lib
 			}
 
 			return null;
+		}
+
+		public void CalcOrientationDegree()
+		{
+			switch ((Orientation)Orientation) {
+			case Troonie_Lib.Orientation.None:
+				OrientationDegree = 0;
+				break;
+				/// <summary>
+				/// No need to do any transformations.
+				/// </summary>
+			case Troonie_Lib.Orientation.TopLeft:
+				OrientationDegree = 0;
+				break;
+				/// <summary>
+				/// TODO: Mirror image vertically.
+				/// </summary>
+			case Troonie_Lib.Orientation.TopRight:
+				OrientationDegree = 360;
+				break;
+				/// <summary>
+				/// Rotate image 180 degrees.
+				/// </summary>
+			case Troonie_Lib.Orientation.BottomRight:
+				OrientationDegree = 180;
+				break;
+				/// <summary>
+				///  TODO: Mirror image horizontally
+				/// </summary>
+			case Troonie_Lib.Orientation.BottomLeft:
+				OrientationDegree = 360;
+				break;
+				/// <summary>
+				///  TODO: Mirror image horizontally and rotate 90 degrees clockwise.
+				/// </summary>
+			case Troonie_Lib.Orientation.LeftTop:
+				OrientationDegree = 360;
+				break;
+				/// <summary>
+				/// Rotate image 90 degrees clockwise. Portrait value.
+				/// </summary>
+			case Troonie_Lib.Orientation.RightTop:
+				OrientationDegree = 90;
+				break;
+				/// <summary>
+				///  TODO: Mirror image vertically and rotate 90 degrees clockwise.
+				/// </summary>
+			case Troonie_Lib.Orientation.RightBottom:
+				OrientationDegree = 360;
+				break;
+				/// <summary>
+				/// Rotate image 270 degrees clockwise.
+				/// </summary>
+			case Troonie_Lib.Orientation.LeftBottom:
+				OrientationDegree = 270;
+				break;
+			}
+
+			//			orientationDegree = Math.PI * orientationDegree / 180.0;						
 		}
 
 		#region Private static helper functions
@@ -256,7 +288,7 @@ namespace Troonie_Lib
 			} else { 
 				return false;
 			}
-		}
+		}			
 
 		private static bool ExtractString(object o, ref string s)
 		{
@@ -295,24 +327,31 @@ namespace Troonie_Lib
 		private static TagLib.Image.File LoadTagFile(string fileName)
 		{
 			TagLib.Image.File imageTagFile;
-			try{
-				imageTagFile = TagLib.File.Create(fileName) as TagLib.Image.File;
-				if (imageTagFile == null){
-					return null;
-				}
-			}
-			catch (Exception /* UnsupportedFormatException */) {
-
+			imageTagFile = TagLib.File.Create(fileName) as TagLib.Image.File;
+			if (imageTagFile == null){
 				return null;
-			}				
+			}
 
-			// comment out comes from earlier version of method ExtractTags(..)
-			//			if (imageTagFile.ImageTag != null && imageTagFile.ImageTag.AllTags.Count == 0) {
 			imageTagFile.EnsureAvailableTags ();
-			//			}			
-
+	
 			return imageTagFile;
 		}
+
+		// Does not work. When PNG corrupt, then also not possible to create new one...
+//		private static TagLib.Image.File TryCreatePndFile(string fileName)
+//		{
+//			TagLib.Image.File imageTagFile = null;
+//
+//			// try getting new TagLib.Image.File if extension is PNG
+//			FileInfo info = new FileInfo (fileName);
+//			string ext = info.Extension.ToLower ();
+//			if (ext.Length != 0 && Constants.Extensions [TroonieImageFormat.PNG24].Item1 == ext) { 
+//				// (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
+//				imageTagFile = new TagLib.Png.File (fileName);
+//				imageTagFile.EnsureAvailableTags ();
+//			}
+//			return imageTagFile;
+//		}
 
 		public static void CopyTagToFile(string fileName, CombinedImageTag tag)
 		{
@@ -387,6 +426,7 @@ namespace Troonie_Lib
 				td.Make = cit.Make;
 				td.Model = cit.Model;
 				td.Orientation = (uint)cit.Orientation;
+				td.CalcOrientationDegree();
 				td.Rating = cit.Rating;
 				td.Software = cit.Software;
 				// other tags
@@ -480,6 +520,10 @@ namespace Troonie_Lib
 		{
 			bool success = true;
 			TagLib.Image.File imageTagFile = LoadTagFile (fileName);
+			if (imageTagFile == null) {
+				return false;
+			}
+
 			CombinedImageTag imageTag = imageTagFile.ImageTag;
 
 			try{
