@@ -531,7 +531,8 @@ namespace Troonie_Lib
 				imageTagFile.Save();
 				imageTagFile.Dispose ();
 			}
-			catch (Exception /* UnsupportedFormatException */ ) {
+			catch (Exception e /* UnsupportedFormatException */ ) {
+				Console.WriteLine (e.Message);
 				success = false;
 			}
 

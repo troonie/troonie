@@ -98,7 +98,23 @@ namespace Troonie
 			}
 		}
 		public string OriginalImageFullName { get; set; }
-		public string RelativeImageName { get; set; }
+		private string relativeImageName;
+		public string RelativeImageName
+		{ 
+			get 
+			{ 
+				return relativeImageName; 
+			}
+			set
+			{
+				relativeImageName = value;
+
+				string l_relativeImageName = value.Substring(0, value.LastIndexOf('.'));
+				thumbSmallName = l_relativeImageName + smallWidthAndHeight.ToString() + 
+					Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
+			}
+		}
+
 		/// <summary> Shortcut for <see cref="WidthRequest"/> as well as <see cref="drawingAreaImage.WidthRequest"/>.</summary>
 		public int W 
 		{ 
@@ -154,9 +170,9 @@ namespace Troonie
 				
 			Directory.CreateDirectory (thumbDirectory);
 			RelativeImageName = originalImageFullName.Substring(originalImageFullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
-			string l_relativeImageName = RelativeImageName.Substring(0, RelativeImageName.LastIndexOf('.'));
-			thumbSmallName = l_relativeImageName + smallWidthAndHeight.ToString() + 
-				Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
+//			string l_relativeImageName = RelativeImageName.Substring(0, RelativeImageName.LastIndexOf('.'));
+//			thumbSmallName = l_relativeImageName + smallWidthAndHeight.ToString() + 
+//				Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
 
 			OriginalImageFullName = originalImageFullName;
 			TagsData = IsVideo ? VideoTagHelper.GetTagsData (OriginalImageFullName) : 
@@ -345,9 +361,9 @@ namespace Troonie
 			if (TagsData.Rating.HasValue && TagsData.Rating.Value != 0) {
 				cr.ShowText (TagsData.Rating.Value.ToString ());
 			}
-			else if (IsVideo && TagsData.TrackCount != 0){
-				cr.ShowText (TagsData.TrackCount.ToString ());
-			}
+//			else if (IsVideo && TagsData.TrackCount != 0){
+//				cr.ShowText (TagsData.TrackCount.ToString ());
+//			}
 
 			cr.SetSourceRGB(0,0,1);
 			cr.MoveTo(6, H - padding /*300*/); // links unten

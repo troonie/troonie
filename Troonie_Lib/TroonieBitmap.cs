@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 using DNColorPalette = System.Drawing.Imaging.ColorPalette;
+using System.Drawing.Drawing2D;
 
 namespace Troonie_Lib
 {
@@ -246,6 +247,34 @@ namespace Troonie_Lib
 				*dstByte++ = *srcByte++;
 			}
 			return dst;
+		}
+
+		public static void CreateTextBitmap(string filename, string text)
+		{
+			int l = 25; // allowed number of char of a line
+
+			for (int i = l; i < text.Length; i += l) {
+				text = text.Insert(i, Constants.N);
+				i++;
+			}
+
+			Bitmap bmp = new Bitmap(300, 200);
+
+			RectangleF rectf = new RectangleF(50, 80, 200, 80);
+
+			Graphics g = Graphics.FromImage(bmp);
+
+			g.SmoothingMode = SmoothingMode.AntiAlias;
+			g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+			g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+			g.DrawString(text, new Font("Arial",11), Brushes.White, rectf);
+
+			g.Flush();
+			g.Dispose (); // necessary after flush?
+
+			bmp = ImageConverter.To8Bpp (bmp);
+			bmp.Save (filename, ImageFormat.Png);
+			bmp.Dispose ();
 		}
 	}
 }

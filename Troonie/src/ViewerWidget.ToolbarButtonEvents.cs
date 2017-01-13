@@ -75,7 +75,7 @@ namespace Troonie
 
 		protected void OnToolbarBtn_RemovePressed (object sender, EventArgs e)
 		{
-			bool needRepoulate = false;
+			bool needRepopulate = false;
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
 				if (vip.IsPressedIn) {
@@ -86,11 +86,11 @@ namespace Troonie
 					tableViewer.Remove (vip);
 					vip.DestroyAll ();
 					i--;
-					needRepoulate = true;
+					needRepopulate = true;
 				}
 			}
 
-			if (needRepoulate) {
+			if (needRepopulate) {
 				rowNr = 0;
 				colNr = 0;
 				Widget[] widgetList = tableViewer.Children;
@@ -114,11 +114,11 @@ namespace Troonie
 					} else {
 						rowNr++;
 					}
-				}
+				}					
 			}
 
-		}			
-
+		}		
+			
 		protected void OnToolbarBtn_LanguagePressed (object sender, EventArgs e)
 		{
 			Language.I.LanguageID++;

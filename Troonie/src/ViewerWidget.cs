@@ -225,16 +225,12 @@ namespace Troonie
 		{
 			List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
 			foreach (ViewerImagePanel vip in pressedInVIPs) {	
-				uint? old;
-				bool success = false;
-				if (vip.IsVideo) {
-					old = vip.TagsData.TrackCount;
-					vip.TagsData.TrackCount = rating;
-					success = VideoTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.TrackCount, vip.TagsData);	
-				} else {
-					old = vip.TagsData.Rating;
-					vip.TagsData.Rating = rating;
-					success = ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);	
+				uint? old = vip.TagsData.Rating;
+				vip.TagsData.Rating = rating;
+				bool success = true;
+
+				if (!vip.IsVideo) { 
+					ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);	
 				}
 
 				if (success) {
@@ -343,6 +339,7 @@ namespace Troonie
 		{
 			const int length = 45;
 			List<Tuple<ExceptionType, string>> errors = new List<Tuple<ExceptionType, string>> ();
+			bool isFirstVideo = false;
 
 //			foreach (string s in newImages) {
 			for (int i = 0; i < newImages.Count; ++i) {
@@ -357,6 +354,36 @@ namespace Troonie
 				string ext = info.Extension.ToLower ();
 				bool isImage = Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext);
 				bool isVideo = Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext);
+
+				// ask (and do) for adding video picture
+				if (!isFirstVideo && isVideo) {
+					isFirstVideo = true;
+
+					MessageDialog md = new MessageDialog (this, 
+						DialogFlags.DestroyWithParent, MessageType.Question, 
+						ButtonsType.OkCancel, "Adding video pictures?");
+//					md.Run ();
+
+					ResponseType tp = (Gtk.ResponseType)md.Run();
+					if (tp == ResponseType.Ok) {
+						string fullPicName = info.FullName + ".png";
+						// TODO: Create video dummy picture
+						if (!File.Exists (fullPicName)) {
+							TroonieBitmap.CreateTextBitmap (fullPicName, 
+								info.FullName.Substring(info.FullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1));
+						}
+						newImages.Insert(i, fullPicName);
+						info = new FileInfo (newImages [i]);
+						ext = info.Extension.ToLower ();
+						isImage = true;
+						isVideo = false;
+
+					} else {
+						// do nothing
+					}
+					md.Destroy ();
+				}
+
 				if (ext.Length != 0 && (isImage || isVideo) && !ImageFullPaths.Contains(newImages[i])) {
 
 					try {
@@ -552,6 +579,18 @@ namespace Troonie
 					warn2.Show ();
 
 					warn2.OnReleasedOkButton += AppendIdAndCompressionByRating;						
+					break;
+				case Gdk.Key.v:
+
+					OkCancelDialog video = new OkCancelDialog (false);
+					video.Title = Language.I.L [29];
+					video.Label1 = Language.I.L [199];
+					video.Label2 = Language.I.L [171];
+					video.OkButtontext = Language.I.L [16];
+					video.CancelButtontext = Language.I.L [17];	
+					video.Show ();
+
+					video.OnReleasedOkButton += RenameVideoByTitleAndInsertIdentifier;						
 					break;
 				case Gdk.Key.r:
 					OkCancelDialog warn = new OkCancelDialog (false);
