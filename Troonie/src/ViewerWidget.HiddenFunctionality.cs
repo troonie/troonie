@@ -112,7 +112,41 @@ namespace Troonie
 			vip.QueueDraw ();
 		}
 
-		private void RenameByCreationDate()
+		private void SetDatetimeFromFilename()
+		{
+			string tmp = "";
+			try{
+
+				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
+
+				foreach (ViewerImagePanel vip in pressedInVIPs) {
+					tmp = vip.RelativeImageName;
+					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
+					DateTime? dt = GetDatetimeFromFilename(f);
+
+					if (dt.HasValue) {
+						vip.TagsData.DateTime = dt;
+						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
+						vip.IsPressedIn = vip.IsPressedIn;
+						if (!vip.IsVideo) { 
+							ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.DateTime, vip.TagsData);	
+						}
+						//							SetTextAndFulltextAndRedrawVip(vip, f, fullf);
+					}
+				}					
+			}
+			catch (Exception e)
+			{
+				OkCancelDialog pseudo = new OkCancelDialog (true);
+				pseudo.Title = Language.I.L [153];
+				pseudo.Label1 = "Something went wrong by 'RenameFileByDateTime'.";
+				pseudo.Label2 = "Stoppage at image '" + tmp + "'. Exception message: " + Constants.N + e.Message;
+				pseudo.OkButtontext = Language.I.L [16];
+				pseudo.Show ();
+			}			
+		}
+
+		private void RenameFileByDateTime()
 		{
 			string tmp = "";
 			try{
@@ -125,24 +159,47 @@ namespace Troonie
 					DateTime? dt = null;
 					ImageTagHelper.GetDateTime (fullf, out dt);
 					if (dt.HasValue) {
-						RenameFileByDate (ref f, ref fullf, dt.Value);
+						string format = "yyyyMMdd-HHmmss";
+						string s = dt.Value.ToString (format) + f.Substring(f.LastIndexOf(".")).ToLower();
+						string newFullText = fullf.Replace (f, s);
+						string tmpNewFullText = newFullText;
+
+						// Check, if already file exists
+						int fileCounter = 1;
+						while (File.Exists (tmpNewFullText)) {
+							fileCounter++;
+							tmpNewFullText = newFullText;
+							tmpNewFullText = tmpNewFullText.Insert(tmpNewFullText.LastIndexOf("."), "_" + fileCounter);
+						}
+
+						if (fileCounter != 1) {
+							newFullText = newFullText.Insert(newFullText.LastIndexOf("."), "_" + fileCounter);
+						}
+
+						FileHelper.I.Rename (fullf, newFullText);
+						fullf = newFullText;
+						f = newFullText.Substring (newFullText.LastIndexOf (IOPath.DirectorySeparatorChar) + 1);
+
 						SetTextAndFulltextAndRedrawVip(vip, f, fullf);
 					}
-					else {
-						dt = GetDatetimeFromFilename(f);
-						if (dt.HasValue) {
-							vip.TagsData.DateTime = dt;
-							vip.IsPressedIn = vip.IsPressedIn;
-//							SetTextAndFulltextAndRedrawVip(vip, f, fullf);
-						}
-					}
+//					else {
+//						dt = GetDatetimeFromFilename(f);
+//						if (dt.HasValue) {
+//							vip.TagsData.DateTime = dt;
+//							vip.IsPressedIn = vip.IsPressedIn;
+//							if (!vip.IsVideo) { 
+//								ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.DateTime, vip.TagsData);	
+//							}
+////							SetTextAndFulltextAndRedrawVip(vip, f, fullf);
+//						}
+//					}
 				}					
 			}
 			catch (Exception e)
 			{
 				OkCancelDialog pseudo = new OkCancelDialog (true);
 				pseudo.Title = Language.I.L [153];
-				pseudo.Label1 = "Something went wrong by 'RenameByCreationDate'.";
+				pseudo.Label1 = "Something went wrong by 'RenameFileByDateTime'.";
 				pseudo.Label2 = "Stoppage at image '" + tmp + "'. Exception message: " + Constants.N + e.Message;
 				pseudo.OkButtontext = Language.I.L [16];
 				pseudo.Show ();
@@ -160,12 +217,15 @@ namespace Troonie
 						continue;
 					}						
 
-					TagsData td = VideoTagHelper.GetTagsData(vip.OriginalImageFullName);
-					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;												
-//					InsertIdentifierAtBegin(ref f, ref fullf, "V-", td.Title);
+					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
+					vip.TagsData.DateTime = GetDatetimeFromFilename(fullf);
+
+//					ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.DateTime, vip.TagsData);
+					// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
+					vip.IsPressedIn = vip.IsPressedIn;
 
 					string s = f;
-					string title = td.Title;
+					string title = vip.TagsData.Title; // td.Title;
 					string identifier = "V-";
 
 					if (title.Length != 0) {
@@ -187,14 +247,13 @@ namespace Troonie
 						fullf = fullf.Replace(f, s);
 						f = s;
 					}
-					//END InsertIdentifierAtBegin(ref f, ref fullf, "V-", td.Title);
 
 					string oldFullPicName = vip.OriginalImageFullName + ".png";
 					string newFullPicName = fullf + ".png";
 					string newRelativePicName = f + ".png";
 					SetTextAndFulltextAndRedrawVip(vip, f, fullf);
 
-					// check, if picture video exists nad rename it
+					// check, if picture video exists and rename it
 					if (File.Exists (oldFullPicName)) {
 						foreach (ViewerImagePanel picVip in tableViewer.Children) {
 							if (picVip.OriginalImageFullName != oldFullPicName) {
@@ -309,35 +368,7 @@ namespace Troonie
 			}
 			return success;
 		}
-
-		public static void RenameFileByDate(ref string filename, ref string fullfilename, DateTime dt)
-		{			
-			string format = "yyyyMMdd-HHmmss";
-			string s = dt.ToString (format) + filename.Substring(filename.LastIndexOf(".")).ToLower();
-			string newFullText = fullfilename.Replace (filename, s);
-			string tmpNewFullText = newFullText;
-
-			// Check, if already file exists
-			int fileCounter = 1;
-			while (File.Exists (tmpNewFullText)) {
-				fileCounter++;
-				tmpNewFullText = newFullText;
-				tmpNewFullText = tmpNewFullText.Insert(tmpNewFullText.LastIndexOf("."), "_" + fileCounter);
-			}
-
-			if (fileCounter != 1) {
-				newFullText = newFullText.Insert(newFullText.LastIndexOf("."), "_" + fileCounter);
-			}
-
-			FileHelper.I.Rename (fullfilename, newFullText);
-			fullfilename = newFullText;
-			filename = newFullText.Substring (newFullText.LastIndexOf (IOPath.DirectorySeparatorChar) + 1);
-
-			//			pib.FullText = newFullText;
-			//			pib.Text = newFullText.Substring (newFullText.LastIndexOf (IOPath.DirectorySeparatorChar) + 1);
-			//			pib.Redraw ();
-		}
-
+			
 		public static void AppendIdentifier(ref string filename, ref string fullfilename, string identifier)
 		{
 			string s = fullfilename;
@@ -368,9 +399,16 @@ namespace Troonie
 //				return dt;
 //			}
 
-			// first pattern check
-			string pattern = @"(\d+)";
-			string[] formats = {"yyyyMMdd", "ddMMyyyy", "yyMMdd", "ddMMyy"};
+			string pattern = @"(\d+)[-_ :.\/](\d+)[-_ :.\/](\d+)[-_ :.\/](\d+)[-_ :.\/](\d+)[-_ :.\/](\d+)";
+			string []formats = {
+				"yyyy-MM-dd HH:mm:ss", "yyyy/MM/dd HH:mm:ss", "yyyy.MM.dd HH:mm:ss", "yyyy_MM_dd HH:mm:ss",
+				"dd-MM-yyyy HH:mm:ss", "dd/MM/yyyy HH:mm:ss", "dd.MM.yyyy HH:mm:ss", "dd_MM_yyyy HH:mm:ss",
+				"dd-MM-yy HH:mm:ss",   "yy/MM/dd HH:mm:ss",   "dd.MM.yy HH:mm:ss",   "yy_MM_dd HH:mm:ss",
+				 
+
+				"yyyy-MM-dd-HH-mm-ss", "yyyy/MM/dd/HH/mm/ss", "yyyy.MM.dd.HH.mm.ss", "yyyy_MM_dd_HH_mm_ss", 
+				"dd-MM-yyyy-HH-mm-ss", "dd/MM/yyyy/HH/mm/ss", "dd.MM.yyyy.HH.mm.ss", "dd_MM_yyyy_HH_mm_ss",
+				"yy/MM/dd/HH/mm/ss",   "dd-MM-yy-HH-mm-ss",   "dd_MM.yy.HH.mm.ss",   "yy_MM_dd_HH_mm_ss"  };
 
 			Regex r = new Regex(pattern);
 			Match m = r.Match(filename);
@@ -378,12 +416,27 @@ namespace Troonie
 			{
 				success = DateTime.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
 					DateTimeStyles.None, out dt);
+
 				if (success){
 					return dt;
 				}
 			}
 
-			// second pattern check
+			pattern = @"(\d+)[-_ :.\/](\d+)";
+			formats =  new string[] {"yyyyMMdd_HHmmss", "yyyyMMdd-HHmmss"};
+
+			r = new Regex(pattern);
+			m = r.Match(filename);
+			if(m.Success)
+			{
+				success = DateTime.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
+					DateTimeStyles.None, out dt);
+				
+				if (success){
+					return dt;
+				}
+			}
+				
 			pattern = @"(\d+)[-.\/](\d+)[-.\/](\d+)";
 			formats = new string[] {"yyyy-MM-dd", "yyyy/MM/dd", "yyyy.MM.dd", "dd-MM-yyyy", 
 				"dd/MM/yyyy", "dd.MM.yyyy", "yy/MM/dd", "dd-MM-yy", "dd.MM.yy"};
@@ -397,11 +450,9 @@ namespace Troonie
 					return dt;
 				}
 			}
-
-			// TODO: GO ON
-			// third pattern check
-			pattern = @"(\d+)[-_.\/](\d+)";
-			formats = new string[] {"yyyyMMdd_hhmmss", "yyyyMMdd-hhmmss"};
+				
+			pattern =  @"(\d+)";
+			formats = new string []{"yyyyMMdd", "ddMMyyyy", "yyMMdd", "ddMMyy"};
 			r = new Regex(pattern);
 			m = r.Match(filename);
 			if(m.Success)
@@ -416,6 +467,7 @@ namespace Troonie
 			return null;
 		}
 
+		[Obsolete("No useful usage anymore. Try 'GetDatetimeFromFilename(string filename)' instead.")]
 		public static void GetDateFromFilenameAsUint(string filename, out uint dateAsUint, out string date)
 		{
 			dateAsUint = 0;

@@ -84,8 +84,12 @@ namespace Troonie_Lib
 				string dt_string = string.Empty;
 				bool b = ExtractString (o, ref dt_string);	
 				if (b) {
-					b = System.DateTime.TryParse (dt_string, out dt);
-					DateTime = dt;
+					if (dt_string == string.Empty) {
+						DateTime = null;
+					} else {
+						b = System.DateTime.TryParse (dt_string, out dt);
+						DateTime = dt;
+					}
 				}
 				return b;
 			case TagsFlag.Altitude:		return ExtractNullableDouble (o, ref Altitude);		
@@ -466,6 +470,12 @@ namespace Troonie_Lib
 				return null;
 
 			CombinedImageTag tag = imageTagFile.ImageTag;
+
+			//TODO: Bug in taglib#, nullable values cnnot be set to null, always zero.
+//			if(tag.ExposureTime == 0){
+//				tag.ExposureTime = null;
+//			}
+
 			imageTagFile.Dispose ();
 			return tag;
 		}
@@ -484,6 +494,11 @@ namespace Troonie_Lib
 				case TagsFlag.Creator:		imageTag.Creator = newData.Creator;				break;
 				case TagsFlag.DateTime:		imageTag.DateTime = newData.DateTime; 			break;
 				case TagsFlag.ExposureTime:	imageTag.ExposureTime = newData.ExposureTime;	break;
+					//TODO: Bug in taglib#, nullable values cnnot be set to null, always zero.	
+//					if (newData.ExposureTime == null) {
+//						imageTag.ExposureTime = null;
+//						break;
+//					}							
 				case TagsFlag.FNumber:		imageTag.FNumber = newData.FNumber;				break;
 				case TagsFlag.FocalLength:	imageTag.FocalLength = newData.FocalLength;		break;
 				case TagsFlag.FocalLengthIn35mmFilm: 

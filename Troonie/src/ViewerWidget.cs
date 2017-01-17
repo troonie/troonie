@@ -339,7 +339,8 @@ namespace Troonie
 		{
 			const int length = 45;
 			List<Tuple<ExceptionType, string>> errors = new List<Tuple<ExceptionType, string>> ();
-			bool isFirstVideo = false;
+			bool addingVideoPicture = false;
+			bool isFirstQuestion = true;
 
 //			foreach (string s in newImages) {
 			for (int i = 0; i < newImages.Count; ++i) {
@@ -356,32 +357,40 @@ namespace Troonie
 				bool isVideo = Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext);
 
 				// ask (and do) for adding video picture
-				if (!isFirstVideo && isVideo) {
-					isFirstVideo = true;
+				if (isVideo) {					
 
-					MessageDialog md = new MessageDialog (this, 
-						DialogFlags.DestroyWithParent, MessageType.Question, 
-						ButtonsType.OkCancel, "Adding video pictures?");
-//					md.Run ();
+					if (isFirstQuestion) {
+						isFirstQuestion = false;
+						MessageDialog md = new MessageDialog (this, 
+							DialogFlags.DestroyWithParent, MessageType.Question, 
+							ButtonsType.OkCancel, Language.I.L [201]);
+						//					md.Run ();
 
-					ResponseType tp = (Gtk.ResponseType)md.Run();
-					if (tp == ResponseType.Ok) {
+						ResponseType tp = (Gtk.ResponseType)md.Run();
+//						if (tp == ResponseType.Ok) {
+//							addingVideoPicture = true;
+//
+//						} else {
+//							addingVideoPicture = false;
+//						}
+						addingVideoPicture = tp == ResponseType.Ok;
+						md.Destroy ();
+					} 
+
+					if (addingVideoPicture) {
 						string fullPicName = info.FullName + ".png";
-						// TODO: Create video dummy picture
+
 						if (!File.Exists (fullPicName)) {
 							TroonieBitmap.CreateTextBitmap (fullPicName, 
 								info.FullName.Substring(info.FullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1));
-						}
-						newImages.Insert(i, fullPicName);
-						info = new FileInfo (newImages [i]);
-						ext = info.Extension.ToLower ();
-						isImage = true;
-						isVideo = false;
 
-					} else {
-						// do nothing
+							newImages.Insert(i, fullPicName);
+							info = new FileInfo (newImages [i]);
+							ext = info.Extension.ToLower ();
+							isImage = true;
+							isVideo = false;
+						}
 					}
-					md.Destroy ();
 				}
 
 				if (ext.Length != 0 && (isImage || isVideo) && !ImageFullPaths.Contains(newImages[i])) {
@@ -570,38 +579,49 @@ namespace Troonie
 					break;
 				case Gdk.Key.c:
 
-					OkCancelDialog warn2 = new OkCancelDialog (false);
-					warn2.Title = Language.I.L [29];
-					warn2.Label1 = Language.I.L [170];
-					warn2.Label2 = Language.I.L [171];
-					warn2.OkButtontext = Language.I.L [16];
-					warn2.CancelButtontext = Language.I.L [17];	
-					warn2.Show ();
+					OkCancelDialog warn_c = new OkCancelDialog (false);
+					warn_c.Title = Language.I.L [29];
+					warn_c.Label1 = Language.I.L [170];
+					warn_c.Label2 = Language.I.L [171];
+					warn_c.OkButtontext = Language.I.L [16];
+					warn_c.CancelButtontext = Language.I.L [17];	
+					warn_c.Show ();
 
-					warn2.OnReleasedOkButton += AppendIdAndCompressionByRating;						
+					warn_c.OnReleasedOkButton += AppendIdAndCompressionByRating;						
+					break;
+				case Gdk.Key.d:
+					OkCancelDialog warn_d = new OkCancelDialog (false);
+					warn_d.Title = Language.I.L [29];
+					warn_d.Label1 = Language.I.L [200];
+					warn_d.Label2 = Language.I.L [171];
+					warn_d.OkButtontext = Language.I.L [16];
+					warn_d.CancelButtontext = Language.I.L [17];	
+					warn_d.Show ();
+
+					warn_d.OnReleasedOkButton += SetDatetimeFromFilename;
+					break;				
+				case Gdk.Key.r:
+					OkCancelDialog warn_r = new OkCancelDialog (false);
+					warn_r.Title = Language.I.L [29];
+					warn_r.Label1 = Language.I.L [175];
+					warn_r.Label2 = Language.I.L [171];
+					warn_r.OkButtontext = Language.I.L [16];
+					warn_r.CancelButtontext = Language.I.L [17];	
+					warn_r.Show ();
+
+					warn_r.OnReleasedOkButton += RenameFileByDateTime;
 					break;
 				case Gdk.Key.v:
 
-					OkCancelDialog video = new OkCancelDialog (false);
-					video.Title = Language.I.L [29];
-					video.Label1 = Language.I.L [199];
-					video.Label2 = Language.I.L [171];
-					video.OkButtontext = Language.I.L [16];
-					video.CancelButtontext = Language.I.L [17];	
-					video.Show ();
+					OkCancelDialog warn_v = new OkCancelDialog (false);
+					warn_v.Title = Language.I.L [29];
+					warn_v.Label1 = Language.I.L [199];
+					warn_v.Label2 = Language.I.L [171];
+					warn_v.OkButtontext = Language.I.L [16];
+					warn_v.CancelButtontext = Language.I.L [17];	
+					warn_v.Show ();
 
-					video.OnReleasedOkButton += RenameVideoByTitleAndInsertIdentifier;						
-					break;
-				case Gdk.Key.r:
-					OkCancelDialog warn = new OkCancelDialog (false);
-					warn.Title = Language.I.L [29];
-					warn.Label1 = Language.I.L [175];
-					warn.Label2 = Language.I.L [171];
-					warn.OkButtontext = Language.I.L [16];
-					warn.CancelButtontext = Language.I.L [17];	
-					warn.Show ();
-
-					warn.OnReleasedOkButton += RenameByCreationDate;
+					warn_v.OnReleasedOkButton += RenameVideoByTitleAndInsertIdentifier;						
 					break;
 //				default:
 //					leftControlPressed = false;

@@ -48,7 +48,7 @@ namespace Troonie
 			entry.CanFocus = true;
 //			entryPassword.Name = "entryPassword";
 			entry.IsEditable = true;
-			entry.MaxLength = 30;
+			entry.MaxLength = 150;
 //			entry.Visibility = false;
 //			entryPassword.InvisibleChar = '●';
 			vbox.Add (entry);

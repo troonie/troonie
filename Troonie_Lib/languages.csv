@@ -197,3 +197,5 @@ Following images (or their directories) have no writing permission:;Folgende Bil
 Following images have corrupt metadata:;Folgende Bilder haben beschädigte Metadaten:
 An failure was caused by accessing following images:;Es trat ein Fehler beim Zugriff auf folgende Bilder auf:
 Renaming videos by title tag and inserting identifier ('V-').;Umbenennen von Videodateien durch das Title-Tag sowie Einfügen des Identifiers ('V-').
+Setting creation datetime by filename.;Setzen des Estellungsdatums anhand des Dateinamens.
+Adding placeholder picture for videos?;Platzhalterbild für Videos einfügen?
