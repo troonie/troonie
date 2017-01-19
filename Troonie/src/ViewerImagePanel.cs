@@ -277,6 +277,12 @@ namespace Troonie
 			pix = new Gdk.Pixbuf(OriginalImageFullName);
 			double sW = maxWidth / (double)pix.Width;
 			double sH = maxHeight / (double)pix.Height;
+
+			if (TagsData.OrientationDegree == 90 || TagsData.OrientationDegree == 270) {
+				sW = maxWidth / (double)pix.Height;
+				sH = maxHeight / (double)pix.Width;				
+			}
+
 			scale = Math.Min (sW, sH);
 
 			if (sW > sH) {

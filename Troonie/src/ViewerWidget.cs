@@ -317,12 +317,16 @@ namespace Troonie
 			}			
 
 			SaveTagMode saveTagMode;
+			SaveTagMode2 saveTagMode2;
+
 			int l = tableTagsViewer.Children.Length;
 
 			for (int k = 0, i = l - 2; k < l / 3; i-=3, k++) {
 				TagsFlag flag = (TagsFlag)(1 << k);
-				string s = EnterMetaDataWindow.SetStartText(new List<ViewerImagePanel>(pressedVipsDict.Values), flag, out saveTagMode);
-				Label lb = tableTagsViewer.Children[i] as Label;
+				string s = flag == TagsFlag.Keywords ? 
+					EnterKeywordsWindow.SetStartText(new List<ViewerImagePanel>(pressedVipsDict.Values), out saveTagMode2) : 
+					EnterMetaDataWindow.SetStartText(new List<ViewerImagePanel>(pressedVipsDict.Values), flag, out saveTagMode);
+				Label lb = tableTagsViewer.Children[i] as Label; 
 				lb.Text = s; //s.Length > maxLengthLabelTagData ? s.Substring(0, maxLengthLabelTagData) : s;
 				lb.TooltipText = s;
 			}
@@ -548,21 +552,22 @@ namespace Troonie
 				case Gdk.Key.t:
 					t = TagsFlag.Title;
 					break;
-				case Gdk.Key.r:
-					t = TagsFlag.TrackCount;
-					break;
-				case Gdk.Key.y:
-					t = TagsFlag.Year;
-					break;
 				default:
 					leftAltPressed = false;
 					return;
 				}
 
 				if (pressedInVIPs.Count != 0) {
-					EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, t);
-	//				pw.WindowPosition = WindowPosition.CenterAlways;
-					pw.Show ();
+					if (t == TagsFlag.Keywords) {
+						EnterKeywordsWindow ekw = new EnterKeywordsWindow (pressedInVIPs);
+						//	pw.WindowPosition = WindowPosition.CenterAlways;
+						ekw.Show ();	
+					}
+					else {
+						EnterMetaDataWindow emw = new EnterMetaDataWindow (pressedInVIPs, t);
+						// pw.WindowPosition = WindowPosition.CenterAlways;
+						emw.Show ();
+					}
 				}
 
 				leftAltPressed = false;
@@ -704,8 +709,19 @@ namespace Troonie
 				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
 
 				if (pressedInVIPs.Count != 0) {
-					EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, (TagsFlag)(1 << shift));
-					pw.Show ();
+//					EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, (TagsFlag)(1 << shift));
+//					pw.Show ();
+
+					if ((TagsFlag)(1 << shift) == TagsFlag.Keywords) {
+						EnterKeywordsWindow ekw = new EnterKeywordsWindow (pressedInVIPs);
+						//	pw.WindowPosition = WindowPosition.CenterAlways;
+						ekw.Show ();	
+					}
+					else {
+						EnterMetaDataWindow emw = new EnterMetaDataWindow (pressedInVIPs, (TagsFlag)(1 << shift));
+						// pw.WindowPosition = WindowPosition.CenterAlways;
+						emw.Show ();
+					}
 				}
 			}
 		}

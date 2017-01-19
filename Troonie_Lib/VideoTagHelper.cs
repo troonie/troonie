@@ -41,13 +41,8 @@ namespace Troonie_Lib
 			Tag cit = GetTag (fileName);
 			if (cit != null) {
 				td.Comment = cit.Comment;
-				td.Composers = new List<string>(cit.Composers);
-				td.Conductor = cit.Conductor;
 				td.Copyright = cit.Copyright;
 				td.Title = cit.Title;
-				td.Track = cit.Track;
-				td.TrackCount = cit.TrackCount;
-				td.Year = cit.Year;
 			}
 
 			return td;
@@ -94,13 +89,8 @@ namespace Troonie_Lib
 			{
 				switch (flag & (TagsFlag)flagValue) {
 				case TagsFlag.Comment:		tag.Comment = newData.Comment;				break;
-				case TagsFlag.Composers:	tag.Composers= newData.Composers.ToArray();	break;
-				case TagsFlag.Conductor:	tag.Conductor = newData.Conductor;			break;
 				case TagsFlag.Copyright:	tag.Copyright = newData.Copyright;			break;
 				case TagsFlag.Title:		tag.Title = newData.Title;					break;
-				case TagsFlag.Track:		tag.Track = newData.Track;					break;
-				case TagsFlag.TrackCount:	tag.TrackCount = newData.TrackCount;		break;
-				case TagsFlag.Year:			tag.Year = newData.Year;					break;
 				}
 
 				flagValue >>= 1;

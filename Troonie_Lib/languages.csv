@@ -199,3 +199,4 @@ An failure was caused by accessing following images:;Es trat ein Fehler beim Zug
 Renaming videos by title tag and inserting identifier ('V-').;Umbenennen von Videodateien durch das Title-Tag sowie Einfügen des Identifiers ('V-').
 Setting creation datetime by filename.;Setzen des Estellungsdatums anhand des Dateinamens.
 Adding placeholder picture for videos?;Platzhalterbild für Videos einfügen?
+Removing instead adding Keywords;Löschen (anstelle von Hinzufügen) von Keywords

@@ -7,12 +7,6 @@ namespace Troonie
 {
 	public enum SaveTagMode
 	{
-		/// <summary> No image is enabled. </summary>
-		Nothing,
-		/// <summary>Replaces string array of tag. Only for tags with multiple values (Keywords, Composers). </summary>
-		replaceStringarray,
-		/// <summary>Adds an element to string array of tag. Only for tags with multiple values (Keywords, Composers). </summary>
-		addToStringarray,
 		/// <summary>Replaces value in several tags. Not for tags with multiple values (Keywords, Composers).</summary>
 		replaceValueInSeveralTags,
 		/// <summary>Sets or replaces the value of one tag. Not for tags with multiple values (Keywords, Composers).</summary>
@@ -109,20 +103,8 @@ namespace Troonie
 			btnCancel.ButtonReleaseEvent += (o, args) => { this.DestroyAll (); };
 
 			SetEntryStartText ();
-			switch (saveTagMode) 
-			{
-			case SaveTagMode.addToStringarray:
-				Title =  Language.I.L [182] + Enum.GetName(typeof(TagsFlag), tags) + Language.I.L [187];
-				break;
-			case SaveTagMode.replaceStringarray:
-			case SaveTagMode.setValueInOneTag:
-				Title = Language.I.L [183] + Enum.GetName (typeof(TagsFlag), tags) + Language.I.L [187];
-				break;
-			case SaveTagMode.replaceValueInSeveralTags:
-				Title = Language.I.L [184] + Enum.GetName (typeof(TagsFlag), tags) + Language.I.L [187];
-				break;
-			}
-
+			Title = saveTagMode == SaveTagMode.setValueInOneTag ? Language.I.L [183] : Language.I.L [184];
+			Title += Enum.GetName (typeof(TagsFlag), tags) + Language.I.L [187];
 
 			ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);
 		}
@@ -136,63 +118,7 @@ namespace Troonie
 		{
 			foreach (var vip in pressedInVIPs) {
 
-				bool setValueSuccess = false;
-				switch (tags) {
-				case TagsFlag.Altitude:			
-				case TagsFlag.Creator:	
-				case TagsFlag.DateTime:			
-				case TagsFlag.ExposureTime:	
-				case TagsFlag.FNumber:				
-				case TagsFlag.FocalLength:	
-				case TagsFlag.FocalLengthIn35mmFilm:				
-				case TagsFlag.ISOSpeedRatings:	
-				case TagsFlag.Latitude:				
-				case TagsFlag.Longitude:			
-				case TagsFlag.Make:						
-				case TagsFlag.Model:				
-				case TagsFlag.Orientation:		
-				case TagsFlag.Rating:				
-				case TagsFlag.Software:			
-					// other tags
-				case TagsFlag.Comment:					
-				case TagsFlag.Conductor:		
-				case TagsFlag.Copyright:			
-				case TagsFlag.Title:			
-				case TagsFlag.Track:
-				case TagsFlag.TrackCount:
-				case TagsFlag.Year:
-					setValueSuccess = vip.TagsData.SetValue (tags, entry.Text);
-					break;
-
-				case TagsFlag.Keywords:
-				case TagsFlag.Composers:
-					string[] elements = entry.Text.Split (',');
-					for (int i = 0; i < elements.Length; i++) {
-						elements [i] = elements [i].Trim ();
-					}
-
-					if (elements.Length == 0) {
-						break;
-					}
-
-					if (saveTagMode == SaveTagMode.addToStringarray) {
-						List<string> keywordList = vip.TagsData.GetValue (tags) as List<string>;
-						if (keywordList == null) {
-							keywordList = new List<string> ();
-						}
-
-						keywordList.AddRange (elements);
-						setValueSuccess = vip.TagsData.SetValue (tags, keywordList);
-					} else if (saveTagMode == SaveTagMode.replaceStringarray) {
-						setValueSuccess = vip.TagsData.SetValue (tags, elements);
-					} else {
-						// SHOULD/CAN NOT BE HAPPENED
-					}
-					break;
-					//					break;
-					//					default:
-					//						return false;
-				}
+				bool setValueSuccess = vip.TagsData.SetValue (tags, entry.Text);
 
 				if (setValueSuccess) {
 					bool success = vip.IsVideo ? 
@@ -228,8 +154,7 @@ namespace Troonie
 				info.Show ();
 				return;
 			}
-
-			// if (saveTagMode == SaveTagMode.addToStringarray || saveTagMode == SaveTagMode.replaceStringarray) {
+				
 			if (saveTagMode != SaveTagMode.replaceValueInSeveralTags) {
 				SaveEntry ();
 				return;
@@ -273,65 +198,47 @@ namespace Troonie
 		public static string SetStartText(List<ViewerImagePanel> pressedInVIPs, TagsFlag tags, out SaveTagMode saveTagMode)
 		{
 			string startText = string.Empty;
-			saveTagMode = SaveTagMode.Nothing;
+			saveTagMode = SaveTagMode.setValueInOneTag;
 			if (pressedInVIPs.Count == 0)
 				return startText;
+			
+			object o = pressedInVIPs [0].TagsData.GetValue (tags);
+			String so;
+			if (o == null) {
+				so = string.Empty;
+			} else {
+				so = o.ToString();
+			}
 
-			// multiple values in tag (Keywords, Composers)
-			if (tags == TagsFlag.Keywords || tags == TagsFlag.Composers){
-				if (pressedInVIPs.Count == 1) {
-					List<string> o = pressedInVIPs [0].TagsData.GetValue (tags) as List<string>;
-					if (o != null && o.Count != 0) {
-						foreach (string s in o) {
-							startText += s + ',';	
-						}
+			if (pressedInVIPs.Count == 1) {					
+				if (so != null) {
+					startText = so;
+				}
+
+//				saveTagMode = SaveTagMode.setValueInOneTag;
+
+			} else {
+				for (int i = 1; i < pressedInVIPs.Count; i++) {
+					ViewerImagePanel vip = pressedInVIPs [i];
+					o = vip.TagsData.GetValue (tags);
+					String so2;
+					if (o == null) {
+						so2 = string.Empty;
+					} else {
+						so2 = o.ToString();
 					}
 
-					saveTagMode = SaveTagMode.replaceStringarray; 
-				} else {
-					saveTagMode = SaveTagMode.addToStringarray; //addMode = true;
-				}
-			} 
-			// (other) single tags
-			else {
-				object o = pressedInVIPs [0].TagsData.GetValue (tags);
-				String so;
-				if (o == null) {
-					so = string.Empty;
-				} else {
-					so = o.ToString();
-				}
-
-				if (pressedInVIPs.Count == 1) {					
-					if (so != null) {
+					if (so != null && so2 != null && so == so2) {
 						startText = so;
+					} else if (so != null && so2 != null) {
+						startText = MULTIVALUES;
+						break;
+					} else {
+						startText = string.Empty;
 					}
-
-					saveTagMode = SaveTagMode.setValueInOneTag;
-
-				} else {
-					for (int i = 1; i < pressedInVIPs.Count; i++) {
-						ViewerImagePanel vip = pressedInVIPs [i];
-						o = vip.TagsData.GetValue (tags);
-						String so2;
-						if (o == null) {
-							so2 = string.Empty;
-						} else {
-							so2 = o.ToString();
-						}
-
-						if (so != null && so2 != null && so == so2) {
-							startText = so;
-						} else if (so != null && so2 != null) {
-							startText = MULTIVALUES;
-							break;
-						} else {
-							startText = string.Empty;
-						}
-					}
-
-					saveTagMode = SaveTagMode.replaceValueInSeveralTags;
 				}
+
+				saveTagMode = SaveTagMode.replaceValueInSeveralTags;
 			}
 
 			return startText;
