@@ -30,8 +30,8 @@ namespace Troonie
 			KeepAbove = true;
 			this.pressedInVIPs = pressedInVIPs;
 
-			WindowPosition = Gtk.WindowPosition.CenterOnParent; // ((WindowPosition)(4));
-			// Container child Troonie.PasswordDialog.Gtk.Container+ContainerChild
+			WindowPosition = Gtk.WindowPosition.CenterOnParent; 
+
 			vbox = new VBox ();
 			vbox.Name = "vbox1";
 			vbox.Spacing = 10;

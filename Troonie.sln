@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinContextMenu", "WinContex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinInstaller", "WinInstaller\WinInstaller.csproj", "{42A44B9D-D1D3-4C13-8CB4-482DE0B9D386}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "taglib-sharp", "taglib-sharp\taglib-sharp.csproj", "{6B143A39-C7B2-4743-9917-92262C60E9A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -24,6 +26,10 @@ Global
 		{42A44B9D-D1D3-4C13-8CB4-482DE0B9D386}.Debug|x86.Build.0 = Debug|x86
 		{42A44B9D-D1D3-4C13-8CB4-482DE0B9D386}.Release|x86.ActiveCfg = Release|x86
 		{42A44B9D-D1D3-4C13-8CB4-482DE0B9D386}.Release|x86.Build.0 = Release|x86
+		{6B143A39-C7B2-4743-9917-92262C60E9A6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B143A39-C7B2-4743-9917-92262C60E9A6}.Debug|x86.Build.0 = Debug|Any CPU
+		{6B143A39-C7B2-4743-9917-92262C60E9A6}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B143A39-C7B2-4743-9917-92262C60E9A6}.Release|x86.Build.0 = Release|Any CPU
 		{6D92E59B-13E2-42EA-90D7-E93CDBE20DBB}.Debug|x86.ActiveCfg = Debug|x86
 		{6D92E59B-13E2-42EA-90D7-E93CDBE20DBB}.Debug|x86.Build.0 = Debug|x86
 		{6D92E59B-13E2-42EA-90D7-E93CDBE20DBB}.Release|x86.ActiveCfg = Release|x86

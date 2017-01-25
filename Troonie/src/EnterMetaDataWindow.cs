@@ -20,6 +20,7 @@ namespace Troonie
 		private VBox vbox;
 		private HBox hbox;
 		private Entry entry;
+		private Label lbInfo;
 		private TroonieButton btnOk, btnCancel;
 		private TagsFlag tags;
 		private List<ViewerImagePanel> pressedInVIPs;
@@ -31,8 +32,8 @@ namespace Troonie
 			this.tags = tags;
 			this.pressedInVIPs = pressedInVIPs;
 
-			WindowPosition = Gtk.WindowPosition.CenterOnParent; // ((WindowPosition)(4));
-			// Container child Troonie.PasswordDialog.Gtk.Container+ContainerChild
+			WindowPosition = Gtk.WindowPosition.CenterOnParent; 
+
 			vbox = new VBox ();
 			vbox.Name = "vbox1";
 			vbox.Spacing = 10;
@@ -40,23 +41,36 @@ namespace Troonie
 			// Container child vbox1.Gtk.Box+BoxChild
 			entry = new Entry ();
 			entry.CanFocus = true;
-//			entryPassword.Name = "entryPassword";
+			//			entryPassword.Name = "entryPassword";
 			entry.IsEditable = true;
 			entry.MaxLength = 150;
-//			entry.Visibility = false;
-//			entryPassword.InvisibleChar = '●';
+			//			entry.Visibility = false;
+			//			entryPassword.InvisibleChar = '●';
 			vbox.Add (entry);
 			Box.BoxChild w1 = ((Box.BoxChild)(vbox [entry]));
 			w1.Position = 0;
 			w1.Expand = false;
 			w1.Fill = false;
 
+			// 1st parameter for horicontal, 2nd for vertical
+			// left/top = 0.0f
+			// center = 0.5f
+			// right/bottom = 1.0f
+			Alignment a = new Alignment (0.0f, 0, 0.3f, 0);
+			lbInfo = new Label();
+			//			lbInfo.Label = Language.I.L [202];
+			a.Add(lbInfo);
+
+			vbox.Add (a);
+			Box.BoxChild w2 = ((Box.BoxChild)(vbox [a]));
+			w2.Position = 1;
+			w2.Expand = false;
+			w2.Fill = false;
 
 			hbox = new HBox ();
 			hbox.Spacing = 6;
 
 			btnOk = new TroonieButton ();
-//			btnOk.Name = "btnOk";
 			btnOk.CheckReleaseState = false;
 			btnOk.BorderlineWidth = 3;
 			btnOk.ButtonHeight = 35;
@@ -65,9 +79,9 @@ namespace Troonie
 			btnOk.TextSize = 14;
 			btnOk.Text = Language.I.L [16];
 			hbox.Add (btnOk);
-			Box.BoxChild hbox_w1 = (Box.BoxChild)(hbox [btnOk]);
-			hbox_w1.Position = 0;
-			hbox_w1.Padding = 4;
+			Box.BoxChild hbox_w2a = (Box.BoxChild)(hbox [btnOk]);
+			hbox_w2a.Position = 0;
+			hbox_w2a.Padding = 4;
 
 			btnCancel = new TroonieButton ();
 			btnCancel.CheckReleaseState = false;
@@ -78,16 +92,17 @@ namespace Troonie
 			btnCancel.TextSize = 14;
 			btnCancel.Text = Language.I.L [17];
 			hbox.Add (btnCancel);
-			Box.BoxChild hbox_w2 = (Box.BoxChild)(hbox [btnCancel]);
-			hbox_w2.Position = 1;
-			hbox_w2.Padding = 4;
+			Box.BoxChild hbox_w2b = (Box.BoxChild)(hbox [btnCancel]);
+			hbox_w2b.Position = 1;
+			hbox_w2b.Padding = 4;
 
 			vbox.Add (hbox);
-			Box.BoxChild w2 = ((Box.BoxChild)(vbox [hbox]));
-			w2.Position = 2;
-			w2.Expand = false;
-			w2.Fill = false;
+			Box.BoxChild w3 = ((Box.BoxChild)(vbox [hbox]));
+			w3.Position = 2;
+			w3.Expand = false;
+			w3.Fill = false;
 			Add (vbox);
+
 
 			if ((Child != null)) {
 				Child.ShowAll ();
@@ -103,10 +118,29 @@ namespace Troonie
 			btnCancel.ButtonReleaseEvent += (o, args) => { this.DestroyAll (); };
 
 			SetEntryStartText ();
+			SetInfoLabel ();
 			Title = saveTagMode == SaveTagMode.setValueInOneTag ? Language.I.L [183] : Language.I.L [184];
 			Title += Enum.GetName (typeof(TagsFlag), tags) + Language.I.L [187];
 
 			ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);
+		}
+
+		private void SetInfoLabel()
+		{
+			switch (tags) {
+			case TagsFlag.Flash:
+				break;
+			case TagsFlag.Orientation:
+				lbInfo.Text = 
+					"0\t-\t" + Language.I.L [203] + Constants.N +
+					"1\t-\t" + Language.I.L [204] + Constants.N +
+					"3\t-\t" + Language.I.L [205] + Constants.N +
+					"6\t-\t" + Language.I.L [206] + Constants.N +
+					"8\t-\t" + Language.I.L [207] + Constants.N;
+				break;
+			default:
+				break;
+			}
 		}
 
 		private void SetEntryStartText()

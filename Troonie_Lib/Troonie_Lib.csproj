@@ -33,9 +33,6 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
-    <Reference Include="taglib-sharp">
-      <HintPath>..\external\taglib-sharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,4 +96,10 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\taglib-sharp\taglib-sharp.csproj">
+      <Project>{6B143A39-C7B2-4743-9917-92262C60E9A6}</Project>
+      <Name>taglib-sharp</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

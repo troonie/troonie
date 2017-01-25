@@ -200,12 +200,12 @@ namespace Troonie_Lib
 //			return success;
 //		}
 
-		public bool ChangeValueOfTag(TagsFlag tag, TagsData newData)
+		public bool ChangeValueOfTag(TagsFlag flag, TagsData newData)
 		{
 			bool success = true;
 
 			try{
-				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newData);
+				ImageTagHelper.ChangeValueOfTag (imageTag, flag, newData);
 			}
 			catch (Exception /* UnsupportedFormatException */) {
 				success = false;

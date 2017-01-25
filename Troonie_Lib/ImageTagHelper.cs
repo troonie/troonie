@@ -2,6 +2,8 @@
 using TagLib.Image;
 using System.Collections.Generic;
 using System.Globalization;
+using TagLib.IFD;
+using TagLib.IFD.Entries;
 
 namespace Troonie_Lib
 {
@@ -30,7 +32,7 @@ namespace Troonie_Lib
 		Flash = 				1 << 16, // = 65536,
 		#endregion
 
-		#region 8 other tags			
+		#region 3 other tags			
 		Comment = 				1 << 17, // = 131072,
 		Copyright = 			1 << 18, // = 262144,
 		Title = 				1 << 19, // = 524288, 
@@ -44,7 +46,7 @@ namespace Troonie_Lib
 		public string Creator;
 		public DateTime? DateTime;
 		public double? ExposureTime;
-		public uint? Flash;
+		public ushort? Flash;
 		public double? FNumber;
 		public double? FocalLength;
 		public uint? FocalLengthIn35mmFilm;
@@ -88,7 +90,7 @@ namespace Troonie_Lib
 			case TagsFlag.Altitude:		return ExtractNullableDouble (o, ref Altitude);		
 			case TagsFlag.Creator:		return ExtractString(o, ref Creator);					
 			case TagsFlag.ExposureTime:	return ExtractNullableDouble (o, ref ExposureTime);	
-			case TagsFlag.Flash:		return ExtractNullableUint (o, ref Flash);	
+			case TagsFlag.Flash:		return ExtractNullableUshort (o, ref Flash);	
 			case TagsFlag.FNumber:		return ExtractNullableDouble (o, ref FNumber);
 			case TagsFlag.FocalLength:	return ExtractNullableDouble (o, ref FocalLength);
 			case TagsFlag.FocalLengthIn35mmFilm:	return ExtractNullableUint (o, ref FocalLengthIn35mmFilm);				
@@ -240,6 +242,26 @@ namespace Troonie_Lib
 			}
 		}
 
+		private static bool ExtractNullableUshort(object o, ref ushort? d)
+		{
+			string s = o.ToString();
+			if (s == null || s.Length == 0) {
+				d = null;
+				// true, because nullable int values
+				return true;
+			}
+
+			ushort tmp;
+			bool b = ushort.TryParse (s, NumberStyles.AllowDecimalPoint, 
+				CultureInfo.CreateSpecificCulture("en-us"), out tmp);
+			if (b) {
+				d = tmp;
+				return true;
+			} else { 
+				return false;
+			}
+		}
+
 		private static bool ExtractNullableUint(object o, ref uint? d)
 		{
 			string s = o.ToString();
@@ -289,6 +311,8 @@ namespace Troonie_Lib
 
 	public class ImageTagHelper
 	{
+		private const ushort KEY_FLASH = 37385;
+
 //		private static string[] tagNames = 
 //		{
 //			"Keywords", "Rating", "DateTime", "Orientation", "Software", "Latitude", 
@@ -357,37 +381,47 @@ namespace Troonie_Lib
 			// all general tags
 			tag.CopyTo(imageTagFile.ImageTag, true);
 
-			// all image tags
-			if (tag.Keywords != null) imageTagFile.ImageTag.Keywords = tag.Keywords;
-			if (tag.Rating != null) imageTagFile.ImageTag.Rating = tag.Rating;
-			if (tag.DateTime != null) imageTagFile.ImageTag.DateTime = tag.DateTime;
-			imageTagFile.ImageTag.Orientation = tag.Orientation;
-			if (tag.Software != null) imageTagFile.ImageTag.Software = tag.Software;
-			if (tag.Latitude != null) imageTagFile.ImageTag.Latitude = tag.Latitude;
-			if (tag.Longitude != null) imageTagFile.ImageTag.Longitude = tag.Longitude;
-			if (tag.Altitude != null) imageTagFile.ImageTag.Altitude = tag.Altitude;
-			if (tag.ExposureTime != null) imageTagFile.ImageTag.ExposureTime = tag.ExposureTime;
-			if (tag.ISOSpeedRatings != null) imageTagFile.ImageTag.ISOSpeedRatings = tag.ISOSpeedRatings;
+			// all jpeg exif tags, if exists
+			// TODO: Check QS, whether this works correctly!
+			if (tag.Exif != null && imageTagFile.ImageTag.Exif != null) {
+				for (int i = 0; i < tag.Exif.ExifIFD.Directories.Length; i++) {
+					IFDDirectory dir_old = tag.Exif.ExifIFD.Directories [i];
+					IFDDirectory dir_new = imageTagFile.ImageTag.Exif.ExifIFD.Directories [i];
 
-			// TODO: Adding FLASH here
+					foreach (KeyValuePair<ushort, IFDEntry> entry in dir_old) {
+						if (!dir_new.ContainsKey (entry.Key)) {
+							dir_new.Add (entry.Key, entry.Value);
+						}
 
-			if (tag.FNumber != null) imageTagFile.ImageTag.FNumber = tag.FNumber;
-			if (tag.FocalLength != null) imageTagFile.ImageTag.FocalLength = tag.FocalLength;
-			if (tag.FocalLengthIn35mmFilm != null) imageTagFile.ImageTag.FocalLengthIn35mmFilm = tag.FocalLengthIn35mmFilm;
-			if (tag.Make != null) imageTagFile.ImageTag.Make = tag.Make;
-			if (tag.Model != null) imageTagFile.ImageTag.Model = tag.Model;
-			if (tag.Creator != null) imageTagFile.ImageTag.Creator = tag.Creator;
-
-			// examples for setting properties manually
-			//			imageTagFile.ImageTag.Creator = "MARKI";
-			//			imageTagFile.ImageTag.FocalLength = 33.0;
-			//			imageTagFile.ImageTag.Rating = 5;
+					}
+				}
+			}
+			else {
+				// all image tags without exif(jpeg) specifics
+				if (tag.Keywords != null) imageTagFile.ImageTag.Keywords = tag.Keywords;
+				if (tag.Rating != null) imageTagFile.ImageTag.Rating = tag.Rating;
+				if (tag.DateTime != null) imageTagFile.ImageTag.DateTime = tag.DateTime;
+				imageTagFile.ImageTag.Orientation = tag.Orientation;
+				if (tag.Software != null) imageTagFile.ImageTag.Software = tag.Software;
+				if (tag.Latitude != null) imageTagFile.ImageTag.Latitude = tag.Latitude;
+				if (tag.Longitude != null) imageTagFile.ImageTag.Longitude = tag.Longitude;
+				if (tag.Altitude != null) imageTagFile.ImageTag.Altitude = tag.Altitude;
+				if (tag.ExposureTime != null) imageTagFile.ImageTag.ExposureTime = tag.ExposureTime;
+				if (tag.ISOSpeedRatings != null) imageTagFile.ImageTag.ISOSpeedRatings = tag.ISOSpeedRatings;
+				if (tag.FNumber != null) imageTagFile.ImageTag.FNumber = tag.FNumber;
+				if (tag.FocalLength != null) imageTagFile.ImageTag.FocalLength = tag.FocalLength;
+				if (tag.FocalLengthIn35mmFilm != null) imageTagFile.ImageTag.FocalLengthIn35mmFilm = tag.FocalLengthIn35mmFilm;
+				if (tag.Make != null) imageTagFile.ImageTag.Make = tag.Make;
+				if (tag.Model != null) imageTagFile.ImageTag.Model = tag.Model;
+				if (tag.Creator != null) imageTagFile.ImageTag.Creator = tag.Creator;
+			}
 
 			try{
 				imageTagFile.Save();
 			}
 			catch (Exception /* UnsupportedFormatException */) {
-				// do nothing
+				// do nothing, will be caused by formats without tags, e.g. .bmp
+//				Console.WriteLine (ex2.Message);
 			}
 
 			imageTagFile.Dispose ();
@@ -404,8 +438,29 @@ namespace Troonie_Lib
 				td.DateTime = cit.DateTime;
 				td.ExposureTime = cit.ExposureTime;
 
-				// TODO: Adding FLASH here
+				if (cit.Exif != null) {		
+					#region FLASH
+					IFDDirectory dir;
+					bool existFlashEntry = false;
+					for (int i = 0; i < cit.Exif.ExifIFD.Directories.Length; i++ ) {
+						if (existFlashEntry = cit.Exif.ExifIFD.ContainsTag (i, KEY_FLASH)) {							
+							dir = cit.Exif.ExifIFD.Directories[i];
+							break;
+						}
+					}
+						
+					if (existFlashEntry && dir != null) {
+						IFDEntry entry1;
+						dir.TryGetValue(KEY_FLASH, out entry1);
+						ShortIFDEntry flashEntry = entry1 as ShortIFDEntry;
+						if (flashEntry != null) {
+							td.Flash = flashEntry.Value;
+						}
+					}
 
+					#endregion FLASH
+				}
+					
 				td.FNumber = cit.FNumber;
 				td.FocalLength = cit.FocalLength;
 				td.FocalLengthIn35mmFilm = cit.FocalLengthIn35mmFilm;
@@ -481,22 +536,32 @@ namespace Troonie_Lib
 //						break;
 //					}
 
-
-					// TODO: Adding FLASH here
+				case TagsFlag.Flash:
+					
+					if (imageTag.Exif != null/* && newData.Flash.HasValue */) {
+						foreach (IFDDirectory dir in imageTag.Exif.ExifIFD.Directories) {
+							dir.Remove(KEY_FLASH);
+							if (newData.Flash.HasValue) {
+								dir.Add (KEY_FLASH, new ShortIFDEntry (KEY_FLASH, newData.Flash.Value));
+								break; // TODO: check, if correct to add just in first directory
+							}
+						}
+					}
+					break;
 
 				case TagsFlag.FNumber:		imageTag.FNumber = newData.FNumber;				break;
 				case TagsFlag.FocalLength:	imageTag.FocalLength = newData.FocalLength;		break;
 				case TagsFlag.FocalLengthIn35mmFilm: 
-					imageTag.FocalLengthIn35mmFilm = newData.FocalLengthIn35mmFilm;		break;
+						imageTag.FocalLengthIn35mmFilm = newData.FocalLengthIn35mmFilm;		break;
 				case TagsFlag.ISOSpeedRatings:	
-					imageTag.ISOSpeedRatings = newData.ISOSpeedRatings;					break;
+						imageTag.ISOSpeedRatings = newData.ISOSpeedRatings;					break;
 				case TagsFlag.Keywords:		imageTag.Keywords = newData.Keywords.ToArray();	break;
 				case TagsFlag.Latitude:		imageTag.Latitude = newData.Latitude;			break;
 				case TagsFlag.Longitude:	imageTag.Longitude = newData.Longitude;			break;
 				case TagsFlag.Make:			imageTag.Make = newData.Make;					break;
 				case TagsFlag.Model:		imageTag.Model = newData.Model;					break;
 				case TagsFlag.Orientation:	imageTag.Orientation = 
-					(ImageOrientation) newData.Orientation;								break;
+						(ImageOrientation) newData.Orientation;								break;
 				case TagsFlag.Rating:		imageTag.Rating = newData.Rating;				break;
 				case TagsFlag.Software:		imageTag.Software = newData.Software;			break;
 				// other tags
@@ -534,6 +599,7 @@ namespace Troonie_Lib
 			return success;
 		}
 
+		// TODO: Remove this method, replacing by GetValue(..)
 		public static void GetDateTime(string fileName, out DateTime? dateTime)
 		{
 			CombinedImageTag tag = GetTag (fileName);

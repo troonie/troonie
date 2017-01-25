@@ -200,3 +200,8 @@ Renaming videos by title tag and inserting identifier ('V-').;Umbenennen von Vid
 Setting creation datetime by filename.;Setzen des Estellungsdatums anhand des Dateinamens.
 Adding placeholder picture for videos?;Platzhalterbild für Videos einfügen?
 Removing instead adding Keywords;Löschen (anstelle von Hinzufügen) von Keywords
+No rotation information for image.;Keine Information über Drehung vorhanden.
+No need to do any transformations.;Keine Drehung notwendig.
+Rotate image 180 degrees.;Bilddrehung 180 Grad.
+Rotate image 90 degrees clockwise (PORTRAIT).;Bilddrehung 90 Grad im Uhrzeigersinn (PORTRAIT).
+Rotate image 270 degrees clockwise.;Bilddrehung 270 Grad im Uhrzeigersinn.

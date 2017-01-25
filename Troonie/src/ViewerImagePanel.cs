@@ -275,24 +275,19 @@ namespace Troonie
 			}
 
 			pix = new Gdk.Pixbuf(OriginalImageFullName);
-			double sW = maxWidth / (double)pix.Width;
-			double sH = maxHeight / (double)pix.Height;
+			double sW, sH;
 
 			if (TagsData.OrientationDegree == 90 || TagsData.OrientationDegree == 270) {
 				sW = maxWidth / (double)pix.Height;
 				sH = maxHeight / (double)pix.Width;				
+			} else {
+				sW = maxWidth / (double)pix.Width;
+				sH = maxHeight / (double)pix.Height;
 			}
 
 			scale = Math.Min (sW, sH);
-
-			if (sW > sH) {
-				translateX = (maxWidth - pix.Width * scale) / 2.0;
-				translateY = 0;
-			}
-			else {
-				translateY = (maxHeight - pix.Height * scale) / 2.0;
-				translateX = 0;
-			}
+			translateY = (maxHeight - pix.Height * scale) / 2.0;
+			translateX = (maxWidth - pix.Width * scale) / 2.0;
 		}
 
 		#region protected events
@@ -327,10 +322,7 @@ namespace Troonie
 				cr.Translate(W / 2.0, H / 2.0);
 				// invert angle here, because RotateBilinear filter works counter clockwise
 				cr.Rotate (TagsData.OrientationDegree*Math.PI/180);
-//				cr.Scale (ScaleForRotation, ScaleForRotation);
 				cr.Translate(-W / 2.0, -H / 2.0);
-
-//				cr.Rotate (Math.PI * 45 / 180.0);
 				// END ROTATION
 				cr.Translate (translateX, translateY);
 				cr.Scale (scale, scale);
