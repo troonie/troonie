@@ -917,6 +917,8 @@ namespace TagLib.Xmp
 			return null;
 		}
 
+		#region troonie change
+
 		/// <summary>
 		///    Creates a new rational node with the namespace
 		///    <param name="ns"/> and the name <paramref name="name"/>.
@@ -930,23 +932,17 @@ namespace TagLib.Xmp
 		/// <param name="value">
 		///    A <see cref="System.Double"/> with the value of the node.
 		/// </param>
-		public void SetRationalNode (string ns, string name, double value)
+		public void SetRationalNode (string ns, string name, double? value)
 		{
-
-			string fraction = DecimalToFraction (value, (long) Math.Pow (10, 10));
-
-			#region troonie change
-			if (value == 0) {
-				switch (name) {
-				case "ExposureTime":
-					fraction = string.Empty;
-					break;
-				}
-			}
-			#endregion troonie change
+			string fraction = null;
+			if (value.HasValue) {
+				fraction = DecimalToFraction (value.Value, (long) Math.Pow (10, 10));
+			}									
 
 			SetTextNode (ns, name, fraction);
 		}
+
+		#endregion troonie change
 
 		// Based on http://www.ics.uci.edu/~eppstein/numth/frap.c
 		private string DecimalToFraction (double value, long max_denominator) {
@@ -1242,7 +1238,8 @@ namespace TagLib.Xmp
 		/// </value>
 		public override double? ExposureTime {
 			get { return GetRationalNode (EXIF_NS, "ExposureTime"); }
-			set { SetRationalNode (EXIF_NS, "ExposureTime", value.HasValue ? (double) value : 0); }
+//			set { SetRationalNode (EXIF_NS, "ExposureTime", value.HasValue ? (double) value : 0); }
+			set { SetRationalNode (EXIF_NS, "ExposureTime", value); } // troonie change
 		}
 
 		/// <summary>
@@ -1263,7 +1260,8 @@ namespace TagLib.Xmp
 			}
 			set {
 				SetTextNode (TIFF_NS, "FNumber", null); // Remove wrong value
-				SetRationalNode (EXIF_NS, "FNumber", value.HasValue ? (double) value : 0);
+//				SetRationalNode (EXIF_NS, "FNumber", value.HasValue ? (double) value : 0);
+				SetRationalNode (EXIF_NS, "FNumber", value);  // troonie change
 			}
 		}
 
@@ -1305,7 +1303,8 @@ namespace TagLib.Xmp
 		/// </value>
 		public override double? FocalLength {
 			get { return GetRationalNode (EXIF_NS, "FocalLength"); }
-			set { SetRationalNode (EXIF_NS, "FocalLength", value.HasValue ? (double) value : 0); }
+//			set { SetRationalNode (EXIF_NS, "FocalLength", value.HasValue ? (double) value : 0); }
+			set { SetRationalNode (EXIF_NS, "FocalLength", value); } // troonie change
 		}
 
 		/// <summary>

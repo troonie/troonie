@@ -5,18 +5,18 @@ using System.Collections.Generic;
 
 namespace Troonie
 {
-	public enum SaveTagMode2
+	public enum SaveTagModeKeywords
 	{
-		/// <summary>Replaces string array of tag. Only for tags with multiple values (Keywords, Composers). </summary>
-		replaceStringarray,
-		/// <summary>Adds an element to string array of tag. Only for tags with multiple values (Keywords, Composers). </summary>
-		addToStringarray,
+		/// <summary>Sets (and replaces) string array of Keywords tag. </summary>
+		Set,
+		/// <summary>Adds elements to string array of Keywords tag. </summary>
+		Add,
 	}
 
 	public partial class EnterKeywordsWindow : Gtk.Window
 	{
 //		private const string MULTIVALUES = "####";
-		private SaveTagMode2 saveTagMode2;
+		private SaveTagModeKeywords saveTagMode2;
 		private VBox vbox;
 		private HBox hbox1, hbox2;
 		private Entry entry;
@@ -129,7 +129,7 @@ namespace Troonie
 
 			SetEntryStartText ();
 
-			if (saveTagMode2 == SaveTagMode2.addToStringarray) {
+			if (saveTagMode2 == SaveTagModeKeywords.Add) {
 				Title = Language.I.L [182];
 				checkBtnDeleteKeywords.Visible = true;
 			} else {
@@ -152,16 +152,18 @@ namespace Troonie
 
 				bool setValueSuccess = false;
 
-				string[] elements = entry.Text.Split (',');
-				for (int i = 0; i < elements.Length; i++) {
+				List<string> elements = new List<string>(entry.Text.Split (','));
+				elements.RemoveAll (x => x == string.Empty);
+
+				for (int i = 0; i < elements.Count; i++) {
 					elements [i] = elements [i].Trim ();
 				}
 
-				if (elements.Length == 0) {
-					break;
-				}
+//				if (elements.Count == 0) {
+//					break;
+//				}
 
-				if (saveTagMode2 == SaveTagMode2.addToStringarray) {
+				if (saveTagMode2 == SaveTagModeKeywords.Add) {
 
 					List<string> keywordList = vip.TagsData.GetValue (TagsFlag.Keywords) as List<string>;
 					if (keywordList == null) {
@@ -179,7 +181,7 @@ namespace Troonie
 
 					setValueSuccess = vip.TagsData.SetValue (TagsFlag.Keywords, keywordList);
 
-				} else { // if (saveTagMode2 == SaveTagMode2.replaceStringarray) {
+				} else { // if (saveTagMode2 == SaveTagMode2.Set) {
 					setValueSuccess = vip.TagsData.SetValue (TagsFlag.Keywords, elements);
 				}
 
@@ -207,21 +209,23 @@ namespace Troonie
 			
 		protected void OnBtnOkReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			if (saveTagMode2 == SaveTagMode2.addToStringarray) {
-				SaveEntry ();
-				return;
-			}
+//			if (saveTagMode2 == SaveTagMode2.Add) {
+//				SaveEntry ();
+//				return;
+//			}
+//
+//			OkCancelDialog warn = new OkCancelDialog (false);
+//			warn.WindowPosition = WindowPosition.CenterAlways;
+//			warn.Title = Language.I.L [29];
+//			warn.Label1 = Language.I.L [180] + Enum.GetName(typeof(TagsFlag), TagsFlag.Keywords) + Language.I.L [181];
+//			warn.Label2 = Language.I.L [171];
+//			warn.OkButtontext = Language.I.L [16];
+//			warn.CancelButtontext = Language.I.L [17];	
+//			warn.Show ();
+//
+//			warn.OnReleasedOkButton += SaveEntry;
 
-			OkCancelDialog warn = new OkCancelDialog (false);
-			warn.WindowPosition = WindowPosition.CenterAlways;
-			warn.Title = Language.I.L [29];
-			warn.Label1 = Language.I.L [180] + Enum.GetName(typeof(TagsFlag), TagsFlag.Keywords) + Language.I.L [181];
-			warn.Label2 = Language.I.L [171];
-			warn.OkButtontext = Language.I.L [16];
-			warn.CancelButtontext = Language.I.L [17];	
-			warn.Show ();
-
-			warn.OnReleasedOkButton += SaveEntry;
+			SaveEntry ();
 		}
 
 		protected void OnEntryKeyKeyReleaseEvent (object o, KeyReleaseEventArgs args)
@@ -247,10 +251,10 @@ namespace Troonie
 			info.Show ();
 		}
 
-		public static string SetStartText(List<ViewerImagePanel> pressedInVIPs, out SaveTagMode2 saveTagMode)
+		public static string SetStartText(List<ViewerImagePanel> pressedInVIPs, out SaveTagModeKeywords saveTagMode)
 		{
 			string startText = string.Empty;
-			saveTagMode = SaveTagMode2.replaceStringarray; 
+			saveTagMode = SaveTagModeKeywords.Set; 
 			if (pressedInVIPs.Count == 0)
 				return startText;
 
@@ -260,11 +264,14 @@ namespace Troonie
 					foreach (string s in o) {
 						startText += s + ',';	
 					}
+
+					startText = startText.Substring (0, startText.Length - 1);
 				}
 
-//				saveTagMode = SaveTagMode2.replaceStringarray; 
+//				saveTagMode = SaveTagMode2.Set; // not necessary to set again here
+
 			} else {
-				saveTagMode = SaveTagMode2.addToStringarray;
+				saveTagMode = SaveTagModeKeywords.Add;
 			}
 
 			return startText;

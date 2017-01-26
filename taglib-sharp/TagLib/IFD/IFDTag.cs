@@ -451,7 +451,8 @@ namespace TagLib.IFD
 				return ExifIFD.GetRationalValue (0, (ushort) ExifEntryTag.ExposureTime);
 			}
 			set {
-				ExifIFD.SetRationalValue (0, (ushort) ExifEntryTag.ExposureTime, value.HasValue ? (double) value : 0);
+//				ExifIFD.SetRationalValue (0, (ushort) ExifEntryTag.ExposureTime, value.HasValue ? (double) value : 0);
+				ExifIFD.SetRationalValue (0, (ushort) ExifEntryTag.ExposureTime, value); // troonie change
 			}
 		}
 
@@ -467,7 +468,8 @@ namespace TagLib.IFD
 				return ExifIFD.GetRationalValue (0, (ushort) ExifEntryTag.FNumber);
 			}
 			set {
-				ExifIFD.SetRationalValue (0, (ushort) ExifEntryTag.FNumber, value.HasValue ? (double) value : 0);
+//				ExifIFD.SetRationalValue (0, (ushort) ExifEntryTag.FNumber, value.HasValue ? (double) value : 0);
+				ExifIFD.SetRationalValue (0, (ushort) ExifEntryTag.FNumber, value); // troonie change
 			}
 		}
 
@@ -483,7 +485,15 @@ namespace TagLib.IFD
 				return ExifIFD.GetLongValue (0, (ushort) ExifEntryTag.ISOSpeedRatings);
 			}
 			set {
-				ExifIFD.SetLongValue (0, (ushort) ExifEntryTag.ISOSpeedRatings, value.HasValue ? (uint) value : 0);
+				#region troonie change
+//				ExifIFD.SetLongValue (0, (ushort) ExifEntryTag.ISOSpeedRatings, value.HasValue ? (uint) value : 0);
+				if (value.HasValue) {
+					ExifIFD.SetLongValue (0, (ushort) ExifEntryTag.ISOSpeedRatings, (uint) value);
+				} else {
+					ExifIFD.RemoveTag (0, (ushort) ExifEntryTag.ISOSpeedRatings);
+				}
+
+				#endregion troonie change
 			}
 		}
 
@@ -499,7 +509,8 @@ namespace TagLib.IFD
 				return ExifIFD.GetRationalValue (0, (ushort) ExifEntryTag.FocalLength);
 			}
 			set {
-				ExifIFD.SetRationalValue (0, (ushort) ExifEntryTag.FocalLength, value.HasValue ? (double) value : 0);
+//				ExifIFD.SetRationalValue (0, (ushort) ExifEntryTag.FocalLength, value.HasValue ? (double) value : 0);
+				ExifIFD.SetRationalValue (0, (ushort) ExifEntryTag.FocalLength, value);	// troonie change
 			}
 		}
 

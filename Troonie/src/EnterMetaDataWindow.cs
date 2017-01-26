@@ -129,7 +129,31 @@ namespace Troonie
 		{
 			switch (tags) {
 			case TagsFlag.Flash:
-				break;
+				// source: http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif/flash.html
+				lbInfo.Text = 
+					"0 = Flash did not fire " + Constants.N +
+					"1 = Flash fired	" + Constants.N +
+					"5 = Strobe return light not detected " + Constants.N +
+					"7 = Strobe return light detected " + Constants.N +
+					"9 = Flash fired, compulsory flash mode " + Constants.N +
+					"13 = Flash fired, compulsory flash mode, return light not detected " + Constants.N +
+					"15 = Flash fired, compulsory flash mode, return light detected " + Constants.N +
+					"16 = Flash did not fire, compulsory flash mode " + Constants.N +
+					"24 = Flash did not fire, auto mode " + Constants.N +
+					"25 = Flash fired, auto mode	" + Constants.N +
+					"29 = Flash fired, auto mode, return light not detected " + Constants.N +
+					"31 = Flash fired, auto mode, return light detected " + Constants.N +
+					"32 = No flash function " + Constants.N +
+					"65 = Flash fired, red-eye reduction mode	" + Constants.N +
+					"69 = Flash fired, red-eye reduction mode, return light not detected " + Constants.N +
+					"71 = Flash fired, red-eye reduction mode, return light detected " + Constants.N +
+					"73 = Flash fired, compulsory flash mode, red-eye reduction mode " + Constants.N +
+					"77 = Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected " + Constants.N +
+					"79 = Flash fired, compulsory flash mode, red-eye reduction mode, return light detected " + Constants.N +
+					"89 = Flash fired, auto mode, red-eye reduction mode " + Constants.N +
+					"93 = Flash fired, auto mode, return light not detected, red-eye reduction mode " + Constants.N +
+					"95 = Flash fired, auto mode, return light detected, red-eye reduction mode ";
+					break;
 			case TagsFlag.Orientation:
 				lbInfo.Text = 
 					"0\t-\t" + Language.I.L [203] + Constants.N +

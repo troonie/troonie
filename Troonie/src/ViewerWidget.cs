@@ -317,7 +317,7 @@ namespace Troonie
 			}			
 
 			SaveTagMode saveTagMode;
-			SaveTagMode2 saveTagMode2;
+			SaveTagModeKeywords saveTagMode2;
 
 			int l = tableTagsViewer.Children.Length;
 

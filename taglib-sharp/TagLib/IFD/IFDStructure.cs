@@ -412,6 +412,8 @@ namespace TagLib.IFD
 			SetEntry (directory, new LongIFDEntry (entry_tag, value));
 		}
 
+		#region troonie change
+
 		/// <summary>
 		///    Adds a <see cref="Entries.RationalIFDEntry"/> to the directory with tag
 		///    given by <paramref name="entry_tag"/> and value given by <paramref name="value"/>
@@ -427,19 +429,12 @@ namespace TagLib.IFD
 		///    A <see cref="System.Double"/> with the value to add. It must be possible to
 		///    represent the value by a <see cref="Entries.Rational"/>.
 		/// </param>
-		public void SetRationalValue (int directory, ushort entry_tag, double value)
+		public void SetRationalValue (int directory, ushort entry_tag, double? value)
 		{
-			#region troonie change
-
-			if (value == 0) {
-				switch ((ExifEntryTag)entry_tag) {
-				case ExifEntryTag.ExposureTime:
-					RemoveTag (directory, entry_tag);				
-					return;
-				}
-			}	
-
-			#endregion troonie change
+			if (!value.HasValue) {
+				RemoveTag (directory, entry_tag);
+				return;
+			}
 
 			if (value < 0.0d || value > (double)UInt32.MaxValue)
 				throw new ArgumentException ("value");
@@ -450,6 +445,9 @@ namespace TagLib.IFD
 
 			SetEntry (directory, new RationalIFDEntry (entry_tag, rational));
 		}
+
+		#endregion troonie change
+
 
 		/// <summary>
 		///    Adds a <see cref="Entries.StringIFDEntry"/> to the directory with tag

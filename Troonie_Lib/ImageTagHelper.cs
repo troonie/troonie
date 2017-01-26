@@ -97,9 +97,9 @@ namespace Troonie_Lib
 			case TagsFlag.ISOSpeedRatings:			return ExtractNullableUint (o, ref ISOSpeedRatings);	
 			case TagsFlag.Keywords:	
 				List<string> keywordList = o as List<string>;
-				if (keywordList == null || keywordList.Count == 0) {
+				if (keywordList == null /* || keywordList.Count == 0 */ ) {
 					string[] keywordArray = o as string[];
-					if (keywordArray == null || keywordArray.Length == 0) {
+					if (keywordArray == null /* || keywordArray.Length == 0 */ ) {
 						return false;
 					} else {
 						keywordList = new List<string> (keywordArray);							
@@ -392,29 +392,27 @@ namespace Troonie_Lib
 						if (!dir_new.ContainsKey (entry.Key)) {
 							dir_new.Add (entry.Key, entry.Value);
 						}
-
 					}
 				}
 			}
-			else {
-				// all image tags without exif(jpeg) specifics
-				if (tag.Keywords != null) imageTagFile.ImageTag.Keywords = tag.Keywords;
-				if (tag.Rating != null) imageTagFile.ImageTag.Rating = tag.Rating;
-				if (tag.DateTime != null) imageTagFile.ImageTag.DateTime = tag.DateTime;
-				imageTagFile.ImageTag.Orientation = tag.Orientation;
-				if (tag.Software != null) imageTagFile.ImageTag.Software = tag.Software;
-				if (tag.Latitude != null) imageTagFile.ImageTag.Latitude = tag.Latitude;
-				if (tag.Longitude != null) imageTagFile.ImageTag.Longitude = tag.Longitude;
-				if (tag.Altitude != null) imageTagFile.ImageTag.Altitude = tag.Altitude;
-				if (tag.ExposureTime != null) imageTagFile.ImageTag.ExposureTime = tag.ExposureTime;
-				if (tag.ISOSpeedRatings != null) imageTagFile.ImageTag.ISOSpeedRatings = tag.ISOSpeedRatings;
-				if (tag.FNumber != null) imageTagFile.ImageTag.FNumber = tag.FNumber;
-				if (tag.FocalLength != null) imageTagFile.ImageTag.FocalLength = tag.FocalLength;
-				if (tag.FocalLengthIn35mmFilm != null) imageTagFile.ImageTag.FocalLengthIn35mmFilm = tag.FocalLengthIn35mmFilm;
-				if (tag.Make != null) imageTagFile.ImageTag.Make = tag.Make;
-				if (tag.Model != null) imageTagFile.ImageTag.Model = tag.Model;
-				if (tag.Creator != null) imageTagFile.ImageTag.Creator = tag.Creator;
-			}
+
+			// all image tags without exif(jpeg) specifics
+			if (tag.Keywords != null) imageTagFile.ImageTag.Keywords = tag.Keywords;
+			if (tag.Rating != null) imageTagFile.ImageTag.Rating = tag.Rating;
+			if (tag.DateTime != null) imageTagFile.ImageTag.DateTime = tag.DateTime;
+			imageTagFile.ImageTag.Orientation = tag.Orientation;
+			if (tag.Software != null) imageTagFile.ImageTag.Software = tag.Software;
+			if (tag.Latitude != null) imageTagFile.ImageTag.Latitude = tag.Latitude;
+			if (tag.Longitude != null) imageTagFile.ImageTag.Longitude = tag.Longitude;
+			if (tag.Altitude != null) imageTagFile.ImageTag.Altitude = tag.Altitude;
+			if (tag.ExposureTime != null) imageTagFile.ImageTag.ExposureTime = tag.ExposureTime;
+			if (tag.ISOSpeedRatings != null) imageTagFile.ImageTag.ISOSpeedRatings = tag.ISOSpeedRatings;
+			if (tag.FNumber != null) imageTagFile.ImageTag.FNumber = tag.FNumber;
+			if (tag.FocalLength != null) imageTagFile.ImageTag.FocalLength = tag.FocalLength;
+			if (tag.FocalLengthIn35mmFilm != null) imageTagFile.ImageTag.FocalLengthIn35mmFilm = tag.FocalLengthIn35mmFilm;
+			if (tag.Make != null) imageTagFile.ImageTag.Make = tag.Make;
+			if (tag.Model != null) imageTagFile.ImageTag.Model = tag.Model;
+			if (tag.Creator != null) imageTagFile.ImageTag.Creator = tag.Creator;
 
 			try{
 				imageTagFile.Save();
