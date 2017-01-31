@@ -14,6 +14,8 @@ namespace Troonie
 		private DrawingArea da = new DrawingArea();
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 
+		public FileChooserAction FileChooserAction { get; set; }
+
 		public new bool Sensitive {			
 			get {
 				return base.Sensitive; 
@@ -84,6 +86,8 @@ namespace Troonie
 			text = "Demo text";
 			HeightRequest = 15;
 			Font = "Serif";
+
+			FileChooserAction = FileChooserAction.SelectFolder; // default
 		}
 
 		/// <summary>Fires the slider changed value event.</summary>
@@ -105,7 +109,7 @@ namespace Troonie
 			Gtk.FileChooserDialog filechooser =
 				new Gtk.FileChooserDialog("Choose the file to save",
 					null,
-					FileChooserAction.SelectFolder,
+					FileChooserAction,
 					o);
 
 			if (filechooser.Run() == (int)ResponseType.Ok) 

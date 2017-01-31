@@ -65,6 +65,10 @@ namespace Troonie_Lib
         /// </summary>
         public bool UseOriginalPath { get; set; }
 
+		/// <summary>File path for external videoplayer.</summary>
+		public string VideoplayerPath { get; set; }
+		public bool VideoplayerWorks { get; set; }
+
         /// <summary>The new width of the image(s) to convert.</summary>
         public int Width;
 
@@ -112,6 +116,35 @@ namespace Troonie_Lib
 			TransparencyColorRed = 255;
 			TransparencyColorGreen = 255;
 			TransparencyColorBlue = 255;
+
+			VideoplayerPath = "   Click here to set a videoplayer.";
+
+			switch (Environment.OSVersion.Platform)
+			{
+			case PlatformID.Win32NT:
+				if (VideoplayerWorks = File.Exists (@"%ProgramFiles(x86)%\Windows Media Player\wmplayer.exe")) {
+					VideoplayerPath = @"%ProgramFiles(x86)%\Windows Media Player\wmplayer.exe";
+					break;
+				} else if (VideoplayerWorks = File.Exists (@"C:\Program Files (x86)\Windows Media Player\wmplayer.exe")) {
+					VideoplayerPath = @"C:\Program Files (x86)\Windows Media Player\wmplayer.exe";
+					break;
+				}
+				break;
+			case PlatformID.Unix:
+				if (VideoplayerWorks = File.Exists (@"/usr/bin/xplayer")) {
+					VideoplayerPath = @"/usr/bin/xplayer";
+					break;
+				} else if (VideoplayerWorks = File.Exists (@"/usr/bin/vlc")) {
+					VideoplayerPath = @"/usr/bin/vlc";
+					break;
+				}
+				break;
+//			case PlatformID.MacOSX:
+//			default:
+//				VideoplayerPath = "   Click here to set a videoplayer.";
+//				break;
+			}
+
 		}
 
 		private static int SetLanguageID()

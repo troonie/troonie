@@ -3265,10 +3265,10 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="Troonie.StarterWidget" design-size="700 300">
+  <widget class="Gtk.Bin" id="Troonie.StarterWidget" design-size="700 550">
     <property name="MemberName" />
-    <property name="WidthRequest">600</property>
-    <property name="HeightRequest">150</property>
+    <property name="WidthRequest">360</property>
+    <property name="HeightRequest">300</property>
     <property name="CanFocus">True</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
@@ -3297,6 +3297,39 @@
               </packing>
             </child>
             <child>
+              <widget class="Troonie.TroonieButton" id="picBtnViewer">
+                <property name="MemberName" />
+                <property name="CheckReleaseState">False</property>
+                <property name="BorderlineWidth">3</property>
+                <property name="ButtonHeight">140</property>
+                <property name="ButtonWidth">0</property>
+                <property name="Font">Arial</property>
+                <property name="Text">Viewer</property>
+                <property name="TextSize">20</property>
+                <signal name="ButtonReleaseEvent" handler="OnPicBtnViewerButtonReleaseEvent" />
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <placeholder />
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.HBox" id="hbox2">
+            <property name="MemberName" />
+            <property name="Spacing">6</property>
+            <child>
               <widget class="Troonie.TroonieButton" id="picBtnEdit">
                 <property name="MemberName" />
                 <property name="CheckReleaseState">False</property>
@@ -3309,7 +3342,7 @@
                 <signal name="ButtonReleaseEvent" handler="OnPicBtnEditButtonReleaseEvent" />
               </widget>
               <packing>
-                <property name="Position">1</property>
+                <property name="Position">0</property>
                 <property name="AutoSize">True</property>
               </packing>
             </child>
@@ -3326,42 +3359,9 @@
                 <signal name="ButtonReleaseEvent" handler="OnPicBtnSteganographyButtonReleaseEvent" />
               </widget>
               <packing>
-                <property name="Position">2</property>
+                <property name="Position">1</property>
                 <property name="AutoSize">True</property>
               </packing>
-            </child>
-            <child>
-              <widget class="Troonie.TroonieButton" id="picBtnViewer">
-                <property name="MemberName" />
-                <property name="CheckReleaseState">False</property>
-                <property name="BorderlineWidth">3</property>
-                <property name="ButtonHeight">140</property>
-                <property name="ButtonWidth">0</property>
-                <property name="Font">Arial</property>
-                <property name="Text">Viewer</property>
-                <property name="TextSize">20</property>
-                <signal name="ButtonReleaseEvent" handler="OnPicBtnViewerButtonReleaseEvent" />
-              </widget>
-              <packing>
-                <property name="Position">3</property>
-                <property name="AutoSize">True</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="Position">0</property>
-            <property name="AutoSize">False</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.HBox" id="hbox2">
-            <property name="MemberName" />
-            <property name="Spacing">6</property>
-            <child>
-              <placeholder />
-            </child>
-            <child>
-              <placeholder />
             </child>
             <child>
               <placeholder />
@@ -3369,7 +3369,7 @@
           </widget>
           <packing>
             <property name="Position">1</property>
-            <property name="AutoSize">True</property>
+            <property name="AutoSize">False</property>
           </packing>
         </child>
       </widget>
@@ -5234,6 +5234,142 @@
         </child>
         <child>
           <placeholder />
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="Troonie.OptionsWidget" design-size="400 300">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">OptionsWidget</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <child>
+      <widget class="Gtk.ScrolledWindow" id="scrolledwindow1">
+        <property name="MemberName" />
+        <property name="CanFocus">True</property>
+        <property name="ShadowType">EtchedIn</property>
+        <child>
+          <widget class="Gtk.Viewport" id="GtkViewport">
+            <property name="MemberName" />
+            <property name="ShadowType">None</property>
+            <child>
+              <widget class="Gtk.EventBox" id="eventbox1">
+                <property name="MemberName" />
+                <child>
+                  <widget class="Gtk.Notebook" id="notebook1">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="CurrentPage">0</property>
+                    <child>
+                      <widget class="Gtk.EventBox" id="eventboxPage1">
+                        <property name="MemberName" />
+                        <child>
+                          <widget class="Gtk.VBox" id="vboxPage1">
+                            <property name="MemberName" />
+                            <property name="Spacing">6</property>
+                            <child>
+                              <placeholder />
+                            </child>
+                            <child>
+                              <widget class="Gtk.Frame" id="frameVideoplayer">
+                                <property name="MemberName" />
+                                <property name="ShadowType">None</property>
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentVideoplayer">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <widget class="Gtk.HBox" id="hboxVideoplayer">
+                                        <property name="MemberName" />
+                                        <property name="Spacing">6</property>
+                                        <child>
+                                          <widget class="Troonie.HyperTextLabel" id="hypertextlabelVideoplayer">
+                                            <property name="MemberName" />
+                                            <property name="Sensitive">False</property>
+                                            <property name="Sensitive">False</property>
+                                            <property name="Text">Starttext</property>
+                                            <property name="TextSize">0</property>
+                                            <property name="ShownTextLength">0</property>
+                                            <property name="Underline">False</property>
+                                            <property name="Bold">False</property>
+                                            <property name="Italic">False</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">0</property>
+                                            <property name="AutoSize">True</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameVideoplayer">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;lbFrameVideoplayer&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">1</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <placeholder />
+                            </child>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Label" id="lbPage1">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">lbPage1</property>
+                      </widget>
+                      <packing>
+                        <property name="type">tab</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.EventBox" id="eventboxPage2">
+                        <property name="MemberName" />
+                        <child>
+                          <placeholder />
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Label" id="lbPage2">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">lbPage2</property>
+                      </widget>
+                      <packing>
+                        <property name="type">tab</property>
+                      </packing>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+          </widget>
         </child>
       </widget>
     </child>

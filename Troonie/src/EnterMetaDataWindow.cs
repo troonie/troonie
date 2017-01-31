@@ -154,6 +154,17 @@ namespace Troonie
 					"93 = Flash fired, auto mode, return light not detected, red-eye reduction mode " + Constants.N +
 					"95 = Flash fired, auto mode, return light detected, red-eye reduction mode ";
 					break;
+			case TagsFlag.MeteringMode:
+				lbInfo.Text = 
+					"0 = Unknown " + Constants.N +
+					"1 = Average " + Constants.N +
+					"2 = CenterWeightedAverage " + Constants.N +
+					"3 = Spot " + Constants.N +
+					"4 = MultiSpot " + Constants.N +
+					"5 = Pattern " + Constants.N +
+					"6 = Partial " + Constants.N +
+					"255 = other ";
+				break;
 			case TagsFlag.Orientation:
 				lbInfo.Text = 
 					"0\t-\t" + Language.I.L [203] + Constants.N +

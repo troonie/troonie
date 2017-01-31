@@ -227,6 +227,7 @@ namespace Troonie
 			this.rdJpeg = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("JPEG"));
 			this.rdJpeg.CanFocus = true;
 			this.rdJpeg.Name = "rdJpeg";
+			this.rdJpeg.Active = true;
 			this.rdJpeg.DrawIndicator = true;
 			this.rdJpeg.UseUnderline = true;
 			this.rdJpeg.Group = new global::GLib.SList (global::System.IntPtr.Zero);

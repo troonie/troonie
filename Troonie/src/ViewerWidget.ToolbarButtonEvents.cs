@@ -114,7 +114,9 @@ namespace Troonie
 					} else {
 						rowNr++;
 					}
-				}					
+				}
+
+				MoveVIP (Gdk.Key.Right);
 			}
 
 		}		

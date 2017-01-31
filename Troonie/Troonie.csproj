@@ -86,6 +86,9 @@
     <EmbeddedResource Include="src\icons\trash-empty-3.png">
       <LogicalName>trash-empty-3.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\icons\applications-system-3.png">
+      <LogicalName>applications-system-3.png</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
@@ -138,6 +141,8 @@
     <Compile Include="src\ViewerWidget.HiddenFunctionality.cs" />
     <Compile Include="src\ConfirmingDeleteImagesWindow.cs" />
     <Compile Include="src\EnterKeywordsWindow.cs" />
+    <Compile Include="src\OptionsWidget.cs" />
+    <Compile Include="gtk-gui\Troonie.OptionsWidget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

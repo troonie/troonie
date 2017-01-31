@@ -32,7 +32,7 @@ namespace Troonie
 //		private string tempScaledImageFileName;
 		private int imageId, imagePerRow;
 		private uint rowNr, colNr;
-		private bool leftControlPressed, leftAltPressed, doubleClickedMode;
+		private bool leftControlPressed, leftShiftPressed, leftAltPressed, doubleClickedMode;
 		private Dictionary<int, ViewerImagePanel> pressedVipsDict;
 
 //		public string FileName { get; set; }
@@ -246,7 +246,7 @@ namespace Troonie
 
 		private void MoveVIP(Gdk.Key key)
 		{
-			if (!doubleClickedMode || tableViewer.Children.Length <= 1)
+			if (!doubleClickedMode || tableViewer.Children.Length == 0)
 				return;
 
 			int l = tableViewer.Children.Length;
@@ -272,7 +272,9 @@ namespace Troonie
 				break;
 			}
 
-			vip_old.IsDoubleClicked = false;
+			if (vip_old != null) {
+				vip_old.IsDoubleClicked = false;
+			}
 
 			vip_new = tableViewer.Children[i_new] as ViewerImagePanel;
 			vip_new.IsDoubleClicked = true;
@@ -289,16 +291,23 @@ namespace Troonie
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel l_vip = tableViewer.Children[i] as ViewerImagePanel;
 				if (l_vip.ID == vip.ID) {
-					if (vip.IsVideo) {
+					if (vip.IsVideo && Constants.I.CONFIG.VideoplayerWorks) {
 						Process proc = new Process();
-						proc.StartInfo.FileName = "xplayer";   //ODER vlc ODER cvlc
+						proc.StartInfo.FileName = Constants.I.CONFIG.VideoplayerPath;   //xplayer ODER vlc ODER cvlc
 						proc.StartInfo.Arguments = vip.OriginalImageFullName;
+
 						proc.StartInfo.UseShellExecute = false; 
 						proc.StartInfo.RedirectStandardOutput = true;
 						proc.StartInfo.RedirectStandardError = true;
-						proc.Start();
-						proc.WaitForExit();
-						proc.Close();
+						try {
+							proc.Start();
+	//						proc.WaitForExit();
+							proc.Close();
+						}
+						catch (Exception ex) {
+							// player could not be found
+							Console.WriteLine (ex.Message);
+						}
 					}
 //					l_vip.IsPressedIn = true;
 				} else {
@@ -551,6 +560,9 @@ namespace Troonie
 					break;
 				case Gdk.Key.t:
 					t = TagsFlag.Title;
+					break;				
+				case Gdk.Key.x:
+					t = TagsFlag.Copyright;
 					break;
 				default:
 					leftAltPressed = false;
@@ -575,6 +587,22 @@ namespace Troonie
 				return;
 			}
 			#endregion 'alt + ...'
+
+
+			#region 'shift + ...'
+			if (leftShiftPressed) {
+				switch (args.Event.Key) {
+				case Gdk.Key.Delete:
+					OnToolbarBtn_RemoveAndDeleteFilePressed (null, null);
+					break;
+				}
+
+				leftShiftPressed = false;
+
+				return;
+			}
+			#endregion 'shift + ...'
+
 
 			#region 'ctrl + ...'
 			if (leftControlPressed) {
@@ -643,6 +671,9 @@ namespace Troonie
 			case Gdk.Key.Control_L:
 				leftControlPressed = true;
 				break;
+			case Gdk.Key.Shift_L:
+				leftShiftPressed = true;
+				break;
 			case Gdk.Key.Alt_L:
 				leftAltPressed = true;
 				break;
@@ -688,6 +719,9 @@ namespace Troonie
 			switch (args.Event.Key) {
 			case Gdk.Key.Control_L:
 				leftControlPressed = false;
+				break;
+			case Gdk.Key.Shift_L:
+				leftShiftPressed = false;
 				break;
 			case Gdk.Key.Alt_L:
 				leftAltPressed = false;

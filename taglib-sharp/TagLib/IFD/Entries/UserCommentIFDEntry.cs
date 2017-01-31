@@ -113,11 +113,21 @@ namespace TagLib.IFD.Entries
 
 			if (data.StartsWith (COMMENT_ASCII_CODE)) {
 				Value = TrimNull (data.ToString (StringType.Latin1, COMMENT_ASCII_CODE.Count, data.Count - COMMENT_ASCII_CODE.Count));
+				#region troonie change
+				if (Value == "User comments") {
+					Value = string.Empty;
+				}
+				#endregion troonie change
 				return;
 			}
 
 			if (data.StartsWith (COMMENT_UNICODE_CODE)) {
 				Value = TrimNull (data.ToString (StringType.UTF8, COMMENT_UNICODE_CODE.Count, data.Count - COMMENT_UNICODE_CODE.Count));
+				#region troonie change
+				if (Value == "User comments") {
+					Value = string.Empty;
+				}
+				#endregion troonie change
 				return;
 			}
 

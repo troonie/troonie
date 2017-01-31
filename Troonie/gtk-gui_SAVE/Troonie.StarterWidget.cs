@@ -10,21 +10,21 @@ namespace Troonie
 		
 		private global::Troonie.TroonieButton picBtnConvert;
 		
-		private global::Troonie.TroonieButton picBtnEdit;
-		
-		private global::Troonie.TroonieButton picBtnSteganography;
-		
 		private global::Troonie.TroonieButton picBtnViewer;
 		
 		private global::Gtk.HBox hbox2;
+		
+		private global::Troonie.TroonieButton picBtnEdit;
+		
+		private global::Troonie.TroonieButton picBtnSteganography;
 
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.StarterWidget
 			global::Stetic.BinContainer.Attach (this);
-			this.WidthRequest = 600;
-			this.HeightRequest = 150;
+			this.WidthRequest = 360;
+			this.HeightRequest = 300;
 			this.CanFocus = true;
 			this.Name = "Troonie.StarterWidget";
 			// Container child Troonie.StarterWidget.Gtk.Container+ContainerChild
@@ -49,32 +49,6 @@ namespace Troonie
 			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnConvert]));
 			w1.Position = 0;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.picBtnEdit = new global::Troonie.TroonieButton ();
-			this.picBtnEdit.Name = "picBtnEdit";
-			this.picBtnEdit.CheckReleaseState = false;
-			this.picBtnEdit.BorderlineWidth = 3;
-			this.picBtnEdit.ButtonHeight = 140;
-			this.picBtnEdit.ButtonWidth = 0;
-			this.picBtnEdit.Font = "Arial";
-			this.picBtnEdit.Text = "Editor";
-			this.picBtnEdit.TextSize = 20;
-			this.hbox1.Add (this.picBtnEdit);
-			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnEdit]));
-			w2.Position = 1;
-			// Container child hbox1.Gtk.Box+BoxChild
-			this.picBtnSteganography = new global::Troonie.TroonieButton ();
-			this.picBtnSteganography.Name = "picBtnSteganography";
-			this.picBtnSteganography.CheckReleaseState = false;
-			this.picBtnSteganography.BorderlineWidth = 3;
-			this.picBtnSteganography.ButtonHeight = 140;
-			this.picBtnSteganography.ButtonWidth = 0;
-			this.picBtnSteganography.Font = "Arial";
-			this.picBtnSteganography.Text = "Steganography";
-			this.picBtnSteganography.TextSize = 20;
-			this.hbox1.Add (this.picBtnSteganography);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnSteganography]));
-			w3.Position = 2;
-			// Container child hbox1.Gtk.Box+BoxChild
 			this.picBtnViewer = new global::Troonie.TroonieButton ();
 			this.picBtnViewer.Name = "picBtnViewer";
 			this.picBtnViewer.CheckReleaseState = false;
@@ -85,15 +59,41 @@ namespace Troonie
 			this.picBtnViewer.Text = "Viewer";
 			this.picBtnViewer.TextSize = 20;
 			this.hbox1.Add (this.picBtnViewer);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnViewer]));
-			w4.Position = 3;
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnViewer]));
+			w2.Position = 1;
 			this.vbox1.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
-			w5.Position = 0;
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
+			w3.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.hbox2 = new global::Gtk.HBox ();
 			this.hbox2.Name = "hbox2";
 			this.hbox2.Spacing = 6;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.picBtnEdit = new global::Troonie.TroonieButton ();
+			this.picBtnEdit.Name = "picBtnEdit";
+			this.picBtnEdit.CheckReleaseState = false;
+			this.picBtnEdit.BorderlineWidth = 3;
+			this.picBtnEdit.ButtonHeight = 140;
+			this.picBtnEdit.ButtonWidth = 0;
+			this.picBtnEdit.Font = "Arial";
+			this.picBtnEdit.Text = "Editor";
+			this.picBtnEdit.TextSize = 20;
+			this.hbox2.Add (this.picBtnEdit);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.picBtnEdit]));
+			w4.Position = 0;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.picBtnSteganography = new global::Troonie.TroonieButton ();
+			this.picBtnSteganography.Name = "picBtnSteganography";
+			this.picBtnSteganography.CheckReleaseState = false;
+			this.picBtnSteganography.BorderlineWidth = 3;
+			this.picBtnSteganography.ButtonHeight = 140;
+			this.picBtnSteganography.ButtonWidth = 0;
+			this.picBtnSteganography.Font = "Arial";
+			this.picBtnSteganography.Text = "Steganography";
+			this.picBtnSteganography.TextSize = 20;
+			this.hbox2.Add (this.picBtnSteganography);
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.picBtnSteganography]));
+			w5.Position = 1;
 			this.vbox1.Add (this.hbox2);
 			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox2]));
 			w6.Position = 1;
@@ -104,9 +104,9 @@ namespace Troonie
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.picBtnConvert.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnConvertButtonReleaseEvent);
+			this.picBtnViewer.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnViewerButtonReleaseEvent);
 			this.picBtnEdit.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnEditButtonReleaseEvent);
 			this.picBtnSteganography.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnSteganographyButtonReleaseEvent);
-			this.picBtnViewer.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnPicBtnViewerButtonReleaseEvent);
 		}
 	}
 }

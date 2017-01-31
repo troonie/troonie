@@ -158,6 +158,7 @@ namespace Troonie
 					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
 					DateTime? dt = null;
 					ImageTagHelper.GetDateTime (fullf, out dt);
+
 					if (dt.HasValue) {
 						string format = "yyyyMMdd-HHmmss";
 						string s = dt.Value.ToString (format) + f.Substring(f.LastIndexOf(".")).ToLower();
@@ -228,7 +229,7 @@ namespace Troonie
 					string title = vip.TagsData.Title; // td.Title;
 					string identifier = "V-";
 
-					if (title.Length != 0) {
+					if (title != null && title.Length != 0) {
 						title = title.Replace(' ', '-');
 						title = System.Text.RegularExpressions.Regex.Replace(title, @"[\\/:*?""<>|]", string.Empty);
 						title = title.Replace("[", ""); // will not replaced by 'Regex.Replace(..)'

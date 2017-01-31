@@ -98,7 +98,8 @@ namespace TagLib.Image
 		/// </value>
 		public CombinedImageTag ImageTag {
 			get { return image_tag; }
-			protected set { image_tag = value; }
+			// protected set { image_tag = value; }
+			set { image_tag = value; } // troonie change
 		}
 
 #endregion

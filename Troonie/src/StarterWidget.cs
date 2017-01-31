@@ -25,11 +25,14 @@ namespace Troonie
 			picBtnConvert.Text = Language.I.L [67];
 			picBtnEdit.Text = Language.I.L [68];
 			picBtnSteganography.Text = Language.I.L [80];
-			picBtnViewer.Text = Language.I.L [178];
+			picBtnViewer.Text = Language.I.L [178] + Language.I.L [208];
 
 			if (!showEditAndStegButton) {
+				this.HeightRequest /= 2;
 				picBtnEdit.Hide ();
 				picBtnSteganography.Hide ();
+				Resize (WidthRequest, HeightRequest); // important
+//				this.QueueDraw ();
 			}
 
 			// for release comment in

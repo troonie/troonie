@@ -205,3 +205,26 @@ No need to do any transformations.;Keine Drehung notwendig.
 Rotate image 180 degrees.;Bilddrehung 180 Grad.
 Rotate image 90 degrees clockwise (PORTRAIT).;Bilddrehung 90 Grad im Uhrzeigersinn (PORTRAIT).
 Rotate image 270 degrees clockwise.;Bilddrehung 270 Grad im Uhrzeigersinn.
+ (beta); (Beta)
+VIEWER KEYS;TASTENBELEGUNG BETRACHTER
+CTRL+A: Select all images;STRG+A: Alle Bilder auswählen
+ESC: Remove all image selections;ESC: Bildauswahl entfernen
+DEL: Remove (NOT delete) selected images from viewer;ENTF: Ausgewählte Bilder entfernen (NICHT löschen)
+SHIFT+DEL: Delete selected images irrevocable (Caution!);SHIFT+ENTF: Ausgewählte Bilder unwiderruflich löschen (Vorsicht!)
+CTRL+C (HIDDEN function): Append id in filename and compress selected images by rating tag;STRG+C (HIDDEN function): Hinzufügen eines Kenners in Dateiname und Komprimieren der ausgewählten Bilder nach Bewertungs-Tag
+CTRL+D (HIDDEN function): Set datetime tag from filename;STRG+D (HIDDEN function): Setzen des Bilddatum-Tags nach Dateiname
+CTRL+R (HIDDEN function): Rename file by datetime tag;STRG+R (HIDDEN function): Umbenennen des Dateinamens durch das Datetime-Tag
+CTRL+V (HIDDEN function): Rename by title tag and insert video id in video filename ('V-');STRG+V (HIDDEN function): Umbenennen nach Title-Tag und Einfügen eines Video-Kenners in Video-Dateiname ('V-')
+DUMMY;DUMMY
+0-5: Rating of an image;0-5 Bewertung eines Bildes
+Right/Left: Switch to next/previous image (only in fullscreen);Rechts/Links: Wechseln zu nächsten/vorigen Bild (nur im Vollbildmodus)
+Alt+C: Setting image tag 'Comment';Alt+C: Setzen des Bild-Tags 'Comment'
+Alt+D: Setting image tag 'DateTime';Alt+D: Setzen des Bild-Tags 'DateTime'
+Alt+F: Setting image tag 'FocalLength';Alt+F: Setzen des Bild-Tags 'FocalLength'
+Alt+K: Setting image tag 'Keywords';Alt+K: Setzen des Bild-Tags 'Keywords'
+Alt+T: Setting image tag 'Title';Alt+X: Setzen des Bild-Tags 'Title'
+Alt+X: Setting image tag 'Copyright';Alt+X: Setzen des Bild-Tags 'Copyright'
+Options;Einstellungen
+General;Allgemein
+No videoplayer is set;Kein Videoplayer ausgewählt
+Videoplayer;Videoplayer

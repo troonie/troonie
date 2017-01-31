@@ -271,6 +271,13 @@ namespace Troonie
 			
 		public void CreateDesktopcontextmenuLanguageAndInfoToolbarButtons(HBox hboxToolbarButtons, int position, OnToolbarBtnPressed languageChanged)
 		{			
+			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, position, "applications-system-3.png", Language.I.L[227], 
+				(s, e) => { 
+					new OptionsWidget ().Show(); 
+//					Config.Save (Constants.I.CONFIG);
+				});
+			position++;
+
 			GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, position, "folder-new-4.png", Language.I.L[59], 
 				(s, e) => { 
 					new AskForDesktopContextMenuWindow (false, Constants.I.CONFIG).Show(); 

@@ -22,7 +22,7 @@ using System.Runtime.CompilerServices;
 
 public class Version
 {
-	public const string Number = "1.0.5";
+	public const string Number = "1.1.0";
 	public const string AssemblyTitle = "Troonie Installer for Windows 10, 8.1 and 7";
-	public const string AssemblyProduct = "Troonie 1.0.5 beta";
+	public const string AssemblyProduct = "Troonie 1.1.0 beta";
 }
