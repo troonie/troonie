@@ -25,7 +25,7 @@ namespace Troonie
 			try {
 				Constants.I.Init ();
 				#region Set new version number in code
-//				Troonie_Lib.Version.SetNewVersionNumberInAllFiles("1.1.0");
+//				Troonie_Lib.Version.SetNewVersionNumberInAllFiles("1.0.5");
 //				return;
 				#endregion Set new version number in code
 
