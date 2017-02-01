@@ -1408,12 +1408,15 @@ namespace TagLib {
 			}
 			
 			if (!FileTypes.AvailableTypes.ContainsKey(mimetype))
-				throw new UnsupportedFormatException (
-					String.Format (
-						CultureInfo.InvariantCulture,
-						"{0} ({1})",
-						abstraction.Name,
-						mimetype));
+				#region troonie change
+				return null;
+			//				throw new UnsupportedFormatException (
+			//					String.Format (
+			//						CultureInfo.InvariantCulture,
+			//						"{0} ({1})",
+			//						abstraction.Name,
+			//						mimetype));
+			#endregion troonie change
 			
 			Type file_type = FileTypes.AvailableTypes[mimetype];
 			
