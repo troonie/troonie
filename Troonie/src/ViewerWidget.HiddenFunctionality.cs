@@ -400,6 +400,8 @@ namespace Troonie
 //				return dt;
 //			}
 
+			// example IMG_20170118_185925088
+
 			string pattern = @"(\d+)[-_ :.\/](\d+)[-_ :.\/](\d+)[-_ :.\/](\d+)[-_ :.\/](\d+)[-_ :.\/](\d+)";
 			string []formats = {
 				"yyyy-MM-dd HH:mm:ss", "yyyy/MM/dd HH:mm:ss", "yyyy.MM.dd HH:mm:ss", "yyyy_MM_dd HH:mm:ss",
@@ -423,7 +425,7 @@ namespace Troonie
 				}
 			}
 
-			pattern = @"(\d+)[-_ :.\/](\d+)";
+			pattern = @"(\d+)[-_ :.\/](\d{6})";
 			formats =  new string[] {"yyyyMMdd_HHmmss", "yyyyMMdd-HHmmss"};
 
 			r = new Regex(pattern);

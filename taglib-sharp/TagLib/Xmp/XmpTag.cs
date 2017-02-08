@@ -650,7 +650,30 @@ namespace TagLib.Xmp
 		/// </summary>
 		public override void Clear ()
 		{
-			throw new NotImplementedException ();
+			#region troonie change
+//			throw new NotImplementedException ();
+
+			if (nodes != null) {
+				foreach (var node in nodes.Values) {
+					node.Clear ();
+				}					
+				nodes.Clear ();
+//				nodes = null;
+			}
+
+			if (NodeTree != null) {
+			NodeTree.Clear ();
+//			NodeTree = null;
+			}
+
+//			if (NamespacePrefixes != null) {
+//				NamespacePrefixes.Clear();
+//				NamespacePrefixes = null;
+//			}
+
+			initialized = false;
+
+			#endregion
 		}
 
 		/// <summary>
@@ -1027,6 +1050,10 @@ namespace TagLib.Xmp
 		/// </param>
 		static void EnsureNamespacePrefix (string ns)
 		{
+			if (NamespacePrefixes == null) {
+				Console.WriteLine ("Test");
+			}
+
 			if (!NamespacePrefixes.ContainsKey (ns)) {
 				NamespacePrefixes.Add (ns, String.Format ("ns{0}", ++anon_ns_count));
 				Console.WriteLine ("TAGLIB# DEBUG: Added {0} prefix for {1} namespace (XMP)", NamespacePrefixes [ns], ns);

@@ -158,6 +158,28 @@ namespace TagLib.Xmp
 
 #region Public Methods
 
+		#region troonie change
+
+		public void Clear()
+		{
+			if (children != null) {
+				foreach (var child in children) {
+					child.Clear ();
+				}
+				children.Clear ();
+			}
+
+			if (qualifiers != null) {
+				foreach (var node in qualifiers.Values) {
+					node.Clear ();
+				}
+
+				qualifiers.Clear ();
+			}
+		}
+
+		#endregion
+
 		/// <summary>
 		///    Adds a node as child of the current node
 		/// </summary>

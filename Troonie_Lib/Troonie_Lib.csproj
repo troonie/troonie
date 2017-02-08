@@ -74,6 +74,7 @@
     <Compile Include="VideoTagHelper.cs" />
     <Compile Include="ImageTagHelper.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="MemoryReducer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

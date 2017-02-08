@@ -148,7 +148,26 @@ namespace TagLib.IFD
 		/// </summary>
 		public override void Clear ()
 		{
-			throw new NotImplementedException ();
+			#region troonie change
+//			throw new NotImplementedException ();
+
+			if (Structure != null) {
+				Structure.Clear ();
+//				Structure = null;
+			}
+
+			if (gps_ifd != null) {
+				gps_ifd.Clear();
+//				gps_ifd = null;
+			}
+
+			if (exif_ifd != null) {
+				exif_ifd.Clear ();
+//				exif_ifd = null;
+			}
+
+			#endregion 
+
 		}
 
 #endregion

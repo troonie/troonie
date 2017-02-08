@@ -66,6 +66,15 @@ namespace TagLib.IFD
 
 #region Public Methods
 
+		#region troonie change
+		public void Clear()
+		{
+			if (directories != null) {
+				directories.Clear ();
+			}
+		}
+		#endregion
+
 		/// <summary>
 		///    Checks, if a value for the given tag is contained in the IFD.
 		/// </summary>

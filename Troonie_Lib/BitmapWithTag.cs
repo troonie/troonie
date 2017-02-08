@@ -9,7 +9,7 @@ using IOPath = System.IO.Path;
 
 namespace Troonie_Lib
 {
-	public class BitmapWithTag
+	public class BitmapWithTag : IDisposable
 	{		
 		private CombinedImageTag imageTag;
 
@@ -48,8 +48,18 @@ namespace Troonie_Lib
 			if (imageTag != null) {
 				try {
 					imageTag.Clear();
-				} catch (NotImplementedException) { /* do nothing */ }
+					imageTag = null;
+
+				} catch (NotImplementedException ex) { 
+					/* do nothing */ 
+					Console.WriteLine (ex.Message);
+				}
+//				finally{
+//					MemoryReducer.ReduceMemoryUsage (true);
+//				}
 			}
+
+			MemoryReducer.ReduceMemoryUsage (true);
 		}				
 
 		public bool Save(Config config, string relativeFileName, bool saveTag)
