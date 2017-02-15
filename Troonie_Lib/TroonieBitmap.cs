@@ -251,11 +251,14 @@ namespace Troonie_Lib
 
 		public static void CreateTextBitmap(string filename, string text)
 		{
-			int l = 25; // allowed number of char of a line
+			// not necessary on Windows 10
+			if (!Constants.I.WINDOWS) {
+				int l = 25; // allowed number of char of a line
 
-			for (int i = l; i < text.Length; i += l) {
-				text = text.Insert(i, Constants.N);
-				i++;
+				for (int i = l; i < text.Length; i += l) {
+					text = text.Insert (i, Constants.N);
+					i++;
+				}
 			}
 
 			Bitmap bmp = new Bitmap(300, 200);
@@ -275,6 +278,8 @@ namespace Troonie_Lib
 			bmp = ImageConverter.To8Bpp (bmp);
 			bmp.Save (filename, ImageFormat.Png);
 			bmp.Dispose ();
+
+			MemoryReducer.ReduceMemoryUsage (true);
 		}
 	}
 }

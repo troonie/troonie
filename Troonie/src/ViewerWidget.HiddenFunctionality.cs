@@ -317,7 +317,7 @@ namespace Troonie
 			long l = info.Length;
 			jpgQuality++;
 
-			string relativeImageName = filename.Substring(0, filename.LastIndexOf('.')) + "_tmp.jpg";
+			string relativeImageName = IOPath.DirectorySeparatorChar + filename.Substring(0, filename.LastIndexOf('.')) + "_tmp.jpg";
 
 
 			while (l > limitInBytes && jpgQuality > 5)
@@ -326,8 +326,8 @@ namespace Troonie
 
 				BitmapWithTag bt = new BitmapWithTag (fullfilename, true);
 				Config c = new Config();				
-				c.UseOriginalPath = false;
-				c.Path = Constants.I.EXEPATH;
+				c.UseOriginalPath = true;
+//				c.Path = Constants.I.EXEPATH;
 				c.HighQuality = true;
 				c.ResizeVersion = ResizeVersion.No;
 				c.JpgQuality = jpgQuality;

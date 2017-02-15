@@ -17,8 +17,6 @@ namespace Troonie
 {
 	public partial class SteganographyWidget : Gtk.Window
 	{
-		private const string blackFileName = "black.png";
-
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
 		private int imageW; 
@@ -108,7 +106,7 @@ namespace Troonie
 		{
 			if (FileName == null)
 			{
-				FileName = constants.EXEPATH + blackFileName;
+				FileName = constants.EXEPATH + Constants.BLACKFILENAME;
 				Title = FileName;
 				bt = new BitmapWithTag (FileName, false);
 				imageW = bt.Bitmap.Width;
@@ -155,7 +153,7 @@ namespace Troonie
 
 			if (newFileName) 
 			{
-				Bitmap pic = new Bitmap(FileName);                              
+				Bitmap pic = TroonieBitmap.FromFile (FileName); // new Bitmap(FileName);                              
 				Bitmap croppedPic;
 
 				ImageConverter.ScaleAndCut (
@@ -339,7 +337,7 @@ namespace Troonie
 
 			try {
 				File.Delete (tempScaledImageFileName);
-				File.Delete (Constants.I.EXEPATH + blackFileName);
+				File.Delete (Constants.I.EXEPATH + Constants.BLACKFILENAME);
 			}
 			catch (Exception) {				
 				Console.WriteLine(Constants.ERROR_DELETE_TEMP_FILES);;

@@ -73,6 +73,9 @@
     <EmbeddedResource Include="Files\taglib-sharp.dll">
       <LogicalName>taglib-sharp.dll</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Files\cjpeg.exe">
+      <LogicalName>cjpeg.exe</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />

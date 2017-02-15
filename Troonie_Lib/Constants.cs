@@ -30,7 +30,9 @@ namespace Troonie_Lib
 		public const int TIMEOUT_INTERVAL_FIRST = 500;
 		public const uint TIMEOUT_FILTER_PROCESS_PREVIEW = 300;
 		public const uint TIMEOUT_STITCH_PROCESS_PREVIEW = 1000;
+		public const string BLACKFILENAME = "black.png";
 		public const string AUTHOR = "Troonie Project";
+		public const string CJPEGNAME = "cjpeg";
 		public const string EXENAME = "Troonie.exe";
 		public const string ICONNAME = "icon.ico";
 		public const string WEBSITE = "http://www.troonie.com";
@@ -98,7 +100,7 @@ namespace Troonie_Lib
 		public bool WINDOWS { get { return windows; }}
 
 		private bool cjpeg;
-		public bool CJPEG { get { return cjpeg; }}
+		public bool CJPEG { get { return cjpeg;} }
 
 		private string exepath;
 		public string EXEPATH { get { return exepath; }}

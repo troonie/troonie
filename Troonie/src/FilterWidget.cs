@@ -329,7 +329,7 @@ namespace Troonie
 		private void Initialize()
 		{
 			Title = FileName;
-			filterImage = new Bitmap(FileName); 
+			filterImage = TroonieBitmap.FromFile (FileName); // new Bitmap(FileName); 
 			imageW = filterImage.Width;
 			imageH = filterImage.Height;
 			int w, h;

@@ -22,12 +22,17 @@ namespace Troonie_Lib
 			FileName = filename;
 
 			if (exists) {
-				Bitmap = new Bitmap (filename);
+//				Bitmap = new Bitmap (filename);
+				Bitmap = TroonieBitmap.FromFile (FileName);
 				OrigFormat = ImageFormatConverter.I.ConvertToPIF(Bitmap.RawFormat, Bitmap.PixelFormat);
 				imageTag = ImageTagHelper.GetTag (filename);
 			} 
 			else {
 				Bitmap = new Bitmap (180, 180, PixelFormat.Format32bppArgb);
+				Bitmap.Save(FileName, ImageFormat.Png);
+				Dispose ();
+
+				Bitmap = TroonieBitmap.FromFile (FileName);
 				OrigFormat = TroonieImageFormat.PNG32AlphaAsValue;
 				imageTag = new CombinedImageTag (TagTypes.Png);
 			}				
@@ -133,16 +138,12 @@ namespace Troonie_Lib
 				#region Saving by using TroonieImageFormat
 				switch (config.Format) {
 				case TroonieImageFormat.JPEG8:
-					JpegEncoder.SaveJpeg (FileName, dest, config.JpgQuality, true);
-					if (saveTag) {
-						ImageTagHelper.CopyTagToFile (FileName, imageTag);
-					}
-					return success;
 				case TroonieImageFormat.JPEG24:
-					JpegEncoder.SaveJpeg (FileName, dest, config.JpgQuality, false);
+					success = JpegEncoder.SaveWithCjpeg (FileName, dest, config.JpgQuality, config.Format == TroonieImageFormat.JPEG8);
 					if (saveTag) {
 						ImageTagHelper.CopyTagToFile (FileName, imageTag);
 					}
+					Bitmap = dest;
 					return success;
 				case TroonieImageFormat.BMP1:
 				case TroonieImageFormat.PNG1:
@@ -186,8 +187,9 @@ namespace Troonie_Lib
 				}
 
 			}
-			catch (Exception) {
+			catch (Exception ex) {
 				success = false;
+//				Console.WriteLine (ex.Message);
 			}
 
 			return success;

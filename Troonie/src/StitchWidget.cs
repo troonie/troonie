@@ -287,8 +287,8 @@ namespace Troonie
 
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			image01 = new Bitmap (FileName01);
-			image02 = new Bitmap (FileName02);
+			image01 = TroonieBitmap.FromFile (FileName01); // new Bitmap (FileName01);
+			image02 = TroonieBitmap.FromFile (FileName02); // new Bitmap (FileName02);
 
 			try {
 				#region StitchMIFilter

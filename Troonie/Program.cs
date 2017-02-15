@@ -4,6 +4,7 @@ using System.IO;
 using Troonie_Lib;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace Troonie
 {
@@ -25,11 +26,12 @@ namespace Troonie
 			try {
 				Constants.I.Init ();
 				#region Set new version number in code
-//				Troonie_Lib.Version.SetNewVersionNumberInAllFiles("1.0.5");
+//				Troonie_Lib.Version.SetNewVersionNumberInAllFiles("1.0.6");
 //				return;
 				#endregion Set new version number in code
 
 				GetProgramIcon ();
+//				GetCjpegExecutable();
 			}
 			catch (Exception) {
 				Console.WriteLine ("Error.");
@@ -145,5 +147,55 @@ namespace Troonie
 				str.CopyTo (destStream);
 			}
 		}
+
+//		private static void GetCjpegExecutable()
+//		{
+//			string name = Constants.I.WINDOWS ? Constants.CJPEGNAME + @".exe" : Constants.CJPEGNAME;
+//
+//			if (File.Exists (Constants.I.EXEPATH + name)) {
+////				if (!Constants.I.WINDOWS) {
+////					Constants.I.CJPEG = SetChmodX (Constants.I.EXEPATH + name);
+////				} else {
+////					Constants.I.CJPEG = true;
+////				}
+//				Constants.I.CJPEG = Constants.I.WINDOWS ? true : SetChmodX (Constants.I.EXEPATH + name);
+//				return;
+//			}
+//
+//			Assembly thisExe = Assembly.GetExecutingAssembly();
+//			//			string [] resources = thisExe.GetManifestResourceNames();
+//
+//			using (Stream str = thisExe.GetManifestResourceStream(name), 
+//				destStream = new FileStream(Constants.I.EXEPATH + name, FileMode.Create, FileAccess.Write))
+//			{
+//				str.CopyTo (destStream);
+//			}
+//
+//			Constants.I.CJPEG = Constants.I.WINDOWS ? true : SetChmodX (Constants.I.EXEPATH + name);
+//		}
+//
+//		private static bool SetChmodX(string file)
+//		{
+//			bool success;
+//			using (Process proc = new Process ()) {
+//				try {
+//					proc.StartInfo.FileName = "chmod";  
+//					proc.StartInfo.Arguments = "ugo+x " + file; 
+//					proc.StartInfo.UseShellExecute = false; 
+//					proc.StartInfo.RedirectStandardOutput = true;
+//					proc.StartInfo.RedirectStandardError = true;
+//					proc.Start ();
+//					proc.WaitForExit ();
+//					proc.Close ();
+//	//				proc.Dispose ();
+//					success = true;
+//				}
+//				catch(Exception){
+//					success = false;
+//				}
+//			}
+//
+//			return success;
+//		}
 	}
 }

@@ -546,7 +546,9 @@ namespace Troonie_Lib
 						imageTag.FocalLengthIn35mmFilm = newData.FocalLengthIn35mmFilm;		break;
 				case TagsFlag.ISOSpeedRatings:	
 						imageTag.ISOSpeedRatings = newData.ISOSpeedRatings;					break;
-				case TagsFlag.Keywords:		imageTag.Keywords = newData.Keywords.ToArray();	break;
+				case TagsFlag.Keywords:		
+					imageTag.Keywords = (newData.Keywords != null && newData.Keywords.Count != 0) ? newData.Keywords.ToArray() : null;	
+					break;
 				case TagsFlag.Latitude:		imageTag.Latitude = newData.Latitude;			break;
 				case TagsFlag.Longitude:	imageTag.Longitude = newData.Longitude;			break;
 				case TagsFlag.Make:			imageTag.Make = newData.Make;					break;
