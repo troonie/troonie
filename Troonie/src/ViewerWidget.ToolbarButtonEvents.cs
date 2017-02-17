@@ -13,7 +13,7 @@ namespace Troonie
 
 		protected void OnToolbarBtn_OpenPressed(object sender, EventArgs e)
 		{
-			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (true);
+			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (true, true);
 
 			if (fc.Run() == (int)ResponseType.Ok) 
 			{

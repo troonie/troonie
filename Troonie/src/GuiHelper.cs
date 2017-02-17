@@ -132,7 +132,7 @@ namespace Troonie
 			GLib.Timeout.Add(200, timeoutHandler);
 		}
 
-		public FileChooserDialog GetImageFileChooserDialog(bool selectMultiple, string alternativeTitle = null)
+		public FileChooserDialog GetImageFileChooserDialog(bool selectMultiple, bool allowVideo, string alternativeTitle = null)
 		{
 			object[] o = new object[]{Language.I.L[16],ResponseType.Ok, 
 				Language.I.L[17],ResponseType.Cancel};
@@ -168,6 +168,16 @@ namespace Troonie
 			filter.AddPattern("*.BMP");
 			filter.AddPattern("*.GIF");
 			filter.AddPattern("*.TIFF");
+			if (allowVideo) {
+				filter.AddPattern("*.mp4");
+				filter.AddPattern("*.avi");
+				filter.AddPattern("*.divx");
+				filter.AddPattern("*.xvid");
+				filter.AddPattern("*.mp4");
+				filter.AddPattern("*.mpg");
+				filter.AddPattern("*.mpeg");
+				filter.AddPattern("*.m2v");
+			}
 			fc.Filter = filter;
 			// fc.RemoveShortcutFolderUri (Environment.GetFolderPath(Environment.SpecialFolder.Recent));
 

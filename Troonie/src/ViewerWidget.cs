@@ -391,17 +391,35 @@ namespace Troonie
 					} 
 
 					if (addingVideoPicture) {
-						string fullPicName = info.FullName + ".png";
 
-						if (!File.Exists (fullPicName)) {
+
+						string fullPicName = null; // = info.FullName + ".png";
+
+						for (int k = 5; k >= 1; k--) {
+//							string ss = info.FullName.Replace (Constants.Stars [k], string.Empty);
+							fullPicName = info.FullName.Replace(Constants.Stars[k], string.Empty) + Constants.Stars[k] + ".png";
+							if (File.Exists (fullPicName)) {
+								break;
+							}
+
+							// If not found, setting default video pic filename
+							fullPicName = info.FullName + ".png";
+						}
+
+						// if video pic does not exist, create it
+						if (!File.Exists(fullPicName)) {
 							TroonieBitmap.CreateTextBitmap (fullPicName, 
 								info.FullName.Substring(info.FullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1));
+						}
 
-							newImages.Insert(i, fullPicName);
+						// if video pic is not added yet, add it
+						if (!newImages.Contains (fullPicName)) {
+							newImages.Insert (i, fullPicName);
 							info = new FileInfo (newImages [i]);
 							ext = info.Extension.ToLower ();
 							isImage = true;
 							isVideo = false;
+//							i++;
 						}
 					}
 				}

@@ -38,12 +38,16 @@ namespace Troonie
 					if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {						
 						td = ImageTagHelper.GetTagsData (pib.OriginalImageFullName);
 						rating = td.Rating == null ? 0 : td.Rating.Value;
-
 					} else {
 //						td = VideoTagHelper.GetTagsData(pib.OriginalImageFullName);
 //						rating = td.TrackCount;
 						isVideo = true;
 
+						string fullPicName = info.FullName + ".png";
+						if (File.Exists (fullPicName)) {
+							td = ImageTagHelper.GetTagsData (fullPicName);
+							rating = td.Rating == null ? 0 : td.Rating.Value;
+						}
 //						ConvertWidget.InsertIdentifierAtBegin(ref f, ref fullf, "V-", td.Title);
 //						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
 					}
@@ -51,31 +55,37 @@ namespace Troonie
 					long limitInBytes = Math.Max (rating * 1050000, 350000);
 					int biggestLength;
 
-					switch (rating) 
-					{
-					case 0:			
-						break;
-					case 1:
-						AppendIdentifier (ref f, ref fullf, "_+");
-						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-						break;
-					case 2: 
-						AppendIdentifier (ref f, ref fullf, "_++");
-						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-						break;
-					case 3: 
-						AppendIdentifier (ref f, ref fullf, "_+++");
-						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-						break;
-					case 4: 
-						AppendIdentifier (ref f, ref fullf, "_++++");
-						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-						break;
-					case 5: 
-						AppendIdentifier (ref f, ref fullf, "_+++++");
-						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
+//					switch (rating) 
+//					{
+//					case 0:			
+//						break;
+//					case 1:
+//						AppendIdentifier (ref f, ref fullf, Constants.Stars[rating]);
+//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
+//						break;
+//					case 2: 
+//						AppendIdentifier (ref f, ref fullf, "_++");
+//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
+//						break;
+//					case 3: 
+//						AppendIdentifier (ref f, ref fullf, "_+++");
+//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
+//						break;
+//					case 4: 
+//						AppendIdentifier (ref f, ref fullf, "_++++");
+//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
+//						break;
+//					case 5: 
+//						AppendIdentifier (ref f, ref fullf, "_+++++");
+//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
+//						limitInBytes = long.MaxValue; // avoid any jpg compression
+//						break;
+//					}
+
+					AppendIdentifier (ref f, ref fullf, Constants.Stars[rating]);
+					SetTextAndFulltextAndRedrawVip(pib, f, fullf);
+					if (rating == 5) {
 						limitInBytes = long.MaxValue; // avoid any jpg compression
-						break;
 					}
 
 					if (!isVideo && (Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 

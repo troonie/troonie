@@ -10,7 +10,7 @@ namespace Troonie
 	{
 		protected void OnToolbarBtn_OpenPressed(object sender, EventArgs e)
 		{
-			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false);
+			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, false);
 
 			if (fc.Run() == (int)ResponseType.Ok) 
 			{
@@ -63,7 +63,7 @@ namespace Troonie
 				fw = new FilterWidget (FileName, new OilPaintingFilter());
 				break;
 			case 8:
-				FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, Language.I.L [152]);
+				FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, false, Language.I.L [152]);
 				if (fc.Run () == (int)ResponseType.Ok) {
 					int w, h, wCompare, hCompare, psCompare;
 					PixelFormat pf;
@@ -134,7 +134,7 @@ namespace Troonie
 
 		protected void OnToolbarBtn_StitchPressed (object sender, EventArgs e)
 		{
-			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, Language.I.L[151]);
+			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, false, Language.I.L[151]);
 
 			if (fc.Run() == (int)ResponseType.Ok) 
 			{

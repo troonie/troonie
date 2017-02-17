@@ -54,6 +54,7 @@ namespace Troonie_Lib
 		/// <summary>Shortcut for 'Environment.NewLine'.</summary>
 		public static string N = Environment.NewLine;
 
+		public static string[] Stars = new[]{ string.Empty, "_+", "_++", "_+++", "_++++", "_+++++" };
 
 		// Usage examples
 		//		var test = Troonie_Lib.ImageFormatConverter.I.Extensions.Where(x => x.Key == TroonieImageFormat.JPEG24).Select(x => x.Value);
@@ -86,6 +87,28 @@ namespace Troonie_Lib
 			{ TroonieVideoFormat.MP4, Tuple.Create(".mp4", string.Empty, string.Empty) },
 			{ TroonieVideoFormat.MPEG, Tuple.Create(".mpg", ".mpeg", ".m2v") }
 		};
+
+		public string[] VideoExtensionArray{
+			get { 
+					List<string> l = new List<string> ();
+					foreach (var item in VideoExtensions.Values) {
+						if (item.Item1 != string.Empty) {
+							l.Add (item.Item1);
+						}						
+						if (item.Item2 != string.Empty) {
+							l.Add (item.Item2);
+						}						
+						if (item.Item3 != string.Empty) {
+							l.Add (item.Item3);
+						}
+					}
+
+				string[] result = l.ToArray ();
+				l.Clear ();
+				l = null;
+				return result;
+			}
+		}
 
 		private float versionFloat;
 		public float VERSION_FLOAT { get {	return versionFloat; } }
