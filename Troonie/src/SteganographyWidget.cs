@@ -192,6 +192,7 @@ namespace Troonie
 			simpleimagepanel1.Initialize();
 
 			ShowAll();
+			comboboxVersion.Visible = BitSteg.SHOW_IN_GUI;
 		}		
 
 		private void SetGuiColors()
@@ -283,6 +284,65 @@ namespace Troonie
 
 			bt.Bitmap.Dispose ();
 			bt.ChangeBitmapButNotTags(b1);
+
+			Initialize (false);
+
+			pseudo.Show ();
+		}
+
+		private void DoBitSteg()
+		{
+			BitSteg bs = new BitSteg ();
+//			filter.Key = entryKey.Text;
+//			entryKey.Text = string.Empty;
+//			filter.WritingMode = rdBtnWrite.Active;
+//			filter.UseStrongObfuscation = checkBtnStrongObfuscation.Active;
+
+			OkCancelDialog pseudo = new OkCancelDialog (true);
+			pseudo.WindowPosition = WindowPosition.CenterAlways;
+			pseudo.Title = Language.I.L [80];
+			pseudo.Label1 = Language.I.L [81];
+			pseudo.OkButtontext = Language.I.L [16];
+			pseudo.CancelButtontext = Language.I.L [17];
+
+			if (rdBtnWrite.Active) {
+				string[] content = textviewContent.Buffer.Text.Split ('\n');
+				bool success = bs.Write (bt.Bitmap, entryKey.Text, content);
+
+				if (success) {
+					pseudo.Label2 = Language.I.L [83];
+				} else {
+					pseudo.Label1 =  Language.I.L [53];
+					pseudo.Label2 =  Language.I.L [52];
+				}
+			} 
+			else {
+//				if (!ImageConverter.IsColorImage(bt.Bitmap)) {
+//					pseudo.DestroyAll ();
+//					OkCancelDialog wrongImageContextMenu = new OkCancelDialog (true);
+//					wrongImageContextMenu.WindowPosition = WindowPosition.CenterAlways;
+//					wrongImageContextMenu.Title = Language.I.L [53];
+//					wrongImageContextMenu.Label1 = Language.I.L [55];
+//					wrongImageContextMenu.Label2 = Language.I.L [56];
+//					wrongImageContextMenu.OkButtontext = Language.I.L [16];
+//					//					wrongImageContextMenu.CancelButtontext = Language.I.L [17];
+//					wrongImageContextMenu.Show ();
+//					return;
+//				}
+
+				string[] content;
+				bs.Read (bt.Bitmap, entryKey.Text, out content);
+				textviewContent.Buffer.Text = string.Empty;
+				foreach (string item in content) {
+					textviewContent.Buffer.Text += item + "\n";
+				}
+				pseudo.Label2 = Language.I.L [82];
+			}
+
+			entryKey.Text = string.Empty;
+
+//			bt.Bitmap.Dispose ();
+//			bt.ChangeBitmapButNotTags(b1);
 
 			Initialize (false);
 
@@ -417,7 +477,11 @@ namespace Troonie
 				}				
 			}
 			else /* if (rdBtnRead.Active) */ {
-				DoSteganography ();
+//				comboboxVersion.Active == 0 ? DoSteganography () : DoBitSteg();
+				if (comboboxVersion.Active == 0)
+					DoSteganography ();
+				else
+					DoBitSteg ();
 			}				
 		}
 
@@ -434,7 +498,10 @@ namespace Troonie
 		private void ConfirmKey(string password)
 		{
 			if (password == entryKey.Text) {
-				DoSteganography ();
+				if (comboboxVersion.Active == 0)
+					DoSteganography ();
+				else
+					DoBitSteg ();
 			} else {
 				OkCancelDialog warn = new OkCancelDialog (true);
 				warn.WindowPosition = WindowPosition.CenterAlways;

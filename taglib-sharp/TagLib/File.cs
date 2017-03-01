@@ -1429,6 +1429,7 @@ namespace TagLib {
 				return file;
 			} catch (System.Reflection.TargetInvocationException e) {
                 PrepareExceptionForRethrow(e.InnerException);
+
 				throw e.InnerException;
 			}
 		}

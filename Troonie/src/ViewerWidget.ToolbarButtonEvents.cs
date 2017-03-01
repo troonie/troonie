@@ -76,6 +76,7 @@ namespace Troonie
 		protected void OnToolbarBtn_RemovePressed (object sender, EventArgs e)
 		{
 			bool needRepopulate = false;
+			int lastRemovedId = 0;
 			for (int i = 0; i < tableViewer.Children.Length; i++) {
 				ViewerImagePanel vip = tableViewer.Children[i] as ViewerImagePanel;
 				if (vip.IsPressedIn) {
@@ -87,10 +88,11 @@ namespace Troonie
 					vip.DestroyAll ();
 					i--;
 					needRepopulate = true;
+					lastRemovedId = vip.ID;
 				}
 			}
 
-			if (needRepopulate) {
+			if (needRepopulate) {				
 				rowNr = 0;
 				colNr = 0;
 				Widget[] widgetList = tableViewer.Children;
@@ -99,12 +101,13 @@ namespace Troonie
 					tableViewer.Remove (item);
 				}
 
+				if (widgetList.Length == 0)
+					return;
+				
+				int nextId = (widgetList [widgetList.Length - 1] as ViewerImagePanel).ID;
+				int diff = int.MaxValue;
+
 				for (int i = widgetList.Length - 1; i >= 0;  i--) {
-//				foreach (ViewerImagePanel vip in widgetList) {
-//					ViewerImagePanel vip2 = new ViewerImagePanel (IncrementImageID(), newImages [i], smallVipWidthAndHeight, maxVipWidth, maxVipHeight);
-//					ImageFullPaths.Add (newImages [i]);
-//					vip2.OnIsPressedInChanged += OnIsPressedIn;
-//					vip2.OnDoubleClicked += OnDoubleClicked;
 					tableViewer.Attach (widgetList[i], rowNr, rowNr + 1, colNr, colNr + 1, 
 						AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);					
 
@@ -114,11 +117,25 @@ namespace Troonie
 					} else {
 						rowNr++;
 					}
+
+					// calc next right neighbour to make it pressedIn
+					int tmpId = (widgetList [i] as ViewerImagePanel).ID;
+					if (tmpId > lastRemovedId && tmpId - lastRemovedId < diff) {
+						nextId = tmpId;
+						diff = Math.Abs (tmpId - lastRemovedId);
+					}
 				}
-
-				MoveVIP (Gdk.Key.Right);
+					
+				// set next right neighbour to pressedIn
+				foreach (ViewerImagePanel vip_new in tableViewer.Children) {
+					if (vip_new.ID == nextId) {
+						vip_new.IsPressedIn = true;
+						vip_new.IsDoubleClicked = doubleClickedMode;
+						vip_new.Show ();
+						break;
+					}
+				}
 			}
-
 		}		
 			
 		protected void OnToolbarBtn_LanguagePressed (object sender, EventArgs e)

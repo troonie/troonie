@@ -20,11 +20,12 @@ namespace Troonie
 		private VBox vbox;
 		private HBox hbox;
 		private Entry entry;
-		private Label lbInfo;
+		private ComboBox combobox;
 		private TroonieButton btnOk, btnCancel;
 		private TagsFlag tags;
 		private List<ViewerImagePanel> pressedInVIPs;
 
+		private List<int> comboxboxIds;
 
 		public EnterMetaDataWindow (List<ViewerImagePanel> pressedInVIPs, TagsFlag tags) : base (Gtk.WindowType.Toplevel)
 		{
@@ -57,9 +58,9 @@ namespace Troonie
 			// center = 0.5f
 			// right/bottom = 1.0f
 			Alignment a = new Alignment (0.0f, 0, 0.3f, 0);
-			lbInfo = new Label();
+			combobox = new ComboBox(new[]{"-"});
 			//			lbInfo.Label = Language.I.L [202];
-			a.Add(lbInfo);
+			a.Add(combobox);
 
 			vbox.Add (a);
 			Box.BoxChild w2 = ((Box.BoxChild)(vbox [a]));
@@ -127,10 +128,13 @@ namespace Troonie
 
 		private void SetInfoLabel()
 		{
+			combobox.RemoveText (0);
+
 			switch (tags) {
 			case TagsFlag.Flash:
 				// source: http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif/flash.html
-				lbInfo.Text = 
+//				lbInfo.Text = 
+				combobox.AppendText( 
 					"0 = Flash did not fire " + Constants.N +
 					"1 = Flash fired	" + Constants.N +
 					"5 = Strobe return light not detected " + Constants.N +
@@ -152,10 +156,10 @@ namespace Troonie
 					"79 = Flash fired, compulsory flash mode, red-eye reduction mode, return light detected " + Constants.N +
 					"89 = Flash fired, auto mode, red-eye reduction mode " + Constants.N +
 					"93 = Flash fired, auto mode, return light not detected, red-eye reduction mode " + Constants.N +
-					"95 = Flash fired, auto mode, return light detected, red-eye reduction mode ";
+					"95 = Flash fired, auto mode, return light detected, red-eye reduction mode ");
 					break;
 			case TagsFlag.MeteringMode:
-				lbInfo.Text = 
+				combobox.AppendText( 
 					"0 = Unknown " + Constants.N +
 					"1 = Average " + Constants.N +
 					"2 = CenterWeightedAverage " + Constants.N +
@@ -163,19 +167,29 @@ namespace Troonie
 					"4 = MultiSpot " + Constants.N +
 					"5 = Pattern " + Constants.N +
 					"6 = Partial " + Constants.N +
-					"255 = other ";
+					"255 = other ");
 				break;
-			case TagsFlag.Orientation:
-				lbInfo.Text = 
-					"0\t-\t" + Language.I.L [203] + Constants.N +
-					"1\t-\t" + Language.I.L [204] + Constants.N +
-					"3\t-\t" + Language.I.L [205] + Constants.N +
-					"6\t-\t" + Language.I.L [206] + Constants.N +
-					"8\t-\t" + Language.I.L [207] + Constants.N;
+			case TagsFlag.Orientation:						
+				combobox.InsertText (0, "0\t-\t" + Language.I.L [203]);
+				combobox.AppendText ("1\t-\t" + Language.I.L [204]);
+				combobox.AppendText ("3\t-\t" + Language.I.L [205]);
+				combobox.AppendText ("6\t-\t" + Language.I.L [206]);
+				combobox.AppendText ("8\t-\t" + Language.I.L [207]);
+
+				comboxboxIds = new List<int> { 0, 1, 3, 6, 8 };
+				entry.IsEditable = false;
+				combobox.Active = comboxboxIds.IndexOf(int.Parse(entry.Text));
+				combobox.Changed += Changed;
+
 				break;
 			default:
 				break;
-			}
+			}				
+		}
+
+		private void Changed(object sender, EventArgs e)
+		{
+			entry.Text = comboxboxIds[combobox.Active].ToString();
 		}
 
 		private void SetEntryStartText()

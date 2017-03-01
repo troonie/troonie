@@ -30,10 +30,22 @@ namespace Troonie
 //				return;
 				#endregion Set new version number in code
 
+//				#region Test suite BitSteg
+//				string[]s_array = {"eins" , "zwei", "drei", "VIER!!!+*}}}"};
+//				BitSteg bs = new BitSteg();
+//				System.Drawing.Bitmap bitmap = TroonieBitmap.FromFile("gray.jpg"); // new System.Drawing.Bitmap(16,16, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+//				bitmap.Save ("original.png", System.Drawing.Imaging.ImageFormat.Png);
+//				bs.Write(bitmap, "1234", s_array);
+//				bitmap.Save ("result.png", System.Drawing.Imaging.ImageFormat.Png);
+//				bitmap.Dispose();
+//				Console.WriteLine("--- END ---");
+//				#endregion
+
 				GetProgramIcon ();
 //				GetCjpegExecutable();
 			}
 			catch (Exception) {
+//				Console.WriteLine (ex.Message);
 				Console.WriteLine ("Error.");
 				Console.WriteLine ("Troonie cannot work correctly and was closing.");
 				Console.WriteLine ("Troonie (as well as its directory) requires read and write permission.");

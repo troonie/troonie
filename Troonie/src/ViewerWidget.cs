@@ -378,6 +378,8 @@ namespace Troonie
 							DialogFlags.DestroyWithParent, MessageType.Question, 
 							ButtonsType.OkCancel, Language.I.L [201]);
 						//					md.Run ();
+						md.KeepAbove = true;
+						md.WindowPosition = WindowPosition.CenterAlways;
 
 						ResponseType tp = (Gtk.ResponseType)md.Run();
 //						if (tp == ResponseType.Ok) {

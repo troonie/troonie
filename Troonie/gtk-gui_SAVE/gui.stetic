@@ -2275,6 +2275,7 @@
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">Retain original size</property>
+                                            <property name="Active">True</property>
                                             <property name="DrawIndicator">True</property>
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>
@@ -3022,17 +3023,31 @@
                                         <property name="MemberName" />
                                         <property name="Spacing">6</property>
                                         <child>
+                                          <widget class="Gtk.ComboBox" id="comboboxVersion">
+                                            <property name="MemberName" />
+                                            <property name="IsTextCombo">True</property>
+                                            <property name="Items" translatable="yes">v1 2016 [StegHash]
+v2 2017 [BitSteg]</property>
+                                            <property name="Active">0</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">0</property>
+                                            <property name="AutoSize">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
                                           <widget class="Gtk.RadioButton" id="rdBtnRead">
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">Read</property>
+                                            <property name="Active">True</property>
                                             <property name="DrawIndicator">True</property>
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>
                                             <property name="Group">group1</property>
                                           </widget>
                                           <packing>
-                                            <property name="Position">0</property>
+                                            <property name="Position">1</property>
                                             <property name="AutoSize">True</property>
                                           </packing>
                                         </child>
@@ -3048,7 +3063,7 @@
                                             <signal name="Toggled" handler="OnRdBtnWriteToggled" />
                                           </widget>
                                           <packing>
-                                            <property name="Position">1</property>
+                                            <property name="Position">2</property>
                                             <property name="AutoSize">True</property>
                                           </packing>
                                         </child>
@@ -3063,7 +3078,7 @@
                                             <property name="UseUnderline">True</property>
                                           </widget>
                                           <packing>
-                                            <property name="Position">2</property>
+                                            <property name="Position">3</property>
                                             <property name="AutoSize">True</property>
                                           </packing>
                                         </child>

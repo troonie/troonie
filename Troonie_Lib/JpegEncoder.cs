@@ -17,7 +17,7 @@ namespace Troonie_Lib
 			{
 				Process proc = new Process();
 				proc.StartInfo.FileName = Constants.CJPEGNAME;
-				proc.StartInfo.Arguments = "x";
+				proc.StartInfo.Arguments = "-v";
 				proc.StartInfo.UseShellExecute = false; 
 				proc.StartInfo.CreateNoWindow = true;
 //				proc.StartInfo.RedirectStandardOutput = true;

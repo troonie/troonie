@@ -60,6 +60,16 @@ namespace Troonie_Lib
 		{
 			return (ten * 10 + one);
 		}
+
+		public static byte DigitSumOfByte(byte b)
+		{
+			int three = (int)(b / 100);
+			int two = (int)((b - (three * 100)) / 10);
+			int one = (int)(b - three * 100 - two * 10);
+			b = (byte)(three + two + one);
+
+			return b;
+		}
 	}
 }
 

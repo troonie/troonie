@@ -53,7 +53,7 @@ Too small image and too much text to decrypt correctly.;Zu kleines Bild und zu v
 ERROR.;FEHLER.
 A portable tool to convert, trim, stitch, filter photos and work with steganography.;Ein schlankes Tool zum Konvertieren, Beschneiden, Zusammenkleben und Filtern von Fotos sowie für Steganografie.
 No Steganography image.;Kein Steganografiebild.
-Image needs to contain 32 bit alpha transparency.;Bild muss 32-Bit-Alpha-Transparenz besitzen.
+Image needs to be a color image.;Bild muss Farbbild sein.
 Should Troonie add context menu entries for the desktop?; Soll Troonie Kontextmenüeinträge für den Desktop anlegen? 
   So Troonie could be started by clicking with right mouse key on an image.  ;  Somit kann Troonie mit rechter Maustaste auf ein Bild gestartet werden.  
 Context menu entries for desktop;Kontextmenüeinträge für Desktop
