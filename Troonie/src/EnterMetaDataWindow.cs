@@ -25,7 +25,7 @@ namespace Troonie
 		private TagsFlag tags;
 		private List<ViewerImagePanel> pressedInVIPs;
 
-		private List<int> comboxboxIds;
+		private List<int> comboboxIds;
 
 		public EnterMetaDataWindow (List<ViewerImagePanel> pressedInVIPs, TagsFlag tags) : base (Gtk.WindowType.Toplevel)
 		{
@@ -128,68 +128,73 @@ namespace Troonie
 
 		private void SetInfoLabel()
 		{
+			combobox.Visible = false;
 			combobox.RemoveText (0);
 
 			switch (tags) {
 			case TagsFlag.Flash:
 				// source: http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif/flash.html
 //				lbInfo.Text = 
-				combobox.AppendText( 
-					"0 = Flash did not fire " + Constants.N +
-					"1 = Flash fired	" + Constants.N +
-					"5 = Strobe return light not detected " + Constants.N +
-					"7 = Strobe return light detected " + Constants.N +
-					"9 = Flash fired, compulsory flash mode " + Constants.N +
-					"13 = Flash fired, compulsory flash mode, return light not detected " + Constants.N +
-					"15 = Flash fired, compulsory flash mode, return light detected " + Constants.N +
-					"16 = Flash did not fire, compulsory flash mode " + Constants.N +
-					"24 = Flash did not fire, auto mode " + Constants.N +
-					"25 = Flash fired, auto mode	" + Constants.N +
-					"29 = Flash fired, auto mode, return light not detected " + Constants.N +
-					"31 = Flash fired, auto mode, return light detected " + Constants.N +
-					"32 = No flash function " + Constants.N +
-					"65 = Flash fired, red-eye reduction mode	" + Constants.N +
-					"69 = Flash fired, red-eye reduction mode, return light not detected " + Constants.N +
-					"71 = Flash fired, red-eye reduction mode, return light detected " + Constants.N +
-					"73 = Flash fired, compulsory flash mode, red-eye reduction mode " + Constants.N +
-					"77 = Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected " + Constants.N +
-					"79 = Flash fired, compulsory flash mode, red-eye reduction mode, return light detected " + Constants.N +
-					"89 = Flash fired, auto mode, red-eye reduction mode " + Constants.N +
-					"93 = Flash fired, auto mode, return light not detected, red-eye reduction mode " + Constants.N +
-					"95 = Flash fired, auto mode, return light detected, red-eye reduction mode ");
-					break;
+				combobox.AppendText ("0 = Flash did not fire ");
+				combobox.AppendText ("1 = Flash fired	");
+				combobox.AppendText ("5 = Strobe return light not detected ");
+				combobox.AppendText ("7 = Strobe return light detected ");
+				combobox.AppendText ("9 = Flash fired, compulsory flash mode ");
+				combobox.AppendText ("13 = Flash fired, compulsory flash mode, return light not detected ");
+				combobox.AppendText ("15 = Flash fired, compulsory flash mode, return light detected ");
+				combobox.AppendText ("16 = Flash did not fire, compulsory flash mode ");
+				combobox.AppendText ("24 = Flash did not fire, auto mode ");
+				combobox.AppendText ("25 = Flash fired, auto mode	");
+				combobox.AppendText ("29 = Flash fired, auto mode, return light not detected ");
+				combobox.AppendText ("31 = Flash fired, auto mode, return light detected ");
+				combobox.AppendText ("32 = No flash function ");
+				combobox.AppendText ("65 = Flash fired, red-eye reduction mode	");
+				combobox.AppendText ("69 = Flash fired, red-eye reduction mode, return light not detected ");
+				combobox.AppendText ("71 = Flash fired, red-eye reduction mode, return light detected ");
+				combobox.AppendText ("73 = Flash fired, compulsory flash mode, red-eye reduction mode ");
+				combobox.AppendText ("77 = Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected ");
+				combobox.AppendText ("79 = Flash fired, compulsory flash mode, red-eye reduction mode, return light detected ");
+				combobox.AppendText ("89 = Flash fired, auto mode, red-eye reduction mode ");
+				combobox.AppendText ("93 = Flash fired, auto mode, return light not detected, red-eye reduction mode ");
+				combobox.AppendText ("95 = Flash fired, auto mode, return light detected, red-eye reduction mode ");
+				comboboxIds = new List<int> { 0, 1, 5, 7, 9, 13, 15, 16, 24, 25, 29, 31, 32, 65, 69, 71, 73, 77, 79, 89, 93, 95 };
+				InitCombobox ();
+				break;
 			case TagsFlag.MeteringMode:
-				combobox.AppendText( 
-					"0 = Unknown " + Constants.N +
-					"1 = Average " + Constants.N +
-					"2 = CenterWeightedAverage " + Constants.N +
-					"3 = Spot " + Constants.N +
-					"4 = MultiSpot " + Constants.N +
-					"5 = Pattern " + Constants.N +
-					"6 = Partial " + Constants.N +
-					"255 = other ");
+				combobox.AppendText ("0 = Unknown ");
+				combobox.AppendText ("1 = Average ");
+				combobox.AppendText ("2 = CenterWeightedAverage ");
+				combobox.AppendText ("3 = Spot ");
+				combobox.AppendText ("4 = MultiSpot ");
+				combobox.AppendText ("5 = Pattern ");
+				combobox.AppendText ("6 = Partial ");
+				combobox.AppendText ("255 = Other ");
+				comboboxIds = new List<int> { 0, 1, 2, 3, 4, 5, 6, 255 };
+				InitCombobox ();
 				break;
 			case TagsFlag.Orientation:						
-				combobox.InsertText (0, "0\t-\t" + Language.I.L [203]);
-				combobox.AppendText ("1\t-\t" + Language.I.L [204]);
-				combobox.AppendText ("3\t-\t" + Language.I.L [205]);
-				combobox.AppendText ("6\t-\t" + Language.I.L [206]);
-				combobox.AppendText ("8\t-\t" + Language.I.L [207]);
-
-				comboxboxIds = new List<int> { 0, 1, 3, 6, 8 };
-				entry.IsEditable = false;
-				combobox.Active = comboxboxIds.IndexOf(int.Parse(entry.Text));
-				combobox.Changed += Changed;
-
+				combobox.AppendText ("0 = " + Language.I.L [203]);
+				combobox.AppendText ("1 = " + Language.I.L [204]);
+				combobox.AppendText ("3 = " + Language.I.L [205]);
+				combobox.AppendText ("6 = " + Language.I.L [206]);
+				combobox.AppendText ("8 = " + Language.I.L [207]);
+				comboboxIds = new List<int> { 0, 1, 3, 6, 8 };
+				InitCombobox ();
 				break;
 			default:
 				break;
 			}				
 		}
 
-		private void Changed(object sender, EventArgs e)
+		private void InitCombobox()
 		{
-			entry.Text = comboxboxIds[combobox.Active].ToString();
+			entry.IsEditable = false;
+			combobox.Visible = true;
+			combobox.Changed +=	(sender, e) => { entry.Text = comboboxIds[combobox.Active].ToString(); };
+			int tmp;
+			if (int.TryParse (entry.Text, out tmp)) {
+				combobox.Active = comboboxIds.IndexOf(tmp);
+			}
 		}
 
 		private void SetEntryStartText()

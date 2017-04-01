@@ -49,7 +49,7 @@ File name;Dateiname
 Pixel format is not supported.;Pixelformat wird nicht unterstützt.
 File already exists. Overwrite?;Datei existiert bereits. Überschreiben?
 No image file or image cannot be loaded.;Keine Bilddatei oder Bild kann nicht geladen werden.
-Too small image and too much text to decrypt correctly.;Zu kleines Bild und zu viel Text für korrekte Verschlüsselung.
+Too small image and too much text / too big file to decrypt correctly.;Zu kleines Bild und zu viel Text / zu große Datei für korrekte Verschlüsselung.
 ERROR.;FEHLER.
 A portable tool to convert, trim, stitch, filter photos and work with steganography.;Ein schlankes Tool zum Konvertieren, Beschneiden, Zusammenkleben und Filtern von Fotos sowie für Steganografie.
 No Steganography image.;Kein Steganografiebild.
@@ -72,8 +72,8 @@ Download the new version from website?;Neue Version von Website herunterladen?
 Rotating works only with 24bit-RGB-images or 8bit-grayscale-images;Drehen funktioniert momentan nur mit 24Bit-RGB-Bildern und 8-Bit-Graustufenbildern
 Steganography;Steganografie
 Mode;Modus
-Read;Lesen
-Write;Schreiben
+Decrypt;Entschlüsseln
+Encrypt;Verschlüsseln
 Key;Schlüssel
 Content;Inhalt
 store alpha value;Alpha-Wert beibehalten
@@ -228,3 +228,18 @@ Options;Einstellungen
 General;Allgemein
 No videoplayer is set;Kein Videoplayer ausgewählt
 Videoplayer;Videoplayer
+File;Datei
+Please choose file to encrypt.;Bitte Datei zum Verschlüsseln auswählen.
+No filename entered;Kein Dateiname eingegeben
+Please enter a filename.;Bitte einen Dateinamen eingeben.
+No valid file;Keine Datei ausgewählt
+Not supported pixel format of image.;Bildformat wird nicht unterstützt.
+Image resolution too small (minimum 256 pixels).;Bildauflösung zu klein (Minimum 256 Pixel).
+Image resolution too big (avoiding integer overflow).;Bildauflösung zu groß (Verhinderung Integer-Overflow).
+Creation of decrypted file failed. No writing permission?;Das Erzeugen der entschlüsselten Detei schlug fehl. Eventuell keine Schreibrechte?
+No color image. BitStegRGB needs color images to work correctly.;Kein Farbbild. Nur Farbbilder können mit BitStegRGB verwendet werden.
+Properties;Einstellungen
+Payload;Payload
+Text;Text
+File;Datei
+Algorithm;Algorithmus

@@ -17,8 +17,10 @@ namespace Troonie
 {
 	public partial class SteganographyWidget : Gtk.Window
 	{
+		private static char sep = System.IO.Path.DirectorySeparatorChar;
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
+		private bool leftControlPressed;
 		private int imageW; 
 		private int imageH;
 		private string tempScaledImageFileName;
@@ -34,6 +36,23 @@ namespace Troonie
 				FileName = pFilename;
 
 				Build ();
+				hypertextlabelFileChooser.InitDefaultValues();
+				hypertextlabelFileChooser.OnHyperTextLabelTextChanged += OnHyperTextLabelTextChanged;
+				hypertextlabelFileChooser.HeightRequest = entryKey.Allocation.Height;
+				hypertextlabelFileChooser.Text = Constants.I.WINDOWS ? Environment.ExpandEnvironmentVariables ("%HOMEDRIVE%%HOMEPATH%")
+					: Environment.GetEnvironmentVariable ("HOME");
+//				hypertextlabelFileChooser.FileChooserAction = FileChooserAction.Open;
+//				// default values
+//				hypertextlabelFileChooser.Sensitive = true;
+//				hypertextlabelFileChooser.ShownTextLength = 45;
+//				// TextColor = colorConverter.Blue;
+//				hypertextlabelFileChooser.Alignment = Pango.Alignment.Left;
+//				hypertextlabelFileChooser.TextSize = 11;
+//				hypertextlabelFileChooser.Bold = false;
+//				hypertextlabelFileChooser.Italic = false;
+//				hypertextlabelFileChooser.HeightRequest = 5;
+//				hypertextlabelFileChooser.Font = "Serif";						
+
 				this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 
 				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
@@ -43,7 +62,15 @@ namespace Troonie
 
 				SetGuiColors ();
 				SetLanguageToGui ();
+
 				Initialize(true);
+//				rdBtn01_StegHash.Active = !BitSteg.SHOW_IN_GUI;
+//				rdBtn02_BitSteg_Text.Active = BitSteg.SHOW_IN_GUI;
+				if (!BitSteg.SHOW_IN_GUI) {
+					comboboxAlgorithm.RemoveText(2);
+					comboboxAlgorithm.RemoveText(1);
+					comboboxAlgorithm.Active = 0;
+				}
 
 				if (constants.WINDOWS) {
 					Gtk.Drag.DestSet (this, 0, null, 0);
@@ -52,13 +79,12 @@ namespace Troonie
 					// Otherwise ShadowType.In looks terrible at Win10.
 					frameCursorPos.ShadowType = ShadowType.In;
 					frameSteganography.ShadowType = ShadowType.In;
-					frameModus.ShadowType = ShadowType.In;
+					frameProperties.ShadowType = ShadowType.In;
 					frameKey.ShadowType = ShadowType.In;
 					frameContent.ShadowType = ShadowType.In;
+					frameFileChooser.ShadowType = ShadowType.In;
 					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
-				}
-
-				simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
+				}					
 
 				if (Constants.I.CONFIG.AskForDesktopContextMenu) {
 					new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
@@ -78,7 +104,7 @@ namespace Troonie
 				win.Show ();
 
 				this.DestroyAll ();
-			}
+			}				
 		}
 
 		public override void Destroy ()
@@ -145,7 +171,7 @@ namespace Troonie
 
 			// Gdk.Pixbuf.GetFileInfo(FileName, out imageW, out imageH);
 
-			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 500, 600, imageW, imageH, 1200, 650);
+			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 500, 600, imageW, imageH, 1270, 650);
 
 			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
 
@@ -190,9 +216,9 @@ namespace Troonie
 			}
 
 			simpleimagepanel1.Initialize();
+			OnHyperTextLabelTextChanged ();
 
-			ShowAll();
-			comboboxVersion.Visible = BitSteg.SHOW_IN_GUI;
+			Show (); // ShowAll();
 		}		
 
 		private void SetGuiColors()
@@ -204,33 +230,88 @@ namespace Troonie
 			lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
 
 			lbFrameSteganography.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbFrameModus.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameProperties.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameKey.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameContent.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFrameFileChooser.ModifyFg (StateType.Normal, colorConverter.FONT);
 		}
 
 		private void SetLanguageToGui()
 		{
+			string dummySpaces = "  ";
 			lbFrameCursorPos.LabelProp = "<b>" + Language.I.L[15] + "</b>";
 			btnOk.Text = Language.I.L[16];
 			btnOk.Redraw ();
 
 			lbFrameSteganography.LabelProp = "<b>" + Language.I.L[73] + "</b>";
-			lbFrameModus.LabelProp = "<b>" + Language.I.L[74] + "</b>";
-			rdBtnRead.Label = Language.I.L[75];
-			rdBtnWrite.Label = Language.I.L[76];
+			lbFrameProperties.LabelProp = "<b>" + Language.I.L[241] + "</b>";
+			lbModus.LabelProp = "<b>" + dummySpaces + Language.I.L[74] + "</b>";
+			rdBtnDecrypt.Label = Language.I.L[75];
+			rdBtnEncrypt.Label = Language.I.L[76];
+			lbPayload.LabelProp = "<b>" + dummySpaces + dummySpaces + Language.I.L[242] + "</b>";
+			rdBtnPayloadText.Label = Language.I.L[243];
+			rdBtnPayloadFile.Label = Language.I.L[244];
+			lbAlgorithm.LabelProp = "<b>" + dummySpaces + dummySpaces + Language.I.L[245] + "</b>";
 			checkBtnStrongObfuscation.Label = Language.I.L[160];
 			lbFrameKey.LabelProp = "<b>" + Language.I.L[77] + "</b>";
 			lbFrameContent.LabelProp = "<b>" + Language.I.L[78] + "</b>";
+			lbFrameFileChooser.LabelProp = "<b>" + Language.I.L[231] + "</b>";
 		}
 
-		private void DoSteganography()
+		private bool DoSelectedSteganographyHelperCheck()
+		{
+			entryFile.Text = FileHelper.I.TransformStringToValidFilename (entryFile.Text, true);
+			if (rdBtnDecrypt.Active &&  entryFile.Text == string.Empty) {
+				OkCancelDialog warn = new OkCancelDialog (true);
+				warn.WindowPosition = WindowPosition.CenterAlways;
+				warn.Title = Language.I.L [233];
+				warn.Label1 = string.Empty;
+				warn.Label2 = Language.I.L [234];
+				warn.OkButtontext = Language.I.L [16];
+				warn.Show ();
+				entryFile.GrabFocus ();
+				return false;
+			}
+
+			if (rdBtnEncrypt.Active && !File.Exists(hypertextlabelFileChooser.Text)) {
+				OkCancelDialog warn = new OkCancelDialog (true);
+				warn.WindowPosition = WindowPosition.CenterAlways;
+				warn.Title = Language.I.L [235];
+				warn.Label1 = string.Empty;
+				warn.Label2 = Language.I.L [232];
+				warn.OkButtontext = Language.I.L [16];
+				warn.Show ();
+				hypertextlabelFileChooser.GrabFocus ();
+				return false;
+			}
+				
+			return true;
+		}
+
+		private void DoSelectedSteganography()
+		{
+			switch (comboboxAlgorithm.Active) {
+			case 0:
+				DoStegHash ();
+				break;
+			case 1:
+				DoBitSteg (rdBtnPayloadFile.Active, false);
+				break;
+			case 2:
+				if (DoSelectedSteganographyHelperCheck ()) {
+					DoBitSteg (rdBtnPayloadFile.Active, true);
+				}
+				break;
+			}
+		}
+
+		private void DoStegHash()
 		{
 			Bitmap b1 = null;
 			StegHashFilter filter = new StegHashFilter ();
 			filter.Key = entryKey.Text;
 			entryKey.Text = string.Empty;
-			filter.WritingMode = rdBtnWrite.Active;
+			filter.WritingMode = rdBtnEncrypt.Active;
 			filter.UseStrongObfuscation = checkBtnStrongObfuscation.Active;
 
 			OkCancelDialog pseudo = new OkCancelDialog (true);
@@ -289,14 +370,10 @@ namespace Troonie
 
 			pseudo.Show ();
 		}
-
-		private void DoBitSteg()
+			
+		private void DoBitSteg(bool useFileInsteadText, bool useRgbVersion)
 		{
-			BitSteg bs = new BitSteg ();
-//			filter.Key = entryKey.Text;
-//			entryKey.Text = string.Empty;
-//			filter.WritingMode = rdBtnWrite.Active;
-//			filter.UseStrongObfuscation = checkBtnStrongObfuscation.Active;
+			BitSteg bs = useRgbVersion ? new BitStegRGB() : new BitSteg ();
 
 			OkCancelDialog pseudo = new OkCancelDialog (true);
 			pseudo.WindowPosition = WindowPosition.CenterAlways;
@@ -305,54 +382,67 @@ namespace Troonie
 			pseudo.OkButtontext = Language.I.L [16];
 			pseudo.CancelButtontext = Language.I.L [17];
 
-			if (rdBtnWrite.Active) {
-				string[] content = textviewContent.Buffer.Text.Split ('\n');
-				bool success = bs.Write (bt.Bitmap, entryKey.Text, content);
+			if (rdBtnEncrypt.Active) {
+				int success = 0;
 
-				if (success) {
-					pseudo.Label2 = Language.I.L [83];
+				if (useFileInsteadText) {
+					byte[] bytes = Troonie_Lib.IOFile.BytesFromFile(hypertextlabelFileChooser.Text);
+					success = bs.Write(bt.Bitmap, entryKey.Text, bytes);
 				} else {
+					success = bs.Write (bt.Bitmap, entryKey.Text, textviewContent.Buffer.Text);
+				}
+
+				switch (success) {
+				case 0:
+					pseudo.Label2 = Language.I.L [83];
+					break;
+				case 1:
 					pseudo.Label1 =  Language.I.L [53];
 					pseudo.Label2 =  Language.I.L [52];
+					break;
+				case 2:
+					pseudo.Label1 = Language.I.L [53];
+					pseudo.Label2 = Language.I.L [236];
+					break;
+				case 3:
+					pseudo.Label1 = Language.I.L [53];
+					pseudo.Label2 = Language.I.L [237];
+					break;
+				case 4:
+					pseudo.Label1 = Language.I.L [53];
+					pseudo.Label2 = Language.I.L [238];
+					break;
+				case 5:
+					pseudo.Label1 = Language.I.L [53];
+					pseudo.Label2 = Language.I.L [240];
+					break;
 				}
-			} 
-			else {
-//				if (!ImageConverter.IsColorImage(bt.Bitmap)) {
-//					pseudo.DestroyAll ();
-//					OkCancelDialog wrongImageContextMenu = new OkCancelDialog (true);
-//					wrongImageContextMenu.WindowPosition = WindowPosition.CenterAlways;
-//					wrongImageContextMenu.Title = Language.I.L [53];
-//					wrongImageContextMenu.Label1 = Language.I.L [55];
-//					wrongImageContextMenu.Label2 = Language.I.L [56];
-//					wrongImageContextMenu.OkButtontext = Language.I.L [16];
-//					//					wrongImageContextMenu.CancelButtontext = Language.I.L [17];
-//					wrongImageContextMenu.Show ();
-//					return;
-//				}
-
-				string[] content;
-				bs.Read (bt.Bitmap, entryKey.Text, out content);
-				textviewContent.Buffer.Text = string.Empty;
-				foreach (string item in content) {
-					textviewContent.Buffer.Text += item + "\n";
-				}
+			}
+			else { /* READING */
 				pseudo.Label2 = Language.I.L [82];
+
+				if (useFileInsteadText) {
+					byte[] bytes;
+					bs.Read (bt.Bitmap, entryKey.Text, out bytes);
+					try {
+						IOFile.BytesToFile(bytes, hypertextlabelFileChooser.Text + sep + entryFile.Text);
+					}
+					catch(Exception) {
+						pseudo.Label1 = Language.I.L [53];
+						pseudo.Label2 = Language.I.L [239];
+					}
+				} else {
+					string content;
+					bs.Read (bt.Bitmap, entryKey.Text, out content);
+					textviewContent.Buffer.Text = content;
+				}					
 			}
 
 			entryKey.Text = string.Empty;
-
-//			bt.Bitmap.Dispose ();
-//			bt.ChangeBitmapButNotTags(b1);
-
 			Initialize (false);
 
 			pseudo.Show ();
-		}
-
-		private void OnCursorPosChanged(int x, int y)
-		{
-			lbCursorPos.Text = 	x.ToString() + " x " +	y.ToString();
-		}
+		}			
 
 		private void OpenSaveAsDialog()
 		{
@@ -460,7 +550,7 @@ namespace Troonie
 				return;
 			}
 
-			if (rdBtnWrite.Active) {
+			if (rdBtnEncrypt.Active) {
 				if (entryKey.Text.Length < 10) {
 					OkCancelDialog warn = new OkCancelDialog (false);
 					warn.WindowPosition = WindowPosition.CenterAlways;
@@ -477,11 +567,7 @@ namespace Troonie
 				}				
 			}
 			else /* if (rdBtnRead.Active) */ {
-//				comboboxVersion.Active == 0 ? DoSteganography () : DoBitSteg();
-				if (comboboxVersion.Active == 0)
-					DoSteganography ();
-				else
-					DoBitSteg ();
+				DoSelectedSteganography ();
 			}				
 		}
 
@@ -498,10 +584,7 @@ namespace Troonie
 		private void ConfirmKey(string password)
 		{
 			if (password == entryKey.Text) {
-				if (comboboxVersion.Active == 0)
-					DoSteganography ();
-				else
-					DoBitSteg ();
+				DoSelectedSteganography ();
 			} else {
 				OkCancelDialog warn = new OkCancelDialog (true);
 				warn.WindowPosition = WindowPosition.CenterAlways;
@@ -532,21 +615,91 @@ namespace Troonie
 		[GLib.ConnectBefore ()] 
 		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
 		{
-//			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
+			#region 'ctrl + ...'
+			if (leftControlPressed) {
+				switch (args.Event.Key) {
+				case Gdk.Key.s:
+					OpenSaveAsDialog ();
+					break;
+				case Gdk.Key.o:
+					// shows/hides common hidden checkbox for StegHash-StrongObfuscation
+					checkBtnStrongObfuscation.Visible = !checkBtnStrongObfuscation.Visible;
+					break;
+				}
+
+//				leftControlPressed = false;
+
+				return;
+			}
+			#endregion 'ctrl + ...
+
 
 			switch (args.Event.Key) {
-			case Gdk.Key.s:
-				if (args.Event.State == (Gdk.ModifierType.ControlMask /* | Gdk.ModifierType.Mod2Mask */))
-					OpenSaveAsDialog ();
-				break;
-				default:
+			case Gdk.Key.Control_L:
+				leftControlPressed = true;
 				break;
 			}
-		}	
+		}
 
-		protected void OnRdBtnWriteToggled (object sender, EventArgs e)
+		[GLib.ConnectBefore ()] 
+		protected void OnKeyReleaseEvent (object o, KeyReleaseEventArgs args)
 		{
-				checkBtnStrongObfuscation.Sensitive = rdBtnWrite.Active;
+			switch (args.Event.Key) {
+			case Gdk.Key.Control_L:
+				leftControlPressed = false;
+				break;
+			}
+
+			// args.RetVal = true;
+		}
+
+		protected void OnRdBtnEncryptToggled (object sender, EventArgs e)
+		{
+			checkBtnStrongObfuscation.Sensitive = rdBtnEncrypt.Active;
+			entryFile.Visible = rdBtnDecrypt.Active;
+				
+			if (rdBtnDecrypt.Active) {
+				hypertextlabelFileChooser.Text = Constants.I.WINDOWS ? Environment.ExpandEnvironmentVariables ("%HOMEDRIVE%%HOMEPATH%")
+				: Environment.GetEnvironmentVariable ("HOME");
+				hypertextlabelFileChooser.FileChooserAction = FileChooserAction.SelectFolder;
+			} else {
+				hypertextlabelFileChooser.Text = Language.I.L [232];
+				hypertextlabelFileChooser.FileChooserAction = FileChooserAction.Open;
+			}
+		}			
+
+		protected void OnHyperTextLabelTextChanged() 
+		{
+			if (rdBtnEncrypt.Active && File.Exists(hypertextlabelFileChooser.Text)) {
+				FileInfo info = new FileInfo (hypertextlabelFileChooser.Text);
+				long l = info.Length;
+				int dim = imageW * imageH / 8;
+				if (l > dim) {	
+					lbCursorPos.UseMarkup = true;
+					lbCursorPos.ModifyFg (StateType.Normal, colorConverter.Red);
+					lbCursorPos.LabelProp = "<b>" + l + " of " + (imageW * imageH / 8) + "</b>";
+				} else {
+					lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
+					lbCursorPos.Text = 	l + " of " + imageW * imageH / 8;					
+				}
+			}
+		}
+
+		protected void OnComboboxAlgorithmChanged (object sender, EventArgs e)
+		{
+			if (comboboxAlgorithm.Active == 0) {
+				rdBtnPayloadText.Active = true;
+			}
+
+			if (rdBtnPayloadText.Active) {
+				frameFileChooser.Visible = false;
+				frameContent.Visible = true;
+			} else {
+				frameFileChooser.Visible = true;
+				frameContent.Visible = false;
+			}
+
+			rdBtnPayloadFile.Sensitive = comboboxAlgorithm.Active != 0; 
 		}
 	}
 }

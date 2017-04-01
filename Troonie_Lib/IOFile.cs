@@ -128,5 +128,56 @@ namespace Troonie_Lib
             else
                 return false;
         }
+
+		public static byte[] BytesFromFile( string fileName )
+		{
+			return File.ReadAllBytes (fileName);
+		}
+
+		[Obsolete]
+		public static byte[] BytesFromFileWithoutLock( string fileName )
+		{
+			FileStream stream = null;
+			byte[] bytes; 
+
+			try
+			{
+				// read image to temporary memory stream
+				stream = File.OpenRead( fileName );
+				MemoryStream memoryStream = new MemoryStream( );
+
+				byte[] buffer = new byte[10000];
+				while ( true )
+				{
+					int read = stream.Read( buffer, 0, 10000 );
+
+					if ( read == 0 )
+						break;
+
+					memoryStream.Write( buffer, 0, read );
+				}
+
+//				loadedImage = (Bitmap) Bitmap.FromStream( memoryStream );
+				bytes = memoryStream.ToArray();
+				memoryStream.Dispose();
+			}
+			finally
+			{
+				if ( stream != null )
+				{
+					stream.Dispose( );
+				}
+			}
+
+			return bytes;
+		}
+
+		public static void BytesToFile( byte[] bytes, string fileName )
+		{
+			using (FileStream ms = new FileStream(fileName, FileMode.Create))
+			{
+				ms.Write (bytes, 0, bytes.Length);
+			}
+		}
     }
 }

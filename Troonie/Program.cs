@@ -31,14 +31,27 @@ namespace Troonie
 				#endregion Set new version number in code
 
 //				#region Test suite BitSteg
-//				string[]s_array = {"eins" , "zwei", "drei", "VIER!!!+*}}}"};
+////				string[]s_array = {"eins" , "zwei", "drei", "VIER!!!+*}}}"};
+//				byte[] bytes = Troonie_Lib.IOFile.BytesFromFile("Brandenburger_Tor.jpg");
 //				BitSteg bs = new BitSteg();
-//				System.Drawing.Bitmap bitmap = TroonieBitmap.FromFile("gray.jpg"); // new System.Drawing.Bitmap(16,16, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-//				bitmap.Save ("original.png", System.Drawing.Imaging.ImageFormat.Png);
-//				bs.Write(bitmap, "1234", s_array);
+//				System.Drawing.Bitmap bitmap = TroonieBitmap.FromFile("input.jpg"); // new System.Drawing.Bitmap(16,16, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+////				bitmap.Save ("original.png", System.Drawing.Imaging.ImageFormat.Png);
+//				bs.Write(bitmap, "1234", bytes);
 //				bitmap.Save ("result.png", System.Drawing.Imaging.ImageFormat.Png);
 //				bitmap.Dispose();
-//				Console.WriteLine("--- END ---");
+//				Console.WriteLine("--- END WRITING ---");
+//
+//				bytes = null;
+//				bs = new BitSteg();
+//				bitmap = TroonieBitmap.FromFile("result.png"); // new System.Drawing.Bitmap(16,16, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+//				//				bitmap.Save ("original.png", System.Drawing.Imaging.ImageFormat.Png);
+//				bs.Read(bitmap, "1234", out bytes);
+////				bitmap.Save ("result.png", System.Drawing.Imaging.ImageFormat.Png);
+//				bitmap.Dispose();
+//				Troonie_Lib.IOFile.BytesToFile(bytes, "WUNDER.jpg");
+//				Console.WriteLine("--- END READING ---");
+//
+//				return;
 //				#endregion
 
 				GetProgramIcon ();
@@ -64,6 +77,7 @@ namespace Troonie
 			string filename = null;
 			// START VALUE
 //			args = new string[] { "-v"};
+//			args = new string[] { "-e", "/home/jazz/Schreibtisch/Tesimages/portrait.jpg"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args, true);
@@ -89,8 +103,8 @@ namespace Troonie
 					ViewerWidget winViewer = new ViewerWidget (
 						new string[] {
 							"/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor_Ban03.png", 
-							"/home/jazz/Schreibtisch/Tesimages/Pilz_dat2.png",//							
-//							"/home/jazz/Schreibtisch/Tesimages/portrait.jpg", 
+//							"/home/jazz/Schreibtisch/Tesimages/Pilz_dat2.png",//							
+							"/home/jazz/Schreibtisch/Tesimages/portrait.jpg", 
 //							"/home/jazz/Schreibtisch/Tesimages/01.jpg",
 //							"/home/jazz/Schreibtisch/Tesimages/02.jpg",
 //							"/home/jazz/Schreibtisch/Tesimages/testviteo-1sec.mp4",

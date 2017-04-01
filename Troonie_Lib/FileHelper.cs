@@ -47,6 +47,19 @@ namespace Troonie_Lib
 			string destPath = Path.Combine (dir, newFilename);
 			File.Move (filePath, destPath);
 		}
+
+		public string TransformStringToValidFilename(string filename, bool replaceSpacesByUnderscore)
+		{
+			filename = filename.Trim ();
+			if (replaceSpacesByUnderscore) {
+				filename = filename.Replace (' ', '_');
+			}
+			filename = System.Text.RegularExpressions.Regex.Replace(filename, @"[\\/:*?""<>|]", string.Empty);
+			filename = filename.Replace("[", ""); // will not replaced by 'Regex.Replace(..)'
+			filename = filename.Replace("]", ""); // will not replaced by 'Regex.Replace(..)'
+
+			return filename;
+		}
 	}
 }
 

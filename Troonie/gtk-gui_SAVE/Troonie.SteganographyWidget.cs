@@ -22,21 +22,35 @@ namespace Troonie
 		
 		private global::Gtk.VBox vboxSteganography;
 		
-		private global::Gtk.Frame frameModus;
+		private global::Gtk.Frame frameProperties;
 		
-		private global::Gtk.Alignment AlignmentFrameModus;
+		private global::Gtk.Alignment AlignmentFrameProperties;
 		
-		private global::Gtk.HBox hboxModus;
+		private global::Gtk.HBox hboxProperties;
 		
-		private global::Gtk.ComboBox comboboxVersion;
+		private global::Gtk.Label lbModus;
 		
-		private global::Gtk.RadioButton rdBtnRead;
+		private global::Gtk.RadioButton rdBtnDecrypt;
 		
-		private global::Gtk.RadioButton rdBtnWrite;
+		private global::Gtk.RadioButton rdBtnEncrypt;
+		
+		private global::Gtk.VSeparator vseparator1;
+		
+		private global::Gtk.Label lbPayload;
+		
+		private global::Gtk.RadioButton rdBtnPayloadText;
+		
+		private global::Gtk.RadioButton rdBtnPayloadFile;
+		
+		private global::Gtk.VSeparator vseparator3;
+		
+		private global::Gtk.Label lbAlgorithm;
+		
+		private global::Gtk.ComboBox comboboxAlgorithm;
 		
 		private global::Gtk.CheckButton checkBtnStrongObfuscation;
 		
-		private global::Gtk.Label lbFrameModus;
+		private global::Gtk.Label lbFrameProperties;
 		
 		private global::Gtk.Frame frameKey;
 		
@@ -55,6 +69,18 @@ namespace Troonie
 		private global::Gtk.TextView textviewContent;
 		
 		private global::Gtk.Label lbFrameContent;
+		
+		private global::Gtk.Frame frameFileChooser;
+		
+		private global::Gtk.Alignment alignmentFrameFileChooser;
+		
+		private global::Gtk.HBox hbox2;
+		
+		private global::Troonie.HyperTextLabel hypertextlabelFileChooser;
+		
+		private global::Gtk.Entry entryFile;
+		
+		private global::Gtk.Label lbFrameFileChooser;
 		
 		private global::Gtk.Label lbFrameSteganography;
 		
@@ -124,46 +150,119 @@ namespace Troonie
 			this.vboxSteganography.Name = "vboxSteganography";
 			this.vboxSteganography.Spacing = 6;
 			// Container child vboxSteganography.Gtk.Box+BoxChild
-			this.frameModus = new global::Gtk.Frame ();
-			this.frameModus.Name = "frameModus";
-			// Container child frameModus.Gtk.Container+ContainerChild
-			this.AlignmentFrameModus = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.AlignmentFrameModus.Name = "AlignmentFrameModus";
-			this.AlignmentFrameModus.LeftPadding = ((uint)(12));
-			// Container child AlignmentFrameModus.Gtk.Container+ContainerChild
-			this.hboxModus = new global::Gtk.HBox ();
-			this.hboxModus.Name = "hboxModus";
-			this.hboxModus.Spacing = 6;
-			// Container child hboxModus.Gtk.Box+BoxChild
-			this.comboboxVersion = global::Gtk.ComboBox.NewText ();
-			this.comboboxVersion.AppendText (global::Mono.Unix.Catalog.GetString ("v1 2016 [StegHash]"));
-			this.comboboxVersion.AppendText (global::Mono.Unix.Catalog.GetString ("v2 2017 [BitSteg]"));
-			this.comboboxVersion.Name = "comboboxVersion";
-			this.comboboxVersion.Active = 0;
-			this.hboxModus.Add (this.comboboxVersion);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.comboboxVersion]));
+			this.frameProperties = new global::Gtk.Frame ();
+			this.frameProperties.Name = "frameProperties";
+			// Container child frameProperties.Gtk.Container+ContainerChild
+			this.AlignmentFrameProperties = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.AlignmentFrameProperties.Name = "AlignmentFrameProperties";
+			this.AlignmentFrameProperties.LeftPadding = ((uint)(12));
+			// Container child AlignmentFrameProperties.Gtk.Container+ContainerChild
+			this.hboxProperties = new global::Gtk.HBox ();
+			this.hboxProperties.Name = "hboxProperties";
+			this.hboxProperties.Spacing = 6;
+			// Container child hboxProperties.Gtk.Box+BoxChild
+			this.lbModus = new global::Gtk.Label ();
+			this.lbModus.Name = "lbModus";
+			this.lbModus.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Modus</b>");
+			this.lbModus.UseMarkup = true;
+			this.hboxProperties.Add (this.lbModus);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.lbModus]));
 			w4.Position = 0;
-			// Container child hboxModus.Gtk.Box+BoxChild
-			this.rdBtnRead = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Read"));
-			this.rdBtnRead.CanFocus = true;
-			this.rdBtnRead.Name = "rdBtnRead";
-			this.rdBtnRead.DrawIndicator = true;
-			this.rdBtnRead.UseUnderline = true;
-			this.rdBtnRead.Group = new global::GLib.SList (global::System.IntPtr.Zero);
-			this.hboxModus.Add (this.rdBtnRead);
-			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.rdBtnRead]));
+			w4.Expand = false;
+			w4.Fill = false;
+			// Container child hboxProperties.Gtk.Box+BoxChild
+			this.rdBtnDecrypt = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Decrypt"));
+			this.rdBtnDecrypt.CanFocus = true;
+			this.rdBtnDecrypt.Name = "rdBtnDecrypt";
+			this.rdBtnDecrypt.DrawIndicator = true;
+			this.rdBtnDecrypt.UseUnderline = true;
+			this.rdBtnDecrypt.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+			this.hboxProperties.Add (this.rdBtnDecrypt);
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.rdBtnDecrypt]));
 			w5.Position = 1;
-			// Container child hboxModus.Gtk.Box+BoxChild
-			this.rdBtnWrite = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Write"));
-			this.rdBtnWrite.CanFocus = true;
-			this.rdBtnWrite.Name = "rdBtnWrite";
-			this.rdBtnWrite.DrawIndicator = true;
-			this.rdBtnWrite.UseUnderline = true;
-			this.rdBtnWrite.Group = this.rdBtnRead.Group;
-			this.hboxModus.Add (this.rdBtnWrite);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.rdBtnWrite]));
+			w5.Expand = false;
+			// Container child hboxProperties.Gtk.Box+BoxChild
+			this.rdBtnEncrypt = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Encrypt"));
+			this.rdBtnEncrypt.CanFocus = true;
+			this.rdBtnEncrypt.Name = "rdBtnEncrypt";
+			this.rdBtnEncrypt.DrawIndicator = true;
+			this.rdBtnEncrypt.UseUnderline = true;
+			this.rdBtnEncrypt.Group = this.rdBtnDecrypt.Group;
+			this.hboxProperties.Add (this.rdBtnEncrypt);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.rdBtnEncrypt]));
 			w6.Position = 2;
-			// Container child hboxModus.Gtk.Box+BoxChild
+			w6.Expand = false;
+			// Container child hboxProperties.Gtk.Box+BoxChild
+			this.vseparator1 = new global::Gtk.VSeparator ();
+			this.vseparator1.Name = "vseparator1";
+			this.hboxProperties.Add (this.vseparator1);
+			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.vseparator1]));
+			w7.Position = 3;
+			w7.Expand = false;
+			w7.Fill = false;
+			// Container child hboxProperties.Gtk.Box+BoxChild
+			this.lbPayload = new global::Gtk.Label ();
+			this.lbPayload.Name = "lbPayload";
+			this.lbPayload.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Payload</b>");
+			this.lbPayload.UseMarkup = true;
+			this.hboxProperties.Add (this.lbPayload);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.lbPayload]));
+			w8.Position = 4;
+			w8.Expand = false;
+			w8.Fill = false;
+			// Container child hboxProperties.Gtk.Box+BoxChild
+			this.rdBtnPayloadText = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Text"));
+			this.rdBtnPayloadText.CanFocus = true;
+			this.rdBtnPayloadText.Name = "rdBtnPayloadText";
+			this.rdBtnPayloadText.DrawIndicator = true;
+			this.rdBtnPayloadText.UseUnderline = true;
+			this.rdBtnPayloadText.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+			this.hboxProperties.Add (this.rdBtnPayloadText);
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.rdBtnPayloadText]));
+			w9.Position = 5;
+			w9.Expand = false;
+			// Container child hboxProperties.Gtk.Box+BoxChild
+			this.rdBtnPayloadFile = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("File"));
+			this.rdBtnPayloadFile.CanFocus = true;
+			this.rdBtnPayloadFile.Name = "rdBtnPayloadFile";
+			this.rdBtnPayloadFile.DrawIndicator = true;
+			this.rdBtnPayloadFile.UseUnderline = true;
+			this.rdBtnPayloadFile.Group = this.rdBtnPayloadText.Group;
+			this.hboxProperties.Add (this.rdBtnPayloadFile);
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.rdBtnPayloadFile]));
+			w10.Position = 6;
+			w10.Expand = false;
+			// Container child hboxProperties.Gtk.Box+BoxChild
+			this.vseparator3 = new global::Gtk.VSeparator ();
+			this.vseparator3.Name = "vseparator3";
+			this.hboxProperties.Add (this.vseparator3);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.vseparator3]));
+			w11.Position = 7;
+			w11.Expand = false;
+			w11.Fill = false;
+			// Container child hboxProperties.Gtk.Box+BoxChild
+			this.lbAlgorithm = new global::Gtk.Label ();
+			this.lbAlgorithm.Name = "lbAlgorithm";
+			this.lbAlgorithm.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Algorithm</b>");
+			this.lbAlgorithm.UseMarkup = true;
+			this.hboxProperties.Add (this.lbAlgorithm);
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.lbAlgorithm]));
+			w12.Position = 8;
+			w12.Expand = false;
+			w12.Fill = false;
+			// Container child hboxProperties.Gtk.Box+BoxChild
+			this.comboboxAlgorithm = global::Gtk.ComboBox.NewText ();
+			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("StegHash [2016]"));
+			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("BitSteg [2017]"));
+			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("BitStegRGB [2017]"));
+			this.comboboxAlgorithm.Name = "comboboxAlgorithm";
+			this.comboboxAlgorithm.Active = 1;
+			this.hboxProperties.Add (this.comboboxAlgorithm);
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.comboboxAlgorithm]));
+			w13.Position = 9;
+			w13.Expand = false;
+			w13.Fill = false;
+			// Container child hboxProperties.Gtk.Box+BoxChild
 			this.checkBtnStrongObfuscation = new global::Gtk.CheckButton ();
 			this.checkBtnStrongObfuscation.Sensitive = false;
 			this.checkBtnStrongObfuscation.CanFocus = true;
@@ -171,21 +270,22 @@ namespace Troonie
 			this.checkBtnStrongObfuscation.Label = global::Mono.Unix.Catalog.GetString ("Strong Obfuscation");
 			this.checkBtnStrongObfuscation.DrawIndicator = true;
 			this.checkBtnStrongObfuscation.UseUnderline = true;
-			this.hboxModus.Add (this.checkBtnStrongObfuscation);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.checkBtnStrongObfuscation]));
-			w7.Position = 3;
-			this.AlignmentFrameModus.Add (this.hboxModus);
-			this.frameModus.Add (this.AlignmentFrameModus);
-			this.lbFrameModus = new global::Gtk.Label ();
-			this.lbFrameModus.Name = "lbFrameModus";
-			this.lbFrameModus.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Modus</b>");
-			this.lbFrameModus.UseMarkup = true;
-			this.frameModus.LabelWidget = this.lbFrameModus;
-			this.vboxSteganography.Add (this.frameModus);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameModus]));
-			w10.Position = 0;
-			w10.Expand = false;
-			w10.Fill = false;
+			this.hboxProperties.Add (this.checkBtnStrongObfuscation);
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.checkBtnStrongObfuscation]));
+			w14.Position = 10;
+			w14.Expand = false;
+			this.AlignmentFrameProperties.Add (this.hboxProperties);
+			this.frameProperties.Add (this.AlignmentFrameProperties);
+			this.lbFrameProperties = new global::Gtk.Label ();
+			this.lbFrameProperties.Name = "lbFrameProperties";
+			this.lbFrameProperties.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Properties</b>");
+			this.lbFrameProperties.UseMarkup = true;
+			this.frameProperties.LabelWidget = this.lbFrameProperties;
+			this.vboxSteganography.Add (this.frameProperties);
+			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameProperties]));
+			w17.Position = 0;
+			w17.Expand = false;
+			w17.Fill = false;
 			// Container child vboxSteganography.Gtk.Box+BoxChild
 			this.frameKey = new global::Gtk.Frame ();
 			this.frameKey.Name = "frameKey";
@@ -209,10 +309,10 @@ namespace Troonie
 			this.lbFrameKey.UseMarkup = true;
 			this.frameKey.LabelWidget = this.lbFrameKey;
 			this.vboxSteganography.Add (this.frameKey);
-			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameKey]));
-			w13.Position = 1;
-			w13.Expand = false;
-			w13.Fill = false;
+			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameKey]));
+			w20.Position = 1;
+			w20.Expand = false;
+			w20.Fill = false;
 			// Container child vboxSteganography.Gtk.Box+BoxChild
 			this.frameContent = new global::Gtk.Frame ();
 			this.frameContent.Name = "frameContent";
@@ -239,8 +339,57 @@ namespace Troonie
 			this.lbFrameContent.UseMarkup = true;
 			this.frameContent.LabelWidget = this.lbFrameContent;
 			this.vboxSteganography.Add (this.frameContent);
-			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameContent]));
-			w17.Position = 2;
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameContent]));
+			w24.Position = 2;
+			// Container child vboxSteganography.Gtk.Box+BoxChild
+			this.frameFileChooser = new global::Gtk.Frame ();
+			this.frameFileChooser.Name = "frameFileChooser";
+			// Container child frameFileChooser.Gtk.Container+ContainerChild
+			this.alignmentFrameFileChooser = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.alignmentFrameFileChooser.Name = "alignmentFrameFileChooser";
+			this.alignmentFrameFileChooser.LeftPadding = ((uint)(12));
+			// Container child alignmentFrameFileChooser.Gtk.Container+ContainerChild
+			this.hbox2 = new global::Gtk.HBox ();
+			this.hbox2.Name = "hbox2";
+			this.hbox2.Spacing = 6;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.hypertextlabelFileChooser = new global::Troonie.HyperTextLabel ();
+			this.hypertextlabelFileChooser.HeightRequest = 5;
+			this.hypertextlabelFileChooser.Sensitive = false;
+			this.hypertextlabelFileChooser.Name = "hypertextlabelFileChooser";
+			this.hypertextlabelFileChooser.Sensitive = false;
+			this.hypertextlabelFileChooser.Font = "Arial";
+			this.hypertextlabelFileChooser.Text = "Please choose file";
+			this.hypertextlabelFileChooser.TextSize = 10;
+			this.hypertextlabelFileChooser.ShownTextLength = 30;
+			this.hypertextlabelFileChooser.Underline = false;
+			this.hypertextlabelFileChooser.Bold = true;
+			this.hypertextlabelFileChooser.Italic = false;
+			this.hbox2.Add (this.hypertextlabelFileChooser);
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.hypertextlabelFileChooser]));
+			w25.Position = 0;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.entryFile = new global::Gtk.Entry ();
+			this.entryFile.CanFocus = true;
+			this.entryFile.Name = "entryFile";
+			this.entryFile.Text = global::Mono.Unix.Catalog.GetString ("result.txt");
+			this.entryFile.IsEditable = true;
+			this.entryFile.InvisibleChar = '●';
+			this.hbox2.Add (this.entryFile);
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.entryFile]));
+			w26.Position = 1;
+			this.alignmentFrameFileChooser.Add (this.hbox2);
+			this.frameFileChooser.Add (this.alignmentFrameFileChooser);
+			this.lbFrameFileChooser = new global::Gtk.Label ();
+			this.lbFrameFileChooser.Name = "lbFrameFileChooser";
+			this.lbFrameFileChooser.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>File</b>");
+			this.lbFrameFileChooser.UseMarkup = true;
+			this.frameFileChooser.LabelWidget = this.lbFrameFileChooser;
+			this.vboxSteganography.Add (this.frameFileChooser);
+			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.vboxSteganography [this.frameFileChooser]));
+			w29.Position = 3;
+			w29.Expand = false;
+			w29.Fill = false;
 			this.AlignmentFrameSteganography.Add (this.vboxSteganography);
 			this.frameSteganography.Add (this.AlignmentFrameSteganography);
 			this.lbFrameSteganography = new global::Gtk.Label ();
@@ -249,8 +398,8 @@ namespace Troonie
 			this.lbFrameSteganography.UseMarkup = true;
 			this.frameSteganography.LabelWidget = this.lbFrameSteganography;
 			this.vbox1.Add (this.frameSteganography);
-			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameSteganography]));
-			w20.Position = 0;
+			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameSteganography]));
+			w32.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameCursorPos = new global::Gtk.Frame ();
 			this.frameCursorPos.Name = "frameCursorPos";
@@ -270,10 +419,10 @@ namespace Troonie
 			this.lbFrameCursorPos.UseMarkup = true;
 			this.frameCursorPos.LabelWidget = this.lbFrameCursorPos;
 			this.vbox1.Add (this.frameCursorPos);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
-			w23.Position = 1;
-			w23.Expand = false;
-			w23.Fill = false;
+			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
+			w35.Position = 1;
+			w35.Expand = false;
+			w35.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.btnOk = new global::Troonie.TroonieButton ();
 			this.btnOk.Name = "btnOk";
@@ -285,29 +434,35 @@ namespace Troonie
 			this.btnOk.Text = "OK";
 			this.btnOk.TextSize = 14;
 			this.vbox1.Add (this.btnOk);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
-			w24.Position = 2;
-			w24.Expand = false;
-			w24.Fill = false;
+			global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
+			w36.Position = 2;
+			w36.Expand = false;
+			w36.Fill = false;
 			this.hbox1.Add (this.vbox1);
-			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
-			w25.Position = 1;
-			w25.Padding = ((uint)(5));
+			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
+			w37.Position = 1;
+			w37.Padding = ((uint)(5));
 			this.vboxA.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
-			w26.Position = 1;
+			global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
+			w38.Position = 1;
 			this.Add (this.vboxA);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 524;
-			this.DefaultHeight = 361;
+			this.DefaultWidth = 1021;
+			this.DefaultHeight = 534;
+			this.checkBtnStrongObfuscation.Hide ();
+			this.frameFileChooser.Hide ();
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.DragDrop += new global::Gtk.DragDropHandler (this.OnDragDrop);
 			this.DragDataReceived += new global::Gtk.DragDataReceivedHandler (this.OnDragDataReceived);
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
-			this.rdBtnWrite.Toggled += new global::System.EventHandler (this.OnRdBtnWriteToggled);
+			this.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnKeyReleaseEvent);
+			this.rdBtnEncrypt.Toggled += new global::System.EventHandler (this.OnRdBtnEncryptToggled);
+			this.rdBtnPayloadText.Toggled += new global::System.EventHandler (this.OnComboboxAlgorithmChanged);
+			this.rdBtnPayloadFile.Toggled += new global::System.EventHandler (this.OnComboboxAlgorithmChanged);
+			this.comboboxAlgorithm.Changed += new global::System.EventHandler (this.OnComboboxAlgorithmChanged);
 			this.entryKey.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnEntryKeyKeyReleaseEvent);
 			this.btnOk.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnBtnOkButtonReleaseEvent);
 		}
