@@ -3382,16 +3382,16 @@ BitStegRGB [2017]</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Frame" id="frameCursorPos">
+                  <widget class="Gtk.Frame" id="framePayloadspace">
                     <property name="MemberName" />
                     <child>
-                      <widget class="Gtk.Alignment" id="GtkAlignment1">
+                      <widget class="Gtk.Alignment" id="AlignmentFramePayloadspace">
                         <property name="MemberName" />
                         <property name="Xalign">0</property>
                         <property name="Yalign">0</property>
                         <property name="LeftPadding">12</property>
                         <child>
-                          <widget class="Gtk.Label" id="lbCursorPos">
+                          <widget class="Gtk.Label" id="lbPayloadspace">
                             <property name="MemberName" />
                             <property name="LabelProp" translatable="yes">0 x 0</property>
                           </widget>
@@ -3399,9 +3399,9 @@ BitStegRGB [2017]</property>
                       </widget>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="lbFrameCursorPos">
+                      <widget class="Gtk.Label" id="lbFramePayloadspace">
                         <property name="MemberName" />
-                        <property name="LabelProp" translatable="yes">&lt;b&gt;Cursor position&lt;/b&gt;</property>
+                        <property name="LabelProp" translatable="yes">&lt;b&gt;Payloadspace&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
                       </widget>
                       <packing>

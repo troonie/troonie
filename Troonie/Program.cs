@@ -23,6 +23,13 @@ namespace Troonie
 
 		public static void Main (string[] args)
 		{
+//			System.Drawing.Bitmap bitmap = TroonieBitmap.FromFile("4x10.jpg");
+//			System.Drawing.Imaging.BitmapData srcData = bitmap.LockBits(
+//				new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+//			int ps = System.Drawing.Image.GetPixelFormatSize(srcData.PixelFormat) / 8;
+//			int offset = srcData.Stride - srcData.Width * ps;
+//			double rest = 197 % 3.0;
+
 			try {
 				Constants.I.Init ();
 				#region Set new version number in code

@@ -84,13 +84,13 @@ namespace Troonie
 		
 		private global::Gtk.Label lbFrameSteganography;
 		
-		private global::Gtk.Frame frameCursorPos;
+		private global::Gtk.Frame framePayloadspace;
 		
-		private global::Gtk.Alignment GtkAlignment1;
+		private global::Gtk.Alignment AlignmentFramePayloadspace;
 		
-		private global::Gtk.Label lbCursorPos;
+		private global::Gtk.Label lbPayloadspace;
 		
-		private global::Gtk.Label lbFrameCursorPos;
+		private global::Gtk.Label lbFramePayloadspace;
 		
 		private global::Troonie.TroonieButton btnOk;
 
@@ -401,25 +401,25 @@ namespace Troonie
 			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameSteganography]));
 			w32.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.frameCursorPos = new global::Gtk.Frame ();
-			this.frameCursorPos.Name = "frameCursorPos";
-			// Container child frameCursorPos.Gtk.Container+ContainerChild
-			this.GtkAlignment1 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
-			this.GtkAlignment1.Name = "GtkAlignment1";
-			this.GtkAlignment1.LeftPadding = ((uint)(12));
-			// Container child GtkAlignment1.Gtk.Container+ContainerChild
-			this.lbCursorPos = new global::Gtk.Label ();
-			this.lbCursorPos.Name = "lbCursorPos";
-			this.lbCursorPos.LabelProp = global::Mono.Unix.Catalog.GetString ("0 x 0");
-			this.GtkAlignment1.Add (this.lbCursorPos);
-			this.frameCursorPos.Add (this.GtkAlignment1);
-			this.lbFrameCursorPos = new global::Gtk.Label ();
-			this.lbFrameCursorPos.Name = "lbFrameCursorPos";
-			this.lbFrameCursorPos.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Cursor position</b>");
-			this.lbFrameCursorPos.UseMarkup = true;
-			this.frameCursorPos.LabelWidget = this.lbFrameCursorPos;
-			this.vbox1.Add (this.frameCursorPos);
-			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
+			this.framePayloadspace = new global::Gtk.Frame ();
+			this.framePayloadspace.Name = "framePayloadspace";
+			// Container child framePayloadspace.Gtk.Container+ContainerChild
+			this.AlignmentFramePayloadspace = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.AlignmentFramePayloadspace.Name = "AlignmentFramePayloadspace";
+			this.AlignmentFramePayloadspace.LeftPadding = ((uint)(12));
+			// Container child AlignmentFramePayloadspace.Gtk.Container+ContainerChild
+			this.lbPayloadspace = new global::Gtk.Label ();
+			this.lbPayloadspace.Name = "lbPayloadspace";
+			this.lbPayloadspace.LabelProp = global::Mono.Unix.Catalog.GetString ("0 x 0");
+			this.AlignmentFramePayloadspace.Add (this.lbPayloadspace);
+			this.framePayloadspace.Add (this.AlignmentFramePayloadspace);
+			this.lbFramePayloadspace = new global::Gtk.Label ();
+			this.lbFramePayloadspace.Name = "lbFramePayloadspace";
+			this.lbFramePayloadspace.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Payloadspace</b>");
+			this.lbFramePayloadspace.UseMarkup = true;
+			this.framePayloadspace.LabelWidget = this.lbFramePayloadspace;
+			this.vbox1.Add (this.framePayloadspace);
+			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.framePayloadspace]));
 			w35.Position = 1;
 			w35.Expand = false;
 			w35.Fill = false;

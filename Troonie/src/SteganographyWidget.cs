@@ -36,8 +36,11 @@ namespace Troonie
 				FileName = pFilename;
 
 				Build ();
+
+				textviewContent.Buffer.Changed += (sender, e) => { ChangeLbPayloadspace (); };
+
 				hypertextlabelFileChooser.InitDefaultValues();
-				hypertextlabelFileChooser.OnHyperTextLabelTextChanged += OnHyperTextLabelTextChanged;
+				hypertextlabelFileChooser.OnHyperTextLabelTextChanged += ChangeLbPayloadspace;
 				hypertextlabelFileChooser.HeightRequest = entryKey.Allocation.Height;
 				hypertextlabelFileChooser.Text = Constants.I.WINDOWS ? Environment.ExpandEnvironmentVariables ("%HOMEDRIVE%%HOMEPATH%")
 					: Environment.GetEnvironmentVariable ("HOME");
@@ -77,7 +80,7 @@ namespace Troonie
 				} else {
 					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
 					// Otherwise ShadowType.In looks terrible at Win10.
-					frameCursorPos.ShadowType = ShadowType.In;
+					framePayloadspace.ShadowType = ShadowType.In;
 					frameSteganography.ShadowType = ShadowType.In;
 					frameProperties.ShadowType = ShadowType.In;
 					frameKey.ShadowType = ShadowType.In;
@@ -216,7 +219,7 @@ namespace Troonie
 			}
 
 			simpleimagepanel1.Initialize();
-			OnHyperTextLabelTextChanged ();
+			ChangeLbPayloadspace ();
 
 			Show (); // ShowAll();
 		}		
@@ -226,8 +229,8 @@ namespace Troonie
 			this.ModifyBg(StateType.Normal, colorConverter.GRID);
 			eventboxToolbar.ModifyBg(StateType.Normal, colorConverter.GRID);
 
-			lbFrameCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
-			lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFramePayloadspace.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbPayloadspace.ModifyFg (StateType.Normal, colorConverter.FONT);
 
 			lbFrameSteganography.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFrameProperties.ModifyFg (StateType.Normal, colorConverter.FONT);
@@ -239,7 +242,7 @@ namespace Troonie
 		private void SetLanguageToGui()
 		{
 			string dummySpaces = "  ";
-			lbFrameCursorPos.LabelProp = "<b>" + Language.I.L[15] + "</b>";
+			lbFramePayloadspace.LabelProp = "<b>" + Language.I.L[246] + "</b>";
 			btnOk.Text = Language.I.L[16];
 			btnOk.Redraw ();
 
@@ -258,7 +261,7 @@ namespace Troonie
 			lbFrameFileChooser.LabelProp = "<b>" + Language.I.L[231] + "</b>";
 		}
 
-		private bool DoSelectedSteganographyHelperCheck()
+		private bool FileCheckForBitSteg()
 		{
 			entryFile.Text = FileHelper.I.TransformStringToValidFilename (entryFile.Text, true);
 			if (rdBtnDecrypt.Active &&  entryFile.Text == string.Empty) {
@@ -295,11 +298,9 @@ namespace Troonie
 				DoStegHash ();
 				break;
 			case 1:
-				DoBitSteg (rdBtnPayloadFile.Active, false);
-				break;
 			case 2:
-				if (DoSelectedSteganographyHelperCheck ()) {
-					DoBitSteg (rdBtnPayloadFile.Active, true);
+				if (rdBtnPayloadText.Active || FileCheckForBitSteg ()) {
+					DoBitSteg ();
 				}
 				break;
 			}
@@ -371,9 +372,10 @@ namespace Troonie
 			pseudo.Show ();
 		}
 			
-		private void DoBitSteg(bool useFileInsteadText, bool useRgbVersion)
+		private void DoBitSteg()
 		{
-			BitSteg bs = useRgbVersion ? new BitStegRGB() : new BitSteg ();
+			/* 2 == BitStegRGB */
+			BitSteg bs = comboboxAlgorithm.Active == 2 ? new BitStegRGB() : new BitSteg ();
 
 			OkCancelDialog pseudo = new OkCancelDialog (true);
 			pseudo.WindowPosition = WindowPosition.CenterAlways;
@@ -385,7 +387,7 @@ namespace Troonie
 			if (rdBtnEncrypt.Active) {
 				int success = 0;
 
-				if (useFileInsteadText) {
+				if (rdBtnPayloadFile.Active) {
 					byte[] bytes = Troonie_Lib.IOFile.BytesFromFile(hypertextlabelFileChooser.Text);
 					success = bs.Write(bt.Bitmap, entryKey.Text, bytes);
 				} else {
@@ -421,7 +423,7 @@ namespace Troonie
 			else { /* READING */
 				pseudo.Label2 = Language.I.L [82];
 
-				if (useFileInsteadText) {
+				if (rdBtnPayloadFile.Active) {
 					byte[] bytes;
 					bs.Read (bt.Bitmap, entryKey.Text, out bytes);
 					try {
@@ -666,22 +668,35 @@ namespace Troonie
 				hypertextlabelFileChooser.Text = Language.I.L [232];
 				hypertextlabelFileChooser.FileChooserAction = FileChooserAction.Open;
 			}
-		}			
 
-		protected void OnHyperTextLabelTextChanged() 
+			ChangeLbPayloadspace ();
+		}	
+
+		private void ChangeLbPayloadspace()
 		{
-			if (rdBtnEncrypt.Active && File.Exists(hypertextlabelFileChooser.Text)) {
+			long l;
+			/* 3 == BitStegRGB,  1 == BitSteg */
+			int multiplicator = comboboxAlgorithm.Active == 2 ? 3 : 1;
+			int dim = multiplicator * imageW * imageH / 8;
+
+			if (rdBtnPayloadText.Active && comboboxAlgorithm.Active != 0) {
+				l = textviewContent.Buffer.Text.Length;
+			} else if (rdBtnEncrypt.Active && File.Exists (hypertextlabelFileChooser.Text)) {
 				FileInfo info = new FileInfo (hypertextlabelFileChooser.Text);
-				long l = info.Length;
-				int dim = imageW * imageH / 8;
-				if (l > dim) {	
-					lbCursorPos.UseMarkup = true;
-					lbCursorPos.ModifyFg (StateType.Normal, colorConverter.Red);
-					lbCursorPos.LabelProp = "<b>" + l + " of " + (imageW * imageH / 8) + "</b>";
-				} else {
-					lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
-					lbCursorPos.Text = 	l + " of " + imageW * imageH / 8;					
-				}
+				l = info.Length;
+			} else {
+				lbPayloadspace.ModifyFg (StateType.Normal, colorConverter.FONT);
+				lbPayloadspace.Text = "-"; 
+				return;
+			}
+
+			if (l > dim) {	
+				lbPayloadspace.UseMarkup = true;
+				lbPayloadspace.ModifyFg (StateType.Normal, colorConverter.Red);
+				lbPayloadspace.LabelProp = "<b>" + Language.I.L[29] + "  " + l + " / " + dim + " " + Language.I.L[247] + " </b>";
+			} else {
+				lbPayloadspace.ModifyFg (StateType.Normal, colorConverter.FONT);
+				lbPayloadspace.Text = 	l + " / " + dim + " " + Language.I.L[247];					
 			}
 		}
 
@@ -700,7 +715,9 @@ namespace Troonie
 			}
 
 			rdBtnPayloadFile.Sensitive = comboboxAlgorithm.Active != 0; 
-		}
+
+			ChangeLbPayloadspace ();
+		}			
 	}
 }
 
