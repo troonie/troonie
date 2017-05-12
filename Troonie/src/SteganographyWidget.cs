@@ -677,7 +677,7 @@ namespace Troonie
 			long l;
 			/* 3 == BitStegRGB,  1 == BitSteg */
 			int multiplicator = comboboxAlgorithm.Active == 2 ? 3 : 1;
-			int dim = multiplicator * imageW * imageH / 8;
+			int dim = multiplicator * (imageW * imageH) / 8 - BitSteg.LengthFinalBytes;
 
 			if (rdBtnPayloadText.Active && comboboxAlgorithm.Active != 0) {
 				l = textviewContent.Buffer.Text.Length;

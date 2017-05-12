@@ -10,6 +10,7 @@ namespace Troonie_Lib
 	public class BitSteg
 	{
 		public const bool SHOW_IN_GUI = false;
+        public static int LengthFinalBytes { get { return 4; } }
 
 		public int Write(Bitmap source, string key, string text)
 		{
