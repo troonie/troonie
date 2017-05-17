@@ -67,13 +67,12 @@ namespace Troonie
 				SetLanguageToGui ();
 
 				Initialize(true);
-//				rdBtn01_StegHash.Active = !BitSteg.SHOW_IN_GUI;
-//				rdBtn02_BitSteg_Text.Active = BitSteg.SHOW_IN_GUI;
-				if (!BitSteg.SHOW_IN_GUI) {
-					comboboxAlgorithm.RemoveText(2);
-					comboboxAlgorithm.RemoveText(1);
-					comboboxAlgorithm.Active = 0;
-				}
+
+//				if (!LeonSteg.SHOW_IN_GUI) {
+//					comboboxAlgorithm.RemoveText(2);
+//					comboboxAlgorithm.RemoveText(1);
+//					comboboxAlgorithm.Active = 0;
+//				}
 
 				if (constants.WINDOWS) {
 					Gtk.Drag.DestSet (this, 0, null, 0);
@@ -174,7 +173,7 @@ namespace Troonie
 
 			// Gdk.Pixbuf.GetFileInfo(FileName, out imageW, out imageH);
 
-			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 500, 600, imageW, imageH, 1270, 650);
+			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 500, 600, imageW, imageH, 1280, 650);
 
 			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
 
@@ -337,6 +336,7 @@ namespace Troonie
 
 				if (filter.Success) {
 					pseudo.Label2 = Language.I.L [83];
+					pseudo.OnReleasedOkButton += OpenSaveAsDialog; 
 				} else {
 					pseudo.Label1 =  Language.I.L [53];
 					pseudo.Label2 =  Language.I.L [52];
@@ -375,7 +375,7 @@ namespace Troonie
 		private void DoBitSteg()
 		{
 			/* 2 == BitStegRGB */
-			BitSteg bs = comboboxAlgorithm.Active == 2 ? new BitStegRGB() : new BitSteg ();
+			LeonSteg bs = comboboxAlgorithm.Active == 2 ? new LeonStegRGB() : new LeonSteg ();
 
 			OkCancelDialog pseudo = new OkCancelDialog (true);
 			pseudo.WindowPosition = WindowPosition.CenterAlways;
@@ -397,6 +397,7 @@ namespace Troonie
 				switch (success) {
 				case 0:
 					pseudo.Label2 = Language.I.L [83];
+					pseudo.OnReleasedOkButton += OpenSaveAsDialog; 
 					break;
 				case 1:
 					pseudo.Label1 =  Language.I.L [53];
@@ -675,9 +676,10 @@ namespace Troonie
 		private void ChangeLbPayloadspace()
 		{
 			long l;
+			string text;
 			/* 3 == BitStegRGB,  1 == BitSteg */
 			int multiplicator = comboboxAlgorithm.Active == 2 ? 3 : 1;
-			int dim = multiplicator * (imageW * imageH) / 8 - BitSteg.LengthFinalBytes;
+			int dim = multiplicator * (imageW * imageH) / 8 - LeonSteg.LengthFinalBytes;
 
 			if (rdBtnPayloadText.Active && comboboxAlgorithm.Active != 0) {
 				l = textviewContent.Buffer.Text.Length;
@@ -690,13 +692,25 @@ namespace Troonie
 				return;
 			}
 
+			if (l > 1024 * 1024) {
+				long l_mega = l / (1024 * 1024);
+				int dim_mega = dim / (1024 * 1024);
+				text = l_mega + " / " + dim_mega + " " + Language.I.L [249] + "  (" + l + " / " + dim + " " + Language.I.L [247] + ")";
+			} else if (l > 1024) {
+				long l_kilo = l / 1024;
+				int dim_kilo = dim / 1024;
+				text = l_kilo + " / " + dim_kilo + " " + Language.I.L [248] + "  (" + l + " / " + dim + " " + Language.I.L [247] + ")";
+			} else {
+				text = 	l + " / " + dim + " " + Language.I.L[247];
+			}
+				
 			if (l > dim) {	
 				lbPayloadspace.UseMarkup = true;
 				lbPayloadspace.ModifyFg (StateType.Normal, colorConverter.Red);
-				lbPayloadspace.LabelProp = "<b>" + Language.I.L[29] + "  " + l + " / " + dim + " " + Language.I.L[247] + " </b>";
+				lbPayloadspace.LabelProp = "<b>" + Language.I.L[29] + "  " + text + " </b>";
 			} else {
-				lbPayloadspace.ModifyFg (StateType.Normal, colorConverter.FONT);
-				lbPayloadspace.Text = 	l + " / " + dim + " " + Language.I.L[247];					
+				lbPayloadspace.ModifyFg (StateType.Normal, colorConverter.FONT);												
+				lbPayloadspace.Text = text;					
 			}
 		}
 

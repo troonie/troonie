@@ -253,8 +253,8 @@ namespace Troonie
 			// Container child hboxProperties.Gtk.Box+BoxChild
 			this.comboboxAlgorithm = global::Gtk.ComboBox.NewText ();
 			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("StegHash [2016]"));
-			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("BitSteg [2017]"));
-			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("BitStegRGB [2017]"));
+			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("LeonSteg [2017]"));
+			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("LeonStegRGB [2017]"));
 			this.comboboxAlgorithm.Name = "comboboxAlgorithm";
 			this.comboboxAlgorithm.Active = 1;
 			this.hboxProperties.Add (this.comboboxAlgorithm);

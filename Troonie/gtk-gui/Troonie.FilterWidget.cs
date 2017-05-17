@@ -142,7 +142,6 @@ namespace Troonie
 			this.checkBtnUse255ForAlpha.CanFocus = true;
 			this.checkBtnUse255ForAlpha.Name = "checkBtnUse255ForAlpha";
 			this.checkBtnUse255ForAlpha.Label = global::Mono.Unix.Catalog.GetString ("255 for Alpha channel");
-			this.checkBtnUse255ForAlpha.Active = true;
 			this.checkBtnUse255ForAlpha.DrawIndicator = true;
 			this.checkBtnUse255ForAlpha.UseUnderline = true;
 			this.vboxImagePanel.Add (this.checkBtnUse255ForAlpha);

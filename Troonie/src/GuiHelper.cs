@@ -59,7 +59,7 @@ namespace Troonie
 		{		
 			const int optionsWidth = 390;
 			// general taskbar size in win_8.1
-			const int taskbarHeight = 90;
+//			const int taskbarHeight = 90;
 			const int paddingOffset = 44;
 			// necessary to correct to small height 
 			const float multiplicatorHeight = 1.2f;

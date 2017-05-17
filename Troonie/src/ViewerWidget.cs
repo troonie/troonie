@@ -294,7 +294,7 @@ namespace Troonie
 					if (vip.IsVideo && Constants.I.CONFIG.VideoplayerWorks) {
 						Process proc = new Process();
 						proc.StartInfo.FileName = Constants.I.CONFIG.VideoplayerPath;   //xplayer ODER vlc ODER cvlc
-						proc.StartInfo.Arguments = vip.OriginalImageFullName;
+						proc.StartInfo.Arguments = "\"" + vip.OriginalImageFullName + "\"";
 
 						proc.StartInfo.UseShellExecute = false; 
 						proc.StartInfo.RedirectStandardOutput = true;

@@ -187,7 +187,7 @@ namespace Troonie_Lib
 				}
 
 			}
-			catch (Exception ex) {
+			catch (Exception) {
 				success = false;
 //				Console.WriteLine (ex.Message);
 			}

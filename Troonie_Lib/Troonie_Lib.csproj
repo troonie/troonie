@@ -75,7 +75,7 @@
     <Compile Include="ImageTagHelper.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="MemoryReducer.cs" />
-    <Compile Include="BitSteg.cs" />
+    <Compile Include="LeonSteg.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
