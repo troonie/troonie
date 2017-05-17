@@ -10,7 +10,7 @@
  <ul>
 	<li>.NET 4.5 (already included in Win8.1 and Win10)</li>
 	<li>Visual C++ Redistributable\_x86 2013 (download <a href="https://www.microsoft.com/en-US/download/details.aspx?id=40784" target="_blank">here</a>)</li>
-	<li>GTK-Sharp v2.12 (download <a href="http://download.xamarin.com/GTKforWindows/Windows/gtk-sharp-2.12.38.msi" target="_blank">here</a>)</li>
+	<li>GTK-Sharp v2.12 (download <a href="https://dl.xamarin.com/GTKforWindows/Windows/gtk-sharp-2.12.44.msi" target="_blank">here</a>)</li>
 </ul>
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Linux Package Dependencies&nbsp;</span></p>
  <ul>

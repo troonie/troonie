@@ -110,7 +110,7 @@ namespace Troonie
 				relativeImageName = value;
 
 				string l_relativeImageName = value.Substring(0, value.LastIndexOf('.'));
-				thumbSmallName = l_relativeImageName + smallWidthAndHeight.ToString() + 
+				thumbSmallName = l_relativeImageName + "_id_" + ID + 
 					Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
 			}
 		}

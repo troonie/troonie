@@ -70,7 +70,7 @@ namespace WinInstaller
 			string path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 			path += Path.DirectorySeparatorChar + "Troonie" + Path.DirectorySeparatorChar;
 			Directory.CreateDirectory (path);
-			string gtkInstaller = path + "gtk-sharp-2.12.38.msi";
+			string gtkInstaller = path + "gtk-sharp-2.12.msi";
 			string vcppMsiInstaller = path + "vc_runtimeMinimum_x86.msi";
 			string vcppCabInstaller = path + "cab1.cab";
 

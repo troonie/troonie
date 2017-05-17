@@ -58,9 +58,6 @@
     <EmbeddedResource Include="Files\WinContextMenu.exe">
       <LogicalName>WinContextMenu.exe</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Files\gtk-sharp-2.12.38.msi">
-      <LogicalName>gtk-sharp-2.12.38.msi</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="Files\icon.ico">
       <LogicalName>icon.ico</LogicalName>
     </EmbeddedResource>
@@ -75,6 +72,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Files\cjpeg.exe">
       <LogicalName>cjpeg.exe</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Files\gtk-sharp-2.12.msi">
+      <LogicalName>gtk-sharp-2.12.msi</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
