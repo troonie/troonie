@@ -5,7 +5,7 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../bin/Release/Troonie.exe" internal="true" />
+    <widget-library name="../bin/Debug/Troonie.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Troonie.EditWidget" design-size="688 1115">
     <property name="MemberName" />
@@ -925,6 +925,7 @@
   </widget>
   <widget class="Gtk.Dialog" id="Troonie.SaveAsDialog" design-size="400 512">
     <property name="MemberName" />
+    <property name="Title" translatable="yes">window1</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>
@@ -1080,7 +1081,6 @@
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Label" translatable="yes">JPEG</property>
-                            <property name="Active">True</property>
                             <property name="DrawIndicator">True</property>
                             <property name="HasLabel">True</property>
                             <property name="UseUnderline">True</property>
@@ -4192,6 +4192,7 @@ LeonStegRGB [2017]</property>
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">Landscape</property>
+                                            <property name="Active">True</property>
                                             <property name="DrawIndicator">True</property>
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>

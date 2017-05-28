@@ -76,6 +76,9 @@
     <EmbeddedResource Include="Files\gtk-sharp-2.12.msi">
       <LogicalName>gtk-sharp-2.12.msi</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Files\djpeg.exe">
+      <LogicalName>djpeg.exe</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />

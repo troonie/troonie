@@ -15,10 +15,11 @@ namespace Troonie
 	[System.ComponentModel.ToolboxItem (true)]
 	public partial class SaveAsDialog : Gtk.Dialog
 	{
-   		private BitmapWithTag bitmap;
-//		private TroonieImageFormat format;
-//		private byte jpegQuality;
-//		private Gdk.Color transparencyColor;
+		private bool onlyColorLosslessSaving;
+		private BitmapWithTag bitmap;
+		//		private TroonieImageFormat format;
+		//		private byte jpegQuality;
+		//		private Gdk.Color transparencyColor;
 		private Config config;
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 
@@ -32,6 +33,7 @@ namespace Troonie
 			bitmap = b;
 			config = new Config ();
 			config.StretchImage = cm;
+			onlyColorLosslessSaving = false;
 
 			btnColor.Color = colorConverter.White;
 			htLabelDirectory.InitDefaultValues ();
@@ -187,7 +189,7 @@ namespace Troonie
 			if (FileHelper.I.Exists (SavedFileName)) 
 			{
 				MessageDialog md = new MessageDialog (this, 
-					                   DialogFlags.DestroyWithParent, MessageType.Question, 
+					DialogFlags.DestroyWithParent, MessageType.Question, 
 					ButtonsType.OkCancel, Language.I.L[50]);
 				if (md.Run () == (int)ResponseType.Cancel) {
 					md.Destroy ();
@@ -204,13 +206,20 @@ namespace Troonie
 
 		public void AllowOnlyColorLoselessSaving()
 		{
+			onlyColorLosslessSaving = true;
+
 			rdPng1bit.Sensitive = false;
 			rdPng8Bit.Sensitive = false;
 			rdPNG32bit.Sensitive = false;
 			rdBmp1bit.Sensitive = false;
 			rdBmp8bit.Sensitive = false;
-			frame3.Sensitive = false; // jpg
-//			frame6.Sensitive = false; // other
+			// frame3.Sensitive = false; // jpg frame
+			rdJpeg.Label = Language.I.L[250];
+			rdJpegGray.Sensitive = false;
+			lbQuality.Visible = false;
+			hscaleQuality.Visible = false;
+
+			//			frame6.Sensitive = false; // other
 			rdGif.Sensitive = false;
 			rdIcon.Sensitive = false;
 
@@ -234,7 +243,7 @@ namespace Troonie
 			hscaleQuality.Sensitive = rdJpeg.Active;
 			lbQuality.Sensitive = rdJpeg.Active;
 
-			SetToggledProperties (sender, TroonieImageFormat.JPEG24);
+			SetToggledProperties (sender, onlyColorLosslessSaving ? TroonieImageFormat.JPEGLOSSLESS : TroonieImageFormat.JPEG24);
 		}
 
 		protected void OnRdJpegGrayToggled (object sender, EventArgs e)
@@ -335,16 +344,15 @@ namespace Troonie
 		[GLib.ConnectBefore ()] 
 		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
 		{
-//			 System.Console.WriteLine("Keypress: {0}", args.Event.Key);
+			//			 System.Console.WriteLine("Keypress: {0}", args.Event.Key);
 			switch (args.Event.Key) {
 			case Gdk.Key.Return:
 				this.Respond (ResponseType.Ok);
 				break;
-				case Gdk.Key.Escape:
+			case Gdk.Key.Escape:
 				this.Respond (ResponseType.Cancel);
 				break;
 			}
 		}
 	}
 }
-

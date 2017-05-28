@@ -17,13 +17,14 @@ namespace Troonie_Lib
 		public Bitmap Bitmap { get; private set; }
 		public string FileName { get; private set; }
 
-		public BitmapWithTag (string filename, bool exists)
+		public BitmapWithTag (string filename, bool exists, bool useDJPEG = false)
 		{
 			FileName = filename;
 
 			if (exists) {
-//				Bitmap = new Bitmap (filename);
-				Bitmap = TroonieBitmap.FromFile (FileName);
+				//				Bitmap = new Bitmap (filename);
+
+				Bitmap = useDJPEG ? TroonieBitmap.DjpegFromFile(FileName) : TroonieBitmap.FromFile (FileName);
 				OrigFormat = ImageFormatConverter.I.ConvertToPIF(Bitmap.RawFormat, Bitmap.PixelFormat);
 				imageTag = ImageTagHelper.GetTag (filename);
 			} 
@@ -37,6 +38,7 @@ namespace Troonie_Lib
 				imageTag = new CombinedImageTag (TagTypes.Png);
 			}				
 		}			
+			
 
 		public void ChangeBitmapButNotTags(Bitmap newBitmap)
 		{
@@ -139,7 +141,8 @@ namespace Troonie_Lib
 				switch (config.Format) {
 				case TroonieImageFormat.JPEG8:
 				case TroonieImageFormat.JPEG24:
-					success = JpegEncoder.SaveWithCjpeg (FileName, dest, config.JpgQuality, config.Format == TroonieImageFormat.JPEG8);
+				case TroonieImageFormat.JPEGLOSSLESS:
+					success = JpegEncoder.SaveWithCjpeg (FileName, dest, config.JpgQuality, config.Format);
 					if (saveTag) {
 						ImageTagHelper.CopyTagToFile (FileName, imageTag);
 					}

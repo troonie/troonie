@@ -8,6 +8,7 @@ namespace Troonie_Lib
 	{
 		JPEG24,
 		JPEG8,
+		JPEGLOSSLESS,
 		PNG1,
 		PNG8,
 		PNG24,
@@ -79,6 +80,7 @@ namespace Troonie_Lib
 				return ImageFormat.Icon;
 			case TroonieImageFormat.JPEG24:
 			case TroonieImageFormat.JPEG8:
+			case TroonieImageFormat.JPEGLOSSLESS:
 				return ImageFormat.Jpeg;
 			case TroonieImageFormat.PNG1:
 			case TroonieImageFormat.PNG24:

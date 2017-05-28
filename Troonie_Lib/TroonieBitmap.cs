@@ -21,6 +21,48 @@ namespace Troonie_Lib
 			return l;
 		}
 
+		public static Bitmap DjpegFromFile( string fileName )
+		{
+
+//			FileInfo info = new FileInfo (fileName);
+//			string ext = info.Extension.ToLower ();
+//			bool isJpg = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
+//				Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
+//
+//			if (!isJpg) {
+//				throw new ArgumentException("No JPEG file.", "fileName");
+//			}				
+
+			string bmpFileName = Constants.I.EXEPATH + "JpgToBmp" + Constants.Extensions [TroonieImageFormat.BMP24].Item1;
+			string args = "-bmp -outfile \"" + bmpFileName + "\" \"" + fileName + "\"";
+
+			// use jpeg lib for decoding jpeg files
+			using (System.Diagnostics.Process proc = new System.Diagnostics.Process ()) {
+				try {
+					proc.StartInfo.FileName = Constants.I.WINDOWS ? (Constants.I.EXEPATH + Constants.DJPEGNAME + @".exe") : Constants.DJPEGNAME;   
+					proc.StartInfo.Arguments = args; 
+					proc.StartInfo.UseShellExecute = false; 
+					proc.StartInfo.CreateNoWindow = true;
+					//					proc.StartInfo.RedirectStandardOutput = true;
+					//					proc.StartInfo.RedirectStandardError = true;
+					proc.Start();
+					proc.WaitForExit();
+					proc.Close();
+					proc.Dispose();
+					//						System.Threading.Thread.Sleep(500);
+					//						success = true;
+				}
+				catch(Exception){
+					//						success = false;
+				}
+			}
+
+			Bitmap b = FromFile(bmpFileName);
+			// removing temp bmp file
+			File.Delete (bmpFileName);
+			return b;
+		}
+
 		/// <summary>
 		/// [Source: AForge.Net] Loads bitmap from file without file-locking.
 		/// </summary>

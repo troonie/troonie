@@ -20,6 +20,7 @@ namespace Troonie
 		private const string blackFileName = "black.png";
 		private const int maxpadding = 100;
 
+		private bool isJpg01, isJpg02;
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
 		float imageScaleFactor;
@@ -100,19 +101,22 @@ namespace Troonie
 		{
 			const int maxLength = 500;
 			Bitmap b1, b2;
-			// fast reading-out of image sizes
-			using (FileStream fs = new FileStream (FileName01, FileMode.Open)) 
-			{
-				b1 = Image.FromStream (fs, true, false) as Bitmap;
-				origImage01W = b1.Width;
-				origImage01H = b1.Height;
-			}
-			using (FileStream fs = new FileStream (FileName02, FileMode.Open)) 
-			{
-				b2 = Image.FromStream (fs, true, false) as Bitmap;
-				origImage02W = b2.Width;
-				origImage02H = b2.Height;
-			}
+
+			FileInfo info = new FileInfo (FileName01);
+			string ext = info.Extension.ToLower ();
+			isJpg01 = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
+				Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
+			b1 = isJpg01 ? TroonieBitmap.DjpegFromFile(FileName01) : TroonieBitmap.FromFile (FileName01);  
+			origImage01W = b1.Width;
+			origImage01H = b1.Height;
+
+			info = new FileInfo (FileName02);
+			ext = info.Extension.ToLower ();
+			isJpg02 = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
+				Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
+			b2 = isJpg02 ? TroonieBitmap.DjpegFromFile(FileName02) : TroonieBitmap.FromFile (FileName02);  	
+			origImage02W = b2.Width;
+			origImage02H = b2.Height;
 
 			int biggestLength = Math.Max(
 				Math.Max (origImage01W, origImage01H), Math.Max (origImage02W, origImage02H));
@@ -287,8 +291,8 @@ namespace Troonie
 
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			image01 = TroonieBitmap.FromFile (FileName01); // new Bitmap (FileName01);
-			image02 = TroonieBitmap.FromFile (FileName02); // new Bitmap (FileName02);
+			image01 = isJpg01 ? TroonieBitmap.DjpegFromFile(FileName01) : TroonieBitmap.FromFile (FileName01);  
+			image02 = isJpg02 ? TroonieBitmap.DjpegFromFile(FileName02) : TroonieBitmap.FromFile (FileName02); 
 
 			try {
 				#region StitchMIFilter

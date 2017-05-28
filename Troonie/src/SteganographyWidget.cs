@@ -132,6 +132,8 @@ namespace Troonie
 
 		private void Initialize(bool newFileName)
 		{
+			bool isJpg = false;
+
 			if (FileName == null)
 			{
 				FileName = constants.EXEPATH + Constants.BLACKFILENAME;
@@ -155,8 +157,12 @@ namespace Troonie
 						string ext = info.Extension.ToLower ();
 
 						if (ext.Length != 0 && Constants.Extensions.Any(x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
+
+							isJpg = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
+								Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
+
 							Title = FileName;
-							bt = new BitmapWithTag(FileName, true);
+							bt = new BitmapWithTag(FileName, true, isJpg);
 							imageW = bt.Bitmap.Width;
 							imageH = bt.Bitmap.Height;
 						}
@@ -181,7 +187,8 @@ namespace Troonie
 
 			if (newFileName) 
 			{
-				Bitmap pic = TroonieBitmap.FromFile (FileName); // new Bitmap(FileName);                              
+				Bitmap pic = isJpg ? TroonieBitmap.DjpegFromFile(FileName) : TroonieBitmap.FromFile (FileName);
+				//				Bitmap pic = TroonieBitmap.FromFile (FileName); // new Bitmap(FileName);                              
 				Bitmap croppedPic;
 
 				ImageConverter.ScaleAndCut (
@@ -221,7 +228,7 @@ namespace Troonie
 			ChangeLbPayloadspace ();
 
 			Show (); // ShowAll();
-		}		
+		}	
 
 		private void SetGuiColors()
 		{

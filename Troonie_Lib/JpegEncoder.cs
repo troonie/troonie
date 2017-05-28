@@ -39,6 +39,31 @@ namespace Troonie_Lib
 				proc.Close();
 				proc.Dispose();
 
+				// check DJPEG
+				proc = new Process();
+				proc.StartInfo.FileName = Constants.DJPEGNAME;
+				proc.StartInfo.Arguments = "-v";
+				proc.StartInfo.UseShellExecute = false; 
+				proc.StartInfo.CreateNoWindow = true;
+				//				proc.StartInfo.RedirectStandardOutput = true;
+				//				proc.StartInfo.RedirectStandardError = true;
+				proc.Start();
+				proc.WaitForExit();
+
+				//				StreamReader srOutput = proc.StandardOutput;
+				//				string standardOutput = srOutput.ReadToEnd();
+				//				Console.WriteLine ("Output: " + standardOutput);
+				//				srOutput.Close();
+
+				//				StreamReader srError = proc.StandardError;
+				//				string standardError = srError.ReadToEnd();
+				//				Console.WriteLine ("Error: " + standardError);
+				//				srError.Close();
+
+				//				int exitCode = proc.ExitCode;
+				proc.Close();
+				proc.Dispose();
+
 				return true;
 			}
 			catch  (Exception ) {
@@ -102,8 +127,8 @@ namespace Troonie_Lib
 
 		// Why: https://bugzilla.novell.com/show_bug.cgi?id=506179
 		public static bool SaveWithCjpeg(
-//			string origFilename, string destFilename, byte quality, bool grayscale)
-			string path, Image img, byte quality, bool grayscale)
+			//			string origFilename, string destFilename, byte quality, bool grayscale)
+			string path, Image img, byte quality, TroonieImageFormat f)
 		{
 			bool success;
 
@@ -115,11 +140,24 @@ namespace Troonie_Lib
 			img.Save (p, ImageFormat.Bmp);
 
 
-			string gray = grayscale ? " -grayscale " : "";
-
+			//			string gray = f == TroonieImageFormat.JPEG8 ? " -grayscale " : "";
+			string args = string.Empty;
+			// LOSSLESS: cjpeg -rgb1 -block 1 -arithmetic
 			// -quality 10 -outfile /home/jose/c.jpg  /home/jose/b.bmp
-			string args = "-quality " + quality.ToString() + gray + 
-				"  -outfile \"" + path + "\" \"" + p + "\"";
+			switch (f) {
+			case TroonieImageFormat.JPEG24:
+				args = "-quality " + quality.ToString ();
+				break;
+			case TroonieImageFormat.JPEG8:
+				args = "-quality " + quality.ToString () + " -grayscale";
+				break;
+			case TroonieImageFormat.JPEGLOSSLESS:
+				args = "-rgb1 -block 1 -arithmetic";
+				break;
+
+			}
+
+			args =	args + " -outfile \"" + path + "\" \"" + p + "\"";
 
 			// args = "-quality 10 -outfile /home/jose/c3.jpg /home/jose/b.bmp";
 
@@ -129,8 +167,8 @@ namespace Troonie_Lib
 					proc.StartInfo.Arguments = args; 
 					proc.StartInfo.UseShellExecute = false; 
 					proc.StartInfo.CreateNoWindow = true;
-//					proc.StartInfo.RedirectStandardOutput = true;
-//					proc.StartInfo.RedirectStandardError = true;
+					//					proc.StartInfo.RedirectStandardOutput = true;
+					//					proc.StartInfo.RedirectStandardError = true;
 					proc.Start();
 					proc.WaitForExit();
 					proc.Close();

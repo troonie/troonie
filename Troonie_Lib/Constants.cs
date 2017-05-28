@@ -33,6 +33,7 @@ namespace Troonie_Lib
 		public const string BLACKFILENAME = "black.png";
 		public const string AUTHOR = "Troonie Project";
 		public const string CJPEGNAME = "cjpeg";
+		public const string DJPEGNAME = "djpeg";
 		public const string EXENAME = "Troonie.exe";
 		public const string ICONNAME = "icon.ico";
 		public const string WEBSITE = "http://www.troonie.com";
@@ -70,6 +71,7 @@ namespace Troonie_Lib
 			{ TroonieImageFormat.ICO, Tuple.Create(".ico", string.Empty) },
 			{ TroonieImageFormat.JPEG8, Tuple.Create(".jpg", ".jpeg") },
 			{ TroonieImageFormat.JPEG24, Tuple.Create(".jpg", ".jpeg") },
+			{ TroonieImageFormat.JPEGLOSSLESS, Tuple.Create(".jpg", ".jpeg") },
 			{ TroonieImageFormat.PNG1, Tuple.Create(".png", string.Empty) },
 			{ TroonieImageFormat.PNG24, Tuple.Create(".png", string.Empty) },
 			{ TroonieImageFormat.PNG32AlphaAsValue, Tuple.Create(".png", string.Empty) },

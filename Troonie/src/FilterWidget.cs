@@ -328,8 +328,14 @@ namespace Troonie
 
 		private void Initialize()
 		{
+			FileInfo info = new FileInfo (FileName);
+			string ext = info.Extension.ToLower ();
+			bool isJpg = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
+				Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
+			
 			Title = FileName;
-			filterImage = TroonieBitmap.FromFile (FileName); // new Bitmap(FileName); 
+//			filterImage = TroonieBitmap.FromFile (FileName); // new Bitmap(FileName); 
+			filterImage = isJpg ? TroonieBitmap.DjpegFromFile(FileName) : TroonieBitmap.FromFile (FileName);
 			imageW = filterImage.Width;
 			imageH = filterImage.Height;
 			int w, h;
