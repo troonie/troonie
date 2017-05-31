@@ -204,8 +204,11 @@ namespace Troonie
 
 		private void SaveEntry()
 		{
+			string errorImages = string.Empty;
+
 			foreach (var vip in pressedInVIPs) {
 
+				TagsData oldTagsData = vip.TagsData;
 				bool setValueSuccess = vip.TagsData.SetValue (tags, entry.Text);
 
 				if (setValueSuccess) {
@@ -217,15 +220,18 @@ namespace Troonie
 						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
 						vip.IsPressedIn = vip.IsPressedIn;
 					} else {
-						ShowErrorMessageWindow(tags);
-						break;
+						errorImages += vip.RelativeImageName + Constants.N;
 					}
 				} else {
-					ShowErrorMessageWindow(tags);
-					break;
+					errorImages += vip.RelativeImageName + Constants.N;
 				}
 
-			}			
+			}
+
+			if (errorImages.Length != 0) {				
+				ViewerWidget.ShowErrorDialog(Language.I.L [188] + Enum.GetName(typeof(TagsFlag), tags) + Language.I.L [189], 
+											 errorImages + Constants.N);
+			}
 
 			this.DestroyAll ();
 		}			
@@ -271,17 +277,6 @@ namespace Troonie
 		}
 
 		#region static helper function
-
-		private static void ShowErrorMessageWindow(TagsFlag flag)
-		{
-			OkCancelDialog info = new OkCancelDialog (true);
-			info.WindowPosition = WindowPosition.CenterAlways;
-			info.Title = Language.I.L [153];
-			info.Label1 = Language.I.L [188] + Enum.GetName(typeof(TagsFlag), flag) + Language.I.L [189];
-			info.Label2 = Language.I.L [190];
-			info.OkButtontext = Language.I.L [16];
-			info.Show ();
-		}
 
 		public static string SetStartText(List<ViewerImagePanel> pressedInVIPs, TagsFlag tags, out SaveTagMode saveTagMode)
 		{

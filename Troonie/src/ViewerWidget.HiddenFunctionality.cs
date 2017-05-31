@@ -16,9 +16,8 @@ namespace Troonie
 		private void AppendIdAndCompressionByRating()
 		{		
 			string tmp = "";
+			string errorImages = string.Empty;
 			try {	
-				int nr = 0;
-
 				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
 
 				foreach (ViewerImagePanel pib in pressedInVIPs) {
@@ -98,20 +97,21 @@ namespace Troonie
 							ReduceImageSize (pib.RelativeImageName, pib.OriginalImageFullName, ref creatorText, biggestLength, jpqQuality);
 						}
 
-						ConvertByRating (pib.RelativeImageName, pib.OriginalImageFullName, ref creatorText, limitInBytes, jpqQuality);
-					}
+						bool success = ConvertByRating (pib.RelativeImageName, pib.OriginalImageFullName, ref creatorText, limitInBytes, jpqQuality);
+						if (!success) {
+							errorImages += tmp + Constants.N;
+						}
+					}						
+				}
 
-					nr++;
+				if (errorImages.Length != 0) {
+					ShowErrorDialog(Language.I.L[251], errorImages + Constants.N);
 				}
 			}
 			catch (Exception e)
 			{
-				OkCancelDialog pseudo = new OkCancelDialog (true);
-				pseudo.Title = Language.I.L [153];
-				pseudo.Label1 = "Something went wrong by 'AppendIdAndCompressionByRating'.";
-				pseudo.Label2 = "Stoppage at image '" + tmp + "'. Exception message: " + Constants.N + e.Message;
-				pseudo.OkButtontext = Language.I.L [16];
-				pseudo.Show ();
+				ShowErrorDialog (Language.I.L[252], 
+					Language.I.L[253] + " '" + tmp + "'. Exception message: " + Constants.N + e.Message);
 			}
 		}
 
@@ -125,6 +125,7 @@ namespace Troonie
 		private void SetDatetimeFromFilename()
 		{
 			string tmp = "";
+			string errorImages = string.Empty;
 			try{
 
 				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
@@ -133,32 +134,38 @@ namespace Troonie
 					tmp = vip.RelativeImageName;
 					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
 					DateTime? dt = GetDatetimeFromFilename(f);
-
+					bool success = false; 
 					if (dt.HasValue) {
 						vip.TagsData.DateTime = dt;
 						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
 						vip.IsPressedIn = vip.IsPressedIn;
 						if (!vip.IsVideo) { 
-							ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.DateTime, vip.TagsData);	
+							success = ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.DateTime, vip.TagsData);
 						}
 						//							SetTextAndFulltextAndRedrawVip(vip, f, fullf);
 					}
-				}					
+
+					if (!success) {
+						errorImages += tmp + Constants.N;
+					}
+				}
+
+				if (errorImages.Length != 0) {
+					ShowErrorDialog(Language.I.L[255], errorImages + Constants.N);
+				}
 			}
 			catch (Exception e)
 			{
-				OkCancelDialog pseudo = new OkCancelDialog (true);
-				pseudo.Title = Language.I.L [153];
-				pseudo.Label1 = "Something went wrong by 'RenameFileByDateTime'.";
-				pseudo.Label2 = "Stoppage at image '" + tmp + "'. Exception message: " + Constants.N + e.Message;
-				pseudo.OkButtontext = Language.I.L [16];
-				pseudo.Show ();
+				ShowErrorDialog (Language.I.L[256], 
+					Language.I.L[253] + " '" + tmp + "'. Exception message: " + Constants.N + e.Message);
 			}			
 		}
 
 		private void RenameFileByDateTime()
 		{
 			string tmp = "";
+			string errorImages = string.Empty;
+
 			try{
 
 				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
@@ -168,6 +175,7 @@ namespace Troonie
 					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
 					DateTime? dt = null;
 					ImageTagHelper.GetDateTime (fullf, out dt);
+					bool success = false; 
 
 					if (dt.HasValue) {
 						string format = "yyyyMMdd-HHmmss";
@@ -187,39 +195,35 @@ namespace Troonie
 							newFullText = newFullText.Insert(newFullText.LastIndexOf("."), "_" + fileCounter);
 						}
 
-						FileHelper.I.Rename (fullf, newFullText);
+						success = FileHelper.I.Rename (fullf, newFullText);
 						fullf = newFullText;
 						f = newFullText.Substring (newFullText.LastIndexOf (IOPath.DirectorySeparatorChar) + 1);
+					}
 
+					if (success) {
 						SetTextAndFulltextAndRedrawVip(vip, f, fullf);
 					}
-//					else {
-//						dt = GetDatetimeFromFilename(f);
-//						if (dt.HasValue) {
-//							vip.TagsData.DateTime = dt;
-//							vip.IsPressedIn = vip.IsPressedIn;
-//							if (!vip.IsVideo) { 
-//								ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.DateTime, vip.TagsData);	
-//							}
-////							SetTextAndFulltextAndRedrawVip(vip, f, fullf);
-//						}
-//					}
-				}					
+					else {						
+						errorImages += tmp + Constants.N;
+					}
+				}
+
+				if (errorImages.Length != 0) {
+					ShowErrorDialog(Language.I.L[257], errorImages + Constants.N);
+				}
 			}
 			catch (Exception e)
 			{
-				OkCancelDialog pseudo = new OkCancelDialog (true);
-				pseudo.Title = Language.I.L [153];
-				pseudo.Label1 = "Something went wrong by 'RenameFileByDateTime'.";
-				pseudo.Label2 = "Stoppage at image '" + tmp + "'. Exception message: " + Constants.N + e.Message;
-				pseudo.OkButtontext = Language.I.L [16];
-				pseudo.Show ();
+				ShowErrorDialog (Language.I.L[258], 
+					Language.I.L[253] + " '" + tmp + "'. Exception message: " + Constants.N + e.Message);
 			}
 		}
 
 		private void RenameVideoByTitleAndInsertIdentifier()
 		{
 			string tmp = "";
+			string errorImages = string.Empty;
+
 			try{
 				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
 
@@ -228,6 +232,8 @@ namespace Troonie
 						continue;
 					}						
 
+					bool success = true;
+					tmp = vip.RelativeImageName;
 					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
 					vip.TagsData.DateTime = GetDatetimeFromFilename(fullf);
 
@@ -273,7 +279,7 @@ namespace Troonie
 							else {
 								TroonieBitmap.CreateTextBitmap (newFullPicName, f);
 								File.Delete(oldFullPicName);
-								ImageTagHelper.SetTag(newFullPicName, (TagsFlag)0xFFFFFF, vip.TagsData);
+								success = ImageTagHelper.SetTag(newFullPicName, (TagsFlag)0xFFFFFF, vip.TagsData);
 								picVip.TagsData = vip.TagsData;
 								SetTextAndFulltextAndRedrawVip(picVip, newRelativePicName, newFullPicName);
 								// dirty workaround to refresh thumbnail image
@@ -284,17 +290,19 @@ namespace Troonie
 						}													
 					}
 
+					if(!success) {						
+						errorImages += newRelativePicName + Constants.N;
+					}
+				}
 
-				}					
+				if (errorImages.Length != 0) {
+					ShowErrorDialog(Language.I.L[261], errorImages + Constants.N);
+				}
 			}
 			catch (Exception e)
 			{
-				OkCancelDialog pseudo = new OkCancelDialog (true);
-				pseudo.Title = Language.I.L [153];
-				pseudo.Label1 = "Something went wrong by 'RenameVideoByTitleAndInsertIdentifier'.";
-				pseudo.Label2 = "Stoppage at video '" + tmp + "'. Exception message: " + Constants.N + e.Message;
-				pseudo.OkButtontext = Language.I.L [16];
-				pseudo.Show ();
+				ShowErrorDialog (Language.I.L[259], 
+					Language.I.L[260] + " '" + tmp + "'. Exception message: " + Constants.N + e.Message);
 			}
 		}
 

@@ -20,7 +20,6 @@ namespace Troonie
 		private const string blackFileName = "black.png";
 		private const int maxpadding = 100;
 
-		private bool isJpg01, isJpg02;
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
 		float imageScaleFactor;
@@ -102,19 +101,11 @@ namespace Troonie
 			const int maxLength = 500;
 			Bitmap b1, b2;
 
-			FileInfo info = new FileInfo (FileName01);
-			string ext = info.Extension.ToLower ();
-			isJpg01 = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
-				Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
-			b1 = isJpg01 ? TroonieBitmap.DjpegFromFile(FileName01) : TroonieBitmap.FromFile (FileName01);  
+			b1 = TroonieBitmap.FromFile (FileName01);  
 			origImage01W = b1.Width;
 			origImage01H = b1.Height;
 
-			info = new FileInfo (FileName02);
-			ext = info.Extension.ToLower ();
-			isJpg02 = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
-				Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
-			b2 = isJpg02 ? TroonieBitmap.DjpegFromFile(FileName02) : TroonieBitmap.FromFile (FileName02);  	
+			b2 = TroonieBitmap.FromFile (FileName02);  	
 			origImage02W = b2.Width;
 			origImage02H = b2.Height;
 
@@ -291,8 +282,8 @@ namespace Troonie
 
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			image01 = isJpg01 ? TroonieBitmap.DjpegFromFile(FileName01) : TroonieBitmap.FromFile (FileName01);  
-			image02 = isJpg02 ? TroonieBitmap.DjpegFromFile(FileName02) : TroonieBitmap.FromFile (FileName02); 
+			image01 = TroonieBitmap.FromFile (FileName01);  
+			image02 = TroonieBitmap.FromFile (FileName02); 
 
 			try {
 				#region StitchMIFilter

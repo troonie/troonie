@@ -221,8 +221,22 @@ namespace Troonie
 //
 		}
 
+		public static void ShowErrorDialog(string label1, string label2)
+		{
+			OkCancelDialog win = new OkCancelDialog (true);
+			win.WindowPosition = WindowPosition.CenterAlways;
+			win.Title = Language.I.L [153];
+			win.Label1 = label1;
+			win.Label2 = label2;
+			win.OkButtontext = Language.I.L [16];
+			//				DeleteEventArgs args = new DeleteEventArgs ();
+			//				win.OnReleasedOkButton += () => { OnDeleteEvent(win, args); };
+			win.Show ();
+		}
+
 		private void SetRatingOfSelectedImages(uint rating)
 		{
+			string errorImages = string.Empty;
 			List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
 			foreach (ViewerImagePanel vip in pressedInVIPs) {	
 				uint? old = vip.TagsData.Rating;
@@ -230,7 +244,7 @@ namespace Troonie
 				bool success = true;
 
 				if (!vip.IsVideo) { 
-					ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);	
+					success = ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);	
 				}
 
 				if (success) {
@@ -239,9 +253,14 @@ namespace Troonie
 					vip.IsPressedIn = vip.IsPressedIn;
 				} else {
 					vip.TagsData.Rating = old;
+					errorImages += vip.RelativeImageName + Constants.N;
 				}
 			}
 //			tableViewer.ShowAll ();
+
+			if (errorImages.Length != 0) {		
+				ShowErrorDialog(Language.I.L[254], errorImages + Constants.N);
+			}
 		}
 
 		private void MoveVIP(Gdk.Key key)
@@ -504,15 +523,7 @@ namespace Troonie
 					}						
 				}
 
-				OkCancelDialog win = new OkCancelDialog (true);
-				win.WindowPosition = WindowPosition.CenterAlways;
-				win.Title = Language.I.L [153];
-				win.Label1 = mssg;
-				win.Label2 = string.Empty;
-				win.OkButtontext = Language.I.L [16];
-//				DeleteEventArgs args = new DeleteEventArgs ();
-//				win.OnReleasedOkButton += () => { OnDeleteEvent(win, args); };
-				win.Show ();
+				ShowErrorDialog (mssg, string.Empty);
 			} 
 
 			ShowAll ();

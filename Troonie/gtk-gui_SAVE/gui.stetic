@@ -5,7 +5,7 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../bin/Release/Troonie.exe" internal="true" />
+    <widget-library name="../bin/Debug/Troonie.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Troonie.EditWidget" design-size="688 1115">
     <property name="MemberName" />
@@ -5212,7 +5212,7 @@ LeonStegRGB [2017]</property>
   </widget>
   <widget class="Gtk.Window" id="Troonie.ViewerWidget" design-size="400 300">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">ViewerWidget</property>
+    <property name="Title" translatable="yes">Troonie</property>
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <signal name="DragDrop" handler="OnDragDrop" />

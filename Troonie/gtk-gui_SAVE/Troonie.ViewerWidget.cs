@@ -37,7 +37,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.ViewerWidget
 			this.Name = "Troonie.ViewerWidget";
-			this.Title = global::Mono.Unix.Catalog.GetString ("ViewerWidget");
+			this.Title = global::Mono.Unix.Catalog.GetString ("Troonie");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Container child Troonie.ViewerWidget.Gtk.Container+ContainerChild
 			this.vboxA = new global::Gtk.VBox ();

@@ -41,11 +41,20 @@ namespace Troonie_Lib
 		/// filename. <paramref name="newFilename"/> could but does not need to include the path.
 		/// The new file name without path is enough.
 		/// </summary>
-		public void Rename(string filePath, string newFilename)
+		public bool Rename(string filePath, string newFilename)
 		{
 			string dir = Path.GetDirectoryName (filePath);
 			string destPath = Path.Combine (dir, newFilename);
-			File.Move (filePath, destPath);
+			bool success = true;
+
+			try {
+				File.Move (filePath, destPath);
+			}
+			catch (Exception) {
+				success = false;
+			}
+
+			return success;
 		}
 
 		public string TransformStringToValidFilename(string filename, bool replaceSpacesByUnderscore)

@@ -13,48 +13,27 @@ namespace Troonie_Lib
 	/// </summary>
 	public class TroonieBitmap
 	{
-		public static int GetBiggestLength(string fileName)
+		private static Bitmap DjpegFromFile( string fileName )
 		{
-			Bitmap b = FromFile (fileName);
-			int l = Math.Max (b.Width, b.Height);
-			b.Dispose ();
-			return l;
-		}
+			FileInfo info = new FileInfo (fileName);
+			string tmpFileName = info.Name.Replace (info.Extension, Constants.Extensions [TroonieImageFormat.BMP24].Item1);
 
-		public static Bitmap DjpegFromFile( string fileName )
-		{
-
-//			FileInfo info = new FileInfo (fileName);
-//			string ext = info.Extension.ToLower ();
-//			bool isJpg = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
-//				Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
-//
-//			if (!isJpg) {
-//				throw new ArgumentException("No JPEG file.", "fileName");
-//			}				
-
-			string bmpFileName = Constants.I.EXEPATH + "JpgToBmp" + Constants.Extensions [TroonieImageFormat.BMP24].Item1;
+			string bmpFileName = Constants.I.EXEPATH +  tmpFileName;
 			string args = "-bmp -outfile \"" + bmpFileName + "\" \"" + fileName + "\"";
 
 			// use jpeg lib for decoding jpeg files
-			using (System.Diagnostics.Process proc = new System.Diagnostics.Process ()) {
-				try {
-					proc.StartInfo.FileName = Constants.I.WINDOWS ? (Constants.I.EXEPATH + Constants.DJPEGNAME + @".exe") : Constants.DJPEGNAME;   
-					proc.StartInfo.Arguments = args; 
-					proc.StartInfo.UseShellExecute = false; 
-					proc.StartInfo.CreateNoWindow = true;
-					//					proc.StartInfo.RedirectStandardOutput = true;
-					//					proc.StartInfo.RedirectStandardError = true;
-					proc.Start();
-					proc.WaitForExit();
-					proc.Close();
-					proc.Dispose();
-					//						System.Threading.Thread.Sleep(500);
-					//						success = true;
-				}
-				catch(Exception){
-					//						success = false;
-				}
+			using (System.Diagnostics.Process proc = new System.Diagnostics.Process ()) 
+			{
+				proc.StartInfo.FileName = Constants.I.WINDOWS ? (Constants.I.EXEPATH + Constants.DJPEGNAME + @".exe") : Constants.DJPEGNAME;   
+				proc.StartInfo.Arguments = args; 
+				proc.StartInfo.UseShellExecute = false; 
+				proc.StartInfo.CreateNoWindow = true;
+				//					proc.StartInfo.RedirectStandardOutput = true;
+				//					proc.StartInfo.RedirectStandardError = true;
+				proc.Start();
+				proc.WaitForExit();
+				proc.Close();
+				proc.Dispose();
 			}
 
 			Bitmap b = FromFile(bmpFileName);
@@ -63,28 +42,42 @@ namespace Troonie_Lib
 			return b;
 		}
 
-		/// <summary>
-		/// [Source: AForge.Net] Loads bitmap from file without file-locking.
-		/// </summary>
-		/// 
-		/// <param name="fileName">File name to load bitmap from.</param>
-		/// 
-		/// <returns>Returns loaded bitmap.</returns>
-		/// 
-		/// <remarks><para>The method is provided as an alternative of <see cref="System.Drawing.Image.FromStream(System.IO.Stream)"/>
-		/// method to solve the issues of locked file. The standard .NET's method locks the source file until
-		/// image's object is disposed, so the file can not be deleted or overwritten. This method workarounds the issue and
-		/// does not lock the source file.</para>
-		/// 
-		/// <para>Sample usage:</para>
-		/// <code>
-		/// Bitmap image = FromFile( "test.jpg" );
-		/// </code>
-		/// </remarks>
-		/// 
 		public static Bitmap FromFile( string fileName )
 		{
 			Bitmap loadedImage = null;
+			FileInfo info = new FileInfo (fileName);
+			string ext = info.Extension.ToLower ();
+
+			bool isJpg = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
+				Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
+
+			// when jpeg file use DJPEG
+			if (isJpg) {
+				loadedImage = DjpegFromFile (fileName);
+				return loadedImage;
+			}
+
+			// when no jpeg use AForge.Net source to get bitmap from file without file-locking
+
+			/// <summary>
+			/// [Source: AForge.Net] Loads bitmap from file without file-locking.
+			/// </summary>
+			/// 
+			/// <param name="fileName">File name to load bitmap from.</param>
+			/// 
+			/// <returns>Returns loaded bitmap.</returns>
+			/// 
+			/// <remarks><para>The method is provided as an alternative of <see cref="System.Drawing.Image.FromStream(System.IO.Stream)"/>
+			/// method to solve the issues of locked file. The standard .NET's method locks the source file until
+			/// image's object is disposed, so the file can not be deleted or overwritten. This method workarounds the issue and
+			/// does not lock the source file.</para>
+			/// 
+			/// <para>Sample usage:</para>
+			/// <code>
+			/// Bitmap image = FromFile( "test.jpg" );
+			/// </code>
+			/// </remarks>
+			/// 
 			FileStream stream = null;
 
 			try
@@ -111,10 +104,18 @@ namespace Troonie_Lib
 				if ( stream != null )
 				{
 					stream.Dispose( );
-				}
+				}					
 			}
 
 			return loadedImage;
+		}
+
+		public static int GetBiggestLength(string fileName)
+		{
+			Bitmap b = FromFile (fileName);
+			int l = Math.Max (b.Width, b.Height);
+			b.Dispose ();
+			return l;
 		}
 
 		/// <summary>

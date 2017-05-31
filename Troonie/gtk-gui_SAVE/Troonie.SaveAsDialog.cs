@@ -111,6 +111,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.SaveAsDialog
 			this.Name = "Troonie.SaveAsDialog";
+			this.Title = global::Mono.Unix.Catalog.GetString ("window1");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Internal child Troonie.SaveAsDialog.VBox
 			global::Gtk.VBox w1 = this.VBox;

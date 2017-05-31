@@ -17,14 +17,14 @@ namespace Troonie_Lib
 		public Bitmap Bitmap { get; private set; }
 		public string FileName { get; private set; }
 
-		public BitmapWithTag (string filename, bool exists, bool useDJPEG = false)
+		public BitmapWithTag (string filename, bool exists)
 		{
 			FileName = filename;
 
 			if (exists) {
 				//				Bitmap = new Bitmap (filename);
 
-				Bitmap = useDJPEG ? TroonieBitmap.DjpegFromFile(FileName) : TroonieBitmap.FromFile (FileName);
+				Bitmap = TroonieBitmap.FromFile (FileName);
 				OrigFormat = ImageFormatConverter.I.ConvertToPIF(Bitmap.RawFormat, Bitmap.PixelFormat);
 				imageTag = ImageTagHelper.GetTag (filename);
 			} 

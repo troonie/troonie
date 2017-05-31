@@ -177,7 +177,10 @@ namespace TagLib.Image.NoMetadata
 		/// </summary>
 		public override void Save ()
 		{
-			throw new NotSupportedException ();
+			#region troonie change
+//			Console.WriteLine("NOW!");
+			 throw new NotSupportedException ();
+			#endregion troonie change
 		}
 
 #endregion

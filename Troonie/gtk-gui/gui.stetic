@@ -925,7 +925,6 @@
   </widget>
   <widget class="Gtk.Dialog" id="Troonie.SaveAsDialog" design-size="400 512">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">window1</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>
@@ -1081,6 +1080,7 @@
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Label" translatable="yes">JPEG</property>
+                            <property name="Active">True</property>
                             <property name="DrawIndicator">True</property>
                             <property name="HasLabel">True</property>
                             <property name="UseUnderline">True</property>
@@ -4192,7 +4192,6 @@ LeonStegRGB [2017]</property>
                                             <property name="MemberName" />
                                             <property name="CanFocus">True</property>
                                             <property name="Label" translatable="yes">Landscape</property>
-                                            <property name="Active">True</property>
                                             <property name="DrawIndicator">True</property>
                                             <property name="HasLabel">True</property>
                                             <property name="UseUnderline">True</property>
@@ -5213,7 +5212,7 @@ LeonStegRGB [2017]</property>
   </widget>
   <widget class="Gtk.Window" id="Troonie.ViewerWidget" design-size="400 300">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">ViewerWidget</property>
+    <property name="Title" translatable="yes">Troonie</property>
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <signal name="DragDrop" handler="OnDragDrop" />

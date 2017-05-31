@@ -31,7 +31,7 @@ namespace Troonie
 		private double translateX, translateY, scale;
 		private bool isEntered, isPressedIn, isDoubleClicked, firstClick, saveThumbnailsPersistent;
 		private Stopwatch sw_doubleClick;
-		private string thumbDirectory, thumbSmallName;
+		private string thumbDirectory, thumbSmallName, tmpDjpegName;
 		private Gdk.Pixbuf pix;
 		private CairoColor workingColor;
 
@@ -111,6 +111,8 @@ namespace Troonie
 
 				string l_relativeImageName = value.Substring(0, value.LastIndexOf('.'));
 				thumbSmallName = l_relativeImageName + "_id_" + ID + 
+					Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
+				tmpDjpegName = l_relativeImageName + "_id_" + ID + "_DJPEG" + 
 					Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
 			}
 		}
@@ -274,7 +276,39 @@ namespace Troonie
 				return;
 			}
 
-			pix = new Gdk.Pixbuf(OriginalImageFullName);
+			try {
+				pix = new Gdk.Pixbuf(OriginalImageFullName);
+			}
+			catch (GLib.GException ex) {
+
+				// try with djpeg if it is jpeg file
+				FileInfo info = new FileInfo (OriginalImageFullName);
+				string ext = info.Extension.ToLower ();
+
+				bool isJpg = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
+					Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
+
+				if (isJpg) {
+
+					if (!File.Exists (thumbDirectory + tmpDjpegName)) {
+						BitmapWithTag bt = new BitmapWithTag (OriginalImageFullName, true);
+						Config c = new Config ();
+						c.FileOverwriting = false;
+						c.Path = thumbDirectory;
+						c.JpgQuality = 93;
+						c.Format = TroonieImageFormat.JPEG24;
+						c.ResizeVersion = ResizeVersion.No;
+
+						// TODO: Catch, what should be done, if success==false
+						bool successSmall = bt.Save (c, tmpDjpegName, false);
+
+						bt.Dispose ();
+					}
+
+					pix = new Gdk.Pixbuf(thumbDirectory + tmpDjpegName);
+				}
+			}
+
 			double sW, sH;
 
 			if (TagsData.OrientationDegree == 90 || TagsData.OrientationDegree == 270) {
@@ -442,6 +476,7 @@ namespace Troonie
 			if (!saveThumbnailsPersistent) {
 				try {
 					File.Delete(thumbDirectory + thumbSmallName);
+					File.Delete(thumbDirectory + tmpDjpegName);
 					if (Directory.GetFiles(thumbDirectory).Length == 0) {
 						Directory.Delete(thumbDirectory, true);
 					}

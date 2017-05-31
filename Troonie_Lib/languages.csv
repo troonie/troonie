@@ -185,9 +185,9 @@ Overwriting ';Überschreiben von '
 No correct value entered.;Keinen korrekten Wert eingegeben.
 Please enter correct value.; Bitte korrekten wert eingeben.
 ';'
-Entry could not save in tag ';Eingabe konnte nicht in Tag '
-'. ;' gespeichert werden.
-Not correct value entered?;Keinen korrekten Wert eingegeben?
+Entry could not save in tag ';Eingabe konnte bei folgenden Bildern nicht in Tag '
+' in following images: ;' gespeichert werden: 
+DUMMY;DUMMY
 Delete selected images ( Caution! );Markierte Bilder löschen ( Vorsicht! )
 Sure? Delete all selected images from hard disk?; Sicher? Alle markierten Bilder von der Festplatte löschen?  
 Show always this dialog for confirming;Immer diesen Dialog zur Bestätigung zeigen
@@ -248,3 +248,14 @@ bytes;Bytes
 KB;KB
 MB;MB
 Lossless JPEG (libjpeg-SmartScale);Verlustfreies JPEG (libjpeg-SmartScale)
+Something went wrong by following images: ; Bei folgenden Bildern klappte der Vorgang nicht: 
+An exception was thrown in method 'AppendIdAndCompressionByRating'.;In Methode 'AppendIdAndCompressionByRating' wurde eine Exception ausgelöst.
+Stoppage at image;Abbruch bei Bild
+Setting rating did not work at following images: ;Bei folgenden Bildern konnte eine Bewertung nicht gesetzt werden: 
+Setting datetime from filename did not work at following images: ;Bei folgenden Bildern konnte das Erstellungsdatum anhand des Deteinamens nicht gesetzt werden: 
+An exception was thrown in method 'SetDatetimeFromFilename'.;In Methode 'SetDatetimeFromFilename' wurde eine Exception ausgelöst.
+Renaming file by datetime did not work at following images: ;Folgende Bilder konnten anhand des Erstellungsdatums nicht umbenannt werden: 
+An exception was thrown in method 'RenameFileByDateTime'.;In Methode 'RenameFileByDateTime' wurde eine Exception ausgelöst.
+An exception was thrown in method 'RenameVideoByTitleAndInsertIdentifier'.;In Methode 'RenameVideoByTitleAndInsertIdentifier' wurde eine Exception ausgelöst.
+Stoppage at video;Abbruch bei Video
+During renaming videos by title and insert V-identifier image tags could not be set in following placeholder pictures: ;Während des Umbenennens von Videos nach Titel (inkl. V-Identifier) konnten die Bild-Tags für folgende Platzhalter-Bilder nicht gesetzt werden: 
