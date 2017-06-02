@@ -148,6 +148,8 @@ namespace Troonie
 
 		private void SaveEntry()
 		{
+			string errorImages = string.Empty;
+
 			foreach (var vip in pressedInVIPs) {
 
 				bool setValueSuccess = false;
@@ -194,37 +196,28 @@ namespace Troonie
 						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
 						vip.IsPressedIn = vip.IsPressedIn;
 					} else {
-						ShowErrorMessageWindow(TagsFlag.Keywords);
+//						ShowErrorMessageWindow(TagsFlag.Keywords);
+						errorImages += vip.RelativeImageName + Constants.N;
 						break;
 					}
 				} else {
-					ShowErrorMessageWindow(TagsFlag.Keywords);
+//					ShowErrorMessageWindow(TagsFlag.Keywords);
+					errorImages += vip.RelativeImageName + Constants.N;
 					break;
 				}
 
-			}			
+			}	
+
+			if (errorImages.Length != 0) {				
+				ViewerWidget.ShowErrorDialog(Language.I.L [188] + Enum.GetName(typeof(TagsFlag), TagsFlag.Keywords) + Language.I.L [189], 
+					errorImages + Constants.N);
+			}
 
 			this.DestroyAll ();
 		}			
 			
 		protected void OnBtnOkReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-//			if (saveTagMode2 == SaveTagMode2.Add) {
-//				SaveEntry ();
-//				return;
-//			}
-//
-//			OkCancelDialog warn = new OkCancelDialog (false);
-//			warn.WindowPosition = WindowPosition.CenterAlways;
-//			warn.Title = Language.I.L [29];
-//			warn.Label1 = Language.I.L [180] + Enum.GetName(typeof(TagsFlag), TagsFlag.Keywords) + Language.I.L [181];
-//			warn.Label2 = Language.I.L [171];
-//			warn.OkButtontext = Language.I.L [16];
-//			warn.CancelButtontext = Language.I.L [17];	
-//			warn.Show ();
-//
-//			warn.OnReleasedOkButton += SaveEntry;
-
 			SaveEntry ();
 		}
 
@@ -240,16 +233,16 @@ namespace Troonie
 
 		#region static helper function
 
-		private static void ShowErrorMessageWindow(TagsFlag flag)
-		{
-			OkCancelDialog info = new OkCancelDialog (true);
-			info.WindowPosition = WindowPosition.CenterAlways;
-			info.Title = Language.I.L [153];
-			info.Label1 = Language.I.L [188] + Enum.GetName(typeof(TagsFlag), flag) + Language.I.L [189];
-			info.Label2 = Language.I.L [190];
-			info.OkButtontext = Language.I.L [16];
-			info.Show ();
-		}
+//		private static void ShowErrorMessageWindow(TagsFlag flag)
+//		{
+//			OkCancelDialog info = new OkCancelDialog (true);
+//			info.WindowPosition = WindowPosition.CenterAlways;
+//			info.Title = Language.I.L [153];
+//			info.Label1 = Language.I.L [188] + Enum.GetName(typeof(TagsFlag), flag) + Language.I.L [189];
+//			info.Label2 = Language.I.L [190];
+//			info.OkButtontext = Language.I.L [16];
+//			info.Show ();
+//		}
 
 		public static string SetStartText(List<ViewerImagePanel> pressedInVIPs, out SaveTagModeKeywords saveTagMode)
 		{

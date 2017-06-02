@@ -279,7 +279,7 @@ namespace Troonie
 			try {
 				pix = new Gdk.Pixbuf(OriginalImageFullName);
 			}
-			catch (GLib.GException ex) {
+			catch (GLib.GException) {
 
 				// try with djpeg if it is jpeg file
 				FileInfo info = new FileInfo (OriginalImageFullName);

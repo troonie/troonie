@@ -472,13 +472,18 @@ namespace Troonie
 				Main.IterationDo (false);
 				nr++;
 
-//				try {
 				if (pib.IsVideo) {
 					errors.Add (imageFile);
 					continue;
 				}
 
-				bt = new BitmapWithTag (imageFile, true);
+				try {
+					bt = new BitmapWithTag (imageFile, true);
+				}
+				catch (Exception) {
+					errors.Add (imageFile);
+					continue;
+				}
 
 				string relativeImageName = imageFile.Substring(
 					imageFile.LastIndexOf(IOPath.DirectorySeparatorChar) + 1);
