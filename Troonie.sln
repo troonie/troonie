@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinInstaller", "WinInstalle
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "taglib-sharp", "taglib-sharp\taglib-sharp.csproj", "{6B143A39-C7B2-4743-9917-92262C60E9A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TroonieInstaller", "TroonieInstaller\TroonieInstaller.csproj", "{90B6C43F-62DF-41BE-8EFA-94074EECFD42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -42,6 +44,10 @@ Global
 		{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}.Debug|x86.Build.0 = Debug|x86
 		{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}.Release|x86.ActiveCfg = Release|x86
 		{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}.Release|x86.Build.0 = Release|x86
+		{90B6C43F-62DF-41BE-8EFA-94074EECFD42}.Debug|x86.ActiveCfg = Debug|x86
+		{90B6C43F-62DF-41BE-8EFA-94074EECFD42}.Debug|x86.Build.0 = Debug|x86
+		{90B6C43F-62DF-41BE-8EFA-94074EECFD42}.Release|x86.ActiveCfg = Release|x86
+		{90B6C43F-62DF-41BE-8EFA-94074EECFD42}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

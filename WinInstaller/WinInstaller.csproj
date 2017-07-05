@@ -30,9 +30,6 @@
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
@@ -79,8 +76,8 @@
     <EmbeddedResource Include="Files\djpeg.exe">
       <LogicalName>djpeg.exe</LogicalName>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.manifest" />
+    <EmbeddedResource Include="Files\TroonieInstaller.exe">
+      <LogicalName>TroonieInstaller.exe</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
