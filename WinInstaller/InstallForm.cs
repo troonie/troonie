@@ -32,11 +32,11 @@ namespace WinInstaller
 					   "GTK-Sharp and Visual-C++-Redist-2013 were installed successfully.";
 			t[5] = l ? "Troonie wurde auf dem Desktop entpackt." : "Troonie was extracted at your Desktop.";
 			t[6] = l ? "Installiere... Bitte warten. " : "Installing... Please wait.";
-			t[7] = l ? "Troonie starten? " : "Starting Troonie now? ";
+			t[7] = l ? "Verzeichnis von Troonie öffnen? " : "Open directory of Troonie now? ";
 			t[8] = l ? "Bitte installiere Troonie noch einmal." : "Please re-install Troonie.";
 			t[9] = l ? "Der Installer entpackt Troonie auf den Desktop und " : "This installer extracts Troonie at your Desktop and ";
 			t[10] = l ? "installiert GTK-Sharp-2 sowie Visual-C++-Redist-2013." : "installs GTK-Sharp-2 as well as Visual-C++-Redist-2013.";
-			t[11] = l ? "Ja, Troonie starten" : "Yes, start Troonie";
+			t[11] = l ? "Ja, Verzeichnis öffnen" : "Yes, open directory";
 			t[12] = l ? "Nein, nur Installer beenden" : "No, just close installer";
 
 			btnOk.Text = t[1];
@@ -56,14 +56,14 @@ namespace WinInstaller
 
 				// start troonie
 				try
-				{
+				{					
+					Process p = Process.Start(path);
+
 					Close();
 					Application.Exit();
-
-					Process.Start(path + "Troonie.exe");
 				}
 				catch (Exception)
-				{
+				{					
 				}
 			}
 		}
@@ -142,8 +142,8 @@ namespace WinInstaller
 				btnCancel.Text = t[12];
 			}
 
-			string tt = t[5] + Environment.NewLine +
-						" (" + path + ") " + Environment.NewLine + Environment.NewLine + t[7] + Environment.NewLine;
+			string tt = t[5] + // Environment.NewLine + " (" + path + ") " + 
+			            Environment.NewLine + Environment.NewLine + t[7] + Environment.NewLine;
 			lbInfo.Text = lbInfo.Text + tt;
 		}
 
