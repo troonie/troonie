@@ -27,7 +27,7 @@
 
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;The 4 Components of Troonie&nbsp;</span></p>
 
-<img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/choicebox.png" alt="Troonie choice box" target="_blank"/>
+<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/choicebox.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/choicebox.png" alt="Troonie choice box" target="_blank"/></a>
 </br>`0. Troonie choice box`
 </br> 
 </br>
@@ -35,7 +35,7 @@
 </br>`1. Troonie editor`
 </br> 
 </br>
-<img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/converter.png" alt="Troonie converter" target="_blank"/>
+<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/converter.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/converter.png" alt="Troonie converter" target="_blank"/></a>
 </br>`2. Troonie converter`
 </br>
 </br>
