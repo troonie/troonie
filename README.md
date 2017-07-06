@@ -5,7 +5,12 @@
 
 <b>Troonie</b> is a cross-platform and open source tool, hosted at <a href="https://github.com/troonie/troonie" target="_blank">Github</a>. Troonie has a modern (GTK#-based) graphical user interface and a very easy handling. Just right-click on a picture or folder and use the explorer context menu (Linux and Windows).
 
-<font color=red>New:</font> Technical Steganography paper published (<a href="https://github.com/troonie/troonie/raw/master/pics/StegHash-white-paper.pdf" target="_blank">download here</a>).
+<p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Downloads&nbsp;</span></p>
+ <ul>
+	<li>Windows 10, 8.1, 7 (download <a href="https://github.com/troonie/troonie/releases" target="_blank">here</a>)</li>
+	<li>Linux (download <a href="https://github.com/troonie/troonie/releases" target="_blank">here</a>)</li>
+	<li>Technical Steganography paper <font color=red>StegHash</font> (download <a href="https://github.com/troonie/troonie/raw/master/pics/StegHash-white-paper.pdf" target="_blank">here</a>)</li>
+</ul>
 
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Windows Requirements&nbsp;</span></p>
  <ul>
