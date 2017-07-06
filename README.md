@@ -1,5 +1,6 @@
 # Troonie (get <a href="https://github.com/troonie/troonie/releases" target="_blank">version 1.0.9 beta</a>)
 <a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/teaser.jpg" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/teaser_thumb.jpg" alt="Troonie teaser" target="_blank"/></a>
+
 ##A portable tool to convert, trim, stitch, filter photos and work with steganography.
 
 <b>Troonie</b> is a cross-platform and open source tool, hosted at <a href="https://github.com/troonie/troonie" target="_blank">Github</a>. Troonie has a modern (GTK#-based) graphical user interface and a very easy handling. Just right-click on a picture or folder and use the explorer context menu (Linux and Windows).
@@ -19,8 +20,12 @@
 	<li>libjpeg-progs</li>
 </ul>
 
-<p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;The 3 Components of Troonie&nbsp;</span></p>
+<p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;The 4 Components of Troonie&nbsp;</span></p>
 
+<img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/choicebox.png" alt="Troonie choice box" target="_blank"/>
+</br>`0. Troonie choice box`
+</br> 
+</br>
 <a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/editor.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/editor_thumb.jpg" alt="Troonie editor" target="_blank"/></a>
 </br>`1. Troonie editor`
 </br> 
@@ -29,9 +34,28 @@
 </br>`2. Troonie converter`
 </br>
 </br>
-<img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/steno.png" alt="Troonie steganography" target="_blank"/>
+<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/steno.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/steno_thumb.jpg" alt="Troonie steganography" target="_blank"/></a>
 </br>`3. Troonie steganography`
 </br>
+</br>
+<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/viewer.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/viewer_thumb.jpg" alt="Troonie viewer" target="_blank"/></a>
+</br>`4. Troonie viewer`
+</br> 
+</br>
+
+<p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Further functionality of Troonie&nbsp;</span></p>
+
+<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/steno_file.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/steno_file_thumb.jpg" alt="Troonie steganography with a file" target="_blank"/></a>
+</br>`Troonie steganography with a file`
+</br> 
+</br>
+<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/filter_rgb_channels.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/filter_rgb_channels_thumb.jpg" alt="Troonie filter rotation of rgb channels" target="_blank"/></a>
+</br>`Troonie filter rotation of rgb channels`
+</br> 
+</br>
+<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/filter_canny.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/filter_canny_thumb.jpg" alt="Troonie filter canny edge detector" target="_blank"/></a>
+</br>`Troonie filter canny edge detector`
+</br> 
 </br>
 
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Contact us&nbsp;</span></p>
