@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Gtk;
 using Pango;
 using Troonie_Lib;
@@ -115,6 +116,14 @@ namespace Troonie
 			if (filechooser.Run() == (int)ResponseType.Ok) 
 			{
 				Text = filechooser.Filename;
+
+				// Avoid folders with white spaces at the end
+				if (FileChooserAction == FileChooserAction.SelectFolder) {					Text = Text.TrimEnd();
+					if (!Directory.Exists(Text)) {
+						Directory.CreateDirectory(Text);
+					}
+				}
+
 //				// force redraw
 //				QueueDraw();
 			}

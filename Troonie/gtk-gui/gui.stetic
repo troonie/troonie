@@ -1133,7 +1133,6 @@
                     <child>
                       <widget class="Gtk.RadioButton" id="rdJpegGray">
                         <property name="MemberName" />
-                        <property name="Sensitive">False</property>
                         <property name="CanFocus">True</property>
                         <property name="Label" translatable="yes">JPEG (grayscale)</property>
                         <property name="DrawIndicator">True</property>
@@ -1814,7 +1813,6 @@
                                                     <child>
                                                       <widget class="Gtk.RadioButton" id="rdJpegGray">
                                                         <property name="MemberName" />
-                                                        <property name="Sensitive">False</property>
                                                         <property name="CanFocus">True</property>
                                                         <property name="Label" translatable="yes">JPEG (grayscale)</property>
                                                         <property name="DrawIndicator">True</property>

@@ -1,17 +1,12 @@
 ﻿using System;
-using Gtk;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Text.RegularExpressions;
-// using System.IO;
-using IOPath = System.IO.Path;
-using ImageConverter = Troonie_Lib.ImageConverter;
-using Troonie_Lib;
-using NetColor = System.Drawing.Color;
 using System.Linq;
+using System.Text.RegularExpressions;
+using Gtk;
+using Troonie_Lib;
+using IOPath = System.IO.Path;
 
 namespace Troonie
-{	
+{
 	[System.ComponentModel.ToolboxItem (true)]
 	public partial class SaveAsDialog : Gtk.Dialog
 	{
@@ -140,7 +135,7 @@ namespace Troonie
 				frame6.ShadowType = ShadowType.In;
 				frame7.ShadowType = ShadowType.In;
 
-				rdJpegGray.Sensitive = true;
+				//rdJpegGray.Sensitive = true;
 				frame3.Sensitive = Constants.I.CJPEG;
 
 				if (!Constants.I.CJPEG && (rdJpeg.Active || rdJpegGray.Active)) {

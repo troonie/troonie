@@ -56,7 +56,7 @@ namespace Troonie
 				frameImageFormat.ShadowType = ShadowType.In;
 				frameOutputDirectory.ShadowType = ShadowType.In;
 
-				rdJpegGray.Sensitive = true;
+				//rdJpegGray.Sensitive = true;
 				frame3.Sensitive = Constants.I.CJPEG;
 				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 
@@ -490,6 +490,7 @@ namespace Troonie
 				relativeImageName = relativeImageName.Substring(0, relativeImageName.LastIndexOf('.'));
 				relativeImageName = relativeImageName + format;
 				bool success = bt.Save (Constants.I.CONFIG, relativeImageName, true);
+				bt.Dispose();
 				if (!success) {
 					errors.Add (imageFile);
 				}

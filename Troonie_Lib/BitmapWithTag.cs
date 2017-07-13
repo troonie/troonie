@@ -190,9 +190,9 @@ namespace Troonie_Lib
 				}
 
 			}
-			catch (Exception) {
+			catch (Exception ex) {
 				success = false;
-//				Console.WriteLine (ex.Message);
+				Console.WriteLine (ex.Message);
 			}
 
 			return success;

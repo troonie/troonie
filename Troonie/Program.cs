@@ -32,10 +32,10 @@ namespace Troonie
 
 			try {
 				Constants.I.Init ();
-				#region Set new version number in code
-//				Troonie_Lib.Version.SetNewVersionNumberInAllFiles("1.0.9");
-//				return;
-				#endregion Set new version number in code
+				//#region Set new version number in code
+				//Troonie_Lib.Version.SetNewVersionNumberInAllFiles("1.1.0");
+				//return;
+				//#endregion Set new version number in code
 
 //				#region Test suite BitSteg
 ////				string[]s_array = {"eins" , "zwei", "drei", "VIER!!!+*}}}"};
@@ -64,7 +64,7 @@ namespace Troonie
 				GetProgramIcon ();
 //				GetCjpegExecutable();
 			}
-			catch (Exception) {
+			catch (Exception ex) {
 //				Console.WriteLine (ex.Message);
 				Console.WriteLine ("Error.");
 				Console.WriteLine ("Troonie cannot work correctly and was closing.");
