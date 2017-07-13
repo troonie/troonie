@@ -25,6 +25,7 @@ namespace Troonie_Lib
 
 //		public OnUpdateAvailableDelegate OnUpdateAvailable;
 
+		public const int MAX_NUMBER_OF_IMAGES = 15;
 		public const int TIME_DOUBLECLICK = 500; 
 		public const int TIMEOUT_INTERVAL = 20;
 		public const int TIMEOUT_INTERVAL_FIRST = 500;

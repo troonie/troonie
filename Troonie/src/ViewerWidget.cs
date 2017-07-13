@@ -367,8 +367,22 @@ namespace Troonie
 			FillImageList (new List<string>(newImages));
 		}
 
-		private void FillImageList(List<string> newImages)
+		private void FillImageList(List<string> newImages, bool check = true)
 		{
+			if (check && newImages.Count > Constants.MAX_NUMBER_OF_IMAGES)
+			{
+				OkCancelDialog warn_d = new OkCancelDialog(false);
+				warn_d.Title = Language.I.L[29];
+				warn_d.Label1 = Language.I.L[262] + newImages.Count + Language.I.L[263] + Constants.N + Language.I.L[264];
+				warn_d.Label2 = Language.I.L[265];
+				warn_d.OkButtontext = Language.I.L[16];
+				warn_d.CancelButtontext = Language.I.L[17];
+				warn_d.Show();
+
+				warn_d.OnReleasedOkButton += () => FillImageList(newImages, false); //(newImages, true) => FillImageList;
+				return;
+			}
+
 			const int length = 45;
 			List<Tuple<ExceptionType, string>> errors = new List<Tuple<ExceptionType, string>> ();
 			bool addingVideoPicture = false;

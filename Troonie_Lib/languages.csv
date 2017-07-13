@@ -259,3 +259,7 @@ An exception was thrown in method 'RenameFileByDateTime'.;In Methode 'RenameFile
 An exception was thrown in method 'RenameVideoByTitleAndInsertIdentifier'.;In Methode 'RenameVideoByTitleAndInsertIdentifier' wurde eine Exception ausgelöst.
 Stoppage at video;Abbruch bei Video
 During renaming videos by title and insert V-identifier image tags could not be set in following placeholder pictures: ;Während des Umbenennens von Videos nach Titel (inkl. V-Identifier) konnten die Bild-Tags für folgende Platzhalter-Bilder nicht gesetzt werden: 
+Troonie viewer will be started with ;Troonie Viewer soll mit 
+ images. ; Bildern gestartet werden.
+This will be caused a long loading time.;Das wird eine lange Ladezeit verursachen.
+Are you sure?;Sicher?
