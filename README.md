@@ -1,4 +1,4 @@
-# Troonie (get <a href="https://github.com/troonie/troonie/releases" target="_blank">version 1.0.9 beta</a>)
+# Troonie (get <a href="https://github.com/troonie/troonie/releases" target="_blank">version 1.1.0 beta</a>)
 <a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/teaser.jpg" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/teaser_thumb.jpg" alt="Troonie teaser" target="_blank"/></a>
 
 ##A portable tool to convert, trim, stitch, filter photos and work with steganography.

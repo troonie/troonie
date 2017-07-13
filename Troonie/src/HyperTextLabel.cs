@@ -117,7 +117,7 @@ namespace Troonie
 			{
 				Text = filechooser.Filename;
 
-				// Avoid folders with white spaces at the end
+				// avoid folders with white spaces at the end
 				if (FileChooserAction == FileChooserAction.SelectFolder) {					Text = Text.TrimEnd();
 					if (!Directory.Exists(Text)) {
 						Directory.CreateDirectory(Text);
