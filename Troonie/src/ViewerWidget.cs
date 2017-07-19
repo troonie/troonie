@@ -55,10 +55,10 @@ namespace Troonie
 
 	//			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
 	//			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
-				int wx = 20;
-				int wy = 20;
+				int wx = 10;
+				int wy = 10;
 				startW = Screen.Width - 2 * wx;
-				startH = Screen.Height - 2 * wy - 70 /*taskbarHeight*/;
+				startH = Screen.Height - 2 * wy - 68 /*- 70*/ /*taskbarHeight*/;
 				maxVipWidth = startW - frame1.WidthRequest - 60;
 				maxVipHeight = startH - 60  /* ToolbarIconButtonHeight */ ;
 
@@ -93,6 +93,8 @@ namespace Troonie
 				} else {
 					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
 					// Otherwise ShadowType.In looks terrible at Win10.
+					frame1.ShadowType = ShadowType.In;
+					scrolledwindowViewer.ShadowType = ShadowType.In;
 
 	//				frameCursorPos.ShadowType = ShadowType.In;
 	//				frameSteganography.ShadowType = ShadowType.In;
@@ -178,12 +180,21 @@ namespace Troonie
 				Label lbTagData = new Label ();
 				lbTagData.WidthRequest = 120;
 				TroonieButton b = new TroonieButton ();
-				b.Text = "...";
-//				b.TextSize = 10;
-				b.ButtonHeight = 20;
-				b.ButtonWidth = 30;
-				b.Name = (i - 1).ToString();
-				b.ButtonReleaseEvent += OnTroonieBtnReleaseEvent; // (o, args) => {};
+				if (s == Enum.GetName (typeof(TagsFlag), TagsFlag.Width) || 
+					s == Enum.GetName (typeof(TagsFlag), TagsFlag.Height) ||
+					s == Enum.GetName (typeof(TagsFlag), TagsFlag.Pixelformat)) {
+					b.Sensitive = false;
+					b.ButtonHeight = 0;
+					b.ButtonWidth = 0;
+				}
+				else {
+					b.Text = "...";
+					//				b.TextSize = 10;
+					b.ButtonHeight = 20;
+					b.ButtonWidth = 30;
+					b.Name = (i - 1).ToString();
+					b.ButtonReleaseEvent += OnTroonieBtnReleaseEvent; // (o, args) => {};
+				}
 
 //				TableTagsViewerRowElements.Add (new TableTagsViewerRowElement { TagName = lbTagName, TagData = lbTagData, ChangeBtn = b });
 				tableTagsViewer.Attach (lbTagName, 0, 1, nr, nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);

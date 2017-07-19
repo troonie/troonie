@@ -1080,6 +1080,7 @@
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Label" translatable="yes">JPEG</property>
+                            <property name="Active">True</property>
                             <property name="DrawIndicator">True</property>
                             <property name="HasLabel">True</property>
                             <property name="UseUnderline">True</property>
@@ -1759,7 +1760,6 @@
                                                             <property name="MemberName" />
                                                             <property name="CanFocus">True</property>
                                                             <property name="Label" translatable="yes">JPEG</property>
-                                                            <property name="Active">True</property>
                                                             <property name="DrawIndicator">True</property>
                                                             <property name="HasLabel">True</property>
                                                             <property name="UseUnderline">True</property>
@@ -5254,7 +5254,7 @@ LeonStegRGB [2017]</property>
               <widget class="Gtk.ScrolledWindow" id="scrolledwindowViewer">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="ShadowType">In</property>
+                <property name="ShadowType">EtchedIn</property>
                 <child>
                   <widget class="Gtk.Viewport" id="GtkViewport">
                     <property name="MemberName" />
@@ -5316,7 +5316,6 @@ LeonStegRGB [2017]</property>
                   <widget class="Gtk.Frame" id="frame1">
                     <property name="MemberName" />
                     <property name="WidthRequest">250</property>
-                    <property name="ShadowType">In</property>
                     <property name="BorderWidth">1</property>
                     <child>
                       <widget class="Gtk.Alignment" id="GtkAlignment">

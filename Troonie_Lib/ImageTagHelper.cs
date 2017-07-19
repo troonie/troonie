@@ -34,11 +34,15 @@ namespace Troonie_Lib
 		Flash = 				1 << 16, // = 65536,
 		#endregion
 
-		#region 3 other tags			
+		#region other tags			
 		Comment = 				1 << 17, // = 131072,
 		Copyright = 			1 << 18, // = 262144,
 		Title = 				1 << 19, // = 524288, 
 		MeteringMode =			1 << 20,
+
+		Width =					1 << 21,
+		Height =				1 << 22,
+		Pixelformat =			1 << 23
 		#endregion
 	}
 
@@ -65,15 +69,18 @@ namespace Troonie_Lib
 		public string Software;
 		#endregion
 
-		#region 8 other tagsData elements
+		#region other tagsData elements
 		public string Comment;
 		public string Copyright;
 		public string Title;
 		#endregion
 
-		#region No tagsData elements
+		#region No TagsFlag elements
 		public double OrientationDegree;
-		#endregion No tagsData elements
+		public int Width;
+		public int Height;
+		public int Pixelformat;
+		#endregion No TagsFlag elements
 
 		public bool SetValue (TagsFlag flag, object o)
 		{
@@ -126,8 +133,7 @@ namespace Troonie_Lib
 			case TagsFlag.Comment:		return ExtractString(o, ref Comment);							
 			case TagsFlag.Copyright:	return ExtractString(o, ref Copyright);		
 			case TagsFlag.Title:		return ExtractString(o, ref Title);			
-
-
+//			// elements With, Height and PixelFormat will not get a 'SETTER'
 			default:
 				return false;
 			}				
@@ -158,7 +164,11 @@ namespace Troonie_Lib
 				// other tags
 			case TagsFlag.Comment:		return Comment;				
 			case TagsFlag.Copyright:	return Copyright;		
-			case TagsFlag.Title:		return Title;			
+			case TagsFlag.Title:		return Title;	
+			// No TagsFlag elements
+			case TagsFlag.Width:			return Width;	
+			case TagsFlag.Height:		return Height;
+			case TagsFlag.Pixelformat:	return Pixelformat;
 //			default:
 //				throw new NotImplementedException ();
 			}
@@ -300,7 +310,21 @@ namespace Troonie_Lib
 			} else { 
 				return false;
 			}
-		}			
+		}
+
+//		private static bool ExtractInt(object o, ref int d)
+//		{
+//			string s = o.ToString();
+//			int tmp;
+//			bool b = int.TryParse (s, NumberStyles.AllowDecimalPoint, 
+//				CultureInfo.CreateSpecificCulture("en-us"), out tmp);
+//			if (b) {
+//				d = tmp;
+//				return true;
+//			} else { 
+//				return false;
+//			}
+//		}
 
 		private static bool ExtractString(object o, ref string s)
 		{

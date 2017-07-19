@@ -213,41 +213,16 @@ namespace Troonie
 
 			QueueDraw();
 
-			//if (Constants.I.WINDOWS)
-			//{
+			if (Constants.I.WINDOWS) {
 				SetThumbnailImage();
-				//SaveReducedFullImage();
-			//}
-			//else {
-			//	// threading in this situation does not work by windows
-			//	Thread thread = new Thread(SetThumbnailImage);
-			//	thread.IsBackground = true;
-			//	thread.Start();
-			//}
-		}
-
-		//private void SaveReducedFullImage()
-		//{
-		//	// store smaller "fullsize" image, if necessary
-		//	if (needReduceFullImage)
-		//	{
-		//		BitmapWithTag bt = new BitmapWithTag(OriginalImageFullName, true);
-		//		Config c = new Config();
-		//		c.BiggestLength = maxWidth;
-		//		c.FileOverwriting = false;
-		//		c.Path = thumbDirectory;
-		//		c.JpgQuality = 87;
-		//		c.Format = TroonieImageFormat.JPEG24;
-		//		c.ResizeVersion = ResizeVersion.BiggestLength;
-
-		//		// TODO: Catch, what should be done, if success==false
-		//		bool successSmall = bt.Save(c, reducedFullName, false);
-		//		bt.Dispose();
-		//	}
-		//	else {
-		//		reducedFullName = OriginalImageFullName;
-		//	}
-		//}
+			}
+			else {
+				// threading in this situation does not work by windows
+				Thread thread = new Thread(SetThumbnailImage);
+				thread.IsBackground = true;
+				thread.Start();
+			}
+		}			
 			
 		private void SetThumbnailImage()
 		{
@@ -259,6 +234,11 @@ namespace Troonie
 				
 				BitmapWithTag bt = new BitmapWithTag (OriginalImageFullName, true);
 				Config c = new Config();
+
+				// setting here additional tagsData elements which needs bt.Bitmap
+				TagsData.Width = bt.Bitmap.Width;
+				TagsData.Height = bt.Bitmap.Height;
+				TagsData.Pixelformat = System.Drawing.Image.GetPixelFormatSize(bt.Bitmap.PixelFormat);
 
 				// checking here (because of getting bt.Bitmap), if reducing  full image for displaying is useful
 				// ONLY(!) checking maxWidth, because of potential rotation by TagsData.OrientationDegree

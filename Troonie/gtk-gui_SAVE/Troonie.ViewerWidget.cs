@@ -63,7 +63,7 @@ namespace Troonie
 			this.scrolledwindowViewer = new global::Gtk.ScrolledWindow ();
 			this.scrolledwindowViewer.CanFocus = true;
 			this.scrolledwindowViewer.Name = "scrolledwindowViewer";
-			this.scrolledwindowViewer.ShadowType = ((global::Gtk.ShadowType)(1));
+			this.scrolledwindowViewer.ShadowType = ((global::Gtk.ShadowType)(3));
 			// Container child scrolledwindowViewer.Gtk.Container+ContainerChild
 			global::Gtk.Viewport w3 = new global::Gtk.Viewport ();
 			w3.ShadowType = ((global::Gtk.ShadowType)(0));
@@ -89,7 +89,6 @@ namespace Troonie
 			this.frame1 = new global::Gtk.Frame ();
 			this.frame1.WidthRequest = 250;
 			this.frame1.Name = "frame1";
-			this.frame1.ShadowType = ((global::Gtk.ShadowType)(1));
 			this.frame1.BorderWidth = ((uint)(1));
 			// Container child frame1.Gtk.Container+ContainerChild
 			this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
