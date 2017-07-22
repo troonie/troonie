@@ -23,12 +23,22 @@ namespace Troonie
 		private CheckButton checkBtnDeleteKeywords;
 		private TroonieButton btnOk, btnCancel;
 		private List<ViewerImagePanel> pressedInVIPs;
+		private KeywordSerializer keywords;
 
 
 		public EnterKeywordsWindow (List<ViewerImagePanel> pressedInVIPs) : base (Gtk.WindowType.Toplevel)
 		{
 			KeepAbove = true;
 			this.pressedInVIPs = pressedInVIPs;
+			keywords = KeywordSerializer.Load ();
+//			keywords.Keyword.Add(new Tuple<int, string>(77, "Horst"));
+//			keywords.Keyword.Add(new Tuple<int, string>(666, "Die Ärzte!?)$\"__XXX"));
+			keywords.Keywords.Add(new Keyword() {Count = 22, Text = "zzzc"});
+			keywords.Keywords.Add(new Keyword() {Count = 55, Text = "zzzb"});
+			keywords.Keywords.Add(new Keyword() {Count = 11, Text = "zzzx"});
+//			keywords.Keywords.Sort (new Keyword.ComparerAscendingByText ());
+			keywords.Keywords.Sort (new Keyword.ComparerDescendingByCount ());
+			KeywordSerializer.Save (keywords);
 
 			WindowPosition = Gtk.WindowPosition.CenterOnParent; 
 

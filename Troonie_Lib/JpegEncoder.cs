@@ -20,8 +20,8 @@ namespace Troonie_Lib
 				proc.StartInfo.Arguments = "-v";
 				proc.StartInfo.UseShellExecute = false; 
 				proc.StartInfo.CreateNoWindow = true;
-//				proc.StartInfo.RedirectStandardOutput = true;
-//				proc.StartInfo.RedirectStandardError = true;
+				proc.StartInfo.RedirectStandardOutput = true;
+				proc.StartInfo.RedirectStandardError = true;
 				proc.Start();
 				proc.WaitForExit();
 
@@ -29,7 +29,7 @@ namespace Troonie_Lib
 //				string standardOutput = srOutput.ReadToEnd();
 //				Console.WriteLine ("Output: " + standardOutput);
 //				srOutput.Close();
-	
+//	
 //				StreamReader srError = proc.StandardError;
 //				string standardError = srError.ReadToEnd();
 //				Console.WriteLine ("Error: " + standardError);
@@ -45,8 +45,8 @@ namespace Troonie_Lib
 				proc.StartInfo.Arguments = "-v";
 				proc.StartInfo.UseShellExecute = false; 
 				proc.StartInfo.CreateNoWindow = true;
-				//				proc.StartInfo.RedirectStandardOutput = true;
-				//				proc.StartInfo.RedirectStandardError = true;
+				proc.StartInfo.RedirectStandardOutput = true;
+				proc.StartInfo.RedirectStandardError = true;
 				proc.Start();
 				proc.WaitForExit();
 
