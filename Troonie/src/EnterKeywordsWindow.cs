@@ -2,6 +2,7 @@
 using Gtk;
 using Troonie_Lib;
 using System.Collections.Generic;
+using Key = Gdk.Key;
 
 namespace Troonie
 {
@@ -16,6 +17,8 @@ namespace Troonie
 	public partial class EnterKeywordsWindow : Gtk.Window
 	{
 //		private const string MULTIVALUES = "####";
+		bool existsSelectedRegion;
+		private int selectRegionStartPosition, selectRegionEndPosition, indexSelectedKeyword;
 		private SaveTagModeKeywords saveTagMode2;
 		private VBox vbox;
 		private HBox hbox1, hbox2;
@@ -23,24 +26,16 @@ namespace Troonie
 		private CheckButton checkBtnDeleteKeywords;
 		private TroonieButton btnOk, btnCancel;
 		private List<ViewerImagePanel> pressedInVIPs;
-		private KeywordSerializer keywords;
-
+		KeywordSerializer ks;
 
 		public EnterKeywordsWindow (List<ViewerImagePanel> pressedInVIPs) : base (Gtk.WindowType.Toplevel)
 		{
 			KeepAbove = true;
 			this.pressedInVIPs = pressedInVIPs;
-			keywords = KeywordSerializer.Load ();
-//			keywords.Keyword.Add(new Tuple<int, string>(77, "Horst"));
-//			keywords.Keyword.Add(new Tuple<int, string>(666, "Die Ärzte!?)$\"__XXX"));
-			keywords.Keywords.Add(new Keyword() {Count = 22, Text = "zzzc"});
-			keywords.Keywords.Add(new Keyword() {Count = 55, Text = "zzzb"});
-			keywords.Keywords.Add(new Keyword() {Count = 11, Text = "zzzx"});
-//			keywords.Keywords.Sort (new Keyword.ComparerAscendingByText ());
-			keywords.Keywords.Sort (new Keyword.ComparerDescendingByCount ());
-			KeywordSerializer.Save (keywords);
-
 			WindowPosition = Gtk.WindowPosition.CenterOnParent; 
+
+			// deserialization
+			ks = KeywordSerializer.Load ();
 
 			vbox = new VBox ();
 			vbox.Name = "vbox1";
@@ -133,7 +128,8 @@ namespace Troonie
 
 			Show ();
 
-			entry.KeyReleaseEvent += OnEntryKeyKeyReleaseEvent;
+//			entry.KeyPressEvent += OnEntryKeyPressEvent;
+			entry.KeyReleaseEvent += OnEntryKeyReleaseEvent;
 			btnOk.ButtonReleaseEvent += OnBtnOkReleaseEvent;
 			btnCancel.ButtonReleaseEvent += (o, args) => { this.DestroyAll (); };
 
@@ -165,15 +161,22 @@ namespace Troonie
 				bool setValueSuccess = false;
 
 				List<string> elements = new List<string>(entry.Text.Split (','));
-				elements.RemoveAll (x => x == string.Empty);
 
 				for (int i = 0; i < elements.Count; i++) {
+					// trim all elements
 					elements [i] = elements [i].Trim ();
-				}
+					// make Uppercase
+					if (elements [i].Length != 0) {
+						elements [i] = elements [i].ToUpper () [0] + elements [i].Substring (1).ToLower ();
+					}
+				}		
 
-//				if (elements.Count == 0) {
-//					break;
-//				}
+				elements.RemoveAll (x => x == string.Empty);
+
+				// remove duplicates
+				HashSet<string> set1 = new HashSet<string>();
+				elements.RemoveAll(x => !set1.Add(x));
+				set1.Clear (); set1 = null;
 
 				if (saveTagMode2 == SaveTagModeKeywords.Add) {
 
@@ -186,15 +189,36 @@ namespace Troonie
 						foreach (var s in elements) {
 							keywordList.RemoveAll (x => x == s);	
 						}
+						AddKeywords (elements, -1, ks);
 
 					} else {
 						keywordList.AddRange (elements);
+						AddKeywords (elements, 1, ks);
 					}
+
+					// remove duplicates
+					HashSet<string> set2 = new HashSet<string>();
+					keywordList.RemoveAll(x => !set2.Add(x));
+					set2.Clear (); set2 = null;
 
 					setValueSuccess = vip.TagsData.SetValue (TagsFlag.Keywords, keywordList);
 
 				} else { // if (saveTagMode2 == SaveTagMode2.Set) {
+					List<string> o = pressedInVIPs [0].TagsData.GetValue (TagsFlag.Keywords) as List<string>;
+
+					// remove duplicates
+					HashSet<string> set3 = new HashSet<string>();
+					elements.RemoveAll(x => !set3.Add(x));
+					set3.Clear (); set3 = null;
+
+					List<string> elem2 = new List<string> (elements); // need deep copy here!
 					setValueSuccess = vip.TagsData.SetValue (TagsFlag.Keywords, elements);
+
+					if (o != null && o.Count != 0) {
+						// remove all old keywords for xml serialization
+						elem2.RemoveAll (x => o.Contains(x));
+					}
+					AddKeywords (elem2, 1, ks);
 				}
 
 				if (setValueSuccess) {
@@ -218,6 +242,14 @@ namespace Troonie
 
 			}	
 
+			// sort and serialization
+			ks.Keywords.Sort (new Keyword.ComparerDescendingByCountAndAscendingByText ());
+			if (ks.Keywords.Count >= KeywordSerializer.MAX_NUMBER_OF_KEYWORDS) {
+				int length = ks.Keywords.Count - KeywordSerializer.MAX_NUMBER_OF_KEYWORDS;
+				ks.Keywords.RemoveRange (KeywordSerializer.MAX_NUMBER_OF_KEYWORDS, length);
+			}
+			KeywordSerializer.Save (ks);
+
 			if (errorImages.Length != 0) {				
 				ViewerWidget.ShowErrorDialog(Language.I.L [188] + Enum.GetName(typeof(TagsFlag), TagsFlag.Keywords) + Language.I.L [189], 
 					errorImages + Constants.N);
@@ -230,18 +262,154 @@ namespace Troonie
 		{
 			SaveEntry ();
 		}
-
-		protected void OnEntryKeyKeyReleaseEvent (object o, KeyReleaseEventArgs args)
+			
+		protected void OnEntryKeyReleaseEvent (object o, KeyReleaseEventArgs args)
 		{
-			if (args.Event.Key == Gdk.Key.Return) {
+//			entry.DeleteSelection (); // not necessary
+
+			switch (args.Event.Key) {
+			// keys without special behaviour
+			case Key.Shift_L:
+			case Key.Shift_R:
+			case Key.Shift_Lock:
+			case Key.Control_L:
+			case Key.Control_R:
+			case Key.Alt_L:
+			case Key.Alt_R:
+			case Key.Delete:
+			case Key.space:
+				return;
+			case Key.Return:
 				OnBtnOkReleaseEvent (o, null);
-			}
-			else if (args.Event.Key == Gdk.Key.Escape) {
+				return;
+			case Key.Escape:
 				this.DestroyAll ();
+				return;
+			case Key.BackSpace:
+				if (existsSelectedRegion) {
+					if (entry.Text.Length > selectRegionStartPosition - 1) {
+						entry.Text = entry.Text.Substring (0, selectRegionStartPosition - 1);
+						// just to set cursor to end
+						entry.SelectRegion(entry.Text.Length, entry.Text.Length);
+						existsSelectedRegion = false;
+						indexSelectedKeyword = 0;
+					}
+				}
+				return;
+			case Key.Left:
+ 				if (existsSelectedRegion) {
+					if (entry.Text.Length > selectRegionStartPosition) {
+						entry.Text = entry.Text.Substring (0, selectRegionStartPosition);
+						// just to set cursor to end
+						entry.SelectRegion(entry.Text.Length, entry.Text.Length);
+						existsSelectedRegion = false;
+						indexSelectedKeyword = 0;
+					}
+
+				}
+				return;
+			case Key.Right:
+			case Key.Tab:
+				if (existsSelectedRegion) {
+					string delimiter = ", "; 
+					entry.Text += delimiter; 
+					// just to set cursor to end
+					entry.SelectRegion(entry.Text.Length, entry.Text.Length);
+					existsSelectedRegion = false;
+				}
+				return;
+			case Key.Down:
+				if (existsSelectedRegion) {
+					indexSelectedKeyword++;
+				}
+				break;
+			case Key.Up:
+				if (existsSelectedRegion) {
+					indexSelectedKeyword--;
+				}
+				break;
+			}										
+
+			#region entry preview
+//			List<string> elements = existsSelectedRegion ? 
+//				new List<string>(entry.Text.Substring(0, selectRegionStartPosition).Split(',')) : 
+//				new List<string>(entry.Text.Split (','));
+
+			List<string> elements = new List<string>(entry.Text.Split (','));
+
+			for (int i = 0; i < elements.Count; i++) {
+				// trim all elements
+				elements [i] = elements [i].Trim ();
+				// make Uppercase
+				if (elements [i].Length != 0) {
+					elements [i] = elements [i].ToUpper () [0] + elements [i].Substring (1).ToLower ();
+				}
+			}		
+			elements.RemoveAll (x => x == string.Empty);
+
+			if (elements.Count == 0) {
+				return;
 			}
+
+			// remove duplicates
+			HashSet<string> set = new HashSet<string>();
+			elements.RemoveAll(x => !set.Add(x));
+			set.Clear (); set = null;
+
+			string lastElem = elements [elements.Count - 1];
+			elements.Clear ();
+			// ###
+
+			if (lastElem.Length > 1)
+			{
+				List<Keyword> match = ks.Keywords.FindAll(x => x.Text.StartsWith(lastElem));
+				if (indexSelectedKeyword >= match.Count) {
+					indexSelectedKeyword = 0;
+				}
+					
+				if (match.Count != 0) {
+					int start = entry.Text.ToLower().LastIndexOf(lastElem.ToLower());
+					string bin = match[indexSelectedKeyword].Text;
+					entry.Text = entry.Text.Remove(start) + bin;
+					existsSelectedRegion = true;
+					selectRegionStartPosition = start + lastElem.Length;
+					selectRegionEndPosition = entry.Text.Length;
+					entry.SelectRegion (selectRegionStartPosition, selectRegionEndPosition);
+				}
+
+
+//				foreach (Keyword kw in ks.Keywords) {					
+//					string bin = kw.Text;
+//					if (bin.StartsWith (lastElem)) {
+//						int start = entry.Text.ToLower().LastIndexOf(lastElem.ToLower());
+//						entry.Text = entry.Text.Remove(start) + bin;
+//						existsSelectedRegion = true;
+//						selectRegionStartPosition = start + lastElem.Length;
+//						selectRegionEndPosition = entry.Text.Length;
+//						entry.SelectRegion (selectRegionStartPosition, selectRegionEndPosition);
+//					}
+//				}					
+			}
+
+			#endregion entry preview
 		}
 
 		#region static helper function
+
+		private static void AddKeywords(List<string> keywords, int add, KeywordSerializer keywordSerializer) 
+		{
+			// adding new keywords to xml
+			foreach (string s in keywords) {
+				Keyword key1 = new Keyword(s);
+				if (keywordSerializer.Keywords.Contains (key1)) {
+					int n = keywordSerializer.Keywords.IndexOf (key1);
+					keywordSerializer.Keywords [n].Count+= add;
+				} else {
+					if (add == 1) keywordSerializer.Keywords.Add (key1);
+					else keywordSerializer.Keywords.Remove (key1);
+				}
+			}				
+		}
 
 //		private static void ShowErrorMessageWindow(TagsFlag flag)
 //		{

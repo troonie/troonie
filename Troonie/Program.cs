@@ -23,43 +23,12 @@ namespace Troonie
 
 		public static void Main (string[] args)
 		{
-//			System.Drawing.Bitmap bitmap = TroonieBitmap.FromFile("4x10.jpg");
-//			System.Drawing.Imaging.BitmapData srcData = bitmap.LockBits(
-//				new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
-//			int ps = System.Drawing.Image.GetPixelFormatSize(srcData.PixelFormat) / 8;
-//			int offset = srcData.Stride - srcData.Width * ps;
-//			double rest = 197 % 3.0;
-
 			try {
 				Constants.I.Init ();
 				#region Set new version number in code
 //				Troonie_Lib.Version.SetNewVersionNumberInAllFiles("1.1.0");
 //				return;
 				#endregion Set new version number in code
-
-//				#region Test suite BitSteg
-////				string[]s_array = {"eins" , "zwei", "drei", "VIER!!!+*}}}"};
-//				byte[] bytes = Troonie_Lib.IOFile.BytesFromFile("Brandenburger_Tor.jpg");
-//				BitSteg bs = new BitSteg();
-//				System.Drawing.Bitmap bitmap = TroonieBitmap.FromFile("input.jpg"); // new System.Drawing.Bitmap(16,16, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-////				bitmap.Save ("original.png", System.Drawing.Imaging.ImageFormat.Png);
-//				bs.Write(bitmap, "1234", bytes);
-//				bitmap.Save ("result.png", System.Drawing.Imaging.ImageFormat.Png);
-//				bitmap.Dispose();
-//				Console.WriteLine("--- END WRITING ---");
-//
-//				bytes = null;
-//				bs = new BitSteg();
-//				bitmap = TroonieBitmap.FromFile("result.png"); // new System.Drawing.Bitmap(16,16, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-//				//				bitmap.Save ("original.png", System.Drawing.Imaging.ImageFormat.Png);
-//				bs.Read(bitmap, "1234", out bytes);
-////				bitmap.Save ("result.png", System.Drawing.Imaging.ImageFormat.Png);
-//				bitmap.Dispose();
-//				Troonie_Lib.IOFile.BytesToFile(bytes, "WUNDER.jpg");
-//				Console.WriteLine("--- END READING ---");
-//
-//				return;
-//				#endregion
 
 				GetProgramIcon ();
 //				GetCjpegExecutable();
