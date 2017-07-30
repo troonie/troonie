@@ -1430,7 +1430,10 @@ namespace TagLib {
 			} catch (System.Reflection.TargetInvocationException e) {
                 PrepareExceptionForRethrow(e.InnerException);
 
-				throw e.InnerException;
+				#region troonie change (2017-07-28)
+				return null;
+				#endregion troonie change
+				// throw e.InnerException;
 			}
 		}
 		

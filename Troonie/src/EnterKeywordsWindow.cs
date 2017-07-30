@@ -19,6 +19,7 @@ namespace Troonie
 //		private const string MULTIVALUES = "####";
 		bool existsSelectedRegion;
 		private int selectRegionStartPosition, selectRegionEndPosition, indexSelectedKeyword;
+		private string oldEntryText;
 		private SaveTagModeKeywords saveTagMode2;
 		private VBox vbox;
 		private HBox hbox1, hbox2;
@@ -272,12 +273,20 @@ namespace Troonie
 			case Key.Shift_L:
 			case Key.Shift_R:
 			case Key.Shift_Lock:
+			case Key.Caps_Lock:
 			case Key.Control_L:
 			case Key.Control_R:
 			case Key.Alt_L:
 			case Key.Alt_R:
-			case Key.Delete:
 			case Key.space:
+			case Key.End:
+			case Key.Begin:
+			case Key.Delete:
+			case Key.Home:
+			case Key.Insert:
+			case Key.Page_Up:
+			case Key.Page_Down:
+			case Key.comma:
 				return;
 			case Key.Return:
 				OnBtnOkReleaseEvent (o, null);
@@ -290,11 +299,12 @@ namespace Troonie
 					if (entry.Text.Length > selectRegionStartPosition - 1) {
 						entry.Text = entry.Text.Substring (0, selectRegionStartPosition - 1);
 						// just to set cursor to end
-						entry.SelectRegion(entry.Text.Length, entry.Text.Length);
-						existsSelectedRegion = false;
-						indexSelectedKeyword = 0;
+						entry.SelectRegion (entry.Text.Length, entry.Text.Length);
 					}
 				}
+				oldEntryText = entry.Text;
+				existsSelectedRegion = false;
+				indexSelectedKeyword = 0;
 				return;
 			case Key.Left:
  				if (existsSelectedRegion) {
@@ -302,11 +312,11 @@ namespace Troonie
 						entry.Text = entry.Text.Substring (0, selectRegionStartPosition);
 						// just to set cursor to end
 						entry.SelectRegion(entry.Text.Length, entry.Text.Length);
-						existsSelectedRegion = false;
-						indexSelectedKeyword = 0;
 					}
-
 				}
+				oldEntryText = entry.Text;
+				existsSelectedRegion = false;
+				indexSelectedKeyword = 0;
 				return;
 			case Key.Right:
 			case Key.Tab:
@@ -315,26 +325,29 @@ namespace Troonie
 					entry.Text += delimiter; 
 					// just to set cursor to end
 					entry.SelectRegion(entry.Text.Length, entry.Text.Length);
-					existsSelectedRegion = false;
 				}
+				oldEntryText = entry.Text;
+				existsSelectedRegion = false;
+				indexSelectedKeyword = 0;
 				return;
 			case Key.Down:
 				if (existsSelectedRegion) {
 					indexSelectedKeyword++;
+					entry.Text = oldEntryText;
 				}
 				break;
 			case Key.Up:
 				if (existsSelectedRegion) {
-					indexSelectedKeyword--;
+					if (indexSelectedKeyword != 0) {
+						indexSelectedKeyword--;
+					}
+					entry.Text = oldEntryText;
 				}
 				break;
 			}										
 
-			#region entry preview
-//			List<string> elements = existsSelectedRegion ? 
-//				new List<string>(entry.Text.Substring(0, selectRegionStartPosition).Split(',')) : 
-//				new List<string>(entry.Text.Split (','));
 
+			#region entry preview
 			List<string> elements = new List<string>(entry.Text.Split (','));
 
 			for (int i = 0; i < elements.Count; i++) {
@@ -360,7 +373,7 @@ namespace Troonie
 			elements.Clear ();
 			// ###
 
-			if (lastElem.Length > 1)
+			if (lastElem.Length > 0)
 			{
 				List<Keyword> match = ks.Keywords.FindAll(x => x.Text.StartsWith(lastElem));
 				if (indexSelectedKeyword >= match.Count) {
@@ -368,6 +381,7 @@ namespace Troonie
 				}
 					
 				if (match.Count != 0) {
+					oldEntryText = entry.Text;
 					int start = entry.Text.ToLower().LastIndexOf(lastElem.ToLower());
 					string bin = match[indexSelectedKeyword].Text;
 					entry.Text = entry.Text.Remove(start) + bin;
@@ -376,19 +390,11 @@ namespace Troonie
 					selectRegionEndPosition = entry.Text.Length;
 					entry.SelectRegion (selectRegionStartPosition, selectRegionEndPosition);
 				}
-
-
-//				foreach (Keyword kw in ks.Keywords) {					
-//					string bin = kw.Text;
-//					if (bin.StartsWith (lastElem)) {
-//						int start = entry.Text.ToLower().LastIndexOf(lastElem.ToLower());
-//						entry.Text = entry.Text.Remove(start) + bin;
-//						existsSelectedRegion = true;
-//						selectRegionStartPosition = start + lastElem.Length;
-//						selectRegionEndPosition = entry.Text.Length;
-//						entry.SelectRegion (selectRegionStartPosition, selectRegionEndPosition);
-//					}
-//				}					
+				else {
+					oldEntryText = entry.Text;
+					existsSelectedRegion = false;
+					indexSelectedKeyword = 0;
+				}					
 			}
 
 			#endregion entry preview

@@ -319,6 +319,8 @@ namespace Troonie
 
 			lbOriginal.Text = imageW + " x " + imageH;
 			lbNew.Text = lbOriginal.Text;
+			lbFormat.Text = Image.GetPixelFormatSize(bt.Bitmap.PixelFormat) + " " + Language.I.L[267];
+
 			entryLeft.Text = 0.ToString();
 			entryRight.Text = imageW.ToString();
 			entryTop.Text = 0.ToString();
@@ -352,6 +354,8 @@ namespace Troonie
 			lbOriginalText.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbNew.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbNewText.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFormat.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFormatText.ModifyFg (StateType.Normal, colorConverter.FONT);
 
 			lbFrameCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
@@ -374,6 +378,7 @@ namespace Troonie
 			lbFrameShortcuts.LabelProp = "<b>" + Language.I.L[127] + "</b>";
 			lbShortcutsText.Text = Language.I.L[128];
 
+
 			lbFrameCutDimensions.LabelProp = "<b>" + Language.I.L[5] + "</b>";
 			lbLeftText.Text = Language.I.L[6];
 			lbRightText.Text = Language.I.L[7];
@@ -385,7 +390,9 @@ namespace Troonie
 
 			lbFrameImageDimensions.LabelProp = "<b>" + Language.I.L[12] + "</b>";
 			lbOriginalText.Text = Language.I.L[13] + ":";
+
 			lbNewText.Text = Language.I.L[14] + ":";
+			lbFormatText.Text = "\t" + Language.I.L[266] + ":";
 
 			lbFrameCursorPos.LabelProp = "<b>" + Language.I.L[15] + "</b>";
 			btnOk.Text = Language.I.L[16];

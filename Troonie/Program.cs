@@ -78,9 +78,9 @@ namespace Troonie
 				case "-v":
 					ViewerWidget winViewer = new ViewerWidget (
 						new string[] {
-							"/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor_Ban03.png", 
+//							"/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor_Ban03.png", 
 //							"/home/jazz/Schreibtisch/Tesimages/Pilz_dat2.png",//							
-							"/home/jazz/Schreibtisch/Tesimages/portrait.jpg", 
+//							"/home/jazz/Schreibtisch/Tesimages/portrait.jpg", 
 //							"/home/jazz/Schreibtisch/Tesimages/01.jpg",
 //							"/home/jazz/Schreibtisch/Tesimages/02.jpg",
 //							"/home/jazz/Schreibtisch/Tesimages/testviteo-1sec.mp4",

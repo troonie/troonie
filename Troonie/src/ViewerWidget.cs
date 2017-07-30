@@ -581,7 +581,6 @@ namespace Troonie
 					newImages.RemoveAt (newImages.Count-1);
 
 				FillImageList (newImages);
-				newImages.Clear ();
 			}
 		}			
 
