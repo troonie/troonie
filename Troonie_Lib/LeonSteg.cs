@@ -9,36 +9,32 @@ namespace Troonie_Lib
 {
 	public class LeonSteg
 	{
+		/// <summary>Final bytes as string, added at the end of the encrypted byte array. </summary>
+		private static string endText = string.Empty + (char)1 + (char)2 + (char)3 + (char)4;
+		/// <summary>Length of final bytes, added at the end of the encrypted byte array. </summary>
+		public static int LengthEndText { get { return endText.Length; } }
+
+		private byte indexHash;
+		private int pixelSize;
+		/// <summary>Modulo number, if grayscale mod=1, if colored mod=3. </summary>
+		private int mod;
+		private byte[] hash;
+		private List<bool> bits;
+
 		protected struct PixelInfo
 		{
 			public bool IsUsed;
-			public bool IsUsedForObfuscation;
-			public bool IsValueInChannelBitStegChanged;
-			public int ChannelBitSteg;
-			public int ChannelObfucsation;
-		}
-
-		#region constants and statics
-		/// <summary>Final bytes, added in the end of the byte array. </summary>
-		private static string endText = string.Empty + (char)1 + (char)2 + (char)3 + (char)4;
-		public static int LengthFinalBytes { get { return endText.Length; } }
-		#endregion
-
-		#region private and protected member and properties
-		private byte indexHash;
-		private int pixelSize;
-		private int moduloNumber; // if grayscale moduloNumber = 1, if colored moduloNumber = 3 
-		private byte[] hash;
-
-
+//			public bool IsUsedForObfuscation;
+			public bool IsValueInChannelLeonStegChanged;
+			public int ChannelLeonSteg;
+//			public int ChannelObfucsation;
+		}			
 		protected int usableChannels; 
 		protected int posX, posY; // position of current pixel pointer
 		protected int indexChannel;
 		protected int indexPixel;
 		protected int w, h; // image width and height
-		protected List<bool> bits;
 		protected PixelInfo[] usedPixel;
-		#endregion
 
 		public LeonSteg()
 		{
@@ -46,41 +42,6 @@ namespace Troonie_Lib
 		}
 			
 		#region public methods and functions
-		/// <summary>
-		/// Writes the <paramref name="text"/> into the image <paramref name="source"/> by using 
-		/// specified <paramref name="key"/> for SHA512-encryption. 
-		/// Returns error code: 
-		/// '0' --> steganography success, no errors;  
-		/// '1' --> Too long text (or unvalid text) and to small image resolution;
-		/// '2' --> Not supported pixel format of image;
-		/// '3' --> Image resolution too small (minimum 256 pixels);
-		/// '4' --> Image resolution too big (avoiding integer overflow);
-		/// '5' --> No color image. Only color images works with BitStegRGB.;
-		/// </summary>
-		public int Write(Bitmap source, string key, string text)
-		{
-			int dim = usableChannels * (source.Width * source.Height) / 8 - LengthFinalBytes;
-			if (text == null || text.Length > dim) {
-				return 1;
-			}
-
-			int error = Init (source, key);
-			if (error != 0) {
-				return error;
-			}
-
-			byte[] tmp_Hash = new byte[256];
-			hash.CopyTo(tmp_Hash, 0);
-
-			EncryptBytesAndFillBitList (AsciiTableCharMove.GetBytesFromString (text));
-
-			indexHash = (byte)key.Length; // reset indexHash
-			hash = tmp_Hash;  // reset hash
-
-			Write (source);
-			return 0;
-		}
-
 		/// <summary>
 		/// Writes the <paramref name="bytes"/> into the image <paramref name="source"/> by using 
 		/// specified <paramref name="key"/> for SHA512-encryption. 
@@ -90,11 +51,11 @@ namespace Troonie_Lib
 		/// '2' --> Not supported pixel format of image;
 		/// '3' --> Image resolution too small (minimum 256 pixels);
 		/// '4' --> Image resolution too big (avoiding integer overflow);
-		/// '5' --> No color image. Only color images works with BitStegRGB.;
+		/// '5' --> No color image. Only color images works with LeonStegRGB.;
 		/// </summary>
-		public int Write(Bitmap source, string key, byte[] bytes)
+		public unsafe int Write(Bitmap source, string key, byte[] bytes)
 		{
-			int dim = usableChannels * (source.Width * source.Height) / 8 - LengthFinalBytes;
+			int dim = usableChannels * (source.Width * source.Height) / 8 - LengthEndText;
 			if (bytes == null || bytes.Length > dim) {
 				return 1;
 			}
@@ -112,27 +73,58 @@ namespace Troonie_Lib
 			indexHash = (byte)key.Length; // reset indexHash
 			hash = tmp_Hash;  // reset hash
 
-			Write (source);			
+			BitmapData srcData = source.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadWrite, source.PixelFormat);
+			byte* src;
+
+			foreach (bool bit in bits) {
+				CalcNextIndexPixelAndPosXY ();
+				src = (byte*)srcData.Scan0.ToPointer ();
+				src += posY * srcData.Stride + posX * pixelSize;
+				byte by = src [indexChannel];
+				byte tmp = bit ? (byte)(by | 1) : (byte)(by & 254);
+				usedPixel [indexPixel].IsValueInChannelLeonStegChanged = by != tmp;
+				by = tmp;
+
+				src [indexChannel] = by;
+			}
+
+			if (usableChannels != 1) {
+				source.UnlockBits(srcData);
+				return 0;
+			}
+
+			// START obfuscation
+			for (int i = 0; i < w * h; i++) {
+				GetAndTransformHashElement();
+				if (!usedPixel [i].IsUsed || (pixelSize > 1 && usedPixel [i].IsUsed && !usedPixel [i].IsValueInChannelLeonStegChanged)) {
+					if (usedPixel [i].IsUsed) {
+						while (indexChannel == usedPixel [i].ChannelLeonSteg) {
+							GetAndTransformHashElement ();
+						}							
+					}
+
+					src = (byte*)srcData.Scan0.ToPointer ();
+					posY = i / w;
+					posX = i - posY * w;
+					src += posY * srcData.Stride + posX * pixelSize;
+					byte by = src [indexChannel];
+					byte tmp = (byte)(by | 1);
+					if (by == tmp) {
+						tmp = (byte)(by & 254);
+					}	
+
+					src [indexChannel] = tmp;
+					//	usedPixel [i].IsUsedForObfuscation = true;
+				}
+			}				
+			// END obfuscation
+
+			source.UnlockBits(srcData);
+
 			return 0;
 		}
 
-		public void Read(Bitmap source, string key, out byte[] bytes)
-		{
-			Read (source, key);
-			DecryptBytesFromBitList(out bytes);
-		}
-
-		public void Read(Bitmap source, string key, out string text)
-		{
-			Read (source, key);
-			DecryptStringFromBitList(out text);
-		}
-
-
-		#endregion
-
-		#region protected and private methods and functions
-		private unsafe void Read(Bitmap source, string key)
+		public unsafe void Read(Bitmap source, string key, out byte[] bytes)
 		{
 			Init (source, key);
 			byte[] tmp_Hash = new byte[256];
@@ -161,90 +153,48 @@ namespace Troonie_Lib
 
 			indexHash = (byte)key.Length; // reset indexHash
 			hash = tmp_Hash;  // reset hash
-		}
 
-		private unsafe void Write(Bitmap source)
+			DecryptBytesFromBitList(out bytes);
+		}			
+
+		#endregion
+
+		#region protected methods and functions
+
+		protected byte GetAndTransformHashElement()
 		{
-			BitmapData srcData = source.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadWrite, source.PixelFormat);
-			byte* src;
+			byte b = hash[indexHash];
+			indexChannel = b % mod; // only for LeonSteg NOT for LeonStegRGB
+			hash[indexHash] += Fraction.DigitSumOfByte (b); // always change value after usage
+			indexHash += (byte)(b + 1); // always increment additionally
 
-//			int countX = 0;
-			foreach (bool bit in bits) {
-				CalcNextIndexPixelAndPosXY ();
-				src = (byte*)srcData.Scan0.ToPointer ();
-				src += posY * srcData.Stride + posX * pixelSize;
-				byte by = src [indexChannel];
-				SetBitToChannelbyte (ref by, bit, out usedPixel [indexPixel].IsValueInChannelBitStegChanged);
-				src [indexChannel] = by;
-
-//				countX++;
-//				Console.WriteLine ("countX4= " + countX);
-			}
-
-			if (usableChannels != 1) {
-//				src = (byte*)srcData.Scan0.ToPointer ();
-//				src = null;
-				source.UnlockBits(srcData);
-				return;
-			}
-			// START obfuscation
-			for (int i = 0; i < w * h; i++) {
-				GetAndTransformHashElement();
-				if (!usedPixel [i].IsUsed || (pixelSize > 1 && usedPixel [i].IsUsed && !usedPixel [i].IsValueInChannelBitStegChanged)) {
-					if (usedPixel [i].IsUsed) {
-						while (indexChannel == usedPixel [i].ChannelBitSteg) {
-							GetAndTransformHashElement ();
-						}							
-					}
-
-					src = (byte*)srcData.Scan0.ToPointer ();
-					posY = i / w;
-					posX = i - posY * w;
-					src += posY * srcData.Stride + posX * pixelSize;
-					byte by = src [indexChannel];
-					byte tmp = (byte)(by | 1);
-					if (by == tmp) {
-						tmp = (byte)(by & 254);
-					}	
-
-					//					if (by == tmp) {
-					//						Console.WriteLine ("Something wrong. Should not happen!");
-					//					}
-					src [indexChannel] = tmp;
-					usedPixel [i].IsUsedForObfuscation = true;
-				}
-			}
-
-			//			int nothing = 0, intIsUsedOnlyForObfuscation = 0, intIsOnlyUsed = 0, intintIsUsedBoth = 0;
-			//			foreach (PixelInfo pi in usedPixel) {
-			//				if (pi.IsUsedForObfuscation && !pi.IsUsed) {
-			//					intIsUsedOnlyForObfuscation++;
-			//				}
-			//
-			//				if (!pi.IsUsedForObfuscation && pi.IsUsed) {
-			//					intIsOnlyUsed++;
-			//				}
-			//
-			//				if (pi.IsUsedForObfuscation && pi.IsUsed) {
-			//					intintIsUsedBoth++;
-			//				}
-			//
-			//				if (!pi.IsUsedForObfuscation && !pi.IsUsed) {
-			//					nothing++;
-			//				}
-			//
-			//				if (pi.IsUsed && !pi.IsUsedForObfuscation && !pi.IsValueInChannelBitStegChanged) {
-			//					// only in grayscale possible
-			//
-			//				}
-			//
-			//			}
-
-			// END obfuscation
-
-			source.UnlockBits(srcData);
+			return b;
 		}
 
+		protected virtual void CalcNextIndexPixelAndPosXY()
+		{			
+			int max = (w * h);
+			indexPixel += GetAndTransformHashElement();
+			if (indexPixel >= max) {
+				indexPixel = indexPixel - max;
+			}				
+
+			while (usedPixel [indexPixel].IsUsed) {
+				indexPixel++;
+				if (indexPixel >= max) {
+					indexPixel = indexPixel - max;
+				}
+			} 
+
+			posY = indexPixel / w;
+			posX = indexPixel - posY * w;
+
+			usedPixel [indexPixel] = new PixelInfo () { IsUsed = true, ChannelLeonSteg = indexChannel };
+		}
+
+		#endregion
+
+		#region private methods and functions
 		/// <summary>
 		/// Inits necessary parameters.
 		/// Returns error code: 
@@ -253,7 +203,7 @@ namespace Troonie_Lib
 		/// '2' --> No supported pixel format of image;
 		/// '3' --> Image resolution too small (minimum 256 pixels);
 		/// '4' --> Image resolution too big (avoiding integer overflow);
-		/// '5' --> No color image. Only color images works with BitStegRGB.;
+		/// '5' --> No color image. Only color images works with LeonStegRGB.;
 		/// </summary>
 		private int Init(Bitmap source, string key)
 		{
@@ -262,34 +212,28 @@ namespace Troonie_Lib
 				source.PixelFormat != PixelFormat.Format32bppArgb &&
 				source.PixelFormat != PixelFormat.Format32bppPArgb &&
 				source.PixelFormat != PixelFormat.Format32bppRgb) {
-//				string errorMsg = "No supported pixel format of image.";
-//				throw new ArgumentException(errorMsg, "source");
 				return 2;
 			}				
 				
 			pixelSize = Image.GetPixelFormatSize(source.PixelFormat) / 8; 
-			// Avoiding using BitStegRGB with grayscale image
+			// Avoiding using LeonStegRGB with grayscale image
 			if (usableChannels == 3 && pixelSize < 3) {
 				return 5;
 			}
 
-			moduloNumber = Math.Min (3, pixelSize);
+			mod = Math.Min (3, pixelSize);
 			w = source.Width;
 			h = source.Height;
 
 			// avoiding image resolution < 256
 			if (w * h * usableChannels < 256) 
 			{
-//				string errorMsg = "Image resolution too small (minimum 256 pixels).";
-//				throw new ArgumentException(errorMsg, "source");
 				return 3;
 			}
 
 			// avoiding integer overflow
 			if ((ulong)w * (ulong)h * (ulong)8 * (ulong)usableChannels >= int.MaxValue) // 2147483647
 			{
-//				string errorMsg = "Image resolution too big (avoiding integer overflow).";
-//				throw new ArgumentException(errorMsg, "source");
 				return 4;
 			}				
 				
@@ -314,8 +258,6 @@ namespace Troonie_Lib
 			foreach (byte by in bytes) {
 				tmp += (char)by;
 			}
-//			string tmp = 
-//				string.Empty + (char)bytes [0] + (char)bytes [1] + (char)bytes [2] + (char)bytes [3];
 
 			if (tmp == endText) {
 				return true;
@@ -340,22 +282,6 @@ namespace Troonie_Lib
 			}				
 		}
 
-		private void DecryptStringFromBitList(out string text)
-		{
-			text = string.Empty;
-			BitArray a = new BitArray(bits.ToArray());
-			byte[] tmpBytes = new byte[a.Length / 8];
-			a.CopyTo(tmpBytes, 0);
-
-			// subtract NOT encrypted 'endText' string
-			for (int i = 0; i < tmpBytes.Length - endText.Length; i++) {
-				// DECRYPTION by subtracting hash element
-				byte decryptedItem = (byte)(tmpBytes[i] - hash [GetAndTransformHashElement()]);
-				char c = (char)decryptedItem;
-				text += c;
-			}
-		}
-
 		private void EncryptBytesAndFillBitList(byte[] bytes)
 		{			
 			List<byte> encryptedBytes = new List<byte>();
@@ -368,16 +294,11 @@ namespace Troonie_Lib
 			encryptedBytes.AddRange (bytes);	
 			// add NOT encrypted 'endText' string
 			encryptedBytes.AddRange(AsciiTableCharMove.GetBytesFromString (endText));
-
-//			if (encryptedBytes.Count > w * h / 8) {
-//				return false;
-//			}
-				
+							
 			// converting to bits
 			BitArray myBA = new BitArray(encryptedBytes.ToArray());
 			IEnumerator ie = myBA.GetEnumerator ();
 			while(ie.MoveNext ()) {
-//				Console.WriteLine(ie.Current);
 				bits.Add ((bool)ie.Current);
 			}				
 		}
@@ -423,55 +344,6 @@ namespace Troonie_Lib
 			return final;
 		}
 
-//		private static void GetBitOfChannelbyte(byte sourcebyte, out bool bit)
-//		{
-//			bit = (sourcebyte & 1) == 1;
-//		}
-
-		private static void SetBitToChannelbyte(ref byte sourcebyte, bool bit, out bool valueChanged)
-		{
-			byte tmp;
-			if (bit) {
-				tmp = (byte)(sourcebyte | 1);
-			} else {
-				tmp = (byte)(sourcebyte & 254);
-			}
-
-			valueChanged = sourcebyte != tmp;
-			sourcebyte = tmp;
-		}
-			
-		protected byte GetAndTransformHashElement()
-		{
-			byte b = hash[indexHash];
-			indexChannel = b % moduloNumber; // only for BitSteg NOT for BitStegRGB
-			hash[indexHash] += Fraction.DigitSumOfByte (b); // always change value after usage
-			indexHash += (byte)(b + 1); // always increment additionally
-
-			return b;
-		}
-
-		protected virtual void CalcNextIndexPixelAndPosXY()
-		{			
-			int max = (w * h);
-			indexPixel += GetAndTransformHashElement();
-			if (indexPixel >= max) {
-				indexPixel = indexPixel - max;
-			}				
-
-			while (/*usedPixel[indexPixel] != null &&*/ usedPixel [indexPixel].IsUsed /* || countUsedPixel < max */) {
-				indexPixel++;
-				if (indexPixel >= max) {
-					indexPixel = indexPixel - max;
-				}
-			} 
-
-			posY = indexPixel / w;
-			posX = indexPixel - posY * w;
-
-			usedPixel [indexPixel] = new PixelInfo () { IsUsed = true, ChannelBitSteg = indexChannel };
-		}
-
 		#endregion
 	}
 
@@ -490,7 +362,7 @@ namespace Troonie_Lib
 				indexPixel = indexPixel - max;
 			}				
 
-			while (/*usedPixel[indexPixel] != null &&*/ usedPixel [indexPixel].IsUsed /* || countUsedPixel < max */) {
+			while (usedPixel [indexPixel].IsUsed) {
 				indexPixel++;
 				if (indexPixel >= max) {
 					indexPixel = indexPixel - max;
@@ -502,7 +374,7 @@ namespace Troonie_Lib
 			posX = (indexPixel - indexChannel) - (posY * w * usableChannels);
 			posX /= usableChannels;
 
-			usedPixel [indexPixel] = new PixelInfo () { IsUsed = true /*, ChannelBitSteg = indexChannel */ };
+			usedPixel [indexPixel] = new PixelInfo () { IsUsed = true /*, ChannelLeonSteg = indexChannel */ };
 		}			
 	}
 }

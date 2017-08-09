@@ -22,6 +22,19 @@
             return bytes;
         }
 
+		public static string GetStringFromBytes(byte[] bytes)
+		{
+			string s = string.Empty;
+
+			for (int i = 0; i < bytes.Length; i++)
+			{				
+				char c = (char)bytes[i];
+				s += c;
+			}
+
+			return s;
+		}
+
 		public static string MovingBySubtracting(string text, byte endByte, int value)
 		{
 			Byte[] bytes = GetBytesFromString(text);

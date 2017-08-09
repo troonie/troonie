@@ -392,7 +392,8 @@ namespace Troonie
 					byte[] bytes = Troonie_Lib.IOFile.BytesFromFile(hypertextlabelFileChooser.Text);
 					success = bs.Write(bt.Bitmap, entryKey.Text, bytes);
 				} else {
-					success = bs.Write (bt.Bitmap, entryKey.Text, textviewContent.Buffer.Text);
+					success = bs.Write (bt.Bitmap, entryKey.Text, 
+						AsciiTableCharMove.GetBytesFromString (textviewContent.Buffer.Text));
 				}
 
 				switch (success) {
@@ -424,10 +425,10 @@ namespace Troonie
 			}
 			else { /* READING */
 				pseudo.Label2 = Language.I.L [82];
+				byte[] bytes;
+				bs.Read (bt.Bitmap, entryKey.Text, out bytes);
 
-				if (rdBtnPayloadFile.Active) {
-					byte[] bytes;
-					bs.Read (bt.Bitmap, entryKey.Text, out bytes);
+				if (rdBtnPayloadFile.Active) {					
 					try {
 						IOFile.BytesToFile(bytes, hypertextlabelFileChooser.Text + sep + entryFile.Text);
 					}
@@ -435,9 +436,8 @@ namespace Troonie
 						pseudo.Label1 = Language.I.L [53];
 						pseudo.Label2 = Language.I.L [239];
 					}
-				} else {
-					string content;
-					bs.Read (bt.Bitmap, entryKey.Text, out content);
+				} else {					
+					string content = AsciiTableCharMove.GetStringFromBytes(bytes);
 					textviewContent.Buffer.Text = content;
 				}					
 			}
@@ -680,7 +680,7 @@ namespace Troonie
 			string text;
 			/* 3 == BitStegRGB,  1 == BitSteg */
 			int multiplicator = comboboxAlgorithm.Active == 2 ? 3 : 1;
-			int dim = multiplicator * (imageW * imageH) / 8 - LeonSteg.LengthFinalBytes;
+			int dim = multiplicator * (imageW * imageH) / 8 - LeonSteg.LengthEndText;
 
 			if (rdBtnPayloadText.Active && comboboxAlgorithm.Active != 0) {
 				l = textviewContent.Buffer.Text.Length;

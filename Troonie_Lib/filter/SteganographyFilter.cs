@@ -8,7 +8,7 @@ namespace Troonie_Lib
     
 	/// <summary>
 	/// Steganography filter. All rights are reserved. 
-	/// Copyright © Troonie Project, http://Troonie-project.de
+	/// Copyright © Troonie Project, http://troonie.com
 	/// </summary>
     public class SteganographyFilter : AbstractFilter
     {
