@@ -15,7 +15,8 @@ namespace Troonie_Lib
 		public static int LengthEndText { get { return endText.Length; } }
 
 		private byte indexHash;
-		private int pixelSize;
+		/// <summary> Channel per pixel. </summary>
+		private int cpp;
 		/// <summary>Modulo number, if grayscale mod=1, if colored mod=3. </summary>
 		private int mod;
 		private byte[] hash;
@@ -23,10 +24,10 @@ namespace Troonie_Lib
 
 		protected struct PixelInfo
 		{
-			public bool IsUsed;
-//			public bool IsUsedForObfuscation;
-			public bool IsValueInChannelLeonStegChanged;
-			public int ChannelLeonSteg;
+			public bool Used;
+//			public bool UsedForObfuscation;
+			public bool ValueChanged;
+			public int Channel;
 //			public int ChannelObfucsation;
 		}			
 		protected int usableChannels; 
@@ -79,10 +80,10 @@ namespace Troonie_Lib
 			foreach (bool bit in bits) {
 				CalcNextIndexPixelAndPosXY ();
 				src = (byte*)srcData.Scan0.ToPointer ();
-				src += posY * srcData.Stride + posX * pixelSize;
+				src += posY * srcData.Stride + posX * cpp;
 				byte by = src [indexChannel];
 				byte tmp = bit ? (byte)(by | 1) : (byte)(by & 254);
-				usedPixel [indexPixel].IsValueInChannelLeonStegChanged = by != tmp;
+				usedPixel [indexPixel].ValueChanged = by != tmp;
 				by = tmp;
 
 				src [indexChannel] = by;
@@ -96,9 +97,9 @@ namespace Troonie_Lib
 			// START obfuscation
 			for (int i = 0; i < w * h; i++) {
 				GetAndTransformHashElement();
-				if (!usedPixel [i].IsUsed || (pixelSize > 1 && usedPixel [i].IsUsed && !usedPixel [i].IsValueInChannelLeonStegChanged)) {
-					if (usedPixel [i].IsUsed) {
-						while (indexChannel == usedPixel [i].ChannelLeonSteg) {
+				if (!usedPixel [i].Used || (cpp > 1 && usedPixel [i].Used && !usedPixel [i].ValueChanged)) {
+					if (usedPixel [i].Used) {
+						while (indexChannel == usedPixel [i].Channel) {
 							GetAndTransformHashElement ();
 						}							
 					}
@@ -106,7 +107,7 @@ namespace Troonie_Lib
 					src = (byte*)srcData.Scan0.ToPointer ();
 					posY = i / w;
 					posX = i - posY * w;
-					src += posY * srcData.Stride + posX * pixelSize;
+					src += posY * srcData.Stride + posX * cpp;
 					byte by = src [indexChannel];
 					byte tmp = (byte)(by | 1);
 					if (by == tmp) {
@@ -136,7 +137,7 @@ namespace Troonie_Lib
 			for (int i = 0; i < w * h * usableChannels; i++, count8Bit++) {
 				CalcNextIndexPixelAndPosXY();
 				byte* src = (byte*)srcData.Scan0.ToPointer();
-				src += posY * srcData.Stride + posX * pixelSize;
+				src += posY * srcData.Stride + posX * cpp;
 
 				bool bit = (src [indexChannel] & 1) == 1;
 				bits.Add (bit);
@@ -179,7 +180,7 @@ namespace Troonie_Lib
 				indexPixel = indexPixel - max;
 			}				
 
-			while (usedPixel [indexPixel].IsUsed) {
+			while (usedPixel [indexPixel].Used) {
 				indexPixel++;
 				if (indexPixel >= max) {
 					indexPixel = indexPixel - max;
@@ -189,7 +190,7 @@ namespace Troonie_Lib
 			posY = indexPixel / w;
 			posX = indexPixel - posY * w;
 
-			usedPixel [indexPixel] = new PixelInfo () { IsUsed = true, ChannelLeonSteg = indexChannel };
+			usedPixel [indexPixel] = new PixelInfo () { Used = true, Channel = indexChannel };
 		}
 
 		#endregion
@@ -215,13 +216,13 @@ namespace Troonie_Lib
 				return 2;
 			}				
 				
-			pixelSize = Image.GetPixelFormatSize(source.PixelFormat) / 8; 
+			cpp = Image.GetPixelFormatSize(source.PixelFormat) / 8; 
 			// Avoiding using LeonStegRGB with grayscale image
-			if (usableChannels == 3 && pixelSize < 3) {
+			if (usableChannels == 3 && cpp < 3) {
 				return 5;
 			}
 
-			mod = Math.Min (3, pixelSize);
+			mod = Math.Min (3, cpp);
 			w = source.Width;
 			h = source.Height;
 
@@ -362,7 +363,7 @@ namespace Troonie_Lib
 				indexPixel = indexPixel - max;
 			}				
 
-			while (usedPixel [indexPixel].IsUsed) {
+			while (usedPixel [indexPixel].Used) {
 				indexPixel++;
 				if (indexPixel >= max) {
 					indexPixel = indexPixel - max;
@@ -374,7 +375,7 @@ namespace Troonie_Lib
 			posX = (indexPixel - indexChannel) - (posY * w * usableChannels);
 			posX /= usableChannels;
 
-			usedPixel [indexPixel] = new PixelInfo () { IsUsed = true /*, ChannelLeonSteg = indexChannel */ };
+			usedPixel [indexPixel] = new PixelInfo () { Used = true /*, ChannelLeonSteg = indexChannel */ };
 		}			
 	}
 }
