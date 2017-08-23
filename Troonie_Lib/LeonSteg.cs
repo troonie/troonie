@@ -15,8 +15,6 @@ namespace Troonie_Lib
 		public static int LengthEndText { get { return endText.Length; } }
 
 		private byte indexHash;
-		/// <summary> Channel per pixel. </summary>
-		private int cpp;
 		/// <summary>Modulo number, if grayscale mod=1, if colored mod=3. </summary>
 		private int mod;
 		private byte[] hash;
@@ -30,6 +28,8 @@ namespace Troonie_Lib
 			public int Channel;
 //			public int ChannelObfucsation;
 		}			
+		/// <summary> Channel per pixel. </summary>
+		protected int cpp;
 		protected int usableChannels; 
 		protected int posX, posY; // position of current pixel pointer
 		protected int indexChannel;
@@ -75,11 +75,10 @@ namespace Troonie_Lib
 			hash = tmp_Hash;  // reset hash
 
 			BitmapData srcData = source.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadWrite, source.PixelFormat);
-			byte* src;
 
 			foreach (bool bit in bits) {
 				CalcNextIndexPixelAndPosXY ();
-				src = (byte*)srcData.Scan0.ToPointer ();
+				byte* src = (byte*)srcData.Scan0.ToPointer ();
 				src += posY * srcData.Stride + posX * cpp;
 				byte by = src [indexChannel];
 				byte tmp = bit ? (byte)(by | 1) : (byte)(by & 254);
@@ -87,39 +86,9 @@ namespace Troonie_Lib
 				by = tmp;
 
 				src [indexChannel] = by;
-			}
-
-			if (usableChannels != 1) {
-				source.UnlockBits(srcData);
-				return 0;
-			}
-
-			// START obfuscation
-			for (int i = 0; i < w * h; i++) {
-				GetAndTransformHashElement();
-				if (!usedPixel [i].Used || (cpp > 1 && usedPixel [i].Used && !usedPixel [i].ValueChanged)) {
-					if (usedPixel [i].Used) {
-						while (indexChannel == usedPixel [i].Channel) {
-							GetAndTransformHashElement ();
-						}							
-					}
-
-					src = (byte*)srcData.Scan0.ToPointer ();
-					posY = i / w;
-					posX = i - posY * w;
-					src += posY * srcData.Stride + posX * cpp;
-					byte by = src [indexChannel];
-					byte tmp = (byte)(by | 1);
-					if (by == tmp) {
-						tmp = (byte)(by & 254);
-					}	
-
-					src [indexChannel] = tmp;
-					//	usedPixel [i].IsUsedForObfuscation = true;
-				}
 			}				
-			// END obfuscation
 
+			Obfuscation(srcData);				
 			source.UnlockBits(srcData);
 
 			return 0;
@@ -191,6 +160,33 @@ namespace Troonie_Lib
 			posX = indexPixel - posY * w;
 
 			usedPixel [indexPixel] = new PixelInfo () { Used = true, Channel = indexChannel };
+		}
+
+		protected unsafe virtual void Obfuscation(BitmapData bitmapData)
+		{
+			for (int i = 0; i < w * h; i++) {
+				GetAndTransformHashElement();
+				if (!usedPixel [i].Used || (cpp > 1 && usedPixel [i].Used && !usedPixel [i].ValueChanged)) {
+					if (usedPixel [i].Used) {
+						while (indexChannel == usedPixel [i].Channel) {
+							GetAndTransformHashElement ();
+						}							
+					}
+
+					byte* src = (byte*)bitmapData.Scan0.ToPointer ();
+					posY = i / w;
+					posX = i - posY * w;
+					src += posY * bitmapData.Stride + posX * cpp;
+					byte by = src [indexChannel];
+					byte tmp = (byte)(by | 1);
+					if (by == tmp) {
+						tmp = (byte)(by & 254);
+					}	
+
+					src [indexChannel] = tmp;
+					//	usedPixel [i].IsUsedForObfuscation = true;
+				}
+			}				
 		}
 
 		#endregion
@@ -376,7 +372,31 @@ namespace Troonie_Lib
 			posX /= usableChannels;
 
 			usedPixel [indexPixel] = new PixelInfo () { Used = true /*, ChannelLeonSteg = indexChannel */ };
-		}			
+		}	
+
+		protected unsafe override void Obfuscation(BitmapData bitmapData)
+		{
+			Random rand = new Random();
+
+			for (int i = 0; i < w * h * usableChannels; i++) {
+				indexChannel = i % usableChannels /* moduloNumber */;
+				posY = (i - indexChannel) / (w * usableChannels);
+				posX = (i - indexChannel) - (posY * w * usableChannels);
+				posX /= usableChannels;
+
+				byte* src = (byte*)bitmapData.Scan0.ToPointer();
+				src += posY * bitmapData.Stride + posX * cpp + indexChannel;
+
+				// rand determines (randomly 0 or 1) whether a not used channel will be changed
+				if (!usedPixel [i].Used && rand.Next (2) == 1) {
+					byte tmp = (byte)(*src | 1);
+					if (*src == tmp) {
+						tmp = (byte)(*src & 254);
+					}	
+					*src = tmp;
+				}
+			}				
+		}
 	}
 }
 
