@@ -24,5 +24,5 @@ public class Version
 {
 	public const string Number = "1.2.0";
 	public const string AssemblyTitle = "Troonie Installer for Windows 10, 8.1 and 7";
-	public const string AssemblyProduct = "Troonie 1.2.0 beta";
+	public const string AssemblyProduct = "Troonie 1.2.0";
 }
