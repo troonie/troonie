@@ -282,6 +282,43 @@ namespace Troonie
 			hscale1.Digits = 0;
 		}
 
+		public FilterWidget (string pFilename, SimpleCartoonFilter cartoon) : this (pFilename)
+		{
+			abstractFilter = cartoon;
+			Title = Language.I.L [268];
+			frameHScales.Visible = true;
+
+			// hue range
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[269] + "</b>";
+			hscale1.Value = cartoon.HueRange;
+			hscale1.Adjustment.Lower = 1;
+			hscale1.Adjustment.Upper = 360;
+			hscale1.Adjustment.StepIncrement = 1;
+			hscale1.Adjustment.PageIncrement = 5;
+			hscale1.Digits = 0;
+
+			// saturation range
+			frame_hscale2.Visible = true;
+			lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[270] + "</b>";
+			hscale2.Value = cartoon.SaturationRange;
+			hscale2.Adjustment.Lower = 1;
+			hscale2.Adjustment.Upper = 100;
+			hscale2.Adjustment.StepIncrement = 1;
+			hscale2.Adjustment.PageIncrement = 5;
+			hscale2.Digits = 0;
+
+			// lightness range
+			frame_hscale3.Visible = true;
+			lbFrame_hscale3.LabelProp = "<b>" + Language.I.L[271] + "</b>";
+			hscale3.Value = cartoon.LightnessRange;
+			hscale3.Adjustment.Lower = 1;
+			hscale3.Adjustment.Upper = 100;
+			hscale3.Adjustment.StepIncrement = 1;
+			hscale3.Adjustment.PageIncrement = 5;
+			hscale3.Digits = 0;
+		}
+
 		#endregion Constructors
 
 		public override void Destroy ()

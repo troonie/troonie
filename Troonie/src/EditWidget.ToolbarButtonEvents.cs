@@ -121,6 +121,9 @@ namespace Troonie
 			case 9:
 				fw = new FilterWidget (FileName, new PosterizationFilter());
 				break;
+			case 10:
+				fw = new FilterWidget (FileName, new SimpleCartoonFilter());
+				break;
 			}
 //			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 			fw.FilterEvent += FilterEvent;

@@ -92,6 +92,10 @@ namespace Troonie
 		
 		private global::Gtk.Table tableImageDimensions;
 		
+		private global::Gtk.Label lbFormat;
+		
+		private global::Gtk.Label lbFormatText;
+		
 		private global::Gtk.Label lbNew;
 		
 		private global::Gtk.Label lbNewText;
@@ -142,7 +146,7 @@ namespace Troonie
 			this.imagepanel1 = new global::Troonie.ImagePanel ();
 			this.imagepanel1.Events = ((global::Gdk.EventMask)(260));
 			this.imagepanel1.Name = "imagepanel1";
-			this.imagepanel1.Angle = 0;
+			this.imagepanel1.Angle = 0D;
 			this.imagepanel1.ScaleCursorX = 0F;
 			this.imagepanel1.ScaleCursorY = 0F;
 			this.hbox1.Add (this.imagepanel1);
@@ -217,7 +221,7 @@ namespace Troonie
 			this.btnBottomMinus.ButtonWidth = 0;
 			this.btnBottomMinus.Font = "Arial";
 			this.btnBottomMinus.Text = "-";
-			this.btnBottomMinus.TextSize = 12;
+			this.btnBottomMinus.TextSize = 12D;
 			this.table1.Add (this.btnBottomMinus);
 			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnBottomMinus]));
 			w9.TopAttach = ((uint)(3));
@@ -234,7 +238,7 @@ namespace Troonie
 			this.btnBottomPlus.ButtonWidth = 0;
 			this.btnBottomPlus.Font = "Arial";
 			this.btnBottomPlus.Text = "+";
-			this.btnBottomPlus.TextSize = 12;
+			this.btnBottomPlus.TextSize = 12D;
 			this.table1.Add (this.btnBottomPlus);
 			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnBottomPlus]));
 			w10.TopAttach = ((uint)(3));
@@ -251,7 +255,7 @@ namespace Troonie
 			this.btnLeftMinus.ButtonWidth = 0;
 			this.btnLeftMinus.Font = "Arial";
 			this.btnLeftMinus.Text = "-";
-			this.btnLeftMinus.TextSize = 12;
+			this.btnLeftMinus.TextSize = 12D;
 			this.table1.Add (this.btnLeftMinus);
 			global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnLeftMinus]));
 			w11.LeftAttach = ((uint)(3));
@@ -266,7 +270,7 @@ namespace Troonie
 			this.btnLeftPlus.ButtonWidth = 0;
 			this.btnLeftPlus.Font = "Arial";
 			this.btnLeftPlus.Text = "+";
-			this.btnLeftPlus.TextSize = 12;
+			this.btnLeftPlus.TextSize = 12D;
 			this.table1.Add (this.btnLeftPlus);
 			global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnLeftPlus]));
 			w12.LeftAttach = ((uint)(1));
@@ -283,7 +287,7 @@ namespace Troonie
 			this.btnRightMinus.ButtonWidth = 0;
 			this.btnRightMinus.Font = "Arial";
 			this.btnRightMinus.Text = "-";
-			this.btnRightMinus.TextSize = 12;
+			this.btnRightMinus.TextSize = 12D;
 			this.table1.Add (this.btnRightMinus);
 			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnRightMinus]));
 			w13.TopAttach = ((uint)(1));
@@ -300,7 +304,7 @@ namespace Troonie
 			this.btnTopMinus.ButtonWidth = 0;
 			this.btnTopMinus.Font = "Arial";
 			this.btnTopMinus.Text = "-";
-			this.btnTopMinus.TextSize = 12;
+			this.btnTopMinus.TextSize = 12D;
 			this.table1.Add (this.btnTopMinus);
 			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnTopMinus]));
 			w14.TopAttach = ((uint)(2));
@@ -317,7 +321,7 @@ namespace Troonie
 			this.btnTopPlus.ButtonWidth = 0;
 			this.btnTopPlus.Font = "Arial";
 			this.btnTopPlus.Text = "+";
-			this.btnTopPlus.TextSize = 12;
+			this.btnTopPlus.TextSize = 12D;
 			this.table1.Add (this.btnTopPlus);
 			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnTopPlus]));
 			w15.TopAttach = ((uint)(2));
@@ -338,7 +342,7 @@ namespace Troonie
 			this.btnRightPlus.ButtonWidth = 0;
 			this.btnRightPlus.Font = "Arial";
 			this.btnRightPlus.Text = "+";
-			this.btnRightPlus.TextSize = 12;
+			this.btnRightPlus.TextSize = 12D;
 			this.ebBtnRightPlus.Add (this.btnRightPlus);
 			this.table1.Add (this.ebBtnRightPlus);
 			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table1 [this.ebBtnRightPlus]));
@@ -472,7 +476,7 @@ namespace Troonie
 			this.btnRotateMinus.ButtonWidth = 0;
 			this.btnRotateMinus.Font = "Arial";
 			this.btnRotateMinus.Text = "-";
-			this.btnRotateMinus.TextSize = 12;
+			this.btnRotateMinus.TextSize = 12D;
 			this.table2.Add (this.btnRotateMinus);
 			global::Gtk.Table.TableChild w29 = ((global::Gtk.Table.TableChild)(this.table2 [this.btnRotateMinus]));
 			w29.LeftAttach = ((uint)(3));
@@ -487,7 +491,7 @@ namespace Troonie
 			this.btnRotatePlus.ButtonWidth = 0;
 			this.btnRotatePlus.Font = "Arial";
 			this.btnRotatePlus.Text = "+";
-			this.btnRotatePlus.TextSize = 12;
+			this.btnRotatePlus.TextSize = 12D;
 			this.table2.Add (this.btnRotatePlus);
 			global::Gtk.Table.TableChild w30 = ((global::Gtk.Table.TableChild)(this.table2 [this.btnRotatePlus]));
 			w30.LeftAttach = ((uint)(1));
@@ -535,50 +539,70 @@ namespace Troonie
 			this.GtkAlignment.Name = "GtkAlignment";
 			this.GtkAlignment.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			this.tableImageDimensions = new global::Gtk.Table (((uint)(2)), ((uint)(2)), true);
+			this.tableImageDimensions = new global::Gtk.Table (((uint)(2)), ((uint)(4)), true);
 			this.tableImageDimensions.Name = "tableImageDimensions";
 			this.tableImageDimensions.RowSpacing = ((uint)(6));
 			this.tableImageDimensions.ColumnSpacing = ((uint)(6));
+			// Container child tableImageDimensions.Gtk.Table+TableChild
+			this.lbFormat = new global::Gtk.Label ();
+			this.lbFormat.Name = "lbFormat";
+			this.lbFormat.LabelProp = global::Mono.Unix.Catalog.GetString ("10000 x 10000");
+			this.tableImageDimensions.Add (this.lbFormat);
+			global::Gtk.Table.TableChild w36 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbFormat]));
+			w36.LeftAttach = ((uint)(3));
+			w36.RightAttach = ((uint)(4));
+			w36.XOptions = ((global::Gtk.AttachOptions)(4));
+			w36.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child tableImageDimensions.Gtk.Table+TableChild
+			this.lbFormatText = new global::Gtk.Label ();
+			this.lbFormatText.Name = "lbFormatText";
+			this.lbFormatText.LabelProp = global::Mono.Unix.Catalog.GetString ("Format: ");
+			this.tableImageDimensions.Add (this.lbFormatText);
+			global::Gtk.Table.TableChild w37 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbFormatText]));
+			w37.LeftAttach = ((uint)(2));
+			w37.RightAttach = ((uint)(3));
+			w37.XOptions = ((global::Gtk.AttachOptions)(4));
+			w37.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImageDimensions.Gtk.Table+TableChild
 			this.lbNew = new global::Gtk.Label ();
 			this.lbNew.Name = "lbNew";
 			this.lbNew.LabelProp = global::Mono.Unix.Catalog.GetString ("10000 x 10000");
 			this.tableImageDimensions.Add (this.lbNew);
-			global::Gtk.Table.TableChild w36 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbNew]));
-			w36.TopAttach = ((uint)(1));
-			w36.BottomAttach = ((uint)(2));
-			w36.LeftAttach = ((uint)(1));
-			w36.RightAttach = ((uint)(2));
-			w36.XOptions = ((global::Gtk.AttachOptions)(4));
-			w36.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child tableImageDimensions.Gtk.Table+TableChild
-			this.lbNewText = new global::Gtk.Label ();
-			this.lbNewText.Name = "lbNewText";
-			this.lbNewText.LabelProp = global::Mono.Unix.Catalog.GetString ("New:");
-			this.tableImageDimensions.Add (this.lbNewText);
-			global::Gtk.Table.TableChild w37 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbNewText]));
-			w37.TopAttach = ((uint)(1));
-			w37.BottomAttach = ((uint)(2));
-			w37.XOptions = ((global::Gtk.AttachOptions)(4));
-			w37.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child tableImageDimensions.Gtk.Table+TableChild
-			this.lbOriginal = new global::Gtk.Label ();
-			this.lbOriginal.Name = "lbOriginal";
-			this.lbOriginal.LabelProp = global::Mono.Unix.Catalog.GetString ("10000 x 10000");
-			this.tableImageDimensions.Add (this.lbOriginal);
-			global::Gtk.Table.TableChild w38 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbOriginal]));
+			global::Gtk.Table.TableChild w38 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbNew]));
+			w38.TopAttach = ((uint)(1));
+			w38.BottomAttach = ((uint)(2));
 			w38.LeftAttach = ((uint)(1));
 			w38.RightAttach = ((uint)(2));
 			w38.XOptions = ((global::Gtk.AttachOptions)(4));
 			w38.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child tableImageDimensions.Gtk.Table+TableChild
+			this.lbNewText = new global::Gtk.Label ();
+			this.lbNewText.Name = "lbNewText";
+			this.lbNewText.LabelProp = global::Mono.Unix.Catalog.GetString ("New:");
+			this.tableImageDimensions.Add (this.lbNewText);
+			global::Gtk.Table.TableChild w39 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbNewText]));
+			w39.TopAttach = ((uint)(1));
+			w39.BottomAttach = ((uint)(2));
+			w39.XOptions = ((global::Gtk.AttachOptions)(4));
+			w39.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child tableImageDimensions.Gtk.Table+TableChild
+			this.lbOriginal = new global::Gtk.Label ();
+			this.lbOriginal.Name = "lbOriginal";
+			this.lbOriginal.LabelProp = global::Mono.Unix.Catalog.GetString ("10000 x 10000");
+			this.tableImageDimensions.Add (this.lbOriginal);
+			global::Gtk.Table.TableChild w40 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbOriginal]));
+			w40.LeftAttach = ((uint)(1));
+			w40.RightAttach = ((uint)(2));
+			w40.XOptions = ((global::Gtk.AttachOptions)(4));
+			w40.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child tableImageDimensions.Gtk.Table+TableChild
 			this.lbOriginalText = new global::Gtk.Label ();
 			this.lbOriginalText.Name = "lbOriginalText";
 			this.lbOriginalText.LabelProp = global::Mono.Unix.Catalog.GetString ("Original: ");
 			this.tableImageDimensions.Add (this.lbOriginalText);
-			global::Gtk.Table.TableChild w39 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbOriginalText]));
-			w39.XOptions = ((global::Gtk.AttachOptions)(4));
-			w39.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w41 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbOriginalText]));
+			w41.XOptions = ((global::Gtk.AttachOptions)(4));
+			w41.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.GtkAlignment.Add (this.tableImageDimensions);
 			this.frameImageDimensions.Add (this.GtkAlignment);
 			this.lbFrameImageDimensions = new global::Gtk.Label ();
@@ -587,10 +611,10 @@ namespace Troonie
 			this.lbFrameImageDimensions.UseMarkup = true;
 			this.frameImageDimensions.LabelWidget = this.lbFrameImageDimensions;
 			this.vbox1.Add (this.frameImageDimensions);
-			global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameImageDimensions]));
-			w42.Position = 3;
-			w42.Expand = false;
-			w42.Fill = false;
+			global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameImageDimensions]));
+			w44.Position = 3;
+			w44.Expand = false;
+			w44.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frameCursorPos = new global::Gtk.Frame ();
 			this.frameCursorPos.Name = "frameCursorPos";
@@ -610,10 +634,10 @@ namespace Troonie
 			this.lbFrameCursorPos.UseMarkup = true;
 			this.frameCursorPos.LabelWidget = this.lbFrameCursorPos;
 			this.vbox1.Add (this.frameCursorPos);
-			global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
-			w45.Position = 4;
-			w45.Expand = false;
-			w45.Fill = false;
+			global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frameCursorPos]));
+			w47.Position = 4;
+			w47.Expand = false;
+			w47.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.btnOk = new global::Troonie.TroonieButton ();
 			this.btnOk.Name = "btnOk";
@@ -623,22 +647,22 @@ namespace Troonie
 			this.btnOk.ButtonWidth = 0;
 			this.btnOk.Font = "Arial";
 			this.btnOk.Text = "OK";
-			this.btnOk.TextSize = 14;
+			this.btnOk.TextSize = 14D;
 			this.vbox1.Add (this.btnOk);
-			global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
-			w46.Position = 5;
-			w46.Expand = false;
-			w46.Fill = false;
-			w46.Padding = ((uint)(3));
-			this.hbox1.Add (this.vbox1);
-			global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
-			w47.Position = 1;
-			w47.Padding = ((uint)(5));
-			this.vboxA.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
-			w48.Position = 1;
+			global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
+			w48.Position = 5;
 			w48.Expand = false;
 			w48.Fill = false;
+			w48.Padding = ((uint)(3));
+			this.hbox1.Add (this.vbox1);
+			global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox1]));
+			w49.Position = 1;
+			w49.Padding = ((uint)(5));
+			this.vboxA.Add (this.hbox1);
+			global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.vboxA [this.hbox1]));
+			w50.Position = 1;
+			w50.Expand = false;
+			w50.Fill = false;
 			this.Add (this.vboxA);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

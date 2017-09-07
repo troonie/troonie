@@ -146,7 +146,7 @@ namespace Troonie
 			this.imagepanel1 = new global::Troonie.ImagePanel ();
 			this.imagepanel1.Events = ((global::Gdk.EventMask)(260));
 			this.imagepanel1.Name = "imagepanel1";
-			this.imagepanel1.Angle = 0;
+			this.imagepanel1.Angle = 0D;
 			this.imagepanel1.ScaleCursorX = 0F;
 			this.imagepanel1.ScaleCursorY = 0F;
 			this.hbox1.Add (this.imagepanel1);
@@ -221,7 +221,7 @@ namespace Troonie
 			this.btnBottomMinus.ButtonWidth = 0;
 			this.btnBottomMinus.Font = "Arial";
 			this.btnBottomMinus.Text = "-";
-			this.btnBottomMinus.TextSize = 12;
+			this.btnBottomMinus.TextSize = 12D;
 			this.table1.Add (this.btnBottomMinus);
 			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnBottomMinus]));
 			w9.TopAttach = ((uint)(3));
@@ -238,7 +238,7 @@ namespace Troonie
 			this.btnBottomPlus.ButtonWidth = 0;
 			this.btnBottomPlus.Font = "Arial";
 			this.btnBottomPlus.Text = "+";
-			this.btnBottomPlus.TextSize = 12;
+			this.btnBottomPlus.TextSize = 12D;
 			this.table1.Add (this.btnBottomPlus);
 			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnBottomPlus]));
 			w10.TopAttach = ((uint)(3));
@@ -255,7 +255,7 @@ namespace Troonie
 			this.btnLeftMinus.ButtonWidth = 0;
 			this.btnLeftMinus.Font = "Arial";
 			this.btnLeftMinus.Text = "-";
-			this.btnLeftMinus.TextSize = 12;
+			this.btnLeftMinus.TextSize = 12D;
 			this.table1.Add (this.btnLeftMinus);
 			global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnLeftMinus]));
 			w11.LeftAttach = ((uint)(3));
@@ -270,7 +270,7 @@ namespace Troonie
 			this.btnLeftPlus.ButtonWidth = 0;
 			this.btnLeftPlus.Font = "Arial";
 			this.btnLeftPlus.Text = "+";
-			this.btnLeftPlus.TextSize = 12;
+			this.btnLeftPlus.TextSize = 12D;
 			this.table1.Add (this.btnLeftPlus);
 			global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnLeftPlus]));
 			w12.LeftAttach = ((uint)(1));
@@ -287,7 +287,7 @@ namespace Troonie
 			this.btnRightMinus.ButtonWidth = 0;
 			this.btnRightMinus.Font = "Arial";
 			this.btnRightMinus.Text = "-";
-			this.btnRightMinus.TextSize = 12;
+			this.btnRightMinus.TextSize = 12D;
 			this.table1.Add (this.btnRightMinus);
 			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnRightMinus]));
 			w13.TopAttach = ((uint)(1));
@@ -304,7 +304,7 @@ namespace Troonie
 			this.btnTopMinus.ButtonWidth = 0;
 			this.btnTopMinus.Font = "Arial";
 			this.btnTopMinus.Text = "-";
-			this.btnTopMinus.TextSize = 12;
+			this.btnTopMinus.TextSize = 12D;
 			this.table1.Add (this.btnTopMinus);
 			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnTopMinus]));
 			w14.TopAttach = ((uint)(2));
@@ -321,7 +321,7 @@ namespace Troonie
 			this.btnTopPlus.ButtonWidth = 0;
 			this.btnTopPlus.Font = "Arial";
 			this.btnTopPlus.Text = "+";
-			this.btnTopPlus.TextSize = 12;
+			this.btnTopPlus.TextSize = 12D;
 			this.table1.Add (this.btnTopPlus);
 			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnTopPlus]));
 			w15.TopAttach = ((uint)(2));
@@ -342,7 +342,7 @@ namespace Troonie
 			this.btnRightPlus.ButtonWidth = 0;
 			this.btnRightPlus.Font = "Arial";
 			this.btnRightPlus.Text = "+";
-			this.btnRightPlus.TextSize = 12;
+			this.btnRightPlus.TextSize = 12D;
 			this.ebBtnRightPlus.Add (this.btnRightPlus);
 			this.table1.Add (this.ebBtnRightPlus);
 			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table1 [this.ebBtnRightPlus]));
@@ -476,7 +476,7 @@ namespace Troonie
 			this.btnRotateMinus.ButtonWidth = 0;
 			this.btnRotateMinus.Font = "Arial";
 			this.btnRotateMinus.Text = "-";
-			this.btnRotateMinus.TextSize = 12;
+			this.btnRotateMinus.TextSize = 12D;
 			this.table2.Add (this.btnRotateMinus);
 			global::Gtk.Table.TableChild w29 = ((global::Gtk.Table.TableChild)(this.table2 [this.btnRotateMinus]));
 			w29.LeftAttach = ((uint)(3));
@@ -491,7 +491,7 @@ namespace Troonie
 			this.btnRotatePlus.ButtonWidth = 0;
 			this.btnRotatePlus.Font = "Arial";
 			this.btnRotatePlus.Text = "+";
-			this.btnRotatePlus.TextSize = 12;
+			this.btnRotatePlus.TextSize = 12D;
 			this.table2.Add (this.btnRotatePlus);
 			global::Gtk.Table.TableChild w30 = ((global::Gtk.Table.TableChild)(this.table2 [this.btnRotatePlus]));
 			w30.LeftAttach = ((uint)(1));
@@ -647,7 +647,7 @@ namespace Troonie
 			this.btnOk.ButtonWidth = 0;
 			this.btnOk.Font = "Arial";
 			this.btnOk.Text = "OK";
-			this.btnOk.TextSize = 14;
+			this.btnOk.TextSize = 14D;
 			this.vbox1.Add (this.btnOk);
 			global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
 			w48.Position = 5;

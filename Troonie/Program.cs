@@ -32,6 +32,13 @@ namespace Troonie
 
 				GetProgramIcon ();
 //				GetCjpegExecutable();
+
+				// testing HSL conversion
+//				double h,s,l;
+//				ColorRgbHsl.I.RGB2HSL(255, 255, 255, out h, out s,out l);
+//				byte r,g,b;
+//				ColorRgbHsl.I.HSL2RGB(h,s,l, out r, out g, out b);
+//				Console.WriteLine("rgb= " +r + " " + g + " " + b);
 			}
 			catch (Exception ex) {
 //				Console.WriteLine (ex.Message);
@@ -53,7 +60,7 @@ namespace Troonie
 			string filename = null;
 			// START VALUE
 //			args = new string[] { "-v"};
-//			args = new string[] { "-e", "/home/jazz/Schreibtisch/Tesimages/portrait.jpg"};
+			args = new string[] { "-e", "/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args, true);

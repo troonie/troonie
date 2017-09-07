@@ -77,6 +77,8 @@
     <Compile Include="MemoryReducer.cs" />
     <Compile Include="LeonSteg.cs" />
     <Compile Include="KeywordSerializer.cs" />
+    <Compile Include="filter\SimpleCartoonFilter.cs" />
+    <Compile Include="ColorRgbHsl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
