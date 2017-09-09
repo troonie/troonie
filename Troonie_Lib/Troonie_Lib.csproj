@@ -79,6 +79,9 @@
     <Compile Include="KeywordSerializer.cs" />
     <Compile Include="filter\SimpleCartoonFilter.cs" />
     <Compile Include="ColorRgbHsl.cs" />
+    <Compile Include="structs\Float3.cs" />
+    <Compile Include="structs\Int3.cs" />
+    <Compile Include="filter\SobelEdgeDetectorFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -88,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="filter\" />
+    <Folder Include="structs\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

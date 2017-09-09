@@ -124,6 +124,9 @@ namespace Troonie
 			case 10:
 				fw = new FilterWidget (FileName, new SimpleCartoonFilter());
 				break;
+			case 11:
+				fw = new FilterWidget (FileName, new SobelEdgeDetectorFilter());
+				break;
 			}
 //			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 			fw.FilterEvent += FilterEvent;

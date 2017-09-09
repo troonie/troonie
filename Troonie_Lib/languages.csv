@@ -269,3 +269,6 @@ Simple Cartoon;Simple Cartoon
 Ranges of hue;Farbtonbereiche
 Ranges of saturation;Sättigungsbereiche
 Ranges of lightness;Helligkeitsbereiche
+Sobel edge detector;Sobel-Kantendetektor
+Black-White;Schwarz-Weiss
+Threshold;Schwellwert

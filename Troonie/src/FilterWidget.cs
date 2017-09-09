@@ -319,6 +319,32 @@ namespace Troonie
 			hscale3.Digits = 0;
 		}
 
+		public FilterWidget (string pFilename, SobelEdgeDetectorFilter sobel) : this (pFilename)
+		{
+			abstractFilter = sobel;
+			Title = Language.I.L [272];
+			frameHScales.Visible = true;
+
+			// Draw black white, not grayscale. Default: false
+			frameComboboxes.Visible = true;
+			frame_combobox1.Visible = true;
+			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[273] + "</b>";
+			combobox1.AppendText(Language.I.L[117]);
+			combobox1.AppendText(Language.I.L[116]);
+			combobox1.Active = sobel.BlackWhite ? 1 : 0;
+
+			// Sobel threshold
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[274] + "</b>";
+			hscale1.Value = sobel.Threshold;
+			hscale1.Adjustment.Lower = 0;
+			hscale1.Adjustment.Upper = 255;
+			hscale1.Adjustment.StepIncrement = 1;
+			hscale1.Adjustment.PageIncrement = 5;
+			hscale1.Digits = 0;
+		}
+
+
 		#endregion Constructors
 
 		public override void Destroy ()
