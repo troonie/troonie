@@ -51,7 +51,7 @@ namespace Troonie
 				fw = new FilterWidget (FileName, new ExtractOrRotateChannelsFilter());
 				break;
 			case 4:
-				fw = new FilterWidget (FileName, new GaussianBlurFilter());
+				fw = new FilterWidget (FileName, new GaussianBlurFilter(), false);
 				break;
 			case 5:
 				fw = new FilterWidget (FileName, new CannyEdgeDetectorFilter());
@@ -126,6 +126,9 @@ namespace Troonie
 				break;
 			case 11:
 				fw = new FilterWidget (FileName, new SobelEdgeDetectorFilter());
+				break;
+			case 12:
+				fw = new FilterWidget (FileName, new GaussianBlurFilter (), true);
 				break;
 			}
 //			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);

@@ -6,7 +6,8 @@ namespace Troonie_Lib
 {
 	/// <summary>
 	/// Gaussian blur filter with a <see cref="Size"/>x<see cref="Size"/> 
-	/// filter kernel.
+	/// filter kernel OR Image sharpness filter by using unsharp masking (USM).
+	/// Further information: http://en.wikipedia.org/wiki/Unsharp_masking..
 	/// </summary>
 	/// <remarks>
 	/// <para>Filter implements the Gaussian operator with flexibel kernel 
@@ -20,6 +21,16 @@ namespace Troonie_Lib
 	/// </remarks>    
 	public class GaussianBlurFilter : AbstractFilter
 	{
+		/// <summary>
+		/// Determines the usage of Image sharpness filter by using unsharp masking (USM)
+		/// instead the usage of Gaussian blur filter.
+		/// </summary>	
+		public bool UnsharpMasking { get; set; }
+		/// <summary>
+		/// Intensity of sharpness, [0.2, 4.0] (means 20% - 400%).
+		/// </summary>
+		public double Weight { get; set; }
+
 		/// <summary>
 		/// Gaussian sigma value, [0.1, 7.0].
 		/// </summary>
@@ -52,6 +63,7 @@ namespace Troonie_Lib
 			SupportedDstPixelFormat = PixelFormatFlags.SameLikeSource;
 			Sigma = 1.4;
 			Size = 7;
+			Weight = 1.0; // 100%
 		}
 
 		#region protected methods
@@ -60,6 +72,7 @@ namespace Troonie_Lib
 		{
 			Sigma = filterProperties [3];
 			Size = (int)filterProperties [4];
+			Weight = filterProperties [5];
 		}
 
 		/// <summary>
@@ -147,7 +160,7 @@ namespace Troonie_Lib
 						}
 					}
 
-					// Note: Avoids zreo-dividing, eventhrough it should not happened...
+					// Note: Avoids zero-dividing, eventhrough it should not happened...
 					if (divisor == 0)
 						divisor = 1;
 
@@ -155,6 +168,18 @@ namespace Troonie_Lib
 					valueG /= divisor;
 					valueB /= divisor;
 					valueA /= divisor;
+
+					if (UnsharpMasking) {
+						double rSharped = src[RGBA.R] + Weight * (src[RGBA.R] - valueR);
+						double gSharped = src[RGBA.G] + Weight * (src[RGBA.G] - valueG);
+						double bSharped = src[RGBA.B] + Weight * (src[RGBA.B] - valueB);
+
+						// check max and min values
+						valueR = (byte)Math.Max(0, Math.Min(rSharped + 0.5f, 255));
+						valueG = (byte)Math.Max(0, Math.Min(gSharped + 0.5f, 255));
+						valueB = (byte)Math.Max(0, Math.Min(bSharped + 0.5f, 255));
+					}
+
 
 					// 8 bit grayscale
 					dst[RGBA.B] = (byte)(valueB);

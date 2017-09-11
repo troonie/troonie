@@ -272,3 +272,5 @@ Ranges of lightness;Helligkeitsbereiche
 Sobel edge detector;Sobel-Kantendetektor
 Black-White;Schwarz-Weiss
 Threshold;Schwellwert
+Unsharp Masking (USM);Unscharfmaskierung / Selektive Schärfe
+Weight;Gewichtung

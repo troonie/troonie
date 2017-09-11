@@ -76,7 +76,8 @@ namespace Troonie_Lib
 		protected internal override unsafe void Process(
 			BitmapData srcData, BitmapData dstData)
         {
-            const int srcPS = 3;
+            int srcPS = System.Drawing.Image.GetPixelFormatSize(srcData.PixelFormat) / 8;
+			float maxChannel;
             int w = srcData.Width;
             int h = srcData.Height;
             int srcStride = srcData.Stride;
@@ -101,37 +102,53 @@ namespace Troonie_Lib
                     //  2  0 -2      0  0  0        p10  x  p12
                     //  1  0 -1     -1 -2 -1        p00 p01 p02
 
-                    Int3 p20 =  new Int3(src[-srcStride - srcPS + RGBA.R], 
-                                            src[-srcStride - srcPS + RGBA.G], 
-                                            src[-srcStride - srcPS + RGBA.B]);
-                    Int3 p21 =  new Int3(src[-srcStride + RGBA.R], 
-                                            src[-srcStride + RGBA.G], 
-                                            src[-srcStride + RGBA.B]);
-                    Int3 p22 =  new Int3(src[-srcStride + srcPS + RGBA.R], 
-                                            src[-srcStride + srcPS + RGBA.G], 
-                                            src[-srcStride + srcPS + RGBA.B]);
-                    Int3 p10 =  new Int3(src[- srcPS + RGBA.R], 
-                                            src[- srcPS + RGBA.G], 
-                                            src[- srcPS + RGBA.B]);
-                    Int3 p12 =  new Int3(src[+ srcPS + RGBA.R], 
-                                            src[+ srcPS + RGBA.G], 
-                                            src[+ srcPS + RGBA.B]);
-                    Int3 p00 =  new Int3(src[srcStride - srcPS + RGBA.R], 
-                                            src[srcStride - srcPS + RGBA.G], 
-                                            src[srcStride - srcPS + RGBA.B]);
-                    Int3 p01 =  new Int3(src[srcStride + RGBA.R], 
-                                            src[srcStride + RGBA.G], 
-                                            src[srcStride + RGBA.B]);
-                    Int3 p02 =  new Int3(src[srcStride + srcPS + RGBA.R], 
-                                            src[srcStride + srcPS + RGBA.G], 
-                                            src[srcStride + srcPS + RGBA.B]);
+					if (srcPS == 1 /*8 bpp*/) {
+						int p20 = src [-srcStride - srcPS];
+						int p21 = src [-srcStride];
+						int p22 = src [-srcStride + srcPS];
+						int p10 = src [-srcPS];
+						int p12 = src [+srcPS];
+						int p00 = src [srcStride - srcPS];
+						int p01 = src [srcStride];
+						int p02 = src [srcStride + srcPS];
 
-                    Int3 sobelX = p00 + 2 * p10 + p20 - p02 - 2 * p12 - p22;
-                    Int3 sobelY = p20 + 2 * p21 + p22 - p00 - 2 * p01 - p02;
-                    Float3 edgeSqr = Float3.Sqrt(
-                                        sobelX * sobelX + sobelY * sobelY);
-                    float maxChannel = Math.Max(Math.Max(
-                                        edgeSqr.X, edgeSqr.Y), edgeSqr.Z);
+						int sobelX = p00 + 2 * p10 + p20 - p02 - 2 * p12 - p22;
+						int sobelY = p20 + 2 * p21 + p22 - p00 - 2 * p01 - p02;
+						maxChannel = (float)Math.Sqrt (
+							sobelX * sobelX + sobelY * sobelY);						
+
+					} else {
+						
+						Int3 p20 = new Int3 (src [-srcStride - srcPS + RGBA.R], 
+							                         src [-srcStride - srcPS + RGBA.G], 
+							                         src [-srcStride - srcPS + RGBA.B]);
+						Int3 p21 = new Int3 (src [-srcStride + RGBA.R], 
+							                         src [-srcStride + RGBA.G], 
+							                         src [-srcStride + RGBA.B]);
+						Int3 p22 = new Int3 (src [-srcStride + srcPS + RGBA.R], 
+							                         src [-srcStride + srcPS + RGBA.G], 
+							                         src [-srcStride + srcPS + RGBA.B]);
+						Int3 p10 = new Int3 (src [-srcPS + RGBA.R], 
+							                         src [-srcPS + RGBA.G], 
+							                         src [-srcPS + RGBA.B]);
+						Int3 p12 = new Int3 (src [+srcPS + RGBA.R], 
+							                         src [+srcPS + RGBA.G], 
+							                         src [+srcPS + RGBA.B]);
+						Int3 p00 = new Int3 (src [srcStride - srcPS + RGBA.R], 
+							                         src [srcStride - srcPS + RGBA.G], 
+							                         src [srcStride - srcPS + RGBA.B]);
+						Int3 p01 = new Int3 (src [srcStride + RGBA.R], 
+							                         src [srcStride + RGBA.G], 
+							                         src [srcStride + RGBA.B]);
+						Int3 p02 = new Int3 (src [srcStride + srcPS + RGBA.R], 
+							                         src [srcStride + srcPS + RGBA.G], 
+							                         src [srcStride + srcPS + RGBA.B]);
+
+						Int3 sobelX = p00 + 2 * p10 + p20 - p02 - 2 * p12 - p22;
+						Int3 sobelY = p20 + 2 * p21 + p22 - p00 - 2 * p01 - p02;
+						Float3 edgeSqr = Float3.Sqrt (sobelX * sobelX + sobelY * sobelY);
+						maxChannel = Math.Max (Math.Max (edgeSqr.X, edgeSqr.Y), edgeSqr.Z);
+					}
                     *dst = (byte)(maxChannel + 0.5);
                     if (maxChannel < Threshold)
                     {

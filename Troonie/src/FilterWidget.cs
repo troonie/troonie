@@ -122,13 +122,28 @@ namespace Troonie
 			combobox1.Active = (int)extractOrRotateChannels.Order;
 		}
 
-		public FilterWidget (string pFilename, GaussianBlurFilter gaussianBlur) : this (pFilename)
-		{
+		public FilterWidget (string pFilename, GaussianBlurFilter gaussianBlur, bool unsharpMasking) : this (pFilename)
+		{			
 			abstractFilter = gaussianBlur;
 
 			Title = Language.I.L [104];
 			SetGaussianBlurProperties (gaussianBlur.Sigma, gaussianBlur.Size);
-		}
+
+			if (unsharpMasking) {
+				gaussianBlur.UnsharpMasking = unsharpMasking;
+				Title = Language.I.L [275];
+
+				// Intensity of sharpness, [0.2, 4.0] (means 20% - 400%).
+				frame_hscale3.Visible = true;
+				lbFrame_hscale3.LabelProp = "<b>" + Language.I.L[276] + "</b>";
+				hscale3.Value = gaussianBlur.Weight;
+				hscale3.Adjustment.Lower = 0.2;
+				hscale3.Adjustment.Upper = 4.0;
+				hscale3.Adjustment.StepIncrement = 0.01;
+				hscale3.Adjustment.PageIncrement = 0.2;
+				hscale3.Digits = 2;
+			}
+		}			
 
 		private void SetGaussianBlurProperties(double sigma, int size)
 		{
