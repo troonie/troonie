@@ -82,6 +82,7 @@
     <Compile Include="structs\Float3.cs" />
     <Compile Include="structs\Int3.cs" />
     <Compile Include="filter\SobelEdgeDetectorFilter.cs" />
+    <Compile Include="filter\SobelEdgeMarkerFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

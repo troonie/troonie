@@ -274,3 +274,7 @@ Black-White;Schwarz-Weiss
 Threshold;Schwellwert
 Unsharp Masking (USM);Unscharfmaskierung / Selektive Schärfe
 Weight;Gewichtung
+Sobel edge marker;Sobel-Kanten-Einzeichner
+Color of Edges;Kantenfarbe
+Black;Schwarz
+White;Weiß

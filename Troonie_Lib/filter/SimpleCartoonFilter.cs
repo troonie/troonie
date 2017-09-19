@@ -37,14 +37,17 @@ namespace Troonie_Lib
         protected internal override unsafe void Process(
             BitmapData srcData, BitmapData dstData)
         {
+			SobelEdgeMarkerFilter sobel = new SobelEdgeMarkerFilter ();
+			sobel.Process (srcData, dstData);
+
 //			double rangeSize = 255.0 / HueRange;
 
-			int ps = Image.GetPixelFormatSize(srcData.PixelFormat) / 8;
-            int w = srcData.Width;
-            int h = srcData.Height;
-            int offset = srcData.Stride - w * ps;
+			int ps = Image.GetPixelFormatSize(dstData.PixelFormat) / 8;
+			int w = dstData.Width;
+			int h = dstData.Height;
+			int offset = dstData.Stride - w * ps;
 
-            byte* src = (byte*)srcData.Scan0.ToPointer();
+			byte* src = (byte*)dstData.Scan0.ToPointer();
             byte* dst = (byte*)dstData.Scan0.ToPointer();
 
             // for each line
@@ -59,7 +62,11 @@ namespace Troonie_Lib
 						r = src [RGBA.B]; 
 						g = src [RGBA.B];
 						b = src [RGBA.B];
-						CalcCartoonColor (ref r, ref g, ref b);
+						// when black, break it here
+						if (r == 0) {
+							continue;
+						}
+						CalcCartoonColorOnlyHue (ref r, ref g, ref b);
 						int avg = (r + g + b) / 3;
 						dst [RGBA.B] = (byte) avg;
 					}
@@ -69,7 +76,13 @@ namespace Troonie_Lib
 						r = src [RGBA.R]; 
 						g = src [RGBA.G];
 						b = src [RGBA.B];
-						CalcCartoonColor (ref r, ref g, ref b);
+
+						// when black, break it here
+						if (r == 0 && g == 0 && b == 0) {
+							continue;
+						}
+							
+						CalcCartoonColorOnlyHue (ref r, ref g, ref b);
 						dst [RGBA.R] = r;
 						dst [RGBA.G] = g;
 						dst [RGBA.B] = b;
@@ -87,6 +100,7 @@ namespace Troonie_Lib
 
         #endregion protected methods  
 
+		[Obsolete]
 		private void CalcCartoonColor(ref byte r, ref byte g, ref byte b)
 		{
 			double d_h,d_s,d_l;
@@ -100,6 +114,27 @@ namespace Troonie_Lib
 			i_l = i_l + LightnessRange - i_l % LightnessRange;
 
 			d_h = i_h / 360.0;
+			d_s = i_s / 100.0;
+			d_l = i_l / 100.0;
+			ColorRgbHsl.I.HSL2RGB (d_h, d_s, d_l, out r, out g, out b);
+		}
+
+		private void CalcCartoonColorOnlyHue(ref byte r, ref byte g, ref byte b)
+		{
+			const int Modulo_S_L = 25;
+			double d_h,d_s,d_l;
+			ColorRgbHsl.I.RGB2HSL(r, g, b, out d_h, out d_s, out d_l);
+
+//			int i_h = (int)Math.Round(d_h * 360);
+//			i_h = i_h + HueRange - i_h % HueRange;
+
+			int i_s = (int)Math.Round(d_s * 100);
+			i_s = i_s + Modulo_S_L - i_s % Modulo_S_L;
+
+			int i_l = (int)Math.Round(d_l * 100);
+			i_l = i_l + Modulo_S_L - i_l % Modulo_S_L;
+
+//			d_h = i_h / 360.0;
 			d_s = i_s / 100.0;
 			d_l = i_l / 100.0;
 			ColorRgbHsl.I.HSL2RGB (d_h, d_s, d_l, out r, out g, out b);

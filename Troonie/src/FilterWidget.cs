@@ -359,6 +359,31 @@ namespace Troonie
 			hscale1.Digits = 0;
 		}
 
+		public FilterWidget (string pFilename, SobelEdgeMarkerFilter sobel) : this (pFilename)
+		{
+			abstractFilter = sobel;
+			Title = Language.I.L [277];
+			frameHScales.Visible = true;
+
+			// Sktech edges in white instead black color. Default: false
+			frameComboboxes.Visible = true;
+			frame_combobox1.Visible = true;
+			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[278] + "</b>";
+			combobox1.AppendText(Language.I.L[279]);
+			combobox1.AppendText(Language.I.L[280]);
+			combobox1.Active = sobel.UseWhiteEdgeColor ? 1 : 0;
+
+			// Sobel threshold
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[274] + "</b>";
+			hscale1.Adjustment.Lower = 0;
+			hscale1.Adjustment.Upper = 255;
+			hscale1.Adjustment.StepIncrement = 1;
+			hscale1.Adjustment.PageIncrement = 5;
+			hscale1.Digits = 0;
+			hscale1.Value = sobel.Threshold;
+		}
+
 
 		#endregion Constructors
 

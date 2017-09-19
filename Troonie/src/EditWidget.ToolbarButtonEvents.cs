@@ -130,6 +130,9 @@ namespace Troonie
 			case 12:
 				fw = new FilterWidget (FileName, new GaussianBlurFilter (), true);
 				break;
+			case 13:
+				fw = new FilterWidget (FileName, new SobelEdgeMarkerFilter ());
+				break;
 			}
 //			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 			fw.FilterEvent += FilterEvent;
