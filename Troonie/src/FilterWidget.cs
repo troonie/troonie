@@ -19,11 +19,12 @@ namespace Troonie
 	public partial class FilterWidget : Gtk.Window
 	{
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
-		private bool repeatTimeout;
+		private bool repeatTimeout, keepFilterImageInRam;
+		private bool useSameImageSizeLikePreview;
 		private int imageW; 
 		private int imageH;
-		private string tempFilterImageFileName;
-		private Bitmap filterImage, workingImage;
+//		private string tempFilterImageFileName;
+		private Bitmap image, filterImage;
 		private GLib.TimeoutHandler timeoutHandler;
 		private double[] filterProperties;
 		private AbstractFilter abstractFilter;
@@ -125,8 +126,9 @@ namespace Troonie
 		public FilterWidget (string pFilename, GaussianBlurFilter gaussianBlur, bool unsharpMasking) : this (pFilename)
 		{			
 			abstractFilter = gaussianBlur;
-
 			Title = Language.I.L [104];
+			useSameImageSizeLikePreview = true;
+
 			SetGaussianBlurProperties (gaussianBlur.Sigma, gaussianBlur.Size);
 
 			if (unsharpMasking) {
@@ -171,8 +173,9 @@ namespace Troonie
 		public FilterWidget (string pFilename, CannyEdgeDetectorFilter cannyEdgeDetector) : this (pFilename)
 		{
 			abstractFilter = cannyEdgeDetector;
-
 			Title = Language.I.L [108];
+			useSameImageSizeLikePreview = true;
+
 			SetGaussianBlurProperties (cannyEdgeDetector.Sigma, cannyEdgeDetector.Size);
 
 			// LowThreshold. Default: 20
@@ -232,6 +235,7 @@ namespace Troonie
 		{
 			abstractFilter = oilPainting;
 			Title = Language.I.L [123];
+			useSameImageSizeLikePreview = true;
 			frameHScales.Visible = true;
 
 			// Brush size to search for most frequent pixels' intensity. [1, 10]. Default: 5
@@ -301,43 +305,47 @@ namespace Troonie
 		{
 			abstractFilter = cartoon;
 			Title = Language.I.L [268];
-			frameHScales.Visible = true;
+			useSameImageSizeLikePreview = true;
+			ProcessPreview ();
 
-			// hue range
-			frame_hscale1.Visible = true;
-			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[269] + "</b>";
-			hscale1.Value = cartoon.HueRange;
-			hscale1.Adjustment.Lower = 1;
-			hscale1.Adjustment.Upper = 360;
-			hscale1.Adjustment.StepIncrement = 1;
-			hscale1.Adjustment.PageIncrement = 5;
-			hscale1.Digits = 0;
-
-			// saturation range
-			frame_hscale2.Visible = true;
-			lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[270] + "</b>";
-			hscale2.Value = cartoon.SaturationRange;
-			hscale2.Adjustment.Lower = 1;
-			hscale2.Adjustment.Upper = 100;
-			hscale2.Adjustment.StepIncrement = 1;
-			hscale2.Adjustment.PageIncrement = 5;
-			hscale2.Digits = 0;
-
-			// lightness range
-			frame_hscale3.Visible = true;
-			lbFrame_hscale3.LabelProp = "<b>" + Language.I.L[271] + "</b>";
-			hscale3.Value = cartoon.LightnessRange;
-			hscale3.Adjustment.Lower = 1;
-			hscale3.Adjustment.Upper = 100;
-			hscale3.Adjustment.StepIncrement = 1;
-			hscale3.Adjustment.PageIncrement = 5;
-			hscale3.Digits = 0;
+//			frameHScales.Visible = true;
+////
+//			// hue range
+//			frame_hscale1.Visible = true;
+//			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[269] + "</b>";
+//			hscale1.Value = cartoon.HueRange;
+//			hscale1.Adjustment.Lower = 1;
+//			hscale1.Adjustment.Upper = 360;
+//			hscale1.Adjustment.StepIncrement = 1;
+//			hscale1.Adjustment.PageIncrement = 5;
+//			hscale1.Digits = 0;
+//
+//			// saturation range
+//			frame_hscale2.Visible = true;
+//			lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[270] + "</b>";
+//			hscale2.Value = cartoon.SaturationRange;
+//			hscale2.Adjustment.Lower = 1;
+//			hscale2.Adjustment.Upper = 100;
+//			hscale2.Adjustment.StepIncrement = 1;
+//			hscale2.Adjustment.PageIncrement = 5;
+//			hscale2.Digits = 0;
+//
+//			// lightness range
+//			frame_hscale3.Visible = true;
+//			lbFrame_hscale3.LabelProp = "<b>" + Language.I.L[271] + "</b>";
+//			hscale3.Value = cartoon.LightnessRange;
+//			hscale3.Adjustment.Lower = 1;
+//			hscale3.Adjustment.Upper = 100;
+//			hscale3.Adjustment.StepIncrement = 1;
+//			hscale3.Adjustment.PageIncrement = 5;
+//			hscale3.Digits = 0;
 		}
 
 		public FilterWidget (string pFilename, SobelEdgeDetectorFilter sobel) : this (pFilename)
 		{
 			abstractFilter = sobel;
 			Title = Language.I.L [272];
+			useSameImageSizeLikePreview = true;
 			frameHScales.Visible = true;
 
 			// Draw black white, not grayscale. Default: false
@@ -363,6 +371,7 @@ namespace Troonie
 		{
 			abstractFilter = sobel;
 			Title = Language.I.L [277];
+			useSameImageSizeLikePreview = true;
 			frameHScales.Visible = true;
 
 			// Sktech edges in white instead black color. Default: false
@@ -389,18 +398,12 @@ namespace Troonie
 
 		public override void Destroy ()
 		{
-			// Do not dispose it here! It will be given to EditWidget by 
-			// FilterEventhandler, see FireFilterEvent(..)-method
-//			if (filterImage != null) {
-//				filterImage.Dispose ();
-//			}
-
-			if (tempFilterImageFileName != null) {
-				File.Delete (tempFilterImageFileName);
+			if (image != null) {
+				image.Dispose ();
 			}
 
-			if (workingImage != null) {
-				workingImage.Dispose ();
+			if (!keepFilterImageInRam && filterImage != null) {
+				filterImage.Dispose ();
 			}
 
 			base.Destroy ();
@@ -408,10 +411,18 @@ namespace Troonie
 
 		private void ProcessPreview()
 		{
-			Bitmap tempImage;
+			Bitmap b;
 			try {
-				tempImage = abstractFilter.Apply (workingImage, filterProperties);
-				// filterImage = abstractFilter.Apply (filterImage, filterProperties);
+				filterImage = abstractFilter.Apply (image, filterProperties);
+				ImageConverter.ScaleAndCut (
+					filterImage, 
+					out b, 
+					0,
+					0,
+					simpleimagepanel1.WidthRequest,
+					simpleimagepanel1.HeightRequest,
+					ConvertMode.StretchForge,
+					false);
 			}
 			catch(ArgumentException) {
 				OkCancelDialog pseudo = new OkCancelDialog (true);
@@ -424,28 +435,59 @@ namespace Troonie
 				this.DestroyAll ();
 				return;
 			}
-			tempImage.Save(tempFilterImageFileName, ImageFormat.Png);
-			tempImage.Dispose ();
+
+			b.Save(simpleimagepanel1.MemoryStream, ImageFormat.Png);
+			b.Dispose ();
 			simpleimagepanel1.Initialize();
+		}
+
+		private void ProcessFilter()
+		{
+			Bitmap b;
+			if (useSameImageSizeLikePreview) {
+				//				b = abstractFilter.Apply (image, filterProperties);
+				PixelFormat pf = filterImage.PixelFormat;
+
+				if (filterImage.Width != imageW || filterImage.Height != imageH) {
+
+					ImageConverter.ScaleAndCut (
+						filterImage, 
+						out b, 
+						0,
+						0,
+						imageW,
+						imageH,
+						ConvertMode.StretchForge,
+						true);
+
+					if (pf == PixelFormat.Format8bppIndexed) {
+						b = ImageConverter.To8Bpp (b);
+					}
+				} else {
+					b = filterImage;
+					keepFilterImageInRam = true;
+				}
+			} else {
+				b = abstractFilter.Apply (TroonieBitmap.FromFile (FileName), filterProperties);
+			}
+			FireFilterEvent (b);
+			this.DestroyAll ();
 		}
 
 		private void Initialize()
 		{
 			Title = FileName;
-//			filterImage = TroonieBitmap.FromFile (FileName); // new Bitmap(FileName); 
-			filterImage = TroonieBitmap.FromFile (FileName);
-			imageW = filterImage.Width;
-			imageH = filterImage.Height;
+			Bitmap b = TroonieBitmap.FromFile (FileName);
+			imageW = b.Width;
+			imageH = b.Height;
 			int w, h;
 			// get full size, also all gui elements are not visible
 			this.vboxA.GdkWindow.GetSize(out w, out h);
 			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 400, 300, imageW, imageH, w, h);	
 
-			tempFilterImageFileName = Constants.I.EXEPATH + "tempFilterImageFileName.png";
-
 			ImageConverter.ScaleAndCut (
-				filterImage, 
-				out workingImage, 
+				b, 
+				out image, 
 				0,
 				0,
 				simpleimagepanel1.WidthRequest,
@@ -453,15 +495,33 @@ namespace Troonie
 				ConvertMode.StretchForge,
 				false);
 
-			if (filterImage.PixelFormat == PixelFormat.Format8bppIndexed) {
-				workingImage = ImageConverter.To8Bpp (workingImage);
-			}
-
-			workingImage.Save(tempFilterImageFileName, ImageFormat.Png);
-
-			simpleimagepanel1.SurfaceFileName = tempFilterImageFileName;
+			image.Save(simpleimagepanel1.MemoryStream, ImageFormat.Png);
 			simpleimagepanel1.Initialize();
 
+			if (imageW > Constants.I.CONFIG.MaxImageLengthForFiltering || 
+				imageH > Constants.I.CONFIG.MaxImageLengthForFiltering) {
+				float div = Math.Max (imageW, imageH) / (float)Constants.I.CONFIG.MaxImageLengthForFiltering;
+				int sw = (int)Math.Round (imageW / div);
+				int sh = (int)Math.Round (imageH / div);
+
+				ImageConverter.ScaleAndCut (
+					b, 
+					out image, 
+					0,
+					0,
+					sw,
+					sh,
+					ConvertMode.StretchForge,
+					true);
+
+				if (b.PixelFormat == PixelFormat.Format8bppIndexed) {
+					image = ImageConverter.To8Bpp (image);
+				}
+			} else {
+				image = TroonieBitmap.FromFile (FileName);
+			}
+
+			b.Dispose ();
 			// do not use, otherwise all invisible widgets becomes visible
 //			ShowAll();
 		}		
@@ -520,24 +580,24 @@ namespace Troonie
 
 		protected void OnBtnOkButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
-			const int maxRes = 1100 * 1100;
-
-			if (filterImage.Width * filterImage.Height > maxRes && 
-			    (abstractFilter is OilPaintingFilter ||
-			 	 abstractFilter is CannyEdgeDetectorFilter ||
-			     abstractFilter is GaussianBlurFilter) ) {
-				OkCancelDialog warn = new OkCancelDialog (false);
-				warn.Title = Language.I.L [29];
-				warn.Label1 = Language.I.L [31];
-				warn.Label2 = Language.I.L [33];
-				warn.OkButtontext = Language.I.L [16];
-				warn.CancelButtontext = Language.I.L [17];	
-				warn.Show ();
-
-				warn.OnReleasedOkButton += ProcessFilter;
-			} else {
+//			const int maxRes = 1100 * 1100;
+//
+//			if (filterImage.Width * filterImage.Height > maxRes && 
+//			    (abstractFilter is OilPaintingFilter ||
+//			 	 abstractFilter is CannyEdgeDetectorFilter ||
+//			     abstractFilter is GaussianBlurFilter) ) {
+//				OkCancelDialog warn = new OkCancelDialog (false);
+//				warn.Title = Language.I.L [29];
+//				warn.Label1 = Language.I.L [31];
+//				warn.Label2 = Language.I.L [33];
+//				warn.OkButtontext = Language.I.L [16];
+//				warn.CancelButtontext = Language.I.L [17];	
+//				warn.Show ();
+//
+//				warn.OnReleasedOkButton += ProcessFilter;
+//			} else {
 				ProcessFilter ();
-			}
+//			}
 		}
 
 		protected void OnBtnCancelButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
@@ -569,14 +629,7 @@ namespace Troonie
 
 			repeatTimeout = true;
 			GLib.Timeout.Add(0, timeoutHandler);
-		}
-
-		private void ProcessFilter()
-		{
-			filterImage = abstractFilter.Apply (filterImage, filterProperties);
-			FireFilterEvent (filterImage);
-			this.DestroyAll ();
-		}
+		}			
 	}
 }
 

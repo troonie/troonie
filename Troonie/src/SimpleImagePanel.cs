@@ -2,6 +2,7 @@ using System;
 using Gtk;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace Troonie
 {
@@ -13,8 +14,8 @@ namespace Troonie
 	{	
 		private Fixed fixed1;
 		private DrawingArea drawingAreaImage;
-
-		private Cairo.ImageSurface surface;
+		private MemoryStream ms;
+		private Gdk.Pixbuf pix;
 
 		/// <summary> Shortcut for <see cref="ImagePanel.WidthRequest"/>.</summary>
 		public int W { get { return this.WidthRequest; } }
@@ -31,7 +32,19 @@ namespace Troonie
 		/// to get correct image pixel coordinate.
 		/// </summary>
 		public float ScaleCursorY { get; set; }
-		public string SurfaceFileName { get; set; }
+
+		public MemoryStream MemoryStream 
+		{ 
+			get 
+			{
+				if (ms != null) {
+					ms.Dispose ();
+				}
+				ms = new MemoryStream ();
+				return ms; 
+			} 
+		}
+
 		/// <summary>Handles the event at the client.</summary>
 		public OnCursorPosChangedSimpleImagePanelEventHandler OnCursorPosChanged;
 
@@ -67,21 +80,23 @@ namespace Troonie
 
 		public override void Destroy ()
 		{
-			if (surface != null) {
-				surface.Dispose ();
-				surface = null;
+			if (pix != null) {
+				pix.Dispose ();
+				pix = null;
 			}
-//			drawingAreaImage.Destroy();
+
+			if (ms != null) {
+				ms.Dispose ();
+				ms = null;
+			}				
 			base.Destroy ();
 		}
 
 		public void Initialize()
 		{
-			if (surface != null) {
-				surface.Dispose ();
-				surface = null;
-			}
-			surface = new Cairo.ImageSurface (SurfaceFileName);
+			ms.Position = 0;
+			pix = new Gdk.Pixbuf(ms);
+
 			drawingAreaImage.WidthRequest = W;
 			drawingAreaImage.HeightRequest = H;
 
@@ -102,7 +117,8 @@ namespace Troonie
 //			cr.Rotate (-Angle*Math.PI/180);
 //			cr.Scale (ScaleForRotation, ScaleForRotation);
 //			cr.Translate(-W / 2.0, -H / 2.0);
-			cr.SetSourceSurface(surface, 0, 0);
+//			cr.SetSourceSurface(surface, 0, 0);
+			Gdk.CairoHelper.SetSourcePixbuf (cr, pix, 0, 0);
 			cr.Paint();
 //			cr.Restore();
 

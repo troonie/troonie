@@ -110,7 +110,7 @@ namespace Troonie_Lib
 						maxChannel = (float)Math.Sqrt (
 							sobelX * sobelX + sobelY * sobelY);	
 
-						*dst = (byte)(maxChannel + 0.5);
+//						*dst = (byte)(maxChannel + 0.5);
 						if (maxChannel >= Threshold) {
 							*dst = (byte)(UseWhiteEdgeColor ? 255 : 0);
 						}

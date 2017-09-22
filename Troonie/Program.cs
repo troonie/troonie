@@ -61,6 +61,7 @@ namespace Troonie
 			// START VALUE
 //			args = new string[] { "-v"};
 //			args = new string[] { "-e", "/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"};
+//			args = new string[] { "-s", "/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"};
 
 			if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args, true);

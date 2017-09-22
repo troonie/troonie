@@ -23,7 +23,7 @@ namespace Troonie
 		private bool leftControlPressed;
 		private int imageW; 
 		private int imageH;
-		private string tempScaledImageFileName;
+//		private string tempScaledImageFileName;
 
 		public string FileName { get; set; }
 		public BitmapWithTag bt;
@@ -175,9 +175,9 @@ namespace Troonie
 
 			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 500, 600, imageW, imageH, 1280, 650);
 
-			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
-
-			simpleimagepanel1.SurfaceFileName = tempScaledImageFileName;
+//			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
+//
+//			simpleimagepanel1.SurfaceFileName = tempScaledImageFileName;
 
 			if (newFileName) 
 			{
@@ -196,7 +196,8 @@ namespace Troonie
 					false);
 
 				pic.Dispose ();
-				croppedPic.Save(tempScaledImageFileName, ImageFormat.Png);
+//				croppedPic.Save(tempScaledImageFileName, ImageFormat.Png);
+				croppedPic.Save(simpleimagepanel1.MemoryStream, ImageFormat.Png);
 				croppedPic.Dispose();
 
 			} 
@@ -214,7 +215,8 @@ namespace Troonie
 					ConvertMode.StretchForge,
 					false);
 
-				b2.Save (tempScaledImageFileName, ImageFormat.Png);
+//				b2.Save (tempScaledImageFileName, ImageFormat.Png);
+				b2.Save(simpleimagepanel1.MemoryStream, ImageFormat.Png);
 				b2.Dispose ();
 			}
 
@@ -490,7 +492,7 @@ namespace Troonie
 			this.DestroyAll ();
 
 			try {
-				File.Delete (tempScaledImageFileName);
+//				File.Delete (tempScaledImageFileName);
 				File.Delete (Constants.I.EXEPATH + Constants.BLACKFILENAME);
 			}
 			catch (Exception) {				

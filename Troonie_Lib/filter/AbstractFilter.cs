@@ -9,7 +9,8 @@ namespace Troonie_Lib
 		private string errorMsg = "No supported source pixel format.";
 		private PixelFormatFlags supportedSrcPixelFormat;
 		private PixelFormatFlags supportedDstPixelFormat;
-		private PixelFormat dstPixelFormat;
+
+		protected PixelFormat dstPixelFormat;
 
 		/// <summary>
 		/// If <c>true</c> alpha channel of filtered image is always 255 (only in ARGB 32 bit images). 
@@ -180,7 +181,31 @@ namespace Troonie_Lib
 		/// </summary>
 		/// <param name="source">The source image to process.</param>
 		/// <returns>The filter result as a new bitmap.</returns>
-		public Bitmap Apply(Bitmap source, double[] filterproperties)
+		public virtual Bitmap Apply(Bitmap source)
+		{
+			CheckPixelFormat(source.PixelFormat);
+			Bitmap destination = new Bitmap(source.Width, source.Height, dstPixelFormat);
+			Rectangle rect = new Rectangle(0, 0, source.Width, source.Height);
+			BitmapData srcData = source.LockBits(rect, ImageLockMode.ReadWrite, source.PixelFormat);
+			BitmapData dstData = destination.LockBits(rect, ImageLockMode.ReadWrite, destination.PixelFormat);
+			Process(srcData, dstData);
+			destination.UnlockBits(dstData);
+			source.UnlockBits(srcData);
+
+			if (destination.PixelFormat == PixelFormat.Format8bppIndexed)
+			{
+				SetColorPalette(destination);
+			}
+
+			return destination;
+		}
+
+		/// <summary>
+		/// Applies the filter on the passed <paramref name="source"/> bitmap.
+		/// </summary>
+		/// <param name="source">The source image to process.</param>
+		/// <returns>The filter result as a new bitmap.</returns>
+		public virtual Bitmap Apply(Bitmap source, double[] filterproperties)
 		{
 			CheckPixelFormat(source.PixelFormat);
 			SetProperties (filterproperties);

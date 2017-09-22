@@ -24,7 +24,6 @@ namespace Troonie
 		private Constants constants = Constants.I;
 		float imageScaleFactor;
 		private int origImage01W, origImage01H, origImage02W, origImage02H;
-		private string tempStitchImageFileName;
 		private Bitmap workingImage;
 		/// <summary>The scaled image 01. </summary>
 		private Bitmap image01;
@@ -52,14 +51,12 @@ namespace Troonie
 		{
 			FileName01 = pFilename01;
 			FileName02 = pFilename02;
-			tempStitchImageFileName = Constants.I.EXEPATH + "PreStitchImageFileName.png";
 			KeepAbove = true;
 			Build ();
 			this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 			Title = FileName01 + " & " + FileName02;
 			SetGuiColors ();
 			SetLanguageToGui ();
-			simpleimagepanel1.SurfaceFileName = tempStitchImageFileName;
 			timeoutSw = new Stopwatch();
 
 			CalcWorkingImages ();
@@ -85,10 +82,6 @@ namespace Troonie
 
 		public override void Destroy ()
 		{
-			if (tempStitchImageFileName != null) {
-				File.Delete (tempStitchImageFileName);
-			}
-
 			if (workingImage != null) {
 				workingImage.Dispose ();
 			}
@@ -251,8 +244,8 @@ namespace Troonie
 				simpleimagepanel1.HeightRequest,
 				ConvertMode.StretchForge,
 				false);
-			workingImage.Save (tempStitchImageFileName, System.Drawing.Imaging.ImageFormat.Png);
-
+//			workingImage.Save (tempStitchImageFileName, System.Drawing.Imaging.ImageFormat.Png);
+			workingImage.Save(simpleimagepanel1.MemoryStream, ImageFormat.Png);
 			simpleimagepanel1.Initialize();
 
 			lbImageResolution.Text = ((int)(st.ResultBitmap.Width * imageScaleFactor + 0.5f)) + " x " +	
