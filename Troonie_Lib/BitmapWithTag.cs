@@ -17,11 +17,11 @@ namespace Troonie_Lib
 		public Bitmap Bitmap { get; private set; }
 		public string FileName { get; private set; }
 
-		public BitmapWithTag (string filename, bool exists)
+		public BitmapWithTag (string filename)
 		{
 			FileName = filename;
 
-			if (exists) {
+			if (filename != null) {
 				//				Bitmap = new Bitmap (filename);
 
 				Bitmap = TroonieBitmap.FromFile (FileName);
@@ -29,11 +29,12 @@ namespace Troonie_Lib
 				imageTag = ImageTagHelper.GetTag (filename);
 			} 
 			else {
+//				FileName = Constants.I.EXEPATH + Constants.BLACKFILENAME;
 				Bitmap = new Bitmap (180, 180, PixelFormat.Format32bppArgb);
-				Bitmap.Save(FileName, ImageFormat.Png);
-				Dispose ();
-
-				Bitmap = TroonieBitmap.FromFile (FileName);
+//				Bitmap.Save(FileName, ImageFormat.Png);
+//				Dispose ();
+//
+//				Bitmap = TroonieBitmap.FromFile (FileName);
 				OrigFormat = TroonieImageFormat.PNG32AlphaAsValue;
 				imageTag = new CombinedImageTag (TagTypes.Png);
 			}				

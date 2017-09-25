@@ -478,7 +478,7 @@ namespace Troonie
 				}
 
 				try {
-					bt = new BitmapWithTag (imageFile, true);
+					bt = new BitmapWithTag (imageFile);
 				}
 				catch (Exception) {
 					errors.Add (imageFile);

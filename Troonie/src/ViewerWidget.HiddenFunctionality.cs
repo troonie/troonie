@@ -311,7 +311,7 @@ namespace Troonie
 
 		public static void ReduceImageSize(string filename, string fullfilename, ref string creatorText, int biggestLength, byte jpgQuality)
 		{
-			BitmapWithTag bt_final = new BitmapWithTag (fullfilename, true);
+			BitmapWithTag bt_final = new BitmapWithTag (fullfilename);
 			Config c_final = new Config ();				
 			c_final.UseOriginalPath = true;
 			c_final.HighQuality = true;
@@ -342,7 +342,7 @@ namespace Troonie
 			{
 				jpgQuality--;
 
-				BitmapWithTag bt = new BitmapWithTag (fullfilename, true);
+				BitmapWithTag bt = new BitmapWithTag (fullfilename);
 				Config c = new Config();				
 				c.UseOriginalPath = true;
 //				c.Path = Constants.I.EXEPATH;
@@ -370,7 +370,7 @@ namespace Troonie
 				//				success = ImageTagHelper.SetTag(fullfilename, Tags.Creator | Tags.Copyright | Tags.Title, new TagsData { Creator = creatorText, Copyright = "oioioi", Title = "MyTitle" });
 				success = ImageTagHelper.SetTag(fullfilename, TagsFlag.Creator, new TagsData { Creator = creatorText });
 			} else {
-				BitmapWithTag bt_final = new BitmapWithTag (fullfilename, true);
+				BitmapWithTag bt_final = new BitmapWithTag (fullfilename);
 				Config c_final = new Config ();				
 				c_final.UseOriginalPath = true;
 				c_final.HighQuality = true;

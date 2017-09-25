@@ -134,12 +134,13 @@ namespace Troonie
 		{
 			if (FileName == null)
 			{
-				FileName = constants.EXEPATH + Constants.BLACKFILENAME;
+				newFileName = false;
+//				FileName = constants.EXEPATH + Constants.BLACKFILENAME;
 				Title = FileName;
-				bt = new BitmapWithTag (FileName, false);
+				bt = new BitmapWithTag (FileName);
 				imageW = bt.Bitmap.Width;
 				imageH = bt.Bitmap.Height;
-				bt.Bitmap.Save(FileName, ImageFormat.Png);
+//				bt.Bitmap.Save(FileName, ImageFormat.Png);
 			}
 			else
 			{          
@@ -156,7 +157,7 @@ namespace Troonie
 
 						if (ext.Length != 0 && Constants.Extensions.Any(x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
 							Title = FileName;
-							bt = new BitmapWithTag(FileName, true);
+							bt = new BitmapWithTag(FileName);
 							imageW = bt.Bitmap.Width;
 							imageH = bt.Bitmap.Height;
 						}
@@ -491,13 +492,13 @@ namespace Troonie
 			}
 			this.DestroyAll ();
 
-			try {
+//			try {
 //				File.Delete (tempScaledImageFileName);
-				File.Delete (Constants.I.EXEPATH + Constants.BLACKFILENAME);
-			}
-			catch (Exception) {				
-				Console.WriteLine(Constants.ERROR_DELETE_TEMP_FILES);;
-			}
+//				File.Delete (Constants.I.EXEPATH + Constants.BLACKFILENAME);
+//			}
+//			catch (Exception) {				
+//				Console.WriteLine(Constants.ERROR_DELETE_TEMP_FILES);;
+//			}
 
 			Application.Quit ();
 			a.RetVal = true;

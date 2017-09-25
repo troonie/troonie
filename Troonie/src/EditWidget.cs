@@ -31,7 +31,7 @@ namespace Troonie
 		private Constants constants = Constants.I;
 		private int imageW; 
 		private int imageH;
-		private string tempScaledImageFileName;
+//		private string tempScaledImageFileName;
 
 		private bool repeatTimeout;
 		private Slider timeoutSlider;
@@ -154,15 +154,23 @@ namespace Troonie
 		{
 			if (FileName == null)
 			{
-				FileName = constants.EXEPATH + Constants.BLACKFILENAME;
+				hboxToolbarButtons.Children[1].Sensitive = false;
+				hboxToolbarButtons.Children[3].Sensitive = false;
+				hboxToolbarButtons.Children[4].Sensitive = false;
+				newFileName = false;
+//				FileName = constants.EXEPATH + Constants.BLACKFILENAME;
 				Title = FileName;
-				bt = new BitmapWithTag (FileName, false);
+				bt = new BitmapWithTag (FileName);
 				imageW = bt.Bitmap.Width;
 				imageH = bt.Bitmap.Height;
-				bt.Bitmap.Save(FileName, ImageFormat.Png);
+//				bt.Bitmap.Save(FileName, ImageFormat.Png);
 			}
 			else
-			{          
+			{    		
+				hboxToolbarButtons.Children[1].Sensitive = true;
+				hboxToolbarButtons.Children[3].Sensitive = true;
+				hboxToolbarButtons.Children[4].Sensitive = true;
+
 				if (!newFileName) {
 					imageW = bt.Bitmap.Width;
 					imageH = bt.Bitmap.Height;
@@ -176,7 +184,7 @@ namespace Troonie
 
 						if (ext.Length != 0 && Constants.Extensions.Any(x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
 							Title = FileName;
-							bt = new BitmapWithTag(FileName, true);
+							bt = new BitmapWithTag(FileName);
 							imageW = bt.Bitmap.Width;
 							imageH = bt.Bitmap.Height;
 						}
@@ -195,9 +203,9 @@ namespace Troonie
 
 			SetPanelSize();	
 
-			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
+//			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
+//			imagepanel1.SurfaceFileName = tempScaledImageFileName;
 
-			imagepanel1.SurfaceFileName = tempScaledImageFileName;
 
 			if (newFileName) 
 			{
@@ -215,7 +223,8 @@ namespace Troonie
 					false);
 
 				pic.Dispose ();
-				croppedPic.Save(tempScaledImageFileName, ImageFormat.Png);
+//				croppedPic.Save(tempScaledImageFileName, ImageFormat.Png);
+				croppedPic.Save(imagepanel1.MemoryStream, ImageFormat.Png);
 				croppedPic.Dispose();
 
 			} 
@@ -233,7 +242,8 @@ namespace Troonie
 					ConvertMode.StretchForge,
 					false);
 
-				b2.Save (tempScaledImageFileName, ImageFormat.Png);
+//				b2.Save (tempScaledImageFileName, ImageFormat.Png);
+				b2.Save(imagepanel1.MemoryStream, ImageFormat.Png);
 				b2.Dispose ();
 			}
 
@@ -524,13 +534,13 @@ namespace Troonie
 //			}
 			this.DestroyAll ();
 
-			try {
-				File.Delete (tempScaledImageFileName);
-				File.Delete (Constants.I.EXEPATH + Constants.BLACKFILENAME);
-			}
-			catch (Exception) {				
-				Console.WriteLine(Constants.ERROR_DELETE_TEMP_FILES);;
-			}
+//			try {
+//				File.Delete (tempScaledImageFileName);
+//				File.Delete (Constants.I.EXEPATH + Constants.BLACKFILENAME);
+//			}
+//			catch (Exception) {				
+//				Console.WriteLine(Constants.ERROR_DELETE_TEMP_FILES);;
+//			}
 
 			Application.Quit ();
 			a.RetVal = true;

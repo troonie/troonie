@@ -2,6 +2,7 @@
 using Gtk;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace Troonie
 {
@@ -16,7 +17,9 @@ namespace Troonie
 		private static double[] RectColor = new double[4]{ 220/255.0, 220/255.0, 1, 220/255.0 };
 		#endregion Constants
 
-		private Cairo.ImageSurface surface;
+//		private Cairo.ImageSurface surface;
+		private MemoryStream ms;
+		private Gdk.Pixbuf pix;
 		/// <summary> Button is pressed NOT on a slider.</summary>
 		private bool isPressed;
 		private int xAtPressedBtn, yAtPressedBtn;
@@ -67,7 +70,20 @@ namespace Troonie
 		/// to get correct image pixel coordinate.
 		/// </summary>
 		public float ScaleCursorY { get; set; }
-		public string SurfaceFileName { get; set; }
+
+		//		public string SurfaceFileName { get; set; }
+		public MemoryStream MemoryStream 
+		{ 
+			get 
+			{
+				if (ms != null) {
+					ms.Dispose ();
+				}
+				ms = new MemoryStream ();
+				return ms; 
+			} 
+		}
+
 		/// <summary>Handles the event at the client.</summary>
 		public OnCursorPosChangedEventHandler OnCursorPosChanged;
 
@@ -79,6 +95,12 @@ namespace Troonie
 		public override void Destroy ()
 		{
 			DisposeFixedWidgetChildrenAndSurface();
+
+			if (ms != null) {
+				ms.Dispose ();
+				ms = null;
+			}
+
 			drawingAreaImage.Destroy ();
 			drawingAreaImage.Dispose();
 			base.Destroy ();
@@ -88,7 +110,9 @@ namespace Troonie
 		public void Initialize()
 		{
 			DisposeFixedWidgetChildrenAndSurface ();
-			surface = new Cairo.ImageSurface (SurfaceFileName);
+//			surface = new Cairo.ImageSurface (SurfaceFileName);
+			ms.Position = 0;
+			pix = new Gdk.Pixbuf(ms);
 			drawingAreaImage.WidthRequest = W;
 			drawingAreaImage.HeightRequest = H;
 			Angle = 0;
@@ -217,7 +241,8 @@ namespace Troonie
 			cr.Rotate (-Angle*Math.PI/180);
 			cr.Scale (ScaleForRotation, ScaleForRotation);
 			cr.Translate(-W / 2.0, -H / 2.0);
-			cr.SetSourceSurface(surface, 0, 0);
+//			cr.SetSourceSurface(surface, 0, 0);
+			Gdk.CairoHelper.SetSourcePixbuf (cr, pix, 0, 0);
 			cr.Paint();
 			cr.Restore();
 
@@ -412,10 +437,14 @@ namespace Troonie
 				}
 			}
 
-			if (surface != null) {
-				surface.Dispose ();
-				surface = null;
-			}
+//			if (surface != null) {
+//				surface.Dispose ();
+//				surface = null;
+//			}
+			if (pix != null) {
+				pix.Dispose ();
+				pix = null;
+			}				
 		}
 
 		/// <summary> 

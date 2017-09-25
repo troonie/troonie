@@ -232,7 +232,7 @@ namespace Troonie
 
 			if (!File.Exists (thumbDirectory + thumbSmallName)) {
 				
-				BitmapWithTag bt = new BitmapWithTag (OriginalImageFullName, true);
+				BitmapWithTag bt = new BitmapWithTag (OriginalImageFullName);
 				Config c = new Config();
 
 				// setting here additional tagsData elements which needs bt.Bitmap
@@ -321,7 +321,7 @@ namespace Troonie
 				if (isJpg) {
 
 					if (!File.Exists (thumbDirectory + tmpDjpegName)) {
-						BitmapWithTag bt = new BitmapWithTag (OriginalImageFullName, true);
+						BitmapWithTag bt = new BitmapWithTag (OriginalImageFullName);
 						Config c = new Config ();
 						c.FileOverwriting = false;
 						c.Path = thumbDirectory;

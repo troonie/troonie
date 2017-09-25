@@ -30,7 +30,7 @@ namespace Troonie_Lib
 			Bitmap1 = bitmap1;
 			Bitmap2 = bitmap2;
 			BackgroundColor = Color.White;
-//			Use255ForAlpha = true;
+			//			Use255ForAlpha = true;
 		}
 
 		private static PixelFormat CalcPixelFormatFromPixelSize(int ps)
@@ -84,11 +84,19 @@ namespace Troonie_Lib
 				for (int y = 0; y < h3; y++) {
 					// b3: for each pixel
 					for (int x = 0; x < w3; x++, b3 += ps3) {
+
 						// initial color for background
 						b3 [RGBA.B] = BackgroundColor.B;
-						b3 [RGBA.G] = BackgroundColor.G;
-						b3 [RGBA.R] = BackgroundColor.R;
-						b3 [RGBA.A] = 255;
+						// rgb, 24 and 32 bit
+						if (ps3 >= 3) {
+							b3 [RGBA.G] = BackgroundColor.G;
+							b3 [RGBA.R] = BackgroundColor.R;
+						}
+						// alpha, 32 bit
+						if (ps3 == 4) {
+							b3 [RGBA.A] = 255;
+						}
+
 						if ((y >= Top01 && y < Top01 + h1) && 
 							(x >= Left01 && x < Left01 + w1)) {
 
@@ -165,12 +173,18 @@ namespace Troonie_Lib
 					{
 						// initial color for background
 						b3 [RGBA.B] = BackgroundColor.B;
-						b3 [RGBA.G] = BackgroundColor.G;
-						b3 [RGBA.R] = BackgroundColor.R;
-						b3 [RGBA.A] = 255;
+						// rgb, 24 and 32 bit
+						if (ps3 >= 3) {
+							b3 [RGBA.G] = BackgroundColor.G;
+							b3 [RGBA.R] = BackgroundColor.R;
+						}
+						// alpha, 32 bit
+						if (ps3 == 4) {
+							b3 [RGBA.A] = 255;
+						}
 
 						if ((y >= Top01 && y < Top01 + h1) && 
-						    (x >= Left01 && x < Left01 + w1)) {
+							(x >= Left01 && x < Left01 + w1)) {
 
 							// 8 bit grayscale
 							b3[RGBA.B] = b1[RGBA.B];
@@ -200,7 +214,7 @@ namespace Troonie_Lib
 						int verticaldistanceToB2 = Top01 + h1 + Bottom01 + Top02;
 
 						if ((y >= verticaldistanceToB2 && y < verticaldistanceToB2 + h2) &&
-						    (x >= Left02 && x < Left02 + w2 )) {
+							(x >= Left02 && x < Left02 + w2 )) {
 
 							// 8 bit grayscale
 							b3[RGBA.B] = b2[RGBA.B];

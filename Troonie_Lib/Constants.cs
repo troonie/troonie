@@ -31,7 +31,7 @@ namespace Troonie_Lib
 		public const int TIMEOUT_INTERVAL_FIRST = 500;
 		public const uint TIMEOUT_FILTER_PROCESS_PREVIEW = 300;
 		public const uint TIMEOUT_STITCH_PROCESS_PREVIEW = 1000;
-		public const string BLACKFILENAME = "black.png";
+//		public const string BLACKFILENAME = "black.png";
 		public const string AUTHOR = "Troonie Project";
 		public const string CJPEGNAME = "cjpeg";
 		public const string DJPEGNAME = "djpeg";
@@ -40,7 +40,7 @@ namespace Troonie_Lib
 		public const string WEBSITE = "http://www.troonie.com";
 		public const string UPDATESERVERFILE = 
 			"https://raw.githubusercontent.com/troonie/troonie/master/Troonie_Lib/Version.cs";
-		public const string ERROR_DELETE_TEMP_FILES = "Could not delete Troonie temp files.";
+//		public const string ERROR_DELETE_TEMP_FILES = "Could not delete Troonie temp files.";
 		public const string TITLE = "Troonie";
 		public const string TITLE_LIB = "Troonie_Lib";
 		/// <summary>Constant non-changeable text. For changeable value, see Language.I.L[54].</summary>
