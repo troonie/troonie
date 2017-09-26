@@ -134,6 +134,8 @@ namespace Troonie
 		{
 			if (FileName == null)
 			{
+				hboxToolbarButtons.Children[1].Sensitive = false;
+				btnOk.Sensitive = false;
 				newFileName = false;
 //				FileName = constants.EXEPATH + Constants.BLACKFILENAME;
 				Title = FileName;
@@ -144,6 +146,8 @@ namespace Troonie
 			}
 			else
 			{          
+				hboxToolbarButtons.Children[1].Sensitive = true;
+				btnOk.Sensitive = true;
 				if (!newFileName) {
 					imageW = bt.Bitmap.Width;
 					imageH = bt.Bitmap.Height;
@@ -626,11 +630,20 @@ namespace Troonie
 			if (leftControlPressed) {
 				switch (args.Event.Key) {
 				case Gdk.Key.s:
-					OpenSaveAsDialog ();
+					if (FileName != null) {
+						OpenSaveAsDialog ();
+						// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
+						leftControlPressed = false;
+					}
 					break;
 				case Gdk.Key.o:
 					// shows/hides common hidden checkbox for StegHash-StrongObfuscation
 					checkBtnStrongObfuscation.Visible = !checkBtnStrongObfuscation.Visible;
+					break;
+				case Gdk.Key.n:
+					OnToolbarBtn_OpenPressed(null, null);
+					// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
+					leftControlPressed = false;
 					break;
 				}
 

@@ -674,6 +674,7 @@ namespace Troonie
 			this.DragDrop += new global::Gtk.DragDropHandler (this.OnDragDrop);
 			this.DragDataReceived += new global::Gtk.DragDataReceivedHandler (this.OnDragDataReceived);
 			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressEvent);
+			this.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnKeyReleaseEvent);
 			this.comboboxShortcuts.Changed += new global::System.EventHandler (this.OnComboboxShortcutsChanged);
 			this.entryTop.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnEntryTopKeyReleaseEvent);
 			this.entryRight.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnEntryRightKeyReleaseEvent);

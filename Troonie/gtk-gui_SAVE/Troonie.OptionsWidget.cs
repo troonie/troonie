@@ -42,6 +42,8 @@ namespace Troonie
 		
 		private global::Gtk.EventBox eventboxPage2;
 		
+		private global::Gtk.Table table1;
+		
 		private global::Gtk.Label lbPage2;
 
 		protected virtual void Build ()
@@ -66,7 +68,7 @@ namespace Troonie
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 0;
+			this.notebook1.CurrentPage = 1;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.eventboxPage1 = new global::Gtk.EventBox ();
 			this.eventboxPage1.Name = "eventboxPage1";
@@ -182,9 +184,15 @@ namespace Troonie
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.eventboxPage2 = new global::Gtk.EventBox ();
 			this.eventboxPage2.Name = "eventboxPage2";
+			// Container child eventboxPage2.Gtk.Container+ContainerChild
+			this.table1 = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
+			this.table1.Name = "table1";
+			this.table1.RowSpacing = ((uint)(6));
+			this.table1.ColumnSpacing = ((uint)(6));
+			this.eventboxPage2.Add (this.table1);
 			this.notebook1.Add (this.eventboxPage2);
-			global::Gtk.Notebook.NotebookChild w14 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.eventboxPage2]));
-			w14.Position = 1;
+			global::Gtk.Notebook.NotebookChild w15 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.eventboxPage2]));
+			w15.Position = 1;
 			// Notebook tab
 			this.lbPage2 = new global::Gtk.Label ();
 			this.lbPage2.Name = "lbPage2";
@@ -203,9 +211,6 @@ namespace Troonie
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.btnPlusMaxSideLengthFilterImage.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnButtonReleaseEvent);
-			this.btnPlusMaxSideLengthFilterImage.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnMaxSideLengthFilterImagePressEvent);
-			this.entryMaxSideLengthFilterImage.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnEntryMaxSideLengthFilterImageKeyReleaseEvent);
-			this.btnMinusMaxSideLengthFilterImage.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnMaxSideLengthFilterImagePressEvent);
 			this.btnMinusMaxSideLengthFilterImage.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnButtonReleaseEvent);
 		}
 	}

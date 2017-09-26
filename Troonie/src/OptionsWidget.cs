@@ -58,6 +58,63 @@ namespace Troonie
 
 			#endregion set GUI language
 
+			SetTable1 ();
+		}
+
+		private void SetTable1()
+		{
+			uint l_nr = 0;
+			int lb1_width = 80;
+			int lb2_width = 180;
+
+			string[] s = Language.I.L [140].Split(new [] {": "}, StringSplitOptions.RemoveEmptyEntries);
+			Fixed fixed1 = new Fixed();
+			fixed1.WidthRequest = lb1_width;
+			Label label1 = new Label(s[0]);
+			label1.TooltipText = s[0];
+			fixed1.Add (label1);
+			Fixed.FixedChild w14 = (Fixed.FixedChild)(fixed1 [label1]);
+			w14.X = 5;
+
+			Fixed fixed2 = new Fixed();
+			fixed2.WidthRequest = lb2_width;
+			Label label2 = new Label();
+			label2.Text = s[1];
+			label2.TooltipText = s[1];
+			fixed2.Add (label2);
+			table1.Attach (fixed1, 0, 1, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+			table1.Attach (fixed2, 1, 2, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+			l_nr++;
+
+			s = Language.I.L [141].Split(new [] {": "}, StringSplitOptions.RemoveEmptyEntries);
+			fixed1 = new Fixed();
+			fixed1.WidthRequest = lb1_width;
+			label1 = new Label(s[0]);
+			label1.TooltipText = s[0];
+			fixed1.Add (label1);
+			fixed2 = new Fixed();
+			fixed2.WidthRequest = lb2_width;
+			label2 = new Label();
+			label2.Text = s[1];
+			label2.TooltipText = s[1];
+			fixed2.Add (label2);
+			table1.Attach (fixed1, 0, 1, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+			table1.Attach (fixed2, 1, 2, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+			l_nr++;
+
+
+			foreach (Widget w in table1.AllChildren) {
+				w.Visible = true;
+				w.ChildVisible = true;
+
+				Fixed f = w as Fixed;
+				if (f != null) {
+					foreach (Widget w2 in f.AllChildren) {
+						w2.Visible = true;
+						w2.ChildVisible = true;		
+					}
+				}
+			}
 		}
 
 		#region event handler

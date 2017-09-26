@@ -32,7 +32,7 @@ namespace Troonie
 		private int imageW; 
 		private int imageH;
 //		private string tempScaledImageFileName;
-
+		private bool leftControlPressed;
 		private bool repeatTimeout;
 		private Slider timeoutSlider;
 		private Gdk.Key timeoutKey;
@@ -664,11 +664,12 @@ namespace Troonie
 		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
 		{
 //			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
-
-			if (args.Event.State == (Gdk.ModifierType.ControlMask /* | Gdk.ModifierType.Mod2Mask*/ )) {
+//			if (args.Event.State == (Gdk.ModifierType.ControlMask /* | Gdk.ModifierType.Mod2Mask*/ )) {
+			#region 'ctrl + ...'
+			if (leftControlPressed) {
 				switch (args.Event.Key) {
 					case Gdk.Key.l:
-					entryLeft.Text = Constants.I.CONFIG.eLeft.ToString ();
+						entryLeft.Text = Constants.I.CONFIG.eLeft.ToString ();
 						OnEntryLeftKeyReleaseEvent (entryLeft, null);
 
 						entryRight.Text = Constants.I.CONFIG.eRight.ToString ();
@@ -692,17 +693,47 @@ namespace Troonie
 					pseudo.Label2 = Language.I.L [137];
 					pseudo.OkButtontext = Language.I.L [16];
 //					pseudo.CancelButtontext = Language.I.L [17];
+					// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
+					leftControlPressed = false;
 					break;
 				case Gdk.Key.s:
-					OpenSaveAsDialog ();
+					if (FileName != null) {
+						OpenSaveAsDialog ();
+						// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
+						leftControlPressed = false;
+					}
 					break;
-					default:
-						break;
+				case Gdk.Key.n:
+					OnToolbarBtn_OpenPressed(null, null);
+						// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
+						leftControlPressed = false;
+					break;
+				default:
+					break;
 				}
-			} 
+			}
+			#endregion 'ctrl + ...
+
+			switch (args.Event.Key) {
+			case Gdk.Key.Control_L:
+				leftControlPressed = true;
+				break;
+			}
 
 			imagepanel1.MoveSliderByKey (args.Event.Key, 1);
 		}	
+
+		[GLib.ConnectBefore ()] 
+		protected void OnKeyReleaseEvent (object o, KeyReleaseEventArgs args)
+		{
+			switch (args.Event.Key) {
+			case Gdk.Key.Control_L:
+				leftControlPressed = false;
+				break;
+			}
+
+			// args.RetVal = true;
+		}
 
 		private void OpenSaveAsDialog()
 		{
