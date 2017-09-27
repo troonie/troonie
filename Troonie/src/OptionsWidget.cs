@@ -48,9 +48,12 @@ namespace Troonie
 			lbPage1.LabelProp = "<b>" + Language.I.L[228] + "</b>";
 
 			lbPage2.UseMarkup = true;
-			lbPage2.LabelProp = "<b>" + "   " + "</b>";
+			lbPage2.LabelProp = "<b>" + Language.I.L [138] + "</b>";
 
-			lbFrameVideoplayer.LabelProp = "<b>" + Language.I.L[230] + "</b>";
+			lbMaxSideLengthFilterImage.ModifyFg (StateType.Normal, ColorConverter.Instance.FONT);
+			lbFrameVideoplayer.ModifyFg (StateType.Normal, ColorConverter.Instance.FONT);
+			lbMaxSideLengthFilterImage.LabelProp = Constants.N + "<b>" + Language.I.L[284] + "</b>";
+			lbFrameVideoplayer.LabelProp = Constants.N + "<b>" + Language.I.L[230] + "</b>";
 
 			hypertextlabelVideoplayer.Text = Constants.I.CONFIG.VideoplayerPath; //Language.I.L[229];
 			nr = Constants.I.CONFIG.MaxImageLengthForFiltering;
@@ -58,65 +61,95 @@ namespace Troonie
 
 			#endregion set GUI language
 
-			SetTable1 ();
+			#region fill shortcuts table
+			uint l_nr = 0;
+			// converter shortcuts
+			FillTable (Constants.N + Language.I.L [139], ref l_nr, true);
+			FillTable (Language.I.L [140], ref l_nr, false);
+			FillTable (Language.I.L [141], ref l_nr, false);
+			FillTable (Language.I.L [142], ref l_nr, false);
+			// editor shortcuts
+			FillTable (Constants.N + Language.I.L [143], ref l_nr, true);
+			FillTable (Language.I.L [281], ref l_nr, false);
+			FillTable (Language.I.L [144], ref l_nr, false);
+			FillTable (Language.I.L [283], ref l_nr, false);
+			FillTable (Language.I.L [145], ref l_nr, false);
+			FillTable (Language.I.L [146], ref l_nr, false);
+			// steganography shortcuts
+			FillTable (Constants.N + Language.I.L [147], ref l_nr, true);
+			FillTable (Language.I.L [281], ref l_nr, false);
+			FillTable (Language.I.L [148], ref l_nr, false);
+			FillTable (Language.I.L [282], ref l_nr, false);
+			// viewer shortcuts
+			FillTable (Constants.N + Language.I.L [209], ref l_nr, true);
+			FillTable (Language.I.L [210], ref l_nr, false);
+			FillTable (Language.I.L [211], ref l_nr, false);
+			FillTable (Language.I.L [212], ref l_nr, false);
+			FillTable (Language.I.L [213], ref l_nr, false);
+			FillTable (Language.I.L [219], ref l_nr, false);
+			FillTable (Language.I.L [220], ref l_nr, false);
+			FillTable (Language.I.L [221], ref l_nr, false);
+			FillTable (Language.I.L [222], ref l_nr, false);
+			FillTable (Language.I.L [223], ref l_nr, false);
+			FillTable (Language.I.L [224], ref l_nr, false);
+			FillTable (Language.I.L [225], ref l_nr, false);
+			FillTable (Language.I.L [226], ref l_nr, false);
+			// hidden
+			FillTable (Language.I.L [214], ref l_nr, false);
+			FillTable (Language.I.L [215], ref l_nr, false);
+			FillTable (Language.I.L [216], ref l_nr, false);
+			FillTable (Language.I.L [217], ref l_nr, false);
+			#endregion fill shortcuts table
 		}
 
-		private void SetTable1()
+		private void FillTable(string pText, ref uint l_nr, bool isOverview)
 		{
-			uint l_nr = 0;
 			int lb1_width = 80;
-			int lb2_width = 180;
+			int lb2_width = 260;
 
-			string[] s = Language.I.L [140].Split(new [] {": "}, StringSplitOptions.RemoveEmptyEntries);
+			string[] s = pText.Split(new [] {": "}, StringSplitOptions.RemoveEmptyEntries);
 			Fixed fixed1 = new Fixed();
 			fixed1.WidthRequest = lb1_width;
-			Label label1 = new Label(s[0]);
-			label1.TooltipText = s[0];
+			Label label1 = new Label();
 			fixed1.Add (label1);
-			Fixed.FixedChild w14 = (Fixed.FixedChild)(fixed1 [label1]);
-			w14.X = 5;
+			Fixed.FixedChild fixedChild = (Fixed.FixedChild)fixed1[label1];
+			fixedChild.X = 5;
+			fixed1.Visible = true;
+			label1.Visible = true;
 
-			Fixed fixed2 = new Fixed();
-			fixed2.WidthRequest = lb2_width;
-			Label label2 = new Label();
-			label2.Text = s[1];
-			label2.TooltipText = s[1];
-			fixed2.Add (label2);
-			table1.Attach (fixed1, 0, 1, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
-			table1.Attach (fixed2, 1, 2, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
-			l_nr++;
+			if (isOverview) {			
+				label1.ModifyFg (StateType.Normal, ColorConverter.Instance.FONT);
+				label1.UseMarkup = true;
+				label1.LabelProp = "<b>" + s [0] + "</b>";
+				table1.Attach (fixed1, 0, 1, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+			} else {
+//				label1.WidthRequest = lb1_width;
+				label1.Text = s [0];				
+				label1.TooltipText = s[0];
+				table1.Attach (fixed1, 0, 1, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 
-			s = Language.I.L [141].Split(new [] {": "}, StringSplitOptions.RemoveEmptyEntries);
-			fixed1 = new Fixed();
-			fixed1.WidthRequest = lb1_width;
-			label1 = new Label(s[0]);
-			label1.TooltipText = s[0];
-			fixed1.Add (label1);
-			fixed2 = new Fixed();
-			fixed2.WidthRequest = lb2_width;
-			label2 = new Label();
-			label2.Text = s[1];
-			label2.TooltipText = s[1];
-			fixed2.Add (label2);
-			table1.Attach (fixed1, 0, 1, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
-			table1.Attach (fixed2, 1, 2, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
-			l_nr++;
+				Fixed fixed2 = new Fixed();
+				fixed2.WidthRequest = lb2_width;
+				Label label2 = new Label();
 
-
-			foreach (Widget w in table1.AllChildren) {
-				w.Visible = true;
-				w.ChildVisible = true;
-
-				Fixed f = w as Fixed;
-				if (f != null) {
-					foreach (Widget w2 in f.AllChildren) {
-						w2.Visible = true;
-						w2.ChildVisible = true;		
-					}
+				const int LENGTH = 38;
+				int n; // = s [1].IndexOf (' ', 15);
+				if (s [1].Length > LENGTH && (n = s [1].IndexOf (' ', LENGTH)) != -1) {
+					s [1] = s [1].Insert (n + 1, Constants.N);
 				}
+				label2.Text = s[1];
+				label2.TooltipText = s[1];
+				fixed2.Add (label2);
+				fixedChild = (Fixed.FixedChild)fixed2[label2];
+				fixedChild.X = 5;
+				fixed2.Visible = true;
+				label2.Visible = true;
+				table1.Attach (fixed2, 1, 2, l_nr, l_nr + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
 			}
-		}
 
+			l_nr++;
+		}
+			
 		#region event handler
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
