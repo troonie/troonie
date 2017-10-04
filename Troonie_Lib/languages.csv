@@ -265,7 +265,7 @@ This will be caused a long loading time.;Das wird eine lange Ladezeit verursache
 Are you sure?;Sicher?
 Color depth;Farbtiefe
 bpp;bpp
-Simple Cartoon;Simple Cartoon
+Cartoon;Cartoon
 Ranges of hue;Farbtonbereiche
 Ranges of saturation;Sättigungsbereiche
 Ranges of lightness;Helligkeitsbereiche
@@ -282,3 +282,10 @@ CTRL+N: Open image;STRG+N: Bild öffnen
 CTRL+O: Show checkbox 'Strong obfuscation';STRG+O: Zeige Checkbox 'Starke Obfuskation'
 CTRL+R: Use saved rotation;STRG+R: Verwendung gespeicherter Drehung
 Maximum side length of image for filtering;Maximale Seitenlänge eines Bildes für Filter
+Binarization;Binarisierung
+Version;Version
+Black-white binarization;Schwarz-weiß Binarisierung
+Color binarization;Farbbinarisierung
+Threshold;Schwellwert
+Meanshift;Meanshift
+Filter works from 30 to 120 seconds. Troonie will be frozen during this time. Start filter? ;Filter arbeitet 30 bis 120 Sekunden. Troonie ist eingefroren während dieser Zeit. Wirklich Filter starten? 

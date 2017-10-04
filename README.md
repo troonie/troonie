@@ -54,12 +54,8 @@
 </br>`Troonie steganography with a file`
 </br> 
 </br>
-<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/filter_rgb_channels.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/filter_rgb_channels_thumb.jpg" alt="Troonie filter rotation of rgb channels" target="_blank"/></a>
-</br>`Troonie filter rotation of rgb channels`
-</br> 
-</br>
-<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/filter_canny.png" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/filter_canny_thumb.jpg" alt="Troonie filter canny edge detector" target="_blank"/></a>
-</br>`Troonie filter canny edge detector`
+<a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/filter.jpg" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/filter_thumb.jpg" alt="Troonie filter collection" target="_blank"/></a>
+</br>`Troonie filter collection (cartoon, canny edge, binarization, color binarization, oil painting, rgb channel rotation, sobel edge, meanshift, ... and more)`
 </br> 
 </br>
 

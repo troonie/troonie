@@ -122,7 +122,7 @@ namespace Troonie
 				fw = new FilterWidget (FileName, new PosterizationFilter());
 				break;
 			case 10:
-				fw = new FilterWidget (FileName, new SimpleCartoonFilter());
+				fw = new FilterWidget (FileName, new CartoonFilter());
 				break;
 			case 11:
 				fw = new FilterWidget (FileName, new SobelEdgeDetectorFilter());
@@ -132,6 +132,20 @@ namespace Troonie
 				break;
 			case 13:
 				fw = new FilterWidget (FileName, new SobelEdgeMarkerFilter ());
+				break;
+			case 14:
+				fw = new FilterWidget (FileName, new BinarizationFilter ());
+				break;
+			case 15:
+				MessageDialog md = new MessageDialog (this, 
+					                   DialogFlags.DestroyWithParent, MessageType.Question, 
+					ButtonsType.OkCancel, Language.I.L [291]);
+				ResponseType response = (ResponseType)md.Run ();
+				md.Destroy ();
+				if (response == ResponseType.Cancel) {
+					return index;
+				}
+				fw = new FilterWidget (FileName, new MeanshiftFilter ());
 				break;
 			}
 //			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);

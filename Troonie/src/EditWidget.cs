@@ -64,7 +64,9 @@ namespace Troonie
 													Language.I.L[268],
 													Language.I.L[272],
 													Language.I.L[275],
-													Language.I.L[277]};
+													Language.I.L[277],
+													Language.I.L[285],
+													Language.I.L[290]};
 
 				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
 				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);

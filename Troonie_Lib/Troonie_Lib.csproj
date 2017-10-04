@@ -77,12 +77,15 @@
     <Compile Include="MemoryReducer.cs" />
     <Compile Include="LeonSteg.cs" />
     <Compile Include="KeywordSerializer.cs" />
-    <Compile Include="filter\SimpleCartoonFilter.cs" />
     <Compile Include="ColorRgbHsl.cs" />
     <Compile Include="structs\Float3.cs" />
     <Compile Include="structs\Int3.cs" />
     <Compile Include="filter\SobelEdgeDetectorFilter.cs" />
     <Compile Include="filter\SobelEdgeMarkerFilter.cs" />
+    <Compile Include="filter\BinarizationFilter.cs" />
+    <Compile Include="filter\CartoonFilter.cs" />
+    <Compile Include="filter\MeanshiftFilter.cs" />
+    <Compile Include="structs\Float2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

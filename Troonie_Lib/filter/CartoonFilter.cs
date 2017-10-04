@@ -7,9 +7,9 @@ namespace Troonie_Lib
     /// <summary>
 	/// Simple Cartoon filter.
     /// </summary>
-	public class SimpleCartoonFilter : AbstractFilter
+	public class CartoonFilter : AbstractFilter
     {			
-		public SimpleCartoonFilter()
+		public CartoonFilter()
         {
             SupportedSrcPixelFormat = PixelFormatFlags.All;
 			SupportedDstPixelFormat = PixelFormatFlags.SameLikeSource;

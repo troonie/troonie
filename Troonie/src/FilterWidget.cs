@@ -301,7 +301,7 @@ namespace Troonie
 			hscale1.Digits = 0;
 		}
 
-		public FilterWidget (string pFilename, SimpleCartoonFilter cartoon) : this (pFilename)
+		public FilterWidget (string pFilename, CartoonFilter cartoon) : this (pFilename)
 		{
 			abstractFilter = cartoon;
 			Title = Language.I.L [268];
@@ -391,6 +391,40 @@ namespace Troonie
 			hscale1.Adjustment.PageIncrement = 5;
 			hscale1.Digits = 0;
 			hscale1.Value = sobel.Threshold;
+		}
+
+		public FilterWidget (string pFilename, BinarizationFilter filter) : this (pFilename)
+		{
+			abstractFilter = filter;
+			Title = Language.I.L [285];
+			frameHScales.Visible = true;
+//			useSameImageSizeLikePreview = true;
+
+			frameComboboxes.Visible = true;
+			frame_combobox1.Visible = true;
+			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[286] + "</b>";
+			combobox1.AppendText(Language.I.L[287]);
+			combobox1.AppendText(Language.I.L[288]);
+			combobox1.Active = filter.ColorBinarization ? 1 : 0;
+
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[289] + "</b>";
+			hscale1.Adjustment.Lower = 0;
+			hscale1.Adjustment.Upper = 255;
+			hscale1.Adjustment.StepIncrement = 1;
+			hscale1.Adjustment.PageIncrement = 5;
+			hscale1.Digits = 0;
+			hscale1.Value = filter.Threshold;
+		}
+
+		public FilterWidget (string pFilename, MeanshiftFilter filter) : this (pFilename)
+		{
+			abstractFilter = filter;
+			Title = Language.I.L [290];
+//			frameHScales.Visible = true;
+			useSameImageSizeLikePreview = true;
+			ProcessPreview ();
+
 		}
 
 
