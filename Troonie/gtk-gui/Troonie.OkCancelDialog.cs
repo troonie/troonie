@@ -62,7 +62,7 @@ namespace Troonie
 			this.picBtnOk.ButtonWidth = 0;
 			this.picBtnOk.Font = "Arial";
 			this.picBtnOk.Text = "OK";
-			this.picBtnOk.TextSize = 10;
+			this.picBtnOk.TextSize = 10D;
 			this.hbox1.Add (this.picBtnOk);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnOk]));
 			w3.Position = 0;
@@ -76,7 +76,7 @@ namespace Troonie
 			this.picBtnCancel.ButtonWidth = 0;
 			this.picBtnCancel.Font = "Arial";
 			this.picBtnCancel.Text = "Cancel";
-			this.picBtnCancel.TextSize = 10;
+			this.picBtnCancel.TextSize = 10D;
 			this.hbox1.Add (this.picBtnCancel);
 			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnCancel]));
 			w4.Position = 2;

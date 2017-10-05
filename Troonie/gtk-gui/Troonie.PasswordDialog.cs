@@ -44,7 +44,7 @@ namespace Troonie
 			this.btnOk.ButtonWidth = 0;
 			this.btnOk.Font = "Arial";
 			this.btnOk.Text = "OK";
-			this.btnOk.TextSize = 14;
+			this.btnOk.TextSize = 14D;
 			this.vbox1.Add (this.btnOk);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
 			w2.Position = 2;

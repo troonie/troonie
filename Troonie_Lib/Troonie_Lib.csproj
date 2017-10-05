@@ -61,7 +61,6 @@
     <Compile Include="Fraction.cs" />
     <Compile Include="filter\DifferenceFilter.cs" />
     <Compile Include="filter\StegHashFilter.cs" />
-    <Compile Include="filter\ThickPixelFilter.cs" />
     <Compile Include="filter\StitchMIFilter.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="filter\CopyFilter.cs" />
@@ -86,6 +85,9 @@
     <Compile Include="filter\CartoonFilter.cs" />
     <Compile Include="filter\MeanshiftFilter.cs" />
     <Compile Include="structs\Float2.cs" />
+    <Compile Include="filter\DilatationFilter.cs" />
+    <Compile Include="filter\ExponentiateChannelsFilter.cs" />
+    <Compile Include="filter\Convolution5X5Filter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

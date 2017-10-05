@@ -424,9 +424,56 @@ namespace Troonie
 //			frameHScales.Visible = true;
 			useSameImageSizeLikePreview = true;
 			ProcessPreview ();
-
 		}
 
+		public FilterWidget (string pFilename, DilatationFilter filter) : this (pFilename)
+		{
+			abstractFilter = filter;
+			Title = Language.I.L [292];
+			ProcessPreview ();
+		}
+
+		public FilterWidget (string pFilename, ExponentiateChannelsFilter filter) : this (pFilename)
+		{
+			abstractFilter = filter;
+			Title = Language.I.L [293];
+			//			useSameImageSizeLikePreview = true;
+
+			frameHScales.Visible = true;
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[293] + "</b>";
+			hscale1.Adjustment.Lower = 0.1;
+			hscale1.Adjustment.Upper = 4.0;
+			hscale1.Adjustment.StepIncrement = 0.01;
+			hscale1.Adjustment.PageIncrement = 0.1;
+			hscale1.Digits = 2;
+			hscale1.Value = filter.Exponent;
+
+			frame_hscale2.Visible = true;
+			lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[289] + "</b>";
+			hscale2.Adjustment.Lower = 0;
+			hscale2.Adjustment.Upper = 255;
+			hscale2.Adjustment.StepIncrement = 1;
+			hscale2.Adjustment.PageIncrement = 5;
+			hscale2.Digits = 0;
+			hscale2.Value = filter.Threshold;
+		}
+
+		public FilterWidget (string pFilename, Convolution5X5Filter filter) : this (pFilename)
+		{
+			abstractFilter = filter;
+			Title = Language.I.L [295];
+			useSameImageSizeLikePreview = true;
+
+			frameComboboxes.Visible = true;
+			frame_combobox1.Visible = true;
+			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[296] + "</b>";
+			combobox1.AppendText(Language.I.L[297]);
+			combobox1.AppendText(Language.I.L[298]);
+			combobox1.AppendText(Language.I.L[299]);
+			combobox1.AppendText(Language.I.L[300]);
+			combobox1.Active = (int)filter.Mask;
+		}
 
 		#endregion Constructors
 

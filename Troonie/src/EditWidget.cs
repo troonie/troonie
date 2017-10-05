@@ -19,6 +19,29 @@ namespace Troonie
 {
 	public partial class EditWidget : Gtk.Window
 	{
+		private struct filterN
+		{
+			public static string OVERVIEW = "Filter"; 
+			public static string Invert = Language.I.L [90]; 
+			public static string Grayscale = Language.I.L[91]; 
+			public static string RGB_Channels = Language.I.L[92]; 
+			public static string Gaussian_blur = Language.I.L[104];
+			public static string Canny_edge_detector = Language.I.L[108];
+			public static string Sepia = Language.I.L[120];
+			public static string Oil_painting = Language.I.L[123];
+			public static string Difference = Language.I.L[150];
+			public static string Posterization = Language.I.L[168];
+			public static string Cartoon = Language.I.L[268];
+			public static string Sobel_edge_detector = Language.I.L[272];
+			public static string Unsharp_masking = Language.I.L[275];
+			public static string Sobel_edge_marker = Language.I.L[277];
+			public static string Binarization = Language.I.L[285];
+			public static string Meanshift = Language.I.L[290];
+			public static string Edge_Point_dilatation = Language.I.L[292];
+			public static string Exponentiate_channels = Language.I.L[293];
+			public static string Convolution5x5 = Language.I.L [295];	
+		}
+
 		private struct shortcutFormatStruct
 		{
 			public int Width;
@@ -51,22 +74,26 @@ namespace Troonie
 
 				Build ();
 				this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
-				filterNames = new List<string> { "Filter", 
-													Language.I.L[90], 
-													Language.I.L[91], 
-													Language.I.L[92], 
-													Language.I.L[104],
-													Language.I.L[108],
-													Language.I.L[120],
-													Language.I.L[123],
-													Language.I.L[150],
-													Language.I.L[168],
-													Language.I.L[268],
-													Language.I.L[272],
-													Language.I.L[275],
-													Language.I.L[277],
-													Language.I.L[285],
-													Language.I.L[290]};
+				filterNames = new List<string> { filterN.OVERVIEW,
+					filterN.Binarization,
+					filterN.Canny_edge_detector,
+					filterN.Cartoon,
+					filterN.Convolution5x5,
+					filterN.Difference,
+					filterN.Edge_Point_dilatation,
+					filterN.Exponentiate_channels,
+					filterN.Invert, 
+					filterN.Gaussian_blur,
+					filterN.Grayscale, 
+					filterN.Meanshift,
+					filterN.Oil_painting,
+					filterN.Posterization,
+					filterN.RGB_Channels,
+					filterN.Sepia,
+					filterN.Sobel_edge_detector,
+					filterN.Sobel_edge_marker,
+					filterN.Unsharp_masking,
+						};
 
 				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 0, "folder-new-3.png", Language.I.L[2], OnToolbarBtn_OpenPressed);
 				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);

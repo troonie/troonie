@@ -32,37 +32,32 @@ namespace Troonie
 			SetLanguageToGui ();
 		}			
 
-		protected int OnToolbarBtn_ShaderFilterPressed (object sender, EventArgs e, string x)
+		protected void OnToolbarBtn_ShaderFilterPressed (object sender, EventArgs e, string x)
 		{
-			int index = filterNames.IndexOf (x);
 			FilterWidget fw = null;
 
-			switch (index) {
-			case 0:
-				// nothing
-				break;
-			case 1:
-				fw = new FilterWidget (FileName, new InvertFilter());
-				break;
-			case 2:
+			if (x == filterN.OVERVIEW) {
+				// just overview button name, do nothing
+			} else if (x == filterN.Invert) {
+				fw = new FilterWidget (FileName, new InvertFilter ());
+			} else if (x == filterN.Grayscale) {
 				fw = new FilterWidget (FileName, new GrayscaleFilter());
-				break;
-			case 3:
+			} else if (x == filterN.RGB_Channels) {
 				fw = new FilterWidget (FileName, new ExtractOrRotateChannelsFilter());
-				break;
-			case 4:
+			} else if (x == filterN.Gaussian_blur) {
 				fw = new FilterWidget (FileName, new GaussianBlurFilter(), false);
-				break;
-			case 5:
+			}
+			else if (x == filterN.Canny_edge_detector) {
 				fw = new FilterWidget (FileName, new CannyEdgeDetectorFilter());
-				break;
-			case 6:
+			}
+			else if (x == filterN.Sepia) {
 				fw = new FilterWidget (FileName, new SepiaFilter());
-				break;
-			case 7:
+			}
+			else if (x == filterN.Oil_painting) {
 				fw = new FilterWidget (FileName, new OilPaintingFilter());
-				break;
-			case 8:
+			}
+			else if (x == filterN.Difference) {
+				#region filterN.Difference
 				FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, false, Language.I.L [152]);
 				if (fc.Run () == (int)ResponseType.Ok) {
 					int w, h, wCompare, hCompare, psCompare;
@@ -84,8 +79,8 @@ namespace Troonie
 					}
 
 					if (Math.Abs(psCompare - ps) > 1) {
-//						string errorMsg = "Cannot compare grayscale with color image.";
-//						throw new ArgumentException(errorMsg);
+						//						string errorMsg = "Cannot compare grayscale with color image.";
+						//						throw new ArgumentException(errorMsg);
 						OkCancelDialog warn = new OkCancelDialog (true);
 						warn.Title = Language.I.L [153];
 						warn.Label1 = Language.I.L [154];
@@ -93,12 +88,12 @@ namespace Troonie
 						warn.OkButtontext = Language.I.L [16];
 						warn.Show ();
 						fc.Destroy ();
-						return index; 
+						return; 
 					}
 
 					if (w != wCompare || h != hCompare) {
-//						string errorMsg = "Cannot compare different image sizes.";
-//						throw new ArgumentException(errorMsg);
+						//						string errorMsg = "Cannot compare different image sizes.";
+						//						throw new ArgumentException(errorMsg);
 						OkCancelDialog warn = new OkCancelDialog (true);
 						warn.Title = Language.I.L [153];
 						warn.Label1 = Language.I.L [155];
@@ -106,48 +101,59 @@ namespace Troonie
 						warn.OkButtontext = Language.I.L [16];
 						warn.Show ();
 						fc.Destroy ();
-						return index; 
+						return; 
 					}
 
 					DifferenceFilter diff = new DifferenceFilter ();
 					diff.CompareBitmap = new System.Drawing.Bitmap (fc.Filename);
 					fw = new FilterWidget (FileName, diff);
 					fc.Destroy ();
-					break;
+					// break;
 				} else {
 					fc.Destroy ();
-					return index; 
+					return; 
 				}
-			case 9:
+				#endregion filterN.Difference
+			}
+			else if (x == filterN.Posterization) {
 				fw = new FilterWidget (FileName, new PosterizationFilter());
-				break;
-			case 10:
+			}
+			else if (x == filterN.Cartoon) {
 				fw = new FilterWidget (FileName, new CartoonFilter());
-				break;
-			case 11:
+			}
+			else if (x == filterN.Sobel_edge_detector) {
 				fw = new FilterWidget (FileName, new SobelEdgeDetectorFilter());
-				break;
-			case 12:
-				fw = new FilterWidget (FileName, new GaussianBlurFilter (), true);
-				break;
-			case 13:
-				fw = new FilterWidget (FileName, new SobelEdgeMarkerFilter ());
-				break;
-			case 14:
-				fw = new FilterWidget (FileName, new BinarizationFilter ());
-				break;
-			case 15:
+			}
+			else if (x == filterN.Unsharp_masking) {
+				fw = new FilterWidget (FileName, new GaussianBlurFilter(), true);
+			}
+			else if (x == filterN.Sobel_edge_marker) {
+				fw = new FilterWidget (FileName, new SobelEdgeMarkerFilter());
+			}
+			else if (x == filterN.Binarization) {
+				fw = new FilterWidget (FileName, new BinarizationFilter());
+			}
+			else if (x == filterN.Meanshift) {
 				MessageDialog md = new MessageDialog (this, 
 					                   DialogFlags.DestroyWithParent, MessageType.Question, 
 					ButtonsType.OkCancel, Language.I.L [291]);
 				ResponseType response = (ResponseType)md.Run ();
 				md.Destroy ();
 				if (response == ResponseType.Cancel) {
-					return index;
+					return;
 				}
 				fw = new FilterWidget (FileName, new MeanshiftFilter ());
-				break;
 			}
+			else if (x == filterN.Edge_Point_dilatation) {
+				fw = new FilterWidget (FileName, new DilatationFilter());
+			}
+			else if (x == filterN.Exponentiate_channels) {
+				fw = new FilterWidget (FileName, new ExponentiateChannelsFilter());
+			}
+			else if (x == filterN.Convolution5x5) {
+				fw = new FilterWidget (FileName, new Convolution5X5Filter());
+			}
+
 //			Console.WriteLine ("ShaderFilter[" + index + "]: " + x);
 			fw.FilterEvent += FilterEvent;
 			int posx, posy;
@@ -155,7 +161,7 @@ namespace Troonie
 			fw.Move (posx + 50, posy + 50);
 			fw.Show ();
 
-			return index;
+			return;
 		}
 
 		protected void OnToolbarBtn_StitchPressed (object sender, EventArgs e)

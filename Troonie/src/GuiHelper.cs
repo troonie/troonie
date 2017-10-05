@@ -6,7 +6,7 @@ using System.Globalization;
 namespace Troonie
 {
 	public delegate void OnToolbarBtnPressed (object sender, EventArgs e);
-	public delegate int OnToolbarMenuBarAsBtnPressed (object sender, EventArgs e, string x);
+	public delegate void OnToolbarMenuBarAsBtnPressed (object sender, EventArgs e, string x);
 
 	public class GuiHelper
 	{

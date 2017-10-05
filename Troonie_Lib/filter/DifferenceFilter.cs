@@ -118,8 +118,8 @@ namespace Troonie_Lib
 					bdPtr[i] = dst[i];
 				}
 
-				ThickPixelFilter thickPixelFilter = new ThickPixelFilter();
-				thickPixelFilter.Process(bdData, dstData);
+				DilatationFilter dilatationFilter = new DilatationFilter();
+				dilatationFilter.Process(bdData, dstData);
 				bd.UnlockBits(bdData);
 				bd.Dispose();
 			}

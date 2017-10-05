@@ -97,7 +97,7 @@ namespace Troonie
 			this.btnPlusMaxSideLengthFilterImage.ButtonWidth = 0;
 			this.btnPlusMaxSideLengthFilterImage.Font = "Arial";
 			this.btnPlusMaxSideLengthFilterImage.Text = "+";
-			this.btnPlusMaxSideLengthFilterImage.TextSize = 12;
+			this.btnPlusMaxSideLengthFilterImage.TextSize = 12D;
 			this.hboxMaxSideLengthFilterImage.Add (this.btnPlusMaxSideLengthFilterImage);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.btnPlusMaxSideLengthFilterImage]));
 			w2.Position = 0;
@@ -119,7 +119,7 @@ namespace Troonie
 			this.btnMinusMaxSideLengthFilterImage.ButtonWidth = 0;
 			this.btnMinusMaxSideLengthFilterImage.Font = "Arial";
 			this.btnMinusMaxSideLengthFilterImage.Text = "-";
-			this.btnMinusMaxSideLengthFilterImage.TextSize = 12;
+			this.btnMinusMaxSideLengthFilterImage.TextSize = 12D;
 			this.hboxMaxSideLengthFilterImage.Add (this.btnMinusMaxSideLengthFilterImage);
 			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.btnMinusMaxSideLengthFilterImage]));
 			w4.Position = 2;

@@ -5,11 +5,11 @@ using System.Drawing;
 namespace Troonie_Lib
 {
 	/// <summary>
-	/// Generates from a non-black pixel a 3x3 thick pixel area.
+	/// Simple dilatation. Generates from a non-black pixel a 3x3 thick pixel area.
 	/// </summary>
-	public class ThickPixelFilter : AbstractFilter
+	public class DilatationFilter : AbstractFilter
 	{
-		public ThickPixelFilter()
+		public DilatationFilter()
 		{
 			SupportedSrcPixelFormat = PixelFormatFlags.All;
 			SupportedDstPixelFormat = PixelFormatFlags.SameLikeSource;

@@ -101,7 +101,7 @@ BRG;BRG
 BGR;BGR
 GBR;GBR
 GRB;GRB
-Gaussian Blur;Gauss-Weichzeichner
+Gaussian blur;Gauss-Weichzeichner
 Sigma;Sigma
 Kernel size;Filterkern-Länge
 255 for Alpha channel;255 für Alpha-Kanal
@@ -120,7 +120,7 @@ Please enter a key.;Bitte einen Schlüssel eingeben.
 Sepia;Sepia
 Q coefficient of YIQ color space;Q-Koeffizient des YIQ-Farbraumes
 I coefficient of YIQ color space;I-Koeffizient des YIQ-Farbraumes
-Oil Painting;Ölgemälde
+Oil painting;Ölgemälde
 Brush size;Pinselgröße
 Wrong pixel format.;Falsches Pixelformat.
 Filter does not support the pixelformat ot this image. ;Filter unterstützt nicht das Pixelformat des Bildes. 
@@ -272,7 +272,7 @@ Ranges of lightness;Helligkeitsbereiche
 Sobel edge detector;Sobel-Kantendetektor
 Black-White;Schwarz-Weiss
 Threshold;Schwellwert
-Unsharp Masking (USM);Unscharfmaskierung / Selektive Schärfe
+Unsharp masking (USM);Unscharfmaskierung / Selektive Schärfe
 Weight;Gewichtung
 Sobel edge marker;Sobel-Kanten-Einzeichner
 Color of Edges;Kantenfarbe
@@ -289,3 +289,12 @@ Color binarization;Farbbinarisierung
 Threshold;Schwellwert
 Meanshift;Meanshift
 Filter works from 30 to 120 seconds. Troonie will be frozen during this time. Start filter? ;Filter arbeitet 30 bis 120 Sekunden. Troonie ist eingefroren während dieser Zeit. Wirklich Filter starten? 
+Edge/Point dilatation;Kanten-/Punkt-Dilatation
+Exponentiate (color-)channel(s);(Farb-)Kanal-Potenzierung
+Exponent;Exponent
+Convolution/Laplace (5x5);Faltung/Laplace (5x5)
+Filter kernel;Filterkern
+Gaussian blur;Gauss-Weichzeichner
+Laplace;Laplace-Kantenzeichner
+Laplace 2 (stronger);Laplace 2 (stärker)
+Linear blur;Linearer Weichzeichner

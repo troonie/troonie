@@ -44,7 +44,7 @@ namespace Troonie
 			this.picBtnConvert.ButtonWidth = 0;
 			this.picBtnConvert.Font = "Arial";
 			this.picBtnConvert.Text = "Convert";
-			this.picBtnConvert.TextSize = 20;
+			this.picBtnConvert.TextSize = 20D;
 			this.hbox1.Add (this.picBtnConvert);
 			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnConvert]));
 			w1.Position = 0;
@@ -57,7 +57,7 @@ namespace Troonie
 			this.picBtnViewer.ButtonWidth = 0;
 			this.picBtnViewer.Font = "Arial";
 			this.picBtnViewer.Text = "Viewer";
-			this.picBtnViewer.TextSize = 20;
+			this.picBtnViewer.TextSize = 20D;
 			this.hbox1.Add (this.picBtnViewer);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picBtnViewer]));
 			w2.Position = 1;
@@ -77,7 +77,7 @@ namespace Troonie
 			this.picBtnEdit.ButtonWidth = 0;
 			this.picBtnEdit.Font = "Arial";
 			this.picBtnEdit.Text = "Editor";
-			this.picBtnEdit.TextSize = 20;
+			this.picBtnEdit.TextSize = 20D;
 			this.hbox2.Add (this.picBtnEdit);
 			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.picBtnEdit]));
 			w4.Position = 0;
@@ -90,7 +90,7 @@ namespace Troonie
 			this.picBtnSteganography.ButtonWidth = 0;
 			this.picBtnSteganography.Font = "Arial";
 			this.picBtnSteganography.Text = "Steganography";
-			this.picBtnSteganography.TextSize = 20;
+			this.picBtnSteganography.TextSize = 20D;
 			this.hbox2.Add (this.picBtnSteganography);
 			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.picBtnSteganography]));
 			w5.Position = 1;
