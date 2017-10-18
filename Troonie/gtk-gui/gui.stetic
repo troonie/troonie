@@ -5,7 +5,7 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../bin/Release/Troonie.exe" internal="true" />
+    <widget-library name="../bin/Debug/Troonie.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="Troonie.EditWidget" design-size="688 1115">
     <property name="MemberName" />
@@ -968,7 +968,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="Troonie.SaveAsDialog" design-size="400 512">
+  <widget class="Gtk.Dialog" id="Troonie.SaveAsDialog" design-size="400 522">
     <property name="MemberName" />
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
@@ -1076,6 +1076,51 @@
                       </widget>
                       <packing>
                         <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.HBox" id="hbox6">
+                        <property name="MemberName" />
+                        <property name="Visible">False</property>
+                        <property name="Spacing">6</property>
+                        <child>
+                          <widget class="Gtk.CheckButton" id="checkBtnReplaceAlpha">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="Label" translatable="yes">ReplaceAlpha</property>
+                            <property name="DrawIndicator">True</property>
+                            <property name="HasLabel">True</property>
+                            <property name="UseUnderline">True</property>
+                            <signal name="Toggled" handler="OnCheckBtnReplaceAlphaToggled" />
+                          </widget>
+                          <packing>
+                            <property name="Position">0</property>
+                            <property name="AutoSize">False</property>
+                            <property name="Expand">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="Gtk.ColorButton" id="btnReplaceAlphaColor">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="Events">ButtonMotionMask, ButtonPressMask, ButtonReleaseMask</property>
+                            <property name="Alpha">-1</property>
+                            <signal name="ColorSet" handler="OnBtnReplaceAlphaColorSet" />
+                          </widget>
+                          <packing>
+                            <property name="Position">1</property>
+                            <property name="AutoSize">True</property>
+                            <property name="Expand">False</property>
+                            <property name="Fill">False</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="PackType">End</property>
+                        <property name="Position">2</property>
                         <property name="AutoSize">True</property>
                         <property name="Expand">False</property>
                         <property name="Fill">False</property>
@@ -1581,7 +1626,7 @@
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="GtkLabel17">
+              <widget class="Gtk.Label" id="GtkLabel18">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Other&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>
@@ -5489,7 +5534,7 @@ LeonStegRGB [2017]</property>
                   <widget class="Gtk.Notebook" id="notebook1">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="CurrentPage">1</property>
+                    <property name="CurrentPage">0</property>
                     <child>
                       <widget class="Gtk.EventBox" id="eventboxPage1">
                         <property name="MemberName" />
@@ -5642,7 +5687,63 @@ LeonStegRGB [2017]</property>
                               </packing>
                             </child>
                             <child>
-                              <placeholder />
+                              <widget class="Gtk.Frame" id="frameKeywordsXmlFile">
+                                <property name="MemberName" />
+                                <property name="ShadowType">None</property>
+                                <child>
+                                  <widget class="Gtk.Alignment" id="AlignmentKeywordsXmlFile">
+                                    <property name="MemberName" />
+                                    <property name="Xalign">0</property>
+                                    <property name="Yalign">0</property>
+                                    <property name="LeftPadding">12</property>
+                                    <child>
+                                      <widget class="Gtk.HBox" id="hboxKeywordsXmlFile">
+                                        <property name="MemberName" />
+                                        <property name="Spacing">6</property>
+                                        <child>
+                                          <widget class="Troonie.HyperTextLabel" id="hypertextlabelKeywordsXmlFile">
+                                            <property name="MemberName" />
+                                            <property name="Sensitive">False</property>
+                                            <property name="Sensitive">False</property>
+                                            <property name="Text">Starttext</property>
+                                            <property name="TextSize">0</property>
+                                            <property name="ShownTextLength">0</property>
+                                            <property name="Underline">False</property>
+                                            <property name="Bold">False</property>
+                                            <property name="Italic">False</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="Position">0</property>
+                                            <property name="AutoSize">True</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                        <child>
+                                          <placeholder />
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="Gtk.Label" id="lbFrameKeywordsXmlFile">
+                                    <property name="MemberName" />
+                                    <property name="LabelProp" translatable="yes">&lt;b&gt;lbKeywordsXmlFile&lt;/b&gt;</property>
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">3</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
                             </child>
                           </widget>
                         </child>

@@ -38,6 +38,16 @@ namespace Troonie
 		
 		private global::Gtk.Label lbFrameVideoplayer;
 		
+		private global::Gtk.Frame frameKeywordsXmlFile;
+		
+		private global::Gtk.Alignment AlignmentKeywordsXmlFile;
+		
+		private global::Gtk.HBox hboxKeywordsXmlFile;
+		
+		private global::Troonie.HyperTextLabel hypertextlabelKeywordsXmlFile;
+		
+		private global::Gtk.Label lbFrameKeywordsXmlFile;
+		
 		private global::Gtk.Label lbPage1;
 		
 		private global::Gtk.EventBox eventboxPage2;
@@ -68,7 +78,7 @@ namespace Troonie
 			this.notebook1 = new global::Gtk.Notebook ();
 			this.notebook1.CanFocus = true;
 			this.notebook1.Name = "notebook1";
-			this.notebook1.CurrentPage = 1;
+			this.notebook1.CurrentPage = 0;
 			// Container child notebook1.Gtk.Notebook+NotebookChild
 			this.eventboxPage1 = new global::Gtk.EventBox ();
 			this.eventboxPage1.Name = "eventboxPage1";
@@ -173,6 +183,44 @@ namespace Troonie
 			w11.Position = 2;
 			w11.Expand = false;
 			w11.Fill = false;
+			// Container child vboxPage1.Gtk.Box+BoxChild
+			this.frameKeywordsXmlFile = new global::Gtk.Frame ();
+			this.frameKeywordsXmlFile.Name = "frameKeywordsXmlFile";
+			this.frameKeywordsXmlFile.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child frameKeywordsXmlFile.Gtk.Container+ContainerChild
+			this.AlignmentKeywordsXmlFile = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.AlignmentKeywordsXmlFile.Name = "AlignmentKeywordsXmlFile";
+			this.AlignmentKeywordsXmlFile.LeftPadding = ((uint)(12));
+			// Container child AlignmentKeywordsXmlFile.Gtk.Container+ContainerChild
+			this.hboxKeywordsXmlFile = new global::Gtk.HBox ();
+			this.hboxKeywordsXmlFile.Name = "hboxKeywordsXmlFile";
+			this.hboxKeywordsXmlFile.Spacing = 6;
+			// Container child hboxKeywordsXmlFile.Gtk.Box+BoxChild
+			this.hypertextlabelKeywordsXmlFile = new global::Troonie.HyperTextLabel ();
+			this.hypertextlabelKeywordsXmlFile.Sensitive = false;
+			this.hypertextlabelKeywordsXmlFile.Name = "hypertextlabelKeywordsXmlFile";
+			this.hypertextlabelKeywordsXmlFile.Sensitive = false;
+			this.hypertextlabelKeywordsXmlFile.Text = "Starttext";
+			this.hypertextlabelKeywordsXmlFile.TextSize = 0;
+			this.hypertextlabelKeywordsXmlFile.ShownTextLength = 0;
+			this.hypertextlabelKeywordsXmlFile.Underline = false;
+			this.hypertextlabelKeywordsXmlFile.Bold = false;
+			this.hypertextlabelKeywordsXmlFile.Italic = false;
+			this.hboxKeywordsXmlFile.Add (this.hypertextlabelKeywordsXmlFile);
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hboxKeywordsXmlFile [this.hypertextlabelKeywordsXmlFile]));
+			w12.Position = 0;
+			this.AlignmentKeywordsXmlFile.Add (this.hboxKeywordsXmlFile);
+			this.frameKeywordsXmlFile.Add (this.AlignmentKeywordsXmlFile);
+			this.lbFrameKeywordsXmlFile = new global::Gtk.Label ();
+			this.lbFrameKeywordsXmlFile.Name = "lbFrameKeywordsXmlFile";
+			this.lbFrameKeywordsXmlFile.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>lbKeywordsXmlFile</b>");
+			this.lbFrameKeywordsXmlFile.UseMarkup = true;
+			this.frameKeywordsXmlFile.LabelWidget = this.lbFrameKeywordsXmlFile;
+			this.vboxPage1.Add (this.frameKeywordsXmlFile);
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameKeywordsXmlFile]));
+			w15.Position = 3;
+			w15.Expand = false;
+			w15.Fill = false;
 			this.eventboxPage1.Add (this.vboxPage1);
 			this.notebook1.Add (this.eventboxPage1);
 			// Notebook tab
@@ -191,8 +239,8 @@ namespace Troonie
 			this.table1.ColumnSpacing = ((uint)(6));
 			this.eventboxPage2.Add (this.table1);
 			this.notebook1.Add (this.eventboxPage2);
-			global::Gtk.Notebook.NotebookChild w15 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.eventboxPage2]));
-			w15.Position = 1;
+			global::Gtk.Notebook.NotebookChild w19 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.eventboxPage2]));
+			w19.Position = 1;
 			// Notebook tab
 			this.lbPage2 = new global::Gtk.Label ();
 			this.lbPage2.Name = "lbPage2";

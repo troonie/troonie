@@ -230,7 +230,7 @@ namespace Troonie
 			this.btn01BottomMinus.ButtonWidth = 25;
 			this.btn01BottomMinus.Font = "Arial";
 			this.btn01BottomMinus.Text = "-";
-			this.btn01BottomMinus.TextSize = 14;
+			this.btn01BottomMinus.TextSize = 14D;
 			this.tableImagePosition1.Add (this.btn01BottomMinus);
 			global::Gtk.Table.TableChild w8 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01BottomMinus]));
 			w8.TopAttach = ((uint)(2));
@@ -247,7 +247,7 @@ namespace Troonie
 			this.btn01BottomPlus.ButtonWidth = 25;
 			this.btn01BottomPlus.Font = "Arial";
 			this.btn01BottomPlus.Text = "+";
-			this.btn01BottomPlus.TextSize = 14;
+			this.btn01BottomPlus.TextSize = 14D;
 			this.tableImagePosition1.Add (this.btn01BottomPlus);
 			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01BottomPlus]));
 			w9.TopAttach = ((uint)(2));
@@ -264,7 +264,7 @@ namespace Troonie
 			this.btn01LeftMinus.ButtonWidth = 25;
 			this.btn01LeftMinus.Font = "Arial";
 			this.btn01LeftMinus.Text = "-";
-			this.btn01LeftMinus.TextSize = 14;
+			this.btn01LeftMinus.TextSize = 14D;
 			this.tableImagePosition1.Add (this.btn01LeftMinus);
 			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01LeftMinus]));
 			w10.TopAttach = ((uint)(1));
@@ -281,7 +281,7 @@ namespace Troonie
 			this.btn01LeftPlus.ButtonWidth = 25;
 			this.btn01LeftPlus.Font = "Arial";
 			this.btn01LeftPlus.Text = "+";
-			this.btn01LeftPlus.TextSize = 14;
+			this.btn01LeftPlus.TextSize = 14D;
 			this.tableImagePosition1.Add (this.btn01LeftPlus);
 			global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01LeftPlus]));
 			w11.TopAttach = ((uint)(1));
@@ -296,7 +296,7 @@ namespace Troonie
 			this.btn01RightMinus.ButtonWidth = 25;
 			this.btn01RightMinus.Font = "Arial";
 			this.btn01RightMinus.Text = "-";
-			this.btn01RightMinus.TextSize = 14;
+			this.btn01RightMinus.TextSize = 14D;
 			this.tableImagePosition1.Add (this.btn01RightMinus);
 			global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01RightMinus]));
 			w12.TopAttach = ((uint)(1));
@@ -313,7 +313,7 @@ namespace Troonie
 			this.btn01RightPlus.ButtonWidth = 25;
 			this.btn01RightPlus.Font = "Arial";
 			this.btn01RightPlus.Text = "+";
-			this.btn01RightPlus.TextSize = 14;
+			this.btn01RightPlus.TextSize = 14D;
 			this.tableImagePosition1.Add (this.btn01RightPlus);
 			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01RightPlus]));
 			w13.TopAttach = ((uint)(1));
@@ -330,7 +330,7 @@ namespace Troonie
 			this.btn01TopMinus.ButtonWidth = 25;
 			this.btn01TopMinus.Font = "Arial";
 			this.btn01TopMinus.Text = "-";
-			this.btn01TopMinus.TextSize = 14;
+			this.btn01TopMinus.TextSize = 14D;
 			this.tableImagePosition1.Add (this.btn01TopMinus);
 			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01TopMinus]));
 			w14.LeftAttach = ((uint)(3));
@@ -345,7 +345,7 @@ namespace Troonie
 			this.btn01TopPlus.ButtonWidth = 25;
 			this.btn01TopPlus.Font = "Arial";
 			this.btn01TopPlus.Text = "+";
-			this.btn01TopPlus.TextSize = 14;
+			this.btn01TopPlus.TextSize = 14D;
 			this.tableImagePosition1.Add (this.btn01TopPlus);
 			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.btn01TopPlus]));
 			w15.LeftAttach = ((uint)(2));
@@ -430,7 +430,7 @@ namespace Troonie
 			this.btn02BottomMinus.ButtonWidth = 25;
 			this.btn02BottomMinus.Font = "Arial";
 			this.btn02BottomMinus.Text = "-";
-			this.btn02BottomMinus.TextSize = 14;
+			this.btn02BottomMinus.TextSize = 14D;
 			this.tableImagePosition2.Add (this.btn02BottomMinus);
 			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.btn02BottomMinus]));
 			w23.TopAttach = ((uint)(2));
@@ -447,7 +447,7 @@ namespace Troonie
 			this.btn02BottomPlus.ButtonWidth = 25;
 			this.btn02BottomPlus.Font = "Arial";
 			this.btn02BottomPlus.Text = "+";
-			this.btn02BottomPlus.TextSize = 14;
+			this.btn02BottomPlus.TextSize = 14D;
 			this.tableImagePosition2.Add (this.btn02BottomPlus);
 			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.btn02BottomPlus]));
 			w24.TopAttach = ((uint)(2));
@@ -464,7 +464,7 @@ namespace Troonie
 			this.btn02LeftMinus.ButtonWidth = 25;
 			this.btn02LeftMinus.Font = "Arial";
 			this.btn02LeftMinus.Text = "-";
-			this.btn02LeftMinus.TextSize = 14;
+			this.btn02LeftMinus.TextSize = 14D;
 			this.tableImagePosition2.Add (this.btn02LeftMinus);
 			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.btn02LeftMinus]));
 			w25.TopAttach = ((uint)(1));
@@ -481,7 +481,7 @@ namespace Troonie
 			this.btn02LeftPlus.ButtonWidth = 25;
 			this.btn02LeftPlus.Font = "Arial";
 			this.btn02LeftPlus.Text = "+";
-			this.btn02LeftPlus.TextSize = 14;
+			this.btn02LeftPlus.TextSize = 14D;
 			this.tableImagePosition2.Add (this.btn02LeftPlus);
 			global::Gtk.Table.TableChild w26 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.btn02LeftPlus]));
 			w26.TopAttach = ((uint)(1));
@@ -496,7 +496,7 @@ namespace Troonie
 			this.btn02RightMinus.ButtonWidth = 25;
 			this.btn02RightMinus.Font = "Arial";
 			this.btn02RightMinus.Text = "-";
-			this.btn02RightMinus.TextSize = 14;
+			this.btn02RightMinus.TextSize = 14D;
 			this.tableImagePosition2.Add (this.btn02RightMinus);
 			global::Gtk.Table.TableChild w27 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.btn02RightMinus]));
 			w27.TopAttach = ((uint)(1));
@@ -513,7 +513,7 @@ namespace Troonie
 			this.btn02RightPlus.ButtonWidth = 25;
 			this.btn02RightPlus.Font = "Arial";
 			this.btn02RightPlus.Text = "+";
-			this.btn02RightPlus.TextSize = 14;
+			this.btn02RightPlus.TextSize = 14D;
 			this.tableImagePosition2.Add (this.btn02RightPlus);
 			global::Gtk.Table.TableChild w28 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.btn02RightPlus]));
 			w28.TopAttach = ((uint)(1));
@@ -530,7 +530,7 @@ namespace Troonie
 			this.btn02TopMinus.ButtonWidth = 25;
 			this.btn02TopMinus.Font = "Arial";
 			this.btn02TopMinus.Text = "-";
-			this.btn02TopMinus.TextSize = 14;
+			this.btn02TopMinus.TextSize = 14D;
 			this.tableImagePosition2.Add (this.btn02TopMinus);
 			global::Gtk.Table.TableChild w29 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.btn02TopMinus]));
 			w29.LeftAttach = ((uint)(3));
@@ -545,7 +545,7 @@ namespace Troonie
 			this.btn02TopPlus.ButtonWidth = 25;
 			this.btn02TopPlus.Font = "Arial";
 			this.btn02TopPlus.Text = "+";
-			this.btn02TopPlus.TextSize = 14;
+			this.btn02TopPlus.TextSize = 14D;
 			this.tableImagePosition2.Add (this.btn02TopPlus);
 			global::Gtk.Table.TableChild w30 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.btn02TopPlus]));
 			w30.LeftAttach = ((uint)(2));
@@ -674,7 +674,7 @@ namespace Troonie
 			this.btnOk.ButtonWidth = 0;
 			this.btnOk.Font = "Arial";
 			this.btnOk.Text = "OK";
-			this.btnOk.TextSize = 14;
+			this.btnOk.TextSize = 14D;
 			this.vbox1.Add (this.btnOk);
 			global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
 			w47.Position = 3;

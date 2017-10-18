@@ -25,7 +25,11 @@ namespace Troonie
 			this.KeepAbove = true;
 			hypertextlabelVideoplayer.InitDefaultValues ();
 			hypertextlabelVideoplayer.FileChooserAction = FileChooserAction.Open;
-			hypertextlabelVideoplayer.OnHyperTextLabelTextChanged += OnHyperTextLabelTextChanged;
+			hypertextlabelVideoplayer.OnHyperTextLabelTextChanged += OnHyperTextLabelVideoplayer_TextChanged;
+
+			hypertextlabelKeywordsXmlFile.InitDefaultValues ();
+			hypertextlabelKeywordsXmlFile.FileChooserAction = FileChooserAction.Open;
+			hypertextlabelKeywordsXmlFile.OnHyperTextLabelTextChanged += OnHyperTextLabelKeywordsXmlFile_TextChanged;
 
 			timeoutSw = new Stopwatch();
 
@@ -54,8 +58,11 @@ namespace Troonie
 			lbFrameVideoplayer.ModifyFg (StateType.Normal, ColorConverter.Instance.FONT);
 			lbMaxSideLengthFilterImage.LabelProp = Constants.N + "<b>" + Language.I.L[284] + "</b>";
 			lbFrameVideoplayer.LabelProp = Constants.N + "<b>" + Language.I.L[230] + "</b>";
+			lbFrameKeywordsXmlFile.ModifyFg (StateType.Normal, ColorConverter.Instance.FONT);
+			lbFrameKeywordsXmlFile.LabelProp = Constants.N + "<b>" + Language.I.L[302] + "</b>";
 
 			hypertextlabelVideoplayer.Text = Constants.I.CONFIG.VideoplayerPath; //Language.I.L[229];
+			hypertextlabelKeywordsXmlFile.Text = Constants.I.CONFIG.KeywordsXmlFilePath;
 			nr = Constants.I.CONFIG.MaxImageLengthForFiltering;
 			entryMaxSideLengthFilterImage.Text = nr.ToString();
 
@@ -197,10 +204,16 @@ namespace Troonie
 
 		#endregion event handler
 
-		private void OnHyperTextLabelTextChanged()
+		private void OnHyperTextLabelVideoplayer_TextChanged()
 		{
 			Constants.I.CONFIG.VideoplayerPath = hypertextlabelVideoplayer.Text;			
 			Constants.I.CONFIG.VideoplayerWorks = System.IO.File.Exists(hypertextlabelVideoplayer.Text);
+			Config.Save (Constants.I.CONFIG);
+		}
+
+		private void OnHyperTextLabelKeywordsXmlFile_TextChanged()
+		{
+			Constants.I.CONFIG.KeywordsXmlFilePath = hypertextlabelKeywordsXmlFile.Text;
 			Config.Save (Constants.I.CONFIG);
 		}
 

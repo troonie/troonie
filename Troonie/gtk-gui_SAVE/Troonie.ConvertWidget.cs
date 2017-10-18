@@ -313,11 +313,11 @@ namespace Troonie
 			this.hscaleQuality = new global::Gtk.HScale (null);
 			this.hscaleQuality.CanFocus = true;
 			this.hscaleQuality.Name = "hscaleQuality";
-			this.hscaleQuality.Adjustment.Lower = 1;
-			this.hscaleQuality.Adjustment.Upper = 100;
-			this.hscaleQuality.Adjustment.PageIncrement = 10;
-			this.hscaleQuality.Adjustment.StepIncrement = 1;
-			this.hscaleQuality.Adjustment.Value = 90;
+			this.hscaleQuality.Adjustment.Lower = 1D;
+			this.hscaleQuality.Adjustment.Upper = 100D;
+			this.hscaleQuality.Adjustment.PageIncrement = 10D;
+			this.hscaleQuality.Adjustment.StepIncrement = 1D;
+			this.hscaleQuality.Adjustment.Value = 90D;
 			this.hscaleQuality.DrawValue = true;
 			this.hscaleQuality.Digits = 0;
 			this.hscaleQuality.ValuePos = ((global::Gtk.PositionType)(2));
@@ -633,6 +633,7 @@ namespace Troonie
 			this.rdOriginalSize = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Retain original size"));
 			this.rdOriginalSize.CanFocus = true;
 			this.rdOriginalSize.Name = "rdOriginalSize";
+			this.rdOriginalSize.Active = true;
 			this.rdOriginalSize.DrawIndicator = true;
 			this.rdOriginalSize.UseUnderline = true;
 			this.rdOriginalSize.Group = new global::GLib.SList (global::System.IntPtr.Zero);
@@ -919,7 +920,7 @@ namespace Troonie
 			this.btnConvert.ButtonWidth = 0;
 			this.btnConvert.Font = "Arial";
 			this.btnConvert.Text = "Convert";
-			this.btnConvert.TextSize = 16;
+			this.btnConvert.TextSize = 16D;
 			this.vbox1.Add (this.btnConvert);
 			global::Gtk.Box.BoxChild w80 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnConvert]));
 			w80.Position = 3;

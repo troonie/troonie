@@ -362,40 +362,40 @@ namespace Troonie_Lib
 			}
 		}
 
-		/// <summary>
-		/// Converts a bitmap with unspecific pixel format into 32 bpp bitmap.
-		/// </summary>
-		/// <param name="source">The bitmap to convert.</param>
-		/// <returns>Result (32 bpp) bitmap.</returns>
-		/// <exception cref="System.ArgumentException">
-		/// PixelFormat of bitmap is not supported.;source</exception>
-		[Obsolete("Use ImageConverter.To32BppWithTransparencyColor(Bitmap source, Color transparencyColor) instead.")]
-		public static Bitmap To32Bpp(Bitmap source, byte alpha)
-		{
-			switch (source.PixelFormat)
-			{
-				case PixelFormat.Format1bppIndexed:
-				// TODO: Check, if it works.
-				Rectangle rec = new Rectangle (0, 0, source.Width, source.Height);
-				return source.Clone (rec, PixelFormat.Format32bppArgb);
-//				return RGBToARGB(CloneBitmapByUsingGraphics(source, 
-//				                                            source.Width, 
-//				                                            source.Height,
-//				                                            true), alpha);
-				case PixelFormat.Format8bppIndexed:
-				//TODO refactoring this step
-				return  RGBToARGB(GrayscaleToRGB(source), alpha);
-				case PixelFormat.Format24bppRgb:
-				return RGBToARGB (source, alpha);
-				case PixelFormat.Format32bppArgb:
-				case PixelFormat.Format32bppRgb:
-				//TODO refactoring this step
-				return RGBToARGB (ARGBToRGB(source), alpha);
-				default:
-				throw new ArgumentException(
-					"PixelFormat of bitmap is not supported.", "source");
-			}
-		}
+//		/// <summary>
+//		/// Converts a bitmap with unspecific pixel format into 32 bpp bitmap.
+//		/// </summary>
+//		/// <param name="source">The bitmap to convert.</param>
+//		/// <returns>Result (32 bpp) bitmap.</returns>
+//		/// <exception cref="System.ArgumentException">
+//		/// PixelFormat of bitmap is not supported.;source</exception>
+//		[Obsolete("Use ImageConverter.To32BppWithTransparencyColor(Bitmap source, Color transparencyColor) instead.")]
+//		public static Bitmap To32Bpp(Bitmap source, byte alpha)
+//		{
+//			switch (source.PixelFormat)
+//			{
+//				case PixelFormat.Format1bppIndexed:
+//				// TODO: Check, if it works.
+//				Rectangle rec = new Rectangle (0, 0, source.Width, source.Height);
+//				return source.Clone (rec, PixelFormat.Format32bppArgb);
+////				return RGBToARGB(CloneBitmapByUsingGraphics(source, 
+////				                                            source.Width, 
+////				                                            source.Height,
+////				                                            true), alpha);
+//				case PixelFormat.Format8bppIndexed:
+//				//TODO refactoring this step
+//				return  RGBToARGB(GrayscaleToRGB(source), alpha);
+//				case PixelFormat.Format24bppRgb:
+//				return RGBToARGB (source, alpha);
+//				case PixelFormat.Format32bppArgb:
+//				case PixelFormat.Format32bppRgb:
+//				//TODO refactoring this step
+//				return RGBToARGB (ARGBToRGB(source), alpha);
+//				default:
+//				throw new ArgumentException(
+//					"PixelFormat of bitmap is not supported.", "source");
+//			}
+//		}
 
 		/// <summary>
 		/// Converts a bitmap with unspecific pixel format into 32 bpp bitmap with a specified transparency color.
@@ -497,7 +497,11 @@ namespace Troonie_Lib
 		/// </summary>
 		/// <param name="source">The bitmap, which will be converted.</param>
 		/// <returns>Result (24 bpp) bitmap.</returns>
-		private static Bitmap ARGBToRGB(Bitmap source)
+		public static Bitmap ARGBToRGB(Bitmap source,
+			bool replaceTransparencyWithColor = false,
+			byte replaceColorRed = 255,
+			byte replaceColorGreen = 255,
+			byte replaceColorBlue = 255)
 		{
 			// check image format
 			if (source.PixelFormat != PixelFormat.Format32bppRgb &&
@@ -532,9 +536,15 @@ namespace Troonie_Lib
 					// for each pixel in line
 					for (int x = 0; x < w; x++, src += 4, dst += 3)
 					{
-						dst[RGBA.R] = src[RGBA.R];
-						dst[RGBA.G] = src[RGBA.G];
-						dst[RGBA.B] = src[RGBA.B];
+						if (replaceTransparencyWithColor && src [RGBA.A] != 255) {
+							dst [RGBA.R] = replaceColorRed;
+							dst [RGBA.G] = replaceColorGreen;
+							dst [RGBA.B] = replaceColorBlue;
+						} else {
+							dst [RGBA.R] = src [RGBA.R];
+							dst [RGBA.G] = src [RGBA.G];
+							dst [RGBA.B] = src [RGBA.B];
+						}
 					}
 					dst += dstOffset;
 				}

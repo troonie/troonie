@@ -118,7 +118,7 @@ namespace Troonie
 			this.picbtnYes.ButtonWidth = 0;
 			this.picbtnYes.Font = "Arial";
 			this.picbtnYes.Text = "Yes";
-			this.picbtnYes.TextSize = 10;
+			this.picbtnYes.TextSize = 10D;
 			this.hbox1.Add (this.picbtnYes);
 			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picbtnYes]));
 			w8.Position = 0;
@@ -131,7 +131,7 @@ namespace Troonie
 			this.picbtnNo.ButtonWidth = 0;
 			this.picbtnNo.Font = "Arial";
 			this.picbtnNo.Text = "No";
-			this.picbtnNo.TextSize = 10;
+			this.picbtnNo.TextSize = 10D;
 			this.hbox1.Add (this.picbtnNo);
 			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.picbtnNo]));
 			w9.Position = 1;

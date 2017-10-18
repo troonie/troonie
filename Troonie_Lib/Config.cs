@@ -39,6 +39,9 @@ namespace Troonie_Lib
         /// <summary>The quality of the jpeg codec.</summary>
         public byte JpgQuality;
 
+		/// <summary>File path for xml serialization for stored keywords.</summary>
+		public string KeywordsXmlFilePath { get; set; }
+
 		/// <summary>The maximum image length for image filtering.</summary>
 		//		[XmlAttribute("MaxImageLengthForFiltering", DataType = "int")]
 		public int MaxImageLengthForFiltering { get; set; }
@@ -57,11 +60,17 @@ namespace Troonie_Lib
         /// or lower quality and faster rendering will be used. </summary>
         public bool HighQuality { get; set; }
 
+		public bool ReplacingTransparencyWithColor;
+
 		public ConvertMode StretchImage { get; set; }
 
 		public byte TransparencyColorRed { get; set; }
 		public byte TransparencyColorGreen { get; set; }
 		public byte TransparencyColorBlue { get; set; }
+
+		public byte ReplaceTransparencyColorRed { get; set; }
+		public byte ReplaceTransparencyColorGreen { get; set; }
+		public byte ReplaceTransparencyColorBlue { get; set; }
 
         /// <summary>
         /// Determines, if the path of initial image(s) will be used as 
@@ -122,7 +131,15 @@ namespace Troonie_Lib
 			TransparencyColorGreen = 255;
 			TransparencyColorBlue = 255;
 
+			/* Replacing tranparency will not be saved, 
+			 *  just one-time usage in SaveAsDialog form */ 
+			ReplacingTransparencyWithColor = false;
+			ReplaceTransparencyColorRed = 255;
+			ReplaceTransparencyColorGreen = 255;
+			ReplaceTransparencyColorBlue = 255;
+
 			VideoplayerPath = "   Click here to set a videoplayer.";
+			KeywordsXmlFilePath = Constants.I.EXEPATH + "keywords.xml";
 
 			switch (Environment.OSVersion.Platform)
 			{
@@ -167,13 +184,13 @@ namespace Troonie_Lib
 		{
 			if (!File.Exists (xmlFile)) {
 				Save(new Config());
-			}
+			}				
 
 			XmlSerializer serializer = new XmlSerializer(typeof(Config));
 			StreamReader sr = new StreamReader(xmlFile);
 			Config c = (Config)serializer.Deserialize(sr);
-
 			sr.Close();
+
 			return c;
 		}
 

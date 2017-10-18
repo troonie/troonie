@@ -138,6 +138,21 @@ namespace Troonie_Lib
 					config.HighQuality);
 				#endregion Resizing
 
+				#region ReplacingTransparencyWithColor
+				if (config.ReplacingTransparencyWithColor && config.Format != (
+						TroonieImageFormat.JPEGLOSSLESS | 
+						TroonieImageFormat.PNG32AlphaAsValue | 
+						TroonieImageFormat.PNG32Transparency))  {
+					dest = ImageConverter.ARGBToRGB(
+						dest, 
+						config.ReplacingTransparencyWithColor,
+						config.ReplaceTransparencyColorRed, 
+						config.ReplaceTransparencyColorGreen,
+						config.ReplaceTransparencyColorBlue);
+				}
+
+				#endregion ReplacingTransparencyWithColor
+
 				#region Saving by using TroonieImageFormat
 				switch (config.Format) {
 				case TroonieImageFormat.JPEG8:

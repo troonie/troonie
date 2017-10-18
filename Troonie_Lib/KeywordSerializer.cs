@@ -112,28 +112,43 @@ namespace Troonie_Lib
 	/// <summary> Serializer for storing Keywords. </summary>
 	public class KeywordSerializer
     {		
-		private static string xmlFile = Constants.I.EXEPATH + "keywords.xml"; 
+		private static string xmlFile; // = Constants.I.EXEPATH + "keywords.xml"; 
 
 		public const int MAX_NUMBER_OF_KEYWORDS = 150;
 
         /// <summary>File path for saving converted image(s).</summary>
 		public List<Keyword> Keywords { get; set; }	
 
-		public KeywordSerializer() {
+		private KeywordSerializer() {
 			Keywords = new List<Keyword>();
 		}
 
 		public static KeywordSerializer Load()
 		{
+			xmlFile = Constants.I.CONFIG.KeywordsXmlFilePath;
+
 			if (!File.Exists (xmlFile)) {
 				Save(new KeywordSerializer());
 			}
 
 			XmlSerializer serializer = new XmlSerializer(typeof(KeywordSerializer));
-			StreamReader sr = new StreamReader(xmlFile);
-			KeywordSerializer c = (KeywordSerializer)serializer.Deserialize(sr);
+			StreamReader sr = null;
+			KeywordSerializer c;
 
-			sr.Close();
+			try {
+				sr = new StreamReader(xmlFile);
+				c = (KeywordSerializer)serializer.Deserialize(sr);
+			}
+			catch (Exception){
+				Constants.I.CONFIG.KeywordsXmlFilePath = Constants.I.EXEPATH + "keywords.xml";
+				c = Load ();
+			}
+			finally {
+				if (sr != null) {
+					sr.Close ();
+				}
+			}
+
 			return c;
 		}
 

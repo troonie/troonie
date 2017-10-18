@@ -174,6 +174,7 @@ namespace Troonie
 			this.rdBtnDecrypt = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Decrypt"));
 			this.rdBtnDecrypt.CanFocus = true;
 			this.rdBtnDecrypt.Name = "rdBtnDecrypt";
+			this.rdBtnDecrypt.Active = true;
 			this.rdBtnDecrypt.DrawIndicator = true;
 			this.rdBtnDecrypt.UseUnderline = true;
 			this.rdBtnDecrypt.Group = new global::GLib.SList (global::System.IntPtr.Zero);
@@ -214,6 +215,7 @@ namespace Troonie
 			this.rdBtnPayloadText = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Text"));
 			this.rdBtnPayloadText.CanFocus = true;
 			this.rdBtnPayloadText.Name = "rdBtnPayloadText";
+			this.rdBtnPayloadText.Active = true;
 			this.rdBtnPayloadText.DrawIndicator = true;
 			this.rdBtnPayloadText.UseUnderline = true;
 			this.rdBtnPayloadText.Group = new global::GLib.SList (global::System.IntPtr.Zero);
@@ -432,7 +434,7 @@ namespace Troonie
 			this.btnOk.ButtonWidth = 0;
 			this.btnOk.Font = "Arial";
 			this.btnOk.Text = "OK";
-			this.btnOk.TextSize = 14;
+			this.btnOk.TextSize = 14D;
 			this.vbox1.Add (this.btnOk);
 			global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.btnOk]));
 			w36.Position = 2;

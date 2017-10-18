@@ -31,6 +31,7 @@ namespace Troonie
 			onlyColorLosslessSaving = false;
 
 			btnColor.Color = colorConverter.White;
+			btnReplaceAlphaColor.Color = colorConverter.White;
 			htLabelDirectory.InitDefaultValues ();
 			htLabelDirectory.OnHyperTextLabelTextChanged += OnHyperTextLabelTextChanged;
 
@@ -38,7 +39,7 @@ namespace Troonie
 			GtkLabel3.ModifyFg(StateType.Normal, colorConverter.FONT);
 			GtkLabel8.ModifyFg(StateType.Normal, colorConverter.FONT);
 			GtkLabel12.ModifyFg(StateType.Normal, colorConverter.FONT);
-			GtkLabel17.ModifyFg(StateType.Normal, colorConverter.FONT);
+			GtkLabel18.ModifyFg(StateType.Normal, colorConverter.FONT);
 			lbFile.ModifyFg(StateType.Normal, colorConverter.FONT);
 
 			SetLanguageToGui ();
@@ -72,12 +73,15 @@ namespace Troonie
 				OnRdPng24BitToggled (rdPng24Bit, null);
 				break;
 			case TroonieImageFormat.PNG32Transparency:
+				hbox6.Visible = true;  // replacing alpha with color
+				btnReplaceAlphaColor.Sensitive = !rdPng32BitAlphaAsValue.Active;
 				rdPNG32bit.Active = true;
 				OnRdPNG32bitToggled (rdPNG32bit, null);
 				break;
 			case TroonieImageFormat.PNG32AlphaAsValue:
+				hbox6.Visible = true;  // replacing alpha with color
 				rdPng32BitAlphaAsValue.Active = true;
-				OnRdPNG32bitToggled (rdPng32BitAlphaAsValue, null);
+				OnRdPng32BitAlphaAsValueToggled (rdPng32BitAlphaAsValue, null);
 				break;
 			case TroonieImageFormat.JPEG8:
 				rdJpegGray.Active = true;
@@ -168,11 +172,12 @@ namespace Troonie
 			rdPNG32bit.Label = "PNG (32 Bit " + Language.I.L[25] + ")";
 			rdPng32BitAlphaAsValue.Label = "PNG (32 Bit " + Language.I.L[79] + ")";
 			lbTransparencyColor.Text = Language.I.L[26];
+			checkBtnReplaceAlpha.Label = Language.I.L[301];
 
 			rdBmp1bit.Label = "BMP (1 Bit " + Language.I.L[24] + ")";
 			rdBmp8bit.Label = "BMP (8 Bit " + Language.I.L[21] + ")";
 			rdBmp24bit.Label = "BMP (24 Bit " + Language.I.L[22] + ")";
-			GtkLabel17.LabelProp = "<b>" + Language.I.L[27] + "</b>";
+			GtkLabel18.LabelProp = "<b>" + Language.I.L[27] + "</b>";
 			buttonOk.Label = Language.I.L[16];
 			buttonCancel.Label = Language.I.L[17];
 		}
@@ -203,6 +208,7 @@ namespace Troonie
 		{
 			onlyColorLosslessSaving = true;
 
+			hbox6.Visible = false; // replacing alpha with color
 			rdPng1bit.Sensitive = false;
 			rdPng8Bit.Sensitive = false;
 			rdPNG32bit.Sensitive = false;
@@ -269,11 +275,23 @@ namespace Troonie
 			lbTransparencyColor.Sensitive = rdPNG32bit.Active;
 			btnColor.Sensitive = rdPNG32bit.Active;
 
+			checkBtnReplaceAlpha.Sensitive = !rdPNG32bit.Active;
+			btnReplaceAlphaColor.Sensitive = !rdPNG32bit.Active;
+			if (rdPNG32bit.Active) {
+				checkBtnReplaceAlpha.Active = false;
+			}
+
 			SetToggledProperties (sender, TroonieImageFormat.PNG32Transparency);
 		}
 
 		protected void OnRdPng32BitAlphaAsValueToggled (object sender, EventArgs e)
 		{
+			checkBtnReplaceAlpha.Sensitive = !rdPng32BitAlphaAsValue.Active;
+			btnReplaceAlphaColor.Sensitive = !rdPng32BitAlphaAsValue.Active;
+			if (rdPng32BitAlphaAsValue.Active) {
+				checkBtnReplaceAlpha.Active = false;
+			}
+
 			SetToggledProperties (sender, TroonieImageFormat.PNG32AlphaAsValue);
 		}
 
@@ -327,14 +345,24 @@ namespace Troonie
 		protected void OnBtnColorColorSet (object sender, EventArgs e)
 		{			
 			// transparencyColor = btnColor.Color;
-
 			byte r, g, b;
 			ColorConverter.Instance.ToDotNetColor (btnColor.Color, out r, out g, out b);
 
 			config.TransparencyColorRed = r;
 			config.TransparencyColorGreen = g;
 			config.TransparencyColorBlue = b;
-		}		
+		}	
+
+		protected void OnBtnReplaceAlphaColorSet (object sender, EventArgs e)
+		{			
+			// transparencyColor = btnColor.Color;
+			byte r, g, b;
+			ColorConverter.Instance.ToDotNetColor (btnReplaceAlphaColor.Color, out r, out g, out b);
+
+			config.ReplaceTransparencyColorRed = r;
+			config.ReplaceTransparencyColorGreen = g;
+			config.ReplaceTransparencyColorBlue = b;
+		}
 
 		[GLib.ConnectBefore ()] 
 		protected void OnKeyPressEvent (object o, KeyPressEventArgs args)
@@ -348,6 +376,11 @@ namespace Troonie
 				this.Respond (ResponseType.Cancel);
 				break;
 			}
+		}
+
+		protected void OnCheckBtnReplaceAlphaToggled (object sender, EventArgs e)
+		{
+			config.ReplacingTransparencyWithColor = checkBtnReplaceAlpha.Active;
 		}
 	}
 }

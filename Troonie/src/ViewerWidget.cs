@@ -20,7 +20,6 @@ namespace Troonie
 
 	public partial class ViewerWidget : Gtk.Window
 	{
-		private const string blackFileName = "black.png";
 		private const int smallVipWidthAndHeight = 300;
 		private const int tableViewerSpacing = 6;
 		private static int startW, startH, maxVipWidth, maxVipHeight;
