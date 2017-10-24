@@ -5442,7 +5442,7 @@ LeonStegRGB [2017]</property>
                 <child>
                   <widget class="Gtk.Frame" id="frame1">
                     <property name="MemberName" />
-                    <property name="WidthRequest">262</property>
+                    <property name="WidthRequest">268</property>
                     <property name="BorderWidth">1</property>
                     <child>
                       <widget class="Gtk.Alignment" id="GtkAlignment">
