@@ -181,6 +181,7 @@ namespace Troonie
 
 		private void Initialize(bool newFileName)
 		{
+			lbFileSize.Text = string.Empty;
 			if (FileName == null)
 			{
 				hboxToolbarButtons.Children[1].Sensitive = false;
@@ -210,6 +211,7 @@ namespace Troonie
 					{
 						FileInfo info = new FileInfo (FileName);
 						string ext = info.Extension.ToLower ();
+						lbFileSize.Text = GuiHelper.I.GetFileSizeString(info.Length, 2);
 
 						if (ext.Length != 0 && Constants.Extensions.Any(x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
 							Title = FileName;
@@ -229,7 +231,6 @@ namespace Troonie
 			}			
 			
 			// Gdk.Pixbuf.GetFileInfo(FileName, out imageW, out imageH);
-
 			SetPanelSize();	
 
 //			tempScaledImageFileName = constants.EXEPATH + "tempScaledImageFileName.png";
@@ -399,6 +400,8 @@ namespace Troonie
 			lbNewText.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFormat.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbFormatText.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFileSize.ModifyFg (StateType.Normal, colorConverter.FONT);
+			lbFileSizeText.ModifyFg (StateType.Normal, colorConverter.FONT);
 
 			lbFrameCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbCursorPos.ModifyFg (StateType.Normal, colorConverter.FONT);
@@ -436,6 +439,7 @@ namespace Troonie
 
 			lbNewText.Text = Language.I.L[14] + ":";
 			lbFormatText.Text = "\t" + Language.I.L[266] + ":";
+			lbFileSizeText.Text = "\t" + Language.I.L[303] + ":";
 
 			lbFrameCursorPos.LabelProp = "<b>" + Language.I.L[15] + "</b>";
 			btnOk.Text = Language.I.L[16];

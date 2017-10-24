@@ -42,7 +42,8 @@ namespace Troonie_Lib
 
 		Width =					1 << 21,
 		Height =				1 << 22,
-		Pixelformat =			1 << 23
+		Pixelformat =			1 << 23,
+		FileSize =				1 << 24
 		#endregion
 	}
 
@@ -80,6 +81,7 @@ namespace Troonie_Lib
 		public int Width;
 		public int Height;
 		public int Pixelformat;
+		public long FileSize;
 		#endregion No TagsFlag elements
 
 		public bool SetValue (TagsFlag flag, object o)
@@ -166,9 +168,10 @@ namespace Troonie_Lib
 			case TagsFlag.Copyright:	return Copyright;		
 			case TagsFlag.Title:		return Title;	
 			// No TagsFlag elements
-			case TagsFlag.Width:			return Width;	
+			case TagsFlag.Width:		return Width;	
 			case TagsFlag.Height:		return Height;
 			case TagsFlag.Pixelformat:	return Pixelformat;
+			case TagsFlag.FileSize:		return FileSize;
 //			default:
 //				throw new NotImplementedException ();
 			}

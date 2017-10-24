@@ -57,7 +57,7 @@ namespace Troonie
 				int wx = 10;
 				int wy = 10;
 				startW = Screen.Width - 2 * wx;
-				startH = Screen.Height - 2 * wy - 68 /*- 70*/ /*taskbarHeight*/;
+				startH = Screen.Height - 2 * wy - 54 /*- 70*/ /*taskbarHeight*/;
 				maxVipWidth = startW - frame1.WidthRequest - 60;
 				maxVipHeight = startH - 60  /* ToolbarIconButtonHeight */ ;
 
@@ -181,7 +181,8 @@ namespace Troonie
 				TroonieButton b = new TroonieButton ();
 				if (s == Enum.GetName (typeof(TagsFlag), TagsFlag.Width) || 
 					s == Enum.GetName (typeof(TagsFlag), TagsFlag.Height) ||
-					s == Enum.GetName (typeof(TagsFlag), TagsFlag.Pixelformat)) {
+					s == Enum.GetName (typeof(TagsFlag), TagsFlag.Pixelformat) ||
+					s == Enum.GetName (typeof(TagsFlag), TagsFlag.FileSize)) {
 					b.Sensitive = false;
 					b.ButtonHeight = 0;
 					b.ButtonWidth = 0;
@@ -367,6 +368,24 @@ namespace Troonie
 				Label lb = tableTagsViewer.Children[i] as Label; 
 				lb.Text = s; //s.Length > maxLengthLabelTagData ? s.Substring(0, maxLengthLabelTagData) : s;
 				lb.TooltipText = s;
+
+				if (s == string.Empty)
+					continue;
+				
+				// special string representations
+				switch (flag) {
+				case TagsFlag.Pixelformat:					
+					lb.Text = s + " " + Language.I.L[304];
+					lb.TooltipText = s;
+					break;
+				case TagsFlag.FileSize:
+					long lo;
+					if (long.TryParse(s, out lo)) {
+						lb.Text = GuiHelper.I.GetFileSizeString(lo, 2);
+						lb.TooltipText = GuiHelper.I.GetFileSizeString(lo, 2);
+					}
+					break;
+				}
 			}
 		}
 
@@ -411,6 +430,7 @@ namespace Troonie
 				string ext = info.Extension.ToLower ();
 				bool isImage = Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext);
 				bool isVideo = Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext);
+				long fileSize = info.Length;
 
 				// ask (and do) for adding video picture
 				if (isVideo) {					
@@ -473,6 +493,7 @@ namespace Troonie
 
 					try {
 						ViewerImagePanel vip = new ViewerImagePanel (IncrementImageID(), isVideo, newImages [i], smallVipWidthAndHeight, maxVipWidth, maxVipHeight);
+						vip.TagsData.FileSize = fileSize;
 						if (info.IsReadOnly) {
 							throw new UnauthorizedAccessException();
 						}

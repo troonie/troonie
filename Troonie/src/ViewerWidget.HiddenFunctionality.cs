@@ -27,7 +27,7 @@ namespace Troonie
 					// check whether file is image or video
 					FileInfo info = new FileInfo (pib.OriginalImageFullName);
 					string ext = info.Extension.ToLower ();
-					long origLength = info.Length; 
+					long fileSize = info.Length; 
 					uint rating = 0;
 					bool isVideo = false;
 					//				DateTime? dt = null;
@@ -91,14 +91,19 @@ namespace Troonie
 						Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext)) {
 						byte jpqQuality = 95;
 						biggestLength = 1800 + 1200 * (int)rating;
-						if (origLength > limitInBytes &&
+						if (fileSize > limitInBytes &&
 							TroonieBitmap.GetBiggestLength (pib.OriginalImageFullName) > biggestLength) 
 						{
 							ReduceImageSize (pib.RelativeImageName, pib.OriginalImageFullName, ref creatorText, biggestLength, jpqQuality);
 						}
-
-						bool success = ConvertByRating (pib.RelativeImageName, pib.OriginalImageFullName, ref creatorText, limitInBytes, jpqQuality);
-						if (!success) {
+							
+						bool success = ConvertByRating (pib.RelativeImageName, pib.OriginalImageFullName, ref creatorText, limitInBytes, jpqQuality, out fileSize);
+						if (success) {
+							pib.TagsData.FileSize = fileSize;
+							// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
+							pib.IsPressedIn = pib.IsPressedIn;
+						}
+						else {
 							errorImages += tmp + Constants.N;
 						}
 					}						
@@ -328,11 +333,11 @@ namespace Troonie
 			}
 		}
 
-		public static bool ConvertByRating(string filename, string fullfilename, ref string creatorText, long limitInBytes, byte jpgQuality)
+		public static bool ConvertByRating(string filename, string fullfilename, ref string creatorText, long limitInBytes, byte jpgQuality, out long l)
 		{
 			bool success = true;
 			FileInfo info = new FileInfo (fullfilename);
-			long l = info.Length;
+			l = info.Length;
 			jpgQuality++;
 
 			string relativeImageName = IOPath.DirectorySeparatorChar + filename.Substring(0, filename.LastIndexOf('.')) + "_tmp.jpg";

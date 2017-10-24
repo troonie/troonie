@@ -59,8 +59,8 @@ namespace Troonie
 
 			string filename = null;
 			// START VALUE
-//			args = new string[] { "-v"};
-//			args = new string[] { "-e", "/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor_ALPHA.png"};
+			args = new string[] { "-v"};
+//			args = new string[] { "-e", "/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"};
 //			args = new string[] { "-s", "/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"};
 
 			if (args.Length == 0) {
@@ -89,8 +89,8 @@ namespace Troonie
 //							"/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor_Ban03.png", 
 //							"/home/jazz/Schreibtisch/Tesimages/Pilz_dat2.png",//							
 //							"/home/jazz/Schreibtisch/Tesimages/portrait.jpg", 
-//							"/home/jazz/Schreibtisch/Tesimages/01.jpg",
-//							"/home/jazz/Schreibtisch/Tesimages/02.jpg",
+							"/home/jazz/Schreibtisch/Tesimages/01.jpg",
+							"/home/jazz/Schreibtisch/Tesimages/02.jpg",
 //							"/home/jazz/Schreibtisch/Tesimages/testviteo-1sec.mp4",
 							"/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"});
 					winViewer.Show ();

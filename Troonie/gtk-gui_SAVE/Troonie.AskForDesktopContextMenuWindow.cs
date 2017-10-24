@@ -79,6 +79,7 @@ namespace Troonie
 			this.chkBtn.CanFocus = true;
 			this.chkBtn.Name = "chkBtn";
 			this.chkBtn.Label = global::Mono.Unix.Catalog.GetString ("checkbutton1");
+			this.chkBtn.Active = true;
 			this.chkBtn.DrawIndicator = true;
 			this.chkBtn.UseUnderline = true;
 			this.vbox2.Add (this.chkBtn);

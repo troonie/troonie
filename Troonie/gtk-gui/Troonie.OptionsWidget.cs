@@ -14,6 +14,16 @@ namespace Troonie
 		
 		private global::Gtk.VBox vboxPage1;
 		
+		private global::Gtk.Frame frameAskForDesktopContextMenu;
+		
+		private global::Gtk.Alignment AlignmentDesktopContextMenu;
+		
+		private global::Gtk.HBox hboxDesktopContextMenu;
+		
+		private global::Gtk.CheckButton checkBtnDesktopContextMenu;
+		
+		private global::Gtk.Label lbFrameDesktopContextMenu;
+		
 		private global::Gtk.Frame frameMaxSideLengthFilterImage;
 		
 		private global::Gtk.Alignment AlignmentMaxSideLengthFilterImage;
@@ -87,6 +97,40 @@ namespace Troonie
 			this.vboxPage1.Name = "vboxPage1";
 			this.vboxPage1.Spacing = 6;
 			// Container child vboxPage1.Gtk.Box+BoxChild
+			this.frameAskForDesktopContextMenu = new global::Gtk.Frame ();
+			this.frameAskForDesktopContextMenu.Name = "frameAskForDesktopContextMenu";
+			this.frameAskForDesktopContextMenu.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child frameAskForDesktopContextMenu.Gtk.Container+ContainerChild
+			this.AlignmentDesktopContextMenu = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.AlignmentDesktopContextMenu.Name = "AlignmentDesktopContextMenu";
+			this.AlignmentDesktopContextMenu.LeftPadding = ((uint)(12));
+			// Container child AlignmentDesktopContextMenu.Gtk.Container+ContainerChild
+			this.hboxDesktopContextMenu = new global::Gtk.HBox ();
+			this.hboxDesktopContextMenu.Name = "hboxDesktopContextMenu";
+			this.hboxDesktopContextMenu.Spacing = 6;
+			// Container child hboxDesktopContextMenu.Gtk.Box+BoxChild
+			this.checkBtnDesktopContextMenu = new global::Gtk.CheckButton ();
+			this.checkBtnDesktopContextMenu.CanFocus = true;
+			this.checkBtnDesktopContextMenu.Name = "checkBtnDesktopContextMenu";
+			this.checkBtnDesktopContextMenu.Label = global::Mono.Unix.Catalog.GetString ("checkBtnDesktopContextMenu");
+			this.checkBtnDesktopContextMenu.DrawIndicator = true;
+			this.checkBtnDesktopContextMenu.UseUnderline = true;
+			this.hboxDesktopContextMenu.Add (this.checkBtnDesktopContextMenu);
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hboxDesktopContextMenu [this.checkBtnDesktopContextMenu]));
+			w2.Position = 0;
+			this.AlignmentDesktopContextMenu.Add (this.hboxDesktopContextMenu);
+			this.frameAskForDesktopContextMenu.Add (this.AlignmentDesktopContextMenu);
+			this.lbFrameDesktopContextMenu = new global::Gtk.Label ();
+			this.lbFrameDesktopContextMenu.Name = "lbFrameDesktopContextMenu";
+			this.lbFrameDesktopContextMenu.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>lbKDesktopContextMenu</b>");
+			this.lbFrameDesktopContextMenu.UseMarkup = true;
+			this.frameAskForDesktopContextMenu.LabelWidget = this.lbFrameDesktopContextMenu;
+			this.vboxPage1.Add (this.frameAskForDesktopContextMenu);
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameAskForDesktopContextMenu]));
+			w5.Position = 1;
+			w5.Expand = false;
+			w5.Fill = false;
+			// Container child vboxPage1.Gtk.Box+BoxChild
 			this.frameMaxSideLengthFilterImage = new global::Gtk.Frame ();
 			this.frameMaxSideLengthFilterImage.Name = "frameMaxSideLengthFilterImage";
 			this.frameMaxSideLengthFilterImage.ShadowType = ((global::Gtk.ShadowType)(0));
@@ -109,8 +153,8 @@ namespace Troonie
 			this.btnPlusMaxSideLengthFilterImage.Text = "+";
 			this.btnPlusMaxSideLengthFilterImage.TextSize = 12D;
 			this.hboxMaxSideLengthFilterImage.Add (this.btnPlusMaxSideLengthFilterImage);
-			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.btnPlusMaxSideLengthFilterImage]));
-			w2.Position = 0;
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.btnPlusMaxSideLengthFilterImage]));
+			w6.Position = 0;
 			// Container child hboxMaxSideLengthFilterImage.Gtk.Box+BoxChild
 			this.entryMaxSideLengthFilterImage = new global::Gtk.Entry ();
 			this.entryMaxSideLengthFilterImage.CanFocus = true;
@@ -118,8 +162,8 @@ namespace Troonie
 			this.entryMaxSideLengthFilterImage.IsEditable = true;
 			this.entryMaxSideLengthFilterImage.InvisibleChar = '●';
 			this.hboxMaxSideLengthFilterImage.Add (this.entryMaxSideLengthFilterImage);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.entryMaxSideLengthFilterImage]));
-			w3.Position = 1;
+			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.entryMaxSideLengthFilterImage]));
+			w7.Position = 1;
 			// Container child hboxMaxSideLengthFilterImage.Gtk.Box+BoxChild
 			this.btnMinusMaxSideLengthFilterImage = new global::Troonie.TroonieButton ();
 			this.btnMinusMaxSideLengthFilterImage.Name = "btnMinusMaxSideLengthFilterImage";
@@ -131,8 +175,8 @@ namespace Troonie
 			this.btnMinusMaxSideLengthFilterImage.Text = "-";
 			this.btnMinusMaxSideLengthFilterImage.TextSize = 12D;
 			this.hboxMaxSideLengthFilterImage.Add (this.btnMinusMaxSideLengthFilterImage);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.btnMinusMaxSideLengthFilterImage]));
-			w4.Position = 2;
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.btnMinusMaxSideLengthFilterImage]));
+			w8.Position = 2;
 			this.AlignmentMaxSideLengthFilterImage.Add (this.hboxMaxSideLengthFilterImage);
 			this.frameMaxSideLengthFilterImage.Add (this.AlignmentMaxSideLengthFilterImage);
 			this.lbMaxSideLengthFilterImage = new global::Gtk.Label ();
@@ -141,10 +185,10 @@ namespace Troonie
 			this.lbMaxSideLengthFilterImage.UseMarkup = true;
 			this.frameMaxSideLengthFilterImage.LabelWidget = this.lbMaxSideLengthFilterImage;
 			this.vboxPage1.Add (this.frameMaxSideLengthFilterImage);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameMaxSideLengthFilterImage]));
-			w7.Position = 1;
-			w7.Expand = false;
-			w7.Fill = false;
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameMaxSideLengthFilterImage]));
+			w11.Position = 2;
+			w11.Expand = false;
+			w11.Fill = false;
 			// Container child vboxPage1.Gtk.Box+BoxChild
 			this.frameVideoplayer = new global::Gtk.Frame ();
 			this.frameVideoplayer.Name = "frameVideoplayer";
@@ -169,8 +213,8 @@ namespace Troonie
 			this.hypertextlabelVideoplayer.Bold = false;
 			this.hypertextlabelVideoplayer.Italic = false;
 			this.hboxVideoplayer.Add (this.hypertextlabelVideoplayer);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hboxVideoplayer [this.hypertextlabelVideoplayer]));
-			w8.Position = 0;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hboxVideoplayer [this.hypertextlabelVideoplayer]));
+			w12.Position = 0;
 			this.AlignmentVideoplayer.Add (this.hboxVideoplayer);
 			this.frameVideoplayer.Add (this.AlignmentVideoplayer);
 			this.lbFrameVideoplayer = new global::Gtk.Label ();
@@ -179,10 +223,10 @@ namespace Troonie
 			this.lbFrameVideoplayer.UseMarkup = true;
 			this.frameVideoplayer.LabelWidget = this.lbFrameVideoplayer;
 			this.vboxPage1.Add (this.frameVideoplayer);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameVideoplayer]));
-			w11.Position = 2;
-			w11.Expand = false;
-			w11.Fill = false;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameVideoplayer]));
+			w15.Position = 3;
+			w15.Expand = false;
+			w15.Fill = false;
 			// Container child vboxPage1.Gtk.Box+BoxChild
 			this.frameKeywordsXmlFile = new global::Gtk.Frame ();
 			this.frameKeywordsXmlFile.Name = "frameKeywordsXmlFile";
@@ -207,8 +251,8 @@ namespace Troonie
 			this.hypertextlabelKeywordsXmlFile.Bold = false;
 			this.hypertextlabelKeywordsXmlFile.Italic = false;
 			this.hboxKeywordsXmlFile.Add (this.hypertextlabelKeywordsXmlFile);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hboxKeywordsXmlFile [this.hypertextlabelKeywordsXmlFile]));
-			w12.Position = 0;
+			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.hboxKeywordsXmlFile [this.hypertextlabelKeywordsXmlFile]));
+			w16.Position = 0;
 			this.AlignmentKeywordsXmlFile.Add (this.hboxKeywordsXmlFile);
 			this.frameKeywordsXmlFile.Add (this.AlignmentKeywordsXmlFile);
 			this.lbFrameKeywordsXmlFile = new global::Gtk.Label ();
@@ -217,10 +261,10 @@ namespace Troonie
 			this.lbFrameKeywordsXmlFile.UseMarkup = true;
 			this.frameKeywordsXmlFile.LabelWidget = this.lbFrameKeywordsXmlFile;
 			this.vboxPage1.Add (this.frameKeywordsXmlFile);
-			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameKeywordsXmlFile]));
-			w15.Position = 3;
-			w15.Expand = false;
-			w15.Fill = false;
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameKeywordsXmlFile]));
+			w19.Position = 4;
+			w19.Expand = false;
+			w19.Fill = false;
 			this.eventboxPage1.Add (this.vboxPage1);
 			this.notebook1.Add (this.eventboxPage1);
 			// Notebook tab
@@ -239,8 +283,8 @@ namespace Troonie
 			this.table1.ColumnSpacing = ((uint)(6));
 			this.eventboxPage2.Add (this.table1);
 			this.notebook1.Add (this.eventboxPage2);
-			global::Gtk.Notebook.NotebookChild w19 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.eventboxPage2]));
-			w19.Position = 1;
+			global::Gtk.Notebook.NotebookChild w23 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.eventboxPage2]));
+			w23.Position = 1;
 			// Notebook tab
 			this.lbPage2 = new global::Gtk.Label ();
 			this.lbPage2.Name = "lbPage2";
@@ -258,6 +302,7 @@ namespace Troonie
 			this.DefaultHeight = 300;
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+			this.checkBtnDesktopContextMenu.Toggled += new global::System.EventHandler (this.OnCheckBtnDesktopContextMenuToggled);
 			this.btnPlusMaxSideLengthFilterImage.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnButtonReleaseEvent);
 			this.btnMinusMaxSideLengthFilterImage.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnButtonReleaseEvent);
 		}

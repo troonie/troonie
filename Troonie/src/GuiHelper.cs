@@ -310,6 +310,22 @@ namespace Troonie
 
 			GuiHelper.I.CreateToolbarUpdateButtonByTimer(hboxToolbarButtons, position);			
 		}
+
+		public string GetFileSizeString(long fileSize, int decimals)
+		{
+			double dl = fileSize;
+			string dl_ext = Language.I.L[247];
+			if (fileSize > 1024 * 1024) {
+				dl = dl / (1024 * 1024);
+				dl_ext = Language.I.L[249];
+			}
+			else if (fileSize > 1024) {
+				dl = dl / 1024;
+				dl_ext = Language.I.L[248];
+			}
+			dl = Math.Round(dl, decimals);
+			return dl + " " + dl_ext;			
+		}
 	}
 }
 

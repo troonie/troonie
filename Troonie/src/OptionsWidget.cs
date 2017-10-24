@@ -60,11 +60,15 @@ namespace Troonie
 			lbFrameVideoplayer.LabelProp = Constants.N + "<b>" + Language.I.L[230] + "</b>";
 			lbFrameKeywordsXmlFile.ModifyFg (StateType.Normal, ColorConverter.Instance.FONT);
 			lbFrameKeywordsXmlFile.LabelProp = Constants.N + "<b>" + Language.I.L[302] + "</b>";
+			lbFrameDesktopContextMenu.ModifyFg (StateType.Normal, ColorConverter.Instance.FONT);
+			lbFrameDesktopContextMenu.LabelProp = Constants.N + "<b>" + Language.I.L[59] + "</b>";
+			checkBtnDesktopContextMenu.Label = Language.I.L[60];
 
 			hypertextlabelVideoplayer.Text = Constants.I.CONFIG.VideoplayerPath; //Language.I.L[229];
 			hypertextlabelKeywordsXmlFile.Text = Constants.I.CONFIG.KeywordsXmlFilePath;
 			nr = Constants.I.CONFIG.MaxImageLengthForFiltering;
 			entryMaxSideLengthFilterImage.Text = nr.ToString();
+			checkBtnDesktopContextMenu.Active = Constants.I.CONFIG.AskForDesktopContextMenu;
 
 			#endregion set GUI language
 
@@ -240,6 +244,12 @@ namespace Troonie
 
 			ChangeMaxImageLengthForFiltering();
 			return repeatTimeout;
+		}
+
+		protected void OnCheckBtnDesktopContextMenuToggled (object sender, EventArgs e)
+		{
+			Constants.I.CONFIG.AskForDesktopContextMenu = checkBtnDesktopContextMenu.Active;
+			Config.Save (Constants.I.CONFIG);
 		}
 	}
 }

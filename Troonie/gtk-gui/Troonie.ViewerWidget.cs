@@ -87,7 +87,7 @@ namespace Troonie
 			this.vboxMenu.Spacing = 6;
 			// Container child vboxMenu.Gtk.Box+BoxChild
 			this.frame1 = new global::Gtk.Frame ();
-			this.frame1.WidthRequest = 250;
+			this.frame1.WidthRequest = 262;
 			this.frame1.Name = "frame1";
 			this.frame1.BorderWidth = ((uint)(1));
 			// Container child frame1.Gtk.Container+ContainerChild
