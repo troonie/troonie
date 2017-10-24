@@ -54,7 +54,7 @@ namespace Troonie
 
 	//			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
 	//			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
-				int winTaskbarHeight = 54;
+				int winTaskbarHeight = 58;
 				startW = Screen.Width - 20;
 				startH = Screen.Height - 20 - winTaskbarHeight;
 				maxVipWidth = startW - frame1.WidthRequest - 60;
