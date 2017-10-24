@@ -59,7 +59,7 @@ namespace Troonie
 
 			string filename = null;
 			// START VALUE
-			args = new string[] { "-v"};
+//			args = new string[] { "-v"};
 //			args = new string[] { "-e", "/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"};
 //			args = new string[] { "-s", "/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"};
 
