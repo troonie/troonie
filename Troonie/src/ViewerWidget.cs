@@ -839,7 +839,16 @@ namespace Troonie
 			ImageFullPaths.Clear ();
 			if (bt != null) {
 				bt.Dispose ();
-			}				
+			}		
+
+			// additional to ViewerImagePanel itself, the comlete '_TroonieThumbs' 
+			// directory will be deleted
+			string thumbDir = Constants.I.EXEPATH +	"_TroonieThumbs" + IOPath.DirectorySeparatorChar;
+			try {
+				Directory.Delete(thumbDir, true);
+			}
+			catch (Exception) {
+			}
 
 			base.Destroy ();
 		}			

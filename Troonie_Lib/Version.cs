@@ -11,7 +11,7 @@ namespace Troonie_Lib
 			DirectoryInfo di = new DirectoryInfo (Constants.I.EXEPATH);
 
 			string WinInstaller_AssemblyInfo_cs = di.Parent.Parent.Parent.ToString() + Path.DirectorySeparatorChar + 
-						"WinInstaller" + Path.DirectorySeparatorChar + 
+						"Troonie_starter" + Path.DirectorySeparatorChar + 
 						"Properties" + Path.DirectorySeparatorChar + "AssemblyInfo.cs";
 			string s = IOFile.I.ReadLine (WinInstaller_AssemblyInfo_cs, 25);
 			s = s.Replace (VERSION, newVersion);
