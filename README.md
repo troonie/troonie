@@ -14,9 +14,7 @@
 
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Windows Requirements&nbsp;</span></p>
  <ul>
-	<li>.NET 4.5 (already included in Win8.1 and Win10)</li>
-	<li>Visual C++ Redistributable\_x86 2013 (download <a href="https://www.microsoft.com/en-US/download/details.aspx?id=40784" target="_blank">here</a>)</li>
-	<li>GTK-Sharp v2.12 (download <a href="https://dl.xamarin.com/GTKforWindows/Windows/gtk-sharp-2.12.45.msi" target="_blank">here</a>)</li>
+	<li>No requirements anymore since <a href="https://github.com/troonie/troonie/releases" target="_blank">version 1.4</a>. Just unzip and have fun.</li>
 </ul>
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Linux Package Dependencies&nbsp;</span></p>
  <ul>
