@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 // Information about this assembly is defined by the following attributes. 
@@ -22,7 +22,7 @@ using System.Runtime.CompilerServices;
 
 public class Version
 {
-	public const string Number = "1.3";
+	public const string Number = "1.4";
 	public const string AssemblyTitle = "Troonie Starter";
-	public const string AssemblyProduct = "Troonie 1.3";
+	public const string AssemblyProduct = "Troonie 1.4";
 }

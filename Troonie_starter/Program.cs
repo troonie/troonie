@@ -18,7 +18,7 @@ namespace Troonie_starter
 			using (Process proc = new Process ()) 
 			{
 				try {
-				proc.StartInfo.FileName = "data" + Path.DirectorySeparatorChar + "Troonie.exe";
+				proc.StartInfo.FileName = "Troonie" + Path.DirectorySeparatorChar + "Troonie.exe";
 				proc.StartInfo.Arguments = arg; 
 				proc.StartInfo.UseShellExecute = false; 
 				proc.StartInfo.CreateNoWindow = true;
