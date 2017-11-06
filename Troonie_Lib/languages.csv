@@ -302,3 +302,7 @@ Replace transparency with following color;Transparenz durch folgende Farbe erset
 Keywords xml file;Keywords-XML-Datei
 File size;Dateigröße
 bit;Bit
+Blend;Überblendung
+Open second image for blend filtering;Zweites Bild für Überblendungs-Filter öffnen
+Cannot blend grayscale with color image.;Überblenden von Graustufen- und Farbbildern nicht möglich.
+Cannot blend images with different width and height.;Überblenden von Bildern mit unterschiedlicher Höhe und Breite nicht möglich.

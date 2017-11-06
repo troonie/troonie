@@ -88,6 +88,7 @@
     <Compile Include="filter\DilatationFilter.cs" />
     <Compile Include="filter\ExponentiateChannelsFilter.cs" />
     <Compile Include="filter\Convolution5X5Filter.cs" />
+    <Compile Include="filter\BlendFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

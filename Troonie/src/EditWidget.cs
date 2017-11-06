@@ -40,6 +40,7 @@ namespace Troonie
 			public static string Edge_Point_dilatation = Language.I.L[292];
 			public static string Exponentiate_channels = Language.I.L[293];
 			public static string Convolution5x5 = Language.I.L [295];	
+			public static string Blend = Language.I.L [305];
 		}
 
 		private struct shortcutFormatStruct
@@ -76,6 +77,7 @@ namespace Troonie
 				this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 				filterNames = new List<string> { filterN.OVERVIEW,
 					filterN.Binarization,
+					filterN.Blend,
 					filterN.Canny_edge_detector,
 					filterN.Cartoon,
 					filterN.Convolution5x5,

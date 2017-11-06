@@ -284,6 +284,22 @@ namespace Troonie
 			hscale2.Value = diff.Highest;
 		}
 
+		public FilterWidget (string pFilename, BlendFilter blend) : this (pFilename)
+		{
+			abstractFilter = blend;
+			Title = Language.I.L [305];
+			frameHScales.Visible = true;
+
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[157] + "</b>";
+			hscale1.Adjustment.Lower = 0.0;
+			hscale1.Adjustment.Upper = 1.0;
+			hscale1.Adjustment.StepIncrement = 0.01;
+			hscale1.Adjustment.PageIncrement = 0.1;
+			hscale1.Digits = 2;
+			hscale1.Value = blend.MixPercent;
+		}
+
 		public FilterWidget (string pFilename, PosterizationFilter posterization) : this (pFilename)
 		{
 			abstractFilter = posterization;
@@ -494,7 +510,32 @@ namespace Troonie
 		{
 			Bitmap b;
 			try {
-				filterImage = abstractFilter.Apply (image, filterProperties);
+				if (abstractFilter is BlendFilter){
+					BlendFilter blend = abstractFilter as BlendFilter;
+					if (blend.CompareBitmap.Width != image.Width ||
+						blend.CompareBitmap.Height != image.Height) {
+						Bitmap origCompare = blend.CompareBitmap;
+						Bitmap compareTemp;
+						ImageConverter.ScaleAndCut (
+							blend.CompareBitmap, 
+							out compareTemp, 
+							0,
+							0,
+							image.Width,
+							image.Height,
+							ConvertMode.StretchForge,
+							false);
+
+						blend.CompareBitmap = compareTemp;
+						filterImage = abstractFilter.Apply (image, filterProperties);
+						blend.CompareBitmap = origCompare;
+					}
+				}
+				// else if (...e.g. DiffernecneFilter) {}
+				else {
+					filterImage = abstractFilter.Apply (image, filterProperties);
+				}
+
 				ImageConverter.ScaleAndCut (
 					filterImage, 
 					out b, 
