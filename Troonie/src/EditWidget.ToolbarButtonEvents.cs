@@ -105,7 +105,7 @@ namespace Troonie
 					}
 
 					DifferenceFilter diff = new DifferenceFilter ();
-					diff.CompareBitmap = new System.Drawing.Bitmap (fc.Filename);
+					diff.ImagesPaths = new[] {FileName, fc.Filename};
 					fw = new FilterWidget (FileName, diff);
 					fc.Destroy ();
 					// break;
@@ -117,10 +117,30 @@ namespace Troonie
 			}
 			else if (x == filterN.Blend) {
 				#region filterN.Blend
-				FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, false, Language.I.L [306]);
+				FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (true, false, Language.I.L [306]);
 				if (fc.Run () == (int)ResponseType.Ok) {
-					BlendFilter blend = new BlendFilter ();
-					blend.ImagesPaths = new[] {FileName, fc.Filename};
+					BlendFilter blend;
+					switch (fc.Filenames.Length) {
+					case 1:
+						blend = new BlendFilter ();
+						break;
+					case 2:
+						blend = new BlendFilter3Images ();
+						break;
+					case 3:
+					default:
+						blend = new BlendFilter4Images ();
+						break;
+					}
+
+					int max3 = fc.Filenames.Length > 3 ? 3 : fc.Filenames.Length; 
+					blend.ImagesPaths = new string[max3 + 1];
+					blend.ImagesPaths[0] = FileName;
+
+					for (int i = 0; i < max3; i++) {
+						blend.ImagesPaths[i + 1] = fc.Filenames[i]; 	
+					}
+//					blend.ImagesPaths = new[] {FileName, fc.Filename};
 					fw = new FilterWidget (FileName, blend);
 					fc.Destroy ();
 					// break;

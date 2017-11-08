@@ -252,6 +252,7 @@ namespace Troonie
 		public FilterWidget (string pFilename, DifferenceFilter diff) : this (pFilename)
 		{
 			abstractFilter = diff;
+			InitMultiImages ();
 			Title = Language.I.L [150];
 			frameHScales.Visible = true;
 
@@ -289,16 +290,21 @@ namespace Troonie
 			abstractFilter = blend;
 			InitMultiImages ();
 			Title = Language.I.L [305];
-			frameHScales.Visible = true;
 
-			frame_hscale1.Visible = true;
-			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[157] + "</b>";
-			hscale1.Adjustment.Lower = 0.0;
-			hscale1.Adjustment.Upper = 1.0;
-			hscale1.Adjustment.StepIncrement = 0.01;
-			hscale1.Adjustment.PageIncrement = 0.1;
-			hscale1.Digits = 2;
-			hscale1.Value = blend.MixPercent;
+			if (blend.ImagesPaths.Length == 2) {
+				frameHScales.Visible = true;
+
+				frame_hscale1.Visible = true;
+				lbFrame_hscale1.LabelProp = "<b>" + Language.I.L [157] + "</b>";
+				hscale1.Adjustment.Lower = 0.0;
+				hscale1.Adjustment.Upper = 1.0;
+				hscale1.Adjustment.StepIncrement = 0.01;
+				hscale1.Adjustment.PageIncrement = 0.1;
+				hscale1.Digits = 2;
+				hscale1.Value = blend.MixPercent;
+			} else {
+				ProcessPreview ();
+			}
 		}
 
 		public FilterWidget (string pFilename, PosterizationFilter posterization) : this (pFilename)

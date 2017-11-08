@@ -4,8 +4,26 @@ using System.Drawing;
 
 namespace Troonie_Lib
 {
-	public class DifferenceFilter : AbstractFilter
+	public class DifferenceFilter : AbstractFilter, IMultiImagesFilter
 	{
+		#region IMultiImagesFilter
+		public string[] ImagesPaths { get; set; }
+		public Bitmap[] Images { get; set; }
+
+		public void DisposeImages()
+		{
+			if (Images != null) {
+				for (int i = 0; i < Images.Length; i++) {
+					if (Images [i] != null) {
+						Images [i].Dispose ();
+						Images [i] = null;
+					}
+				}
+				Images = null;
+			}
+		}
+		#endregion IMultiImagesFilter
+
 		/// <summary>
 		/// Determines whether pixels will be drawn as 3x3 thick pixels. Default: false.
 		/// </summary>
@@ -24,10 +42,6 @@ namespace Troonie_Lib
 		/// no mapping is done.
 		/// </summary>
 		public Byte Highest { get; set; }
-
-		/// <summary> Image to compare. </summary>
-		public Bitmap CompareBitmap { get; set; }
-
 
 		public DifferenceFilter()
 		{
@@ -63,9 +77,9 @@ namespace Troonie_Lib
 			int stride = srcData.Stride;
 			PixelFormat pf = srcData.PixelFormat;
 			int ps = Image.GetPixelFormatSize(pf) / 8;
-			int psCompare = Image.GetPixelFormatSize(CompareBitmap.PixelFormat) / 8;
+			int psCompare = Image.GetPixelFormatSize(Images[1].PixelFormat) / 8;
 			Rectangle rect = new Rectangle(0, 0, w, h);
-			BitmapData compareData = CompareBitmap.LockBits(rect, ImageLockMode.ReadOnly, CompareBitmap.PixelFormat);		
+			BitmapData compareData = Images[1].LockBits(rect, ImageLockMode.ReadOnly, Images[1].PixelFormat);		
 
 			int offset = stride - w * ps;
 			int compareOffset = compareData.Stride - w * psCompare;
@@ -103,7 +117,7 @@ namespace Troonie_Lib
 				comp += compareOffset;
 			}				
 
-			CompareBitmap.UnlockBits(compareData);
+			Images[1].UnlockBits(compareData);
 
 			#region thick pixel drawing
 			if (DrawThick3x3Pixels) {
