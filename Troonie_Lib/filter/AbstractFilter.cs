@@ -4,6 +4,14 @@ using System.Drawing.Imaging;
 
 namespace Troonie_Lib
 {    
+	public interface IMultiImagesFilter
+	{
+		string[] ImagesPaths { get; set; }
+		Bitmap[] Images { get; set; }
+
+		void DisposeImages();
+	}
+
     public abstract class AbstractFilter
     {
 		private string errorMsg = "No supported source pixel format.";

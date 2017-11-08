@@ -119,52 +119,8 @@ namespace Troonie
 				#region filterN.Blend
 				FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, false, Language.I.L [306]);
 				if (fc.Run () == (int)ResponseType.Ok) {
-					int w, h, wCompare, hCompare, psCompare;
-					PixelFormat pf;
-					w = bt.Bitmap.Width;
-					h = bt.Bitmap.Height;
-					pf = bt.Bitmap.PixelFormat; 
-					// GetImageDimension(..) does not work under Windows
-					//	ImageConverter.GetImageDimension (FileName, out w, out h, out pf);
-					int ps = System.Drawing.Image.GetPixelFormatSize(pf) / 8;
-					if (FileName.Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar) == 
-						fc.Filename.Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar)) {
-						wCompare = w;
-						hCompare = h;
-						psCompare = ps;
-					} else {
-						ImageConverter.GetImageDimension (fc.Filename, out wCompare, out hCompare, out pf);
-						psCompare = System.Drawing.Image.GetPixelFormatSize(pf) / 8;
-					}
-
-					if (Math.Abs(psCompare - ps) > 1) {
-						//						string errorMsg = "Cannot compare grayscale with color image.";
-						//						throw new ArgumentException(errorMsg);
-						OkCancelDialog warn = new OkCancelDialog (true);
-						warn.Title = Language.I.L [153];
-						warn.Label1 = Language.I.L [307];
-						warn.Label2 = string.Empty;
-						warn.OkButtontext = Language.I.L [16];
-						warn.Show ();
-						fc.Destroy ();
-						return; 
-					}
-
-					if (w != wCompare || h != hCompare) {
-						//						string errorMsg = "Cannot compare different image sizes.";
-						//						throw new ArgumentException(errorMsg);
-						OkCancelDialog warn = new OkCancelDialog (true);
-						warn.Title = Language.I.L [153];
-						warn.Label1 = Language.I.L [308];
-						warn.Label2 = string.Empty;
-						warn.OkButtontext = Language.I.L [16];
-						warn.Show ();
-						fc.Destroy ();
-						return; 
-					}
-
 					BlendFilter blend = new BlendFilter ();
-					blend.CompareBitmap = new System.Drawing.Bitmap (fc.Filename);
+					blend.ImagesPaths = new[] {FileName, fc.Filename};
 					fw = new FilterWidget (FileName, blend);
 					fc.Destroy ();
 					// break;

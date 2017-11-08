@@ -287,6 +287,7 @@ namespace Troonie
 		public FilterWidget (string pFilename, BlendFilter blend) : this (pFilename)
 		{
 			abstractFilter = blend;
+			InitMultiImages ();
 			Title = Language.I.L [305];
 			frameHScales.Visible = true;
 
@@ -510,31 +511,7 @@ namespace Troonie
 		{
 			Bitmap b;
 			try {
-				if (abstractFilter is BlendFilter){
-					BlendFilter blend = abstractFilter as BlendFilter;
-					if (blend.CompareBitmap.Width != image.Width ||
-						blend.CompareBitmap.Height != image.Height) {
-						Bitmap origCompare = blend.CompareBitmap;
-						Bitmap compareTemp;
-						ImageConverter.ScaleAndCut (
-							blend.CompareBitmap, 
-							out compareTemp, 
-							0,
-							0,
-							image.Width,
-							image.Height,
-							ConvertMode.StretchForge,
-							false);
-
-						blend.CompareBitmap = compareTemp;
-						filterImage = abstractFilter.Apply (image, filterProperties);
-						blend.CompareBitmap = origCompare;
-					}
-				}
-				// else if (...e.g. DiffernecneFilter) {}
-				else {
-					filterImage = abstractFilter.Apply (image, filterProperties);
-				}
+				filterImage = abstractFilter.Apply (image, filterProperties);
 
 				ImageConverter.ScaleAndCut (
 					filterImage, 
@@ -590,7 +567,14 @@ namespace Troonie
 					keepFilterImageInRam = true;
 				}
 			} else {
-				b = abstractFilter.Apply (TroonieBitmap.FromFile (FileName), filterProperties);
+				image = TroonieBitmap.FromFile (FileName);
+
+				if (abstractFilter is IMultiImagesFilter) {
+					IMultiImagesFilter imf = abstractFilter as IMultiImagesFilter;
+					imf.DisposeImages ();
+					InitMultiImages ();
+				}
+				b = abstractFilter.Apply (image, filterProperties);
 			}
 			FireFilterEvent (b);
 			this.DestroyAll ();
@@ -620,6 +604,7 @@ namespace Troonie
 			image.Save(simpleimagepanel1.MemoryStream, ImageFormat.Png);
 			simpleimagepanel1.Initialize();
 
+			// prepare for ProcessPreview
 			if (imageW > Constants.I.CONFIG.MaxImageLengthForFiltering || 
 				imageH > Constants.I.CONFIG.MaxImageLengthForFiltering) {
 				float div = Math.Max (imageW, imageH) / (float)Constants.I.CONFIG.MaxImageLengthForFiltering;
@@ -644,9 +629,42 @@ namespace Troonie
 			}
 
 			b.Dispose ();
+
 			// do not use, otherwise all invisible widgets becomes visible
 //			ShowAll();
 		}		
+
+		private void InitMultiImages()
+		{
+			// prepare for ProcessPreview, if filter is IMultiImagesFilter
+			if (abstractFilter is IMultiImagesFilter) {
+				IMultiImagesFilter imf = abstractFilter as IMultiImagesFilter;
+				imf.Images = new Bitmap[imf.ImagesPaths.Length];
+				imf.Images [0] = image;
+
+				for (int i = 1; i < imf.ImagesPaths.Length; i++) {
+					Bitmap b = TroonieBitmap.FromFile (imf.ImagesPaths[i]); 
+					if (image.Width != b.Width || image.Height != b.Height) {
+						ImageConverter.ScaleAndCut (
+							b, 
+							out imf.Images[i], 
+							0,
+							0,
+							image.Width,
+							image.Height,
+							ConvertMode.StretchForge,
+							true);
+					}
+					else { // same image size 
+						imf.Images[i] = b;
+					}
+
+					if (image.PixelFormat == PixelFormat.Format8bppIndexed) {
+						imf.Images[i] = ImageConverter.To8Bpp (imf.Images[i]);
+					}
+				} // end for loop
+			}
+		}
 
 		private void SetGuiColors()
 		{
