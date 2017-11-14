@@ -41,6 +41,9 @@ namespace Troonie
 			public static string Exponentiate_channels = Language.I.L[293];
 			public static string Convolution5x5 = Language.I.L [295];	
 			public static string Blend = Language.I.L [305];
+			public static string Mosaic = Language.I.L [307];
+			public static string Mirror = Language.I.L [308];
+			public static string Chessboard = Language.I.L [313];
 		}
 
 		private struct shortcutFormatStruct
@@ -80,20 +83,23 @@ namespace Troonie
 					filterN.Blend,
 					filterN.Canny_edge_detector,
 					filterN.Cartoon,
-					filterN.Convolution5x5,
 					filterN.Difference,
 					filterN.Edge_Point_dilatation,
 					filterN.Exponentiate_channels,
+					filterN.Convolution5x5,
 					filterN.Invert, 
 					filterN.Gaussian_blur,
 					filterN.Grayscale, 
 					filterN.Meanshift,
+					filterN.Mosaic,
 					filterN.Oil_painting,
 					filterN.Posterization,
 					filterN.RGB_Channels,
+					filterN.Chessboard,
 					filterN.Sepia,
 					filterN.Sobel_edge_detector,
 					filterN.Sobel_edge_marker,
+					filterN.Mirror,
 					filterN.Unsharp_masking,
 						};
 

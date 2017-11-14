@@ -285,6 +285,28 @@ namespace Troonie
 			hscale2.Value = diff.Highest;
 		}
 
+		public FilterWidget (string pFilename, MosaicFilter mosaic) : this (pFilename)
+		{
+			abstractFilter = mosaic;
+			InitMultiImages ();
+			Title = Language.I.L [305];
+
+			if (mosaic.ImagesPaths.Length == 2) {
+				frameHScales.Visible = true;
+
+				frame_hscale1.Visible = true;
+				lbFrame_hscale1.LabelProp = "<b>" + Language.I.L [157] + "</b>";
+				hscale1.Adjustment.Lower = 0.0;
+				hscale1.Adjustment.Upper = 1.0;
+				hscale1.Adjustment.StepIncrement = 0.01;
+				hscale1.Adjustment.PageIncrement = 0.1;
+				hscale1.Digits = 2;
+				hscale1.Value = mosaic.MixPercent;
+			} else {
+				ProcessPreview ();
+			}
+		}
+
 		public FilterWidget (string pFilename, BlendFilter blend) : this (pFilename)
 		{
 			abstractFilter = blend;
@@ -496,6 +518,49 @@ namespace Troonie
 			combobox1.AppendText(Language.I.L[299]);
 			combobox1.AppendText(Language.I.L[300]);
 			combobox1.Active = (int)filter.Mask;
+		}
+
+		public FilterWidget (string pFilename, MirrorFilter mirror) : this (pFilename)
+		{
+			abstractFilter = mirror;
+
+			Title = Language.I.L [308];
+			frameComboboxes.Visible = true;
+			frame_combobox1.Visible = true;
+			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[312] + "</b>";
+			combobox1.AppendText(Language.I.L[309]);
+			combobox1.AppendText(Language.I.L[310]);
+			combobox1.AppendText(Language.I.L[311]);
+			combobox1.Active = (int)mirror.Axis;
+		}
+
+		public FilterWidget (string pFilename, ChessboardFilter chess) : this (pFilename)
+		{
+			abstractFilter = chess;
+
+			Title = Language.I.L [313];
+
+			frameComboboxes.Visible = true;
+			frame_combobox1.Visible = true;
+			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[315] + "</b>";
+			combobox1.AppendText(Language.I.L[316]);
+			combobox1.AppendText(Language.I.L[317]);
+			combobox1.AppendText(Language.I.L[318]);
+			combobox1.AppendText(Language.I.L[319]);
+			combobox1.AppendText(Language.I.L[320]);
+			combobox1.AppendText(Language.I.L[321]);
+			combobox1.Active = (int)chess.Variants;
+
+			frameHScales.Visible = true;
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[314] + "</b>";
+			hscale1.Adjustment.Lower = 2.0;
+			hscale1.Adjustment.Upper = 40.0;
+			hscale1.Adjustment.StepIncrement = 1;
+			hscale1.Adjustment.PageIncrement = 4;
+//			hscale1.Digits = 2;
+			hscale1.Value = chess.Number;
+
 		}
 
 		#endregion Constructors

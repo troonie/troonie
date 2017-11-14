@@ -41,20 +41,21 @@ namespace Troonie
 			} else if (x == filterN.Invert) {
 				fw = new FilterWidget (FileName, new InvertFilter ());
 			} else if (x == filterN.Grayscale) {
-				fw = new FilterWidget (FileName, new GrayscaleFilter());
+				fw = new FilterWidget (FileName, new GrayscaleFilter ());
 			} else if (x == filterN.RGB_Channels) {
-				fw = new FilterWidget (FileName, new ExtractOrRotateChannelsFilter());
+				fw = new FilterWidget (FileName, new ExtractOrRotateChannelsFilter ());
 			} else if (x == filterN.Gaussian_blur) {
-				fw = new FilterWidget (FileName, new GaussianBlurFilter(), false);
-			}
-			else if (x == filterN.Canny_edge_detector) {
-				fw = new FilterWidget (FileName, new CannyEdgeDetectorFilter());
-			}
-			else if (x == filterN.Sepia) {
-				fw = new FilterWidget (FileName, new SepiaFilter());
-			}
-			else if (x == filterN.Oil_painting) {
-				fw = new FilterWidget (FileName, new OilPaintingFilter());
+				fw = new FilterWidget (FileName, new GaussianBlurFilter (), false);
+			} else if (x == filterN.Canny_edge_detector) {
+				fw = new FilterWidget (FileName, new CannyEdgeDetectorFilter ());
+			} else if (x == filterN.Sepia) {
+				fw = new FilterWidget (FileName, new SepiaFilter ());
+			} else if (x == filterN.Oil_painting) {
+				fw = new FilterWidget (FileName, new OilPaintingFilter ());
+			} else if (x == filterN.Mirror) {
+				fw = new FilterWidget (FileName, new MirrorFilter ());
+			} else if (x == filterN.Chessboard) {
+				fw = new FilterWidget (FileName, new ChessboardFilter ());
 			}
 			else if (x == filterN.Difference) {
 				#region filterN.Difference
@@ -114,6 +115,41 @@ namespace Troonie
 					return; 
 				}
 				#endregion filterN.Difference
+			}
+			else if (x == filterN.Mosaic) {
+				#region filterN.Mosaic
+				FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (true, false, Language.I.L [306]);
+				if (fc.Run () == (int)ResponseType.Ok) {
+					MosaicFilter mosaic;
+					switch (fc.Filenames.Length) {
+					case 1:
+						mosaic = new MosaicFilter ();
+						break;
+					case 2:
+						mosaic = new MosaicFilter (); // new BlendFilter3Images ();
+						break;
+					case 3:
+					default:
+						mosaic = new MosaicFilter (); // new BlendFilter4Images ();
+						break;
+					}
+
+					int max3 = fc.Filenames.Length > 3 ? 3 : fc.Filenames.Length; 
+					mosaic.ImagesPaths = new string[max3 + 1];
+					mosaic.ImagesPaths[0] = FileName;
+
+					for (int i = 0; i < max3; i++) {
+						mosaic.ImagesPaths[i + 1] = fc.Filenames[i]; 	
+					}
+					//					blend.ImagesPaths = new[] {FileName, fc.Filename};
+					fw = new FilterWidget (FileName, mosaic);
+					fc.Destroy ();
+					// break;
+				} else {
+					fc.Destroy ();
+					return; 
+				}
+				#endregion filterN.Mosaic
 			}
 			else if (x == filterN.Blend) {
 				#region filterN.Blend

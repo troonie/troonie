@@ -89,6 +89,9 @@
     <Compile Include="filter\ExponentiateChannelsFilter.cs" />
     <Compile Include="filter\Convolution5X5Filter.cs" />
     <Compile Include="filter\BlendFilter.cs" />
+    <Compile Include="filter\MosaicFilter.cs" />
+    <Compile Include="filter\MirrorFilter.cs" />
+    <Compile Include="filter\ChessboardFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -302,5 +302,20 @@ Replace transparency with following color;Transparenz durch folgende Farbe erset
 Keywords xml file;Keywords-XML-Datei
 File size;Dateigröße
 bit;Bit
-Blend;Überblendung
+Blend;(Über)Blendung
 Open additional images for blend filtering;Bilder für Überblendungs-Filter öffnen
+Mosaic;Mosaik
+Mirror;Spiegel
+X;X
+Y;Y
+Z;Z
+Axis for mirroring;Achse zum Spiegeln
+Chessboard;Schachbrett
+Number of fields;Anzahl Felder
+Variants;Varianten
+Back-white;Schwarz-Weiß
+Black;Schwarz
+White;Weiß
+Inverted and black-white;Umgedreht und Schwarz-Weiß
+Inverted and black;Umgedreht und Schwarz
+Inverted and white;Umgedreht und Weiß
