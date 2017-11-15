@@ -44,7 +44,7 @@ namespace Troonie_Lib
 
 		protected override void SetProperties (double[] filterProperties)
 		{			
-			MixPercent = filterProperties[3];
+			MixPercent = filterProperties[3] / 100.0;
 		}
 			
 		protected internal override unsafe void Process(BitmapData srcData, BitmapData dstData)

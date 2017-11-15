@@ -289,22 +289,25 @@ namespace Troonie
 		{
 			abstractFilter = mosaic;
 			InitMultiImages ();
-			Title = Language.I.L [305];
+			Title = Language.I.L [307];
 
-			if (mosaic.ImagesPaths.Length == 2) {
-				frameHScales.Visible = true;
+			frameComboboxes.Visible = true;
+			frame_combobox1.Visible = true;
+			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[322] + "</b>";
+			combobox1.AppendText(Language.I.L[117]);
+			combobox1.AppendText(Language.I.L[116]);
+			combobox1.Active = mosaic.Inverted; // ? 1 : 0;
 
-				frame_hscale1.Visible = true;
-				lbFrame_hscale1.LabelProp = "<b>" + Language.I.L [157] + "</b>";
-				hscale1.Adjustment.Lower = 0.0;
-				hscale1.Adjustment.Upper = 1.0;
-				hscale1.Adjustment.StepIncrement = 0.01;
-				hscale1.Adjustment.PageIncrement = 0.1;
-				hscale1.Digits = 2;
-				hscale1.Value = mosaic.MixPercent;
-			} else {
-				ProcessPreview ();
-			}
+			frameHScales.Visible = true;
+			frame_hscale1.Visible = true;
+			lbFrame_hscale1.LabelProp = "<b>" + Language.I.L [314] + "</b>";
+			hscale1.Adjustment.Lower = 2.0;
+			hscale1.Adjustment.Upper = image.Width / 2;
+			hscale1.Adjustment.StepIncrement = 1;
+			hscale1.Adjustment.PageIncrement = 4;
+//				hscale1.Digits = 2;
+			hscale1.Value = mosaic.Number;
+			
 		}
 
 		public FilterWidget (string pFilename, BlendFilter blend) : this (pFilename)
@@ -317,13 +320,13 @@ namespace Troonie
 				frameHScales.Visible = true;
 
 				frame_hscale1.Visible = true;
-				lbFrame_hscale1.LabelProp = "<b>" + Language.I.L [157] + "</b>";
+				lbFrame_hscale1.LabelProp = "<b>" + Language.I.L [323] + "</b>";
 				hscale1.Adjustment.Lower = 0.0;
-				hscale1.Adjustment.Upper = 1.0;
-				hscale1.Adjustment.StepIncrement = 0.01;
-				hscale1.Adjustment.PageIncrement = 0.1;
-				hscale1.Digits = 2;
-				hscale1.Value = blend.MixPercent;
+				hscale1.Adjustment.Upper = 100.0;
+				hscale1.Adjustment.StepIncrement = 1;
+				hscale1.Adjustment.PageIncrement = 10;
+//				hscale1.Digits = 2;
+				hscale1.Value = blend.MixPercent * 100.0;
 			} else {
 				ProcessPreview ();
 			}

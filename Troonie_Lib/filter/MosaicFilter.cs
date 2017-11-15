@@ -24,10 +24,8 @@ namespace Troonie_Lib
 		}
 		#endregion IMultiImagesFilter
 
-		/// <summary>
-		/// Mix value in percent. Default: 0.5 (=50%), means both images to same parts.
-		/// </summary>
-		public double MixPercent { get; set; }
+		public int Number { get; set; }
+		public int Inverted { get; set; }
 
 //		/// <summary> Image to compare. </summary>
 //		public Bitmap CompareBitmap { get; set; }
@@ -37,18 +35,24 @@ namespace Troonie_Lib
 			SupportedSrcPixelFormat = PixelFormatFlags.All;
 			SupportedDstPixelFormat = PixelFormatFlags.SameLikeSource;
 
-			MixPercent = 0.5;
+			Number = 4;
+			Inverted = 0;
 		}
 			
 		#region protected methods
 
 		protected override void SetProperties (double[] filterProperties)
-		{			
-			MixPercent = filterProperties[3];
+		{		
+			Inverted = (int)filterProperties[0];
+			Number = (int)filterProperties[3];
 		}
 			
 		protected internal override unsafe void Process(BitmapData srcData, BitmapData dstData)
 		{
+//			int isInverted =  Variants == ChessboardVariants.InvertedBlack ||
+//				Variants == ChessboardVariants.InvertedWhite ||
+//				Variants == ChessboardVariants.InvertedBlackWhite ? 0 : 1;
+			
 			int w = srcData.Width;
 			int h = srcData.Height;
 			int stride = srcData.Stride;
@@ -69,36 +73,64 @@ namespace Troonie_Lib
 			// for each line
 			for (int y = 0; y < h; y++)
 			{
-				int yy = y % 2;
+				double v = y / (double)h;
 				// for each pixel
 				for (int x = 0; x < w; x++, src += ps, dst += ps, comp += psCompare)
 				{
+					double u = x / (double)w;
+
+					int mod = (int)((Math.Floor(Number * u) + Math.Floor(Number * v)) % 2.0);
+					bool bmod = mod == Inverted;
+
 					// 8 bit grayscale
-					dst[RGBA.B] = (x + yy) % 2 == 0 ? src[RGBA.B] : comp[RGBA.B];
-//					dst[RGBA.B] = (byte)(Math.Round(
-//						MixPercent * src[RGBA.B] + (1 - MixPercent) * comp[RGBA.B]));
+					dst[RGBA.B] = bmod ? src [RGBA.B] : comp[RGBA.B];
 
 					// rgb, 24 and 32 bit
 					if (ps >= 3) {
-						dst[RGBA.G] = (x + yy) % 2 == 0 ? src[RGBA.G] : comp[RGBA.G];
-						dst[RGBA.R] = (x + yy) % 2 == 0 ? src[RGBA.R] : comp[RGBA.R];
-
-//						dst[RGBA.G] = (byte)(Math.Round(
-//							MixPercent * src[RGBA.G] + (1 - MixPercent) * comp[RGBA.G]));
-//						dst[RGBA.R] = (byte)(Math.Round(
-//							MixPercent * src[RGBA.R] + (1 - MixPercent) * comp[RGBA.R]));
+						dst [RGBA.G] = bmod ? src [RGBA.G] : comp[RGBA.G];
+						dst [RGBA.R] = bmod ? src [RGBA.R] : comp[RGBA.R];
 					}
 
+					// alpha, 32 bit
+					if (ps == 4) {
+						dst [RGBA.A] = Use255ForAlpha ? (byte)255 : src [RGBA.A];
+					}
 					// alpha, 32 bit
 					if (ps == 4) {
 						dst [RGBA.A] = 255;
 						if (psCompare == 4 && !Use255ForAlpha) {
 							// just taking alphas from source image
-							dst[RGBA.A] = src[RGBA.A];
-//							dst[RGBA.A] = (byte)(Math.Round(
-//								MixPercent * src[RGBA.A] + (1 - MixPercent) * comp[RGBA.A]));
+							dst [RGBA.A] = src [RGBA.A];
 						}
 					}
+
+//					// XXX;
+//					// 8 bit grayscale
+//					dst[RGBA.B] = (x + yy) % 2 == 0 ? src[RGBA.B] : comp[RGBA.B];
+////					dst[RGBA.B] = (byte)(Math.Round(
+////						MixPercent * src[RGBA.B] + (1 - MixPercent) * comp[RGBA.B]));
+//
+//					// rgb, 24 and 32 bit
+//					if (ps >= 3) {
+//						dst[RGBA.G] = (x + yy) % 2 == 0 ? src[RGBA.G] : comp[RGBA.G];
+//						dst[RGBA.R] = (x + yy) % 2 == 0 ? src[RGBA.R] : comp[RGBA.R];
+//
+////						dst[RGBA.G] = (byte)(Math.Round(
+////							MixPercent * src[RGBA.G] + (1 - MixPercent) * comp[RGBA.G]));
+////						dst[RGBA.R] = (byte)(Math.Round(
+////							MixPercent * src[RGBA.R] + (1 - MixPercent) * comp[RGBA.R]));
+//					}
+//
+//					// alpha, 32 bit
+//					if (ps == 4) {
+//						dst [RGBA.A] = 255;
+//						if (psCompare == 4 && !Use255ForAlpha) {
+//							// just taking alphas from source image
+//							dst[RGBA.A] = src[RGBA.A];
+////							dst[RGBA.A] = (byte)(Math.Round(
+////								MixPercent * src[RGBA.A] + (1 - MixPercent) * comp[RGBA.A]));
+//						}
+//					}
 
 				}
 				src += offset;

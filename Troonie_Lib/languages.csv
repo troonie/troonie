@@ -147,7 +147,7 @@ CTRL+S: Save image;STRG+S: Bild speichern
 STEGANOGRAPHY KEYS;TASTENBELEGUNG STEGANOGRAFIE
 CTRL+S: Save image;STRG+S: Bild speichern
 About;Über
-Difference;Differenz
+Difference (2 images);Differenz (2 Bilder)
 Open second image to stitch;Zweites Bild für das Zusammenkleben (Stitching) öffnen
 Open second image for difference filtering;Zweites Bild für den Differenz-Filter öffnen
 Error;Fehler
@@ -302,9 +302,9 @@ Replace transparency with following color;Transparenz durch folgende Farbe erset
 Keywords xml file;Keywords-XML-Datei
 File size;Dateigröße
 bit;Bit
-Blend;(Über)Blendung
+Blend (2-4 images);(Über)Blendung (2-4 Bilder)
 Open additional images for blend filtering;Bilder für Überblendungs-Filter öffnen
-Mosaic;Mosaik
+Mosaic (2 images);Mosaik (2 Bilder)
 Mirror;Spiegel
 X;X
 Y;Y
@@ -319,3 +319,5 @@ White;Weiß
 Inverted and black-white;Umgedreht und Schwarz-Weiß
 Inverted and black;Umgedreht und Schwarz
 Inverted and white;Umgedreht und Weiß
+Inverting;Umkehrung
+Mix value (in %);Mix-Wert (in %)
