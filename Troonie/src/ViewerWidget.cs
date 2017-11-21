@@ -51,14 +51,24 @@ namespace Troonie
 				pressedVipsDict = new Dictionary<int, ViewerImagePanel>();
 	//			TableTagsViewerRowElements = new List<TableTagsViewerRowElement> ();
 				imageId = -1;
+				int winTaskbarHeight = 78;
 
-	//			int monitor = Screen.GetMonitorAtWindow (this.GdkWindow); 
-	//			Gdk.Rectangle bounds = Screen.GetMonitorGeometry (monitor);
-				int winTaskbarHeight = 58;
+				if (constants.WINDOWS) {
+					Gtk.Drag.DestSet (this, 0, null, 0);
+				} else {
+					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+					// Otherwise ShadowType.In looks terrible at Win10.
+					winTaskbarHeight = 74;
+					frame1.ShadowType = ShadowType.In;
+					scrolledwindowViewer.ShadowType = ShadowType.In;
+					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+				}	
+
+
 				startW = Screen.Width - 20;
-				startH = Screen.Height - 20 - winTaskbarHeight;
+				startH = Screen.Height - winTaskbarHeight;
 				maxVipWidth = startW - frame1.WidthRequest - 60;
-				maxVipHeight = startH - 60  /* ToolbarIconButtonHeight */ ;
+				maxVipHeight = startH - 60;
 
 				Move (5, 5);
 
@@ -86,21 +96,15 @@ namespace Troonie
 				SetGuiColors ();
 				SetLanguageToGui ();
 
-				if (constants.WINDOWS) {
-					Gtk.Drag.DestSet (this, 0, null, 0);
-				} else {
-					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
-					// Otherwise ShadowType.In looks terrible at Win10.
-					frame1.ShadowType = ShadowType.In;
-					scrolledwindowViewer.ShadowType = ShadowType.In;
-
-	//				frameCursorPos.ShadowType = ShadowType.In;
-	//				frameSteganography.ShadowType = ShadowType.In;
-	//				frameModus.ShadowType = ShadowType.In;
-	//				frameKey.ShadowType = ShadowType.In;
-	//				frameContent.ShadowType = ShadowType.In;
-					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
-				}				
+//				if (constants.WINDOWS) {
+//					Gtk.Drag.DestSet (this, 0, null, 0);
+//				} else {
+//					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
+//					// Otherwise ShadowType.In looks terrible at Win10.
+//					frame1.ShadowType = ShadowType.In;
+//					scrolledwindowViewer.ShadowType = ShadowType.In;
+//					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+//				}				
 
 				if (Constants.I.CONFIG.AskForDesktopContextMenu) {
 					new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
