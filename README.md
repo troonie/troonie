@@ -9,7 +9,9 @@
  <ul>
 	<li>Windows 10, 8.1, 7 (download <a href="https://github.com/troonie/troonie/releases" target="_blank">here</a>)</li>
 	<li>Linux (download <a href="https://github.com/troonie/troonie/releases" target="_blank">here</a>)</li>
-	<li>Technical Steganography paper <font color=red>StegHash</font> (download <a href="https://github.com/troonie/troonie/raw/master/pics/StegHash-white-paper.pdf" target="_blank">here</a>)</li>
+	<li>Technical Steganography papers <a href="https://github.com/troonie/troonie/raw/master/pics/LeonSteg-paper.pdf" target="_blank">LeonSteg (2017)</a><a id="leonsteg" href="#footnoteleonsteg"><abbr title="Frank Nagl and Paul Grimm: LeonSteg - Steganography with sole 1 bpp modification. In proceedings of 23rd workshop of color image processing, Munich-Aschheim (Germany), 5th-6th October 2017, pages 35-­45, ed.: P. Troester and A. Kraushaar, ISBN 978-­3-­00-­057941-7. 2017."
+lang="de"><sup>[1]</sup></abbr></a> and <a href="https://github.com/troonie/troonie/raw/master/pics/StegHash-white-paper.pdf" target="_blank">StegHash (2016)</a><a id="steghash" href="#footnotesteghash"><abbr title="Frank Nagl and Paul Grimm: StegHash - A Hash-­based Approach For Image-Based Steganography. In proceedings of 22nd workshop of color image processing, Ilmenau (Germany), 2016, pages 133-­142, ed.: K.-H. Franke and R. Nestler, ISBN 978-­3-­00-­053918-­3. 2016."
+lang="de"><sup>[2]</sup></abbr></a></li>
 </ul>
 
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Windows Requirements&nbsp;</span></p>
@@ -59,6 +61,13 @@
 
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Contact us&nbsp;</span></p>
 <img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/info.png" alt="Contact e-mail address"/>
+</br> 
+</br>
+
+<p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Footnotes&nbsp;</span></p>
+<span style="font-size: 70%;><a id="footnoteleonsteg" title="LeonSteg" href="#leonsteg"><sup>[1]</sup></a> Frank Nagl and Paul Grimm: LeonSteg - Steganography with sole 1 bpp modification. In proceedings of 23rd workshop of color image processing, Munich-Aschheim (Germany), 5th-6th October 2017, pages 35-­45, ed.: P. Troester and A. Kraushaar, ISBN 978-­3-­00-­057941-7. 2017. (download <a href="https://github.com/troonie/troonie/raw/master/pics/LeonSteg-paper.pdf" target="_blank">here</a>)
 </br>
 </br>
+<a id="footnotesteghash" title="StegHash" href="#steghash"><sup>[2]</sup></a> Frank Nagl and Paul Grimm: StegHash - A Hash-­based Approach For Image-Based Steganography. In proceedings of 22nd workshop of color image processing, Ilmenau (Germany), 2016, pages 133-­142, ed.: K.-H. Franke and R. Nestler, ISBN 978-­3-­00-­053918-­3. 2016. (download <a href="https://github.com/troonie/troonie/raw/master/pics/StegHash-white-paper.pdf" target="_blank">here</a>)
+</span>
 
