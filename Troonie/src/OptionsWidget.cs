@@ -8,7 +8,8 @@ namespace Troonie
 	public partial class OptionsWidget : Gtk.Window
 	{
 		private const int maxNr = 20000;
-		private int nr;
+		private const int maxVipSizeNr = 1000;
+		private int nr, vipSizeNr;
 		private bool subtract;
 
 		private bool repeatTimeout;
@@ -68,6 +69,8 @@ namespace Troonie
 			hypertextlabelKeywordsXmlFile.Text = Constants.I.CONFIG.KeywordsXmlFilePath;
 			nr = Constants.I.CONFIG.MaxImageLengthForFiltering;
 			entryMaxSideLengthFilterImage.Text = nr.ToString();
+			vipSizeNr = Constants.I.CONFIG.ViewerImagePanelSize;
+			entryVipSize.Text = vipSizeNr.ToString();
 			checkBtnDesktopContextMenu.Active = Constants.I.CONFIG.AskForDesktopContextMenu;
 
 			#endregion set GUI language
@@ -186,6 +189,24 @@ namespace Troonie
 			Config.Save (Constants.I.CONFIG);
 		}
 
+		protected void OnEntryVipSizeKeyReleaseEvent (object o, KeyReleaseEventArgs args)
+		{
+			int l_nr = 0;
+			bool b = int.TryParse (entryVipSize.Text, out l_nr);
+			if (!b && entryVipSize.Text.Length != 0) {
+				entryVipSize.DeleteText (
+					entryVipSize.CursorPosition - 1, entryVipSize.CursorPosition);
+			}
+
+			if (l_nr > maxVipSizeNr) {
+				entryVipSize.Text = maxVipSizeNr.ToString();
+			}
+
+			int.TryParse (entryVipSize.Text, out vipSizeNr); 
+			Constants.I.CONFIG.ViewerImagePanelSize = vipSizeNr;
+			Config.Save (Constants.I.CONFIG);
+		}
+
 		protected void OnButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
 			timeoutSw.Stop ();
@@ -204,6 +225,20 @@ namespace Troonie
 			repeatTimeout = true;
 			ChangeMaxImageLengthForFiltering ();
 			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(ChangeMaxImageLengthForFilteringTimeoutHandler));
+		}
+
+		protected void OnBtnVipSizePressEvent (object o, ButtonPressEventArgs args)
+		{
+			TroonieButton tb = o as TroonieButton;
+			subtract = tb != null && tb == btnMinusVipSize;
+
+			if (repeatTimeout)
+				return;
+
+			timeoutSw.Restart ();
+			repeatTimeout = true;
+			ChangeVipSize ();
+			GLib.Timeout.Add(Constants.TIMEOUT_INTERVAL, new GLib.TimeoutHandler(ChangeVipSizeTimeoutHandler));
 		}
 
 		#endregion event handler
@@ -236,6 +271,21 @@ namespace Troonie
 			Config.Save (Constants.I.CONFIG);
 		}
 
+		private void ChangeVipSize()
+		{
+			vipSizeNr = subtract ? vipSizeNr - 1 : vipSizeNr + 1;
+
+			if (vipSizeNr < 0)
+				vipSizeNr = 0;
+			else if (vipSizeNr > maxVipSizeNr)
+				vipSizeNr = maxVipSizeNr;
+
+			entryVipSize.Text = vipSizeNr.ToString();
+
+			Constants.I.CONFIG.ViewerImagePanelSize = vipSizeNr;			
+			Config.Save (Constants.I.CONFIG);
+		}
+
 		private bool ChangeMaxImageLengthForFilteringTimeoutHandler()
 		{
 			if (timeoutSw.ElapsedMilliseconds < Constants.TIMEOUT_INTERVAL_FIRST) {
@@ -243,6 +293,16 @@ namespace Troonie
 			}
 
 			ChangeMaxImageLengthForFiltering();
+			return repeatTimeout;
+		}
+
+		private bool ChangeVipSizeTimeoutHandler()
+		{
+			if (timeoutSw.ElapsedMilliseconds < Constants.TIMEOUT_INTERVAL_FIRST) {
+				return repeatTimeout;
+			}
+
+			ChangeVipSize();
 			return repeatTimeout;
 		}
 

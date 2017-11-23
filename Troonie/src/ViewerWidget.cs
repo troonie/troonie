@@ -20,7 +20,7 @@ namespace Troonie
 
 	public partial class ViewerWidget : Gtk.Window
 	{
-		private const int smallVipWidthAndHeight = 300;
+//		private const int smallVipWidthAndHeight = 300;
 		private const int tableViewerSpacing = 6;
 		private static int startW, startH, maxVipWidth, maxVipHeight;
 
@@ -76,7 +76,7 @@ namespace Troonie
 
 	//			scrolledwindowViewer.WidthRequest = 1300;
 
-				imagePerRow = (int)((startW - frame1.WidthRequest - 10) / (smallVipWidthAndHeight + tableViewer.ColumnSpacing));
+				imagePerRow = (int)((startW - frame1.WidthRequest - 10) / (Constants.I.CONFIG.ViewerImagePanelSize + tableViewer.ColumnSpacing));
 				rowNr = 0; 
 				colNr = 0;
 
@@ -495,7 +495,7 @@ namespace Troonie
 				if (ext.Length != 0 && (isImage || isVideo) && !ImageFullPaths.Contains(newImages[i])) {
 
 					try {
-						ViewerImagePanel vip = new ViewerImagePanel (IncrementImageID(), isVideo, newImages [i], smallVipWidthAndHeight, maxVipWidth, maxVipHeight);
+						ViewerImagePanel vip = new ViewerImagePanel (IncrementImageID(), isVideo, newImages [i], Constants.I.CONFIG.ViewerImagePanelSize, maxVipWidth, maxVipHeight);
 						vip.TagsData.FileSize = fileSize;
 						if (info.IsReadOnly) {
 							throw new UnauthorizedAccessException();

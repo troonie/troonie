@@ -46,6 +46,8 @@ namespace Troonie_Lib
 		//		[XmlAttribute("MaxImageLengthForFiltering", DataType = "int")]
 		public int MaxImageLengthForFiltering { get; set; }
 
+		public int ViewerImagePanelSize { get; set; }
+
         /// <summary>The name of the configuration.</summary>
         [XmlAttribute("Name", DataType = "string")]
         public string Name { get; set; }
@@ -118,6 +120,7 @@ namespace Troonie_Lib
 			Height = 800;
 			JpgQuality = 100;
 			MaxImageLengthForFiltering = 1024;
+			ViewerImagePanelSize = 300;
 			Name = "Name";
 			Path = string.Format("{0}"+ System.IO.Path.DirectorySeparatorChar, 
 			                     Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));			

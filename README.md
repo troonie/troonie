@@ -69,4 +69,7 @@ lang="de"><sup>[2]</sup></abbr></a></li>
 </br>
 <a id="footnotesteghash" title="StegHash" href="#steghash"><sup>[2]</sup></a> Frank Nagl and Paul Grimm: StegHash - A Hash-based Approach For Image-Based Steganography. In proceedings of 22nd workshop of color image processing, Ilmenau (Germany), 2016, pages 133-142, ed.: K.-H. Franke and R. Nestler, ISBN 978-3-00-053918-3. 2016. (download <a href="https://github.com/troonie/troonie/raw/master/pics/StegHash-white-paper.pdf" target="_blank">StegHash paper</a>)
 </span>
-
+</br>
+</br>
+</br>
+</br>
