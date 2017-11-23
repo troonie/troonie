@@ -65,9 +65,9 @@ lang="de"><sup>[2]</sup></abbr></a></li>
 </br>
 
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Footnotes&nbsp;</span></p>
-<span style="font-size: 70%;><a id="footnoteleonsteg" title="LeonSteg" href="#leonsteg"><sup>[1]</sup></a> Frank Nagl and Paul Grimm: LeonSteg - Steganography with sole 1 bpp modification. In proceedings of 23rd workshop of color image processing, Munich-Aschheim (Germany), 5th-6th October 2017, pages 35-­45, ed.: P. Troester and A. Kraushaar, ISBN 978-­3-­00-­057941-7. 2017. (download <a href="https://github.com/troonie/troonie/raw/master/pics/LeonSteg-paper.pdf" target="_blank">here</a>)
+<p><span style="font-size: 70%;><a id="footnoteleonsteg" title="LeonSteg" href="#leonsteg"><sup>[1]</sup></a> Frank Nagl and Paul Grimm: LeonSteg - Steganography with sole 1 bpp modification. In proceedings of 23rd workshop of color image processing, Munich-Aschheim (Germany), 5th-6th October 2017, pages 35-­45, ed.: P. Troester and A. Kraushaar, ISBN 978-3-00-057941-7. 2017. (download <a href="https://github.com/troonie/troonie/raw/master/pics/LeonSteg-paper.pdf" target="_blank">here</a>)
 </br>
 </br>
-<a id="footnotesteghash" title="StegHash" href="#steghash"><sup>[2]</sup></a> Frank Nagl and Paul Grimm: StegHash - A Hash-­based Approach For Image-Based Steganography. In proceedings of 22nd workshop of color image processing, Ilmenau (Germany), 2016, pages 133-­142, ed.: K.-H. Franke and R. Nestler, ISBN 978-­3-­00-­053918-­3. 2016. (download <a href="https://github.com/troonie/troonie/raw/master/pics/StegHash-white-paper.pdf" target="_blank">here</a>)
-</span>
+<a id="footnotesteghash" title="StegHash" href="#steghash"><sup>[2]</sup></a> Frank Nagl and Paul Grimm: StegHash - A Hash-­based Approach For Image-Based Steganography. In proceedings of 22nd workshop of color image processing, Ilmenau (Germany), 2016, pages 133-­142, ed.: K.-H. Franke and R. Nestler, ISBN 978-3-00-053918-3. 2016. (download <a href="https://github.com/troonie/troonie/raw/master/pics/StegHash-white-paper.pdf" target="_blank">here</a>)
+</span></p>
 
