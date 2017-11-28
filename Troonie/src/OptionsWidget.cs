@@ -63,6 +63,8 @@ namespace Troonie
 			lbFrameKeywordsXmlFile.LabelProp = Constants.N + "<b>" + Language.I.L[302] + "</b>";
 			lbFrameDesktopContextMenu.ModifyFg (StateType.Normal, ColorConverter.Instance.FONT);
 			lbFrameDesktopContextMenu.LabelProp = Constants.N + "<b>" + Language.I.L[59] + "</b>";
+			lbVipSize.ModifyFg (StateType.Normal, ColorConverter.Instance.FONT);
+			lbVipSize.LabelProp = Constants.N + "<b>" + Language.I.L[324] + "</b>";
 			checkBtnDesktopContextMenu.Label = Language.I.L[60];
 
 			hypertextlabelVideoplayer.Text = Constants.I.CONFIG.VideoplayerPath; //Language.I.L[229];

@@ -335,7 +335,26 @@ namespace Troonie
 						bt.Dispose ();
 					}
 
-					pix = new Gdk.Pixbuf(thumbDirectory + tmpDjpegName);
+					pix = new Gdk.Pixbuf (thumbDirectory + tmpDjpegName);
+				} else { // TODO: Maybe refactoring this ELSE (2017-11-28)? no JPEG
+
+					if (!File.Exists (thumbDirectory + tmpDjpegName)) {
+						BitmapWithTag bt = new BitmapWithTag (OriginalImageFullName);
+						Config c = new Config ();
+						c.BiggestLength = maxWidth;
+						c.FileOverwriting = false;
+						c.Path = thumbDirectory;
+						c.JpgQuality = 93;
+						c.Format = TroonieImageFormat.JPEG24;
+						c.ResizeVersion = ResizeVersion.BiggestLength;
+
+						// TODO: Catch, what should be done, if success==false
+						bool successSmall = bt.Save (c, tmpDjpegName, false);
+
+						bt.Dispose ();
+					}
+
+					pix = new Gdk.Pixbuf (thumbDirectory + tmpDjpegName);
 				}
 			}
 
