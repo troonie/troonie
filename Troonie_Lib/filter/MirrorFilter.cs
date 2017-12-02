@@ -58,7 +58,7 @@ namespace Troonie_Lib
 				for (int y = 0; y < h; y++) {
 					// align pointer to end of the line
 					byte* src = (byte*)srcData.Scan0.ToPointer ();
-					src += stride * y - offset;
+					src += stride * (y + 1) - offset - ps;
 
 					// for each pixel
 					for (int x = 0; x < w; x++, src -= ps, dst += ps) {
@@ -114,7 +114,7 @@ namespace Troonie_Lib
 				for (int y = h - 1; y >= 0; y--) {
 					// align pointer to end of the line
 					byte* src = (byte*)srcData.Scan0.ToPointer ();
-					src += stride * y + stride - offset;
+					src += stride * y + stride - offset - ps;
 //					src += stride * y - offset;
 					// for each pixel
 					for (int x = 0; x < w; x++, src -= ps, dst += ps) {
