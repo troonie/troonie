@@ -91,12 +91,13 @@ namespace Troonie
 			const int originalWidth = 900; // 765;
 			const int originalHeight = 900; // 833;
 			const int taskbarHeight = 90;
-			int maxW = Screen.Width;
-			int maxH = Screen.Height - taskbarHeight;
+			Gdk.Rectangle r = Screen.GetMonitorGeometry(Screen.GetMonitorAtWindow(this.GdkWindow));
+			int maxW = /* Screen.Width */ r.Width;
+			int maxH = /* Screen.Height */ r.Height - taskbarHeight;
 
 			this.WidthRequest = Math.Min(originalWidth, maxW);
 			this.HeightRequest = Math.Min(originalHeight, maxH);
-			this.Move (0, 0);
+			this.Move (0 + r.X, 0 + r.Y);
 		}
 
 		private void SetGuiColors()

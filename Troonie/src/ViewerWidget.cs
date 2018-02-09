@@ -2,8 +2,6 @@
 using Troonie_Lib;
 using System.Collections.Generic;
 using Gtk;
-using System.Drawing;
-using ImageConverter = Troonie_Lib.ImageConverter;
 using IOPath = System.IO.Path;
 using System.IO;
 using System.Linq;
@@ -11,13 +9,6 @@ using System.Diagnostics;
 
 namespace Troonie
 {
-//	public struct TableTagsViewerRowElement
-//	{
-//		public Label TagName;
-//		public Label TagData;
-//		public TroonieButton ChangeBtn;
-//	}
-
 	public partial class ViewerWidget : Gtk.Window
 	{
 //		private const int smallVipWidthAndHeight = 300;
@@ -26,15 +17,10 @@ namespace Troonie
 
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
-//		private int imageW; 
-//		private int imageH;
-//		private string tempScaledImageFileName;
 		private int imageId, imagePerRow;
 		private uint rowNr, colNr;
 		private bool leftControlPressed, leftShiftPressed, leftAltPressed, doubleClickedMode;
 		private Dictionary<int, ViewerImagePanel> pressedVipsDict;
-
-//		public string FileName { get; set; }
 		public BitmapWithTag bt;
 		public List<string>ImageFullPaths { get; private set; }
 //		public List<TableTagsViewerRowElement> TableTagsViewerRowElements { get; private set; }
@@ -65,12 +51,13 @@ namespace Troonie
 				}	
 
 
-				startW = Screen.Width - 20;
-				startH = Screen.Height - winTaskbarHeight;
+				Gdk.Rectangle r = Screen.GetMonitorGeometry(Screen.GetMonitorAtWindow(this.GdkWindow));
+				startW = /* Screen.Width */ r.Width - 20;
+				startH = /* Screen.Height */ r.Height - winTaskbarHeight;
 				maxVipWidth = startW - frame1.WidthRequest - 60;
 				maxVipHeight = startH - 60;
 
-				Move (5, 5);
+				Move(5 + r.X, 5 + r.Y);
 
 				Resize (startW, startH);
 

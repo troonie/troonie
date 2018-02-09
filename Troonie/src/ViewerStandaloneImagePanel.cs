@@ -103,8 +103,9 @@ namespace Troonie
 
 			int wx = 20;
 			int wy = 20;
-			int tW = Screen.Width - 2 * wx;
-			int tH = Screen.Height - 2 * wy - 100 /*taskbarHeight*/;
+			Gdk.Rectangle r = Screen.GetMonitorGeometry(Screen.GetMonitorAtWindow(this.GdkWindow));
+			int tW = r.Width - 2 * wx;
+			int tH = r.Height - 2 * wy - 100 /*taskbarHeight*/;
 
 			maxZoom = Math.Min(tW / surface.Width, tH / surface.Height);
 			Zoom = Math.Min (startZoom, maxZoom);
@@ -112,7 +113,7 @@ namespace Troonie
 			H = (int) (surface.Height * Zoom);
 
 
-			Move (wx, wy);
+			Move (wx + r.X, wy + r.Y);
 //			Resize (startWidth, startHeight);
 
 			SetGuiColors ();

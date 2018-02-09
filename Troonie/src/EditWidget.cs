@@ -312,11 +312,9 @@ namespace Troonie
 			// necessary to correct to small height 
 			const float multiplicatorHeight = 1.2f;
 	
-			Gdk.Screen screen = this.Screen;
-			int monitor = screen.GetMonitorAtWindow (this.GdkWindow); 
-			Gdk.Rectangle bounds = screen.GetMonitorGeometry (monitor);
-			int winW = bounds.Width;
-			int winH = bounds.Height - taskbarHeight;
+			Gdk.Rectangle r = Screen.GetMonitorGeometry(Screen.GetMonitorAtWindow(this.GdkWindow));
+			int winW = r.Width;
+			int winH = r.Height - taskbarHeight;
 
 			int panelW = winW - optionsWidth - paddingOffset;
 			int panelH = winH - (int)(paddingOffset * multiplicatorHeight);
@@ -362,7 +360,7 @@ namespace Troonie
 			GLib.TimeoutHandler timeoutHandler = () => {
 				WidthRequest = winW;
 				HeightRequest = winH;
-				Move (0, 0);
+				Move (0 + r.X, 0 + r.Y);
 				Resize (winW, winH);
 				// false, because usage only one time
 				return false;
