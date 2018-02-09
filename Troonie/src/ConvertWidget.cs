@@ -91,13 +91,19 @@ namespace Troonie
 			const int originalWidth = 900; // 765;
 			const int originalHeight = 900; // 833;
 			const int taskbarHeight = 90;
-			Gdk.Rectangle r = Screen.GetMonitorGeometry(Screen.GetMonitorAtWindow(this.GdkWindow));
-			int maxW = /* Screen.Width */ r.Width;
-			int maxH = /* Screen.Height */ r.Height - taskbarHeight;
 
-			this.WidthRequest = Math.Min(originalWidth, maxW);
-			this.HeightRequest = Math.Min(originalHeight, maxH);
-			this.Move (0 + r.X, 0 + r.Y);
+			// work around by GLib timeout to fix the GTK#-resizing bug
+			GLib.TimeoutHandler timeoutHandler = () => {
+				Gdk.Rectangle r = Screen.GetMonitorGeometry(Screen.GetMonitorAtWindow(this.GdkWindow));
+				int maxW = /* Screen.Width */ r.Width;
+				int maxH = /* Screen.Height */ r.Height - taskbarHeight;
+				this.WidthRequest = Math.Min(originalWidth, maxW);
+				this.HeightRequest = Math.Min(originalHeight, maxH);
+				this.Move(0 + r.X, 0 + r.Y);
+				// false, because usage only one time
+				return false;
+			};
+			GLib.Timeout.Add(200, timeoutHandler);
 		}
 
 		private void SetGuiColors()
