@@ -18,7 +18,7 @@ namespace Troonie_Lib
 			FileInfo info = new FileInfo (fileName);
 			string tmpFileName = info.Name.Replace (info.Extension, Constants.Extensions [TroonieImageFormat.BMP24].Item1);
 
-			string bmpFileName = Constants.I.EXEPATH +  tmpFileName;
+			string bmpFileName = Constants.I.TEMPPATH +  tmpFileName;
 			string args = "-bmp -outfile \"" + bmpFileName + "\" \"" + fileName + "\"";
 
 			// use jpeg lib for decoding jpeg files
@@ -39,7 +39,7 @@ namespace Troonie_Lib
 			Bitmap b = FromFile(bmpFileName);
 			// removing temp bmp file
 			File.Delete (bmpFileName);
-			return b;
+            return b;
 		}
 
 		public static Bitmap FromFile( string fileName )

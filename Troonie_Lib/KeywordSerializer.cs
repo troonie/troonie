@@ -114,7 +114,7 @@ namespace Troonie_Lib
     {		
 		private static string xmlFile; // = Constants.I.EXEPATH + "keywords.xml"; 
 
-		public const int MAX_NUMBER_OF_KEYWORDS = 150;
+        public const int MAX_NUMBER_OF_KEYWORDS = 2500; // old value: 150;
 
         /// <summary>File path for saving converted image(s).</summary>
 		public List<Keyword> Keywords { get; set; }	

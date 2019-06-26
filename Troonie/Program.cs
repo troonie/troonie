@@ -129,6 +129,8 @@ namespace Troonie
 
 //			try{
 			Application.Run ();
+
+            TidyUp();
 //			}
 //			catch (Exception) {
 //				Console.WriteLine ("Error 2.");
@@ -142,9 +144,21 @@ namespace Troonie
 //				//				pseudo.OkButtontext = Language.I.L [16];
 //				//				pseudo.Show ();
 //			}
-		}	
+		}
 
-		private static void GetProgramIcon()
+        private static void TidyUp()
+        {
+            try
+            {
+                Directory.Delete(Constants.I.TEMPPATH, true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Could not delete directory '" + Constants.I.TEMPPATH + "'.");
+            }
+        }
+
+        private static void GetProgramIcon()
 		{
 			if (File.Exists (Constants.I.EXEPATH + Constants.ICONNAME))
 				return;

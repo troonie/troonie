@@ -131,7 +131,9 @@ namespace Troonie_Lib
 		private string exepath;
 		public string EXEPATH { get { return exepath; }}
 
-		private string homepath;
+        public string TEMPPATH { get { return exepath + "temp" + Path.DirectorySeparatorChar; } }
+
+        private string homepath;
 		public string HOMEPATH { get { return homepath; }}
 
 		private Config config;
@@ -149,7 +151,9 @@ namespace Troonie_Lib
 			Language.I.LanguageID = config.LanguageID;
 //			description = Language.I.L[54];
 			versionFloat = GetFloatVersionNumber (Version.VERSION);
-			CheckUpdateAsThread ();
+            Directory.CreateDirectory(TEMPPATH);
+
+            CheckUpdateAsThread ();
 		}	
 
 		private bool IsWindows()
