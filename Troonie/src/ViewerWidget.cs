@@ -48,6 +48,23 @@ namespace Troonie
 					frame1.ShadowType = ShadowType.In;
 					scrolledwindowViewer.ShadowType = ShadowType.In;
 					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+
+                    if (!Constants.I.CJPEG)
+                    {
+                        newImages = null;
+
+                        OkCancelDialog pseudo = new OkCancelDialog(true);
+                        pseudo.Title = Language.I.L[161];
+                        pseudo.Label1 = Language.I.L[162];
+                        pseudo.Label2 = Language.I.L[165] + Constants.N + Language.I.L[164];
+                        pseudo.OkButtontext = Language.I.L[16];
+                        pseudo.Show();
+
+                        //totod;// Dispose();//base.Destroy();
+                        pseudo.OnReleasedOkButton += delegate {
+                            Application.Quit();
+                        }; 
+                    }
 				}	
 
 
