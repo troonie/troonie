@@ -248,10 +248,10 @@ namespace Troonie
 				int posx, posy;
 				this.GetPosition (out posx, out posy);
 				sw.Move (posx + 50, posy + 50);
-				sw.Show ();
-			}
+                //sw.Show();
+            }
 
-			fc.Destroy();
+            fc.Destroy();
 		}
 	}
 }

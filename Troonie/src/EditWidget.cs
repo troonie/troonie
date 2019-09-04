@@ -223,8 +223,17 @@ namespace Troonie
 
 						if (ext.Length != 0 && Constants.Extensions.Any(x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
 							Title = FileName;
-							bt = new BitmapWithTag(FileName);
-							imageW = bt.Bitmap.Width;
+                            // catch, whether image loading (e.g. cjepg/djepg) does not work
+                            try
+                            {
+                                bt = new BitmapWithTag(FileName);
+                            }
+                            catch (Exception)
+                            {
+                                LoadException();
+                                return;
+                            }
+                            imageW = bt.Bitmap.Width;
 							imageH = bt.Bitmap.Height;
 						}
 						else{

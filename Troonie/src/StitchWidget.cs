@@ -40,10 +40,10 @@ namespace Troonie
 		#region Glib.Timout for proccessing preview
 		private GLib.TimeoutHandler timeoutHandlerPreprocessing;
 		private bool repeatTimeoutPreprocessing;
-//		private bool preprocessingNecessary;
-		#endregion Glib.Timout for proccessing preview
+        //		private bool preprocessingNecessary;
+        #endregion Glib.Timout for proccessing preview
 
-		public FilterEventhandler FilterEvent;
+        public FilterEventhandler FilterEvent;
 		public string FileName01 { get; set; }
 		public string FileName02 { get; set; }
 
@@ -58,10 +58,29 @@ namespace Troonie
 			SetGuiColors ();
 			SetLanguageToGui ();
 			timeoutSw = new Stopwatch();
+			
+            // catch, whether image loading (e.g. cjepg/djepg) does not work
+            try
+            {
+                CalcWorkingImages();
+            }
+            catch (Exception)
+            {
+                Hide();
+                //KeepAbove = false;
+                MessageDialog md = new MessageDialog(
+                    null, DialogFlags.Modal,
+                    MessageType.Info,
+                    ButtonsType.Ok, Language.I.L[51]);
+                md.Run();
+                md.Destroy();
 
-			CalcWorkingImages ();
+                Destroy();
+                //Dispose();
+                return;
+            }
 
-			ProcessPreview();
+            ProcessPreview();
 
 		if (constants.WINDOWS) {
 			Gtk.Drag.DestSet (this, 0, null, 0);
@@ -82,8 +101,8 @@ namespace Troonie
 
 		public override void Destroy ()
 		{
-			if (workingImage != null) {
-				workingImage.Dispose ();
+            if (workingImage != null) {
+				workingImage.Dispose ();                
 			}
 
 			base.Destroy ();
