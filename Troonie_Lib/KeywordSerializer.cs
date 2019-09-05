@@ -116,7 +116,16 @@ namespace Troonie_Lib
 
         public const int MAX_NUMBER_OF_KEYWORDS = 2500; // old value: 150;
 
-        /// <summary>File path for saving converted image(s).</summary>
+		[NonSerialized] private bool loadError;
+
+		/// <summary>true, if keywords.xml could not be loaded.</summary>
+		public bool LoadError {
+			get { return loadError; }
+			set { loadError = value; }
+		}
+
+		//public bool LoadError { get; set; }
+		/// <summary>File path for saving converted image(s).</summary>
 		public List<Keyword> Keywords { get; set; }	
 
 		private KeywordSerializer() {
@@ -127,21 +136,23 @@ namespace Troonie_Lib
 		{
 			xmlFile = Constants.I.CONFIG.KeywordsXmlFilePath;
 
-			if (!File.Exists (xmlFile)) {
-				Save(new KeywordSerializer());
-			}
-
 			XmlSerializer serializer = new XmlSerializer(typeof(KeywordSerializer));
 			StreamReader sr = null;
 			KeywordSerializer c;
 
 			try {
+				if (!File.Exists (xmlFile)) {
+					Save (new KeywordSerializer ());
+				}
+
 				sr = new StreamReader(xmlFile);
 				c = (KeywordSerializer)serializer.Deserialize(sr);
+				c.LoadError = false;
 			}
 			catch (Exception){
 				Constants.I.CONFIG.KeywordsXmlFilePath = Constants.I.EXEPATH + "keywords.xml";
 				c = Load ();
+				c.LoadError = true;
 			}
 			finally {
 				if (sr != null) {

@@ -37,8 +37,17 @@ namespace Troonie
 
 			// deserialization
 			ks = KeywordSerializer.Load ();
+            if (ks.LoadError) {
+                OkCancelDialog warn = new OkCancelDialog(true);
+                warn.WindowPosition = WindowPosition.CenterAlways;
+                warn.Title = "OI Title";  //Language.I.L[233];
+                warn.Label1 = string.Empty;
+                warn.Label2 = "OI Label2";  //Language.I.L[234];
+                warn.OkButtontext = Language.I.L[16];
+                warn.Show();
+            }
 
-			vbox = new VBox ();
+            vbox = new VBox ();
 			vbox.Name = "vbox1";
 			vbox.Spacing = 10;
 			vbox.BorderWidth = 10;
