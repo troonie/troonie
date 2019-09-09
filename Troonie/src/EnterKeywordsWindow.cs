@@ -37,12 +37,13 @@ namespace Troonie
 
 			// deserialization
 			ks = KeywordSerializer.Load ();
-            if (ks.LoadError) {
+            if (ks.LoadError > 0) {
                 OkCancelDialog warn = new OkCancelDialog(true);
                 warn.WindowPosition = WindowPosition.CenterAlways;
-                warn.Title = "OI Title";  //Language.I.L[233];
+                warn.KeepAbove = true;
+                warn.Title = Language.I.L[153];
                 warn.Label1 = string.Empty;
-                warn.Label2 = "OI Label2";  //Language.I.L[234];
+                warn.Label2 = Language.I.L[324 + ks.LoadError];
                 warn.OkButtontext = Language.I.L[16];
                 warn.Show();
             }

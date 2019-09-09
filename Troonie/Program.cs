@@ -40,7 +40,7 @@ namespace Troonie
 //				ColorRgbHsl.I.HSL2RGB(h,s,l, out r, out g, out b);
 //				Console.WriteLine("rgb= " +r + " " + g + " " + b);
 			}
-			catch (Exception ex) {
+			catch (Exception) {
 //				Console.WriteLine (ex.Message);
 				Console.WriteLine ("Error.");
 				Console.WriteLine ("Troonie cannot work correctly and was closing.");
@@ -152,7 +152,7 @@ namespace Troonie
             {
                 Directory.Delete(Constants.I.TEMPPATH, true);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("Could not delete directory '" + Constants.I.TEMPPATH + "'.");
             }
