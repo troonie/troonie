@@ -75,10 +75,13 @@ namespace Troonie
 		{
 			//			System.Console.WriteLine("Keypress: {0}  -->  State: {1}", args.Event.Key, args.Event.State); 
 
-			if (args.Event.Key == Gdk.Key.Return && !picBtnCancel.Visible) {
+			if (args.Event.Key == Gdk.Key.Return /* && !picBtnCancel.Visible */) {
 				OnPicBtnOkButtonReleaseEvent(o, null);
 			}
-		}
+            else if (args.Event.Key == Gdk.Key.Escape) {
+                OnPicBtnCancelButtonReleaseEvent(o, null);
+            }
+        }
 	}
 }
 
