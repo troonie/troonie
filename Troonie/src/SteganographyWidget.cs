@@ -474,14 +474,14 @@ namespace Troonie
 			do
 			{
 				if (dialog.Run () == (int)ResponseType.Ok) {
-					bool success = dialog.Process ();
-					if (success) {
+					int success = dialog.Process ();
+					if (success == 1) {
 						FileName = dialog.SavedFileName;
 						bt.Dispose ();
 						Initialize (true);
 						runDialog = false;
 					}
-					else {
+					else if (success == 0) {
 						MessageDialog md = new MessageDialog (dialog, 
 							DialogFlags.DestroyWithParent, MessageType.Error, 
 							ButtonsType.Ok, Language.I.L[176] + Constants.N + Language.I.L[177]);

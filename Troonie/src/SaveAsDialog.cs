@@ -182,7 +182,11 @@ namespace Troonie
 			buttonCancel.Label = Language.I.L[17];
 		}
 
-		public bool Process()
+        /// <summary>
+        /// 0 == error, 1 == success, 2 == cancel.
+        /// </summary>
+        /// <returns>0 == error, 1 == success, 2 == cancel.</returns>
+		public int Process()
 		{
 			entryFilename.Text = Regex.Replace(entryFilename.Text, @"[\\/:?*^""<>|]", "_");
 
@@ -191,9 +195,10 @@ namespace Troonie
 				MessageDialog md = new MessageDialog (this, 
 					DialogFlags.DestroyWithParent, MessageType.Question, 
 					ButtonsType.OkCancel, Language.I.L[50]);
-				if (md.Run () == (int)ResponseType.Cancel) {
+                //(int)ResponseType.Cancel || xx == (int)ResponseType.DeleteEvent) {
+                if (md.Run() != (int)ResponseType.Ok) {
 					md.Destroy ();
-					return false;
+					return 2;
 				}
 				md.Destroy ();
 				config.FileOverwriting = true;
@@ -201,7 +206,7 @@ namespace Troonie
 
 			bool success;
 			success = bitmap.Save (config, entryFilename.Text + lbFormat.Text, true);
-			return success;
+			return success ? 1 : 0;
 		}
 
 		public void AllowOnlyColorLoselessSaving()
