@@ -2,20 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using Cairo;
-using Gtk;
-using Image = System.Drawing.Image;
-using ImageFormat = System.Drawing.Imaging.ImageFormat;
-using IOPath = System.IO.Path;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
-using ImageConverter = Troonie_Lib.ImageConverter;
-using Troonie;
-using Troonie_Lib;
 using System.Linq;
+using Gtk;
+using Troonie_Lib;
+using ImageConverter = Troonie_Lib.ImageConverter;
+using ImageFormat = System.Drawing.Imaging.ImageFormat;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace Troonie
 {
-	public partial class SteganographyWidget : Gtk.Window
+    public partial class SteganographyWidget : Gtk.Window
 	{
 		private static char sep = System.IO.Path.DirectorySeparatorChar;
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
@@ -23,9 +19,13 @@ namespace Troonie
 		private bool leftControlPressed;
 		private int imageW; 
 		private int imageH;
-//		private string tempScaledImageFileName;
+        //		private string tempScaledImageFileName;
+        private bool searchSuccess, firstSearch;
+        private int lastCharPosOfSearch;
+        private TextIter ti_temp;
+        private TextTag tt_Highlight;
 
-		public string FileName { get; set; }
+        public string FileName { get; set; }
 		public BitmapWithTag bt;
 
 		public SteganographyWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
@@ -39,22 +39,25 @@ namespace Troonie
 
 				textviewContent.Buffer.Changed += (sender, e) => { ChangeLbPayloadspace (); };
 
-				hypertextlabelFileChooser.InitDefaultValues();
+                // ###
+                firstSearch = true;
+                textviewContent.Buffer.Text = "666 6" + Constants.N;
+                for (int i = 1; i < 1000; i++)
+                {
+                    textviewContent.Buffer.Text += i + ": A number "+ (i * 1024) + Constants.N;
+                }
+
+                tt_Highlight = new TextTag("yellow");
+                tt_Highlight.BackgroundGdk = new Gdk.Color(255, 255, 0);
+                tt_Highlight.Weight = Pango.Weight.Bold;
+                textviewContent.Buffer.TagTable.Add(tt_Highlight);
+                // ###
+
+                hypertextlabelFileChooser.InitDefaultValues();
 				hypertextlabelFileChooser.OnHyperTextLabelTextChanged += ChangeLbPayloadspace;
 				hypertextlabelFileChooser.HeightRequest = entryKey.Allocation.Height;
 				hypertextlabelFileChooser.Text = Constants.I.WINDOWS ? Environment.ExpandEnvironmentVariables ("%HOMEDRIVE%%HOMEPATH%")
-					: Environment.GetEnvironmentVariable ("HOME");
-//				hypertextlabelFileChooser.FileChooserAction = FileChooserAction.Open;
-//				// default values
-//				hypertextlabelFileChooser.Sensitive = true;
-//				hypertextlabelFileChooser.ShownTextLength = 45;
-//				// TextColor = colorConverter.Blue;
-//				hypertextlabelFileChooser.Alignment = Pango.Alignment.Left;
-//				hypertextlabelFileChooser.TextSize = 11;
-//				hypertextlabelFileChooser.Bold = false;
-//				hypertextlabelFileChooser.Italic = false;
-//				hypertextlabelFileChooser.HeightRequest = 5;
-//				hypertextlabelFileChooser.Font = "Serif";						
+					: Environment.GetEnvironmentVariable ("HOME");				
 
 				this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 
@@ -68,13 +71,7 @@ namespace Troonie
 
 				Initialize(true);
 
-//				if (!LeonSteg.SHOW_IN_GUI) {
-//					comboboxAlgorithm.RemoveText(2);
-//					comboboxAlgorithm.RemoveText(1);
-//					comboboxAlgorithm.Active = 0;
-//				}
-
-				if (constants.WINDOWS) {
+                if (constants.WINDOWS) {
 					Gtk.Drag.DestSet (this, 0, null, 0);
 				} else {
 					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
@@ -91,8 +88,7 @@ namespace Troonie
 				if (Constants.I.CONFIG.AskForDesktopContextMenu) {
 					new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
 				}
-
-			}
+            }
 			catch (Exception) {
 
 				OkCancelDialog win = new OkCancelDialog (true);
@@ -655,7 +651,40 @@ namespace Troonie
 					// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
 					leftControlPressed = false;
 					break;
-				}
+                case Gdk.Key.t:
+                        string search = "6";
+                        TextIter ti_start, ti_end;
+
+                        if (firstSearch) { 
+                            ti_temp = textviewContent.Buffer.StartIter;
+
+                            while (ti_temp.ForwardSearch(search, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
+                            {
+                                textviewContent.Buffer.ApplyTag(tt_Highlight, ti_start, ti_end);
+                                ti_temp = textviewContent.Buffer.StartIter;
+                                ti_temp.ForwardChars(ti_end.Offset);
+                            }
+
+                            firstSearch = false;
+                        }
+
+                        ti_temp = textviewContent.Buffer.StartIter;
+                        ti_temp.ForwardChars(lastCharPosOfSearch);
+
+                        searchSuccess = ti_temp.ForwardSearch(search, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter);
+                        if (searchSuccess)
+                        {
+                            textviewContent.Buffer.PlaceCursor(ti_start);
+                            //textviewContent.Buffer.ApplyTag(tt_Highlight, ti_start, ti_end);
+                            textviewContent.Buffer.SelectRange(ti_start, ti_end);
+                            scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
+                            lastCharPosOfSearch = ti_end.Offset;
+                        }
+
+                        // need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
+                        //leftControlPressed = false;
+                        break;
+                }
 
 //				leftControlPressed = false;
 
