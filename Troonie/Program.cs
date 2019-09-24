@@ -3,8 +3,6 @@ using Gtk;
 using System.IO;
 using Troonie_Lib;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Diagnostics;
 
 namespace Troonie
 {
@@ -41,29 +39,24 @@ namespace Troonie
 //				Console.WriteLine("rgb= " +r + " " + g + " " + b);
 			}
 			catch (Exception) {
-//				Console.WriteLine (ex.Message);
 				Console.WriteLine ("Error.");
 				Console.WriteLine ("Troonie cannot work correctly and was closing.");
 				Console.WriteLine ("Troonie (as well as its directory) requires read and write permission.");
 				return;
-//				OkCancelDialog pseudo = new OkCancelDialog (true);
-//				pseudo.Title = Language.I.L [153];
-//				pseudo.Label1 = Language.I.L [194];
-//				pseudo.Label2 = Language.I.L [195];
-//				pseudo.OkButtontext = Language.I.L [16];
-//				pseudo.Show ();
 			}
 
 			Application.Init ();
 			// Gtk.Settings.Default.SetLongProperty ("gtk-button-images", 1, "");		
 
 			string filename = null;
-			// START VALUE
-//			args = new string[] { "-v"};
-//			args = new string[] { "-e", "/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"};
-//			args = new string[] { "-s", "/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"};
+            // START VALUE
+            //	args = new string[] { "-v"};
+            //	args = new string[] { "-e", "../image.jpg"};
+            //	args = new string[] { "-s", "../image.jpg"};
+            //  args = new string[] { "-d", "../testdirectory" };
+            args = new string[] { "-d", "/home/leo/Schreibtisch/testbilder" };
 
-			if (args.Length == 0) {
+            if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args, true);
 				start.Show ();			
 			} else {
@@ -86,27 +79,23 @@ namespace Troonie
 				case "-v":
 					ViewerWidget winViewer = new ViewerWidget (
 						new string[] {
-//							"/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor_Ban03.png", 
-//							"/home/jazz/Schreibtisch/Tesimages/Pilz_dat2.png",//							
-//							"/home/jazz/Schreibtisch/Tesimages/portrait.jpg", 
-							"/home/jazz/Schreibtisch/Tesimages/01.jpg",
-							"/home/jazz/Schreibtisch/Tesimages/02.jpg",
-//							"/home/jazz/Schreibtisch/Tesimages/testviteo-1sec.mp4",
-							"/home/jazz/Schreibtisch/Tesimages/Brandenburger_Tor.jpg"});
+//							"../image01.jpg", 
+//							"../image02.png",							
+//							"../image03.jpg", 
+							/* "../image04.jpg" */ });
 					winViewer.Show ();
 					break;
 				case "-d":
 					DirectoryInfo di = new DirectoryInfo (args [args.Length - 1]);
 					if (di.Exists) {
-						FileInfo[] fi = di.GetFiles ();
-						int fiLength = fi.Length;
+						FileInfo[] fi = di.GetFiles ();                        
+                        int fiLength = fi.Length;
 						args = new string[fiLength];
 						for (int i = 0; i < fiLength; i++) {
 							args[i] = fi [i].FullName;
 						}
+                        Array.Sort(args);
 					};
-//					ConvertWidget winConvert = new ConvertWidget (args);
-//					winConvert.Show ();
 
 					StarterWidget start_new = new StarterWidget (args, false);
 					start_new.Show ();
@@ -116,8 +105,8 @@ namespace Troonie
 					for (int i = 0; i < argsWithoutFirst.Length; i++) {
 						argsWithoutFirst[i] = args[i + 1];
 					}
-					ConvertWidget winConvert2 = new ConvertWidget (argsWithoutFirst);
-					winConvert2.Show ();
+					ConvertWidget winConvert = new ConvertWidget (argsWithoutFirst);
+					winConvert.Show ();
 					break;
 				default:
 					StarterWidget start = new StarterWidget (args, true);
@@ -137,12 +126,6 @@ namespace Troonie
 //				Console.WriteLine ("Troonie cannot work correctly and was closing.");
 //				Console.WriteLine ("Troonie (as well as its directory) requires read and write permission.");
 //				return;
-//				//				OkCancelDialog pseudo = new OkCancelDialog (true);
-//				//				pseudo.Title = Language.I.L [153];
-//				//				pseudo.Label1 = Language.I.L [194];
-//				//				pseudo.Label2 = Language.I.L [195];
-//				//				pseudo.OkButtontext = Language.I.L [16];
-//				//				pseudo.Show ();
 //			}
 		}
 
@@ -171,55 +154,5 @@ namespace Troonie
 				str.CopyTo (destStream);
 			}
 		}
-
-//		private static void GetCjpegExecutable()
-//		{
-//			string name = Constants.I.WINDOWS ? Constants.CJPEGNAME + @".exe" : Constants.CJPEGNAME;
-//
-//			if (File.Exists (Constants.I.EXEPATH + name)) {
-////				if (!Constants.I.WINDOWS) {
-////					Constants.I.CJPEG = SetChmodX (Constants.I.EXEPATH + name);
-////				} else {
-////					Constants.I.CJPEG = true;
-////				}
-//				Constants.I.CJPEG = Constants.I.WINDOWS ? true : SetChmodX (Constants.I.EXEPATH + name);
-//				return;
-//			}
-//
-//			Assembly thisExe = Assembly.GetExecutingAssembly();
-//			//			string [] resources = thisExe.GetManifestResourceNames();
-//
-//			using (Stream str = thisExe.GetManifestResourceStream(name), 
-//				destStream = new FileStream(Constants.I.EXEPATH + name, FileMode.Create, FileAccess.Write))
-//			{
-//				str.CopyTo (destStream);
-//			}
-//
-//			Constants.I.CJPEG = Constants.I.WINDOWS ? true : SetChmodX (Constants.I.EXEPATH + name);
-//		}
-//
-//		private static bool SetChmodX(string file)
-//		{
-//			bool success;
-//			using (Process proc = new Process ()) {
-//				try {
-//					proc.StartInfo.FileName = "chmod";  
-//					proc.StartInfo.Arguments = "ugo+x " + file; 
-//					proc.StartInfo.UseShellExecute = false; 
-//					proc.StartInfo.RedirectStandardOutput = true;
-//					proc.StartInfo.RedirectStandardError = true;
-//					proc.Start ();
-//					proc.WaitForExit ();
-//					proc.Close ();
-//	//				proc.Dispose ();
-//					success = true;
-//				}
-//				catch(Exception){
-//					success = false;
-//				}
-//			}
-//
-//			return success;
-//		}
 	}
 }
