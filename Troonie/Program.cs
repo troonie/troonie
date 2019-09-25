@@ -52,9 +52,8 @@ namespace Troonie
             // START VALUE
             //	args = new string[] { "-v"};
             //	args = new string[] { "-e", "../image.jpg"};
-            //	args = new string[] { "-s", "../image.jpg"};
+            //  args = new string[] { "-s", "../image.jpg" };
             //  args = new string[] { "-d", "../testdirectory" };
-            args = new string[] { "-d", "/home/leo/Schreibtisch/testbilder" };
 
             if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args, true);

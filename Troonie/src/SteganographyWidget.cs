@@ -16,36 +16,32 @@ namespace Troonie
 		private static char sep = System.IO.Path.DirectorySeparatorChar;
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
-		private bool leftControlPressed;
+		private bool leftControlPressed, leftShiftPressed;
 		private int imageW; 
 		private int imageH;
-        //		private string tempScaledImageFileName;
-        private bool searchSuccess, firstSearch;
-        private int lastCharPosOfSearch;
+        private int lastCharPosOfSearch, currentNumberOfSearch, countSearch;
         private TextIter ti_temp;
         private TextTag tt_Highlight;
+        private Label searchLabel;
+        private Button down_button, up_button;
+        private Entry searchEntry;
 
         public string FileName { get; set; }
 		public BitmapWithTag bt;
 
 		public SteganographyWidget (string pFilename = null) : base (Gtk.WindowType.Toplevel)
 		{
-
-			try {
-				
-				FileName = pFilename;
-
+            try {
+			    FileName = pFilename;
 				Build ();
-
 				textviewContent.Buffer.Changed += (sender, e) => { ChangeLbPayloadspace (); };
 
                 // ###
-                firstSearch = true;
-                textviewContent.Buffer.Text = "666 6" + Constants.N;
-                for (int i = 1; i < 1000; i++)
-                {
-                    textviewContent.Buffer.Text += i + ": A number "+ (i * 1024) + Constants.N;
-                }
+                //textviewContent.Buffer.Text = "666 6" + Constants.N;
+                //for (int i = 1; i < 10; i++)
+                //{
+                //    textviewContent.Buffer.Text += i + ": A number "+ (i * 1024) + Constants.N;
+                //}
 
                 tt_Highlight = new TextTag("yellow");
                 tt_Highlight.BackgroundGdk = new Gdk.Color(255, 255, 0);
@@ -65,8 +61,63 @@ namespace Troonie
 				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);
 				GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 2);
 				GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 3, OnToolbarBtn_LanguagePressed);
+                // ###
+                GuiHelper.I.CreateToolbarSeparator(hboxToolbarButtons, 7);
+                Button l_button = new Button();
+                l_button.Image = Gtk.Image.LoadFromResource("document-save-5.png");
+                l_button.Visible = true;
+                l_button.TooltipText = "tooltipText";
+                l_button.Label = "lupe";
+                l_button.Image.Visible = true;
+                l_button.Pressed += OnToolbarBtn_Search;
+                hboxToolbarButtons.Add(l_button);
+                Box.BoxChild w3x = (Box.BoxChild)hboxToolbarButtons[l_button];
+                w3x.Position = 8;
+                w3x.Expand = false;
+                w3x.Fill = false;
 
-				SetGuiColors ();
+                searchEntry = new Entry();
+                searchEntry.Visible = true;
+                //searchEntry.WidthChars = 10;
+                searchEntry.MaxLength = 30;
+                searchEntry.Changed += OnSearchEntry_Changed;
+                hboxToolbarButtons.Add(searchEntry);
+                w3x = (Box.BoxChild)hboxToolbarButtons[searchEntry];
+                w3x.Position = 9;
+                w3x.Expand = false;
+                w3x.Fill = false;
+
+                up_button = new Button();
+                up_button.Add(new Arrow(ArrowType.Up, ShadowType.Out) { Visible = true });
+                up_button.Visible = true;
+                up_button.Pressed += OnToolbarBtn_UpArrow;
+                hboxToolbarButtons.Add(up_button);
+                w3x = (Box.BoxChild)hboxToolbarButtons[up_button];
+                w3x.Position = 10;
+                w3x.Expand = false;
+                w3x.Fill = false;
+
+                down_button = new Button();
+                down_button.Add(new Arrow(ArrowType.Down, ShadowType.Out) { Visible = true });
+                down_button.Visible = true;
+                down_button.Pressed += OnToolbarBtn_DownArrow;
+                hboxToolbarButtons.Add(down_button);
+                w3x = (Box.BoxChild)hboxToolbarButtons[down_button];
+                w3x.Position = 11;
+                w3x.Expand = false;
+                w3x.Fill = false;
+
+                searchLabel = new Label();
+                SetSearchLabel();
+                searchLabel.Visible = true;
+                hboxToolbarButtons.Add(searchLabel);
+                w3x = (Box.BoxChild)hboxToolbarButtons[searchLabel];
+                w3x.Position = 12;
+                w3x.Expand = false;
+                w3x.Fill = false;
+                // ###
+
+                SetGuiColors();
 				SetLanguageToGui ();
 
 				Initialize(true);
@@ -102,10 +153,10 @@ namespace Troonie
 				win.Show ();
 
 				this.DestroyAll ();
-			}				
-		}
+			}
+        }
 
-		public override void Destroy ()
+        public override void Destroy ()
 		{
 			if (bt != null) {
 				bt.Dispose ();
@@ -272,7 +323,7 @@ namespace Troonie
 			lbFrameKey.LabelProp = "<b>" + Language.I.L[77] + "</b>";
 			lbFrameContent.LabelProp = "<b>" + Language.I.L[78] + "</b>";
 			lbFrameFileChooser.LabelProp = "<b>" + Language.I.L[231] + "</b>";
-		}
+        }
 
 		private bool FileCheckForBitSteg()
 		{
@@ -651,39 +702,39 @@ namespace Troonie
 					// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
 					leftControlPressed = false;
 					break;
-                case Gdk.Key.t:
-                        string search = "6";
-                        TextIter ti_start, ti_end;
+                //case Gdk.Key.t:
+                     //   string search = "6";
+                     //   TextIter ti_start, ti_end;
 
-                        if (firstSearch) { 
-                            ti_temp = textviewContent.Buffer.StartIter;
+                     //   if (firstSearch) { 
+                     //       ti_temp = textviewContent.Buffer.StartIter;
 
-                            while (ti_temp.ForwardSearch(search, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
-                            {
-                                textviewContent.Buffer.ApplyTag(tt_Highlight, ti_start, ti_end);
-                                ti_temp = textviewContent.Buffer.StartIter;
-                                ti_temp.ForwardChars(ti_end.Offset);
-                            }
+                     //       while (ti_temp.ForwardSearch(search, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
+                     //       {
+                     //           textviewContent.Buffer.ApplyTag(tt_Highlight, ti_start, ti_end);
+                     //           ti_temp = textviewContent.Buffer.StartIter;
+                     //           ti_temp.ForwardChars(ti_end.Offset);
+                     //       }
 
-                            firstSearch = false;
-                        }
+                     //       firstSearch = false;
+                     //   }
 
-                        ti_temp = textviewContent.Buffer.StartIter;
-                        ti_temp.ForwardChars(lastCharPosOfSearch);
+                     //   ti_temp = textviewContent.Buffer.StartIter;
+                     //   ti_temp.ForwardChars(lastCharPosOfSearch);
 
-                        searchSuccess = ti_temp.ForwardSearch(search, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter);
-                        if (searchSuccess)
-                        {
-                            textviewContent.Buffer.PlaceCursor(ti_start);
-                            //textviewContent.Buffer.ApplyTag(tt_Highlight, ti_start, ti_end);
-                            textviewContent.Buffer.SelectRange(ti_start, ti_end);
-                            scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
-                            lastCharPosOfSearch = ti_end.Offset;
-                        }
+                     //   searchSuccess = ti_temp.ForwardSearch(search, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter);
+                     //   if (searchSuccess)
+                     //   {
+                     //       textviewContent.Buffer.PlaceCursor(ti_start);
+                     //       //textviewContent.Buffer.ApplyTag(tt_Highlight, ti_start, ti_end);
+                     //       textviewContent.Buffer.SelectRange(ti_start, ti_end);
+                     //       scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
+                     //       lastCharPosOfSearch = ti_end.Offset;
+                     //   }
 
-                        // need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
-                        //leftControlPressed = false;
-                        break;
+                     //   // need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
+                     //   //leftControlPressed = false;
+                     //break;
                 }
 
 //				leftControlPressed = false;
@@ -697,7 +748,51 @@ namespace Troonie
 			case Gdk.Key.Control_L:
 				leftControlPressed = true;
 				break;
-			}
+            case Gdk.Key.Shift_L:
+                 leftShiftPressed = true;
+                 break;
+                case Gdk.Key.F3:
+                TextIter ti_start, ti_end;
+                ti_temp = textviewContent.Buffer.StartIter;
+                ti_temp.ForwardChars(lastCharPosOfSearch);
+
+                if (leftShiftPressed)
+                {
+                    ti_temp.BackwardChars(searchEntry.Text.Length);
+                    // Set cursor to previous result
+                    if (ti_temp.BackwardSearch(searchEntry.Text, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.StartIter))
+                    {
+                        textviewContent.Buffer.PlaceCursor(ti_start);
+                        textviewContent.Buffer.SelectRange(ti_start, ti_end);
+                        currentNumberOfSearch--;
+                        SetSearchLabel();
+                        lastCharPosOfSearch = ti_end.Offset;
+
+                        if (scrolledwindowContent.VScrollbar.Visible)
+                        {
+                            scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
+                        }
+                    }
+                }
+                else 
+                { 
+                    // Set cursor to next result
+                    if (ti_temp.ForwardSearch(searchEntry.Text, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
+                    {
+                        textviewContent.Buffer.PlaceCursor(ti_start);
+                        textviewContent.Buffer.SelectRange(ti_start, ti_end);
+                        currentNumberOfSearch++;
+                        SetSearchLabel();
+                        lastCharPosOfSearch = ti_end.Offset;
+
+                        if (scrolledwindowContent.VScrollbar.Visible)
+                        {
+                            scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
+                        }
+                    }
+                }
+                break;
+            }
 		}
 
 		[GLib.ConnectBefore ()] 
@@ -707,7 +802,10 @@ namespace Troonie
 			case Gdk.Key.Control_L:
 				leftControlPressed = false;
 				break;
-			}
+            case Gdk.Key.Shift_L:
+                leftShiftPressed = false;
+                break;
+            }
 
 			// args.RetVal = true;
 		}
@@ -787,7 +885,12 @@ namespace Troonie
 			rdBtnPayloadFile.Sensitive = comboboxAlgorithm.Active != 0; 
 
 			ChangeLbPayloadspace ();
-		}			
-	}
+		}	
+
+        private void SetSearchLabel()
+        {
+            searchLabel.Text = currentNumberOfSearch + " / " + countSearch;
+        }
+    }
 }
 
