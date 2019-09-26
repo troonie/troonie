@@ -37,16 +37,58 @@ namespace Troonie
             searchLabel.Visible = !searchLabel.Visible;
             up_button.Visible = !up_button.Visible;
             down_button.Visible = !down_button.Visible;
+
+            if (searchEntry.Visible) 
+            {
+                searchEntry.GrabFocus();
+            }
+            else 
+            {
+                searchEntry.Text = string.Empty;
+            }
         }
 
         protected void OnToolbarBtn_UpArrow(object sender, EventArgs e)
         {
-         
+            ti_temp = textviewContent.Buffer.StartIter;
+            ti_temp.ForwardChars(lastCharPosOfSearch);
+
+            ti_temp.BackwardChars(searchEntry.Text.Length);
+            // Set cursor to previous result
+            if (ti_temp.BackwardSearch(searchEntry.Text, TextSearchFlags.VisibleOnly, out TextIter ti_start, out TextIter ti_end, textviewContent.Buffer.StartIter))
+            {
+                textviewContent.Buffer.PlaceCursor(ti_start);
+                textviewContent.Buffer.SelectRange(ti_start, ti_end);
+                currentNumberOfSearch--;
+                SetSearchLabel();
+                lastCharPosOfSearch = ti_end.Offset;
+
+                if (scrolledwindowContent.VScrollbar.Visible)
+                {
+                    scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
+                }
+            }
         }
 
         protected void OnToolbarBtn_DownArrow(object sender, EventArgs e)
         {
+            ti_temp = textviewContent.Buffer.StartIter;
+            ti_temp.ForwardChars(lastCharPosOfSearch);
 
+            // Set cursor to next result
+            if (ti_temp.ForwardSearch(searchEntry.Text, TextSearchFlags.VisibleOnly, out TextIter ti_start, out TextIter ti_end, textviewContent.Buffer.EndIter))
+            {
+                textviewContent.Buffer.PlaceCursor(ti_start);
+                textviewContent.Buffer.SelectRange(ti_start, ti_end);
+                currentNumberOfSearch++;
+                SetSearchLabel();
+                lastCharPosOfSearch = ti_end.Offset;
+
+                if (scrolledwindowContent.VScrollbar.Visible)
+                {
+                    scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
+                }
+            }
         }
 
         protected void OnSearchEntry_Changed(object sender, EventArgs e)
@@ -92,44 +134,6 @@ namespace Troonie
 
             SetSearchLabel();
         }
-
-        //[GLib.ConnectBefore()]
-        //protected void OnsearchEntryKeyReleaseEvent(object o, KeyReleaseEventArgs args)
-        //{
-        //    string search = searchEntry.Text;
-        //    TextIter ti_start, ti_end;
-        //    // reset everything
-        //    textviewContent.Buffer.RemoveTag(tt_Highlight, textviewContent.Buffer.StartIter, textviewContent.Buffer.EndIter);
-        //    textviewContent.Buffer.PlaceCursor(textviewContent.Buffer.StartIter);
-
-        //    // Allow search only for minimum char numbers
-        //    //if (search.Length < 2) {
-        //    //    args.RetVal = true;
-        //    //    return;
-        //    //}
-
-        //    ti_temp = textviewContent.Buffer.StartIter;
-        //    // Set cursor to first result
-        //    if (ti_temp.ForwardSearch(search, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter)) 
-        //    {
-        //        textviewContent.Buffer.PlaceCursor(ti_start);
-        //        textviewContent.Buffer.SelectRange(ti_start, ti_end);
-        //        if (scrolledwindowContent.VScrollbar.Visible)
-        //        {
-        //            scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
-        //        }
-        //    }
-
-        //    // Highlight all results
-        //    while (ti_temp.ForwardSearch(search, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
-        //    {
-        //        textviewContent.Buffer.ApplyTag(tt_Highlight, ti_start, ti_end);
-        //        ti_temp = textviewContent.Buffer.StartIter;
-        //        ti_temp.ForwardChars(ti_end.Offset);
-        //    }
-
-        //    args.RetVal = true;
-        //}
     }
 }
 

@@ -99,6 +99,9 @@
     <EmbeddedResource Include="src\icons\applications-system-3.png">
       <LogicalName>applications-system-3.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\icons\magnifier-zoom.png">
+      <LogicalName>magnifier-zoom.png</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />

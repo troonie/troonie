@@ -52,7 +52,7 @@ namespace Troonie
             // START VALUE
             //	args = new string[] { "-v"};
             //	args = new string[] { "-e", "../image.jpg"};
-            //  args = new string[] { "-s", "../image.jpg" };
+              //args = new string[] { "-s", "../image.jpg" };
             //  args = new string[] { "-d", "../testdirectory" };
 
             if (args.Length == 0) {

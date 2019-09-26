@@ -311,7 +311,74 @@ namespace Troonie
 			GuiHelper.I.CreateToolbarUpdateButtonByTimer(hboxToolbarButtons, position);			
 		}
 
-		public string GetFileSizeString(long fileSize, int decimals)
+        public void CreateSearchToolbar(
+            HBox hboxToolbarButtons, 
+            int position,
+            string stockicon, 
+            string tooltipText,
+            out Entry searchEntry, 
+            out Label searchLabel,
+            out Button up_button,
+            out Button down_button,
+            EventHandler toolbarBtnSearchPressed,
+            EventHandler searchEntryChanged,
+            OnToolbarBtnPressed upArrowPressed,
+            OnToolbarBtnPressed downArrowPressed) 
+        {
+            Button l_button = new Button();
+            l_button.Image = Gtk.Image.LoadFromResource(stockicon);
+            l_button.Visible = true;
+            l_button.TooltipText = tooltipText;
+            l_button.Image.Visible = true;
+            l_button.Pressed += toolbarBtnSearchPressed;
+            hboxToolbarButtons.Add(l_button);
+            Box.BoxChild w3x = (Box.BoxChild)hboxToolbarButtons[l_button];
+            w3x.Position = position;
+            w3x.Expand = false;
+            w3x.Fill = false;
+
+            searchEntry = new Entry();
+            //searchEntry.Visible = true;
+            //searchEntry.WidthChars = 10;
+            searchEntry.MaxLength = 30;
+            searchEntry.Changed += searchEntryChanged;
+            hboxToolbarButtons.Add(searchEntry);
+            w3x = (Box.BoxChild)hboxToolbarButtons[searchEntry];
+            w3x.Position = position + 1;
+            w3x.Expand = false;
+            w3x.Fill = false;
+
+            up_button = new Button();
+            up_button.Add(new Arrow(ArrowType.Up, ShadowType.Out) { Visible = true });
+            //up_button.Visible = true;
+            up_button.Pressed += new EventHandler(upArrowPressed);
+            hboxToolbarButtons.Add(up_button);
+            w3x = (Box.BoxChild)hboxToolbarButtons[up_button];
+            w3x.Position = position + 2;
+            w3x.Expand = false;
+            w3x.Fill = false;
+
+            down_button = new Button();
+            down_button.Add(new Arrow(ArrowType.Down, ShadowType.Out) { Visible = true });
+            //down_button.Visible = true;
+            down_button.Pressed += new EventHandler(downArrowPressed);
+            hboxToolbarButtons.Add(down_button);
+            w3x = (Box.BoxChild)hboxToolbarButtons[down_button];
+            w3x.Position = position + 3;
+            w3x.Expand = false;
+            w3x.Fill = false;
+
+            searchLabel = new Label();
+            //SetSearchLabel();
+            //searchLabel.Visible = true;
+            hboxToolbarButtons.Add(searchLabel);
+            w3x = (Box.BoxChild)hboxToolbarButtons[searchLabel];
+            w3x.Position = position + 4;
+            w3x.Expand = false;
+            w3x.Fill = false;
+        }
+
+        public string GetFileSizeString(long fileSize, int decimals)
 		{
 			double dl = fileSize;
 			string dl_ext = Language.I.L[247];

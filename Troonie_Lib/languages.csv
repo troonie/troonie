@@ -324,3 +324,4 @@ Mix value (in %);Mix-Wert (in %)
 Size of viewer's image panels (in px);Größe der Bild-Panels im Viewer
 Keywords xml file was not found. It was recreated.; Keywords-XML wurde nicht gefunden. Datei wurde neu erzeugt.
 Directory of keywords xml file does not exist. A new file (keywords.xml) was created in program directory.; Verzeichnis der Keywords-XML existiert nicht. Es wurde eine neue Datei (keywords.xml) im Programmverzeichnis erzeugt.
+Search;Suche

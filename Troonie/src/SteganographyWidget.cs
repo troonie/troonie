@@ -61,61 +61,12 @@ namespace Troonie
 				GuiHelper.I.CreateToolbarIconButton (hboxToolbarButtons, 1, "document-save-5.png", Language.I.L[3], OnToolbarBtn_SaveAsPressed);
 				GuiHelper.I.CreateToolbarSeparator (hboxToolbarButtons, 2);
 				GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 3, OnToolbarBtn_LanguagePressed);
-                // ###
-                GuiHelper.I.CreateToolbarSeparator(hboxToolbarButtons, 7);
-                Button l_button = new Button();
-                l_button.Image = Gtk.Image.LoadFromResource("document-save-5.png");
-                l_button.Visible = true;
-                l_button.TooltipText = "tooltipText";
-                l_button.Label = "lupe";
-                l_button.Image.Visible = true;
-                l_button.Pressed += OnToolbarBtn_Search;
-                hboxToolbarButtons.Add(l_button);
-                Box.BoxChild w3x = (Box.BoxChild)hboxToolbarButtons[l_button];
-                w3x.Position = 8;
-                w3x.Expand = false;
-                w3x.Fill = false;
 
-                searchEntry = new Entry();
-                searchEntry.Visible = true;
-                //searchEntry.WidthChars = 10;
-                searchEntry.MaxLength = 30;
-                searchEntry.Changed += OnSearchEntry_Changed;
-                hboxToolbarButtons.Add(searchEntry);
-                w3x = (Box.BoxChild)hboxToolbarButtons[searchEntry];
-                w3x.Position = 9;
-                w3x.Expand = false;
-                w3x.Fill = false;
-
-                up_button = new Button();
-                up_button.Add(new Arrow(ArrowType.Up, ShadowType.Out) { Visible = true });
-                up_button.Visible = true;
-                up_button.Pressed += OnToolbarBtn_UpArrow;
-                hboxToolbarButtons.Add(up_button);
-                w3x = (Box.BoxChild)hboxToolbarButtons[up_button];
-                w3x.Position = 10;
-                w3x.Expand = false;
-                w3x.Fill = false;
-
-                down_button = new Button();
-                down_button.Add(new Arrow(ArrowType.Down, ShadowType.Out) { Visible = true });
-                down_button.Visible = true;
-                down_button.Pressed += OnToolbarBtn_DownArrow;
-                hboxToolbarButtons.Add(down_button);
-                w3x = (Box.BoxChild)hboxToolbarButtons[down_button];
-                w3x.Position = 11;
-                w3x.Expand = false;
-                w3x.Fill = false;
-
-                searchLabel = new Label();
+                GuiHelper.I.CreateToolbarSeparator(hboxToolbarButtons, 8);
+                GuiHelper.I.CreateSearchToolbar(hboxToolbarButtons, 9, "magnifier-zoom.png", Language.I.L[327], 
+                    out searchEntry, out searchLabel, out up_button, out down_button,
+                    OnToolbarBtn_Search, OnSearchEntry_Changed, OnToolbarBtn_UpArrow, OnToolbarBtn_DownArrow);
                 SetSearchLabel();
-                searchLabel.Visible = true;
-                hboxToolbarButtons.Add(searchLabel);
-                w3x = (Box.BoxChild)hboxToolbarButtons[searchLabel];
-                w3x.Position = 12;
-                w3x.Expand = false;
-                w3x.Fill = false;
-                // ###
 
                 SetGuiColors();
 				SetLanguageToGui ();
@@ -686,58 +637,26 @@ namespace Troonie
 			#region 'ctrl + ...'
 			if (leftControlPressed) {
 				switch (args.Event.Key) {
-				case Gdk.Key.s:
+                    case Gdk.Key.f:
+                        OnToolbarBtn_Search(null, null);
+                        break;
+                    case Gdk.Key.s:
 					if (FileName != null) {
 						OpenSaveAsDialog ();
 						// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
 						leftControlPressed = false;
 					}
 					break;
-				case Gdk.Key.o:
-					// shows/hides common hidden checkbox for StegHash-StrongObfuscation
-					checkBtnStrongObfuscation.Visible = !checkBtnStrongObfuscation.Visible;
-					break;
-				case Gdk.Key.n:
-					OnToolbarBtn_OpenPressed(null, null);
-					// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
-					leftControlPressed = false;
-					break;
-                //case Gdk.Key.t:
-                     //   string search = "6";
-                     //   TextIter ti_start, ti_end;
-
-                     //   if (firstSearch) { 
-                     //       ti_temp = textviewContent.Buffer.StartIter;
-
-                     //       while (ti_temp.ForwardSearch(search, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
-                     //       {
-                     //           textviewContent.Buffer.ApplyTag(tt_Highlight, ti_start, ti_end);
-                     //           ti_temp = textviewContent.Buffer.StartIter;
-                     //           ti_temp.ForwardChars(ti_end.Offset);
-                     //       }
-
-                     //       firstSearch = false;
-                     //   }
-
-                     //   ti_temp = textviewContent.Buffer.StartIter;
-                     //   ti_temp.ForwardChars(lastCharPosOfSearch);
-
-                     //   searchSuccess = ti_temp.ForwardSearch(search, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter);
-                     //   if (searchSuccess)
-                     //   {
-                     //       textviewContent.Buffer.PlaceCursor(ti_start);
-                     //       //textviewContent.Buffer.ApplyTag(tt_Highlight, ti_start, ti_end);
-                     //       textviewContent.Buffer.SelectRange(ti_start, ti_end);
-                     //       scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
-                     //       lastCharPosOfSearch = ti_end.Offset;
-                     //   }
-
-                     //   // need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
-                     //   //leftControlPressed = false;
-                     //break;
+    				case Gdk.Key.o:
+    					// shows/hides common hidden checkbox for StegHash-StrongObfuscation
+    					checkBtnStrongObfuscation.Visible = !checkBtnStrongObfuscation.Visible;
+    					break;
+    				case Gdk.Key.n:
+    					OnToolbarBtn_OpenPressed(null, null);
+    					// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
+    					leftControlPressed = false;
+    					break;
                 }
-
-//				leftControlPressed = false;
 
 				return;
 			}
@@ -745,52 +664,26 @@ namespace Troonie
 
 
 			switch (args.Event.Key) {
-			case Gdk.Key.Control_L:
+            case Gdk.Key.Tab:
+                if (searchEntry.HasFocus)
+                {
+                        // TODO Setting focus by tabbing
+                        //textviewContent.Buffer.
+                        //textviewContent.GrabFocus();
+                        //args.RetVal = false;
+                }
+                break;
+            case Gdk.Key.Control_L:
 				leftControlPressed = true;
 				break;
             case Gdk.Key.Shift_L:
                  leftShiftPressed = true;
                  break;
-                case Gdk.Key.F3:
-                TextIter ti_start, ti_end;
-                ti_temp = textviewContent.Buffer.StartIter;
-                ti_temp.ForwardChars(lastCharPosOfSearch);
-
+            case Gdk.Key.F3:
                 if (leftShiftPressed)
-                {
-                    ti_temp.BackwardChars(searchEntry.Text.Length);
-                    // Set cursor to previous result
-                    if (ti_temp.BackwardSearch(searchEntry.Text, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.StartIter))
-                    {
-                        textviewContent.Buffer.PlaceCursor(ti_start);
-                        textviewContent.Buffer.SelectRange(ti_start, ti_end);
-                        currentNumberOfSearch--;
-                        SetSearchLabel();
-                        lastCharPosOfSearch = ti_end.Offset;
-
-                        if (scrolledwindowContent.VScrollbar.Visible)
-                        {
-                            scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
-                        }
-                    }
-                }
-                else 
-                { 
-                    // Set cursor to next result
-                    if (ti_temp.ForwardSearch(searchEntry.Text, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
-                    {
-                        textviewContent.Buffer.PlaceCursor(ti_start);
-                        textviewContent.Buffer.SelectRange(ti_start, ti_end);
-                        currentNumberOfSearch++;
-                        SetSearchLabel();
-                        lastCharPosOfSearch = ti_end.Offset;
-
-                        if (scrolledwindowContent.VScrollbar.Visible)
-                        {
-                            scrolledwindowContent.Vadjustment.Value = scrolledwindowContent.Vadjustment.Upper * ti_start.Line / textviewContent.Buffer.LineCount;
-                        }
-                    }
-                }
+                    OnToolbarBtn_UpArrow(null, null);
+                else
+                    OnToolbarBtn_DownArrow(null, null);
                 break;
             }
 		}
