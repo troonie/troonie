@@ -33,29 +33,29 @@ namespace Troonie
 
         protected void OnToolbarBtn_Search(object sender, EventArgs e)
         {
-            searchEntry.Visible = !searchEntry.Visible;
-            searchLabel.Visible = !searchLabel.Visible;
-            up_button.Visible = !up_button.Visible;
-            down_button.Visible = !down_button.Visible;
+            entrySearch.Visible = !entrySearch.Visible;
+            labelSearch.Visible = !labelSearch.Visible;
+            btnUp.Visible = !btnUp.Visible;
+            btnDown.Visible = !btnDown.Visible;
 
-            if (searchEntry.Visible) 
+            if (entrySearch.Visible) 
             {
-                searchEntry.GrabFocus();
+                entrySearch.GrabFocus();
             }
             else 
             {
-                searchEntry.Text = string.Empty;
+                entrySearch.Text = string.Empty;
             }
         }
 
         protected void OnToolbarBtn_UpArrow(object sender, EventArgs e)
         {
-            ti_temp = textviewContent.Buffer.StartIter;
-            ti_temp.ForwardChars(lastCharPosOfSearch);
+            textIterTemp = textviewContent.Buffer.StartIter;
+            textIterTemp.ForwardChars(lastCharPosOfSearch);
 
-            ti_temp.BackwardChars(searchEntry.Text.Length);
+            textIterTemp.BackwardChars(entrySearch.Text.Length);
             // Set cursor to previous result
-            if (ti_temp.BackwardSearch(searchEntry.Text, TextSearchFlags.VisibleOnly, out TextIter ti_start, out TextIter ti_end, textviewContent.Buffer.StartIter))
+            if (textIterTemp.BackwardSearch(entrySearch.Text, TextSearchFlags.VisibleOnly, out TextIter ti_start, out TextIter ti_end, textviewContent.Buffer.StartIter))
             {
                 textviewContent.Buffer.PlaceCursor(ti_start);
                 textviewContent.Buffer.SelectRange(ti_start, ti_end);
@@ -72,11 +72,11 @@ namespace Troonie
 
         protected void OnToolbarBtn_DownArrow(object sender, EventArgs e)
         {
-            ti_temp = textviewContent.Buffer.StartIter;
-            ti_temp.ForwardChars(lastCharPosOfSearch);
+            textIterTemp = textviewContent.Buffer.StartIter;
+            textIterTemp.ForwardChars(lastCharPosOfSearch);
 
             // Set cursor to next result
-            if (ti_temp.ForwardSearch(searchEntry.Text, TextSearchFlags.VisibleOnly, out TextIter ti_start, out TextIter ti_end, textviewContent.Buffer.EndIter))
+            if (textIterTemp.ForwardSearch(entrySearch.Text, TextSearchFlags.VisibleOnly, out TextIter ti_start, out TextIter ti_end, textviewContent.Buffer.EndIter))
             {
                 textviewContent.Buffer.PlaceCursor(ti_start);
                 textviewContent.Buffer.SelectRange(ti_start, ti_end);
@@ -91,26 +91,25 @@ namespace Troonie
             }
         }
 
-        protected void OnSearchEntry_Changed(object sender, EventArgs e)
+        protected void OnEntrySearch_Changed(object sender, EventArgs e)
         {
-            //Console.WriteLine("Changed: " + searchEntry.Text);
             TextIter ti_start, ti_end;
             // reset everything
-            textviewContent.Buffer.RemoveTag(tt_Highlight, textviewContent.Buffer.StartIter, textviewContent.Buffer.EndIter);
+            textviewContent.Buffer.RemoveTag(textTagHighlighting, textviewContent.Buffer.StartIter, textviewContent.Buffer.EndIter);
             textviewContent.Buffer.PlaceCursor(textviewContent.Buffer.StartIter);
             lastCharPosOfSearch = 0;
             countSearch = 0;
             currentNumberOfSearch = 0;
 
             // Allow search only for minimum char numbers
-            if (searchEntry.Text.Length < 1) {
+            if (entrySearch.Text.Length < 1) {
                 SetSearchLabel();
                 return;
             }
 
-            ti_temp = textviewContent.Buffer.StartIter;
+            textIterTemp = textviewContent.Buffer.StartIter;
             // Set cursor to first result
-            if (ti_temp.ForwardSearch(searchEntry.Text, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
+            if (textIterTemp.ForwardSearch(entrySearch.Text, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
             {
                 textviewContent.Buffer.PlaceCursor(ti_start);
                 textviewContent.Buffer.SelectRange(ti_start, ti_end);
@@ -124,11 +123,11 @@ namespace Troonie
             }
 
             // Highlight all results
-            while (ti_temp.ForwardSearch(searchEntry.Text, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
+            while (textIterTemp.ForwardSearch(entrySearch.Text, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
             {
-                textviewContent.Buffer.ApplyTag(tt_Highlight, ti_start, ti_end);
-                ti_temp = textviewContent.Buffer.StartIter;
-                ti_temp.ForwardChars(ti_end.Offset);
+                textviewContent.Buffer.ApplyTag(textTagHighlighting, ti_start, ti_end);
+                textIterTemp = textviewContent.Buffer.StartIter;
+                textIterTemp.ForwardChars(ti_end.Offset);
                 countSearch++;
             }
 

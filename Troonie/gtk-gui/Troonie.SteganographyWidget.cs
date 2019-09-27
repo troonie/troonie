@@ -99,7 +99,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.SteganographyWidget
 			this.Name = "Troonie.SteganographyWidget";
-			this.Title = global::Mono.Unix.Catalog.GetString ("SteganographyWidget");
+			this.Title = global::Mono.Unix.Catalog.GetString ("Steganography");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Container child Troonie.SteganographyWidget.Gtk.Container+ContainerChild
 			this.vboxA = new global::Gtk.VBox ();

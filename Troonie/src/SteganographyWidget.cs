@@ -16,15 +16,15 @@ namespace Troonie
 		private static char sep = System.IO.Path.DirectorySeparatorChar;
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
-		private bool leftControlPressed, leftShiftPressed;
+		private bool leftControlPressed, leftShiftPressed, tabWhileFocusInSearchEntryPressed;
 		private int imageW; 
 		private int imageH;
         private int lastCharPosOfSearch, currentNumberOfSearch, countSearch;
-        private TextIter ti_temp;
-        private TextTag tt_Highlight;
-        private Label searchLabel;
-        private Button down_button, up_button;
-        private Entry searchEntry;
+        private TextIter textIterTemp;
+        private TextTag textTagHighlighting;
+        private Label labelSearch;
+        private Button btnDown, btnUp;
+        private Entry entrySearch;
 
         public string FileName { get; set; }
 		public BitmapWithTag bt;
@@ -36,18 +36,10 @@ namespace Troonie
 				Build ();
 				textviewContent.Buffer.Changed += (sender, e) => { ChangeLbPayloadspace (); };
 
-                // ###
-                //textviewContent.Buffer.Text = "666 6" + Constants.N;
-                //for (int i = 1; i < 10; i++)
-                //{
-                //    textviewContent.Buffer.Text += i + ": A number "+ (i * 1024) + Constants.N;
-                //}
-
-                tt_Highlight = new TextTag("yellow");
-                tt_Highlight.BackgroundGdk = new Gdk.Color(255, 255, 0);
-                tt_Highlight.Weight = Pango.Weight.Bold;
-                textviewContent.Buffer.TagTable.Add(tt_Highlight);
-                // ###
+                textTagHighlighting = new TextTag("yellow");
+                textTagHighlighting.BackgroundGdk = new Gdk.Color(255, 255, 0);
+                textTagHighlighting.Weight = Pango.Weight.Bold;
+                textviewContent.Buffer.TagTable.Add(textTagHighlighting);
 
                 hypertextlabelFileChooser.InitDefaultValues();
 				hypertextlabelFileChooser.OnHyperTextLabelTextChanged += ChangeLbPayloadspace;
@@ -63,9 +55,9 @@ namespace Troonie
 				GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 3, OnToolbarBtn_LanguagePressed);
 
                 GuiHelper.I.CreateToolbarSeparator(hboxToolbarButtons, 8);
-                GuiHelper.I.CreateSearchToolbar(hboxToolbarButtons, 9, "magnifier-zoom.png", Language.I.L[327], 
-                    out searchEntry, out searchLabel, out up_button, out down_button,
-                    OnToolbarBtn_Search, OnSearchEntry_Changed, OnToolbarBtn_UpArrow, OnToolbarBtn_DownArrow);
+                GuiHelper.I.CreateSearchToolbar(hboxToolbarButtons, 9, "magnifier-zoom.png", 
+                    out entrySearch, out labelSearch, out btnUp, out btnDown,
+                    OnToolbarBtn_Search, OnEntrySearch_Changed, OnToolbarBtn_UpArrow, OnToolbarBtn_DownArrow);
                 SetSearchLabel();
 
                 SetGuiColors();
@@ -665,12 +657,9 @@ namespace Troonie
 
 			switch (args.Event.Key) {
             case Gdk.Key.Tab:
-                if (searchEntry.HasFocus)
+                if (entrySearch.HasFocus || btnUp.HasFocus || btnDown.HasFocus)
                 {
-                        // TODO Setting focus by tabbing
-                        //textviewContent.Buffer.
-                        //textviewContent.GrabFocus();
-                        //args.RetVal = false;
+                    tabWhileFocusInSearchEntryPressed = true;
                 }
                 break;
             case Gdk.Key.Control_L:
@@ -697,6 +686,18 @@ namespace Troonie
 				break;
             case Gdk.Key.Shift_L:
                 leftShiftPressed = false;
+                break;
+            case Gdk.Key.Tab:
+                if (tabWhileFocusInSearchEntryPressed)
+                {
+                    textviewContent.GrabFocus();     
+                    if (textviewContent.Buffer.HasSelection) 
+                    {
+                        textviewContent.Buffer.GetSelectionBounds(out TextIter s, out TextIter e);
+                        textviewContent.Buffer.PlaceCursor(s);
+                    }
+                }
+                tabWhileFocusInSearchEntryPressed = false;
                 break;
             }
 
@@ -782,7 +783,7 @@ namespace Troonie
 
         private void SetSearchLabel()
         {
-            searchLabel.Text = currentNumberOfSearch + " / " + countSearch;
+            labelSearch.Text = currentNumberOfSearch + " / " + countSearch;
         }
     }
 }
