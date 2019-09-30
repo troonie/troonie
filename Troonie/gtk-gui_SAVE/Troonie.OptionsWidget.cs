@@ -24,6 +24,20 @@ namespace Troonie
 		
 		private global::Gtk.Label lbFrameDesktopContextMenu;
 		
+		private global::Gtk.Frame frameVipSize;
+		
+		private global::Gtk.Alignment AlignmentVipSize;
+		
+		private global::Gtk.HBox hboxVipSize;
+		
+		private global::Troonie.TroonieButton btnPlusVipSize;
+		
+		private global::Gtk.Entry entryVipSize;
+		
+		private global::Troonie.TroonieButton btnMinusVipSize;
+		
+		private global::Gtk.Label lbVipSize;
+		
 		private global::Gtk.Frame frameMaxSideLengthFilterImage;
 		
 		private global::Gtk.Alignment AlignmentMaxSideLengthFilterImage;
@@ -131,6 +145,65 @@ namespace Troonie
 			w5.Expand = false;
 			w5.Fill = false;
 			// Container child vboxPage1.Gtk.Box+BoxChild
+			this.frameVipSize = new global::Gtk.Frame ();
+			this.frameVipSize.Name = "frameVipSize";
+			this.frameVipSize.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child frameVipSize.Gtk.Container+ContainerChild
+			this.AlignmentVipSize = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.AlignmentVipSize.Name = "AlignmentVipSize";
+			this.AlignmentVipSize.LeftPadding = ((uint)(12));
+			// Container child AlignmentVipSize.Gtk.Container+ContainerChild
+			this.hboxVipSize = new global::Gtk.HBox ();
+			this.hboxVipSize.Name = "hboxVipSize";
+			this.hboxVipSize.Spacing = 6;
+			// Container child hboxVipSize.Gtk.Box+BoxChild
+			this.btnPlusVipSize = new global::Troonie.TroonieButton ();
+			this.btnPlusVipSize.Name = "btnPlusVipSize";
+			this.btnPlusVipSize.CheckReleaseState = true;
+			this.btnPlusVipSize.BorderlineWidth = 2;
+			this.btnPlusVipSize.ButtonHeight = 35;
+			this.btnPlusVipSize.ButtonWidth = 0;
+			this.btnPlusVipSize.Font = "Arial";
+			this.btnPlusVipSize.Text = "+";
+			this.btnPlusVipSize.TextSize = 12D;
+			this.hboxVipSize.Add (this.btnPlusVipSize);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hboxVipSize [this.btnPlusVipSize]));
+			w6.Position = 0;
+			// Container child hboxVipSize.Gtk.Box+BoxChild
+			this.entryVipSize = new global::Gtk.Entry ();
+			this.entryVipSize.CanFocus = true;
+			this.entryVipSize.Name = "entryVipSize";
+			this.entryVipSize.IsEditable = true;
+			this.entryVipSize.InvisibleChar = '●';
+			this.hboxVipSize.Add (this.entryVipSize);
+			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hboxVipSize [this.entryVipSize]));
+			w7.Position = 1;
+			// Container child hboxVipSize.Gtk.Box+BoxChild
+			this.btnMinusVipSize = new global::Troonie.TroonieButton ();
+			this.btnMinusVipSize.Name = "btnMinusVipSize";
+			this.btnMinusVipSize.CheckReleaseState = true;
+			this.btnMinusVipSize.BorderlineWidth = 2;
+			this.btnMinusVipSize.ButtonHeight = 35;
+			this.btnMinusVipSize.ButtonWidth = 0;
+			this.btnMinusVipSize.Font = "Arial";
+			this.btnMinusVipSize.Text = "-";
+			this.btnMinusVipSize.TextSize = 12D;
+			this.hboxVipSize.Add (this.btnMinusVipSize);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hboxVipSize [this.btnMinusVipSize]));
+			w8.Position = 2;
+			this.AlignmentVipSize.Add (this.hboxVipSize);
+			this.frameVipSize.Add (this.AlignmentVipSize);
+			this.lbVipSize = new global::Gtk.Label ();
+			this.lbVipSize.Name = "lbVipSize";
+			this.lbVipSize.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>lbVipSize</b>");
+			this.lbVipSize.UseMarkup = true;
+			this.frameVipSize.LabelWidget = this.lbVipSize;
+			this.vboxPage1.Add (this.frameVipSize);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameVipSize]));
+			w11.Position = 2;
+			w11.Expand = false;
+			w11.Fill = false;
+			// Container child vboxPage1.Gtk.Box+BoxChild
 			this.frameMaxSideLengthFilterImage = new global::Gtk.Frame ();
 			this.frameMaxSideLengthFilterImage.Name = "frameMaxSideLengthFilterImage";
 			this.frameMaxSideLengthFilterImage.ShadowType = ((global::Gtk.ShadowType)(0));
@@ -153,8 +226,8 @@ namespace Troonie
 			this.btnPlusMaxSideLengthFilterImage.Text = "+";
 			this.btnPlusMaxSideLengthFilterImage.TextSize = 12D;
 			this.hboxMaxSideLengthFilterImage.Add (this.btnPlusMaxSideLengthFilterImage);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.btnPlusMaxSideLengthFilterImage]));
-			w6.Position = 0;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.btnPlusMaxSideLengthFilterImage]));
+			w12.Position = 0;
 			// Container child hboxMaxSideLengthFilterImage.Gtk.Box+BoxChild
 			this.entryMaxSideLengthFilterImage = new global::Gtk.Entry ();
 			this.entryMaxSideLengthFilterImage.CanFocus = true;
@@ -162,8 +235,8 @@ namespace Troonie
 			this.entryMaxSideLengthFilterImage.IsEditable = true;
 			this.entryMaxSideLengthFilterImage.InvisibleChar = '●';
 			this.hboxMaxSideLengthFilterImage.Add (this.entryMaxSideLengthFilterImage);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.entryMaxSideLengthFilterImage]));
-			w7.Position = 1;
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.entryMaxSideLengthFilterImage]));
+			w13.Position = 1;
 			// Container child hboxMaxSideLengthFilterImage.Gtk.Box+BoxChild
 			this.btnMinusMaxSideLengthFilterImage = new global::Troonie.TroonieButton ();
 			this.btnMinusMaxSideLengthFilterImage.Name = "btnMinusMaxSideLengthFilterImage";
@@ -175,8 +248,8 @@ namespace Troonie
 			this.btnMinusMaxSideLengthFilterImage.Text = "-";
 			this.btnMinusMaxSideLengthFilterImage.TextSize = 12D;
 			this.hboxMaxSideLengthFilterImage.Add (this.btnMinusMaxSideLengthFilterImage);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.btnMinusMaxSideLengthFilterImage]));
-			w8.Position = 2;
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hboxMaxSideLengthFilterImage [this.btnMinusMaxSideLengthFilterImage]));
+			w14.Position = 2;
 			this.AlignmentMaxSideLengthFilterImage.Add (this.hboxMaxSideLengthFilterImage);
 			this.frameMaxSideLengthFilterImage.Add (this.AlignmentMaxSideLengthFilterImage);
 			this.lbMaxSideLengthFilterImage = new global::Gtk.Label ();
@@ -185,10 +258,10 @@ namespace Troonie
 			this.lbMaxSideLengthFilterImage.UseMarkup = true;
 			this.frameMaxSideLengthFilterImage.LabelWidget = this.lbMaxSideLengthFilterImage;
 			this.vboxPage1.Add (this.frameMaxSideLengthFilterImage);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameMaxSideLengthFilterImage]));
-			w11.Position = 2;
-			w11.Expand = false;
-			w11.Fill = false;
+			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameMaxSideLengthFilterImage]));
+			w17.Position = 3;
+			w17.Expand = false;
+			w17.Fill = false;
 			// Container child vboxPage1.Gtk.Box+BoxChild
 			this.frameVideoplayer = new global::Gtk.Frame ();
 			this.frameVideoplayer.Name = "frameVideoplayer";
@@ -213,8 +286,8 @@ namespace Troonie
 			this.hypertextlabelVideoplayer.Bold = false;
 			this.hypertextlabelVideoplayer.Italic = false;
 			this.hboxVideoplayer.Add (this.hypertextlabelVideoplayer);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hboxVideoplayer [this.hypertextlabelVideoplayer]));
-			w12.Position = 0;
+			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.hboxVideoplayer [this.hypertextlabelVideoplayer]));
+			w18.Position = 0;
 			this.AlignmentVideoplayer.Add (this.hboxVideoplayer);
 			this.frameVideoplayer.Add (this.AlignmentVideoplayer);
 			this.lbFrameVideoplayer = new global::Gtk.Label ();
@@ -223,10 +296,10 @@ namespace Troonie
 			this.lbFrameVideoplayer.UseMarkup = true;
 			this.frameVideoplayer.LabelWidget = this.lbFrameVideoplayer;
 			this.vboxPage1.Add (this.frameVideoplayer);
-			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameVideoplayer]));
-			w15.Position = 3;
-			w15.Expand = false;
-			w15.Fill = false;
+			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameVideoplayer]));
+			w21.Position = 4;
+			w21.Expand = false;
+			w21.Fill = false;
 			// Container child vboxPage1.Gtk.Box+BoxChild
 			this.frameKeywordsXmlFile = new global::Gtk.Frame ();
 			this.frameKeywordsXmlFile.Name = "frameKeywordsXmlFile";
@@ -251,8 +324,8 @@ namespace Troonie
 			this.hypertextlabelKeywordsXmlFile.Bold = false;
 			this.hypertextlabelKeywordsXmlFile.Italic = false;
 			this.hboxKeywordsXmlFile.Add (this.hypertextlabelKeywordsXmlFile);
-			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.hboxKeywordsXmlFile [this.hypertextlabelKeywordsXmlFile]));
-			w16.Position = 0;
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.hboxKeywordsXmlFile [this.hypertextlabelKeywordsXmlFile]));
+			w22.Position = 0;
 			this.AlignmentKeywordsXmlFile.Add (this.hboxKeywordsXmlFile);
 			this.frameKeywordsXmlFile.Add (this.AlignmentKeywordsXmlFile);
 			this.lbFrameKeywordsXmlFile = new global::Gtk.Label ();
@@ -261,10 +334,10 @@ namespace Troonie
 			this.lbFrameKeywordsXmlFile.UseMarkup = true;
 			this.frameKeywordsXmlFile.LabelWidget = this.lbFrameKeywordsXmlFile;
 			this.vboxPage1.Add (this.frameKeywordsXmlFile);
-			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameKeywordsXmlFile]));
-			w19.Position = 4;
-			w19.Expand = false;
-			w19.Fill = false;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vboxPage1 [this.frameKeywordsXmlFile]));
+			w25.Position = 5;
+			w25.Expand = false;
+			w25.Fill = false;
 			this.eventboxPage1.Add (this.vboxPage1);
 			this.notebook1.Add (this.eventboxPage1);
 			// Notebook tab
@@ -283,8 +356,8 @@ namespace Troonie
 			this.table1.ColumnSpacing = ((uint)(6));
 			this.eventboxPage2.Add (this.table1);
 			this.notebook1.Add (this.eventboxPage2);
-			global::Gtk.Notebook.NotebookChild w23 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.eventboxPage2]));
-			w23.Position = 1;
+			global::Gtk.Notebook.NotebookChild w29 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1 [this.eventboxPage2]));
+			w29.Position = 1;
 			// Notebook tab
 			this.lbPage2 = new global::Gtk.Label ();
 			this.lbPage2.Name = "lbPage2";
@@ -303,8 +376,16 @@ namespace Troonie
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.checkBtnDesktopContextMenu.Toggled += new global::System.EventHandler (this.OnCheckBtnDesktopContextMenuToggled);
+			this.btnPlusVipSize.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnButtonReleaseEvent);
+			this.btnPlusVipSize.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnVipSizePressEvent);
+			this.entryVipSize.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnEntryVipSizeKeyReleaseEvent);
+			this.btnMinusVipSize.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnButtonReleaseEvent);
+			this.btnMinusVipSize.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnVipSizePressEvent);
 			this.btnPlusMaxSideLengthFilterImage.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnButtonReleaseEvent);
+			this.btnPlusMaxSideLengthFilterImage.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnMaxSideLengthFilterImagePressEvent);
+			this.entryMaxSideLengthFilterImage.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnEntryMaxSideLengthFilterImageKeyReleaseEvent);
 			this.btnMinusMaxSideLengthFilterImage.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnButtonReleaseEvent);
+			this.btnMinusMaxSideLengthFilterImage.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnBtnMaxSideLengthFilterImagePressEvent);
 		}
 	}
 }
