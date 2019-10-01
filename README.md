@@ -1,4 +1,4 @@
-# Troonie (get <a href="https://github.com/troonie/troonie/releases" target="_blank">version 1.4</a>)
+# Troonie (get <a href="https://github.com/troonie/troonie/releases" target="_blank">version 2.0</a>)
 <a href="https://raw.githubusercontent.com/troonie/troonie/master/pics/teaser.jpg" target="_blank"><img src="https://raw.githubusercontent.com/troonie/troonie/master/pics/teaser_thumb.jpg" alt="Troonie teaser" target="_blank"/></a>
 
 ##A portable tool to convert, trim, stitch, filter photos and work with steganography.
@@ -16,7 +16,8 @@ lang="de"><sup>[2]</sup></abbr></a></li>
 
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Windows Requirements&nbsp;</span></p>
  <ul>
-	<li>No requirements anymore since <a href="https://github.com/troonie/troonie/releases" target="_blank">version 1.4</a>. Just unzip and have fun.</li>
+	<li>No requirements. Just unzip and have fun.</li>
+	<li>.NET Framework 4.7.1 is part of Win10 (since v1709).</li>
 </ul>
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Linux Package Dependencies&nbsp;</span></p>
  <ul>
