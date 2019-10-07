@@ -75,7 +75,11 @@ namespace Troonie_Lib
 		/// conversion from RGB to grayscale. </summary>
 		public float Red { get; set; }
 
+		/// <summary>Exponent for manipulating grayscale result. Grayscaling including exponent manipulation (October 2019).</summary>
+		public float Exp{ get; set; }
 
+		/// <summary>Threshold for increasing or decreasing grayscale result. Grayscaling including exponent manipulation (October 2019).</summary>
+		public byte Threshold { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GrayscaleFilter"/> class.
@@ -85,6 +89,8 @@ namespace Troonie_Lib
 			SupportedSrcPixelFormat = PixelFormatFlags.Color;
 			SupportedDstPixelFormat = PixelFormatFlags.Format8BppIndexed; 
 			Algorithm = CommonAlgorithms.BT709;
+			Exp = 1;
+			Threshold = 127;
 		}
 
 		#region protected methods
@@ -92,6 +98,8 @@ namespace Troonie_Lib
 		protected override void SetProperties (double[] filterProperties)
 		{
 			Algorithm = (CommonAlgorithms)filterProperties[0];
+			Exp = (float)filterProperties [3];
+			Threshold = (byte)filterProperties [4];
 		}
 
 		/// <summary>
@@ -119,9 +127,11 @@ namespace Troonie_Lib
 				// for each pixel
 				for (int x = 0; x < w; x++, src += ps, dst += 1)
 				{
-					*dst = (byte)(src[RGBA.R] * Red + 
-					              src[RGBA.G] * Green + 
-					              src[RGBA.B] * Blue + 0.5f);
+					double tmp = (src [RGBA.R] * Red + src [RGBA.G] * Green + src [RGBA.B] * Blue);
+					float tmp_exp = tmp >= Threshold ? Exp : 2 - Exp;
+
+					tmp = Math.Pow(tmp, tmp_exp) + 0.5f;
+					* dst = (byte)Math.Min (tmp, 255);
 				}
 				src += srcOffset;
 				dst += dstOffset;
