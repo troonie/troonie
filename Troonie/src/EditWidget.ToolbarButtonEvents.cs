@@ -56,8 +56,9 @@ namespace Troonie
 				fw = new FilterWidget (FileName, new MirrorFilter ());
 			} else if (x == filterN.Chessboard) {
 				fw = new FilterWidget (FileName, new ChessboardFilter ());
-			}
-			else if (x == filterN.Difference) {
+			} else if (x == filterN.Contrast) {
+                fw = new FilterWidget(FileName, new ContrastFilter());
+			} else if (x == filterN.Difference) {
 				#region filterN.Difference
 				FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, false, Language.I.L [152]);
 				if (fc.Run () == (int)ResponseType.Ok) {

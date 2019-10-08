@@ -44,6 +44,7 @@ namespace Troonie
 			public static string Mosaic = Language.I.L [307];
 			public static string Mirror = Language.I.L [308];
 			public static string Chessboard = Language.I.L [313];
+            public static string Contrast = Language.I.L[330];
 		}
 
 		private struct shortcutFormatStruct
@@ -89,7 +90,8 @@ namespace Troonie
 					filterN.Convolution5x5,
 					filterN.Invert, 
 					filterN.Gaussian_blur,
-					filterN.Grayscale, 
+					filterN.Grayscale,
+                    filterN.Contrast, 
 					filterN.Meanshift,
 					filterN.Mosaic,
 					filterN.Oil_painting,

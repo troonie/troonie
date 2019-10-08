@@ -5,7 +5,7 @@ using System.Drawing;
 namespace Troonie_Lib
 {
 	/// <summary>
-	/// The filter grayscales colored and images.
+	/// The filter grayscales colored and images including simple contrast manipulation.
 	/// </summary>
 	public class GrayscaleFilter : AbstractFilter
 	{
@@ -75,10 +75,11 @@ namespace Troonie_Lib
 		/// conversion from RGB to grayscale. </summary>
 		public float Red { get; set; }
 
-		/// <summary>Exponent for manipulating grayscale result. Grayscaling including exponent manipulation (October 2019).</summary>
+		/// <summary>Exponent for manipulating contrast. 
+		/// Increasing or decreasing channel value by exponentiation.</summary>
 		public float Exp{ get; set; }
 
-		/// <summary>Threshold for increasing or decreasing grayscale result. Grayscaling including exponent manipulation (October 2019).</summary>
+		/// <summary>Threshold to determine whether increasing or decreasing grayscale value.</summary>
 		public byte Threshold { get; set; }
 
 		/// <summary>

@@ -588,9 +588,38 @@ namespace Troonie
 
 		}
 
-		#endregion Constructors
+        public FilterWidget(string pFilename, ContrastFilter contrast) : this(pFilename)
+        {
+            abstractFilter = contrast;
 
-		public override void Destroy ()
+            Title = Language.I.L[330];
+
+            #region New filter variant: Grayscaling including exponent manipulation (October 2019)
+            frameHScales.Visible = true;
+            // expnent value, [1.000, 1.100]. Default: 1.000
+            frame_hscale1.Visible = true;
+            lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[294] + "</b>";
+            hscale1.Adjustment.Lower = 1.000;
+            hscale1.Adjustment.Upper = 1.200;
+            hscale1.Adjustment.StepIncrement = 0.001;
+            hscale1.Adjustment.PageIncrement = 0.1;
+            hscale1.Digits = 3;
+            hscale1.Value = contrast.Exp;
+
+            frame_hscale2.Visible = true;
+            lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[289] + "</b>";
+            hscale2.Adjustment.Lower = 1;
+            hscale2.Adjustment.Upper = 255;
+            hscale2.Adjustment.StepIncrement = 1;
+            hscale2.Adjustment.PageIncrement = 5;
+            hscale2.Digits = 0;
+            hscale2.Value = contrast.Threshold;
+            #endregion
+        }
+
+        #endregion Constructors
+
+        public override void Destroy ()
 		{
 			if (image != null) {
 				image.Dispose ();
