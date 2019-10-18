@@ -94,6 +94,7 @@
     <Compile Include="filter\MirrorFilter.cs" />
     <Compile Include="filter\ChessboardFilter.cs" />
     <Compile Include="filter\ContrastFilter.cs" />
+    <Compile Include="filter\HslFilter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

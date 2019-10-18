@@ -328,3 +328,7 @@ CTRL+F: Search;STRG+F: Suche
 F3;F3
 Shift;Shift
 Contrast;Kontrast
+HSL;HSL
+Hue;Farbwert
+Saturation;Farbsättigung
+Lightness;Helligkeit

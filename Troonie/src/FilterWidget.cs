@@ -617,6 +617,48 @@ namespace Troonie
             #endregion
         }
 
+        public FilterWidget(string pFilename, HslFilter hsl) : this(pFilename)
+        {
+            abstractFilter = hsl;
+
+            Title = Language.I.L[331];
+
+            #region New filter variant: Grayscaling including exponent manipulation (October 2019)
+            frameHScales.Visible = true;
+
+            // Hue
+            frame_hscale1.Visible = true;
+            lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[332] + "</b>";
+            hscale1.Adjustment.Lower = 0;
+            hscale1.Adjustment.Upper = 360;
+            hscale1.Adjustment.StepIncrement = 1;
+            hscale1.Adjustment.PageIncrement = 5;
+            hscale1.Digits = 0;
+            hscale1.Value = hsl.AddHue;
+
+            // Sat
+            frame_hscale2.Visible = true;
+            lbFrame_hscale2.LabelProp = "<b>" + Language.I.L[333] + "</b>";
+            hscale2.Adjustment.Lower = -1.0;
+            hscale2.Adjustment.Upper = 1.0;
+            hscale2.Adjustment.StepIncrement = 0.001;
+            hscale2.Adjustment.PageIncrement = 0.05;
+            hscale2.Digits = 3;
+            hscale2.Value = hsl.AddSaturation;
+
+            //Lightness
+            frame_hscale3.Visible = true;
+            lbFrame_hscale3.LabelProp = "<b>" + Language.I.L[334] + "</b>";
+            hscale3.Adjustment.Lower = -1.0;
+            hscale3.Adjustment.Upper = 1.0;
+            hscale3.Adjustment.StepIncrement = 0.001;
+            hscale3.Adjustment.PageIncrement = 0.05;
+            hscale3.Digits = 3;
+            hscale3.Value = hsl.AddLightness;
+
+            #endregion
+        }
+
         #endregion Constructors
 
         public override void Destroy ()
