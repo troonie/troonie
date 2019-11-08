@@ -619,11 +619,16 @@ namespace Troonie
 				&& args.SelectionData.Format == 8) {
 
 				byte[] data = args.SelectionData.Data;
-				string encoded = System.Text.Encoding.UTF8.GetString (data);
+                string encoded = System.Text.Encoding.Default.GetString (data);
 				// drag n drop at linux wont accept spaces, so it has to be replaced
 				encoded = encoded.Replace ("%20", " ");
+                encoded = encoded.Replace("%C3%B6", "ö");
+                encoded = encoded.Replace("%C3%A4", "ä");
+                encoded = encoded.Replace("%C3%BC", "ü");
+                encoded = encoded.Replace("%3F", "?");
+                encoded = encoded.Replace("%C3%9F", "ß");
 
-				List<string> paths
+                List<string> paths
 				= new List<string> (encoded.Split ('\r', '\n'));
 				paths.RemoveAll (string.IsNullOrEmpty);
 
