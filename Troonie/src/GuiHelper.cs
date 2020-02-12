@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using Gtk;
 using Troonie_Lib;
-using System.Globalization;
 
 namespace Troonie
 {
@@ -391,6 +392,44 @@ namespace Troonie
 			dl = Math.Round(dl, decimals);
 			return dl + " " + dl_ext;			
 		}
+
+        public List<string> CorrectUmlautsOfDragData(bool isWindows, object sender, Gtk.DragDataReceivedArgs args)
+        {
+            if (args.SelectionData.Length > 0
+                && args.SelectionData.Format == 8)
+            {
+                byte[] data = args.SelectionData.Data;
+                string encoded = System.Text.Encoding.Default.GetString(data);
+                // drag n drop at linux wont accept spaces, so it has to be replaced
+                encoded = encoded.Replace("%20", " ");
+                encoded = encoded.Replace("%C3%B6", "ö");
+                encoded = encoded.Replace("%C3%A4", "ä");
+                encoded = encoded.Replace("%C3%BC", "ü");
+                encoded = encoded.Replace("%3F", "?");
+                encoded = encoded.Replace("%C3%9F", "ß");
+
+                List<string> paths
+                = new List<string>(encoded.Split('\r', '\n'));
+                paths.RemoveAll(string.IsNullOrEmpty);
+
+                // I don't know what last object (when Windows) is,
+                //  but I tested and noticed that it is not a path
+                if (isWindows)
+                    paths.RemoveAt(paths.Count - 1);
+
+                for (int i = 0; i < paths.Count; ++i)
+                {
+                    string waste = isWindows ? "file:///" : "file://";
+                    paths[i] = paths[i].Replace(@waste, "");
+                    // Also change possible wrong directory separator
+                    paths[i] = paths[i].Replace(System.IO.Path.AltDirectorySeparatorChar, System.IO.Path.DirectorySeparatorChar);
+                }
+
+                return paths;
+            }
+
+            return null;
+        }
 	}
 }
 

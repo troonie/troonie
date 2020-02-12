@@ -615,38 +615,12 @@ namespace Troonie
 
 		void OnDragDataReceived (object sender, Gtk.DragDataReceivedArgs args)
 		{
-			if (args.SelectionData.Length > 0
-				&& args.SelectionData.Format == 8) {
+            List<string> paths = GuiHelper.I.CorrectUmlautsOfDragData(constants.WINDOWS, sender, args);
+            if (paths == null || paths.Count == 0)
+                return;
 
-				byte[] data = args.SelectionData.Data;
-                string encoded = System.Text.Encoding.Default.GetString (data);
-				// drag n drop at linux wont accept spaces, so it has to be replaced
-				encoded = encoded.Replace ("%20", " ");
-                encoded = encoded.Replace("%C3%B6", "ö");
-                encoded = encoded.Replace("%C3%A4", "ä");
-                encoded = encoded.Replace("%C3%BC", "ü");
-                encoded = encoded.Replace("%3F", "?");
-                encoded = encoded.Replace("%C3%9F", "ß");
-
-                List<string> paths
-				= new List<string> (encoded.Split ('\r', '\n'));
-				paths.RemoveAll (string.IsNullOrEmpty);
-
-				// I don't know what last object (when Windows) is,
-				//  but I tested and noticed that it is not a path
-				if (constants.WINDOWS)
-					paths.RemoveAt (paths.Count-1);
-
-				for (int i=0; i<paths.Count; ++i)
-				{
-					string waste = constants.WINDOWS ? "file:///" : "file://";
-					paths [i] = paths [i].Replace (@waste, "");
-					// Console.WriteLine (paths[i]);
-					FileName = paths [i];
-				}
-
-				Initialize(true);				
-			}
+            FileName = paths[paths.Count - 1];
+            Initialize(true);						
 		}
 
 		protected void OnComboboxShortcutsChanged (object sender, EventArgs e)
