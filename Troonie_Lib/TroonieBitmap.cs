@@ -13,7 +13,7 @@ namespace Troonie_Lib
 	/// </summary>
 	public class TroonieBitmap
 	{
-		private static Bitmap DjpegFromFile( string fileName )
+		private static void DjpegFromFile( string fileName, ref Bitmap resultBitmap, out int exitCode, out string errorText )
 		{
 			FileInfo info = new FileInfo (fileName);
 			string tmpFileName = info.Name.Replace (info.Extension, Constants.Extensions [TroonieImageFormat.BMP24].Item1);
@@ -28,33 +28,55 @@ namespace Troonie_Lib
 				proc.StartInfo.Arguments = args; 
 				proc.StartInfo.UseShellExecute = false; 
 				proc.StartInfo.CreateNoWindow = true;
-				//					proc.StartInfo.RedirectStandardOutput = true;
-				//					proc.StartInfo.RedirectStandardError = true;
+				//proc.StartInfo.RedirectStandardOutput = true;
+				proc.StartInfo.RedirectStandardError = true;
 				proc.Start();
 				proc.WaitForExit();
+								//StreamReader srOutput = proc.StandardOutput;
+								//string standardOutput = srOutput.ReadToEnd();
+								//Console.WriteLine ("Output: " + standardOutput);
+								//srOutput.Close();
+					
+				StreamReader srError = proc.StandardError;
+				errorText = srError.ReadToEnd();
+				//Console.WriteLine ("Error: " + errorText);
+				srError.Close();
+
+				exitCode = proc.ExitCode;
 				proc.Close();
 				proc.Dispose();
 			}
 
-			Bitmap b = FromFile(bmpFileName);
-			// removing temp bmp file
-			File.Delete (bmpFileName);
-            return b;
+			if (exitCode == 0) 
+			{
+				resultBitmap = FromFile (bmpFileName);
+				// removing temp bmp file
+				File.Delete (bmpFileName);
+			}
 		}
 
-		public static Bitmap FromFile( string fileName )
+		public static Bitmap FromFile (string fileName)
+		{
+			return FromFile (fileName, out int errorCode, out string s);
+		}
+
+		public static Bitmap FromFile( string fileName, out int errorCode, out string errorText)
 		{
 			Bitmap loadedImage = null;
+			errorCode = -1;
+			errorText = string.Empty;
 			FileInfo info = new FileInfo (fileName);
 			string ext = info.Extension.ToLower ();
 
 			bool isJpg = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
 				Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
 
-			// when jpeg file use DJPEG
+			// when jpeg file try to use DJPEG
 			if (isJpg) {
-				loadedImage = DjpegFromFile (fileName);
-				return loadedImage;
+				DjpegFromFile (fileName, ref loadedImage, out errorCode, out errorText);
+				if (errorCode == 0) {
+					return loadedImage;
+				}
 			}
 
 			// when no jpeg use AForge.Net source to get bitmap from file without file-locking
