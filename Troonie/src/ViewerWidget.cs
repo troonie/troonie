@@ -427,17 +427,32 @@ namespace Troonie
 //			foreach (string s in newImages) {
 			for (int i = 0; i < newImages.Count; ++i) {
 
-				string waste = Constants.I.WINDOWS ? "file:///" : "file://";
-				newImages [i] = newImages [i].Replace (@waste, "");
-				// Also change possible wrong directory separator
-				newImages [i] = newImages [i].Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar);
+                /// todo [2020-03-20] duplicated in GuiHelper.CorrectUmlautsOfDragData(..), plz test removing region
+				//string waste = Constants.I.WINDOWS ? "file:///" : "file://";
+				//newImages [i] = newImages [i].Replace (@waste, "");
+				//// Also change possible wrong directory separator
+				//newImages [i] = newImages [i].Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar);
 
 				// check whether file is image or video
 				FileInfo info = new FileInfo (newImages [i]);
 				string ext = info.Extension.ToLower ();
 				bool isImage = Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext);
-				bool isVideo = Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext);
-				long fileSize = info.Length;
+                bool isImageCorrupted = false;
+                // Check for corrupted image
+                if (isImage) {
+                    try
+                    {
+                        System.Drawing.Image im = System.Drawing.Image.FromFile(newImages[i]);
+                        im.Dispose(); im = null;
+                    }
+                    catch (Exception) 
+                    {
+                        isImageCorrupted = true;
+                    }
+
+                }
+                bool isVideo = Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext);
+				//long fileSize = info.Length;
 
 				// ask (and do) for adding video picture
 				if (isVideo) {					
@@ -499,8 +514,12 @@ namespace Troonie
 				if (ext.Length != 0 && (isImage || isVideo) && !ImageFullPaths.Contains(newImages[i])) {
 
 					try {
-						ViewerImagePanel vip = new ViewerImagePanel (IncrementImageID(), isVideo, newImages [i], Constants.I.CONFIG.ViewerImagePanelSize, maxVipWidth, maxVipHeight);
-						vip.TagsData.FileSize = fileSize;
+                        if (isImageCorrupted)
+                        {
+                            throw new Exception();
+                        }
+                        ViewerImagePanel vip = new ViewerImagePanel (IncrementImageID(), isVideo, newImages [i], Constants.I.CONFIG.ViewerImagePanelSize, maxVipWidth, maxVipHeight);
+                        vip.TagsData.FileSize = info.Length;  // fileSize;
 						if (info.IsReadOnly) {
 							throw new UnauthorizedAccessException();
 						}
@@ -519,11 +538,23 @@ namespace Troonie
 					}
 						catch (Exception ex) {
 						ExceptionType errorType;
-						if (ex as UnauthorizedAccessException != null) {
+                        if (isImageCorrupted)
+                        {
+                            errorType = ExceptionType.ImageIsCorruptedException;
+                        }
+                        else if (ex as UnauthorizedAccessException != null) 
+                        {
 							errorType = ExceptionType.UnauthorizedAccessException;
-						} else if (ex as System.IO.IOException != null) {
-							errorType = ExceptionType.IO_IOException;
-						} else {
+						}
+                        else if (isImageCorrupted)
+                        {
+                            errorType = ExceptionType.ImageIsCorruptedException;
+                        }
+                        else if (ex as System.IO.IOException != null)
+                        {
+                            errorType = ExceptionType.IO_IOException;
+                        }
+                        else {
 							errorType = ExceptionType.Exception;
 						}
 						errors.Add (Tuple.Create(errorType, newImages [i]));
@@ -533,7 +564,27 @@ namespace Troonie
 
 			string mssg = string.Empty;
 			if (errors.Count != 0) {
-				var error0 = errors.Where(x => x.Item1 == ExceptionType.UnauthorizedAccessException);
+
+                var error0 = errors.Where(x => x.Item1 == ExceptionType.ImageIsCorruptedException);
+                if (error0.Count() != 0)
+                {
+                    mssg += Language.I.L[339] + Constants.N + Constants.N;
+                    foreach (var t in error0)
+                    {
+                        string errorimage = t.Item2;
+                        int l = errorimage.Length;
+                        if (l < length)
+                        {
+                            mssg += "  *  " + errorimage + Constants.N;
+                        }
+                        else
+                        {
+                            mssg += "  *  ..." + errorimage.Substring(l - length) + Constants.N;
+                        }
+                    }
+                }
+
+                error0 = errors.Where(x => x.Item1 == ExceptionType.UnauthorizedAccessException);
 				if (error0.Count() != 0) {
 					mssg += Language.I.L [196] + Constants.N + Constants.N;
 					foreach (var t in error0) {
@@ -576,9 +627,10 @@ namespace Troonie
 				}
 
 				ShowErrorDialog (mssg, string.Empty);
-			} 
+			}
 
-			ShowAll ();
+            newImages.Clear();
+            ShowAll ();
 		}
 
 		protected void OnDragDrop (object sender, Gtk.DragDropArgs args)
@@ -590,26 +642,13 @@ namespace Troonie
 
 		protected void OnDragDataReceived (object sender, Gtk.DragDataReceivedArgs args)
 		{
-			if (args.SelectionData.Length > 0
-				&& args.SelectionData.Format == 8) {
+            List<string> newImages = GuiHelper.I.CorrectUmlautsOfDragData(Constants.I.WINDOWS, sender, args);
+            if (newImages == null || newImages.Count == 0)
+                return;
 
-				byte[] data = args.SelectionData.Data;
-				string encoded = System.Text.Encoding.UTF8.GetString (data);
-
-				// drag n drop at linux wont accept spaces, so it has to be replaced
-				encoded = encoded.Replace ("%20", " ");
-
-				List<string> newImages = new List<string> (encoded.Split ('\r', '\n'));
-				newImages.RemoveAll (string.IsNullOrEmpty);
-
-				// I don't know what last object (when Windows) is,
-				//  but I tested and noticed that it is not a path
-				if (Constants.I.WINDOWS)
-					newImages.RemoveAt (newImages.Count-1);
-
-				FillImageList (newImages);
-			}
-		}			
+            FillImageList(newImages);
+            //newImages.Clear();
+        }			
 
 		#endregion drag and drop
 

@@ -64,30 +64,29 @@ namespace Troonie_Lib
 		public static readonly Dictionary<TroonieImageFormat, Tuple<string, string>> Extensions = 
 			new Dictionary<TroonieImageFormat, Tuple<string, string>>(15) 
 		{
-			{ TroonieImageFormat.BMP1, Tuple.Create(".bmp", string.Empty) },
-			{ TroonieImageFormat.BMP8, Tuple.Create(".bmp", string.Empty) },
-			{ TroonieImageFormat.BMP24, Tuple.Create(".bmp", string.Empty) },
-			{ TroonieImageFormat.EMF, Tuple.Create(".emf", string.Empty) },
-			{ TroonieImageFormat.GIF, Tuple.Create(".gif", string.Empty) },
-			{ TroonieImageFormat.ICO, Tuple.Create(".ico", string.Empty) },
+			{ TroonieImageFormat.BMP1, Tuple.Create(".bmp", ".bmp") },
+			{ TroonieImageFormat.BMP8, Tuple.Create(".bmp", ".bmp") },
+			{ TroonieImageFormat.BMP24, Tuple.Create(".bmp", ".bmp") },
+			{ TroonieImageFormat.EMF, Tuple.Create(".emf", ".emf") },
+			{ TroonieImageFormat.GIF, Tuple.Create(".gif", ".gif") },
+			{ TroonieImageFormat.ICO, Tuple.Create(".ico", ".ico") },
 			{ TroonieImageFormat.JPEG8, Tuple.Create(".jpg", ".jpeg") },
 			{ TroonieImageFormat.JPEG24, Tuple.Create(".jpg", ".jpeg") },
 			{ TroonieImageFormat.JPEGLOSSLESS, Tuple.Create(".jpg", ".jpeg") },
-			{ TroonieImageFormat.PNG1, Tuple.Create(".png", string.Empty) },
-			{ TroonieImageFormat.PNG24, Tuple.Create(".png", string.Empty) },
-			{ TroonieImageFormat.PNG32AlphaAsValue, Tuple.Create(".png", string.Empty) },
-			{ TroonieImageFormat.PNG32Transparency, Tuple.Create(".png", string.Empty) },
-			{ TroonieImageFormat.PNG8, Tuple.Create(".png", string.Empty) },
+			{ TroonieImageFormat.PNG1, Tuple.Create(".png", ".png") },
+			{ TroonieImageFormat.PNG24, Tuple.Create(".png", ".png") },
+			{ TroonieImageFormat.PNG32AlphaAsValue, Tuple.Create(".png", ".png") },
+			{ TroonieImageFormat.PNG32Transparency, Tuple.Create(".png", ".png") },
+			{ TroonieImageFormat.PNG8, Tuple.Create(".png", ".png") },
 			{ TroonieImageFormat.TIFF, Tuple.Create(".tif", ".tiff") },
-			{ TroonieImageFormat.Undefined, Tuple.Create(string.Empty, string.Empty) },
-			{ TroonieImageFormat.WMF, Tuple.Create(".wmf", string.Empty) }
+			{ TroonieImageFormat.WMF, Tuple.Create(".wmf", ".wmf") }
 		};
 
 		public static readonly Dictionary<TroonieVideoFormat, Tuple<string, string, string>> VideoExtensions = 
 			new Dictionary<TroonieVideoFormat, Tuple<string, string, string>>(3) 
 		{
 			{ TroonieVideoFormat.AVI, Tuple.Create(".avi", ".divx", ".xvid") },
-			{ TroonieVideoFormat.MP4, Tuple.Create(".mp4", string.Empty, string.Empty) },
+			{ TroonieVideoFormat.MP4, Tuple.Create(".mp4", ".mp4", ".mp4") },
 			{ TroonieVideoFormat.MPEG, Tuple.Create(".mpg", ".mpeg", ".m2v") }
 		};
 

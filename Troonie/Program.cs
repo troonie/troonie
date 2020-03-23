@@ -51,8 +51,9 @@ namespace Troonie
 			string filename = null;
             // START VALUE
             //	args = new string[] { "-v"};
-            //	args = new string[] { "-e", "../image.jpg"};
-              //args = new string[] { "-s", "../image.jpg" };
+            //args = new string[] { "-e", "/home/leo/Schreibtisch/00/image.jpg" };
+            //args = new string[] { "-e", "/home/leo/Schreibtisch/00/pilz  ö ä ü .jpg" };
+            //args = new string[] { "-s", "../image.jpg" };
             //  args = new string[] { "-d", "../testdirectory" };
 
             if (args.Length == 0) {

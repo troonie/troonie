@@ -167,7 +167,8 @@ namespace Troonie
 						}
 						else{
 							LoadException ();
-						}
+                            return;
+                        }
 					} // try end
 					catch (ArgumentException) {
 						LoadException ();

@@ -79,7 +79,8 @@ namespace Troonie
 				FileName = pFilename;
 
 				Build ();
-				this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
+                Title = Language.I.L[340];
+                this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 				filterNames = new List<string> { filterN.OVERVIEW,
 					filterN.Binarization,
 					filterN.Blend,
@@ -242,9 +243,10 @@ namespace Troonie
 						}
 						else{
 							LoadException ();
+                            return;
 						}
 					} // try end
-					catch (ArgumentException) {
+					catch (Exception) {
 						LoadException ();
 						return;
 					}

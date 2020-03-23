@@ -15,6 +15,8 @@
 
 	public enum ExceptionType
 	{
+		/// <summary>The image is broken exception. </summary>
+		ImageIsCorruptedException,
 		/// <summary> System.UnauthorizedAccessException. </summary>
 		UnauthorizedAccessException,
 		/// <summary> System.IO.IOException. </summary>

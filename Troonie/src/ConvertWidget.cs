@@ -302,12 +302,13 @@ namespace Troonie
 
 			for (int i=0; i<newImages.Count; ++i)
 			{
-                #region [2020-02-12] duplicated in GuiHelper.CorrectUmlautsOfDragData(..), plz test removing region
-                string waste = Constants.I.WINDOWS ? "file:///" : "file://";
-				newImages [i] = newImages [i].Replace (@waste, "");
-				// Also change possible wrong directory separator
-				newImages [i] = newImages [i].Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar);
-                #endregion deprectaed, plz testing
+                /// todo [2020-02-12] duplicated in GuiHelper.CorrectUmlautsOfDragData(..), plz test removing region
+    //            #region [2020-02-12] duplicated in GuiHelper.CorrectUmlautsOfDragData(..), plz test removing region
+    //            string waste = Constants.I.WINDOWS ? "file:///" : "file://";
+				//newImages [i] = newImages [i].Replace (@waste, "");
+				//// Also change possible wrong directory separator
+				//newImages [i] = newImages [i].Replace (IOPath.AltDirectorySeparatorChar, IOPath.DirectorySeparatorChar);
+                //#endregion deprectaed, plz testing
 
                 // check whether file is image or video
                 FileInfo info = new FileInfo (newImages [i]);
