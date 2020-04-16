@@ -32,10 +32,10 @@ namespace Troonie_Lib
 				proc.StartInfo.RedirectStandardError = true;
 				proc.Start();
 				proc.WaitForExit();
-								//StreamReader srOutput = proc.StandardOutput;
-								//string standardOutput = srOutput.ReadToEnd();
-								//Console.WriteLine ("Output: " + standardOutput);
-								//srOutput.Close();
+				//StreamReader srOutput = proc.StandardOutput;
+				//string standardOutput = srOutput.ReadToEnd();
+				//Console.WriteLine ("Output: " + standardOutput);
+				//srOutput.Close();
 					
 				StreamReader srError = proc.StandardError;
 				errorText = srError.ReadToEnd();

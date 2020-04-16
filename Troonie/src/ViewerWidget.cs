@@ -535,7 +535,9 @@ namespace Troonie
 						} else {
 							rowNr++;
 						}
-					}
+
+                        // TODO: if (...) { }
+                    }
 						catch (Exception ex) {
 						ExceptionType errorType;
                         if (isImageCorrupted)
@@ -546,10 +548,10 @@ namespace Troonie
                         {
 							errorType = ExceptionType.UnauthorizedAccessException;
 						}
-                        else if (isImageCorrupted)
-                        {
-                            errorType = ExceptionType.ImageIsCorruptedException;
-                        }
+                        //else if (isImageCorrupted)
+                        //{
+                        //    errorType = ExceptionType.ImageIsCorruptedException;
+                        //}
                         else if (ex as System.IO.IOException != null)
                         {
                             errorType = ExceptionType.IO_IOException;

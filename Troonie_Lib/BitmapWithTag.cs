@@ -10,43 +10,40 @@ using IOPath = System.IO.Path;
 namespace Troonie_Lib
 {
 	public class BitmapWithTag : IDisposable
-	{		
+	{
 		private CombinedImageTag imageTag;
+		private int _errorCode;
+		private string _errorText;
 
 		public TroonieImageFormat OrigFormat { get; private set; }
 		public Bitmap Bitmap { get; private set; }
 		public string FileName { get; private set; }
+
+		public int ErrorCode { get => _errorCode; private set => _errorCode = value; }
+		public string ErrorText { get => _errorText; private set => _errorText = value; }
 
 		public BitmapWithTag (string filename)
 		{
 			FileName = filename;
 
 			if (filename != null) {
-				//				Bitmap = new Bitmap (filename);
-
-				Bitmap = TroonieBitmap.FromFile (FileName);
-				OrigFormat = ImageFormatConverter.I.ConvertToPIF(Bitmap.RawFormat, Bitmap.PixelFormat);
+				Bitmap = TroonieBitmap.FromFile (FileName, out _errorCode, out _errorText);
+				OrigFormat = ImageFormatConverter.I.ConvertToPIF (Bitmap.RawFormat, Bitmap.PixelFormat);
 				imageTag = ImageTagHelper.GetTag (filename);
-			} 
-			else {
-//				FileName = Constants.I.EXEPATH + Constants.BLACKFILENAME;
+			} else {
 				Bitmap = new Bitmap (180, 180, PixelFormat.Format32bppArgb);
-//				Bitmap.Save(FileName, ImageFormat.Png);
-//				Dispose ();
-//
-//				Bitmap = TroonieBitmap.FromFile (FileName);
 				OrigFormat = TroonieImageFormat.PNG32AlphaAsValue;
 				imageTag = new CombinedImageTag (TagTypes.Png);
-			}				
-		}			
-			
+			}
+		}
 
-		public void ChangeBitmapButNotTags(Bitmap newBitmap)
+
+		public void ChangeBitmapButNotTags (Bitmap newBitmap)
 		{
 			Bitmap = newBitmap;
 		}
 
-		public void Dispose()
+		public void Dispose ()
 		{
 			if (Bitmap != null) {
 				Bitmap.Dispose ();
@@ -55,60 +52,58 @@ namespace Troonie_Lib
 
 			if (imageTag != null) {
 				try {
-					imageTag.Clear();
+					imageTag.Clear ();
 					imageTag = null;
 
-				} catch (NotImplementedException ex) { 
-					/* do nothing */ 
+				} catch (NotImplementedException ex) {
+					/* do nothing */
 					Console.WriteLine (ex.Message);
 				}
-//				finally{
-//					MemoryReducer.ReduceMemoryUsage (true);
-//				}
+				//				finally{
+				//					MemoryReducer.ReduceMemoryUsage (true);
+				//				}
 			}
 
 			MemoryReducer.ReduceMemoryUsage (true);
-		}				
+		}
 
-		public bool Save(Config config, string relativeFileName, bool saveTag)
-		{			
+		public bool Save (Config config, string relativeFileName, bool saveTag)
+		{
 			bool success = true;
-			try 
-			{
+			try {
 				Bitmap dest;
 				int w = Bitmap.Width;
 				int h = Bitmap.Height;
 
 				if (config.UseOriginalPath) {
-					config.Path = System.IO.Directory.GetParent(FileName).FullName;
+					config.Path = System.IO.Directory.GetParent (FileName).FullName;
 				}
 
 				#region FileOverwriting
 				string tmpNewFileName;
-				if (config.Path[config.Path.Length -1] == IOPath.DirectorySeparatorChar)
+				if (config.Path [config.Path.Length - 1] == IOPath.DirectorySeparatorChar)
 					tmpNewFileName = config.Path + relativeFileName;
-				else 
+				else
 					tmpNewFileName = config.Path + IOPath.DirectorySeparatorChar + relativeFileName;
 
-				if (config.StretchImage != ConvertMode.Editor)
-				{
-					if (config.FileOverwriting){
-						if (FileName != tmpNewFileName){
-							NetIOFile.Delete(FileName);
+				if (config.StretchImage != ConvertMode.Editor) {
+					if (config.FileOverwriting) {
+						if (FileName != tmpNewFileName) {
+							NetIOFile.Delete (FileName);
 						}
-					}else {
+					} else {
 						int countImage = 0;
-						while(FileHelper.I.Exists(tmpNewFileName)){
+						while (FileHelper.I.Exists (tmpNewFileName)) {
 							countImage++;
 							string identifier = "__n";
-							int lastindexofIdentifier = tmpNewFileName.LastIndexOf(identifier);
-							if (lastindexofIdentifier != -1){
-								string part1 = tmpNewFileName.Remove(lastindexofIdentifier);
-								string part2 = tmpNewFileName.Substring(tmpNewFileName.LastIndexOf('.'));
+							int lastindexofIdentifier = tmpNewFileName.LastIndexOf (identifier);
+							if (lastindexofIdentifier != -1) {
+								string part1 = tmpNewFileName.Remove (lastindexofIdentifier);
+								string part2 = tmpNewFileName.Substring (tmpNewFileName.LastIndexOf ('.'));
 								tmpNewFileName = part1 + part2;
 							}
 
-							tmpNewFileName = tmpNewFileName.Insert(tmpNewFileName.LastIndexOf('.'), identifier + countImage);				
+							tmpNewFileName = tmpNewFileName.Insert (tmpNewFileName.LastIndexOf ('.'), identifier + countImage);
 						}
 					}
 				}
@@ -117,8 +112,8 @@ namespace Troonie_Lib
 
 				#region Resizing
 				switch (config.ResizeVersion) {
-	//			case ResizeVersion.No:
-	//				break;
+				//			case ResizeVersion.No:
+				//				break;
 				case ResizeVersion.BiggestLength:
 					ImageConverter.CalcBiggerSideLength (config.BiggestLength, ref w, ref h);
 					break;
@@ -128,7 +123,7 @@ namespace Troonie_Lib
 					break;
 				}
 
-				ImageConverter.ScaleAndCut (Bitmap, 
+				ImageConverter.ScaleAndCut (Bitmap,
 					out dest,
 					0,
 					0,
@@ -140,13 +135,13 @@ namespace Troonie_Lib
 
 				#region ReplacingTransparencyWithColor
 				if (config.ReplacingTransparencyWithColor && config.Format != (
-						TroonieImageFormat.JPEGLOSSLESS | 
-						TroonieImageFormat.PNG32AlphaAsValue | 
-						TroonieImageFormat.PNG32Transparency))  {
-					dest = ImageConverter.ARGBToRGB(
-						dest, 
+						TroonieImageFormat.JPEGLOSSLESS |
+						TroonieImageFormat.PNG32AlphaAsValue |
+						TroonieImageFormat.PNG32Transparency)) {
+					dest = ImageConverter.ARGBToRGB (
+						dest,
 						config.ReplacingTransparencyWithColor,
-						config.ReplaceTransparencyColorRed, 
+						config.ReplaceTransparencyColorRed,
 						config.ReplaceTransparencyColorGreen,
 						config.ReplaceTransparencyColorBlue);
 				}
@@ -195,8 +190,8 @@ namespace Troonie_Lib
 				case TroonieImageFormat.PNG32AlphaAsValue:
 					dest = ImageConverter.To32Bpp (dest);
 					break;
-				}								
-				dest.Save(FileName, ImageFormatConverter.I.ConvertFromPIF(config.Format));
+				}
+				dest.Save (FileName, ImageFormatConverter.I.ConvertFromPIF (config.Format));
 				#endregion Saving by using TroonieImageFormat
 
 				Bitmap = dest;
@@ -205,8 +200,7 @@ namespace Troonie_Lib
 					ImageTagHelper.CopyTagToFile (FileName, imageTag);
 				}
 
-			}
-			catch (Exception ex) {
+			} catch (Exception ex) {
 				success = false;
 				Console.WriteLine (ex.Message);
 			}
@@ -217,48 +211,47 @@ namespace Troonie_Lib
 
 		#region taglib stuff
 
-//		public bool ChangeValueOfTag(Tags tag, string newValue)
-//		{
-//			bool success = true;
-//
-//			try{
-//				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newValue);
-//			}
-//			catch (Exception /* UnsupportedFormatException */) {
-//				success = false;
-//			}
-//
-//			return success;
-//		}
+		//		public bool ChangeValueOfTag(Tags tag, string newValue)
+		//		{
+		//			bool success = true;
+		//
+		//			try{
+		//				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newValue);
+		//			}
+		//			catch (Exception /* UnsupportedFormatException */) {
+		//				success = false;
+		//			}
+		//
+		//			return success;
+		//		}
 
-		public bool ChangeValueOfTag(TagsFlag flag, TagsData newData)
+		public bool ChangeValueOfTag (TagsFlag flag, TagsData newData)
 		{
 			bool success = true;
 
-			try{
+			try {
 				ImageTagHelper.ChangeValueOfTag (imageTag, flag, newData);
-			}
-			catch (Exception /* UnsupportedFormatException */) {
+			} catch (Exception /* UnsupportedFormatException */) {
 				success = false;
 			}
 
 			return success;
 		}
 
-//		public bool ChangeValueOfTag(Tags tag, int newValue)
-//		{
-//			bool success = true;
-//
-//			try{
-//				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newValue);
-//			}
-//			catch (Exception /* UnsupportedFormatException */) {
-//				success = false;
-//			}
-//
-//			return success;
-//		}
-					
+		//		public bool ChangeValueOfTag(Tags tag, int newValue)
+		//		{
+		//			bool success = true;
+		//
+		//			try{
+		//				ImageTagHelper.ChangeValueOfTag (imageTag, tag, newValue);
+		//			}
+		//			catch (Exception /* UnsupportedFormatException */) {
+		//				success = false;
+		//			}
+		//
+		//			return success;
+		//		}
+
 		#endregion taglib stuff
 	}
 }
