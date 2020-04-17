@@ -64,7 +64,7 @@ namespace Troonie_Lib
 		{
 			Bitmap loadedImage = null;
 			errorCode = -1;
-			errorText = string.Empty;
+			errorText = "Undefined error.";
 			FileInfo info = new FileInfo (fileName);
 			string ext = info.Extension.ToLower ();
 
@@ -129,6 +129,8 @@ namespace Troonie_Lib
 				}					
 			}
 
+			errorCode = 0;
+			errorText = "No error.";
 			return loadedImage;
 		}
 

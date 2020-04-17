@@ -19,6 +19,7 @@ namespace Troonie_Lib
 		public Bitmap Bitmap { get; private set; }
 		public string FileName { get; private set; }
 
+		// TODO [17-04-2020]: Unnecessary? 
 		public int ErrorCode { get => _errorCode; private set => _errorCode = value; }
 		public string ErrorText { get => _errorText; private set => _errorText = value; }
 

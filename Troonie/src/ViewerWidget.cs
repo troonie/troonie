@@ -438,12 +438,18 @@ namespace Troonie
 				string ext = info.Extension.ToLower ();
 				bool isImage = Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext);
                 bool isImageCorrupted = false;
-                // Check for corrupted image
+                // Checks for corrupted image
                 if (isImage) {
                     try
                     {
+                        // 1 of 3 checks: Is it an image?
                         System.Drawing.Image im = System.Drawing.Image.FromFile(newImages[i]);
                         im.Dispose(); im = null;
+                        // TODO
+                        // 2 of 3 checks: checking whether DJPEG works
+                        // ...
+                        // 3 of 3 checks: checking whether XMP works
+                        // SetRatingOfSelectedImages(...); 
                     }
                     catch (Exception) 
                     {
@@ -536,7 +542,7 @@ namespace Troonie
 							rowNr++;
 						}
 
-                        // TODO: if (...) { }
+                        // if (...) { }
                     }
 						catch (Exception ex) {
 						ExceptionType errorType;
