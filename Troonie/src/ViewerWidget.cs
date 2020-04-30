@@ -419,7 +419,7 @@ namespace Troonie
 				return;
 			}
 
-			const int length = 45;
+			//const int length = 45;
 			List<Tuple<ExceptionType, string>> errors = new List<Tuple<ExceptionType, string>> ();
 			bool addingVideoPicture = false;
 			bool isFirstQuestion = true;
@@ -437,26 +437,30 @@ namespace Troonie
 				FileInfo info = new FileInfo (newImages [i]);
 				string ext = info.Extension.ToLower ();
 				bool isImage = Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext);
-                bool isImageCorrupted = false;
+                ExceptionType imageCorruptedErrorType = ExceptionType.NoException;
                 // Checks for corrupted image
                 if (isImage) {
+                    // 1 of 3 checks: Is it an image?
                     try
                     {
-                        // 1 of 3 checks: Is it an image?
                         System.Drawing.Image im = System.Drawing.Image.FromFile(newImages[i]);
                         im.Dispose(); im = null;
-                        // TODO
                         // 2 of 3 checks: checking whether DJPEG works
-                        // ...
+                        if (!JpegEncoder.DoesImageWorkingWithDjpeg(newImages[i]))
+                        {
+                            imageCorruptedErrorType = ExceptionType.CJpeg_ImageIsCorruptedException;
+                        }
                         // 3 of 3 checks: checking whether XMP works
-                        // SetRatingOfSelectedImages(...); 
+                        else if (!ImageTagHelper.DoesXmpWorks(newImages[i])) {
+                            imageCorruptedErrorType = ExceptionType.XMP_ImageIsCorruptedException;
+                        }
                     }
                     catch (Exception) 
                     {
-                        isImageCorrupted = true;
+                        imageCorruptedErrorType = ExceptionType.SystemDrawing_ImageIsCorruptedException;
                     }
-
                 }
+
                 bool isVideo = Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext);
 				//long fileSize = info.Length;
 
@@ -520,9 +524,10 @@ namespace Troonie
 				if (ext.Length != 0 && (isImage || isVideo) && !ImageFullPaths.Contains(newImages[i])) {
 
 					try {
-                        if (isImageCorrupted)
+                        if (imageCorruptedErrorType != ExceptionType.NoException)
                         {
-                            throw new Exception();
+                            errors.Add(Tuple.Create(imageCorruptedErrorType, newImages[i]));
+                            continue;
                         }
                         ViewerImagePanel vip = new ViewerImagePanel (IncrementImageID(), isVideo, newImages [i], Constants.I.CONFIG.ViewerImagePanelSize, maxVipWidth, maxVipHeight);
                         vip.TagsData.FileSize = info.Length;  // fileSize;
@@ -541,23 +546,13 @@ namespace Troonie
 						} else {
 							rowNr++;
 						}
-
-                        // if (...) { }
                     }
 						catch (Exception ex) {
 						ExceptionType errorType;
-                        if (isImageCorrupted)
-                        {
-                            errorType = ExceptionType.ImageIsCorruptedException;
-                        }
-                        else if (ex as UnauthorizedAccessException != null) 
+                        if (ex as UnauthorizedAccessException != null) 
                         {
 							errorType = ExceptionType.UnauthorizedAccessException;
 						}
-                        //else if (isImageCorrupted)
-                        //{
-                        //    errorType = ExceptionType.ImageIsCorruptedException;
-                        //}
                         else if (ex as System.IO.IOException != null)
                         {
                             errorType = ExceptionType.IO_IOException;
@@ -568,72 +563,16 @@ namespace Troonie
 						errors.Add (Tuple.Create(errorType, newImages [i]));
 						}
 				}
-			}
+			} // --> continue
 
 			string mssg = string.Empty;
 			if (errors.Count != 0) {
-
-                var error0 = errors.Where(x => x.Item1 == ExceptionType.ImageIsCorruptedException);
-                if (error0.Count() != 0)
-                {
-                    mssg += Language.I.L[339] + Constants.N + Constants.N;
-                    foreach (var t in error0)
-                    {
-                        string errorimage = t.Item2;
-                        int l = errorimage.Length;
-                        if (l < length)
-                        {
-                            mssg += "  *  " + errorimage + Constants.N;
-                        }
-                        else
-                        {
-                            mssg += "  *  ..." + errorimage.Substring(l - length) + Constants.N;
-                        }
-                    }
-                }
-
-                error0 = errors.Where(x => x.Item1 == ExceptionType.UnauthorizedAccessException);
-				if (error0.Count() != 0) {
-					mssg += Language.I.L [196] + Constants.N + Constants.N;
-					foreach (var t in error0) {
-						string errorimage = t.Item2;
-						int l = errorimage.Length;
-						if (l < length) {
-							mssg += "  *  " + errorimage + Constants.N;
-						} else {
-							mssg += "  *  ..." + errorimage.Substring (l - length) + Constants.N;
-						}
-					}						
-				}
-
-				error0 = errors.Where(x => x.Item1 == ExceptionType.IO_IOException);
-				if (error0.Count() != 0) {
-					mssg += Constants.N + Constants.N + Language.I.L [197] + Constants.N + Constants.N;
-					foreach (var t in error0) {
-						string errorimage = t.Item2;
-						int l = errorimage.Length;
-						if (l < length) {
-							mssg += "  *  " + errorimage + Constants.N;
-						} else {
-							mssg += "  *  ..." + errorimage.Substring (l - length) + Constants.N;
-						}
-					}						
-				}
-
-				error0 = errors.Where(x => x.Item1 == ExceptionType.Exception);
-				if (error0.Count() != 0) {
-					mssg += Constants.N + Constants.N + Language.I.L [198] + Constants.N + Constants.N;
-					foreach (var t in error0) {
-						string errorimage = t.Item2;
-						int l = errorimage.Length;
-						if (l < length) {
-							mssg += "  *  " + errorimage + Constants.N;
-						} else {
-							mssg += "  *  ..." + errorimage.Substring (l - length) + Constants.N;
-						}
-					}						
-				}
-
+                SetErrorMessageText(ref mssg, errors, ExceptionType.SystemDrawing_ImageIsCorruptedException, Language.I.L[339]);
+                SetErrorMessageText(ref mssg, errors, ExceptionType.CJpeg_ImageIsCorruptedException, Language.I.L[341]);
+                SetErrorMessageText(ref mssg, errors, ExceptionType.XMP_ImageIsCorruptedException, Language.I.L[342]);
+                SetErrorMessageText(ref mssg, errors, ExceptionType.UnauthorizedAccessException, Language.I.L[196]);
+                SetErrorMessageText(ref mssg, errors, ExceptionType.IO_IOException, Language.I.L[197]);
+                SetErrorMessageText(ref mssg, errors, ExceptionType.Exception, Language.I.L[198]);    
 				ShowErrorDialog (mssg, string.Empty);
 			}
 
@@ -641,7 +580,30 @@ namespace Troonie
             ShowAll ();
 		}
 
-		protected void OnDragDrop (object sender, Gtk.DragDropArgs args)
+        private static void SetErrorMessageText(ref string mssg, List<Tuple<ExceptionType, string>> errors, ExceptionType type, string messageText)
+        {
+            const int length = 60;
+            var error0 = errors.Where(x => x.Item1 == type);
+            if (error0.Count() != 0)
+            {
+                mssg += Constants.N + Constants.N + messageText + Constants.N + Constants.N;
+                foreach (var t in error0)
+                {
+                    string errorimage = t.Item2;
+                    int l = errorimage.Length;
+                    if (l < length)
+                    {
+                        mssg += "  *  " + errorimage + Constants.N;
+                    }
+                    else
+                    {
+                        mssg += "  *  ..." + errorimage.Substring(l - length) + Constants.N;
+                    }
+                }
+            }
+        }
+
+        protected void OnDragDrop (object sender, Gtk.DragDropArgs args)
 		{
 			Gtk.Drag.GetData
 			((Gtk.Widget)sender, args.Context,

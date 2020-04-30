@@ -338,3 +338,5 @@ Linear (Color channel independent);Linear (Farbkanal-unabhängig)
 Linear (Biggest color channel used for thresold decision);Linear (Größter Farbkanal für Schwellwert-Entscheidung)
 Following images are corrupted and cannot be loaded:;Folgende Bilder sind beschädigt und können nicht geladen werden:
 Troonie;Troonie
+Following jpeg images cannot be loaded with djpeg:;Folgende Jpeg-Bilder können nicht mit djpeg geladen werden:
+The metatags of following images cannot be changed (XMP problem):;Die Metadaten folgender Bilder können nicht verändert werden (XMP-Problem):

@@ -15,8 +15,14 @@
 
 	public enum ExceptionType
 	{
-		/// <summary>Corrupted image exception. </summary>
-		ImageIsCorruptedException,
+		/// <summary> No exception. </summary>
+		NoException,
+		/// <summary>Corrupted image by using System.Drawing.Image exception. </summary>
+		SystemDrawing_ImageIsCorruptedException,
+		/// <summary>Corrupted image by using cjpeg/djpeg exception. </summary>
+		CJpeg_ImageIsCorruptedException,
+		/// <summary>Corrupted image by using XMP exif tagging exception. </summary>
+		XMP_ImageIsCorruptedException,
 		/// <summary> System.UnauthorizedAccessException. </summary>
 		UnauthorizedAccessException,
 		/// <summary> System.IO.IOException. </summary>

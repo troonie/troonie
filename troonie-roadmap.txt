@@ -1,3 +1,9 @@
+TODO (2020-04-30)
+ViwerWidget.cs
+- In FillImageList(..) Z.442-462 werden alle drei Bildfehlertypen abgeprüft 
+und in Z. 568 in die GUI-Fehlerausgabe übergeben. Jedoch fehlt noch eine Reparaturmöglichkeit. 
+
+
 ﻿TODO (Test-3 25.06.19)
 - Skript oder c#-Lösung für 'Starten ohne Konsole'
 

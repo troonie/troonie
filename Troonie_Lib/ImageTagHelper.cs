@@ -378,21 +378,41 @@ namespace Troonie_Lib
 			return imageTagFile;
 		}
 
+		public static bool DoesXmpWorks (string fileName)
+		{
+			bool success = true;
+			TagLib.Image.File imageTagFile = LoadTagFile (fileName);
+			if (imageTagFile == null) {
+				return false;
+			}
+
+			try {
+				imageTagFile.Save ();
+
+			} catch (Exception e/* NotImplementedException e /* UnsupportedFormatException */ ) {
+				Console.WriteLine (e.Message);
+				success = false;
+			} finally {
+				imageTagFile.Dispose ();
+			}
+			return success;
+		}
+
 		// Does not work. When PNG corrupt, then also not possible to create new one...
-//		private static TagLib.Image.File TryCreatePndFile(string fileName)
-//		{
-//			TagLib.Image.File imageTagFile = null;
-//
-//			// try getting new TagLib.Image.File if extension is PNG
-//			FileInfo info = new FileInfo (fileName);
-//			string ext = info.Extension.ToLower ();
-//			if (ext.Length != 0 && Constants.Extensions [TroonieImageFormat.PNG24].Item1 == ext) { 
-//				// (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
-//				imageTagFile = new TagLib.Png.File (fileName);
-//				imageTagFile.EnsureAvailableTags ();
-//			}
-//			return imageTagFile;
-//		}
+		//		private static TagLib.Image.File TryCreatePndFile(string fileName)
+		//		{
+		//			TagLib.Image.File imageTagFile = null;
+		//
+		//			// try getting new TagLib.Image.File if extension is PNG
+		//			FileInfo info = new FileInfo (fileName);
+		//			string ext = info.Extension.ToLower ();
+		//			if (ext.Length != 0 && Constants.Extensions [TroonieImageFormat.PNG24].Item1 == ext) { 
+		//				// (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {
+		//				imageTagFile = new TagLib.Png.File (fileName);
+		//				imageTagFile.EnsureAvailableTags ();
+		//			}
+		//			return imageTagFile;
+		//		}
 
 		public static void CopyTagToFile(string fileName, CombinedImageTag tag)
 		{

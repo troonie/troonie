@@ -11,6 +11,58 @@ namespace Troonie_Lib
     /// </summary>
     public static class JpegEncoder
     {
+		public static bool DoesImageWorkingWithDjpeg (string fileName) => 
+		DoesImageWorkingWithDjpeg (fileName, out int exitCode, out string errorText);
+
+		/// <summary>
+		/// Checks whether a given image is working with djpeg or not.
+		/// </summary>
+		/// <returns><c>true</c>, if image is working with djpeg.<c>false</c> otherwise.</returns>
+		/// <param name="fileName">The image filename.</param>
+		/// <param name="exitCode">The Exit code.</param>
+		/// <param name="errorText">The optional Error text.</param>
+		public static bool DoesImageWorkingWithDjpeg (string fileName, out int exitCode, out string errorText)
+		{
+			bool b = false;
+			FileInfo info = new FileInfo (fileName);
+			string tmpFileName = info.Name.Replace (info.Extension, Constants.Extensions [TroonieImageFormat.BMP24].Item1);
+
+			string bmpFileName = Constants.I.TEMPPATH + tmpFileName;
+			string args = "-bmp -outfile \"" + bmpFileName + "\" \"" + fileName + "\"";
+
+			// use jpeg lib for decoding jpeg files
+			using (System.Diagnostics.Process proc = new System.Diagnostics.Process ()) {
+				proc.StartInfo.FileName = Constants.I.WINDOWS ? (Constants.I.EXEPATH + Constants.DJPEGNAME + @".exe") : Constants.DJPEGNAME;
+				proc.StartInfo.Arguments = args;
+				proc.StartInfo.UseShellExecute = false;
+				proc.StartInfo.CreateNoWindow = true;
+				//proc.StartInfo.RedirectStandardOutput = true;
+				proc.StartInfo.RedirectStandardError = true;
+				proc.Start ();
+				proc.WaitForExit ();
+				//StreamReader srOutput = proc.StandardOutput;
+				//string standardOutput = srOutput.ReadToEnd();
+				//Console.WriteLine ("Output: " + standardOutput);
+				//srOutput.Close();
+
+				StreamReader srError = proc.StandardError;
+				errorText = srError.ReadToEnd ();
+				//Console.WriteLine ("Error: " + errorText);
+				srError.Close ();
+
+				exitCode = proc.ExitCode;
+				proc.Close ();
+				proc.Dispose ();
+			}
+
+			if (exitCode == 0) {
+				File.Delete (bmpFileName);
+				b = true;
+			}
+
+			return b;
+		}
+
 		public static bool ExistsCjpeg()
 		{
 			try
