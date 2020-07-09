@@ -6,7 +6,9 @@ namespace Troonie
 {
 	public partial class SteganographyWidget
 	{
-		protected void OnToolbarBtn_OpenPressed(object sender, EventArgs e)
+        private const StringComparison comparison = StringComparison.CurrentCultureIgnoreCase;
+
+        protected void OnToolbarBtn_OpenPressed(object sender, EventArgs e)
 		{
 			FileChooserDialog fc = GuiHelper.I.GetImageFileChooserDialog (false, false);
 
@@ -50,13 +52,22 @@ namespace Troonie
 
         protected void OnToolbarBtn_UpArrow(object sender, EventArgs e)
         {
-            textIterTemp = textviewContent.Buffer.StartIter;
-            textIterTemp.ForwardChars(lastCharPosOfSearch);
+            int startIndex = lastCharPosOfSearch - entrySearch.Text.Length - 1;
+            // avoid negative start index by searching
+            if (startIndex < 0)
+                return;
 
-            textIterTemp.BackwardChars(entrySearch.Text.Length);
+            TextIter ti_start, ti_end;
+            int pos = textviewContent.Buffer.Text.LastIndexOf(entrySearch.Text, startIndex, comparison);
+
             // Set cursor to previous result
-            if (textIterTemp.BackwardSearch(entrySearch.Text, TextSearchFlags.VisibleOnly, out TextIter ti_start, out TextIter ti_end, textviewContent.Buffer.StartIter))
+            if (pos != -1)
             {
+                ti_start = textviewContent.Buffer.StartIter;
+                ti_start.ForwardChars(pos);
+                ti_end = textviewContent.Buffer.StartIter;
+                ti_end.ForwardChars(pos + entrySearch.Text.Length);
+
                 textviewContent.Buffer.PlaceCursor(ti_start);
                 textviewContent.Buffer.SelectRange(ti_start, ti_end);
                 currentNumberOfSearch--;
@@ -72,12 +83,17 @@ namespace Troonie
 
         protected void OnToolbarBtn_DownArrow(object sender, EventArgs e)
         {
-            textIterTemp = textviewContent.Buffer.StartIter;
-            textIterTemp.ForwardChars(lastCharPosOfSearch);
+            TextIter ti_start, ti_end;
+            int pos = textviewContent.Buffer.Text.IndexOf(entrySearch.Text, lastCharPosOfSearch, comparison);
 
             // Set cursor to next result
-            if (textIterTemp.ForwardSearch(entrySearch.Text, TextSearchFlags.VisibleOnly, out TextIter ti_start, out TextIter ti_end, textviewContent.Buffer.EndIter))
+            if (pos != -1)
             {
+                ti_start = textviewContent.Buffer.StartIter;
+                ti_start.ForwardChars(pos);
+                ti_end = textviewContent.Buffer.StartIter;
+                ti_end.ForwardChars(pos + entrySearch.Text.Length);
+
                 textviewContent.Buffer.PlaceCursor(ti_start);
                 textviewContent.Buffer.SelectRange(ti_start, ti_end);
                 currentNumberOfSearch++;
@@ -93,7 +109,6 @@ namespace Troonie
 
         protected void OnEntrySearch_Changed(object sender, EventArgs e)
         {
-            TextIter ti_start, ti_end;
             // reset everything
             textviewContent.Buffer.RemoveTag(textTagHighlighting, textviewContent.Buffer.StartIter, textviewContent.Buffer.EndIter);
             textviewContent.Buffer.PlaceCursor(textviewContent.Buffer.StartIter);
@@ -107,10 +122,15 @@ namespace Troonie
                 return;
             }
 
-            textIterTemp = textviewContent.Buffer.StartIter;
+            TextIter ti_start, ti_end;
+            int pos = textviewContent.Buffer.Text.IndexOf(entrySearch.Text, comparison);
             // Set cursor to first result
-            if (textIterTemp.ForwardSearch(entrySearch.Text, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
+            if (pos != -1)
             {
+                ti_start = textviewContent.Buffer.StartIter;
+                ti_start.ForwardChars(pos);
+                ti_end = textviewContent.Buffer.StartIter;
+                ti_end.ForwardChars(pos + entrySearch.Text.Length);
                 textviewContent.Buffer.PlaceCursor(ti_start);
                 textviewContent.Buffer.SelectRange(ti_start, ti_end);
                 currentNumberOfSearch++;
@@ -123,12 +143,17 @@ namespace Troonie
             }
 
             // Highlight all results
-            while (textIterTemp.ForwardSearch(entrySearch.Text, TextSearchFlags.VisibleOnly, out ti_start, out ti_end, textviewContent.Buffer.EndIter))
+            while (pos != -1)
             {
+                ti_start = textviewContent.Buffer.StartIter;
+                ti_start.ForwardChars(pos);
+                ti_end = textviewContent.Buffer.StartIter;
+                ti_end.ForwardChars(pos + entrySearch.Text.Length);
+
                 textviewContent.Buffer.ApplyTag(textTagHighlighting, ti_start, ti_end);
-                textIterTemp = textviewContent.Buffer.StartIter;
-                textIterTemp.ForwardChars(ti_end.Offset);
                 countSearch++;
+                // position of next result
+                pos = textviewContent.Buffer.Text.IndexOf(entrySearch.Text, pos + entrySearch.Text.Length, comparison);
             }
 
             SetSearchLabel();

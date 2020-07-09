@@ -20,7 +20,6 @@ namespace Troonie
 		private int imageW; 
 		private int imageH;
         private int lastCharPosOfSearch, currentNumberOfSearch, countSearch;
-        private TextIter textIterTemp;
         private TextTag textTagHighlighting;
         private Label labelSearch;
         private Button btnDown, btnUp;
@@ -34,7 +33,8 @@ namespace Troonie
             try {
 			    FileName = pFilename;
 				Build ();
-				textviewContent.Buffer.Changed += (sender, e) => { ChangeLbPayloadspace (); };
+                Title = Language.I.L[340];
+                textviewContent.Buffer.Changed += (sender, e) => { ChangeLbPayloadspace (); };
 
                 textTagHighlighting = new TextTag("yellow");
                 textTagHighlighting.BackgroundGdk = new Gdk.Color(255, 255, 0);
