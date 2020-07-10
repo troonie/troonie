@@ -71,7 +71,7 @@ namespace Troonie
 			hbox1.Spacing = 6;
 
 			checkBtnDeleteKeywords = new CheckButton();
-			checkBtnDeleteKeywords.CanFocus = true;
+			checkBtnDeleteKeywords.CanFocus = false;
 			checkBtnDeleteKeywords.Label = Language.I.L [202];
 			hbox1.Add (checkBtnDeleteKeywords);
 			Box.BoxChild hbox_w1a = (Box.BoxChild)(hbox1 [checkBtnDeleteKeywords]);
