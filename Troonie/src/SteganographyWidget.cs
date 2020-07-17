@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Gtk;
 using Troonie_Lib;
 using ImageConverter = Troonie_Lib.ImageConverter;
@@ -24,6 +25,7 @@ namespace Troonie
         private Label labelSearch;
         private Button btnDown, btnUp;
         private Entry entrySearch;
+        private LeonSteg bs;
 
         public string FileName { get; set; }
 		public BitmapWithTag bt;
@@ -384,17 +386,18 @@ namespace Troonie
 		private void DoBitSteg()
 		{
 			/* 2 == BitStegRGB */
-			LeonSteg bs = comboboxAlgorithm.Active == 2 ? new LeonStegRGB() : new LeonSteg ();
-
-			OkCancelDialog pseudo = new OkCancelDialog (true);
-			pseudo.WindowPosition = WindowPosition.CenterAlways;
-			pseudo.Title = Language.I.L [80];
-			pseudo.Label1 = Language.I.L [81];
-			pseudo.OkButtontext = Language.I.L [16];
-			pseudo.CancelButtontext = Language.I.L [17];
+			bs = comboboxAlgorithm.Active == 2 ? new LeonStegRGB() : new LeonSteg ();
 
 			if (rdBtnEncrypt.Active) {
-				int success = 0;
+
+                OkCancelDialog pseudo = new OkCancelDialog(true);
+                pseudo.WindowPosition = WindowPosition.CenterAlways;
+                pseudo.Title = Language.I.L[80];
+                pseudo.Label1 = Language.I.L[81];
+                pseudo.OkButtontext = Language.I.L[16];
+                pseudo.CancelButtontext = Language.I.L[17];
+
+                int success = 0;
 
 				if (rdBtnPayloadFile.Active) {
 					byte[] bytes = Troonie_Lib.IOFile.BytesFromFile(hypertextlabelFileChooser.Text);
@@ -430,30 +433,60 @@ namespace Troonie
 					pseudo.Label2 = Language.I.L [240];
 					break;
 				}
-			}
+
+                entryKey.Text = string.Empty;
+                Initialize(false);
+                pseudo.Show();
+            }
 			else { /* READING */
-				pseudo.Label2 = Language.I.L [82];
-				byte[] bytes;
-				bs.Read (bt.Bitmap, entryKey.Text, out bytes);
+				//pseudo.Label2 = Language.I.L [82];
+                textviewContent.Buffer.Text = "";
 
-				if (rdBtnPayloadFile.Active) {					
-					try {
-						IOFile.BytesToFile(bytes, hypertextlabelFileChooser.Text + sep + entryFile.Text);
-					}
-					catch(Exception) {
-						pseudo.Label1 = Language.I.L [53];
-						pseudo.Label2 = Language.I.L [239];
-					}
-				} else {					
-					string content = AsciiTableCharMove.GetStringFromBytes(bytes);
-					textviewContent.Buffer.Text = content;
-				}					
-			}
+                Thread thread = new Thread(() =>
+                {
+                    bs.Read(bt.Bitmap, entryKey.Text, out byte[] bytes);
 
-			entryKey.Text = string.Empty;
-			Initialize (false);
+                    if (rdBtnPayloadFile.Active)
+                    {
+                        try
+                        {
+                            IOFile.BytesToFile(bytes, hypertextlabelFileChooser.Text + sep + entryFile.Text);
+                        }
+                        catch (Exception)
+                        {
+                            //pseudo.Label1 = Language.I.L [53];
+                            //pseudo.Label2 = Language.I.L [239];
+                            textviewContent.Buffer.Text = Language.I.L[53] + Constants.N +
+                                                          Language.I.L[239];
+                        }
+                    }
+                    else
+                    {
+                        //string content = AsciiTableCharMove.GetStringFromBytes(bytes);
+                        string content = string.Empty;
+                        // TODO better way for getiing string?
+                        for (int i = 0; i < bytes.Length; i++)
+                        {
+                            if (bs.CancelToken == 1)
+                            {
+                                // TODO errormessage
+                                content = "todo errormessage";
+                                break;
+                            }
+                            char c = (char)bytes[i];
+                            content += c;
+                        }
 
-			pseudo.Show ();
+                        textviewContent.Buffer.Text = content;
+                    }
+
+                    entryKey.Text = string.Empty;
+                    Initialize(false);
+                });
+
+                thread.IsBackground = true;
+                thread.Start();
+            }            		
 		}			
 
 		private void OpenSaveAsDialog()
@@ -628,6 +661,13 @@ namespace Troonie
     					// need to do here, because second GUI is opened and suppressed 'OnKeyReleaseEvent'
     					leftControlPressed = false;
     					break;
+                    case Gdk.Key.q:
+                        Console.WriteLine("q-cancel request");
+                        if (bs != null)
+                        {
+                            bs.CancelToken = 1;
+                        }
+                        break;
                 }
 
 				return;

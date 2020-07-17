@@ -37,6 +37,9 @@ namespace Troonie_Lib
 		protected int w, h; // image width and height
 		protected PixelInfo[] usedPixel;
 
+		// TODO: Comment!
+		public byte CancelToken { get; set; }
+
 		public LeonSteg()
 		{
 			usableChannels = 1;
@@ -104,7 +107,14 @@ namespace Troonie_Lib
 			BitmapData srcData = source.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadWrite, source.PixelFormat);
 
 			for (int i = 0; i < w * h * usableChannels; i++, count8Bit++) {
-				CalcNextIndexPixelAndPosXY();
+				if (CancelToken == 1) {
+					source.UnlockBits (srcData);
+					//Console.WriteLine ("Method LS.READ(..) canceled");
+					bytes = new byte [] { (byte)'e', (byte)'r', (byte)'r', (byte)'o', (byte)'r' };
+					//CancelToken = 2;
+					return;
+				}
+				CalcNextIndexPixelAndPosXY ();
 				byte* src = (byte*)srcData.Scan0.ToPointer();
 				src += posY * srcData.Stride + posX * cpp;
 
@@ -125,7 +135,8 @@ namespace Troonie_Lib
 			hash = tmp_Hash;  // reset hash
 
 			DecryptBytesFromBitList(out bytes);
-		}			
+			//CancelToken = 2;
+		}
 
 		#endregion
 
@@ -273,6 +284,13 @@ namespace Troonie_Lib
 
 			// subtract NOT encrypted 'endText' string
 			for (int i = 0; i < tmpBytes.Length - endText.Length; i++) {
+				if (CancelToken == 1) {
+					//Console.WriteLine ("Method LS.DecryptBytesFromBitList(..) canceled");
+					bytes = new byte [] { (byte)'e', (byte)'r', (byte)'r', (byte)'o', (byte)'r' };
+					//CancelToken = 2;
+					return;
+				}
+
 				// DECRYPTION by subtracting hash element
 				byte decryptedItem = (byte)(tmpBytes[i] - hash [GetAndTransformHashElement()]);
 				bytes[i] = decryptedItem;
