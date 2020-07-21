@@ -8,7 +8,7 @@
     <RootNamespace>Troonie_starter</RootNamespace>
     <AssemblyName>Troonie_starter</AssemblyName>
     <ApplicationIcon>..\Troonie\src\icons\icon.ico</ApplicationIcon>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
