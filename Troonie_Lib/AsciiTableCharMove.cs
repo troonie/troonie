@@ -4,35 +4,21 @@
 
     public static class AsciiTableCharMove
     {
-        /// <summary>
-        /// Own Encoding.ASCII.GetBytes() method, because original one does not 
-        /// work correct for special characters (ä, ü, ...).
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public static byte[] GetBytesFromString(string text)
+		/// <summary>
+		/// The code page of used encoding.
+		/// https://docs.microsoft.com/de-de/dotnet/api/system.text.encoding.codepage
+		/// Windows-1252 --> Western European (Windows)
+		/// </summary>
+		public const int CodePage = 1252;
+
+		public static byte[] GetBytesFromString(string text)
         {
-            Byte[] bytes = new byte[text.Length];
-
-            for (int i = 0; i < text.Length; i++)
-            {
-                bytes[i] = (byte)text[i];
-            }
-
-            return bytes;
-        }
+			return System.Text.Encoding.GetEncoding(CodePage).GetBytes (text);
+		}
 
 		public static string GetStringFromBytes(byte[] bytes)
 		{
-			string s = string.Empty;
-
-			for (int i = 0; i < bytes.Length; i++)
-			{				
-				char c = (char)bytes[i];
-				s += c;
-			}
-
-			return s;
+			return System.Text.Encoding.GetEncoding(CodePage).GetString (bytes);
 		}
 
 		public static string MovingBySubtracting(string text, byte endByte, int value)

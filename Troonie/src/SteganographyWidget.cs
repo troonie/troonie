@@ -462,21 +462,8 @@ namespace Troonie
                     }
                     else
                     {
-                        //string content = AsciiTableCharMove.GetStringFromBytes(bytes);
-                        string content = string.Empty;
-                        // TODO better way for getiing string?
-                        for (int i = 0; i < bytes.Length; i++)
-                        {
-                            if (bs.CancelToken == 1)
-                            {
-                                // TODO errormessage
-                                content = "todo errormessage";
-                                break;
-                            }
-                            char c = (char)bytes[i];
-                            content += c;
-                        }
-
+                        string content = bs.CancelToken ? Language.I.L[343] : 
+                                    AsciiTableCharMove.GetStringFromBytes(bytes);
                         textviewContent.Buffer.Text = content;
                     }
 
@@ -662,10 +649,9 @@ namespace Troonie
     					leftControlPressed = false;
     					break;
                     case Gdk.Key.q:
-                        Console.WriteLine("q-cancel request");
                         if (bs != null)
                         {
-                            bs.CancelToken = 1;
+                            bs.CancelToken = true;
                         }
                         break;
                 }
