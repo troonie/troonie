@@ -22,7 +22,7 @@ using System.Runtime.CompilerServices;
 
 public class Version
 {
-	public const string Number = "2.0";
+	public const string Number = "3.0";
 	public const string AssemblyTitle = "Troonie Starter";
-	public const string AssemblyProduct = "Troonie 2.0";
+	public const string AssemblyProduct = "Troonie 3.0";
 }

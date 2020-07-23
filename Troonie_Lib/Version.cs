@@ -1,4 +1,4 @@
-namespace Troonie_Lib {	public partial class Version { public const string VERSION = "2.0"; } }
+namespace Troonie_Lib {	public partial class Version { public const string VERSION = "3.0"; } }
 
 namespace Troonie_Lib 
 {
