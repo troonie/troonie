@@ -17,7 +17,7 @@ lang="de"><sup>[2]</sup></abbr></a></li>
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Windows Requirements&nbsp;</span></p>
  <ul>
 	<li>No requirements. Just unzip and have fun.</li>
-	<li>.NET Framework 4.7.1 is part of Win10 (since v1709).</li>
+	<li>.NET Framework 4.8 is part of Win10 (since v1903).</li>
 </ul>
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Linux Package Dependencies&nbsp;</span></p>
  <ul>

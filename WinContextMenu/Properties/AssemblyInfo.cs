@@ -7,10 +7,10 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle ("WinContextMenu")]
 [assembly: AssemblyDescription ("Windows context menu for Troonie")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("www.Troonie-project.de")]
+[assembly: AssemblyCompany("www.troonie.com")]
 [assembly: AssemblyProduct ("Windows context menu for Troonie")]
-[assembly: AssemblyCopyright ("Troonie Project")]
-[assembly: AssemblyTrademark ("www.Troonie-project.de")]
+[assembly: AssemblyCopyright("Troonie Project")]
+[assembly: AssemblyTrademark("www.troonie.com")]
 [assembly: AssemblyCulture ("")]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
