@@ -96,8 +96,9 @@ namespace Troonie
 			FillTable (Language.I.L [281], ref l_nr, false);
 			FillTable (Language.I.L [148], ref l_nr, false);
 			FillTable (Language.I.L [282], ref l_nr, false);
-			// viewer shortcuts
-			FillTable (Constants.N + Language.I.L [209], ref l_nr, true);
+            FillTable (Language.I.L[344], ref l_nr, false);
+            // viewer shortcuts
+            FillTable (Constants.N + Language.I.L [209], ref l_nr, true);
 			FillTable (Language.I.L [210], ref l_nr, false);
 			FillTable (Language.I.L [211], ref l_nr, false);
 			FillTable (Language.I.L [212], ref l_nr, false);
