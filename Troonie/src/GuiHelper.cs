@@ -33,8 +33,9 @@ namespace Troonie
 			pseudo.Label2 = Language.I.L [71];
 			pseudo.OkButtontext = Language.I.L [16];
 			pseudo.CancelButtontext = Language.I.L [17];
-			// pseudo.OnReleasedOkButton += delegate{Process.Start (Constants.WEBSITE);};
-			pseudo.OnReleasedOkButton += () => System.Diagnostics.Process.Start (Constants.WEBSITE);
+            // pseudo.OnReleasedOkButton += delegate{Process.Start (Constants.WEBSITE);};
+            string s = Constants.I.WINDOWS ? Constants.WEBSITE : "xdg-open " + Constants.WEBSITE;
+            pseudo.OnReleasedOkButton += () => System.Diagnostics.Process.Start (s);
 
 			pseudo.Show ();
 		}
