@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using Gtk;
 using Troonie_Lib;
@@ -34,8 +35,29 @@ namespace Troonie
 			pseudo.OkButtontext = Language.I.L [16];
 			pseudo.CancelButtontext = Language.I.L [17];
             // pseudo.OnReleasedOkButton += delegate{Process.Start (Constants.WEBSITE);};
-            string s = Constants.I.WINDOWS ? Constants.WEBSITE : "xdg-open " + Constants.WEBSITE;
-            pseudo.OnReleasedOkButton += () => System.Diagnostics.Process.Start (s);
+
+
+            pseudo.OnReleasedOkButton += () =>
+            {
+                if (Constants.I.WINDOWS)
+                {
+                    Process.Start(Constants.WEBSITE);
+                }
+                else 
+                {
+                    try 
+                    { 
+                        Process p = new Process();
+                        p.StartInfo.FileName = "xdg-open";
+                        p.StartInfo.Arguments = Constants.WEBSITE;
+                        p.Start();
+                        p.Dispose();
+                    }
+                    catch { }
+                }
+
+
+            };
 
 			pseudo.Show ();
 		}
