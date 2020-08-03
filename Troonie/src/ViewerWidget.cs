@@ -437,6 +437,8 @@ namespace Troonie
 				FileInfo info = new FileInfo (newImages [i]);
 				string ext = info.Extension.ToLower ();
 				bool isImage = Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext);
+                bool isJpeg = Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext ||
+                              Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext;
                 ExceptionType imageCorruptedErrorType = ExceptionType.NoException;
                 // Checks for corrupted image
                 if (isImage) {
@@ -446,7 +448,7 @@ namespace Troonie
                         System.Drawing.Image im = System.Drawing.Image.FromFile(newImages[i]);
                         im.Dispose(); im = null;
                         // 2 of 3 checks: checking whether DJPEG works
-                        if (!JpegEncoder.DoesImageWorkingWithDjpeg(newImages[i]))
+                        if (isJpeg && !JpegEncoder.DoesImageWorkingWithDjpeg(newImages[i]))
                         {
                             imageCorruptedErrorType = ExceptionType.CJpeg_ImageIsCorruptedException;
                         }
