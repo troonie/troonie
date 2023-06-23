@@ -65,6 +65,7 @@
     <Compile Include="filter\StitchMIFilter.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="filter\CopyFilter.cs" />
+    <Compile Include="StringHelper.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="filter\PosterizationFilter.cs" />
     <Compile Include="ImageFormatConverter.cs" />

@@ -1,21 +1,18 @@
-﻿using System;
+﻿using Cairo;
 using Gtk;
-using System.Drawing;
-using System.Drawing.Imaging;
-using Cairo;
+using System;
 using System.Diagnostics;
-using Troonie_Lib;
 using System.IO;
 using System.Threading;
-using IOPath = System.IO.Path;
-using Cc = Troonie.ColorConverter;
+using Troonie_Lib;
 using CairoColor = Cairo.Color;
-using Ic = Troonie_Lib.ImageConverter;
+using Cc = Troonie.ColorConverter;
+using IOPath = System.IO.Path;
 
 namespace Troonie
 {
-	/// <summary>Event handler for changing property 'IsPressedIn'.</summary>
-	public delegate void OnIsPressedInChangedEventHandler(ViewerImagePanel viewerImagePanel);
+    /// <summary>Event handler for changing property 'IsPressedIn'.</summary>
+    public delegate void OnIsPressedInChangedEventHandler(ViewerImagePanel viewerImagePanel);
 
 	[System.ComponentModel.ToolboxItem (true)]
 	public partial class ViewerImagePanel : Bin
@@ -110,6 +107,8 @@ namespace Troonie
 				relativeImageName = value;
 
 				string l_relativeImageName = value.Substring(0, value.LastIndexOf('.'));
+                l_relativeImageName = StringHelper.ReplaceGermanUmlauts(l_relativeImageName);
+                
 				thumbSmallName = l_relativeImageName + "_id_" + ID + 
 					Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
 				tmpDjpegName = l_relativeImageName + "_id_" + ID + "_DJPEG" + 
