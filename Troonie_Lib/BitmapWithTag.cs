@@ -51,21 +51,15 @@ namespace Troonie_Lib
 				Bitmap = null;
 			}
 
-			if (imageTag != null) {
-				try {
-					imageTag.Clear ();
-					imageTag = null;
+            if (imageTag != null)
+			{
+                imageTag = null;
+				// [14.07.2023]
+                //	DONT: imageTag.Clear(); --> causes NotImplementedException in Clear() of classes
+				//	IFDTag and XmpTag, no troonie specific code in TagLibSharp anymore.
+            }
 
-				} catch (NotImplementedException ex) {
-					/* do nothing */
-					Console.WriteLine (ex.Message);
-				}
-				//				finally{
-				//					MemoryReducer.ReduceMemoryUsage (true);
-				//				}
-			}
-
-			MemoryReducer.ReduceMemoryUsage (true);
+            MemoryReducer.ReduceMemoryUsage (true);
 		}
 
 		public bool Save (Config config, string relativeFileName, bool saveTag)

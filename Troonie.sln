@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troonie", "Troonie\Troonie.csproj", "{6D92E59B-13E2-42EA-90D7-E93CDBE20DBB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troonie_Lib", "Troonie_Lib\Troonie_Lib.csproj", "{86AC3579-4361-4861-B86E-DFA6D9704EB6}"
@@ -12,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinContextMenu", "WinContextMenu\WinContextMenu.csproj", "{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "taglib-sharp", "taglib-sharp\taglib-sharp.csproj", "{6B143A39-C7B2-4743-9917-92262C60E9A6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Troonie_starter", "Troonie_starter\Troonie_starter.csproj", "{C7A6E859-FDAB-41DF-A330-A5C3AB3F8D23}"
 EndProject
 Global
@@ -22,10 +22,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6B143A39-C7B2-4743-9917-92262C60E9A6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6B143A39-C7B2-4743-9917-92262C60E9A6}.Debug|x86.Build.0 = Debug|Any CPU
-		{6B143A39-C7B2-4743-9917-92262C60E9A6}.Release|x86.ActiveCfg = Release|Any CPU
-		{6B143A39-C7B2-4743-9917-92262C60E9A6}.Release|x86.Build.0 = Release|Any CPU
 		{6D92E59B-13E2-42EA-90D7-E93CDBE20DBB}.Debug|x86.ActiveCfg = Debug|x86
 		{6D92E59B-13E2-42EA-90D7-E93CDBE20DBB}.Debug|x86.Build.0 = Debug|x86
 		{6D92E59B-13E2-42EA-90D7-E93CDBE20DBB}.Release|x86.ActiveCfg = Release|x86
@@ -34,16 +30,17 @@ Global
 		{86AC3579-4361-4861-B86E-DFA6D9704EB6}.Debug|x86.Build.0 = Debug|Any CPU
 		{86AC3579-4361-4861-B86E-DFA6D9704EB6}.Release|x86.ActiveCfg = Release|Any CPU
 		{86AC3579-4361-4861-B86E-DFA6D9704EB6}.Release|x86.Build.0 = Release|Any CPU
-		{C7A6E859-FDAB-41DF-A330-A5C3AB3F8D23}.Debug|x86.ActiveCfg = Debug|x86
-		{C7A6E859-FDAB-41DF-A330-A5C3AB3F8D23}.Debug|x86.Build.0 = Debug|x86
-		{C7A6E859-FDAB-41DF-A330-A5C3AB3F8D23}.Release|x86.ActiveCfg = Release|x86
-		{C7A6E859-FDAB-41DF-A330-A5C3AB3F8D23}.Release|x86.Build.0 = Release|x86
 		{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}.Debug|x86.ActiveCfg = Debug|x86
 		{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}.Debug|x86.Build.0 = Debug|x86
 		{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}.Release|x86.ActiveCfg = Release|x86
 		{C8457AC2-01E6-4C60-BEA9-E9B186203C4B}.Release|x86.Build.0 = Release|x86
+		{C7A6E859-FDAB-41DF-A330-A5C3AB3F8D23}.Debug|x86.ActiveCfg = Debug|x86
+		{C7A6E859-FDAB-41DF-A330-A5C3AB3F8D23}.Debug|x86.Build.0 = Debug|x86
+		{C7A6E859-FDAB-41DF-A330-A5C3AB3F8D23}.Release|x86.ActiveCfg = Release|x86
+		{C7A6E859-FDAB-41DF-A330-A5C3AB3F8D23}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Troonie\Troonie.csproj
