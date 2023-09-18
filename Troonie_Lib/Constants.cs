@@ -34,7 +34,8 @@ namespace Troonie_Lib
 //		public const string BLACKFILENAME = "black.png";
 		public const string AUTHOR = "Troonie Project";
 		public const string CJPEGNAME = "cjpeg";
-		public const string DJPEGNAME = "djpeg";
+        public const string EXIFTOOLNAME = "exiftool.exe";
+        public const string DJPEGNAME = "djpeg";
 		public const string EXENAME = "Troonie.exe";
 		public const string ICONNAME = "icon.ico";
 		public const string WEBSITE = "http://www.troonie.com";
@@ -56,7 +57,10 @@ namespace Troonie_Lib
 		/// <summary>Shortcut for 'Environment.NewLine'.</summary>
 		public static string N = Environment.NewLine;
 
-		public static string[] Stars = new[]{ string.Empty, "_+", "_++", "_+++", "_++++", "_+++++" };
+        /// <summary>Shortcut for whitespace (' ').</summary>
+        public const char WS = ' ';
+
+        public static string[] Stars = new[]{ string.Empty, "_+", "_++", "_+++", "_++++", "_+++++" };
 
 		// Usage examples
 		//		var test = Troonie_Lib.ImageFormatConverter.I.Extensions.Where(x => x.Key == TroonieImageFormat.JPEG24).Select(x => x.Value);
@@ -127,7 +131,10 @@ namespace Troonie_Lib
 		private bool cjpeg;
 		public bool CJPEG { get { return cjpeg;} }
 
-		private string exepath;
+        private bool exiftool;
+        public bool EXIFTOOL { get { return exiftool; } }
+
+        private string exepath;
 		public string EXEPATH { get { return exepath; }}
 
         public string TEMPPATH { get { return exepath + "temp" + Path.DirectorySeparatorChar; } }
@@ -141,9 +148,10 @@ namespace Troonie_Lib
 		public void Init()
 		{
 			windows = IsWindows ();
-			cjpeg = JpegEncoder.ExistsCjpeg ();
-			exepath = AppDomain.CurrentDomain.BaseDirectory; // + Path.DirectorySeparatorChar;
-			homepath = windows ? Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%")
+			cjpeg = JpegEncoder.ExistsCjpeg ();            
+            exepath = AppDomain.CurrentDomain.BaseDirectory; // + Path.DirectorySeparatorChar;
+            exiftool = File.Exists(exepath + Path.DirectorySeparatorChar + EXIFTOOLNAME);
+            homepath = windows ? Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%")
 				: Environment.GetEnvironmentVariable("HOME");
 			homepath += Path.DirectorySeparatorChar;
 			config = Config.Load ();

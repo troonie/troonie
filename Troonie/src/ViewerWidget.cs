@@ -836,8 +836,28 @@ namespace Troonie
 				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
 
 				if (pressedInVIPs.Count != 0) {
-//					EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, (TagsFlag)(1 << shift));
-//					pw.Show ();
+					//					EnterMetaDataWindow pw = new EnterMetaDataWindow (pressedInVIPs, (TagsFlag)(1 << shift));
+					//					pw.Show ();
+
+					// when no exiftool.exe available, no editing of creation dates in videos
+					if (!Constants.I.EXIFTOOL && (
+													TagsFlag.CreateDate == (TagsFlag)(1 << shift) ||
+                                                    TagsFlag.TrackCreateDate == (TagsFlag)(1 << shift) ||
+                                                    TagsFlag.MediaCreateDate == (TagsFlag)(1 << shift) ||
+                                                    TagsFlag.AllCreateDates == (TagsFlag)(1 << shift)
+                                                 )
+						)
+					{
+                        OkCancelDialog info = new OkCancelDialog(true);
+                        info.Title = Language.I.L[345];
+                        info.Label1 = Language.I.L[346];
+						info.Label2 = Language.I.L[347];// + Constants.N + Language.I.L[164];
+                        info.OkButtontext = Language.I.L[16];
+						info.WindowPosition = WindowPosition.CenterAlways;
+                        info.Show();
+						
+						return;
+                    }
 
 					if ((TagsFlag)(1 << shift) == TagsFlag.Keywords) {
 						EnterKeywordsWindow ekw = new EnterKeywordsWindow (pressedInVIPs);

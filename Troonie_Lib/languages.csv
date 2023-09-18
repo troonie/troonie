@@ -342,3 +342,6 @@ Following jpeg images cannot be loaded with djpeg:;Folgende Jpeg-Bilder können 
 The metatags of following images cannot be changed (XMP problem):;Die Metadaten folgender Bilder können nicht verändert werden (XMP-Problem):
 User abort;Benutzerabbruch
 CTRL+Q: Interrupt decrypting process of LeonSteg;STRG+Q: Abbruch der Entschlüsselung bei LeonSteg
+exiftool;exiftool
+Missing exiftool.exe;Fehlende exiftool.exe
+Please adding exiftool.exe into directory of troonie.;Bitte exiftool.exe ins Troonie-Verzeichnis legen.

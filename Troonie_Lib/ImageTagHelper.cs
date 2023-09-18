@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using TagLib.IFD;
 using TagLib.IFD.Entries;
-using TagLib.Xmp;
 using TagLib.IFD.Tags;
 
 namespace Troonie_Lib
@@ -43,11 +42,19 @@ namespace Troonie_Lib
 		Width =					1 << 21,
 		Height =				1 << 22,
 		Pixelformat =			1 << 23,
-		FileSize =				1 << 24
-		#endregion
-	}
+		FileSize =				1 << 24,
+        #endregion
 
-	public struct TagsData
+        #region exiftool --> getting date time objects in videos
+        CreateDate =			1 << 25,
+        MediaCreateDate = 1 << 26,
+        TrackCreateDate =		1 << 27,
+        
+        AllCreateDates =		1 << 28
+        #endregion
+    }
+
+    public struct TagsData
 	{
 		#region 16 image tagsData elements
 		public double? Altitude;
@@ -84,22 +91,33 @@ namespace Troonie_Lib
 		public long FileSize;
 		#endregion No TagsFlag elements
 
-		public bool SetValue (TagsFlag flag, object o)
+		#region exiftool --> getting date time objects in videos
+		public const string sCreateDate = "CreateDate";//Enum.GetName(typeof(TagsFlag), TagsFlag.TrackCreateDate);
+        public const string sTrackCreateDate = "TrackCreateDate";
+        public const string sMediaCreateDate = "MediaCreateDate";
+        //public static string sCreateDate = " -" + Enum.GetName(typeof(TagsFlag), TagsFlag.CreateDate);
+        //public static string sTrackCreateDate = " -" + Enum.GetName(typeof(TagsFlag), TagsFlag.TrackCreateDate);
+        //public static string sMediaCreateDate = " -" + Enum.GetName(typeof(TagsFlag), TagsFlag.MediaCreateDate);
+        // public static string sAllCreateDates = " -" + sCreateDate + " -" + sTrackCreateDate + " -" + sMediaCreateDate;
+
+        public DateTime? CreateDate;
+		public DateTime? TrackCreateDate;
+		public DateTime? MediaCreateDate;
+
+        //public DateTime? AllCreateDates	{ set {	CreateDate = TrackCreateDate = MediaCreateDate = value; } }
+
+        public void SetAllCreateDates(DateTime? cd, DateTime? tcd, DateTime? mcd)
+		{
+			CreateDate = cd;
+			TrackCreateDate = tcd;
+			MediaCreateDate = mcd;  
+		}
+        #endregion
+
+        public bool SetValue (TagsFlag flag, object o)
 		{
 			switch (flag) {
-			case TagsFlag.DateTime:
-				DateTime dt;
-				string dt_string = string.Empty;
-				bool b = ExtractString (o, ref dt_string);	
-				if (b) {
-					if (dt_string == string.Empty) {
-						DateTime = null;
-					} else {
-						b = System.DateTime.TryParse (dt_string, out dt);
-						DateTime = dt;
-					}
-				}
-				return b;
+			case TagsFlag.DateTime: return ExtractDateTime(o, ref DateTime);
 			case TagsFlag.Altitude:		return ExtractNullableDouble (o, ref Altitude);		
 			case TagsFlag.Creator:		return ExtractString(o, ref Creator);					
 			case TagsFlag.ExposureTime:	return ExtractNullableDouble (o, ref ExposureTime);	
@@ -134,10 +152,20 @@ namespace Troonie_Lib
 //				// other tags
 			case TagsFlag.Comment:		return ExtractString(o, ref Comment);							
 			case TagsFlag.Copyright:	return ExtractString(o, ref Copyright);		
-			case TagsFlag.Title:		return ExtractString(o, ref Title);			
-//			// elements With, Height and PixelFormat will not get a 'SETTER'
-			default:
-				return false;
+			case TagsFlag.Title:		return ExtractString(o, ref Title);
+            // exiftool --> getting date time objects in videos
+            case TagsFlag.CreateDate: return ExtractDateTime(o, ref CreateDate);
+            case TagsFlag.TrackCreateDate: return ExtractDateTime(o, ref TrackCreateDate);
+            case TagsFlag.MediaCreateDate: return ExtractDateTime(o, ref MediaCreateDate);
+			case TagsFlag.AllCreateDates:
+					DateTime? dt = null;
+                    bool b = ExtractDateTime(o, ref dt);
+					if (b && dt.HasValue)
+						SetAllCreateDates(dt, dt, dt);
+					return b;
+            // elements With, Height and PixelFormat will not get a 'SETTER'
+            default:
+			return false;
 			}				
 		}
 			
@@ -172,9 +200,13 @@ namespace Troonie_Lib
 			case TagsFlag.Height:		return Height;
 			case TagsFlag.Pixelformat:	return Pixelformat;
 			case TagsFlag.FileSize:		return FileSize;
-//			default:
-//				throw new NotImplementedException ();
-			}
+			// exiftool --> getting date time objects in videos
+			case TagsFlag.CreateDate:	return CreateDate;
+			case TagsFlag.TrackCreateDate:	return TrackCreateDate;
+            case TagsFlag.MediaCreateDate: return MediaCreateDate;
+            // default:
+            //	throw new NotImplementedException ();
+            }
 
 			return null;
 		}
@@ -315,21 +347,28 @@ namespace Troonie_Lib
 			}
 		}
 
-//		private static bool ExtractInt(object o, ref int d)
-//		{
-//			string s = o.ToString();
-//			int tmp;
-//			bool b = int.TryParse (s, NumberStyles.AllowDecimalPoint, 
-//				CultureInfo.CreateSpecificCulture("en-us"), out tmp);
-//			if (b) {
-//				d = tmp;
-//				return true;
-//			} else { 
-//				return false;
-//			}
-//		}
+		private static bool ExtractDateTime(object o, ref DateTime? dt)
+		{ 
+            string dt_string = string.Empty;
+            bool b = ExtractString(o, ref dt_string);
+                if (b)
+                {
+                    if (dt_string == string.Empty)
+                    {
+                        dt = null;
+                    }
+                    else
+                    {
+						DateTime tmp;
+                        b = System.DateTime.TryParse(dt_string, out tmp);
+						if (b)
+							dt = tmp;
+                    }
+                }
+                return b;
+        }
 
-		private static bool ExtractString(object o, ref string s)
+        private static bool ExtractString(object o, ref string s)
 		{
 			s = o.ToString();
 			if (s == null) {
