@@ -141,13 +141,19 @@ namespace Troonie
 					DateTime? dt = GetDatetimeFromFilename(f);
 					bool success = false; 
 					if (dt.HasValue) {
-						vip.TagsData.DateTime = dt;
-						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
-						vip.IsPressedIn = vip.IsPressedIn;
-						if (!vip.IsVideo) { 
-							success = ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.DateTime, vip.TagsData);
-						}
-						//							SetTextAndFulltextAndRedrawVip(vip, f, fullf);
+                        if (vip.IsVideo)
+                        {
+                            vip.TagsData.SetAllCreateDates(dt);
+                            success = VideoTagHelper.SetTag(vip.OriginalImageFullName, TagsFlag.AllCreateDates, vip.TagsData);
+                        }
+                        else
+                        {
+                            vip.TagsData.DateTime = dt;
+                            success = ImageTagHelper.SetTag(vip.OriginalImageFullName, TagsFlag.DateTime, vip.TagsData);
+                        }
+
+                        // dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
+                        vip.IsPressedIn = vip.IsPressedIn;						
 					}
 
 					if (!success) {

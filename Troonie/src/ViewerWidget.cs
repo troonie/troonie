@@ -264,6 +264,9 @@ namespace Troonie
 				if (!vip.IsVideo) { 
 					success = ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);	
 				}
+				else {
+                    success = VideoTagHelper.SetTag(vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);
+                }
 
 				if (success) {
 					vip.QueueDraw ();
@@ -831,7 +834,6 @@ namespace Troonie
 			TroonieButton tb = o as TroonieButton;
 			int shift;
 			if (tb != null && int.TryParse (tb.Name, out shift)) {
-//				Console.WriteLine ("Trooniebutton-Name: " + tb.Name);
 
 				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
 
@@ -841,7 +843,7 @@ namespace Troonie
 
 					// when no exiftool.exe available, no editing of creation dates in videos
 					if (!Constants.I.EXIFTOOL && (
-													TagsFlag.CreateDate == (TagsFlag)(1 << shift) ||
+													// TagsFlag.CreateDate == (TagsFlag)(1 << shift) ||
                                                     TagsFlag.TrackCreateDate == (TagsFlag)(1 << shift) ||
                                                     TagsFlag.MediaCreateDate == (TagsFlag)(1 << shift) ||
                                                     TagsFlag.AllCreateDates == (TagsFlag)(1 << shift)

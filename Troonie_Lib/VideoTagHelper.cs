@@ -54,8 +54,8 @@ namespace Troonie_Lib
 				td.Title = cit.Title;
             }
 
-            if (Constants.I.EXIFTOOL) 
-				ChangeValueOfTagWithExiftool(true, fileName, TagsFlag.AllCreateDates, ref td);
+            if (Constants.I.EXIFTOOL) 				
+				ChangeValueOfTagWithExiftool(true, fileName, TagsFlag.AllCreateDates | TagsFlag.Rating | TagsFlag.Keywords, ref td);
 
             return td;
 		}
@@ -115,46 +115,111 @@ namespace Troonie_Lib
 		private static bool ChangeValueOfTagWithExiftool(bool readOnly, string fileName, TagsFlag flag, ref TagsData td)
 		{
 			bool success = true;
-            // proc.StartInfo.FileName = Constants.I.WINDOWS ? (Constants.I.EXEPATH + Constants.CJPEGNAME + @".exe") : Constants.CJPEGNAME; 
-
-			string arg = " -S", s = string.Empty;
+			string arg = " -S";
 			uint flagValue = int.MaxValue;
 			flagValue += 1;
 
-			while (flagValue != 0)
-			{
-				switch (flag & (TagsFlag)flagValue)
+            #region readOnly
+			if (readOnly)
+			{ 
+				while (flagValue != 0)
 				{
-					case TagsFlag.CreateDate: 
-						arg += " -" + TagsData.sCreateDate; 
-						if (!readOnly && td.CreateDate.HasValue) 
-							s = "=\"" + td.CreateDate.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";
-						break;
-                    case TagsFlag.TrackCreateDate: 
-						arg += " -" + TagsData.sTrackCreateDate;
-                        if (!readOnly && td.TrackCreateDate.HasValue)
-                            s = "=\"" + td.TrackCreateDate.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";
-                        break;
-                    case TagsFlag.MediaCreateDate: 						
-                        arg += " -" + TagsData.sMediaCreateDate;
-                        if (!readOnly && td.MediaCreateDate.HasValue)
-                            s = "=\"" + td.MediaCreateDate.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";
-                        break;
-                    case TagsFlag.AllCreateDates:
-                        // arg += TagsData.sAllCreateDates;
-                        
-                        if (!readOnly && td.CreateDate.HasValue)
-							s = "=\"" + td.CreateDate.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";
+					switch (flag & (TagsFlag)flagValue)
+					{
+						case TagsFlag.DateTime:
+							arg += " -" + TagsData.sCreateDate;							
+							break;
+						case TagsFlag.TrackCreateDate:
+							arg += " -" + TagsData.sTrackCreateDate;							
+							break;
+						case TagsFlag.MediaCreateDate:
+							arg += " -" + TagsData.sMediaCreateDate;							
+							break;
+						case TagsFlag.AllCreateDates:
+							arg += " -" + TagsData.sCreateDate + " -" + TagsData.sTrackCreateDate + " -" + TagsData.sMediaCreateDate;
+							break;
+						case TagsFlag.Rating:
+							arg += " -" + TagsData.sXMPRating;
+							break;
+						case TagsFlag.Keywords:
+                            arg += " -" + TagsData.sXMPSubject;
+                            break;
+					}
 
-                        arg += " -" + TagsData.sCreateDate + s + " -" + TagsData.sTrackCreateDate + s + " -" + TagsData.sMediaCreateDate + s;
+					flagValue >>= 1;
+				}
+            }
+            #endregion readOnly
 
-                        break;
-                }
+            #region NOT readOnly
+            else
+            {               
+				string s = string.Empty;
+				bool KeywordsFlag = false;
 
-				flagValue >>= 1;
-			}
+				while (flagValue != 0)
+				{
+					switch (flag & (TagsFlag)flagValue)
+					{
+						case TagsFlag.DateTime:
+							arg += " -" + TagsData.sCreateDate + "=";
+							if (td.DateTime.HasValue)
+								s = "\"" + td.DateTime.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";                        
+							break;
+						case TagsFlag.TrackCreateDate: 
+							arg += " -" + TagsData.sTrackCreateDate + "=";
+							if (td.TrackCreateDate.HasValue)
+								s = "\"" + td.TrackCreateDate.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";
+							break;
+						case TagsFlag.MediaCreateDate: 						
+							arg += " -" + TagsData.sMediaCreateDate + "=";
+							if (td.MediaCreateDate.HasValue)
+								s = "\"" + td.MediaCreateDate.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";
+							break;
+						case TagsFlag.AllCreateDates:
+							s = "=";
+							if (td.DateTime.HasValue)
+								s = "=\"" + td.DateTime.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";
 
-			arg += s + Constants.WS + fileName;
+							arg += " -" + TagsData.sCreateDate + s + " -" + TagsData.sTrackCreateDate + s + " -" + TagsData.sMediaCreateDate; // + s;                        
+
+							break;
+						case TagsFlag.Rating:
+							arg += " -" + TagsData.sXMPRating + "=";
+							if (td.Rating.HasValue)
+								s = "\"" + td.Rating.Value + "\"";
+							break;
+						case TagsFlag.Keywords:
+							// Note: TagsFlag.Keywords needs to be last flag, BUT order of flags is NOT linear. SO ist needs to be ensure,
+							// that keywords will processed at the end
+							KeywordsFlag = true;
+							break;
+					}
+
+					flagValue >>= 1;
+				}
+
+				if (KeywordsFlag)
+				{
+					arg += " -" + TagsData.sXMPSubject + "=";
+					if (td.Keywords.Count > 0)
+					{
+						s = "\"" + td.Keywords[0];
+
+						for (int i = 1; i < td.Keywords.Count; i++)
+						{
+							s += ", " + td.Keywords[i];
+						}
+						s += "\" -sep " + "\", \""; ;
+
+					}
+				}
+
+				arg += s;
+            }
+            #endregion NOT readOnly
+
+            arg += Constants.WS + fileName;
 
 			using (Process proc = new Process())
 			{
@@ -169,23 +234,39 @@ namespace Troonie_Lib
 					proc.Start();
 					//* Read the output
 					if (readOnly)
-					{ 
+					{
 						string output = proc.StandardOutput.ReadToEnd();
-					
-						string[] result = output.Split(new string[]{ "\r\n", ": " }, StringSplitOptions.RemoveEmptyEntries);
-						DateTime t;
+						string[] result = output.Split(new string[] { "\r\n", ": ", ", " }, StringSplitOptions.RemoveEmptyEntries);
 
-						for (int i = 0; i < result.Length - 1; i = i + 2) 
+                        for (int i = 0; i < result.Length - 1; i = i + 2)
 						{
-							success = DateTime.TryParseExact(result[i+1], "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out t);
-							//Enum.GetName(typeof(TagsFlag), TagsFlag.TrackCreateDate)
-							if (!success)
-								break;
+                            DateTime t;
+                            DateTime? tt = null;
+                            // bool b = DateTime.TryParseExact(result[i + 1], "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out t);
+                            bool b = DateTime.TryParseExact(result[i + 1], "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out t);
+                            if (b) 
+							{
+								tt = t; // t.ToLocalTime();
+                            }
 							switch (result[i])
 							{
-								case TagsData.sCreateDate: td.CreateDate = t.ToLocalTime(); break;
-								case TagsData.sTrackCreateDate: td.TrackCreateDate = t.ToLocalTime(); break;
-								case TagsData.sMediaCreateDate: td.MediaCreateDate = t.ToLocalTime(); break;
+                                case TagsData.sCreateDate: td.DateTime = tt; break;
+								case TagsData.sTrackCreateDate: td.TrackCreateDate = tt; break;
+								case TagsData.sMediaCreateDate: td.MediaCreateDate = tt; break;
+								case "Rating":
+									uint u;
+									if (uint.TryParse(result[i + 1], out u))
+										td.Rating = u;
+									break;
+                                case "Subject":
+									List<string> list = new List<string>();
+
+                                    while (i + 1 < result.Length)
+									{
+										list.Add(result[i + 1]);
+										i++;
+									}
+									td.Keywords = list; break;
 							}
 
 						}

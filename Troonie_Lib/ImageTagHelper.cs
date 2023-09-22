@@ -5,6 +5,7 @@ using System.Globalization;
 using TagLib.IFD;
 using TagLib.IFD.Entries;
 using TagLib.IFD.Tags;
+using System.Runtime.CompilerServices;
 
 namespace Troonie_Lib
 {
@@ -46,11 +47,11 @@ namespace Troonie_Lib
         #endregion
 
         #region exiftool --> getting date time objects in videos
-        CreateDate =			1 << 25,
-        MediaCreateDate = 1 << 26,
-        TrackCreateDate =		1 << 27,
+        //CreateDate =			1 << 25,
+        MediaCreateDate = 1 << 25,
+        TrackCreateDate =		1 << 26,
         
-        AllCreateDates =		1 << 28
+        AllCreateDates =		1 << 27
         #endregion
     }
 
@@ -89,29 +90,29 @@ namespace Troonie_Lib
 		public int Height;
 		public int Pixelformat;
 		public long FileSize;
-		#endregion No TagsFlag elements
+        #endregion No TagsFlag elements
 
-		#region exiftool --> getting date time objects in videos
-		public const string sCreateDate = "CreateDate";//Enum.GetName(typeof(TagsFlag), TagsFlag.TrackCreateDate);
+        #region exiftool --> getting date time objects in videos
+        /// <summary>
+        /// CreateDate in two tags: "XMP-xmp:CreateDate" and "QuickTime:CreateDate"
+        /// </summary>
+        public const string sCreateDate = "CreateDate"; 
         public const string sTrackCreateDate = "TrackCreateDate";
         public const string sMediaCreateDate = "MediaCreateDate";
-        //public static string sCreateDate = " -" + Enum.GetName(typeof(TagsFlag), TagsFlag.CreateDate);
-        //public static string sTrackCreateDate = " -" + Enum.GetName(typeof(TagsFlag), TagsFlag.TrackCreateDate);
-        //public static string sMediaCreateDate = " -" + Enum.GetName(typeof(TagsFlag), TagsFlag.MediaCreateDate);
-        // public static string sAllCreateDates = " -" + sCreateDate + " -" + sTrackCreateDate + " -" + sMediaCreateDate;
-
-        public DateTime? CreateDate;
+        public const string sXMPSubject = "XMP-dc:Subject";
+        public const string sXMPRating = "XMP-xmp:Rating";
 		public DateTime? TrackCreateDate;
 		public DateTime? MediaCreateDate;
 
-        //public DateTime? AllCreateDates	{ set {	CreateDate = TrackCreateDate = MediaCreateDate = value; } }
+		//public DateTime? AllCreateDates	{ set {	CreateDate = TrackCreateDate = MediaCreateDate = value; } }
 
-        public void SetAllCreateDates(DateTime? cd, DateTime? tcd, DateTime? mcd)
+		public void SetAllCreateDates(DateTime? dt)
 		{
-			CreateDate = cd;
-			TrackCreateDate = tcd;
-			MediaCreateDate = mcd;  
-		}
+            DateTime = dt;
+            TrackCreateDate = dt;
+            MediaCreateDate = dt;
+        }
+
         #endregion
 
         public bool SetValue (TagsFlag flag, object o)
@@ -154,14 +155,13 @@ namespace Troonie_Lib
 			case TagsFlag.Copyright:	return ExtractString(o, ref Copyright);		
 			case TagsFlag.Title:		return ExtractString(o, ref Title);
             // exiftool --> getting date time objects in videos
-            case TagsFlag.CreateDate: return ExtractDateTime(o, ref CreateDate);
+            //case TagsFlag.CreateDate: return ExtractDateTime(o, ref CreateDate);
             case TagsFlag.TrackCreateDate: return ExtractDateTime(o, ref TrackCreateDate);
             case TagsFlag.MediaCreateDate: return ExtractDateTime(o, ref MediaCreateDate);
 			case TagsFlag.AllCreateDates:
 					DateTime? dt = null;
                     bool b = ExtractDateTime(o, ref dt);
-					if (b && dt.HasValue)
-						SetAllCreateDates(dt, dt, dt);
+					SetAllCreateDates(dt);
 					return b;
             // elements With, Height and PixelFormat will not get a 'SETTER'
             default:
@@ -201,7 +201,7 @@ namespace Troonie_Lib
 			case TagsFlag.Pixelformat:	return Pixelformat;
 			case TagsFlag.FileSize:		return FileSize;
 			// exiftool --> getting date time objects in videos
-			case TagsFlag.CreateDate:	return CreateDate;
+			//case TagsFlag.CreateDate:	return CreateDate;
 			case TagsFlag.TrackCreateDate:	return TrackCreateDate;
             case TagsFlag.MediaCreateDate: return MediaCreateDate;
             // default:
