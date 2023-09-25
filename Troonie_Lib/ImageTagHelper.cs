@@ -93,15 +93,7 @@ namespace Troonie_Lib
         #endregion No TagsFlag elements
 
         #region exiftool --> getting date time objects in videos
-        /// <summary>
-        /// CreateDate in two tags: "XMP-xmp:CreateDate" and "QuickTime:CreateDate"
-        /// </summary>
-        public const string sCreateDate = "CreateDate"; 
-        public const string sTrackCreateDate = "TrackCreateDate";
-        public const string sMediaCreateDate = "MediaCreateDate";
-        public const string sXMPSubject = "XMP-dc:Subject";
-        public const string sXMPRating = "XMP-xmp:Rating";
-		public DateTime? TrackCreateDate;
+        public DateTime? TrackCreateDate;
 		public DateTime? MediaCreateDate;
 
 		//public DateTime? AllCreateDates	{ set {	CreateDate = TrackCreateDate = MediaCreateDate = value; } }
