@@ -8,6 +8,13 @@ namespace Troonie_Lib
 {
 	public class VideoTagHelper
 	{
+        public const TagsFlag AllVideoFlags =   TagsFlag.AllCreateDates | 
+                                                TagsFlag.Rating | 
+                                                TagsFlag.Title | 
+                                                TagsFlag.Comment | 
+                                                TagsFlag.Copyright | 
+                                                TagsFlag.Keywords;
+
         /// <summary>
         /// CreateDate in two tags simultaneously: "XMP-xmp:CreateDate" and "QuickTime:CreateDate"
         /// </summary>
@@ -105,21 +112,10 @@ namespace Troonie_Lib
 			}
 		}
 
-    public static TagsData GetTagsData(string fileName)
+    public static TagsData GetTagsData(string fileName, out bool success)
 		{
 			TagsData td = new TagsData ();
-            // Tag cit = GetTag (fileName);
-            // if (cit != null) {
-            // ++++
-            // TODO td.Comment = cit.Comment;
-            // TODO td.Copyright = cit.Copyright;
-            // td.Title = cit.Title;
-            // }
-
-            //        if (Constants.I.EXIFTOOL) 				
-            //ChangeValueOfTagWithExiftool(true, fileName, TagsFlag.Title | TagsFlag.AllCreateDates | TagsFlag.Rating | TagsFlag.Keywords, ref td);
-
-            bool success = true;
+            success = true;
             string arg = " -S" + 
 				" -" + ET_CreateDate + 
 				" -" + ET_TrackCreateDate + 
@@ -194,14 +190,13 @@ namespace Troonie_Lib
                 }
             }
 
-            //return success;
             return td;
 		}
 
 		public static bool SetTag(string fileName, TagsFlag flag, TagsData td)
 		{
             bool success = true;
-            string arg = " -S";
+            string arg = " -overwrite_original -S";
             uint flagValue = int.MaxValue;
             flagValue += 1;            
             bool KeywordsFlag = false;
@@ -246,7 +241,7 @@ namespace Troonie_Lib
                     case TagsFlag.Title:
                         string sTitle = "=";
                         if (td.Title != null)
-                            sTitle += "\"" + td.Title + "\"";
+                            sTitle += "\"" + StringHelper.ReplaceGermanUmlauts(td.Title) + "\"";
 
                         arg += " -" + ET0_Title_Quicktime + sTitle;
                         arg += " -" + ET0_Title_XMP_dc + sTitle;
@@ -254,12 +249,12 @@ namespace Troonie_Lib
                     case TagsFlag.Comment:
                         arg += " -" + ET0_Comment_Quicktime + "=";
                         if (td.Comment != null)
-                            arg += "\"" + td.Comment + "\"";
+                            arg += "\"" + StringHelper.ReplaceGermanUmlauts(td.Comment) + "\"";
                         break;
                     case TagsFlag.Copyright:
                         arg += " -" + ET0_Copyright_Quicktime + "=";
                         if (td.Copyright != null)
-                            arg += "\"" + td.Copyright + "\"";
+                            arg += "\"" + StringHelper.ReplaceGermanUmlauts(td.Copyright) + "\"";
                         break;
                     case TagsFlag.Keywords:
                         // Note: TagsFlag.Keywords needs to be last flag, BUT order of flags is NOT linear. SO ist needs to be ensure,
@@ -274,13 +269,13 @@ namespace Troonie_Lib
             if (KeywordsFlag)
             {                
                 string sKeywords = string.Empty;
-                if (td.Keywords.Count > 0)
+                if (td.Keywords != null && td.Keywords.Count > 0)
                 {
                     sKeywords = "\"" + td.Keywords[0];
 
                     for (int i = 1; i < td.Keywords.Count; i++)
                     {
-                        sKeywords += ", " + td.Keywords[i];
+                        sKeywords += ", " + StringHelper.ReplaceGermanUmlauts(td.Keywords[i]);
                     }
                     sKeywords += "\" -sep " + "\", \""; ;
 
@@ -309,6 +304,139 @@ namespace Troonie_Lib
                 catch (Exception)
                 {
                     success = false;
+                }
+            }
+
+            return success;
+        }
+
+        public static bool RepairMp4WithFfmpeg(string path)
+        {
+            bool success = true;
+            Constants.I.Init();
+            path += Path.DirectorySeparatorChar;
+            string[] mp4files = Directory.GetFiles(path);
+
+            foreach (string mp4file in mp4files)
+            {
+                if (!mp4file.Contains(".mp4"))
+                {
+                    continue;
+                }
+
+                string dir = Path.GetDirectoryName(mp4file);
+                string backupdir = dir + Path.DirectorySeparatorChar + "backup";
+                Directory.CreateDirectory(backupdir);
+
+                // string origfilename = mp4file.Replace(".mp4", "_orig.mp4");
+                string origfilename = mp4file.Replace(dir, backupdir);
+
+                File.Copy(mp4file, origfilename, true);
+                TagsData td = GetTagsData(mp4file, out success);
+                if (!success)
+                    return false;
+                // do ffmpeg
+                string arg = "-y -i " + origfilename + " -map_metadata 0 -c copy " + mp4file;
+                using (Process proc = new Process())
+                {
+                    try
+                    {
+                        proc.StartInfo.FileName = path + "ffmpeg.exe";
+                        proc.StartInfo.Arguments = arg;
+                        proc.StartInfo.UseShellExecute = false;
+                        proc.StartInfo.CreateNoWindow = true;
+                        proc.StartInfo.RedirectStandardOutput = true;
+                        proc.StartInfo.RedirectStandardError = true;
+                        proc.Start();
+                        proc.WaitForExit(10 * 1000);
+                        proc.Close();
+                    }
+                    catch (Exception)
+                    {
+                        success = false;
+                        return false;
+                    }
+                }
+
+                success = SetTag(mp4file, AllVideoFlags, td);
+                if (!success)
+                    return false;
+            }
+
+            return success;
+        }
+
+        public static bool TagsInVideoFromPng(string path)
+        {
+            bool success = true;
+            Constants.I.Init();
+            string ffmpeg = Constants.I.EXEPATH + Path.DirectorySeparatorChar + "ffmpeg.exe";
+            path += Path.DirectorySeparatorChar;
+            string[] mp4files = Directory.GetFiles(path, "*.mp4");
+            Array.Sort(mp4files);
+            string[] pngfiles = Directory.GetFiles(path, "*.png");
+            Array.Sort(pngfiles);           
+
+            foreach (string mp4file in mp4files)
+            {
+                if (!mp4file.Contains(".mp4"))
+                {
+                    continue;
+                }
+
+                string dir = Path.GetDirectoryName(mp4file);
+                string subMp4file = mp4file.Substring(0, dir.Length + 18);
+                string pngFile = Array.Find(pngfiles, s => s.Contains(subMp4file));
+                if (pngFile == null) 
+                {
+                    Console.WriteLine("ID1: PNG missing from: " + mp4file);
+                    return false;
+                }
+
+                
+                string backupdir = dir + Path.DirectorySeparatorChar + "backup";
+                Directory.CreateDirectory(backupdir);
+
+                // string origfilename = mp4file.Replace(".mp4", "_orig.mp4");
+                string mp4fileOrig = mp4file.Replace(dir, backupdir);
+                File.Copy(mp4file, mp4fileOrig, true);
+
+                //string pngfile = mp4file.Replace(".mp4", ".png");
+
+                TagsData td = ImageTagHelper.GetTagsData(pngFile);
+                //if (!success)
+                //    return false;
+
+                // do ffmpeg
+                string arg = "-y -i " + mp4fileOrig + " -map_metadata 0 -c copy " + mp4file;
+                using (Process proc = new Process())
+                {
+                    Console.WriteLine("ID2: Processing with ffmpeg, file: " + mp4file);
+                    try
+                    {
+                        proc.StartInfo.FileName = ffmpeg; // path + "ffmpeg.exe";
+                        proc.StartInfo.Arguments = arg;
+                        proc.StartInfo.UseShellExecute = false;
+                        proc.StartInfo.CreateNoWindow = true;
+                        proc.StartInfo.RedirectStandardOutput = true;
+                        proc.StartInfo.RedirectStandardError = true;
+                        proc.Start();
+                        proc.WaitForExit();
+                        proc.Close();
+                    }
+                    catch (Exception)
+                    {
+                        success = false;
+                        Console.WriteLine("ID3: Error with ffmpeg, file: " + mp4file);
+                        return false;
+                    }
+                }
+
+                success = SetTag(mp4file, AllVideoFlags, td);
+                if (!success)
+                {
+                    Console.WriteLine("ID5: Error with Exiftool, file: " + mp4file);
+                    return false;
                 }
             }
 
