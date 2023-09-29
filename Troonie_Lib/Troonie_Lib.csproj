@@ -39,6 +39,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="filter\RotateQuarterTurnsFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JpegEncoder.cs" />
     <Compile Include="RGBA.cs" />

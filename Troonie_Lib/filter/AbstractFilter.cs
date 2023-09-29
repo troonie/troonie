@@ -215,22 +215,8 @@ namespace Troonie_Lib
 		/// <returns>The filter result as a new bitmap.</returns>
 		public virtual Bitmap Apply(Bitmap source, double[] filterproperties)
 		{
-			CheckPixelFormat(source.PixelFormat);
 			SetProperties (filterproperties);
-			Bitmap destination = new Bitmap(source.Width, source.Height, dstPixelFormat);
-			Rectangle rect = new Rectangle(0, 0, source.Width, source.Height);
-			BitmapData srcData = source.LockBits(rect, ImageLockMode.ReadWrite, source.PixelFormat);
-			BitmapData dstData = destination.LockBits(rect, ImageLockMode.ReadWrite, destination.PixelFormat);
-			Process(srcData, dstData);
-			destination.UnlockBits(dstData);
-			source.UnlockBits(srcData);
-
-			if (destination.PixelFormat == PixelFormat.Format8bppIndexed)
-			{
-				SetColorPalette(destination);
-			}
-
-			return destination;
+            return Apply(source);		
 		}
     }
 }

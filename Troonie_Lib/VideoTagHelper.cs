@@ -366,7 +366,7 @@ namespace Troonie_Lib
             return success;
         }
 
-        public static bool TagsInVideoFromPng(string path)
+        public static bool SetTagsInVideoFromPng(string path, bool repairWithFfmpeg = false)
         {
             bool success = true;
             Constants.I.Init();
@@ -397,38 +397,36 @@ namespace Troonie_Lib
                 string backupdir = dir + Path.DirectorySeparatorChar + "backup";
                 Directory.CreateDirectory(backupdir);
 
-                // string origfilename = mp4file.Replace(".mp4", "_orig.mp4");
                 string mp4fileOrig = mp4file.Replace(dir, backupdir);
                 File.Copy(mp4file, mp4fileOrig, true);
 
-                //string pngfile = mp4file.Replace(".mp4", ".png");
-
                 TagsData td = ImageTagHelper.GetTagsData(pngFile);
-                //if (!success)
-                //    return false;
 
                 // do ffmpeg
-                string arg = "-y -i " + mp4fileOrig + " -map_metadata 0 -c copy " + mp4file;
-                using (Process proc = new Process())
-                {
-                    Console.WriteLine("ID2: Processing with ffmpeg, file: " + mp4file);
-                    try
+                if (repairWithFfmpeg)
+                {                     
+                    string arg = "-y -i " + mp4fileOrig + " -map_metadata 0 -c copy " + mp4file;
+                    using (Process proc = new Process())
                     {
-                        proc.StartInfo.FileName = ffmpeg; // path + "ffmpeg.exe";
-                        proc.StartInfo.Arguments = arg;
-                        proc.StartInfo.UseShellExecute = false;
-                        proc.StartInfo.CreateNoWindow = true;
-                        proc.StartInfo.RedirectStandardOutput = true;
-                        proc.StartInfo.RedirectStandardError = true;
-                        proc.Start();
-                        proc.WaitForExit();
-                        proc.Close();
-                    }
-                    catch (Exception)
-                    {
-                        success = false;
-                        Console.WriteLine("ID3: Error with ffmpeg, file: " + mp4file);
-                        return false;
+                        Console.WriteLine("ID2: Processing with ffmpeg, file: " + mp4file);
+                        try
+                        {
+                            proc.StartInfo.FileName = ffmpeg; // path + "ffmpeg.exe";
+                            proc.StartInfo.Arguments = arg;
+                            proc.StartInfo.UseShellExecute = false;
+                            proc.StartInfo.CreateNoWindow = true;
+                            proc.StartInfo.RedirectStandardOutput = true;
+                            proc.StartInfo.RedirectStandardError = true;
+                            proc.Start();
+                            proc.WaitForExit();
+                            proc.Close();
+                        }
+                        catch (Exception)
+                        {
+                            success = false;
+                            Console.WriteLine("ID3: Error with ffmpeg, file: " + mp4file);
+                            return false;
+                        }
                     }
                 }
 
