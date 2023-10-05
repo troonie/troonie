@@ -5,7 +5,8 @@ using System.Globalization;
 using TagLib.IFD;
 using TagLib.IFD.Entries;
 using TagLib.IFD.Tags;
-using System.Runtime.CompilerServices;
+using System.Diagnostics;
+using System.IO;
 
 namespace Troonie_Lib
 {
@@ -445,7 +446,33 @@ namespace Troonie_Lib
 		//			return imageTagFile;
 		//		}
 
-		public static void CopyTagToFile(string fileName, CombinedImageTag tag)
+		public static bool CopyTagToFileByET(string src, string dst)
+		{
+			bool success = true;
+			string arg = " -TagsFromFile " + src + " \"-all:all>all:all\" " + dst;
+            using (Process proc = new Process())
+            {
+                try
+                {
+                    proc.StartInfo.FileName = Constants.I.EXEPATH + Path.DirectorySeparatorChar + Constants.EXIFTOOLNAME;
+                    proc.StartInfo.Arguments = arg;
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.CreateNoWindow = true;
+                    proc.StartInfo.RedirectStandardOutput = true;
+                    proc.StartInfo.RedirectStandardError = true;
+                    proc.Start();
+                    proc.WaitForExit();
+                    proc.Close();
+                }
+                catch (Exception)
+                {
+                    success = false;
+                }
+            }
+			return (success);
+        }
+
+        public static void CopyTagToFile(string fileName, CombinedImageTag tag)
 		{
 			TagLib.Image.File imageTagFile = LoadTagFile(fileName);
 

@@ -6,6 +6,8 @@ using TagLib.Image;
 using NetColor = System.Drawing.Color;
 using NetIOFile = System.IO.File;
 using IOPath = System.IO.Path;
+using System.Diagnostics;
+using System.IO;
 
 namespace Troonie_Lib
 {
@@ -65,6 +67,15 @@ namespace Troonie_Lib
 		public bool Save (Config config, string relativeFileName, bool saveTag)
 		{
 			bool success = true;
+            bool saveTagsByET = false;
+            string origExifTagsFile = Constants.I.TEMPPATH + "ET_" + relativeFileName;
+            if (saveTag && Constants.I.EXIFTOOL)
+			{
+				Bitmap bb = new Bitmap(10, 10);
+				bb.Save(origExifTagsFile, ImageFormat.Jpeg);
+                saveTagsByET = ImageTagHelper.CopyTagToFileByET(FileName, origExifTagsFile);
+            }
+
 			try {
 				Bitmap dest;
 				int w = Bitmap.Width;
@@ -150,7 +161,10 @@ namespace Troonie_Lib
 				case TroonieImageFormat.JPEGLOSSLESS:
 					success = JpegEncoder.SaveWithCjpeg (FileName, dest, config.JpgQuality, config.Format);
 					if (saveTag) {
-						ImageTagHelper.CopyTagToFile (FileName, imageTag);
+							if (saveTagsByET)
+                                saveTagsByET = ImageTagHelper.CopyTagToFileByET(origExifTagsFile, FileName);
+                            else
+                                ImageTagHelper.CopyTagToFile(FileName, imageTag);                         
 					}
 					Bitmap = dest;
 					return success;

@@ -137,35 +137,35 @@ namespace Troonie_Lib
                     break;
 
                 case RotationOrder.deg270:
-                    //// for each line
-                    //for (int y = h - 1; y >= 0; y--)
-                    //{
-                    //    // align pointer to end of the line
-                    //    byte* src = (byte*)srcData.Scan0.ToPointer();
-                    //    src += stride * y;
+                    // for each line
+                    for (int y2 = 0; y2 < h2; y2++)
+                    {
+                        // align src pointer to correct column
+                        byte* src = (byte*)srcData.Scan0.ToPointer();
+                        src += stride1 * h1;
+                        src -= (ps + off1 + ps * y2);
 
-                    //    // for each pixel
-                    //    for (int x = 0; x < w; x++, src += ps, dst += ps)
-                    //    {
-                    //        // 8 bit grayscale
-                    //        dst[RGBA.B] = src[RGBA.B];
+                        // for each pixel
+                        for (int x2 = 0; x2 < w2; x2++, src -= stride1, dst += ps)
+                        {
+                            // 8 bit grayscale
+                            dst[RGBA.B] = src[RGBA.B];
 
-                    //        // rgb, 24 and 32 bit
-                    //        if (ps >= 3)
-                    //        {
-                    //            dst[RGBA.G] = src[RGBA.G];
-                    //            dst[RGBA.R] = src[RGBA.R];
-                    //        }
+                            // rgb, 24 and 32 bit
+                            if (ps >= 3)
+                            {
+                                dst[RGBA.G] = src[RGBA.G];
+                                dst[RGBA.R] = src[RGBA.R];
+                            }
 
-                    //        // alpha, 32 bit
-                    //        if (ps == 4)
-                    //        {
-                    //            dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.A];
-                    //        }
-                    //    }
-                    //    dst += offset;
-                    //}
-
+                            // alpha, 32 bit
+                            if (ps == 4)
+                            {
+                                dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.A];
+                            }
+                        }
+                        dst += off2;
+                    }
                     break;
 
                 case RotationOrder.deg180:
