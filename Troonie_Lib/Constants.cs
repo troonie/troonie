@@ -17,8 +17,8 @@ namespace Troonie_Lib
 			get
 			{
 				if (instance == null) {
-					instance = new Constants ();
-				}
+					instance = new Constants ();                   
+                }
 				return instance;
 			}
 		}
@@ -145,6 +145,8 @@ namespace Troonie_Lib
 		private Config config;
 		public Config CONFIG { get { return config; }}
 
+		public ExifTool ET { get; private set; }
+
 		public void Init()
 		{
 			windows = IsWindows ();
@@ -159,6 +161,7 @@ namespace Troonie_Lib
 //			description = Language.I.L[54];
 			versionFloat = GetFloatVersionNumber (Version.VERSION);
             Directory.CreateDirectory(TEMPPATH);
+            ET = new ExifTool();
 
             CheckUpdateAsThread ();
 		}	

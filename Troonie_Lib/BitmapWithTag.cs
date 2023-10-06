@@ -68,12 +68,15 @@ namespace Troonie_Lib
 		{
 			bool success = true;
             bool saveTagsByET = false;
-            string origExifTagsFile = Constants.I.TEMPPATH + "ET_" + relativeFileName;
+			string origExifTagsFile = Constants.I.TEMPPATH + "ET_" + relativeFileName.Trim(Path.DirectorySeparatorChar);
+			//if (relativeFileName[0]== (Path.DirectorySeparatorChar))
+   //             origExifTagsFile += relativeFileName.TrimStart(Path.DirectorySeparatorChar);
             if (saveTag && Constants.I.EXIFTOOL)
 			{
 				Bitmap bb = new Bitmap(10, 10);
 				bb.Save(origExifTagsFile, ImageFormat.Jpeg);
                 saveTagsByET = ImageTagHelper.CopyTagToFileByET(FileName, origExifTagsFile);
+
             }
 
 			try {
