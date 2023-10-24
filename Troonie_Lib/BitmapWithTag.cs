@@ -8,6 +8,8 @@ using NetIOFile = System.IO.File;
 using IOPath = System.IO.Path;
 using System.Diagnostics;
 using System.IO;
+using System.CodeDom.Compiler;
+//using C = Troonie_Lib.Constants;
 
 namespace Troonie_Lib
 {
@@ -17,7 +19,9 @@ namespace Troonie_Lib
 		private int _errorCode;
 		private string _errorText;
 
-		public TroonieImageFormat OrigFormat { get; private set; }
+		public readonly ExifTool ET = Constants.I.ET;
+
+        public TroonieImageFormat OrigFormat { get; private set; }
 		public Bitmap Bitmap { get; private set; }
 		public string FileName { get; private set; }
 
@@ -69,14 +73,15 @@ namespace Troonie_Lib
 			bool success = true;
             bool saveTagsByET = false;
 			string origExifTagsFile = Constants.I.TEMPPATH + "ET_" + relativeFileName.Trim(Path.DirectorySeparatorChar);
-			//if (relativeFileName[0]== (Path.DirectorySeparatorChar))
-   //             origExifTagsFile += relativeFileName.TrimStart(Path.DirectorySeparatorChar);
+
             if (saveTag && Constants.I.EXIFTOOL)
 			{
 				Bitmap bb = new Bitmap(10, 10);
 				bb.Save(origExifTagsFile, ImageFormat.Jpeg);
-                saveTagsByET = ImageTagHelper.CopyTagToFileByET(FileName, origExifTagsFile);
-
+                string tArg = " -overwrite_original -S -TagsFromFile " + FileName + " \"-all:all>all:all\" " + origExifTagsFile;
+                ET.Process(tArg);
+				//saveTagsByET = ImageTagHelper.CopyTagToFileByET(FileName, origExifTagsFile);
+				saveTagsByET = ET.Success;
             }
 
 			try {
@@ -165,9 +170,16 @@ namespace Troonie_Lib
 					success = JpegEncoder.SaveWithCjpeg (FileName, dest, config.JpgQuality, config.Format);
 					if (saveTag) {
 							if (saveTagsByET)
-                                saveTagsByET = ImageTagHelper.CopyTagToFileByET(origExifTagsFile, FileName);
-                            else
-                                ImageTagHelper.CopyTagToFile(FileName, imageTag);                         
+							{
+								// saveTagsByET = ImageTagHelper.CopyTagToFileByET(origExifTagsFile, FileName);
+
+								string tArg = " -overwrite_original -S -TagsFromFile " + origExifTagsFile + " \"-all:all>all:all\" " + FileName; // + " -execute 'TODO further commands'";
+                                ET.Process(tArg);
+                                saveTagsByET = ET.Success;
+
+                            }
+							else
+								ImageTagHelper.CopyTagToFile(FileName, imageTag);                         
 					}
 					Bitmap = dest;
 					return success;
@@ -237,18 +249,18 @@ namespace Troonie_Lib
 		//			return success;
 		//		}
 
-		public bool ChangeValueOfTag (TagsFlag flag, TagsData newData)
-		{
-			bool success = true;
+		//public bool ChangeValueOfTag (TagsFlag flag, TagsData newData)
+		//{
+		//	bool success = true;
 
-			try {
-				ImageTagHelper.ChangeValueOfTag (imageTag, flag, newData);
-			} catch (Exception /* UnsupportedFormatException */) {
-				success = false;
-			}
+		//	try {
+		//		ImageTagHelper.ChangeValueOfTag (imageTag, flag, newData);
+		//	} catch (Exception /* UnsupportedFormatException */) {
+		//		success = false;
+		//	}
 
-			return success;
-		}
+		//	return success;
+		//}
 
 		//		public bool ChangeValueOfTag(Tags tag, int newValue)
 		//		{

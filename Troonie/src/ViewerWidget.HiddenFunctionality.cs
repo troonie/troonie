@@ -37,7 +37,10 @@ namespace Troonie
 					if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {						
 						td = ImageTagHelper.GetTagsData (pib.OriginalImageFullName);
 						rating = td.Rating == null ? 0 : td.Rating.Value;
-					} else {
+						if (td.Creator != null && td.Creator.Length != 0)
+                            creatorText = td.Creator + separator;  
+
+                    } else {
 //						td = VideoTagHelper.GetTagsData(pib.OriginalImageFullName);
 //						rating = td.TrackCount;
 						isVideo = true;
@@ -95,11 +98,13 @@ namespace Troonie
 							TroonieBitmap.GetBiggestLength (pib.OriginalImageFullName) > biggestLength) 
 						{
 							ReduceImageSize (pib.RelativeImageName, pib.OriginalImageFullName, ref creatorText, biggestLength, jpqQuality);
-						}
+                            ImageConverter.CalcBiggerSideLength(biggestLength, ref pib.TagsData.Width, ref pib.TagsData.Height);
+                        }
 							
 						bool success = ConvertByRating (pib.RelativeImageName, pib.OriginalImageFullName, ref creatorText, limitInBytes, jpqQuality, out fileSize);
 						if (success) {
 							pib.TagsData.FileSize = fileSize;
+							pib.TagsData.Creator = creatorText;
 							// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
 							pib.IsPressedIn = pib.IsPressedIn;
 						}
@@ -323,7 +328,8 @@ namespace Troonie
 		public static void ReduceImageSize(string filename, string fullfilename, ref string creatorText, int biggestLength, byte jpgQuality)
 		{
 			BitmapWithTag bt_final = new BitmapWithTag (fullfilename);
-			Config c_final = new Config ();				
+			string origDims = "OrigWidth=" + bt_final.Bitmap.Width + "px" + separator + "OrigHeight=" + bt_final.Bitmap.Height + "px" + separator;
+            Config c_final = new Config ();				
 			c_final.UseOriginalPath = true;
 			c_final.HighQuality = true;
 			c_final.ResizeVersion = ResizeVersion.BiggestLength;
@@ -335,7 +341,7 @@ namespace Troonie
 			bt_final.Dispose ();
 
 			if (success) {
-				creatorText += "BLength=" + biggestLength + separator;
+				creatorText += origDims + "BLength=" + biggestLength + separator;
 			}
 		}
 
@@ -361,7 +367,7 @@ namespace Troonie
 				c.ResizeVersion = ResizeVersion.No;
 				c.JpgQuality = jpgQuality;
 				c.FileOverwriting = false;
-				bool success_inner = bt.Save (c, relativeImageName, true);
+				bool success_inner = bt.Save (c, relativeImageName, false /* DO NOT SAVE Exiftags here  true */);
 				bt.Dispose();
 
 				if (success_inner) {
@@ -379,8 +385,9 @@ namespace Troonie
 				// no jpg compression was done
 				creatorText += "Jpg-Q=Original" + separator;
 				//				success = ImageTagHelper.SetTag(fullfilename, Tags.Creator | Tags.Copyright | Tags.Title, new TagsData { Creator = creatorText, Copyright = "oioioi", Title = "MyTitle" });
-				success = ImageTagHelper.SetTag(fullfilename, TagsFlag.Creator, new TagsData { Creator = creatorText });
-			} else {
+				// success = ImageTagHelper.SetTag(fullfilename, TagsFlag.Creator, new TagsData { Creator = creatorText });
+                success = ImageTagHelper.SetTag(fullfilename, TagsFlag.Creator, creatorText);
+            } else {
 				BitmapWithTag bt_final = new BitmapWithTag (fullfilename);
 				Config c_final = new Config ();				
 				c_final.UseOriginalPath = true;
@@ -390,8 +397,9 @@ namespace Troonie
 				c_final.FileOverwriting = true;
 				creatorText += "Jpg-Q=" + jpgQuality.ToString() + separator;
 				//				success = bt_final.ChangeValueOfTag (Tags.Creator, creatorText);
-				success = bt_final.ChangeValueOfTag (TagsFlag.Creator, new TagsData { Creator = creatorText });
-				if (success) {
+				//success = bt_final.ChangeValueOfTag (TagsFlag.Creator, new TagsData { Creator = creatorText });
+                success = ImageTagHelper.SetTag(fullfilename, TagsFlag.Creator, creatorText);
+                if (success) {
 					success = bt_final.Save (c_final, filename, true);
 				}
 				bt_final.Dispose ();
