@@ -99,6 +99,26 @@ namespace Troonie_Lib
 
 		//public DateTime? AllCreateDates	{ set {	CreateDate = TrackCreateDate = MediaCreateDate = value; } }
 
+		public string KeywordsForET 
+		{ 
+			get 
+			{
+                string sKeywords = string.Empty;
+                if (Keywords != null && Keywords.Count > 0)
+                {
+                    sKeywords = Keywords[0];
+
+                    for (int i = 1; i < Keywords.Count; i++)
+                    {
+                        sKeywords += ", " + StringHelper.ReplaceGermanUmlauts(Keywords[i]);
+                    }
+					// sKeywords += "\" -sep ";
+
+                }
+                return sKeywords;
+			} 
+		}
+
 		public void SetAllCreateDates(DateTime? dt)
 		{
             DateTime = dt;
@@ -496,17 +516,31 @@ namespace Troonie_Lib
 		{
             TagsData td = new TagsData();
 			List<string> lines = new List<string>();
-            bool success = true;
+            //bool success = true;
             string tArgs = " -overwrite_original -S -n " +
                             "-GPSAltitude " +
 							"-Creator " +
                             "-CreateDate " +
 							"-ExposureTime " +
 							"-Flash " +
+                            "-MeteringMode " +
+							"-FNumber " +
+							"-FocalLength " +
+                            "-FocalLengthIn35mmFormat " +
+							"-ISO " +
 							"-Keywords " +
-							"-Subject ";
-
-
+							"-Subject " +
+                            "-GPSLatitude " +
+                            "-GPSLongitude " +
+							"-Make " +
+							"-Model " +
+							"-Orientation " +
+							"-Rating " +
+							"-Software " +
+                            // other tags
+                            "-Comment " +
+							"-Copyright " +
+							"-Title ";						
 
             tArgs += " " + fileName;
 
@@ -527,6 +561,7 @@ namespace Troonie_Lib
                 //{
                 double d;
                 ushort us;
+				uint ui;
                 switch (key)
                 {                        
                     case "GPSAltitude": if(double.TryParse(result[1], out d)) td.Altitude = d; break;
@@ -541,9 +576,14 @@ namespace Troonie_Lib
                         }                            
 						td.DateTime = tt; 
 						break;
-                    case "ExposureTime": if(double.TryParse(result[1], out d)) td.ExposureTime = d; break;
+                    case "ExposureTime": if(double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.ExposureTime = d; break;
                     case "Flash": if (ushort.TryParse(result[1], out us)) td.Flash = us; break;
-					case "Keywords":
+					case "MeteringMode": if (ushort.TryParse(result[1], out us)) td.MeteringMode = us; break;
+					case "FNumber": if (double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.FNumber = d; break;
+					case "FocalLength": if (double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.FocalLength = d; break;
+					case "FocalLengthIn35mmFormat": if (uint.TryParse(result[1], out ui)) td.FocalLengthIn35mmFilm = ui; break;
+					case "ISO": if (uint.TryParse(result[1], out ui)) td.ISOSpeedRatings = ui; break;
+                    case "Keywords":
                     case "Subject":
 						if (td.Keywords == null)
 							td.Keywords = new List<string>();
@@ -551,6 +591,23 @@ namespace Troonie_Lib
                         for (int i = 1; i < result.Length; i++)
                             td.Keywords.Add(result[i]);
 						break;
+					case "GPSLatitude": if (double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.Latitude = d; break;
+                    case "GPSLongitude": if (double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.Longitude = d; break;
+                    case "Make": td.Make= allValues; break;
+                    case "Model": td.Model = allValues; break;
+                    case "Orientation":
+						if (uint.TryParse(result[1], out ui))
+						{
+							td.Orientation = ui;
+							td.CalcOrientationDegree();
+						}
+						break;
+					case "Rating": if (uint.TryParse(result[1], out ui)) td.Rating = ui; break;
+                    case "Software": td.Software = allValues; break;
+                    // other tags
+                    case "Comment": td.Comment = allValues; break;
+                    case "Copyright": td.Copyright = allValues; break;
+                    case "Title": td.Title = allValues; break;
 
                         //case ET1_Rating_XMP_xmp:
                         //    uint u;
@@ -572,7 +629,7 @@ namespace Troonie_Lib
                         //        i++;
                         //    }
                         //    td.Keywords = list; break;
-                    // }
+                        // }
                 }
             }
 
@@ -733,7 +790,7 @@ namespace Troonie_Lib
 			}
 		}
 
-        public static bool SetTag(string fileName, TagsFlag flag, string newData, bool append = false)
+        public static bool SetTagET(string fileName, TagsFlag flag, string newData, bool append = false)
         {
             bool success = true;
 			string tArgs = " -overwrite_original -S -";
@@ -754,60 +811,66 @@ namespace Troonie_Lib
 							tCreator = append ? tCreator + "<${" + tCreator + "}" : tCreator + "="; 
 							tArgs += "\"" + tCreator + newData + "\"";							
 							break;
-                        //case TagsFlag.DateTime: imageTag.DateTime = newData.DateTime; break;
-                        //case TagsFlag.ExposureTime: imageTag.ExposureTime = newData.ExposureTime; break;
-                        //case TagsFlag.Flash:
-                        //    if (imageTag.Exif != null/* && newData.Flash.HasValue */)
-                        //    {
-                        //        foreach (IFDDirectory dir in imageTag.Exif.ExifIFD.Directories)
-                        //        {
-                        //            dir.Remove((ushort)ExifEntryTag.Flash);
-                        //            if (newData.Flash.HasValue)
-                        //            {
-                        //                dir.Add((ushort)ExifEntryTag.Flash, new ShortIFDEntry((ushort)ExifEntryTag.Flash, newData.Flash.Value));
-                        //                break; // TODO: check, if correct to add just in first directory
-                        //            }
-                        //        }
-                        //    }
-                        //    break;
-                        //case TagsFlag.FNumber: imageTag.FNumber = newData.FNumber; break;
-                        //case TagsFlag.FocalLength: imageTag.FocalLength = newData.FocalLength; break;
-                        //case TagsFlag.FocalLengthIn35mmFilm:
-                        //    imageTag.FocalLengthIn35mmFilm = newData.FocalLengthIn35mmFilm; break;
-                        //case TagsFlag.ISOSpeedRatings:
-                        //    imageTag.ISOSpeedRatings = newData.ISOSpeedRatings; break;
-                        //case TagsFlag.Keywords:
-                        //    imageTag.Keywords = (newData.Keywords != null && newData.Keywords.Count != 0) ? newData.Keywords.ToArray() : null;
-                        //    break;
-                        //case TagsFlag.Latitude: imageTag.Latitude = newData.Latitude; break;
-                        //case TagsFlag.Longitude: imageTag.Longitude = newData.Longitude; break;
-                        //case TagsFlag.Make: imageTag.Make = newData.Make; break;
-                        //case TagsFlag.MeteringMode:
-                        //    if (imageTag.Exif != null)
-                        //    {
-                        //        foreach (IFDDirectory dir in imageTag.Exif.ExifIFD.Directories)
-                        //        {
-                        //            dir.Remove((ushort)ExifEntryTag.MeteringMode);
-                        //            if (newData.MeteringMode.HasValue)
-                        //            {
-                        //                dir.Add((ushort)ExifEntryTag.MeteringMode, new ShortIFDEntry((ushort)ExifEntryTag.MeteringMode, newData.MeteringMode.Value));
-                        //                break; // TODO: check, if correct to add just in first directory
-                        //            }
-                        //        }
-                        //    }
-                        //    break;
-                        //case TagsFlag.Model: imageTag.Model = newData.Model; break;
-                        //case TagsFlag.Orientation:
-                        //    imageTag.Orientation =
-                        //        (ImageOrientation)newData.Orientation; break;
-                        //case TagsFlag.Rating: imageTag.Rating = newData.Rating; break;
-                        //case TagsFlag.Software: imageTag.Software = newData.Software; break;
-                        //// other tags
-                        //case TagsFlag.Comment: imageTag.Comment = newData.Comment; break;
-                        //case TagsFlag.Copyright: imageTag.Copyright = newData.Copyright; break;
-                        //case TagsFlag.Title: imageTag.Title = newData.Title; break;
-                        //    //			default:
-                        //    //				throw new NotImplementedException ();
+						case TagsFlag.Keywords:
+                            //"Keywords":
+                            // case "Subject":
+                            tArgs += "\"" + "Keywords=" + newData + "\" -sep " + "\", \"";
+                            tArgs += " -\"" + "Subject=" + newData + "\" -sep " + "\", \"";
+                            break;
+                            //case TagsFlag.DateTime: imageTag.DateTime = newData.DateTime; break;
+                            //case TagsFlag.ExposureTime: imageTag.ExposureTime = newData.ExposureTime; break;
+                            //case TagsFlag.Flash:
+                            //    if (imageTag.Exif != null/* && newData.Flash.HasValue */)
+                            //    {
+                            //        foreach (IFDDirectory dir in imageTag.Exif.ExifIFD.Directories)
+                            //        {
+                            //            dir.Remove((ushort)ExifEntryTag.Flash);
+                            //            if (newData.Flash.HasValue)
+                            //            {
+                            //                dir.Add((ushort)ExifEntryTag.Flash, new ShortIFDEntry((ushort)ExifEntryTag.Flash, newData.Flash.Value));
+                            //                break; // TODO: check, if correct to add just in first directory
+                            //            }
+                            //        }
+                            //    }
+                            //    break;
+                            //case TagsFlag.FNumber: imageTag.FNumber = newData.FNumber; break;
+                            //case TagsFlag.FocalLength: imageTag.FocalLength = newData.FocalLength; break;
+                            //case TagsFlag.FocalLengthIn35mmFilm:
+                            //    imageTag.FocalLengthIn35mmFilm = newData.FocalLengthIn35mmFilm; break;
+                            //case TagsFlag.ISOSpeedRatings:
+                            //    imageTag.ISOSpeedRatings = newData.ISOSpeedRatings; break;
+                            //case TagsFlag.Keywords:
+                            //    imageTag.Keywords = (newData.Keywords != null && newData.Keywords.Count != 0) ? newData.Keywords.ToArray() : null;
+                            //    break;
+                            //case TagsFlag.Latitude: imageTag.Latitude = newData.Latitude; break;
+                            //case TagsFlag.Longitude: imageTag.Longitude = newData.Longitude; break;
+                            //case TagsFlag.Make: imageTag.Make = newData.Make; break;
+                            //case TagsFlag.MeteringMode:
+                            //    if (imageTag.Exif != null)
+                            //    {
+                            //        foreach (IFDDirectory dir in imageTag.Exif.ExifIFD.Directories)
+                            //        {
+                            //            dir.Remove((ushort)ExifEntryTag.MeteringMode);
+                            //            if (newData.MeteringMode.HasValue)
+                            //            {
+                            //                dir.Add((ushort)ExifEntryTag.MeteringMode, new ShortIFDEntry((ushort)ExifEntryTag.MeteringMode, newData.MeteringMode.Value));
+                            //                break; // TODO: check, if correct to add just in first directory
+                            //            }
+                            //        }
+                            //    }
+                            //    break;
+                            //case TagsFlag.Model: imageTag.Model = newData.Model; break;
+                            //case TagsFlag.Orientation:
+                            //    imageTag.Orientation =
+                            //        (ImageOrientation)newData.Orientation; break;
+                            //case TagsFlag.Rating: imageTag.Rating = newData.Rating; break;
+                            //case TagsFlag.Software: imageTag.Software = newData.Software; break;
+                            //// other tags
+                            //case TagsFlag.Comment: imageTag.Comment = newData.Comment; break;
+                            //case TagsFlag.Copyright: imageTag.Copyright = newData.Copyright; break;
+                            //case TagsFlag.Title: imageTag.Title = newData.Title; break;
+                            //    //			default:
+                            //    //				throw new NotImplementedException ();
                     }
 
                     flagValue >>= 1;

@@ -271,13 +271,13 @@ namespace Troonie_Lib
                 string sKeywords = string.Empty;
                 if (td.Keywords != null && td.Keywords.Count > 0)
                 {
-                    sKeywords = "\"" + td.Keywords[0];
+                    sKeywords = "\"" + StringHelper.ReplaceGermanUmlauts(td.Keywords[0]); // td.Keywords[0];
 
                     for (int i = 1; i < td.Keywords.Count; i++)
                     {
                         sKeywords += ", " + StringHelper.ReplaceGermanUmlauts(td.Keywords[i]);
                     }
-                    sKeywords += "\" -sep " + "\", \""; ;
+                    sKeywords += "\" -sep " + "\", \"";
 
                 }
 
