@@ -73,7 +73,7 @@ namespace Troonie
 
 			OriginalPath = originalPath;
 			ThumbnailPath = thumbnailPath;
-			TagsData = ImageTagHelper.GetTagsData (OriginalPath);
+			TagsData = ImageTagHelper.GetTagsDataET (OriginalPath);
 
 			Stetic.Gui.Initialize (this);
 			Stetic.BinContainer.Attach (this);
@@ -151,7 +151,7 @@ namespace Troonie
 		{			
 			uint? old = TagsData.Rating;
 			TagsData.Rating = rating;
-			bool success = ImageTagHelper.SetTag (OriginalPath, TagsFlag.Rating, TagsData);
+			bool success = ImageTagHelper.SetTagET (OriginalPath, TagsFlag.Rating, TagsData);
 			if (success) {
 				QueueDraw ();
 			} 

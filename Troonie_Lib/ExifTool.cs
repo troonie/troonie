@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 
 namespace Troonie_Lib
@@ -61,13 +62,14 @@ namespace Troonie_Lib
                 pExifTool.StartInfo.CreateNoWindow = true;
                 pExifTool.Start();
                 pExifTool.BeginErrorReadLine();  //  This command starts the error handling, meaning ETErrorHandler() will now be called whenever ExifTool reports an error.
-
+                pExifTool.WaitForExit();
                 IsStarted = true;
             }
             else
             {
                 pExifTool.StartInfo.Arguments = args;
                 pExifTool.Start();
+                pExifTool.WaitForExit();
             }
 
             if (lines != null)
@@ -96,5 +98,13 @@ namespace Troonie_Lib
             }
         }
 
+        public static string DateTimeToString(DateTime? dt)
+        {
+            string s = string.Empty;
+            if (dt.HasValue)
+                s = "\"" + dt.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";
+
+            return s;
+        }
     }
 }

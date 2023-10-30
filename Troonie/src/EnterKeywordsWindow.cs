@@ -235,7 +235,7 @@ namespace Troonie
 				if (setValueSuccess) {
 					bool success = vip.IsVideo ? 
 						VideoTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Keywords, vip.TagsData) :
-						ImageTagHelper.SetTagET (vip.OriginalImageFullName, TagsFlag.Keywords, vip.TagsData.KeywordsForET);
+						ImageTagHelper.SetTagET (vip.OriginalImageFullName, TagsFlag.Keywords, vip.TagsData);
 					if (success) {
 						vip.QueueDraw ();
 						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer

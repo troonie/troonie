@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using TagLib;
-using TagLib.Image;
+using System.IO;
+using IOPath = System.IO.Path;
 using NetColor = System.Drawing.Color;
 using NetIOFile = System.IO.File;
-using IOPath = System.IO.Path;
-using System.Diagnostics;
-using System.IO;
-using System.CodeDom.Compiler;
 //using C = Troonie_Lib.Constants;
 
 namespace Troonie_Lib
 {
-	public class BitmapWithTag : IDisposable
+    public class BitmapWithTag : IDisposable
 	{
-		private CombinedImageTag imageTag;
+		//private CombinedImageTag imageTag;
 		private int _errorCode;
 		private string _errorText;
 
@@ -36,11 +32,11 @@ namespace Troonie_Lib
 			if (filename != null) {
 				Bitmap = TroonieBitmap.FromFile (FileName, out _errorCode, out _errorText);
 				OrigFormat = ImageFormatConverter.I.ConvertToPIF (Bitmap.RawFormat, Bitmap.PixelFormat);
-				imageTag = ImageTagHelper.GetTag (filename);
+				//imageTag = ImageTagHelper.GetTag (filename);
 			} else {
 				Bitmap = new Bitmap (180, 180, PixelFormat.Format32bppArgb);
 				OrigFormat = TroonieImageFormat.PNG32AlphaAsValue;
-				imageTag = new CombinedImageTag (TagTypes.Png);
+				//imageTag = new CombinedImageTag (TagTypes.Png);
 			}
 		}
 
@@ -57,13 +53,13 @@ namespace Troonie_Lib
 				Bitmap = null;
 			}
 
-            if (imageTag != null)
-			{
-                imageTag = null;
-				// [14.07.2023]
-                //	DONT: imageTag.Clear(); --> causes NotImplementedException in Clear() of classes
-				//	IFDTag and XmpTag, no troonie specific code in TagLibSharp anymore.
-            }
+   //         if (imageTag != null)
+			//{
+   //             imageTag = null;
+			//	// [14.07.2023]
+   //             //	DONT: imageTag.Clear(); --> causes NotImplementedException in Clear() of classes
+			//	//	IFDTag and XmpTag, no troonie specific code in TagLibSharp anymore.
+   //         }
 
             MemoryReducer.ReduceMemoryUsage (true);
 		}
@@ -71,7 +67,7 @@ namespace Troonie_Lib
 		public bool Save (Config config, string relativeFileName, bool saveTag)
 		{
 			bool success = true;
-            bool saveTagsByET = false;
+            //bool saveTagsByET = false;
 			string origExifTagsFile = Constants.I.TEMPPATH + "ET_" + relativeFileName.Trim(Path.DirectorySeparatorChar);
 
             if (saveTag && Constants.I.EXIFTOOL)
@@ -80,8 +76,7 @@ namespace Troonie_Lib
 				bb.Save(origExifTagsFile, ImageFormat.Jpeg);
                 string tArg = " -overwrite_original -S -TagsFromFile " + FileName + " \"-all:all>all:all\" " + origExifTagsFile;
                 ET.Process(tArg);
-				//saveTagsByET = ImageTagHelper.CopyTagToFileByET(FileName, origExifTagsFile);
-				saveTagsByET = ET.Success;
+				//saveTagsByET = ET.Success;
             }
 
 			try {
@@ -168,18 +163,11 @@ namespace Troonie_Lib
 				case TroonieImageFormat.JPEG24:
 				case TroonieImageFormat.JPEGLOSSLESS:
 					success = JpegEncoder.SaveWithCjpeg (FileName, dest, config.JpgQuality, config.Format);
-					if (saveTag) {
-							if (saveTagsByET)
-							{
-								// saveTagsByET = ImageTagHelper.CopyTagToFileByET(origExifTagsFile, FileName);
-
-								string tArg = " -overwrite_original -S -TagsFromFile " + origExifTagsFile + " \"-all:all>all:all\" " + FileName; // + " -execute 'TODO further commands'";
-                                ET.Process(tArg);
-                                saveTagsByET = ET.Success;
-
-                            }
-							else
-								ImageTagHelper.CopyTagToFile(FileName, imageTag);                         
+					if (saveTag) 
+					{
+						string tArg = " -overwrite_original -S -TagsFromFile " + origExifTagsFile + " \"-all:all>all:all\" " + FileName; // + " -execute 'TODO further commands'";
+						ET.Process(tArg);
+						//saveTagsByET = ET.Success;                      
 					}
 					Bitmap = dest;
 					return success;
@@ -220,9 +208,13 @@ namespace Troonie_Lib
 
 				Bitmap = dest;
 
-				if (saveTag) {
-					ImageTagHelper.CopyTagToFile (FileName, imageTag);
-				}
+				if (saveTag) 
+				{
+                    //ImageTagHelper.CopyTagToFile (FileName, imageTag);
+                    string tArg = " -overwrite_original -S -TagsFromFile " + origExifTagsFile + " \"-all:all>all:all\" " + FileName; // + " -execute 'TODO further commands'";
+                    ET.Process(tArg);
+                    //saveTagsByET = ET.Success;
+                }
 
 			} catch (Exception ex) {
 				success = false;

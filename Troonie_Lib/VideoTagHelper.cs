@@ -206,16 +206,16 @@ namespace Troonie_Lib
                 switch (flag & (TagsFlag)flagValue)
                 {
                     case TagsFlag.DateTime:
-                        arg += " -" + ET_CreateDate + "=" + DateTimeToString(td.DateTime);
+                        arg += " -" + ET_CreateDate + "=" + ExifTool.DateTimeToString(td.DateTime);
                         break;
                     case TagsFlag.TrackCreateDate:
-                        arg += " -" + ET_TrackCreateDate + "=" + DateTimeToString(td.TrackCreateDate);
+                        arg += " -" + ET_TrackCreateDate + "=" + ExifTool.DateTimeToString(td.TrackCreateDate);
                         break;
                     case TagsFlag.MediaCreateDate:
-                        arg += " -" + ET_MediaCreateDate + "=" + DateTimeToString(td.MediaCreateDate);
+                        arg += " -" + ET_MediaCreateDate + "=" + ExifTool.DateTimeToString(td.MediaCreateDate);
                         break;
                     case TagsFlag.AllCreateDates:
-                        string sdate = "=" + DateTimeToString(td.DateTime); 
+                        string sdate = "=" + ExifTool.DateTimeToString(td.DateTime); 
                         arg += " -" + ET_CreateDate + sdate + " -" + ET_TrackCreateDate + sdate + " -" + ET_MediaCreateDate + sdate;                        
                         break;
                     case TagsFlag.Rating:
@@ -400,7 +400,7 @@ namespace Troonie_Lib
                 string mp4fileOrig = mp4file.Replace(dir, backupdir);
                 File.Copy(mp4file, mp4fileOrig, true);
 
-                TagsData td = ImageTagHelper.GetTagsData(pngFile);
+                TagsData td = ImageTagHelper.GetTagsDataET(pngFile);
 
                 // do ffmpeg
                 if (repairWithFfmpeg)
@@ -441,19 +441,6 @@ namespace Troonie_Lib
             return success;
         }
 
-        #region private static functions
-
-        private static string DateTimeToString(DateTime? dt)
-        {
-            string s = string.Empty;
-            if (dt.HasValue)
-                s = "\"" + dt.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";
-
-            return s;
-        }
-
-
-		#endregion private static functions
 	}
 }
 

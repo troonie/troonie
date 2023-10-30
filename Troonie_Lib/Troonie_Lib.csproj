@@ -34,9 +34,6 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
-    <Reference Include="TagLibSharp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <HintPath>..\packages\TagLibSharp.2.3.0\lib\net462\TagLibSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExifTool.cs" />
@@ -71,6 +68,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="filter\CopyFilter.cs" />
     <Compile Include="StringHelper.cs" />
+    <Compile Include="structs\TagsData.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="filter\PosterizationFilter.cs" />
     <Compile Include="ImageFormatConverter.cs" />
@@ -107,9 +105,6 @@
     <EmbeddedResource Include="languages.csv">
       <LogicalName>languages.csv</LogicalName>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

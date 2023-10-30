@@ -1,5 +1,53 @@
-﻿namespace Troonie_Lib
+﻿using System;
+
+namespace Troonie_Lib
 {
+    [Flags]
+    public enum TagsFlag
+    {
+        None = 0,
+        #region 16+1 image tags
+        Altitude = 1 << 0, // = 1,
+        Creator = 1 << 1, // = 2,
+        DateTime = 1 << 2, // = 4,
+        ExposureTime = 1 << 3, // = 8,
+        FNumber = 1 << 4, // = 16,
+        FocalLength = 1 << 5, // = 32,
+        FocalLengthIn35mmFilm = 1 << 6, // = 64,
+        ISOSpeedRatings = 1 << 7, // = 128,
+        Keywords = 1 << 8, // = 256,
+        Latitude = 1 << 9, // = 512,
+        Longitude = 1 << 10, // = 1024,
+        Make = 1 << 11, // = 2048,
+        Model = 1 << 12, // = 4096,
+        Orientation = 1 << 13, // = 8192,
+        Rating = 1 << 14, // = 16384,
+        Software = 1 << 15, // = 32768,
+
+        Flash = 1 << 16, // = 65536,
+        #endregion
+
+        #region other tags			
+        Comment = 1 << 17, // = 131072,
+        Copyright = 1 << 18, // = 262144,
+        Title = 1 << 19, // = 524288, 
+        MeteringMode = 1 << 20,
+
+        Width = 1 << 21,
+        Height = 1 << 22,
+        Pixelformat = 1 << 23,
+        FileSize = 1 << 24,
+        #endregion
+
+        #region exiftool --> getting date time objects in videos
+        //CreateDate =			1 << 25,
+        MediaCreateDate = 1 << 25,
+        TrackCreateDate = 1 << 26,
+
+        AllCreateDates = 1 << 27
+        #endregion
+    }
+
     /// <summary> Image resize possibilities of Troonie.</summary>
     public enum ResizeVersion
     {

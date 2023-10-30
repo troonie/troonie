@@ -262,7 +262,7 @@ namespace Troonie
 				bool success = true;
 
 				if (!vip.IsVideo) { 
-					success = ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);	
+					success = ImageTagHelper.SetTagET (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);	
 				}
 				else {
                     success = VideoTagHelper.SetTag(vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);
@@ -455,10 +455,10 @@ namespace Troonie
                         {
                             imageCorruptedErrorType = ExceptionType.CJpeg_ImageIsCorruptedException;
                         }
-                        // 3 of 3 checks: checking whether XMP works
-                        else if (!ImageTagHelper.DoesXmpWorks(newImages[i])) {
-                            imageCorruptedErrorType = ExceptionType.XMP_ImageIsCorruptedException;
-                        }
+                        //// 3 of 3 checks: checking whether XMP works
+                        //else if (!ImageTagHelper.DoesXmpWorks(newImages[i])) {
+                        //    imageCorruptedErrorType = ExceptionType.XMP_ImageIsCorruptedException;
+                        //}
                     }
                     catch (Exception) 
                     {
