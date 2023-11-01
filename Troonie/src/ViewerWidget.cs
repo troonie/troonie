@@ -252,17 +252,17 @@ namespace Troonie
 			win.Show ();
 		}
 
-		private void SetRatingOfSelectedImages(uint rating)
+		private void SetRatingOfSelectedImages(string rating)
 		{
 			string errorImages = string.Empty;
 			List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
 			foreach (ViewerImagePanel vip in pressedInVIPs) {	
-				uint? old = vip.TagsData.Rating;
+				string old = vip.TagsData.Rating;
 				vip.TagsData.Rating = rating;
 				bool success = true;
 
 				if (!vip.IsVideo) { 
-					success = ImageTagHelper.SetTagET (vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);	
+					success = ImageTagHelper.SetRating (vip.OriginalImageFullName, vip.TagsData.Rating);	
 				}
 				else {
                     success = VideoTagHelper.SetTag(vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);
@@ -781,22 +781,22 @@ namespace Troonie
 				break;
 
 			case Gdk.Key.Key_0:
-				SetRatingOfSelectedImages (0);
+				SetRatingOfSelectedImages ("");
 				break;
 			case Gdk.Key.Key_1:
-				SetRatingOfSelectedImages (1);
+				SetRatingOfSelectedImages ("1");
 				break;
 			case Gdk.Key.Key_2:
-				SetRatingOfSelectedImages (2);
+				SetRatingOfSelectedImages ("2");
 				break;
 			case Gdk.Key.Key_3:
-				SetRatingOfSelectedImages (3);
+				SetRatingOfSelectedImages ("3");
 				break;
 			case Gdk.Key.Key_4:
-				SetRatingOfSelectedImages (4);
+				SetRatingOfSelectedImages ("4");
 				break;
 			case Gdk.Key.Key_5:
-				SetRatingOfSelectedImages (5);
+				SetRatingOfSelectedImages ("5");
 				break;
 			case Gdk.Key.Left:
 				MoveVIP (Gdk.Key.Left);

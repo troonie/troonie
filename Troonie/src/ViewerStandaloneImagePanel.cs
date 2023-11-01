@@ -147,11 +147,11 @@ namespace Troonie
 			//
 		}
 
-		private void SetRatingOfSelectedImages(uint rating)
+		private void SetRatingOfSelectedImages(string rating)
 		{			
-			uint? old = TagsData.Rating;
+			string old = TagsData.Rating;
 			TagsData.Rating = rating;
-			bool success = ImageTagHelper.SetTagET (OriginalPath, TagsFlag.Rating, TagsData);
+			bool success = ImageTagHelper.SetRating (OriginalPath, TagsData.Rating);
 			if (success) {
 				QueueDraw ();
 			} 
@@ -215,8 +215,8 @@ namespace Troonie
 			cr.SetFontSize(20);
 
 			cr.MoveTo(1, 15);
-			if (TagsData.Rating.HasValue && TagsData.Rating.Value != 0) {
-				cr.ShowText (TagsData.Rating.Value.ToString ());
+			if (TagsData.Rating.Length != 0) {
+				cr.ShowText (TagsData.Rating);
 			}
 
 			//			cr.MoveTo(1, 30);
@@ -289,22 +289,22 @@ namespace Troonie
 				break;
 
 			case Gdk.Key.Key_0:
-				SetRatingOfSelectedImages (0);
+				SetRatingOfSelectedImages ("");
 				break;
 			case Gdk.Key.Key_1:
-				SetRatingOfSelectedImages (1);
+				SetRatingOfSelectedImages ("1");
 				break;
 			case Gdk.Key.Key_2:
-				SetRatingOfSelectedImages (2);
+				SetRatingOfSelectedImages ("2");
 				break;
 			case Gdk.Key.Key_3:
-				SetRatingOfSelectedImages (3);
+				SetRatingOfSelectedImages ("3");
 				break;
 			case Gdk.Key.Key_4:
-				SetRatingOfSelectedImages (4);
+				SetRatingOfSelectedImages ("4");
 				break;
 			case Gdk.Key.Key_5:
-				SetRatingOfSelectedImages (5);
+				SetRatingOfSelectedImages ("5");
 				break;
 
 			case Gdk.Key.Left:

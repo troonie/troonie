@@ -36,7 +36,9 @@ namespace Troonie
 
 					if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {						
 						td = ImageTagHelper.GetTagsDataET (pib.OriginalImageFullName);
-						rating = td.Rating == null ? 0 : td.Rating.Value;
+						//rating = td.Rating == null ? 0 : td.Rating.Value;
+						if (td.Rating.Length != 0)
+							uint.TryParse(td.Rating, out rating);
 						if (td.Creator != null && td.Creator.Length != 0)
                             creatorText = td.Creator + separator;  
 
@@ -47,9 +49,11 @@ namespace Troonie
 
 						string fullPicName = info.FullName + ".png";
 						if (File.Exists (fullPicName)) {
-							td = ImageTagHelper.GetTagsDataET (fullPicName);
-							rating = td.Rating == null ? 0 : td.Rating.Value;
-						}
+							string sRating = ImageTagHelper.GetRating (fullPicName);
+                            //rating = td.Rating == null ? 0 : td.Rating.Value;
+                            if (sRating.Length != 0)
+                                uint.TryParse(sRating, out rating);
+                        }
 //						ConvertWidget.InsertIdentifierAtBegin(ref f, ref fullf, "V-", td.Title);
 //						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
 					}

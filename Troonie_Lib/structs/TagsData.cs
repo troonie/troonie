@@ -7,7 +7,7 @@ namespace Troonie_Lib
     public struct TagsData
 	{
 		#region 16 image tagsData elements
-		public double? Altitude;
+		public /*double?*/ string Altitude;
 		public string Creator;
 		public DateTime? DateTime;
 		public double? ExposureTime;
@@ -23,7 +23,7 @@ namespace Troonie_Lib
 		public ushort? MeteringMode;
 		public string Model;
 		public uint Orientation;
-		public uint? Rating;
+		public string /* uint? */ Rating;
 		public string Software;
 		#endregion
 
@@ -80,7 +80,7 @@ namespace Troonie_Lib
 		{
 			switch (flag) {
 			case TagsFlag.DateTime: return ExtractDateTime(o, ref DateTime);
-			case TagsFlag.Altitude:		return ExtractNullableDouble (o, ref Altitude);		
+			case TagsFlag.Altitude:		return ExtractString(o, ref Altitude);		
 			case TagsFlag.Creator:		return ExtractString(o, ref Creator);					
 			case TagsFlag.ExposureTime:	return ExtractNullableDouble (o, ref ExposureTime);	
 			case TagsFlag.Flash:		return ExtractNullableUshort (o, ref Flash);	
@@ -109,7 +109,7 @@ namespace Troonie_Lib
 				bool result = ExtractUint (o, ref Orientation);
 				CalcOrientationDegree ();
 				return result;		
-			case TagsFlag.Rating:		return ExtractNullableUint (o, ref Rating);		
+			case TagsFlag.Rating:		return ExtractString(o, ref Rating);		
 			case TagsFlag.Software:		return ExtractString(o, ref Software);		
 //				// other tags
 			case TagsFlag.Comment:		return ExtractString(o, ref Comment);							
