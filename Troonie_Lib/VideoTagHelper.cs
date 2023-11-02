@@ -159,10 +159,9 @@ namespace Troonie_Lib
                             case ET_TrackCreateDate: td.TrackCreateDate = tt; break;
                             case ET_MediaCreateDate: td.MediaCreateDate = tt; break;
                             case ET1_Rating_XMP_xmp:
-                                //uint u;
-                                //if (uint.TryParse(result[i + 1], out u))
-                                //    td.Rating = u;
-                                td.Rating = result[i + 1];
+                                uint u;
+                                if (uint.TryParse(result[i + 1], out u))
+                                    td.Rating = u;
                                 break;
                             case ET1_Title_Quicktime:
                                 td.Title = result[i + 1]; break;
@@ -223,16 +222,16 @@ namespace Troonie_Lib
                         string MS_Rating = "=";
                         string sRating = "=";
                         
-                        if (td.Rating.Length != 0) { 
+                        if (td.Rating.HasValue) { 
                             sRating += td.Rating;
                             switch (td.Rating)
                             {
-                                case "0": break;
-                                case "1": MS_Rating += 1; break;
-                                case "2": MS_Rating += 25; break;
-                                case "3": MS_Rating += 50; break;
-                                case "4": MS_Rating += 75; break;
-                                case "5": MS_Rating += 99; break;
+                                case 0: break;
+                                case 1: MS_Rating += 1; break;
+                                case 2: MS_Rating += 25; break;
+                                case 3: MS_Rating += 50; break;
+                                case 4: MS_Rating += 75; break;
+                                case 5: MS_Rating += 99; break;
                             }
                         }
 

@@ -437,8 +437,8 @@ namespace Troonie
 			cr.SetSourceRGB(RedColor[0], RedColor[1], RedColor[2]);
 			cr.MoveTo(W /*303*/ - fontSize, 20); // rechts oben
 
-			if (TagsData.Rating.Length != 0) {
-				cr.ShowText (TagsData.Rating);
+			if (TagsData.Rating.HasValue) {
+				cr.ShowText (TagsData.Rating.ToString());
 			}
 //			else if (IsVideo && TagsData.TrackCount != 0){
 //				cr.ShowText (TagsData.TrackCount.ToString ());

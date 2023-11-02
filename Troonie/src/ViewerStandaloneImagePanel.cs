@@ -147,18 +147,20 @@ namespace Troonie
 			//
 		}
 
-		private void SetRatingOfSelectedImages(string rating)
-		{			
-			string old = TagsData.Rating;
-			TagsData.Rating = rating;
-			bool success = ImageTagHelper.SetRating (OriginalPath, TagsData.Rating);
-			if (success) {
-				QueueDraw ();
-			} 
-			else {
-				TagsData.Rating = old;
-			}
-		}
+		private void SetRatingOfSelectedImages(uint rating)
+		{
+            uint? old = TagsData.Rating;
+            TagsData.Rating = rating;
+            bool success = ImageTagHelper.SetRating(OriginalPath, rating);
+            if (success)
+            {
+                QueueDraw();
+            }
+            else
+            {
+                TagsData.Rating = old;
+            }
+        }
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
@@ -215,17 +217,18 @@ namespace Troonie
 			cr.SetFontSize(20);
 
 			cr.MoveTo(1, 15);
-			if (TagsData.Rating.Length != 0) {
-				cr.ShowText (TagsData.Rating);
-			}
+            if (TagsData.Rating.HasValue && TagsData.Rating.Value != 0)
+            {
+                cr.ShowText(TagsData.Rating.Value.ToString());
+            }
 
-			//			cr.MoveTo(1, 30);
-			//			cr.ShowText("2");
-			//
-			//			cr.MoveTo(1, 45);
-			//			cr.ShowText("3");
+            //			cr.MoveTo(1, 30);
+            //			cr.ShowText("2");
+            //
+            //			cr.MoveTo(1, 45);
+            //			cr.ShowText("3");
 
-			cr.Restore();
+            cr.Restore();
 
 			((IDisposable) cr.GetTarget()).Dispose();                                      
 			((IDisposable) cr).Dispose();
@@ -288,26 +291,26 @@ namespace Troonie
 				//				OnToolbarBtn_RemovePressed (null, null);
 				break;
 
-			case Gdk.Key.Key_0:
-				SetRatingOfSelectedImages ("");
-				break;
-			case Gdk.Key.Key_1:
-				SetRatingOfSelectedImages ("1");
-				break;
-			case Gdk.Key.Key_2:
-				SetRatingOfSelectedImages ("2");
-				break;
-			case Gdk.Key.Key_3:
-				SetRatingOfSelectedImages ("3");
-				break;
-			case Gdk.Key.Key_4:
-				SetRatingOfSelectedImages ("4");
-				break;
-			case Gdk.Key.Key_5:
-				SetRatingOfSelectedImages ("5");
-				break;
+                case Gdk.Key.Key_0:
+                    SetRatingOfSelectedImages(0);
+                    break;
+                case Gdk.Key.Key_1:
+                    SetRatingOfSelectedImages(1);
+                    break;
+                case Gdk.Key.Key_2:
+                    SetRatingOfSelectedImages(2);
+                    break;
+                case Gdk.Key.Key_3:
+                    SetRatingOfSelectedImages(3);
+                    break;
+                case Gdk.Key.Key_4:
+                    SetRatingOfSelectedImages(4);
+                    break;
+                case Gdk.Key.Key_5:
+                    SetRatingOfSelectedImages(5);
+                    break;
 
-			case Gdk.Key.Left:
+                case Gdk.Key.Left:
 				Console.WriteLine( "LEFT" );
 				break;
 			case Gdk.Key.Right:

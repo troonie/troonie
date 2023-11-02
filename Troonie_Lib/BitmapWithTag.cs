@@ -68,7 +68,7 @@ namespace Troonie_Lib
 		{
 			bool success = true;
 			bool successET = true;
-            //bool saveTagsByET = false;
+			//bool saveTagsByET = false;
 			string origExifTagsFile = Constants.I.TEMPPATH + "ET_" + relativeFileName.Trim(Path.DirectorySeparatorChar);
 
             if (saveTag && Constants.I.EXIFTOOL)
@@ -76,7 +76,8 @@ namespace Troonie_Lib
 				Bitmap bb = new Bitmap(10, 10);
 				bb.Save(origExifTagsFile, ImageFormat.Jpeg);
                 string tArg = " -overwrite_original -S -TagsFromFile " + FileName + " \"-all:all>all:all\" " + origExifTagsFile;
-                successET = ET.Process(tArg, false);
+                ET.Process(tArg);
+				successET = ET.Success;
 				//saveTagsByET = ET.Success;
             }
 
@@ -167,9 +168,10 @@ namespace Troonie_Lib
 					if (saveTag) 
 					{
 						string tArg = " -overwrite_original -S -TagsFromFile " + origExifTagsFile + " \"-all:all>all:all\" " + FileName; // + " -execute 'TODO further commands'";
-                            successET = ET.Process(tArg, false);
-						//saveTagsByET = ET.Success;                      
-					}
+                        ET.Process(tArg);
+						successET = ET.Success;
+                        //saveTagsByET = ET.Success;                      
+                    }
 					Bitmap = dest;
 					return success;
 				case TroonieImageFormat.BMP1:
@@ -213,7 +215,8 @@ namespace Troonie_Lib
 				{
                     //ImageTagHelper.CopyTagToFile (FileName, imageTag);
                     string tArg = " -overwrite_original -S -TagsFromFile " + origExifTagsFile + " \"-all:all>all:all\" " + FileName; // + " -execute 'TODO further commands'";
-                    successET = ET.Process(tArg, false);
+                    ET.Process(tArg);
+					successET = ET.Success;
                 }
 
 			} catch (Exception ex) {

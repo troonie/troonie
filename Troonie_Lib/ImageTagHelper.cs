@@ -30,6 +30,7 @@ namespace Troonie_Lib
 		public static TagsData GetTagsDataET(string fileName) 
 		{
             TagsData td = new TagsData();
+            List<string> lines = new List<string>();
             //bool success = true;
             string tArgs = " -overwrite_original -S -n " +
                             "-GPSAltitude " +
@@ -58,11 +59,11 @@ namespace Troonie_Lib
 
             tArgs += " " + fileName;
 
-            Constants.I.ET.Process(tArgs, true);
+            Constants.I.ET.Process(tArgs, lines);
 
 			//* Read the output
 			// string output = proc.StandardOutput.ReadToEnd();
-			foreach (string item in Constants.I.ET.Lines)
+			foreach (string item in lines)
 			{
                 string[] result = item.Split(new string[] { "\r\n", ": ", ", " }, StringSplitOptions.RemoveEmptyEntries);
 				if (result.Length == 0)
@@ -78,8 +79,8 @@ namespace Troonie_Lib
 				uint ui;
                 switch (key)
                 {                        
-                    case "GPSAltitude": td.Altitude = allValues; break;
-					case "Creator":  td.Creator = allValues; break;
+                    case "GPSAltitude": if (double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.Altitude = d; break;
+                    case "Creator":  td.Creator = allValues; break;
                     case "CreateDate":
                         DateTime t;
                         DateTime? tt = null;
@@ -116,7 +117,7 @@ namespace Troonie_Lib
 							td.CalcOrientationDegree();
 						}
 						break;
-					case "Rating": td.Rating = result[1]; break;
+					case "Rating": if (uint.TryParse(result[1], out ui)) td.Rating = ui; break;
                     case "Software": td.Software = allValues; break;
                     // other tags
                     case "Comment": td.Comment = allValues; break;
@@ -152,21 +153,23 @@ namespace Troonie_Lib
 			return td;
         }
 
-		public static string GetRating(string fileName)
+		public static uint GetRating(string fileName)
 		{
             string tArgs = " -S -Rating# " + fileName;
-			string rating = string.Empty;
-            Constants.I.ET.Process(tArgs, true);
+			uint rating = 0;
+            List<string> lines = new List<string>();
+            Constants.I.ET.Process(tArgs, lines);
 
 			//* Read the output
 			// string output = proc.StandardOutput.ReadToEnd();
-			if (Constants.I.ET.Lines.Count != 0)
+			if (lines.Count != 0)
 			{
-                string[] result = Constants.I.ET.Lines[0].Split(new string[] { "\r\n", ": ", ", " }, StringSplitOptions.RemoveEmptyEntries);
+                string[] result = lines[0].Split(new string[] { "\r\n", ": ", ", " }, StringSplitOptions.RemoveEmptyEntries);
 				if (result.Length == 2)
 				{
-                    //string key = result[0];
-                    rating = result[1];
+					//string key = result[0];
+					//rating = result[1];
+					uint.TryParse(result[1], out rating);
                 }                
             }
 
@@ -174,10 +177,11 @@ namespace Troonie_Lib
         }
 
 
-        public static bool SetRating(string fileName, string rating)
+        public static bool SetRating(string fileName, uint rating)
 		{
-            string tArgs = " -overwrite_original -S -\"" + "Rating#=" + rating + "\" " + fileName;
-            return Constants.I.ET.Process(tArgs, false);
+            string tArgs = " -overwrite_original -S -Rating#=" + rating + " " + fileName;
+            Constants.I.ET.Process(tArgs);
+			return Constants.I.ET.Success;
         }
 
         public static bool SetTagET(string fileName, TagsFlag flag, TagsData newData/*, bool append = false*/)
@@ -195,18 +199,18 @@ namespace Troonie_Lib
                     switch (flag & (TagsFlag)flagValue)
                     {
                         // image tags
-                        case TagsFlag.Altitude: tArgs += "-\"GPSAltitude#=" + newData.Altitude + "\" "; break;
+                        case TagsFlag.Altitude: tArgs += "-GPSAltitude#=" + newData.Altitude + " "; break;
                         case TagsFlag.Creator:
 							//string tCreator = Enum.GetName(typeof(TagsFlag), flag);
 							//tCreator = append ? tCreator + "<${" + tCreator + "}" : tCreator + "="; 
-							tArgs += "-\"Creator=" + newData.Creator + "\" ";							
+							tArgs += "-Creator=\"" + newData.Creator + "\" ";							
 							break;
 						case TagsFlag.Keywords:
-                            tArgs += "-\"Keywords=" + newData.KeywordsForET + "\" -sep " + "\", \" ";
-                            tArgs += "-\"Subject=" + newData.KeywordsForET + "\" -sep " + "\", \" ";
+                            tArgs += "-Keywords=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
+                            tArgs += "-Subject=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
                             break;
                         case TagsFlag.DateTime:
-							tArgs += "-\"CreateDate=" + ExifTool.DateTimeToString(newData.DateTime) + "\" ";
+							tArgs += "-CreateDate=\"" + ExifTool.DateTimeToString(newData.DateTime) + "\" ";
 							break;
 						//case TagsFlag.ExposureTime: imageTag.ExposureTime = newData.ExposureTime; break;
 						//case TagsFlag.Flash:
@@ -250,8 +254,8 @@ namespace Troonie_Lib
 						//    }
 						//    break;
 						//case TagsFlag.Model: imageTag.Model = newData.Model; break;
-						case TagsFlag.Orientation: tArgs += "-\"" + "Orientation#=" + newData.Orientation + "\" "; break;
-						case TagsFlag.Rating: tArgs += "-\"" + "Rating#=" + newData.Rating + "\" "; break;
+						case TagsFlag.Orientation: tArgs += "-Orientation#=" + newData.Orientation + " "; break;
+						case TagsFlag.Rating: tArgs += "-Rating#=" + newData.Rating + " "; break;
                             //case TagsFlag.Software: imageTag.Software = newData.Software; break;
                             //// other tags
                             //case TagsFlag.Comment: imageTag.Comment = newData.Comment; break;
@@ -265,8 +269,9 @@ namespace Troonie_Lib
                 }
 
 				tArgs += fileName;
-				
-				if (!Constants.I.ET.Process(tArgs, false))
+				Constants.I.ET.Process(tArgs);
+
+                if (!Constants.I.ET.Success)
 				{
                     Console.WriteLine("TODO: Do something when Exiftool does not work correctly.");
                 }
