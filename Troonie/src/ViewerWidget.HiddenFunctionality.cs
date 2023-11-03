@@ -188,8 +188,7 @@ namespace Troonie
 				foreach (ViewerImagePanel vip in pressedInVIPs) {
 					tmp = vip.RelativeImageName;
 					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
-					DateTime? dt = null;
-					ImageTagHelper.GetDateTime (fullf, out dt);
+					DateTime? dt = ImageTagHelper.GetDateTime (fullf);
 					bool success = false; 
 
 					if (dt.HasValue) {

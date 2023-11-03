@@ -153,7 +153,32 @@ namespace Troonie_Lib
 			return td;
         }
 
-		public static uint GetRating(string fileName)
+        public static DateTime? GetDateTime(string fileName)
+        {
+            DateTime? tt = null;
+            string tArgs = " -S -CreateDate " + fileName;
+            List<string> lines = new List<string>();
+            Constants.I.ET.Process(tArgs, lines);
+
+            if (lines.Count != 0)
+            {
+                string[] result = lines[0].Split(new string[] { "\r\n", ": ", ", " }, StringSplitOptions.RemoveEmptyEntries);
+                if (result.Length == 2)
+                {
+                    DateTime t;
+
+                    bool b = DateTime.TryParseExact(result[1], "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out t);
+                    if (b)
+                    {
+                        tt = t; // t.ToLocalTime();
+                    }
+                }
+            }
+
+            return tt;
+        }
+
+        public static uint GetRating(string fileName)
 		{
             string tArgs = " -S -Rating# " + fileName;
 			uint rating = 0;
@@ -186,142 +211,58 @@ namespace Troonie_Lib
 
         public static bool SetTagET(string fileName, TagsFlag flag, TagsData newData/*, bool append = false*/)
         {
-            bool success = true;
 			string tArgs = " -overwrite_original -S ";
+            uint flagValue = int.MaxValue;
+            flagValue += 1;
 
-            try
+            while (flagValue != 0)
             {
-                uint flagValue = int.MaxValue;
-                flagValue += 1;
-
-                while (flagValue != 0)
+                switch (flag & (TagsFlag)flagValue)
                 {
-                    switch (flag & (TagsFlag)flagValue)
-                    {
-                        // image tags
-                        case TagsFlag.Altitude: tArgs += "-GPSAltitude#=" + newData.Altitude + " "; break;
-                        case TagsFlag.Creator:
-							//string tCreator = Enum.GetName(typeof(TagsFlag), flag);
-							//tCreator = append ? tCreator + "<${" + tCreator + "}" : tCreator + "="; 
-							tArgs += "-Creator=\"" + newData.Creator + "\" ";							
-							break;
-						case TagsFlag.Keywords:
-                            tArgs += "-Keywords=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
-                            tArgs += "-Subject=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
-                            break;
-                        case TagsFlag.DateTime:
-							tArgs += "-CreateDate=\"" + ExifTool.DateTimeToString(newData.DateTime) + "\" ";
-							break;
-						//case TagsFlag.ExposureTime: imageTag.ExposureTime = newData.ExposureTime; break;
-						//case TagsFlag.Flash:
-						//    if (imageTag.Exif != null/* && newData.Flash.HasValue */)
-						//    {
-						//        foreach (IFDDirectory dir in imageTag.Exif.ExifIFD.Directories)
-						//        {
-						//            dir.Remove((ushort)ExifEntryTag.Flash);
-						//            if (newData.Flash.HasValue)
-						//            {
-						//                dir.Add((ushort)ExifEntryTag.Flash, new ShortIFDEntry((ushort)ExifEntryTag.Flash, newData.Flash.Value));
-						//                break; // TODO: check, if correct to add just in first directory
-						//            }
-						//        }
-						//    }
-						//    break;
-						//case TagsFlag.FNumber: imageTag.FNumber = newData.FNumber; break;
-						//case TagsFlag.FocalLength: imageTag.FocalLength = newData.FocalLength; break;
-						//case TagsFlag.FocalLengthIn35mmFilm:
-						//    imageTag.FocalLengthIn35mmFilm = newData.FocalLengthIn35mmFilm; break;
-						//case TagsFlag.ISOSpeedRatings:
-						//    imageTag.ISOSpeedRatings = newData.ISOSpeedRatings; break;
-						//case TagsFlag.Keywords:
-						//    imageTag.Keywords = (newData.Keywords != null && newData.Keywords.Count != 0) ? newData.Keywords.ToArray() : null;
-						//    break;
-						//case TagsFlag.Latitude: imageTag.Latitude = newData.Latitude; break;
-						//case TagsFlag.Longitude: imageTag.Longitude = newData.Longitude; break;
-						//case TagsFlag.Make: imageTag.Make = newData.Make; break;
-						//case TagsFlag.MeteringMode:
-						//    if (imageTag.Exif != null)
-						//    {
-						//        foreach (IFDDirectory dir in imageTag.Exif.ExifIFD.Directories)
-						//        {
-						//            dir.Remove((ushort)ExifEntryTag.MeteringMode);
-						//            if (newData.MeteringMode.HasValue)
-						//            {
-						//                dir.Add((ushort)ExifEntryTag.MeteringMode, new ShortIFDEntry((ushort)ExifEntryTag.MeteringMode, newData.MeteringMode.Value));
-						//                break; // TODO: check, if correct to add just in first directory
-						//            }
-						//        }
-						//    }
-						//    break;
-						//case TagsFlag.Model: imageTag.Model = newData.Model; break;
-						case TagsFlag.Orientation: tArgs += "-Orientation#=" + newData.Orientation + " "; break;
-						case TagsFlag.Rating: tArgs += "-Rating#=" + newData.Rating + " "; break;
-                            //case TagsFlag.Software: imageTag.Software = newData.Software; break;
-                            //// other tags
-                            //case TagsFlag.Comment: imageTag.Comment = newData.Comment; break;
-                            //case TagsFlag.Copyright: imageTag.Copyright = newData.Copyright; break;
-                            //case TagsFlag.Title: imageTag.Title = newData.Title; break;
-                            //    //			default:
-                            //    //				throw new NotImplementedException ();
-                    }
-
-                    flagValue >>= 1;
+                    // image tags
+                    case TagsFlag.Altitude: tArgs += "-GPSAltitude#=" + newData.Altitude + " "; break;
+                    case TagsFlag.Creator:
+						//string tCreator = Enum.GetName(typeof(TagsFlag), flag);
+						//tCreator = append ? tCreator + "<${" + tCreator + "}" : tCreator + "="; 
+						tArgs += "-Creator=\"" + newData.Creator + "\" ";							
+						break;
+					case TagsFlag.Keywords:
+                        tArgs += "-Keywords=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
+                        tArgs += "-Subject=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
+                        break;
+                    case TagsFlag.DateTime:
+						tArgs += "-CreateDate=\"" + ExifTool.DateTimeToString(newData.DateTime) + "\" ";
+						break;
+					case TagsFlag.ExposureTime: tArgs += "-ExposureTime#=" + newData.ExposureTime + " "; break;
+                    case TagsFlag.Flash: tArgs += "-Flash#=" + newData.Flash + " "; break;
+                    case TagsFlag.FNumber: tArgs += "-FNumber#=" + newData.FNumber + " "; break;
+                    case TagsFlag.FocalLength: tArgs += "-FocalLength#=" + newData.FocalLength + " "; break;
+                    case TagsFlag.FocalLengthIn35mmFilm: tArgs += "-FocalLengthIn35mmFormat#=" + newData.FocalLengthIn35mmFilm + " "; break;
+                    case TagsFlag.ISOSpeedRatings: tArgs += "-ISO#=" + newData.ISOSpeedRatings + " "; break;
+                    case TagsFlag.Latitude: tArgs += "-GPSLatitude#=" + newData.Latitude + " "; break;
+                    case TagsFlag.Longitude: tArgs += "-GPSLongitude#=" + newData.Longitude + " "; break;
+                    case TagsFlag.Make: tArgs += "-Make=\"" + newData.Make + "\" "; break;
+                    case TagsFlag.MeteringMode: tArgs += "-MeteringMode#=" + newData.MeteringMode + " "; break;
+                    case TagsFlag.Model: tArgs += "-Model=\"" + newData.Model + "\" "; break;
+                    case TagsFlag.Orientation: tArgs += "-Orientation#=" + newData.Orientation + " "; break;
+					case TagsFlag.Rating: tArgs += "-Rating#=" + newData.Rating + " "; break;
+                    case TagsFlag.Software: tArgs += "-Software=\"" + newData.Software + "\" "; break;
+                    // other tags
+                    case TagsFlag.Comment: tArgs += "-Comment=\"" + newData.Comment + "\" "; break;
+                    case TagsFlag.Copyright: tArgs += "-Copyright=\"" + newData.Copyright + "\" "; break;
+                    case TagsFlag.Title: tArgs += "-Title=\"" + newData.Title + "\" "; break;
+                        //			default:
+                        //				throw new NotImplementedException ();
                 }
 
-				tArgs += fileName;
-				Constants.I.ET.Process(tArgs);
-
-                if (!Constants.I.ET.Success)
-				{
-                    Console.WriteLine("TODO: Do something when Exiftool does not work correctly.");
-                }
-            }
-            catch (Exception e/* NotImplementedException e /* UnsupportedFormatException */ )
-            {
-                Console.WriteLine(e.Message);
-                success = false;
+                flagValue >>= 1;
             }
 
-            return success;
-        }
+			tArgs += fileName;
+			Constants.I.ET.Process(tArgs);
 
-  //      public static bool SetTag(string fileName, TagsFlag flag, TagsData newData)
-		//{
-		//	bool success = true;
-		//	TagLib.Image.File imageTagFile = LoadTagFile (fileName);
-		//	if (imageTagFile == null) {
-		//		return false;
-		//	}
-
-		//	CombinedImageTag imageTag = imageTagFile.ImageTag;
-
-		//	try{
-		//		ChangeValueOfTag (imageTag, flag, newData);
-		//		imageTagFile.Save();
-		//		imageTagFile.Dispose ();
-		//	}
-		//	catch (Exception e/* NotImplementedException e /* UnsupportedFormatException */ ) {
-		//		Console.WriteLine (e.Message);
-		//		success = false;
-		//	}
-
-		//	return success;
-		//}
-			
-		public static void GetDateTime(string fileName, out DateTime? dateTime)
-		{
-			TagsData td = GetTagsDataET(fileName);
-            dateTime = td.DateTime;
-
-   //         CombinedImageTag tag = GetTag (fileName);
-			//if (tag == null || tag.DateTime == null) {
-			//	dateTime = null;
-			//	return;
-			//} else {
-			//	dateTime = tag.DateTime;
-			//}
-		}
-
-	}
+            return Constants.I.ET.Success;
+        }			       
+    }
 }
 
