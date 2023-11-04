@@ -34,28 +34,29 @@ namespace Troonie_Lib
             //bool success = true;
             string tArgs = " -overwrite_original -S -n " +
                             "-GPSAltitude " +
-							"-Creator " +
+                            "-Creator " +
                             "-CreateDate " +
-							"-ExposureTime " +
-							"-Flash " +
+                            "-OffsetTime " +
+                            "-ExposureTime " + 
+                            "-Flash " +
                             "-MeteringMode " +
-							"-FNumber " +
-							"-FocalLength " +
+                            "-FNumber " +
+                            "-FocalLength " +
                             "-FocalLengthIn35mmFormat " +
-							"-ISO " +
-							"-Keywords " +
-							"-Subject " +
+                            "-ISO " +
+                            "-Keywords " +
+                            "-Subject " +
                             "-GPSLatitude " +
                             "-GPSLongitude " +
-							"-Make " +
-							"-Model " +
-							"-Orientation " +
-							"-Rating " +
-							"-Software " +
+                            "-Make " +
+                            "-Model " +
+                            "-Orientation " +
+                            "-Rating " +
+                            "-Software " +
                             // other tags
                             "-Comment " +
-							"-Copyright " +
-							"-Title ";						
+                            "-Copyright " +
+                            "-Title ";                            						
 
             tArgs += " " + fileName;
 
@@ -91,6 +92,17 @@ namespace Troonie_Lib
                         }                            
 						td.DateTime = tt; 
 						break;
+                    case "OffsetTime":
+                        TimeSpan ts;
+                        TimeSpan? ts2 = null;
+                        //bool bb = TimeSpan.TryParseExact(result[1], "h\\:mm", CultureInfo.InvariantCulture, TimeSpanStyles.None, out ts);
+                        bool bb = TimeSpan.TryParse(result[1], CultureInfo.InvariantCulture, out ts);
+                        if (bb)
+                        {
+                            ts2 = ts; // t.ToLocalTime();
+                        }
+                        td.OffsetTime = ts2;
+                        break;
                     case "ExposureTime": if(double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.ExposureTime = d; break;
                     case "Flash": if (ushort.TryParse(result[1], out us)) td.Flash = us; break;
 					case "MeteringMode": if (ushort.TryParse(result[1], out us)) td.MeteringMode = us; break;

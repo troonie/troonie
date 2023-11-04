@@ -10,6 +10,7 @@ namespace Troonie_Lib
 		public double? Altitude;
 		public string Creator;
 		public DateTime? DateTime;
+		public TimeSpan? OffsetTime;
 		public double? ExposureTime;
 		public ushort? Flash;
 		public double? FNumber;
@@ -80,7 +81,8 @@ namespace Troonie_Lib
 		{
 			switch (flag) {
 			case TagsFlag.DateTime: return ExtractDateTime(o, ref DateTime);
-			case TagsFlag.Altitude:		return ExtractNullableDouble(o, ref Altitude);		
+            case TagsFlag.OffsetTime: return ExtractOffsetTime(o, ref OffsetTime);
+            case TagsFlag.Altitude:		return ExtractNullableDouble(o, ref Altitude);		
 			case TagsFlag.Creator:		return ExtractString(o, ref Creator);					
 			case TagsFlag.ExposureTime:	return ExtractNullableDouble (o, ref ExposureTime);	
 			case TagsFlag.Flash:		return ExtractNullableUshort (o, ref Flash);	
@@ -123,7 +125,7 @@ namespace Troonie_Lib
 					DateTime? dt = null;
                     bool b = ExtractDateTime(o, ref dt);
 					SetAllCreateDates(dt);
-					return b;
+					return b;			
             // elements With, Height and PixelFormat will not get a 'SETTER'
             default:
 			return false;
@@ -136,8 +138,9 @@ namespace Troonie_Lib
 			// image tags
 			case TagsFlag.Altitude:		return Altitude;		
 			case TagsFlag.Creator:		return Creator;			
-			case TagsFlag.DateTime:		return DateTime;		
-			case TagsFlag.ExposureTime:	return ExposureTime;	
+			case TagsFlag.DateTime:		return DateTime;
+            case TagsFlag.OffsetTime:	return OffsetTime;
+            case TagsFlag.ExposureTime:	return ExposureTime;	
 			case TagsFlag.Flash:		return Flash;		
 			case TagsFlag.FNumber:		return FNumber;			
 			case TagsFlag.FocalLength:	return FocalLength;	
@@ -164,7 +167,7 @@ namespace Troonie_Lib
 			// exiftool --> getting date time objects in videos
 			//case TagsFlag.CreateDate:	return CreateDate;
 			case TagsFlag.TrackCreateDate:	return TrackCreateDate;
-            case TagsFlag.MediaCreateDate: return MediaCreateDate;
+            case TagsFlag.MediaCreateDate: return MediaCreateDate;			
             // default:
             //	throw new NotImplementedException ();
             }
@@ -322,11 +325,37 @@ namespace Troonie_Lib
                     {
 						DateTime tmp;
                         b = System.DateTime.TryParse(dt_string, out tmp);
-						if (b)
-							dt = tmp;
+						if (b) 
+						{ 
+							dt = tmp; 
+						}
+							
                     }
                 }
                 return b;
+        }
+
+        private static bool ExtractOffsetTime(object o, ref TimeSpan? ts)
+        {
+            string ts_string = string.Empty;
+            bool b = ExtractString(o, ref ts_string);
+            if (b)
+            {
+                if (ts_string == string.Empty)
+                {
+                    ts = null;
+                }
+                else
+                {
+                    TimeSpan tmp;
+                    b = TimeSpan.TryParseExact(ts_string, "HH:mm", CultureInfo.InvariantCulture, TimeSpanStyles.None, out tmp);
+                    if (b)
+                    {
+                        ts = tmp; // t.ToLocalTime();
+                    }
+                }
+            }
+            return b;
         }
 
         private static bool ExtractString(object o, ref string s)
