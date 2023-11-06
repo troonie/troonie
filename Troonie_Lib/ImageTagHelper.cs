@@ -92,17 +92,7 @@ namespace Troonie_Lib
                         }                            
 						td.DateTime = tt; 
 						break;
-                    case "OffsetTime":
-                        TimeSpan ts;
-                        TimeSpan? ts2 = null;
-                        //bool bb = TimeSpan.TryParseExact(result[1], "h\\:mm", CultureInfo.InvariantCulture, TimeSpanStyles.None, out ts);
-                        bool bb = TimeSpan.TryParse(result[1], CultureInfo.InvariantCulture, out ts);
-                        if (bb)
-                        {
-                            ts2 = ts; // t.ToLocalTime();
-                        }
-                        td.OffsetTime = ts2;
-                        break;
+                    case "OffsetTime": td.OffsetTime = new OffsetTime(result[1]); break;
                     case "ExposureTime": if(double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.ExposureTime = d; break;
                     case "Flash": if (ushort.TryParse(result[1], out us)) td.Flash = us; break;
 					case "MeteringMode": if (ushort.TryParse(result[1], out us)) td.MeteringMode = us; break;
@@ -245,7 +235,8 @@ namespace Troonie_Lib
                     case TagsFlag.DateTime:
 						tArgs += "-CreateDate=\"" + ExifTool.DateTimeToString(newData.DateTime) + "\" ";
 						break;
-					case TagsFlag.ExposureTime: tArgs += "-ExposureTime#=" + newData.ExposureTime + " "; break;
+                    case TagsFlag.OffsetTime: tArgs += "-OffsetTime=\"" + newData.OffsetTime.Value + "\" "; break;
+                    case TagsFlag.ExposureTime: tArgs += "-ExposureTime#=" + newData.ExposureTime + " "; break;
                     case TagsFlag.Flash: tArgs += "-Flash#=" + newData.Flash + " "; break;
                     case TagsFlag.FNumber: tArgs += "-FNumber#=" + newData.FNumber + " "; break;
                     case TagsFlag.FocalLength: tArgs += "-FocalLength#=" + newData.FocalLength + " "; break;

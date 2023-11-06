@@ -10,7 +10,7 @@ namespace Troonie_Lib
 		public double? Altitude;
 		public string Creator;
 		public DateTime? DateTime;
-		public TimeSpan? OffsetTime;
+		public OffsetTime OffsetTime;
 		public double? ExposureTime;
 		public ushort? Flash;
 		public double? FNumber;
@@ -139,7 +139,7 @@ namespace Troonie_Lib
 			case TagsFlag.Altitude:		return Altitude;		
 			case TagsFlag.Creator:		return Creator;			
 			case TagsFlag.DateTime:		return DateTime;
-            case TagsFlag.OffsetTime:	return OffsetTime;
+            case TagsFlag.OffsetTime:	return OffsetTime.Value;
             case TagsFlag.ExposureTime:	return ExposureTime;	
 			case TagsFlag.Flash:		return Flash;		
 			case TagsFlag.FNumber:		return FNumber;			
@@ -335,27 +335,10 @@ namespace Troonie_Lib
                 return b;
         }
 
-        private static bool ExtractOffsetTime(object o, ref TimeSpan? ts)
+        private static bool ExtractOffsetTime(object o, ref OffsetTime ot)
         {
-            string ts_string = string.Empty;
-            bool b = ExtractString(o, ref ts_string);
-            if (b)
-            {
-                if (ts_string == string.Empty)
-                {
-                    ts = null;
-                }
-                else
-                {
-                    TimeSpan tmp;
-                    b = TimeSpan.TryParseExact(ts_string, "HH:mm", CultureInfo.InvariantCulture, TimeSpanStyles.None, out tmp);
-                    if (b)
-                    {
-                        ts = tmp; // t.ToLocalTime();
-                    }
-                }
-            }
-            return b;
+            ot = new OffsetTime(o.ToString());            
+            return ot.HasValidValue;
         }
 
         private static bool ExtractString(object o, ref string s)
