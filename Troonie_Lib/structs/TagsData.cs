@@ -337,8 +337,11 @@ namespace Troonie_Lib
 
         private static bool ExtractOffsetTime(object o, ref OffsetTime ot)
         {
-            ot = new OffsetTime(o.ToString());            
-            return ot.HasValidValue;
+            OffsetTime tmp = new OffsetTime(o.ToString());
+            if (tmp.HasValidValue)
+                ot = tmp;
+
+			return tmp.HasValidValue;
         }
 
         private static bool ExtractString(object o, ref string s)
