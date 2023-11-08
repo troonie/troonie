@@ -107,7 +107,12 @@ namespace Troonie_Lib
 
                         for (int i = 1; i < result.Length; i++)
                             td.Keywords.Add(result[i]);
-						break;
+                        
+                        // remove duplicates
+                        HashSet<string> hs = new HashSet<string>();
+                        td.Keywords.RemoveAll(x => !hs.Add(x));
+                        hs.Clear(); hs = null;
+                        break;
 					case "GPSLatitude": if (double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.Latitude = d; break;
                     case "GPSLongitude": if (double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.Longitude = d; break;
                     case "Make": td.Make= allValues; break;
