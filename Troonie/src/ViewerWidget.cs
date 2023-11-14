@@ -177,7 +177,7 @@ namespace Troonie
 			uint nr = 0;
 //			foreach (string s in Enum.GetNames(typeof(TagsFlag))) {
 			string[] tagFlagNames = Enum.GetNames(typeof(TagsFlag));
-			for (int i = 1; i < tagFlagNames.Length; i++) {
+			for (int i = 1; i < tagFlagNames.Length - HiddenTagsNumber.Count; i++) {
 				string s = tagFlagNames [i];
 				Label lbTagName = new Label (s);
 				lbTagName.TooltipText = s;
@@ -261,12 +261,12 @@ namespace Troonie
                 vip.TagsData.Rating = rating;
                 bool success = true;
 
-                if (!vip.IsVideo) { 
+                //if (!vip.IsVideo) { 
 					success = ImageTagHelper.SetRating (vip.OriginalImageFullName, rating);	
-				}
-				else {
-                    success = VideoTagHelper.SetTag(vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);
-                }
+				//}
+				//else {
+    //                success = VideoTagHelper.SetTag(vip.OriginalImageFullName, TagsFlag.Rating, vip.TagsData);
+    //            }
 
 				if (success) {
 					vip.QueueDraw ();
@@ -642,7 +642,7 @@ namespace Troonie
 				switch (args.Event.Key) {
 				// image tags
 				case Gdk.Key.d:
-					t = TagsFlag.DateTime;
+					t = TagsFlag.CreateDate;
 					break;
 				case Gdk.Key.f:
 					t = TagsFlag.FocalLength;
@@ -842,12 +842,12 @@ namespace Troonie
 					//					pw.Show ();
 
 					// when no exiftool.exe available, no editing of creation dates in videos
-					if (!Constants.I.EXIFTOOL && (
+					if (!Constants.I.EXIFTOOL /* && (
 													// TagsFlag.CreateDate == (TagsFlag)(1 << shift) ||
                                                     TagsFlag.TrackCreateDate == (TagsFlag)(1 << shift) ||
                                                     TagsFlag.MediaCreateDate == (TagsFlag)(1 << shift) ||
                                                     TagsFlag.AllCreateDates == (TagsFlag)(1 << shift)
-                                                 )
+                                                 ) */
 						)
 					{
                         OkCancelDialog info = new OkCancelDialog(true);

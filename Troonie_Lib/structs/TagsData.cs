@@ -9,8 +9,10 @@ namespace Troonie_Lib
 		#region 16 image tagsData elements
 		public double? Altitude;
 		public string Creator;
-		public DateTime? DateTime;
-		public OffsetTime OffsetTime;
+		public DateTime? CreateDate;
+        //public DateTime? TrackCreateDate;
+        //public DateTime? MediaCreateDate;
+        public OffsetTime OffsetTime;
 		public double? ExposureTime;
 		public ushort? Flash;
 		public double? FNumber;
@@ -43,11 +45,6 @@ namespace Troonie_Lib
         #endregion No TagsFlag elements
 
         #region exiftool --> getting date time objects in videos
-        public DateTime? TrackCreateDate;
-		public DateTime? MediaCreateDate;
-
-		//public DateTime? AllCreateDates	{ set {	CreateDate = TrackCreateDate = MediaCreateDate = value; } }
-
 		public string KeywordsForET 
 		{ 
 			get 
@@ -68,19 +65,19 @@ namespace Troonie_Lib
 			} 
 		}
 
-		public void SetAllCreateDates(DateTime? dt)
-		{
-            DateTime = dt;
-            TrackCreateDate = dt;
-            MediaCreateDate = dt;
-        }
+		//public void SetAllCreateDates(DateTime? dt)
+		//{
+  //          CreateDate = dt;
+  //          TrackCreateDate = dt;
+  //          MediaCreateDate = dt;
+  //      }
 
         #endregion
 
         public bool SetValue (TagsFlag flag, object o)
 		{
 			switch (flag) {
-			case TagsFlag.DateTime: return ExtractDateTime(o, ref DateTime);
+			case TagsFlag.CreateDate: return ExtractDateTime(o, ref CreateDate);
             case TagsFlag.OffsetTime: return ExtractOffsetTime(o, ref OffsetTime);
             case TagsFlag.Altitude:		return ExtractNullableDouble(o, ref Altitude);		
 			case TagsFlag.Creator:		return ExtractString(o, ref Creator);					
@@ -119,13 +116,13 @@ namespace Troonie_Lib
 			case TagsFlag.Title:		return ExtractString(o, ref Title);
             // exiftool --> getting date time objects in videos
             //case TagsFlag.CreateDate: return ExtractDateTime(o, ref CreateDate);
-            case TagsFlag.TrackCreateDate: return ExtractDateTime(o, ref TrackCreateDate);
-            case TagsFlag.MediaCreateDate: return ExtractDateTime(o, ref MediaCreateDate);
-			case TagsFlag.AllCreateDates:
-					DateTime? dt = null;
-                    bool b = ExtractDateTime(o, ref dt);
-					SetAllCreateDates(dt);
-					return b;			
+   //         case TagsFlag.TrackCreateDate: return ExtractDateTime(o, ref TrackCreateDate);
+   //         case TagsFlag.MediaCreateDate: return ExtractDateTime(o, ref MediaCreateDate);
+			//case TagsFlag.AllCreateDates:
+			//		DateTime? dt = null;
+   //                 bool b = ExtractDateTime(o, ref dt);
+			//		SetAllCreateDates(dt);
+			//		return b;			
             // elements With, Height and PixelFormat will not get a 'SETTER'
             default:
 			return false;
@@ -138,7 +135,7 @@ namespace Troonie_Lib
 			// image tags
 			case TagsFlag.Altitude:		return Altitude;		
 			case TagsFlag.Creator:		return Creator;			
-			case TagsFlag.DateTime:		return DateTime;
+			case TagsFlag.CreateDate:		return CreateDate;
             case TagsFlag.OffsetTime:	return OffsetTime.Value;
             case TagsFlag.ExposureTime:	return ExposureTime;	
 			case TagsFlag.Flash:		return Flash;		
@@ -166,8 +163,8 @@ namespace Troonie_Lib
 			case TagsFlag.FileSize:		return FileSize;
 			// exiftool --> getting date time objects in videos
 			//case TagsFlag.CreateDate:	return CreateDate;
-			case TagsFlag.TrackCreateDate:	return TrackCreateDate;
-            case TagsFlag.MediaCreateDate: return MediaCreateDate;			
+			//case TagsFlag.TrackCreateDate:	return TrackCreateDate;
+   //         case TagsFlag.MediaCreateDate: return MediaCreateDate;			
             // default:
             //	throw new NotImplementedException ();
             }
@@ -325,6 +322,7 @@ namespace Troonie_Lib
                     {
 						DateTime tmp;
                         b = System.DateTime.TryParse(dt_string, out tmp);
+					// TODO Setting correct UTC time when video file
 						if (b) 
 						{ 
 							dt = tmp; 
@@ -351,7 +349,9 @@ namespace Troonie_Lib
 				return false;
 			}
 
-			return true;
+			s = StringHelper.ReplaceGermanUmlauts(s);
+
+            return true;
 		}
 
 		#endregion Private static helper functions

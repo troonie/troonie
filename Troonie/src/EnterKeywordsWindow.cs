@@ -171,7 +171,7 @@ namespace Troonie
 
 				bool setValueSuccess = false;
 
-				List<string> elements = new List<string>(entry.Text.Split (','));
+                List<string> elements = new List<string>(entry.Text.Split (','));
 
 				for (int i = 0; i < elements.Count; i++) {
 					// trim all elements
@@ -233,8 +233,8 @@ namespace Troonie
 				}
 
 				if (setValueSuccess) {
-					bool success = vip.IsVideo ? 
-						VideoTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Keywords, vip.TagsData) :
+					bool success = 
+						//vip.IsVideo ? VideoTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Keywords, vip.TagsData) :
 						ImageTagHelper.SetTagET (vip.OriginalImageFullName, TagsFlag.Keywords, vip.TagsData);
 					if (success) {
 						vip.QueueDraw ();

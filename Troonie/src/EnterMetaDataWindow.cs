@@ -15,13 +15,23 @@ namespace Troonie
 
 	public partial class EnterMetaDataWindow : Gtk.Window
 	{
+		private struct DateTimeOptions
+		{
+            public Label Overview { get; set; }
+            public VBox Vbox {  get; set; }
+			public CheckButton CbAllCreateDatesInVideos { get; set; }
+			public CheckButton CbTrackCreateDate { get; set; }
+			public CheckButton CbMediaCreateDate { get; set; }
+        }
+
 		private const string MULTIVALUES = "####";
 		private SaveTagMode saveTagMode;
 		private VBox vbox;
 		private HBox hbox;
 		private Entry entry;
 		private ComboBox combobox;
-		private TroonieButton btnOk, btnCancel;
+		private DateTimeOptions dateTimeOptions;
+        private TroonieButton btnOk, btnCancel;
 		private TagsFlag tags;
 		private List<ViewerImagePanel> pressedInVIPs;
 
@@ -62,11 +72,26 @@ namespace Troonie
 			//			lbInfo.Label = Language.I.L [202];
 			a.Add(combobox);
 
-			vbox.Add (a);
+            vbox.Add (a);
 			Box.BoxChild w2 = ((Box.BoxChild)(vbox [a]));
 			w2.Position = 1;
 			w2.Expand = false;
 			w2.Fill = false;
+
+			#region CheckButton (2023)
+			dateTimeOptions = new DateTimeOptions();
+			dateTimeOptions.Vbox = new VBox();
+			dateTimeOptions.Vbox.Name = "DateTimeOptions.vbox";
+			//dateTimeOptions.Vbox.Spacing = 10;
+			//dateTimeOptions.Vbox.BorderWidth = 10;
+			vbox.Add(dateTimeOptions.Vbox);
+			Box.BoxChild boxchild = ((Box.BoxChild)(vbox[dateTimeOptions.Vbox]));
+			boxchild.Position = 2;
+			boxchild.Expand = false;
+			boxchild.Fill = false;
+
+
+			#endregion
 
 			hbox = new HBox ();
 			hbox.Spacing = 6;
@@ -99,7 +124,7 @@ namespace Troonie
 
 			vbox.Add (hbox);
 			Box.BoxChild w3 = ((Box.BoxChild)(vbox [hbox]));
-			w3.Position = 2;
+			w3.Position = 3;
 			w3.Expand = false;
 			w3.Fill = false;
 			Add (vbox);
@@ -126,12 +151,37 @@ namespace Troonie
 			ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);
 		}
 
+		private void SetOrUnsetDateTimeFlags(bool isActive, TagsFlag newFlag)
+		{ 
+			if (isActive) tags |= newFlag;
+			else tags &= ~ newFlag;
+        }
+
 		private void SetInfoLabel()
 		{
 			combobox.Visible = false;
-			combobox.RemoveText (0);
+			combobox.RemoveText (0);			
 
-			switch (tags) {
+            switch (tags) {
+			case TagsFlag.CreateDate:
+					dateTimeOptions.Overview = new Label("Overview") { Visible = true };
+                    dateTimeOptions.Vbox.Add(dateTimeOptions.Overview);
+
+					dateTimeOptions.CbAllCreateDatesInVideos = new CheckButton("ALL") { Visible = true };
+					dateTimeOptions.CbAllCreateDatesInVideos.Clicked += (sender, e) => {
+						dateTimeOptions.CbTrackCreateDate.Active = dateTimeOptions.CbAllCreateDatesInVideos.Active;
+                        dateTimeOptions.CbMediaCreateDate.Active = dateTimeOptions.CbAllCreateDatesInVideos.Active;
+                    };
+                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbAllCreateDatesInVideos);
+                    
+					dateTimeOptions.CbTrackCreateDate = new CheckButton("TrackCreateDate") { Visible = true };
+                    dateTimeOptions.CbTrackCreateDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbTrackCreateDate.Active, TagsFlag.TrackCreateDate);
+                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbTrackCreateDate);
+                    
+					dateTimeOptions.CbMediaCreateDate = new CheckButton("MediaCreateDate") { Visible = true };
+                    dateTimeOptions.CbMediaCreateDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbMediaCreateDate.Active, TagsFlag.MediaCreateDate);
+                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbMediaCreateDate);
+                    break;
 			case TagsFlag.Flash:
 				// source: http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif/flash.html
 //				lbInfo.Text = 
@@ -212,8 +262,8 @@ namespace Troonie
 				bool setValueSuccess = vip.TagsData.SetValue (tags, entry.Text);
 
 				if (setValueSuccess) {
-					bool success = vip.IsVideo ? 
-						VideoTagHelper.SetTag (vip.OriginalImageFullName, tags, vip.TagsData) :
+					bool success = 
+						// vip.IsVideo ? VideoTagHelper.SetTag (vip.OriginalImageFullName, tags, vip.TagsData) :
 						ImageTagHelper.SetTagET (vip.OriginalImageFullName, tags, vip.TagsData);
 					if (success) {
 						vip.QueueDraw ();

@@ -145,15 +145,15 @@ namespace Troonie
 					DateTime? dt = GetDatetimeFromFilename(f);
 					bool success = false; 
 					if (dt.HasValue) {
-                        if (vip.IsVideo)
+                        //if (vip.IsVideo)
+                        //{
+                        //    vip.TagsData.SetAllCreateDates(dt);
+                        //    success = VideoTagHelper.SetTag(vip.OriginalImageFullName, TagsFlag.AllCreateDates2, vip.TagsData);
+                        //}
+                        //else
                         {
-                            vip.TagsData.SetAllCreateDates(dt);
-                            success = VideoTagHelper.SetTag(vip.OriginalImageFullName, TagsFlag.AllCreateDates, vip.TagsData);
-                        }
-                        else
-                        {
-                            vip.TagsData.DateTime = dt;
-                            success = ImageTagHelper.SetTagET(vip.OriginalImageFullName, TagsFlag.DateTime, vip.TagsData);
+                            vip.TagsData.CreateDate = dt;
+                            success = ImageTagHelper.SetTagET(vip.OriginalImageFullName, TagsFlag.AllCreateDates2, vip.TagsData);
                         }
 
                         // dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
@@ -249,7 +249,7 @@ namespace Troonie
 					bool success = true;
 					tmp = vip.RelativeImageName;
 					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
-					vip.TagsData.DateTime = GetDatetimeFromFilename(fullf);
+					vip.TagsData.CreateDate = GetDatetimeFromFilename(fullf);
 
 //					ImageTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.DateTime, vip.TagsData);
 					// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer

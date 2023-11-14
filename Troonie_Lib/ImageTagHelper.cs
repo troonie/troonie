@@ -46,6 +46,7 @@ namespace Troonie_Lib
                             "-ISO " +
                             "-Keywords " +
                             "-Subject " +
+                            "-Category " + 
                             "-GPSLatitude " +
                             "-GPSLongitude " +
                             "-Make " +
@@ -90,7 +91,7 @@ namespace Troonie_Lib
                         {
                             tt = t; // t.ToLocalTime();
                         }                            
-						td.DateTime = tt; 
+						td.CreateDate = tt; 
 						break;
                     case "OffsetTime": td.OffsetTime = new OffsetTime(result[1]); break;
                     case "ExposureTime": if(double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.ExposureTime = d; break;
@@ -102,6 +103,7 @@ namespace Troonie_Lib
 					case "ISO": if (uint.TryParse(result[1], out ui)) td.ISOSpeedRatings = ui; break;
                     case "Keywords":
                     case "Subject":
+                    case "Category":
 						if (td.Keywords == null)
 							td.Keywords = new List<string>();
 
@@ -211,7 +213,18 @@ namespace Troonie_Lib
 
         public static bool SetRating(string fileName, uint rating)
 		{
-            string tArgs = " -overwrite_original -S -Rating#=" + rating + " " + fileName;
+            string MS_Rating = " -Microsoft:SharedUserRating#=";
+            switch (rating)
+            {
+                case 0: break;
+                case 1: MS_Rating += 1; break;
+                case 2: MS_Rating += 25; break;
+                case 3: MS_Rating += 50; break;
+                case 4: MS_Rating += 75; break;
+                case 5: MS_Rating += 99; break;
+            }
+
+            string tArgs = " -overwrite_original -S -Rating#=" + rating + MS_Rating + " " + fileName;
             Constants.I.ET.Process(tArgs);
 			return Constants.I.ET.Success;
         }
@@ -236,9 +249,10 @@ namespace Troonie_Lib
 					case TagsFlag.Keywords:
                         tArgs += "-Keywords=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
                         tArgs += "-Subject=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
+                        tArgs += "-Microsoft:Category=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
                         break;
-                    case TagsFlag.DateTime:
-						tArgs += "-CreateDate=\"" + ExifTool.DateTimeToString(newData.DateTime) + "\" ";
+                    case TagsFlag.CreateDate:
+						tArgs += "-CreateDate=\"" + ExifTool.DateTimeToString(newData.CreateDate) + "\" ";
 						break;
                     case TagsFlag.OffsetTime: tArgs += "-OffsetTime=\"" + newData.OffsetTime.Value + "\" "; break;
                     case TagsFlag.ExposureTime: tArgs += "-ExposureTime#=" + newData.ExposureTime + " "; break;
@@ -253,12 +267,31 @@ namespace Troonie_Lib
                     case TagsFlag.MeteringMode: tArgs += "-MeteringMode#=" + newData.MeteringMode + " "; break;
                     case TagsFlag.Model: tArgs += "-Model=\"" + newData.Model + "\" "; break;
                     case TagsFlag.Orientation: tArgs += "-Orientation#=" + newData.Orientation + " "; break;
-					case TagsFlag.Rating: tArgs += "-Rating#=" + newData.Rating + " "; break;
+					case TagsFlag.Rating:
+                        string MS_Rating = " -Microsoft:SharedUserRating#=";
+                        if (newData.Rating.HasValue) { 
+                            switch (newData.Rating)
+                            {
+                                case 0: break;
+                                case 1: MS_Rating += 1; break;
+                                case 2: MS_Rating += 25; break;
+                                case 3: MS_Rating += 50; break;
+                                case 4: MS_Rating += 75; break;
+                                case 5: MS_Rating += 99; break;
+                            }
+                        }
+                        tArgs += "-Rating#=" + newData.Rating + MS_Rating + " "; break;
                     case TagsFlag.Software: tArgs += "-Software=\"" + newData.Software + "\" "; break;
                     // other tags
                     case TagsFlag.Comment: tArgs += "-Comment=\"" + newData.Comment + "\" "; break;
                     case TagsFlag.Copyright: tArgs += "-Copyright=\"" + newData.Copyright + "\" "; break;
                     case TagsFlag.Title: tArgs += "-Title=\"" + newData.Title + "\" "; break;
+                    // also setting hidden tags
+                    case TagsFlag.MediaCreateDate:
+                        tArgs += "-TrackCreateDate=\"" + ExifTool.DateTimeToString(newData.CreateDate) + "\" ";
+                        tArgs += "-MediaCreateDate=\"" + ExifTool.DateTimeToString(newData.CreateDate) + "\" ";
+                        break;
+
                         //			default:
                         //				throw new NotImplementedException ();
                 }

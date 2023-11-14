@@ -178,7 +178,8 @@ namespace Troonie
 //				Constants.Extensions[TroonieImageFormat.JPEG24].Item1;
 
 			OriginalImageFullName = originalImageFullName;
-            TagsData = IsVideo ? VideoTagHelper.GetTagsData(OriginalImageFullName, out bool success) :
+            TagsData = 
+				//IsVideo ? VideoTagHelper.GetTagsData(OriginalImageFullName, out bool success) :
                                  ImageTagHelper.GetTagsDataET(OriginalImageFullName);
             firstClick = true;
 			sw_doubleClick = new Stopwatch();

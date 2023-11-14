@@ -9,7 +9,7 @@ namespace Troonie_Lib
         #region 16+1 image tags
         Altitude = 1 << 0, // = 1,
         Creator = 1 << 1, // = 2,
-        DateTime = 1 << 2, // = 4,
+        CreateDate = 1 << 2, // = 4,
         OffsetTime = 1 << 3,// = 8,
         ExposureTime = 1 << 4, // = 16,
         FNumber = 1 << 5, // = 32,
@@ -40,14 +40,17 @@ namespace Troonie_Lib
         FileSize = 1 << 25,
         #endregion
 
-        #region exiftool --> getting date time objects in videos
+        #region Hidden tags --> DO NOT forget to set HiddenTagsNumber.Count
         //CreateDate =			1 << 25,
         MediaCreateDate = 1 << 26,
         TrackCreateDate = 1 << 27,
 
-        AllCreateDates = 1 << 28,
+        //AllCreateDates = 1 << 28,
+        AllCreateDates2 = CreateDate | MediaCreateDate | TrackCreateDate
         #endregion
     }
+
+	public class HiddenTagsNumber { public const int Count = 4; }
 
     /// <summary> Image resize possibilities of Troonie.</summary>
     public enum ResizeVersion
