@@ -44,35 +44,7 @@ namespace Troonie_Lib
 		public long FileSize;
         #endregion No TagsFlag elements
 
-        #region exiftool --> getting date time objects in videos
-		public string KeywordsForET 
-		{ 
-			get 
-			{
-                string sKeywords = string.Empty;
-                if (Keywords != null && Keywords.Count > 0)
-                {
-                    sKeywords = Keywords[0];
-
-                    for (int i = 1; i < Keywords.Count; i++)
-                    {
-                        sKeywords += ", " + StringHelper.ReplaceGermanUmlauts(Keywords[i]);
-                    }
-					// sKeywords += "\" -sep ";
-
-                }
-                return sKeywords;
-			} 
-		}
-
-		//public void SetAllCreateDates(DateTime? dt)
-		//{
-  //          CreateDate = dt;
-  //          TrackCreateDate = dt;
-  //          MediaCreateDate = dt;
-  //      }
-
-        #endregion
+		public string KeywordsString { get; private set; }
 
         public bool SetValue (TagsFlag flag, object o)
 		{
@@ -87,17 +59,25 @@ namespace Troonie_Lib
 			case TagsFlag.FocalLength:	return ExtractNullableDouble (o, ref FocalLength);
 			case TagsFlag.FocalLengthIn35mmFilm:	return ExtractNullableUint (o, ref FocalLengthIn35mmFilm);				
 			case TagsFlag.ISOSpeedRatings:			return ExtractNullableUint (o, ref ISOSpeedRatings);	
-			case TagsFlag.Keywords:	
-				List<string> keywordList = o as List<string>;
-				if (keywordList == null /* || keywordList.Count == 0 */ ) {
-					string[] keywordArray = o as string[];
-					if (keywordArray == null /* || keywordArray.Length == 0 */ ) {
-						return false;
-					} else {
-						keywordList = new List<string> (keywordArray);							
-					}
-				}
-				Keywords = keywordList;
+			case TagsFlag.Keywords:
+                Keywords = o as List<string>;
+                //List<string> keywordList = o as List<string>;
+				//if (keywordList == null /* || keywordList.Count == 0 */ ) {
+				//	string[] keywordArray = o as string[];
+				//	if (keywordArray == null /* || keywordArray.Length == 0 */ ) {
+				//		return false;
+				//	} else {
+				//		keywordList = new List<string> (keywordArray);							
+				//	}
+				//}
+
+				KeywordsString = Keywords.Count != 0 ? StringHelper.ReplaceGermanUmlauts(Keywords[0]) : string.Empty;
+                for (int i = 1; i < Keywords.Count; i++) 
+				{
+                        Keywords[i] = StringHelper.ReplaceGermanUmlauts(Keywords[i]);
+						KeywordsString += ", " + Keywords[i];
+                }
+                //Keywords = keywordList;
 				return true;		
 			case TagsFlag.Latitude:		return ExtractNullableDouble (o, ref Latitude);			
 			case TagsFlag.Longitude:	return ExtractNullableDouble (o, ref Longitude);			

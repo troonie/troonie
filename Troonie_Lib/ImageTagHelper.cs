@@ -46,7 +46,7 @@ namespace Troonie_Lib
                             "-ISO " +
                             "-Keywords " +
                             "-Subject " +
-                            "-Category " + 
+                            "-Microsoft:Category " + 
                             "-GPSLatitude " +
                             "-GPSLongitude " +
                             "-Make " +
@@ -247,9 +247,9 @@ namespace Troonie_Lib
 						tArgs += "-Creator=\"" + newData.Creator + "\" ";							
 						break;
 					case TagsFlag.Keywords:
-                        tArgs += "-Keywords=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
-                        tArgs += "-Subject=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
-                        tArgs += "-Microsoft:Category=\"" + newData.KeywordsForET + "\" -sep " + "\", \" ";
+                        tArgs += "-Keywords=\"" + newData.KeywordsString + "\" -sep " + "\", \" ";
+                        tArgs += "-Subject=\"" + newData.KeywordsString + "\" -sep " + "\", \" ";
+                        tArgs += "-Microsoft:Category=\"" + newData.KeywordsString + "\" -sep " + "\", \" ";
                         break;
                     case TagsFlag.CreateDate:
 						tArgs += "-CreateDate=\"" + ExifTool.DateTimeToString(newData.CreateDate) + "\" ";
@@ -285,7 +285,10 @@ namespace Troonie_Lib
                     // other tags
                     case TagsFlag.Comment: tArgs += "-Comment=\"" + newData.Comment + "\" "; break;
                     case TagsFlag.Copyright: tArgs += "-Copyright=\"" + newData.Copyright + "\" "; break;
-                    case TagsFlag.Title: tArgs += "-Title=\"" + newData.Title + "\" "; break;
+                    case TagsFlag.Title: 
+                        tArgs += "-Title=\"" + newData.Title + "\" ";
+                        // tArgs += "-Quicktime:Title=\"" + newData.Title + "\" ";
+                        break;                    
                     // also setting hidden tags
                     case TagsFlag.MediaCreateDate:
                         tArgs += "-TrackCreateDate=\"" + ExifTool.DateTimeToString(newData.CreateDate) + "\" ";
