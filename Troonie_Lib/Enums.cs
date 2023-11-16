@@ -44,13 +44,18 @@ namespace Troonie_Lib
         //CreateDate =			1 << 25,
         MediaCreateDate = 1 << 26,
         TrackCreateDate = 1 << 27,
+        ModifyDate = 1 << 28,
+        MediaModifyDate = 1 << 29,
+        TrackModifyDate = 1 << 30,
+        DateTimeOriginal = 1 << 31,
 
-        //AllCreateDates = 1 << 28,
-        AllCreateDates2 = CreateDate | MediaCreateDate | TrackCreateDate
+        AllCreateAndModifyDates = CreateDate | MediaCreateDate | TrackCreateDate | 
+								  ModifyDate | MediaModifyDate |TrackModifyDate |
+								  DateTimeOriginal
         #endregion
     }
 
-	public class HiddenTagsNumber { public const int Count = 4; }
+	public class HiddenTagsNumber { public const int Count = 7; }
 
     /// <summary> Image resize possibilities of Troonie.</summary>
     public enum ResizeVersion

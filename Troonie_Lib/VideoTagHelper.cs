@@ -332,7 +332,7 @@ namespace Troonie_Lib
                 string origfilename = mp4file.Replace(dir, backupdir);
 
                 File.Copy(mp4file, origfilename, true);
-                TagsData td = ImageTagHelper.GetTagsDataET(mp4file);
+                TagsData td = ImageTagHelper.GetTags(mp4file);
                 //if (!success)
                 //    return false;
                 // do ffmpeg
@@ -359,7 +359,7 @@ namespace Troonie_Lib
                 }
 
                 // TODO: Use ET function to copy all tags
-                 success = ImageTagHelper.SetTagET(mp4file, (TagsFlag)0xFFFFFF, td);
+                 success = ImageTagHelper.SetTags(mp4file, (TagsFlag)0xFFFFFF, td);
                 if (!success)
                     return false;
             }
@@ -401,7 +401,7 @@ namespace Troonie_Lib
                 string mp4fileOrig = mp4file.Replace(dir, backupdir);
                 File.Copy(mp4file, mp4fileOrig, true);
 
-                TagsData td = ImageTagHelper.GetTagsDataET(pngFile);
+                TagsData td = ImageTagHelper.GetTags(pngFile);
 
                 // do ffmpeg
                 if (repairWithFfmpeg)
@@ -432,7 +432,7 @@ namespace Troonie_Lib
                 }
 
                 // TODO: Use ET function to copy all tags
-                success = ImageTagHelper.SetTagET(mp4file, (TagsFlag)0xFFFFFF, td);
+                success = ImageTagHelper.SetTags(mp4file, (TagsFlag)0xFFFFFF, td);
                 if (!success)
                 {
                     Console.WriteLine("ID5: Error with Exiftool, file: " + mp4file);

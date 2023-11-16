@@ -19,9 +19,14 @@ namespace Troonie
 		{
             public Label Overview { get; set; }
             public VBox Vbox {  get; set; }
-			public CheckButton CbAllCreateDatesInVideos { get; set; }
-			public CheckButton CbTrackCreateDate { get; set; }
+			public CheckButton CbAllDates { get; set; }
+            public CheckButton CbModifyDate { get; set; }
+            public CheckButton CbTrackCreateDate { get; set; }
 			public CheckButton CbMediaCreateDate { get; set; }
+			public CheckButton CbTrackModifyDate { get; set; }
+            public CheckButton CbMediaModifyDate { get; set; }
+
+            public CheckButton CbDateTimeOriginal { get; set; }
         }
 
 		private const string MULTIVALUES = "####";
@@ -89,8 +94,6 @@ namespace Troonie
 			boxchild.Position = 2;
 			boxchild.Expand = false;
 			boxchild.Fill = false;
-
-
 			#endregion
 
 			hbox = new HBox ();
@@ -164,23 +167,43 @@ namespace Troonie
 
             switch (tags) {
 			case TagsFlag.CreateDate:
-					dateTimeOptions.Overview = new Label("Overview") { Visible = true };
+					dateTimeOptions.Overview = new Label("Overview" + "  Format: yyyy:MM:dd HH:mm:ss") { Visible = true };
                     dateTimeOptions.Vbox.Add(dateTimeOptions.Overview);
 
-					dateTimeOptions.CbAllCreateDatesInVideos = new CheckButton("ALL") { Visible = true };
-					dateTimeOptions.CbAllCreateDatesInVideos.Clicked += (sender, e) => {
-						dateTimeOptions.CbTrackCreateDate.Active = dateTimeOptions.CbAllCreateDatesInVideos.Active;
-                        dateTimeOptions.CbMediaCreateDate.Active = dateTimeOptions.CbAllCreateDatesInVideos.Active;
+					dateTimeOptions.CbAllDates = new CheckButton("ALL") { Visible = true };
+					dateTimeOptions.CbAllDates.Clicked += (sender, e) => {
+                        dateTimeOptions.CbModifyDate.Active = dateTimeOptions.CbAllDates.Active;
+                        dateTimeOptions.CbTrackCreateDate.Active = dateTimeOptions.CbAllDates.Active;
+                        dateTimeOptions.CbMediaCreateDate.Active = dateTimeOptions.CbAllDates.Active;
+                        dateTimeOptions.CbTrackModifyDate.Active = dateTimeOptions.CbAllDates.Active;
+                        dateTimeOptions.CbMediaModifyDate.Active = dateTimeOptions.CbAllDates.Active;
+                        dateTimeOptions.CbDateTimeOriginal.Active = dateTimeOptions.CbAllDates.Active;
                     };
-                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbAllCreateDatesInVideos);
-                    
-					dateTimeOptions.CbTrackCreateDate = new CheckButton("TrackCreateDate") { Visible = true };
+                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbAllDates);
+
+                    dateTimeOptions.CbModifyDate = new CheckButton("ModifyDate") { Visible = true };
+                    dateTimeOptions.CbModifyDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbModifyDate.Active, TagsFlag.ModifyDate);
+                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbModifyDate);
+
+                    dateTimeOptions.CbTrackCreateDate = new CheckButton("TrackCreateDate") { Visible = true };
                     dateTimeOptions.CbTrackCreateDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbTrackCreateDate.Active, TagsFlag.TrackCreateDate);
                     dateTimeOptions.Vbox.Add(dateTimeOptions.CbTrackCreateDate);
                     
 					dateTimeOptions.CbMediaCreateDate = new CheckButton("MediaCreateDate") { Visible = true };
                     dateTimeOptions.CbMediaCreateDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbMediaCreateDate.Active, TagsFlag.MediaCreateDate);
                     dateTimeOptions.Vbox.Add(dateTimeOptions.CbMediaCreateDate);
+
+                    dateTimeOptions.CbTrackModifyDate = new CheckButton("TrackModifyDate") { Visible = true };
+                    dateTimeOptions.CbTrackModifyDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbTrackModifyDate.Active, TagsFlag.TrackModifyDate);
+                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbTrackModifyDate);
+
+                    dateTimeOptions.CbMediaModifyDate = new CheckButton("MediaModifyDate") { Visible = true };
+                    dateTimeOptions.CbMediaModifyDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbMediaModifyDate.Active, TagsFlag.MediaModifyDate);
+                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbMediaModifyDate);
+
+                    dateTimeOptions.CbDateTimeOriginal = new CheckButton("DateTimeOriginal") { Visible = true };
+                    dateTimeOptions.CbDateTimeOriginal.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbDateTimeOriginal.Active, TagsFlag.DateTimeOriginal);
+                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbDateTimeOriginal);
                     break;
 			case TagsFlag.Flash:
 				// source: http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif/flash.html
@@ -259,12 +282,13 @@ namespace Troonie
 			foreach (var vip in pressedInVIPs) {
 
 				TagsData oldTagsData = vip.TagsData;
-				bool setValueSuccess = vip.TagsData.SetValue (tags, entry.Text);
+                bool setValueSuccess = vip.TagsData.SetValues (
+					tags, entry.Text, vip.IsVideo, dateTimeOptions.CbDateTimeOriginal.Active);
 
 				if (setValueSuccess) {
 					bool success = 
 						// vip.IsVideo ? VideoTagHelper.SetTag (vip.OriginalImageFullName, tags, vip.TagsData) :
-						ImageTagHelper.SetTagET (vip.OriginalImageFullName, tags, vip.TagsData);
+						ImageTagHelper.SetTags (vip.OriginalImageFullName, tags, vip.TagsData);
 					if (success) {
 						vip.QueueDraw ();
 						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
@@ -335,12 +359,12 @@ namespace Troonie
 			if (pressedInVIPs.Count == 0)
 				return startText;
 			
-			object o = pressedInVIPs [0].TagsData.GetValue (tags);
+			object o = pressedInVIPs [0].TagsData.GetSingleValue (tags);
 			String so;
 			if (o == null) {
 				so = string.Empty;
 			} else {
-				so = o.ToString();
+				so = tags == TagsFlag.CreateDate ? ExifTool.DateTimeToStringNoQuotationMarks(o as DateTime?) : o.ToString();
 			}
 
 			if (pressedInVIPs.Count == 1) {					
@@ -353,12 +377,12 @@ namespace Troonie
 			} else {
 				for (int i = 1; i < pressedInVIPs.Count; i++) {
 					ViewerImagePanel vip = pressedInVIPs [i];
-					o = vip.TagsData.GetValue (tags);
+					o = vip.TagsData.GetSingleValue (tags);
 					String so2;
 					if (o == null) {
 						so2 = string.Empty;
 					} else {
-						so2 = o.ToString();
+						so2 = tags == TagsFlag.CreateDate ? ExifTool.DateTimeToStringNoQuotationMarks(o as DateTime?) : o.ToString();
 					}
 
 					if (so != null && so2 != null && so == so2) {

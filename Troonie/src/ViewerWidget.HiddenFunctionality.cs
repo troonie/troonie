@@ -35,7 +35,7 @@ namespace Troonie
 					string f = pib.RelativeImageName, fullf = pib.OriginalImageFullName;
 
 					if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {						
-						td = ImageTagHelper.GetTagsDataET (pib.OriginalImageFullName);
+						td = ImageTagHelper.GetTags (pib.OriginalImageFullName);
 						rating = td.Rating == null ? 0 : td.Rating.Value;						
 						if (td.Creator != null && td.Creator.Length != 0)
                             creatorText = td.Creator + separator;  
@@ -153,7 +153,7 @@ namespace Troonie
                         //else
                         {
                             vip.TagsData.CreateDate = dt;
-                            success = ImageTagHelper.SetTagET(vip.OriginalImageFullName, TagsFlag.AllCreateDates2, vip.TagsData);
+                            success = ImageTagHelper.SetTags(vip.OriginalImageFullName, TagsFlag.AllCreateAndModifyDates, vip.TagsData);
                         }
 
                         // dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
@@ -188,7 +188,7 @@ namespace Troonie
 				foreach (ViewerImagePanel vip in pressedInVIPs) {
 					tmp = vip.RelativeImageName;
 					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
-					DateTime? dt = ImageTagHelper.GetDateTime (fullf);
+					DateTime? dt = ImageTagHelper.GetCreateDate (fullf);
 					bool success = false; 
 
 					if (dt.HasValue) {
@@ -293,7 +293,7 @@ namespace Troonie
 							else {
 								TroonieBitmap.CreateTextBitmap (newFullPicName, f);
 								File.Delete(oldFullPicName);
-								success = ImageTagHelper.SetTagET(newFullPicName, (TagsFlag)0xFFFFFF, vip.TagsData);
+								success = ImageTagHelper.SetTags(newFullPicName, (TagsFlag)0xFFFFFF, vip.TagsData);
 								picVip.TagsData = vip.TagsData;
 								SetTextAndFulltextAndRedrawVip(picVip, newRelativePicName, newFullPicName);
 								// dirty workaround to refresh thumbnail image
@@ -384,7 +384,7 @@ namespace Troonie
 				creatorText += "Jpg-Q=Original" + separator;
 				//				success = ImageTagHelper.SetTag(fullfilename, Tags.Creator | Tags.Copyright | Tags.Title, new TagsData { Creator = creatorText, Copyright = "oioioi", Title = "MyTitle" });
 				// success = ImageTagHelper.SetTag(fullfilename, TagsFlag.Creator, new TagsData { Creator = creatorText });
-                success = ImageTagHelper.SetTagET(fullfilename, TagsFlag.Creator, new TagsData { Creator = creatorText });
+                success = ImageTagHelper.SetTags(fullfilename, TagsFlag.Creator, new TagsData { Creator = creatorText });
             } else {
 				BitmapWithTag bt_final = new BitmapWithTag (fullfilename);
 				Config c_final = new Config ();				
@@ -396,7 +396,7 @@ namespace Troonie
 				creatorText += "Jpg-Q=" + jpgQuality.ToString() + separator;
 				//				success = bt_final.ChangeValueOfTag (Tags.Creator, creatorText);
 				//success = bt_final.ChangeValueOfTag (TagsFlag.Creator, new TagsData { Creator = creatorText });
-                success = ImageTagHelper.SetTagET(fullfilename, TagsFlag.Creator, new TagsData { Creator = creatorText });
+                success = ImageTagHelper.SetTags(fullfilename, TagsFlag.Creator, new TagsData { Creator = creatorText });
                 if (success) {
 					success = bt_final.Save (c_final, filename, true);
 				}

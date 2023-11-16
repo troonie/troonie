@@ -191,7 +191,7 @@ namespace Troonie
 
 				if (saveTagMode2 == SaveTagModeKeywords.Add) {
 
-					List<string> keywordList = vip.TagsData.GetValue (TagsFlag.Keywords) as List<string>;
+					List<string> keywordList = vip.TagsData.GetSingleValue (TagsFlag.Keywords) as List<string>;
 					if (keywordList == null) {
 						keywordList = new List<string> ();
 					}
@@ -212,10 +212,10 @@ namespace Troonie
 					keywordList.RemoveAll(x => !set2.Add(x));
 					set2.Clear (); set2 = null;
 
-					setValueSuccess = vip.TagsData.SetValue (TagsFlag.Keywords, keywordList);
+					setValueSuccess = vip.TagsData.SetValues (TagsFlag.Keywords, keywordList);
 
 				} else { // if (saveTagMode2 == SaveTagMode2.Set) {
-					List<string> o = pressedInVIPs [0].TagsData.GetValue (TagsFlag.Keywords) as List<string>;
+					List<string> o = pressedInVIPs [0].TagsData.GetSingleValue (TagsFlag.Keywords) as List<string>;
 
 					// remove duplicates
 					HashSet<string> set3 = new HashSet<string>();
@@ -223,7 +223,7 @@ namespace Troonie
 					set3.Clear (); set3 = null;
 
 					List<string> elem2 = new List<string> (elements); // need deep copy here!
-					setValueSuccess = vip.TagsData.SetValue (TagsFlag.Keywords, elements);
+					setValueSuccess = vip.TagsData.SetValues (TagsFlag.Keywords, elements);
 
 					if (o != null && o.Count != 0) {
 						// remove all old keywords for xml serialization
@@ -235,7 +235,7 @@ namespace Troonie
 				if (setValueSuccess) {
 					bool success = 
 						//vip.IsVideo ? VideoTagHelper.SetTag (vip.OriginalImageFullName, TagsFlag.Keywords, vip.TagsData) :
-						ImageTagHelper.SetTagET (vip.OriginalImageFullName, TagsFlag.Keywords, vip.TagsData);
+						ImageTagHelper.SetTags (vip.OriginalImageFullName, TagsFlag.Keywords, vip.TagsData);
 					if (success) {
 						vip.QueueDraw ();
 						// dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
@@ -446,7 +446,7 @@ namespace Troonie
 				return startText;
 
 			if (pressedInVIPs.Count == 1) {
-				List<string> o = pressedInVIPs [0].TagsData.GetValue (TagsFlag.Keywords) as List<string>;
+				List<string> o = pressedInVIPs [0].TagsData.GetSingleValue (TagsFlag.Keywords) as List<string>;
 				if (o != null && o.Count != 0) {
 					foreach (string s in o) {
 						startText += s + ',';	

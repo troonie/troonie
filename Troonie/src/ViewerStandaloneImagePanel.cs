@@ -73,7 +73,7 @@ namespace Troonie
 
 			OriginalPath = originalPath;
 			ThumbnailPath = thumbnailPath;
-			TagsData = ImageTagHelper.GetTagsDataET (OriginalPath);
+			TagsData = ImageTagHelper.GetTags (OriginalPath);
 
 			Stetic.Gui.Initialize (this);
 			Stetic.BinContainer.Attach (this);

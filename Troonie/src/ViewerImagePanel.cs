@@ -180,7 +180,7 @@ namespace Troonie
 			OriginalImageFullName = originalImageFullName;
             TagsData = 
 				//IsVideo ? VideoTagHelper.GetTagsData(OriginalImageFullName, out bool success) :
-                                 ImageTagHelper.GetTagsDataET(OriginalImageFullName);
+                                 ImageTagHelper.GetTags(OriginalImageFullName);
             firstClick = true;
 			sw_doubleClick = new Stopwatch();
 

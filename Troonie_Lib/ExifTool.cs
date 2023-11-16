@@ -102,7 +102,16 @@ namespace Troonie_Lib
         {
             string s = string.Empty;
             if (dt.HasValue)
-                s = "\"" + dt.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\"";
+                s = "\"" + dt.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture) + "\" ";
+
+            return s;
+        }
+
+        public static string DateTimeToStringNoQuotationMarks(DateTime? dt)
+        {
+            string s = string.Empty;
+            if (dt.HasValue)
+                s = dt.Value.ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture);
 
             return s;
         }

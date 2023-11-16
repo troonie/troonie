@@ -46,70 +46,85 @@ namespace Troonie_Lib
 
 		public string KeywordsString { get; private set; }
 
-        public bool SetValue (TagsFlag flag, object o)
+        public bool SetValues (TagsFlag flag, object o, bool IsVideo = false, bool UseDateTimeOriginalFlag = false)
 		{
-			switch (flag) {
-			case TagsFlag.CreateDate: return ExtractDateTime(o, ref CreateDate);
-            case TagsFlag.OffsetTime: return ExtractOffsetTime(o, ref OffsetTime);
-            case TagsFlag.Altitude:		return ExtractNullableDouble(o, ref Altitude);		
-			case TagsFlag.Creator:		return ExtractString(o, ref Creator);					
-			case TagsFlag.ExposureTime:	return ExtractNullableDouble (o, ref ExposureTime);	
-			case TagsFlag.Flash:		return ExtractNullableUshort (o, ref Flash);	
-			case TagsFlag.FNumber:		return ExtractNullableDouble (o, ref FNumber);
-			case TagsFlag.FocalLength:	return ExtractNullableDouble (o, ref FocalLength);
-			case TagsFlag.FocalLengthIn35mmFilm:	return ExtractNullableUint (o, ref FocalLengthIn35mmFilm);				
-			case TagsFlag.ISOSpeedRatings:			return ExtractNullableUint (o, ref ISOSpeedRatings);	
-			case TagsFlag.Keywords:
-                Keywords = o as List<string>;
-                //List<string> keywordList = o as List<string>;
-				//if (keywordList == null /* || keywordList.Count == 0 */ ) {
-				//	string[] keywordArray = o as string[];
-				//	if (keywordArray == null /* || keywordArray.Length == 0 */ ) {
-				//		return false;
-				//	} else {
-				//		keywordList = new List<string> (keywordArray);							
-				//	}
-				//}
+			bool tSuccess = false;
+            uint flagValue = int.MaxValue;
+            flagValue += 1;
 
-				KeywordsString = Keywords.Count != 0 ? StringHelper.ReplaceGermanUmlauts(Keywords[0]) : string.Empty;
-                for (int i = 1; i < Keywords.Count; i++) 
+			while (flagValue != 0)
+			{
+				switch (flag & (TagsFlag)flagValue)
 				{
-                        Keywords[i] = StringHelper.ReplaceGermanUmlauts(Keywords[i]);
-						KeywordsString += ", " + Keywords[i];
-                }
-                //Keywords = keywordList;
-				return true;		
-			case TagsFlag.Latitude:		return ExtractNullableDouble (o, ref Latitude);			
-			case TagsFlag.Longitude:	return ExtractNullableDouble (o, ref Longitude);			
-			case TagsFlag.Make:			return ExtractString(o, ref Make);			
-			case TagsFlag.MeteringMode:		return ExtractNullableUshort (o, ref MeteringMode);					
-			case TagsFlag.Model:		return ExtractString(o, ref Model);			
-			case TagsFlag.Orientation:	
-				bool result = ExtractUint (o, ref Orientation);
-				CalcOrientationDegree ();
-				return result;		
-			case TagsFlag.Rating:		return ExtractNullableUint(o, ref Rating);		
-			case TagsFlag.Software:		return ExtractString(o, ref Software);		
-//				// other tags
-			case TagsFlag.Comment:		return ExtractString(o, ref Comment);							
-			case TagsFlag.Copyright:	return ExtractString(o, ref Copyright);		
-			case TagsFlag.Title:		return ExtractString(o, ref Title);
-            // exiftool --> getting date time objects in videos
-            //case TagsFlag.CreateDate: return ExtractDateTime(o, ref CreateDate);
-   //         case TagsFlag.TrackCreateDate: return ExtractDateTime(o, ref TrackCreateDate);
-   //         case TagsFlag.MediaCreateDate: return ExtractDateTime(o, ref MediaCreateDate);
-			//case TagsFlag.AllCreateDates:
-			//		DateTime? dt = null;
-   //                 bool b = ExtractDateTime(o, ref dt);
-			//		SetAllCreateDates(dt);
-			//		return b;			
-            // elements With, Height and PixelFormat will not get a 'SETTER'
-            default:
-			return false;
-			}				
+
+					case TagsFlag.CreateDate: tSuccess = ExtractDateTime(o, ref CreateDate, ref OffsetTime, IsVideo, UseDateTimeOriginalFlag); break;
+					case TagsFlag.OffsetTime: tSuccess = ExtractOffsetTime(o, ref OffsetTime); break;
+					case TagsFlag.Altitude: tSuccess = ExtractNullableDouble(o, ref Altitude); break;
+					case TagsFlag.Creator: tSuccess = ExtractString(o, ref Creator); break;
+					case TagsFlag.ExposureTime: tSuccess = ExtractNullableDouble(o, ref ExposureTime); break;
+					case TagsFlag.Flash: tSuccess = ExtractNullableUshort(o, ref Flash); break;
+					case TagsFlag.FNumber: tSuccess = ExtractNullableDouble(o, ref FNumber); break;
+					case TagsFlag.FocalLength: tSuccess = ExtractNullableDouble(o, ref FocalLength); break;
+					case TagsFlag.FocalLengthIn35mmFilm: tSuccess = ExtractNullableUint(o, ref FocalLengthIn35mmFilm); break;
+					case TagsFlag.ISOSpeedRatings: tSuccess = ExtractNullableUint(o, ref ISOSpeedRatings); break;
+					case TagsFlag.Keywords:
+						Keywords = o as List<string>;
+						//List<string> keywordList = o as List<string>;
+						//if (keywordList == null /* || keywordList.Count == 0 */ ) {
+						//	string[] keywordArray = o as string[];
+						//	if (keywordArray == null /* || keywordArray.Length == 0 */ ) {
+						//		tSuccess = false;
+						//	} else {
+						//		keywordList = new List<string> (keywordArray); 							
+						//	}
+						//}
+
+						KeywordsString = Keywords.Count != 0 ? StringHelper.ReplaceGermanUmlauts(Keywords[0]) : string.Empty;
+						for (int i = 1; i < Keywords.Count; i++)
+						{
+							Keywords[i] = StringHelper.ReplaceGermanUmlauts(Keywords[i]); 
+							KeywordsString += ", " + Keywords[i];
+						}
+						//Keywords = keywordList;
+						tSuccess = true;
+                        break;
+                    case TagsFlag.Latitude: tSuccess = ExtractNullableDouble(o, ref Latitude); break;
+					case TagsFlag.Longitude: tSuccess = ExtractNullableDouble(o, ref Longitude); break;
+					case TagsFlag.Make: tSuccess = ExtractString(o, ref Make); break;
+					case TagsFlag.MeteringMode: tSuccess = ExtractNullableUshort(o, ref MeteringMode); break;
+					case TagsFlag.Model: tSuccess = ExtractString(o, ref Model); break;
+					case TagsFlag.Orientation:
+						bool result = ExtractUint(o, ref Orientation); 
+						CalcOrientationDegree(); 
+						tSuccess = result;
+                        break;
+                    case TagsFlag.Rating: tSuccess = ExtractNullableUint(o, ref Rating); break;
+					case TagsFlag.Software: tSuccess = ExtractString(o, ref Software); break;
+					//				// other tags
+					case TagsFlag.Comment: tSuccess = ExtractString(o, ref Comment); break;
+					case TagsFlag.Copyright: tSuccess = ExtractString(o, ref Copyright); break;
+					case TagsFlag.Title: tSuccess = ExtractString(o, ref Title); break;
+                    // exiftool --> getting date time objects in videos
+                    //case TagsFlag.CreateDate: tSuccess = ExtractDateTime(o, ref CreateDate); break;
+                    //         case TagsFlag.TrackCreateDate: tSuccess = ExtractDateTime(o, ref TrackCreateDate); break;
+                    //         case TagsFlag.MediaCreateDate: tSuccess = ExtractDateTime(o, ref MediaCreateDate); break;
+                    //case TagsFlag.AllCreateDates:
+                    //		DateTime? dt = null;
+                    //                 bool b = ExtractDateTime(o, ref dt); 
+                    //		SetAllCreateDates(dt); 
+                    //		tSuccess = b;			
+                    //		break;
+                    // elements With, Height and PixelFormat will not get a 'SETTER'
+				} // switch
+
+                flagValue >>= 1;
+
+            }// while
+
+			return tSuccess;
 		}
 			
-		public object GetValue (TagsFlag flag)
+		public object GetSingleValue (TagsFlag flag)
 		{
 			switch (flag) {
 			// image tags
@@ -288,7 +303,7 @@ namespace Troonie_Lib
 			}
 		}
 
-		private static bool ExtractDateTime(object o, ref DateTime? dt)
+		private static bool ExtractDateTime(object o, ref DateTime? dt, ref OffsetTime offset, bool IsVideo, bool UseDateTimeOriginalFlag)
 		{ 
             string dt_string = string.Empty;
             bool b = ExtractString(o, ref dt_string);
@@ -301,11 +316,32 @@ namespace Troonie_Lib
                     else
                     {
 						DateTime tmp;
-                        b = System.DateTime.TryParse(dt_string, out tmp);
-					// TODO Setting correct UTC time when video file
+                        b = DateTime.TryParseExact(dt_string, "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out tmp);
+
 						if (b) 
-						{ 
-							dt = tmp; 
+						{
+							// TODO Setting correct UTC time when video file
+							#region checkforoffset
+							if (IsVideo)
+							{
+							// dateTimeOptions.CbDateTimeOriginal.Active;
+							DateTime utc = tmp.ToUniversalTime();
+                            DateTime local = tmp.ToLocalTime();
+                            DateTimeOffset? dto = new DateTimeOffset(tmp);
+                            
+                            DateTimeOffset dto_utc = new DateTimeOffset(utc);
+                            //dto.Offset.Hours;
+                            //TimeSpan ts = 
+                            //tmp.offset
+                        }
+							else
+							{
+
+							}
+							#endregion
+
+
+                        dt = tmp; 
 						}
 							
                     }

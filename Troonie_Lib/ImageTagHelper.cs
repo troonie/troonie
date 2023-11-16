@@ -27,7 +27,7 @@ namespace Troonie_Lib
 			}
 		}
 			
-		public static TagsData GetTagsDataET(string fileName) 
+		public static TagsData GetTags(string fileName) 
 		{
             TagsData td = new TagsData();
             List<string> lines = new List<string>();
@@ -162,7 +162,7 @@ namespace Troonie_Lib
 			return td;
         }
 
-        public static DateTime? GetDateTime(string fileName)
+        public static DateTime? GetCreateDate(string fileName)
         {
             DateTime? tt = null;
             string tArgs = " -S -CreateDate " + fileName;
@@ -229,7 +229,7 @@ namespace Troonie_Lib
 			return Constants.I.ET.Success;
         }
 
-        public static bool SetTagET(string fileName, TagsFlag flag, TagsData newData/*, bool append = false*/)
+        public static bool SetTags(string fileName, TagsFlag flag, TagsData newData/*, bool append = false*/)
         {
 			string tArgs = " -overwrite_original -S ";
             uint flagValue = int.MaxValue;
@@ -252,7 +252,7 @@ namespace Troonie_Lib
                         tArgs += "-Microsoft:Category=\"" + newData.KeywordsString + "\" -sep " + "\", \" ";
                         break;
                     case TagsFlag.CreateDate:
-						tArgs += "-CreateDate=\"" + ExifTool.DateTimeToString(newData.CreateDate) + "\" ";
+						tArgs += "-CreateDate=" + ExifTool.DateTimeToString(newData.CreateDate);
 						break;
                     case TagsFlag.OffsetTime: tArgs += "-OffsetTime=\"" + newData.OffsetTime.Value + "\" "; break;
                     case TagsFlag.ExposureTime: tArgs += "-ExposureTime#=" + newData.ExposureTime + " "; break;
@@ -291,8 +291,23 @@ namespace Troonie_Lib
                         break;                    
                     // also setting hidden tags
                     case TagsFlag.MediaCreateDate:
-                        tArgs += "-TrackCreateDate=\"" + ExifTool.DateTimeToString(newData.CreateDate) + "\" ";
-                        tArgs += "-MediaCreateDate=\"" + ExifTool.DateTimeToString(newData.CreateDate) + "\" ";
+                        tArgs += "-MediaCreateDate=" + ExifTool.DateTimeToString(newData.CreateDate); // videos
+                        break;
+                    case TagsFlag.TrackCreateDate:
+                        tArgs += "-TrackCreateDate=" + ExifTool.DateTimeToString(newData.CreateDate); // videos
+                        break;
+                    case TagsFlag.ModifyDate:
+                        tArgs += "-ModifyDate=" + ExifTool.DateTimeToString(newData.CreateDate); // images+videos
+                        break;
+                    case TagsFlag.TrackModifyDate:
+                        tArgs += "-TrackModifyDate=" + ExifTool.DateTimeToString(newData.CreateDate); // videos
+                        break;
+                    case TagsFlag.MediaModifyDate:
+                        tArgs += "-MediaModifyDate=" + ExifTool.DateTimeToString(newData.CreateDate);  // videos
+                        break;
+                    case TagsFlag.DateTimeOriginal:
+                        tArgs += "-OriginalCreateDateTime=" + ExifTool.DateTimeToString(newData.CreateDate); // videos
+                        tArgs += "-DateTimeOriginal=" + ExifTool.DateTimeToString(newData.CreateDate); // images+videos
                         break;
 
                         //			default:
