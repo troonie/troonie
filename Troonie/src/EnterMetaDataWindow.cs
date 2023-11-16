@@ -364,7 +364,7 @@ namespace Troonie
 			if (o == null) {
 				so = string.Empty;
 			} else {
-				so = tags == TagsFlag.CreateDate ? ExifTool.DateTimeToStringNoQuotationMarks(o as DateTime?) : o.ToString();
+				so = tags == TagsFlag.CreateDate ? ExifTool.DateTimeToStringNoQuotationMarks(o as DateTimeOffset?) : o.ToString();
 			}
 
 			if (pressedInVIPs.Count == 1) {					
@@ -382,7 +382,7 @@ namespace Troonie
 					if (o == null) {
 						so2 = string.Empty;
 					} else {
-						so2 = tags == TagsFlag.CreateDate ? ExifTool.DateTimeToStringNoQuotationMarks(o as DateTime?) : o.ToString();
+						so2 = tags == TagsFlag.CreateDate ? ExifTool.DateTimeToStringNoQuotationMarks(o as DateTimeOffset?) : o.ToString();
 					}
 
 					if (so != null && so2 != null && so == so2) {

@@ -9,7 +9,7 @@ namespace Troonie_Lib
 		#region 16 image tagsData elements
 		public double? Altitude;
 		public string Creator;
-		public DateTime? CreateDate;
+		public DateTimeOffset? CreateDate;
         //public DateTime? TrackCreateDate;
         //public DateTime? MediaCreateDate;
         public OffsetTime OffsetTime;
@@ -303,7 +303,7 @@ namespace Troonie_Lib
 			}
 		}
 
-		private static bool ExtractDateTime(object o, ref DateTime? dt, ref OffsetTime offset, bool IsVideo, bool UseDateTimeOriginalFlag)
+		private static bool ExtractDateTime(object o, ref DateTimeOffset? dt, ref OffsetTime offset, bool IsVideo, bool UseDateTimeOriginalFlag)
 		{ 
             string dt_string = string.Empty;
             bool b = ExtractString(o, ref dt_string);
@@ -315,8 +315,8 @@ namespace Troonie_Lib
                     }
                     else
                     {
-						DateTime tmp;
-                        b = DateTime.TryParseExact(dt_string, "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out tmp);
+						DateTimeOffset tmp;
+                        b = DateTimeOffset.TryParseExact(dt_string, "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out tmp);
 
 						if (b) 
 						{
@@ -324,19 +324,11 @@ namespace Troonie_Lib
 							#region checkforoffset
 							if (IsVideo)
 							{
-							// dateTimeOptions.CbDateTimeOriginal.Active;
-							DateTime utc = tmp.ToUniversalTime();
-                            DateTime local = tmp.ToLocalTime();
-                            DateTimeOffset? dto = new DateTimeOffset(tmp);
-                            
-                            DateTimeOffset dto_utc = new DateTimeOffset(utc);
-                            //dto.Offset.Hours;
-                            //TimeSpan ts = 
-                            //tmp.offset
+								tmp = tmp.UtcDateTime;
                         }
 							else
 							{
-
+								//offset.Value
 							}
 							#endregion
 

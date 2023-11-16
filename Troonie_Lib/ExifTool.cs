@@ -98,7 +98,7 @@ namespace Troonie_Lib
             }
         }
 
-        public static string DateTimeToString(DateTime? dt)
+        public static string DateTimeToString(DateTimeOffset? dt)
         {
             string s = string.Empty;
             if (dt.HasValue)
@@ -107,7 +107,7 @@ namespace Troonie_Lib
             return s;
         }
 
-        public static string DateTimeToStringNoQuotationMarks(DateTime? dt)
+        public static string DateTimeToStringNoQuotationMarks(DateTimeOffset? dt)
         {
             string s = string.Empty;
             if (dt.HasValue)
