@@ -59,7 +59,7 @@ namespace Troonie_Lib
                             "-Copyright " +
                             "-Title ";                            						
 
-            tArgs += " " + fileName;
+            tArgs += " \"" + fileName + "\" ";
 
             Constants.I.ET.Process(tArgs, lines);
 
@@ -84,9 +84,9 @@ namespace Troonie_Lib
                     case "GPSAltitude": if (double.TryParse(result[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d)) td.Altitude = d; break;
                     case "Creator":  td.Creator = allValues; break;
                     case "CreateDate":
-                        DateTime t;
-                        DateTime? tt = null;
-                        bool b = DateTime.TryParseExact(result[1], "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out t);
+                        DateTimeOffset t;
+                        DateTimeOffset? tt = null;
+                        bool b = DateTimeOffset.TryParseExact(result[1], "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out t);
                         if (b)
                         {
                             tt = t; // t.ToLocalTime();
@@ -162,10 +162,10 @@ namespace Troonie_Lib
 			return td;
         }
 
-        public static DateTime? GetCreateDate(string fileName)
+        public static DateTimeOffset? GetCreateDate(string fileName)
         {
-            DateTime? tt = null;
-            string tArgs = " -S -CreateDate " + fileName;
+            DateTimeOffset? tt = null;
+            string tArgs = " -S -CreateDate " + " \"" + fileName + "\" ";
             List<string> lines = new List<string>();
             Constants.I.ET.Process(tArgs, lines);
 
@@ -174,9 +174,9 @@ namespace Troonie_Lib
                 string[] result = lines[0].Split(new string[] { "\r\n", ": ", ", " }, StringSplitOptions.RemoveEmptyEntries);
                 if (result.Length == 2)
                 {
-                    DateTime t;
+                    DateTimeOffset t;
 
-                    bool b = DateTime.TryParseExact(result[1], "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out t);
+                    bool b = DateTimeOffset.TryParseExact(result[1], "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out t);
                     if (b)
                     {
                         tt = t; // t.ToLocalTime();
@@ -189,7 +189,7 @@ namespace Troonie_Lib
 
         public static uint GetRating(string fileName)
 		{
-            string tArgs = " -S -Rating# " + fileName;
+            string tArgs = " -S -Rating# " + " \"" + fileName + "\" ";
 			uint rating = 0;
             List<string> lines = new List<string>();
             Constants.I.ET.Process(tArgs, lines);
@@ -224,12 +224,12 @@ namespace Troonie_Lib
                 case 5: MS_Rating += 99; break;
             }
 
-            string tArgs = " -overwrite_original -S -Rating#=" + rating + MS_Rating + " " + fileName;
+            string tArgs = " -overwrite_original -S -Rating#=" + rating + MS_Rating + " " + " \"" + fileName + "\" ";
             Constants.I.ET.Process(tArgs);
 			return Constants.I.ET.Success;
         }
 
-        public static bool SetTags(string fileName, TagsFlag flag, TagsData newData/*, bool append = false*/)
+        public static bool SetTags(string fileName, TagsFlag flag, TagsData newData /*, bool append = false*/)
         {
 			string tArgs = " -overwrite_original -S ";
             uint flagValue = int.MaxValue;
@@ -254,7 +254,9 @@ namespace Troonie_Lib
                     case TagsFlag.CreateDate:
 						tArgs += "-CreateDate=" + ExifTool.DateTimeToString(newData.CreateDate);
 						break;
-                    case TagsFlag.OffsetTime: tArgs += "-OffsetTime=\"" + newData.OffsetTime.Value + "\" "; break;
+                    case TagsFlag.OffsetTime: 
+                        tArgs += "-OffsetTime=\"" + newData.OffsetTime.Value + "\" ";
+                        break;
                     case TagsFlag.ExposureTime: tArgs += "-ExposureTime#=" + newData.ExposureTime + " "; break;
                     case TagsFlag.Flash: tArgs += "-Flash#=" + newData.Flash + " "; break;
                     case TagsFlag.FNumber: tArgs += "-FNumber#=" + newData.FNumber + " "; break;
@@ -308,6 +310,9 @@ namespace Troonie_Lib
                     case TagsFlag.DateTimeOriginal:
                         tArgs += "-OriginalCreateDateTime=" + ExifTool.DateTimeToString(newData.CreateDate); // videos
                         tArgs += "-DateTimeOriginal=" + ExifTool.DateTimeToString(newData.CreateDate); // images+videos
+
+                        if (flag.HasFlag(TagsFlag.OffsetTime) /* | flag.HasFlag(TagsFlag.CreateDate) */ )
+                            tArgs += "-OffsetTimeOriginal=\"" + newData.OffsetTime.Value + "\" ";
                         break;
 
                         //			default:
@@ -317,7 +322,7 @@ namespace Troonie_Lib
                 flagValue >>= 1;
             }
 
-			tArgs += fileName;
+			tArgs += " \"" + fileName + "\" ";
 			Constants.I.ET.Process(tArgs);
 
             return Constants.I.ET.Success;

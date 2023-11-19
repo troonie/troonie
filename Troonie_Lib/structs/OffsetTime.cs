@@ -3,11 +3,6 @@ namespace Troonie_Lib
 {
     public struct OffsetTime
     {
-        //private char sign;
-        //private char hour1;
-        //private char hour2;
-        //private char minute1;
-        //private char minute2;
         public bool HasValidValue { get; private set; }
         public string Value { get; private set; }
       

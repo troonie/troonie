@@ -283,9 +283,10 @@ namespace Troonie
 
 				TagsData oldTagsData = vip.TagsData;
                 bool setValueSuccess = vip.TagsData.SetValues (
-					tags, entry.Text, vip.IsVideo, dateTimeOptions.CbDateTimeOriginal.Active);
+					tags, entry.Text, vip.IsVideo);
 
 				if (setValueSuccess) {
+					tags |= TagsFlag.OffsetTime; // also adding possible new offset
 					bool success = 
 						// vip.IsVideo ? VideoTagHelper.SetTag (vip.OriginalImageFullName, tags, vip.TagsData) :
 						ImageTagHelper.SetTags (vip.OriginalImageFullName, tags, vip.TagsData);

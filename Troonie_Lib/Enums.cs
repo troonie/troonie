@@ -51,7 +51,7 @@ namespace Troonie_Lib
 
         AllCreateAndModifyDates = CreateDate | MediaCreateDate | TrackCreateDate | 
 								  ModifyDate | MediaModifyDate |TrackModifyDate |
-								  DateTimeOriginal
+								  DateTimeOriginal | OffsetTime
         #endregion
     }
 

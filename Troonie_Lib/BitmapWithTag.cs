@@ -75,7 +75,7 @@ namespace Troonie_Lib
 			{
 				Bitmap bb = new Bitmap(10, 10);
 				bb.Save(origExifTagsFile, ImageFormat.Jpeg);
-                string tArg = " -overwrite_original -S -TagsFromFile " + FileName + " \"-all:all>all:all\" " + origExifTagsFile;
+                string tArg = " -overwrite_original -S -TagsFromFile " + FileName + " \"-all:all>all:all\" " + " \"" + origExifTagsFile + "\" ";
                 ET.Process(tArg);
 				successET = ET.Success;
 				//saveTagsByET = ET.Success;
@@ -167,7 +167,7 @@ namespace Troonie_Lib
 					success = JpegEncoder.SaveWithCjpeg (FileName, dest, config.JpgQuality, config.Format);
 					if (saveTag) 
 					{
-						string tArg = " -overwrite_original -S -TagsFromFile " + origExifTagsFile + " \"-all:all>all:all\" " + FileName; // + " -execute 'TODO further commands'";
+						string tArg = " -overwrite_original -S -TagsFromFile " + origExifTagsFile + " \"-all:all>all:all\" " + " \"" + FileName + "\" "; // + " -execute 'TODO further commands'";
                         ET.Process(tArg);
 						successET = ET.Success;
                         //saveTagsByET = ET.Success;                      
@@ -214,7 +214,7 @@ namespace Troonie_Lib
 				if (saveTag) 
 				{
                     //ImageTagHelper.CopyTagToFile (FileName, imageTag);
-                    string tArg = " -overwrite_original -S -TagsFromFile " + origExifTagsFile + " \"-all:all>all:all\" " + FileName; // + " -execute 'TODO further commands'";
+                    string tArg = " -overwrite_original -S -TagsFromFile " + origExifTagsFile + " \"-all:all>all:all\" " + " \"" + FileName + "\" "; // + " -execute 'TODO further commands'";
                     ET.Process(tArg);
 					successET = ET.Success;
                 }

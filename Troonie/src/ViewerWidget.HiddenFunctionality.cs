@@ -30,7 +30,6 @@ namespace Troonie
 					long fileSize = info.Length; 
 					uint rating = 0;
 					bool isVideo = false;
-					//				DateTime? dt = null;
 					TagsData td;
 					string f = pib.RelativeImageName, fullf = pib.OriginalImageFullName;
 
@@ -142,20 +141,12 @@ namespace Troonie
 				foreach (ViewerImagePanel vip in pressedInVIPs) {
 					tmp = vip.RelativeImageName;
 					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
-					DateTime? dt = GetDatetimeFromFilename(f);
+                    DateTimeOffset? dt = GetDatetimeFromFilename(f);
 					bool success = false; 
 					if (dt.HasValue) {
-                        //if (vip.IsVideo)
-                        //{
-                        //    vip.TagsData.SetAllCreateDates(dt);
-                        //    success = VideoTagHelper.SetTag(vip.OriginalImageFullName, TagsFlag.AllCreateDates2, vip.TagsData);
-                        //}
-                        //else
-                        {
-                            vip.TagsData.CreateDate = dt;
-                            success = ImageTagHelper.SetTags(vip.OriginalImageFullName, TagsFlag.AllCreateAndModifyDates, vip.TagsData);
-                        }
-
+	                    vip.TagsData.CreateDate = dt;
+                        success = ImageTagHelper.SetTags(vip.OriginalImageFullName, TagsFlag.AllCreateAndModifyDates, vip.TagsData);
+    
                         // dirty workaround to refresh label strings of ViewerWidget.tableTagsViewer
                         vip.IsPressedIn = vip.IsPressedIn;						
 					}
@@ -188,7 +179,7 @@ namespace Troonie
 				foreach (ViewerImagePanel vip in pressedInVIPs) {
 					tmp = vip.RelativeImageName;
 					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
-					DateTime? dt = ImageTagHelper.GetCreateDate (fullf);
+                    DateTimeOffset? dt = ImageTagHelper.GetCreateDate (fullf);
 					bool success = false; 
 
 					if (dt.HasValue) {
@@ -424,9 +415,9 @@ namespace Troonie
 			}
 		}
 
-		public static DateTime? GetDatetimeFromFilename(string filename)
+		public static DateTimeOffset? GetDatetimeFromFilename(string filename)
 		{
-			DateTime dt;
+            DateTimeOffset dt;
 			bool success;
 
 //			// simple check
@@ -452,7 +443,7 @@ namespace Troonie
 			Match m = r.Match(filename);
 			if(m.Success)
 			{
-				success = DateTime.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
+				success = DateTimeOffset.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
 					DateTimeStyles.None, out dt);
 
 				if (success){
@@ -467,7 +458,7 @@ namespace Troonie
 			m = r.Match(filename);
 			if(m.Success)
 			{
-				success = DateTime.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
+				success = DateTimeOffset.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
 					DateTimeStyles.None, out dt);
 				
 				if (success){
@@ -482,7 +473,7 @@ namespace Troonie
 			m = r.Match(filename);
 			if(m.Success)
 			{
-				success = DateTime.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
+				success = DateTimeOffset.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
 					DateTimeStyles.None, out dt);
 				if (success){
 					return dt;
@@ -495,7 +486,7 @@ namespace Troonie
 			m = r.Match(filename);
 			if(m.Success)
 			{
-				success = DateTime.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
+				success = DateTimeOffset.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
 					DateTimeStyles.None, out dt);
 				if (success){
 					return dt;
@@ -503,51 +494,6 @@ namespace Troonie
 			}
 
 			return null;
-		}
-
-		[Obsolete("No useful usage anymore. Try 'GetDatetimeFromFilename(string filename)' instead.")]
-		public static void GetDateFromFilenameAsUint(string filename, out uint dateAsUint, out string date)
-		{
-			dateAsUint = 0;
-			date = string.Empty;
-			DateTime dt;
-			bool success;
-
-			// first pattern check
-			string pattern = @"(\d+)";
-			string[] formats = {"yyyyMMdd", "ddMMyyyy", "yyMMdd", "ddMMyy"};
-
-			Regex r = new Regex(pattern);
-			Match m = r.Match(filename);
-			if(m.Success)
-			{
-				success = DateTime.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
-					DateTimeStyles.None, out dt);
-				if (success){
-					date = dt.ToShortDateString ();
-					string s = dt.ToString("yyyyMMdd");  
-					dateAsUint = Convert.ToUInt32(s);
-					return;
-				}
-			}
-
-			// second pattern check
-			pattern = @"(\d+)[-.\/](\d+)[-.\/](\d+)";
-			formats = new string[] {"yyyy-MM-dd", "yyyy/MM/dd", "yyyy.MM.dd", "dd-MM-yyyy", 
-				"dd/MM/yyyy", "dd.MM.yyyy", "yy/MM/dd", "dd-MM-yy", "dd.MM.yy"};
-			r = new Regex(pattern);
-			m = r.Match(filename);
-			if(m.Success)
-			{
-				success = DateTime.TryParseExact(m.Value, formats, CultureInfo.InvariantCulture, 
-					DateTimeStyles.None, out dt);
-				if (success){
-					date = dt.ToShortDateString ();
-					string s = dt.ToString("yyyyMMdd");  
-					dateAsUint = Convert.ToUInt32(s);
-					return;
-				}
-			}							
 		}
 
 		#endregion Image changing and adapting

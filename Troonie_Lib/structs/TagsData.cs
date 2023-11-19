@@ -10,8 +10,6 @@ namespace Troonie_Lib
 		public double? Altitude;
 		public string Creator;
 		public DateTimeOffset? CreateDate;
-        //public DateTime? TrackCreateDate;
-        //public DateTime? MediaCreateDate;
         public OffsetTime OffsetTime;
 		public double? ExposureTime;
 		public ushort? Flash;
@@ -46,7 +44,7 @@ namespace Troonie_Lib
 
 		public string KeywordsString { get; private set; }
 
-        public bool SetValues (TagsFlag flag, object o, bool IsVideo = false, bool UseDateTimeOriginalFlag = false)
+        public bool SetValues (TagsFlag flag, object o, bool IsVideo = false)
 		{
 			bool tSuccess = false;
             uint flagValue = int.MaxValue;
@@ -57,7 +55,7 @@ namespace Troonie_Lib
 				switch (flag & (TagsFlag)flagValue)
 				{
 
-					case TagsFlag.CreateDate: tSuccess = ExtractDateTime(o, ref CreateDate, ref OffsetTime, IsVideo, UseDateTimeOriginalFlag); break;
+					case TagsFlag.CreateDate: tSuccess = ExtractDateTime(o, ref CreateDate, ref OffsetTime, IsVideo); break;
 					case TagsFlag.OffsetTime: tSuccess = ExtractOffsetTime(o, ref OffsetTime); break;
 					case TagsFlag.Altitude: tSuccess = ExtractNullableDouble(o, ref Altitude); break;
 					case TagsFlag.Creator: tSuccess = ExtractString(o, ref Creator); break;
@@ -104,16 +102,6 @@ namespace Troonie_Lib
 					case TagsFlag.Comment: tSuccess = ExtractString(o, ref Comment); break;
 					case TagsFlag.Copyright: tSuccess = ExtractString(o, ref Copyright); break;
 					case TagsFlag.Title: tSuccess = ExtractString(o, ref Title); break;
-                    // exiftool --> getting date time objects in videos
-                    //case TagsFlag.CreateDate: tSuccess = ExtractDateTime(o, ref CreateDate); break;
-                    //         case TagsFlag.TrackCreateDate: tSuccess = ExtractDateTime(o, ref TrackCreateDate); break;
-                    //         case TagsFlag.MediaCreateDate: tSuccess = ExtractDateTime(o, ref MediaCreateDate); break;
-                    //case TagsFlag.AllCreateDates:
-                    //		DateTime? dt = null;
-                    //                 bool b = ExtractDateTime(o, ref dt); 
-                    //		SetAllCreateDates(dt); 
-                    //		tSuccess = b;			
-                    //		break;
                     // elements With, Height and PixelFormat will not get a 'SETTER'
 				} // switch
 
@@ -303,7 +291,7 @@ namespace Troonie_Lib
 			}
 		}
 
-		private static bool ExtractDateTime(object o, ref DateTimeOffset? dt, ref OffsetTime offset, bool IsVideo, bool UseDateTimeOriginalFlag)
+		private static bool ExtractDateTime(object o, ref DateTimeOffset? dt, ref OffsetTime offset, bool IsVideo)
 		{ 
             string dt_string = string.Empty;
             bool b = ExtractString(o, ref dt_string);
@@ -324,12 +312,16 @@ namespace Troonie_Lib
 							#region checkforoffset
 							if (IsVideo)
 							{
+								// mp4 spec says create dates have to been in UTC, there is no tag for offset information
 								tmp = tmp.UtcDateTime;
                         }
 							else
 							{
-								//offset.Value
-							}
+								string os = tmp.ToString();
+								os = os.Substring(os.Length - 6, 6); //e.g. -02:00
+								offset = new OffsetTime(os);
+
+                        }
 							#endregion
 
 
