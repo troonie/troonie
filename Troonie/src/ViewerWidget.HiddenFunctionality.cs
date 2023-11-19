@@ -227,7 +227,7 @@ namespace Troonie
 		private void RenameVideoByTitleAndInsertIdentifier()
 		{
 			string tmp = "";
-			string errorImages = string.Empty;
+			//string errorImages = string.Empty;
 
 			try{
 				List<ViewerImagePanel>pressedInVIPs = GetPressedInVIPs();
@@ -237,7 +237,7 @@ namespace Troonie
 						continue;
 					}						
 
-					bool success = true;
+					//bool success = true;
 					tmp = vip.RelativeImageName;
 					string f = vip.RelativeImageName, fullf = vip.OriginalImageFullName;
 					vip.TagsData.CreateDate = GetDatetimeFromFilename(fullf);
@@ -258,8 +258,8 @@ namespace Troonie
 						s = s.Insert(s.LastIndexOf('.'), "_" + title);
 					}
 
-					// remove old identifier
-					s = s.Replace("-vid", "");
+					//// remove old identifier
+					//s = s.Replace("-vid", "");
 
 					int firstIdentifier = s.IndexOf (identifier);
 					if (firstIdentifier == -1 || firstIdentifier != 0) {
@@ -270,39 +270,39 @@ namespace Troonie
 						f = s;
 					}
 
-					string oldFullPicName = vip.OriginalImageFullName + ".png";
-					string newFullPicName = fullf + ".png";
-					string newRelativePicName = f + ".png";
+					//string oldFullPicName = vip.OriginalImageFullName + ".png";
+					//string newFullPicName = fullf + ".png";
+					//string newRelativePicName = f + ".png";
 					SetTextAndFulltextAndRedrawVip(vip, f, fullf);
 
-					// check, if picture video exists and rename it
-					if (File.Exists (oldFullPicName)) {
-						foreach (ViewerImagePanel picVip in tableViewer.Children) {
-							if (picVip.OriginalImageFullName != oldFullPicName) {
-								continue;
-							}
-							else {
-								TroonieBitmap.CreateTextBitmap (newFullPicName, f);
-								File.Delete(oldFullPicName);
-								success = ImageTagHelper.SetTags(newFullPicName, (TagsFlag)0xFFFFFF, vip.TagsData);
-								picVip.TagsData = vip.TagsData;
-								SetTextAndFulltextAndRedrawVip(picVip, newRelativePicName, newFullPicName);
-								// dirty workaround to refresh thumbnail image
-								picVip.IsDoubleClicked = false; 
+					//// check, if picture video exists and rename it
+					//if (File.Exists (oldFullPicName)) {
+					//	foreach (ViewerImagePanel picVip in tableViewer.Children) {
+					//		if (picVip.OriginalImageFullName != oldFullPicName) {
+					//			continue;
+					//		}
+					//		else {
+					//			TroonieBitmap.CreateTextBitmap (newFullPicName, f);
+					//			File.Delete(oldFullPicName);
+					//			success = ImageTagHelper.SetTags(newFullPicName, (TagsFlag)0xFFFFFF, vip.TagsData);
+					//			picVip.TagsData = vip.TagsData;
+					//			SetTextAndFulltextAndRedrawVip(picVip, newRelativePicName, newFullPicName);
+					//			// dirty workaround to refresh thumbnail image
+					//			picVip.IsDoubleClicked = false; 
 
-								break;
-							}
-						}													
-					}
-
-					if(!success) {						
-						errorImages += newRelativePicName + Constants.N;
-					}
+					//			break;
+					//		}
+					//	}													
+					//}
+					//
+					//if(!success) {						
+					//	errorImages += newRelativePicName + Constants.N;
+					//}
 				}
 
-				if (errorImages.Length != 0) {
-					ShowErrorDialog(Language.I.L[261], errorImages + Constants.N);
-				}
+				//if (errorImages.Length != 0) {
+				//	ShowErrorDialog(Language.I.L[261], errorImages + Constants.N);
+				//}
 			}
 			catch (Exception e)
 			{

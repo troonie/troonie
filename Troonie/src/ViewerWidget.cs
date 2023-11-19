@@ -424,8 +424,8 @@ namespace Troonie
 
 			//const int length = 45;
 			List<Tuple<ExceptionType, string>> errors = new List<Tuple<ExceptionType, string>> ();
-			bool addingVideoPicture = false;
-			bool isFirstQuestion = true;
+			//bool addingVideoPicture = false;
+			//bool isFirstQuestion = true;
 
 //			foreach (string s in newImages) {
 			for (int i = 0; i < newImages.Count; ++i) {
@@ -469,62 +469,56 @@ namespace Troonie
                 bool isVideo = Constants.VideoExtensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext || x.Value.Item3 == ext);
 				//long fileSize = info.Length;
 
-				// ask (and do) for adding video picture
-				if (isVideo) {					
+//				// ask (and do) for adding video picture
+//				if (isVideo) {
 
-					if (isFirstQuestion) {
-						isFirstQuestion = false;
-						MessageDialog md = new MessageDialog (this, 
-							DialogFlags.DestroyWithParent, MessageType.Question, 
-							ButtonsType.OkCancel, Language.I.L [201]);
-						//					md.Run ();
-						md.KeepAbove = true;
-						md.WindowPosition = WindowPosition.CenterAlways;
+//					if (isFirstQuestion)
+//					{
+//						isFirstQuestion = false;
+//						MessageDialog md = new MessageDialog(this,
+//							DialogFlags.DestroyWithParent, MessageType.Question,
+//							ButtonsType.OkCancel, Language.I.L[201]);
+//						//					md.Run ();
+//						md.KeepAbove = true;
+//						md.WindowPosition = WindowPosition.CenterAlways;
 
-						ResponseType tp = (Gtk.ResponseType)md.Run();
-//						if (tp == ResponseType.Ok) {
-//							addingVideoPicture = true;
-//
-//						} else {
-//							addingVideoPicture = false;
+//						ResponseType tp = (Gtk.ResponseType)md.Run();
+//						addingVideoPicture = tp == ResponseType.Ok;
+//						md.Destroy();
+//					}
+
+//					if (addingVideoPicture) {
+
+
+//						string fullPicName = null; // = info.FullName + ".png";
+
+//						for (int k = 5; k >= 1; k--) {
+////							string ss = info.FullName.Replace (Constants.Stars [k], string.Empty);
+//							fullPicName = info.FullName.Replace(Constants.Stars[k], string.Empty) + Constants.Stars[k] + ".png";
+//							if (File.Exists (fullPicName)) {
+//								break;
+//							}
+
+//							// If not found, setting default video pic filename
+//							fullPicName = info.FullName + ".png";
 //						}
-						addingVideoPicture = tp == ResponseType.Ok;
-						md.Destroy ();
-					} 
 
-					if (addingVideoPicture) {
+//						// if video pic does not exist, create it
+//						if (!File.Exists(fullPicName)) {
+//							TroonieBitmap.CreateTextBitmap (fullPicName, 
+//								info.FullName.Substring(info.FullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1));
+//						}
 
-
-						string fullPicName = null; // = info.FullName + ".png";
-
-						for (int k = 5; k >= 1; k--) {
-//							string ss = info.FullName.Replace (Constants.Stars [k], string.Empty);
-							fullPicName = info.FullName.Replace(Constants.Stars[k], string.Empty) + Constants.Stars[k] + ".png";
-							if (File.Exists (fullPicName)) {
-								break;
-							}
-
-							// If not found, setting default video pic filename
-							fullPicName = info.FullName + ".png";
-						}
-
-						// if video pic does not exist, create it
-						if (!File.Exists(fullPicName)) {
-							TroonieBitmap.CreateTextBitmap (fullPicName, 
-								info.FullName.Substring(info.FullName.LastIndexOf(IOPath.DirectorySeparatorChar) + 1));
-						}
-
-						// if video pic is not added yet, add it
-						if (!newImages.Contains (fullPicName)) {
-							newImages.Insert (i, fullPicName);
-							info = new FileInfo (newImages [i]);
-							ext = info.Extension.ToLower ();
-							isImage = true;
-							isVideo = false;
-//							i++;
-						}
-					}
-				}
+//						// if video pic is not added yet, add it
+//						if (!newImages.Contains (fullPicName)) {
+//							newImages.Insert (i, fullPicName);
+//							info = new FileInfo (newImages [i]);
+//							ext = info.Extension.ToLower ();
+//							isImage = true;
+//							isVideo = false;
+//						}
+//					}
+//				}
 
 				if (ext.Length != 0 && (isImage || isVideo) && !ImageFullPaths.Contains(newImages[i])) {
 
