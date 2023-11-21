@@ -29,7 +29,6 @@ namespace Troonie
 					string ext = info.Extension.ToLower ();
 					long fileSize = info.Length; 
 					uint rating = 0;
-					//bool isVideo = false;
 					TagsData td;
 					string f = pib.RelativeImageName, fullf = pib.OriginalImageFullName;
 
@@ -38,51 +37,8 @@ namespace Troonie
                     if (td.Creator != null && td.Creator.Length != 0)
                         creatorText = td.Creator + separator;
 
-//                    if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {						
-						  
-
-//                    } else {
-////						td = VideoTagHelper.GetTagsData(pib.OriginalImageFullName);
-////						rating = td.TrackCount;
-//						isVideo = true;
-
-//						string fullPicName = info.FullName + ".png";
-//						if (File.Exists (fullPicName)) {
-//                            rating = ImageTagHelper.GetRating (fullPicName);
-//                        }
-////						ConvertWidget.InsertIdentifierAtBegin(ref f, ref fullf, "V-", td.Title);
-////						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-//					}
-
 					long limitInBytes = Math.Max (rating * 1050000, 350000);
 					int biggestLength;
-
-//					switch (rating) 
-//					{
-//					case 0:			
-//						break;
-//					case 1:
-//						AppendIdentifier (ref f, ref fullf, Constants.Stars[rating]);
-//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-//						break;
-//					case 2: 
-//						AppendIdentifier (ref f, ref fullf, "_++");
-//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-//						break;
-//					case 3: 
-//						AppendIdentifier (ref f, ref fullf, "_+++");
-//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-//						break;
-//					case 4: 
-//						AppendIdentifier (ref f, ref fullf, "_++++");
-//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-//						break;
-//					case 5: 
-//						AppendIdentifier (ref f, ref fullf, "_+++++");
-//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-//						limitInBytes = long.MaxValue; // avoid any jpg compression
-//						break;
-//					}
 
 					AppendIdentifier (ref f, ref fullf, Constants.Stars[rating]);
 					SetTextAndFulltextAndRedrawVip(pib, f, fullf);

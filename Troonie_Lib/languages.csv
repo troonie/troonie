@@ -345,3 +345,4 @@ CTRL+Q: Interrupt decrypting process of LeonSteg;STRG+Q: Abbruch der Entschlüss
 exiftool;exiftool
 Missing exiftool.exe;Fehlende exiftool.exe
 Please adding exiftool.exe into directory of troonie.;Bitte exiftool.exe ins Troonie-Verzeichnis legen.
+Rotate quarter turns;90-Grad-Drehung

@@ -14,7 +14,6 @@ namespace Troonie_starter
 				arg += "\"" + args[i] + "\" ";
 			}
 
-//			Console.WriteLine ("Hello World!");
 			using (Process proc = new Process ()) 
 			{
 				try {

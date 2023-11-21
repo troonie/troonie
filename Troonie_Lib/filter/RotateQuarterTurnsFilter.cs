@@ -15,8 +15,10 @@ namespace Troonie_Lib
         /// <summary>Represents the possible degrees of rotation angle (clockwise).</summary>
         public enum RotationOrder
         {
-			/// <summary>90 degrees.</summary>
-			deg90,
+            /// <summary>0 degrees.</summary>
+			deg0,
+            /// <summary>90 degrees.</summary>
+            deg90,
             /// <summary>180 degrees.</summary>
             deg180,
             /// <summary>270 degrees.</summary>
@@ -36,7 +38,7 @@ namespace Troonie_Lib
 		{
 			SupportedSrcPixelFormat = PixelFormatFlags.All;
 			SupportedDstPixelFormat = PixelFormatFlags.SameLikeSource;
-			Order = RotationOrder.deg90;
+			Order = RotationOrder.deg0;
 		}
 
         /// <summary>
@@ -52,7 +54,7 @@ namespace Troonie_Lib
             h1 = source.Height;
             Rectangle rect1 = new Rectangle(0, 0, w1, h1);            
 
-            if (Order == RotationOrder.deg180)
+            if (Order == RotationOrder.deg180 || Order == RotationOrder.deg0)
             {
                 w2 = w1;
                 h2 = h1;                
@@ -84,7 +86,9 @@ namespace Troonie_Lib
 
         protected override void SetProperties (double[] filterProperties)
 		{
-			Order = (RotationOrder)filterProperties[0];
+            int deg = (int)(filterProperties[3] / 90.0);
+
+            Order = (RotationOrder)deg;
 		}
 
 		/// <summary>
@@ -104,6 +108,36 @@ namespace Troonie_Lib
 
             switch (Order)
             {
+                case RotationOrder.deg0:
+                    // do nothing, just deep copy                    
+                    byte* src0 = (byte*)srcData.Scan0.ToPointer();
+                    // for each line
+                    for (int y = 0; y < h1; y++)
+                    {
+                        // for each pixel
+                        for (int x = 0; x < w1; x++, src0 += ps, dst += ps)
+                        {
+                            // 8 bit grayscale
+                            dst[RGBA.B] = src0[RGBA.B];
+
+                            // rgb, 24 and 32 bit
+                            if (ps >= 3)
+                            {
+                                dst[RGBA.G] = src0[RGBA.G];
+                                dst[RGBA.R] = src0[RGBA.R];
+                            }
+
+                            // alpha, 32 bit
+                            if (ps == 4)
+                            {
+                                dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src0[RGBA.A];
+                            }
+
+                        }
+                        src0 += off1;
+                        dst += off2;
+                    }
+                    break;
                 case RotationOrder.deg90:
                     // for each line
                     for (int y2 = 0; y2 < h2; y2++)

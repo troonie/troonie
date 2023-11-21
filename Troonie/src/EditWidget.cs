@@ -46,6 +46,7 @@ namespace Troonie
 			public static string Chessboard = Language.I.L [313];
             public static string Contrast = Language.I.L[330];
             public static string Hsl = Language.I.L[331];
+            public static string RotateQuarterTurns = Language.I.L[348];
         }
 
 		private struct shortcutFormatStruct
@@ -82,6 +83,7 @@ namespace Troonie
                 Title = Language.I.L[340];
                 this.SetIconFromFile(Constants.I.EXEPATH + Constants.ICONNAME);
 				filterNames = new List<string> { filterN.OVERVIEW,
+					filterN.RotateQuarterTurns,
 					filterN.Binarization,
 					filterN.Blend,
 					filterN.Canny_edge_detector,

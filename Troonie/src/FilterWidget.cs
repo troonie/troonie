@@ -80,7 +80,24 @@ namespace Troonie
 			simpleimagepanel1.OnCursorPosChanged += OnCursorPosChanged;
 		}
 
-		public FilterWidget (string pFilename, InvertFilter invert) : this (pFilename)
+        public FilterWidget(string pFilename, RotateQuarterTurnsFilter rotateFilter) : this(pFilename)
+        {
+            abstractFilter = rotateFilter;
+            Title = Language.I.L[348];
+            //ProcessPreview();
+
+            frameHScales.Visible = true;
+            frame_hscale1.Visible = true;
+            lbFrame_hscale1.LabelProp = "<b>" + Language.I.L[348] + "</b>";
+            //hscale1.Value = posterization.Divisor;
+            hscale1.Adjustment.Lower = 0;
+            hscale1.Adjustment.Upper = 270;
+            hscale1.Adjustment.StepIncrement = 90;
+            hscale1.Adjustment.PageIncrement = 90;
+            hscale1.Digits = 0;
+        }
+
+        public FilterWidget (string pFilename, InvertFilter invert) : this (pFilename)
 		{
 			abstractFilter = invert;
 			Title = Language.I.L [90];

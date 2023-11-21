@@ -38,8 +38,10 @@ namespace Troonie
 
 			if (x == filterN.OVERVIEW) {
 				// just overview button name, do nothing
-			} else if (x == filterN.Invert) {
-				fw = new FilterWidget (FileName, new InvertFilter ());
+			} else if (x == filterN.RotateQuarterTurns) {
+				fw = new FilterWidget(FileName,new RotateQuarterTurnsFilter());
+            } else if (x == filterN.Invert) {
+                fw = new FilterWidget (FileName, new InvertFilter ());
 			} else if (x == filterN.Grayscale) {
 				fw = new FilterWidget (FileName, new GrayscaleFilter ());
 			} else if (x == filterN.RGB_Channels) {
