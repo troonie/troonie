@@ -36,6 +36,7 @@ namespace Troonie_Lib
 
 		#region No TagsFlag elements
 		public double OrientationDegree;
+		public string DaylightSavingTime;
 		public int Width;
 		public int Height;
 		public int Pixelformat;
@@ -55,7 +56,7 @@ namespace Troonie_Lib
 				switch (flag & (TagsFlag)flagValue)
 				{
 
-					case TagsFlag.CreateDate: tSuccess = ExtractDateTime(o, ref CreateDate, ref OffsetTime, IsVideo); break;
+					case TagsFlag.CreateDate: tSuccess = ExtractDateTime(o, ref CreateDate, ref OffsetTime, ref DaylightSavingTime, IsVideo); break;
 					case TagsFlag.OffsetTime: tSuccess = ExtractOffsetTime(o, ref OffsetTime); break;
 					case TagsFlag.Altitude: tSuccess = ExtractNullableDouble(o, ref Altitude); break;
 					case TagsFlag.Creator: tSuccess = ExtractString(o, ref Creator); break;
@@ -138,8 +139,9 @@ namespace Troonie_Lib
 				// other tags
 			case TagsFlag.Comment:		return Comment;				
 			case TagsFlag.Copyright:	return Copyright;		
-			case TagsFlag.Title:		return Title;	
+			case TagsFlag.Title:		return Title;
 			// No TagsFlag elements
+			case TagsFlag.IsDaylightSavingTime: return DaylightSavingTime;
 			case TagsFlag.Width:		return Width;	
 			case TagsFlag.Height:		return Height;
 			case TagsFlag.Pixelformat:	return Pixelformat;
@@ -291,7 +293,7 @@ namespace Troonie_Lib
 			}
 		}
 
-		private static bool ExtractDateTime(object o, ref DateTimeOffset? dt, ref OffsetTime offset, bool IsVideo)
+		private static bool ExtractDateTime(object o, ref DateTimeOffset? dt, ref OffsetTime offset, ref string DaylightSavingTime, bool IsVideo)
 		{ 
             string dt_string = string.Empty;
             bool b = ExtractString(o, ref dt_string);
@@ -308,7 +310,9 @@ namespace Troonie_Lib
 
 						if (b) 
 						{
-							// TODO Setting correct UTC time when video file
+							//check for DaylightSavingTime
+							DaylightSavingTime = tmp.DateTime.IsDaylightSavingTime() ? Language.I.L[261] : Language.I.L[201];
+
 							#region checkforoffset
 							if (IsVideo)
 							{

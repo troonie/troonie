@@ -198,7 +198,7 @@ Following images have corrupt metadata:;Folgende Bilder haben beschädigte Metad
 An failure was caused by accessing following images:;Es trat ein Fehler beim Zugriff auf folgende Bilder auf:
 Renaming videos by title tag and inserting identifier ('V-').;Umbenennen von Videodateien durch das Title-Tag sowie Einfügen des Identifiers ('V-').
 Setting creation datetime by filename.;Setzen des Estellungsdatums anhand des Dateinamens.
-XXX Adding placeholder picture for videos?;XXX Platzhalterbild für Videos einfügen?
+Standardtime;Winterzeit
 Removing instead adding Keywords;Löschen (anstelle von Hinzufügen) von Keywords
 No rotation information for image.;Keine Information über Drehung vorhanden.
 No need to do any transformations.;Keine Drehung notwendig.
@@ -258,7 +258,7 @@ Renaming file by datetime did not work at following images: ;Folgende Bilder kon
 An exception was thrown in method 'RenameFileByDateTime'.;In Methode 'RenameFileByDateTime' wurde eine Exception ausgelöst.
 An exception was thrown in method 'RenameVideoByTitleAndInsertIdentifier'.;In Methode 'RenameVideoByTitleAndInsertIdentifier' wurde eine Exception ausgelöst.
 Stoppage at video;Abbruch bei Video
-XXX During renaming videos by title and insert V-identifier image tags could not be set in following placeholder pictures: ;XXX Während des Umbenennens von Videos nach Titel (inkl. V-Identifier) konnten die Bild-Tags für folgende Platzhalter-Bilder nicht gesetzt werden: 
+DaylightSavingTime;Sommerzeit 
 Troonie viewer will be started with ;Troonie Viewer soll mit 
  images. ; Bildern gestartet werden.
 This will be caused a long loading time.;Das wird eine lange Ladezeit verursachen.

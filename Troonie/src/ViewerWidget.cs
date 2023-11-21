@@ -186,8 +186,9 @@ namespace Troonie
 				Label lbTagData = new Label ();
 				lbTagData.WidthRequest = 120;
 				TroonieButton b = new TroonieButton ();
-				if (s == Enum.GetName (typeof(TagsFlag), TagsFlag.Width) || 
-					s == Enum.GetName (typeof(TagsFlag), TagsFlag.Height) ||
+				if (s == Enum.GetName (typeof(TagsFlag), TagsFlag.IsDaylightSavingTime) ||
+                    s == Enum.GetName(typeof(TagsFlag), TagsFlag.Width) ||
+                    s == Enum.GetName (typeof(TagsFlag), TagsFlag.Height) ||
 					s == Enum.GetName (typeof(TagsFlag), TagsFlag.Pixelformat) ||
 					s == Enum.GetName (typeof(TagsFlag), TagsFlag.FileSize)) {
 					b.Sensitive = false;

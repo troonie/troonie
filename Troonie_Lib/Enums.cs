@@ -3,7 +3,7 @@
 namespace Troonie_Lib
 {
     [Flags]
-    public enum TagsFlag
+    public enum TagsFlag : long
     {
         None = 0,
         #region 16+1 image tags
@@ -34,20 +34,20 @@ namespace Troonie_Lib
         Title = 1 << 20, 
         MeteringMode = 1 << 21,
 
-        Width = 1 << 22,
-        Height = 1 << 23,
-        Pixelformat = 1 << 24,
-        FileSize = 1 << 25,
+        IsDaylightSavingTime = 1 << 22, // summer time
+        Width = 1 << 23,
+        Height = 1 << 24,
+        Pixelformat = 1 << 25,
+        FileSize = 1 << 26,
         #endregion
 
         #region Hidden tags --> DO NOT forget to set HiddenTagsNumber.Count
-        //CreateDate =			1 << 25,
-        MediaCreateDate = 1 << 26,
-        TrackCreateDate = 1 << 27,
-        ModifyDate = 1 << 28,
-        MediaModifyDate = 1 << 29,
-        TrackModifyDate = 1 << 30,
-        DateTimeOriginal = 1 << 31,
+        MediaCreateDate = 1 << 27,
+        TrackCreateDate = 1 << 28,
+        ModifyDate = 1 << 29,
+        MediaModifyDate = 1 << 30,
+        TrackModifyDate = 1 << 31,
+        DateTimeOriginal = (long)1 << 32,        
 
         AllCreateAndModifyDates = CreateDate | MediaCreateDate | TrackCreateDate | 
 								  ModifyDate | MediaModifyDate |TrackModifyDate |

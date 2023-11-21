@@ -29,28 +29,30 @@ namespace Troonie
 					string ext = info.Extension.ToLower ();
 					long fileSize = info.Length; 
 					uint rating = 0;
-					bool isVideo = false;
+					//bool isVideo = false;
 					TagsData td;
 					string f = pib.RelativeImageName, fullf = pib.OriginalImageFullName;
 
-					if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {						
-						td = ImageTagHelper.GetTags (pib.OriginalImageFullName);
-						rating = td.Rating == null ? 0 : td.Rating.Value;						
-						if (td.Creator != null && td.Creator.Length != 0)
-                            creatorText = td.Creator + separator;  
+                    td = ImageTagHelper.GetTags(pib.OriginalImageFullName);
+                    rating = td.Rating == null ? 0 : td.Rating.Value;
+                    if (td.Creator != null && td.Creator.Length != 0)
+                        creatorText = td.Creator + separator;
 
-                    } else {
-//						td = VideoTagHelper.GetTagsData(pib.OriginalImageFullName);
-//						rating = td.TrackCount;
-						isVideo = true;
+//                    if (ext.Length != 0 && Constants.Extensions.Any (x => x.Value.Item1 == ext || x.Value.Item2 == ext)) {						
+						  
 
-						string fullPicName = info.FullName + ".png";
-						if (File.Exists (fullPicName)) {
-                            rating = ImageTagHelper.GetRating (fullPicName);
-                        }
-//						ConvertWidget.InsertIdentifierAtBegin(ref f, ref fullf, "V-", td.Title);
-//						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
-					}
+//                    } else {
+////						td = VideoTagHelper.GetTagsData(pib.OriginalImageFullName);
+////						rating = td.TrackCount;
+//						isVideo = true;
+
+//						string fullPicName = info.FullName + ".png";
+//						if (File.Exists (fullPicName)) {
+//                            rating = ImageTagHelper.GetRating (fullPicName);
+//                        }
+////						ConvertWidget.InsertIdentifierAtBegin(ref f, ref fullf, "V-", td.Title);
+////						SetTextAndFulltextAndRedrawVip(pib, f, fullf);
+//					}
 
 					long limitInBytes = Math.Max (rating * 1050000, 350000);
 					int biggestLength;
@@ -88,7 +90,7 @@ namespace Troonie
 						limitInBytes = long.MaxValue; // avoid any jpg compression
 					}
 
-					if (!isVideo && (Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
+					if (!pib.IsVideo && (Constants.Extensions[TroonieImageFormat.JPEG24].Item1 == ext || 
 						Constants.Extensions[TroonieImageFormat.JPEG24].Item2 == ext)) {
 						byte jpqQuality = 95;
 						biggestLength = 1800 + 1200 * (int)rating;
@@ -399,10 +401,10 @@ namespace Troonie
 		public static void AppendIdentifier(ref string filename, ref string fullfilename, string identifier)
 		{
 			string s = fullfilename;
-			// remove old identifier
-			s = s.Replace("-big", "");
-			s = s.Replace("_big", "");
-			s = s.Replace("-raw", "");
+			//// remove old identifier
+			//s = s.Replace("-big", "");
+			//s = s.Replace("_big", "");
+			//s = s.Replace("-raw", "");
 
 			int lastIdentifier = s.LastIndexOf (identifier);
 			int lastDot = s.LastIndexOf ('.');

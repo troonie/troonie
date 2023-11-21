@@ -6,15 +6,6 @@ namespace Troonie_Lib
 {
     public class ImageTagHelper
 	{
-//		private const ushort KEY_FLASH = 37385;
-
-//		private static string[] tagNames = 
-//		{
-//			"Keywords", "Rating", "DateTime", "Orientation", "Software", "Latitude", 
-//			"Longitude", "Altitude", "ExposureTime", "FNumber", "ISOSpeedRatings", "FocalLength", 
-//			"FocalLengthIn35mmFilm", "Make", "Model", "Creator"
-//		}; 
-
 		private static ImageTagHelper instance;
 		public static ImageTagHelper I
 		{
@@ -89,7 +80,8 @@ namespace Troonie_Lib
                         bool b = DateTimeOffset.TryParseExact(result[1], "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out t);
                         if (b)
                         {
-                            tt = t; // t.ToLocalTime();
+                            tt = t; 
+                            td.DaylightSavingTime = t.DateTime.IsDaylightSavingTime() ? Language.I.L[261] : Language.I.L[201];
                         }                            
 						td.CreateDate = tt; 
 						break;
@@ -132,32 +124,8 @@ namespace Troonie_Lib
                     case "Comment": td.Comment = allValues; break;
                     case "Copyright": td.Copyright = allValues; break;
                     case "Title": td.Title = allValues; break;
-
-                        //case ET1_Rating_XMP_xmp:
-                        //    uint u;
-                        //    if (uint.TryParse(result[i + 1], out u))
-                        //        td.Rating = u;
-                        //    break;
-                        //case ET1_Title_Quicktime:
-                        //    td.Title = result[i + 1]; break;
-                        //case ET1_Comment_Quicktime:
-                        //    td.Comment = result[i + 1]; break;
-                        //case ET1_Copyright_Quicktime:
-                        //    td.Copyright = result[i + 1]; break;
-                        //case ET1_Subject_XMP_dc:
-                        //    List<string> list = new List<string>();
-
-                        //    while (i + 1 < result.Length)
-                        //    {
-                        //        list.Add(result[i + 1]);
-                        //        i++;
-                        //    }
-                        //    td.Keywords = list; break;
-                        // }
                 }
             }
-
-			//string[] result = lines.Split(new string[] { "\r\n", ": ", ", " }, StringSplitOptions.RemoveEmptyEntries);
 
 			return td;
         }
@@ -179,7 +147,7 @@ namespace Troonie_Lib
                     bool b = DateTimeOffset.TryParseExact(result[1], "yyyy:MM:dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out t);
                     if (b)
                     {
-                        tt = t; // t.ToLocalTime();
+                        tt = t;
                     }
                 }
             }
