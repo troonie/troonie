@@ -1,4 +1,3 @@
-using System;
 using System.Drawing.Imaging;
 using System.Drawing;
 
@@ -22,7 +21,9 @@ namespace Troonie_Lib
             /// <summary>180 degrees.</summary>
             deg180,
             /// <summary>270 degrees.</summary>
-            deg270
+            deg270,
+            /// <summary>Mirroring at y-axis and a rotation by 90 degrees. </summary>
+            y_mirroring_and_deg90,
         }
 
         /// <summary>The clockwise rotation order of the image.</summary>
@@ -175,12 +176,11 @@ namespace Troonie_Lib
                     for (int y2 = 0; y2 < h2; y2++)
                     {
                         // align src pointer to correct column
-                        byte* src = (byte*)srcData.Scan0.ToPointer();
-                        src += stride1 * h1;
-                        src -= (ps + off1 + ps * y2);
+                        byte* src = (byte*)srcData.Scan0.ToPointer();                        
+                        src += stride1 - ps - off1 - ps * y2; // SAME: += stride1 - (ps + off1 + ps * y2);
 
                         // for each pixel
-                        for (int x2 = 0; x2 < w2; x2++, src -= stride1, dst += ps)
+                        for (int x2 = 0; x2 < w2; x2++, src += stride1, dst += ps)
                         {
                             // 8 bit grayscale
                             dst[RGBA.B] = src[RGBA.B];
@@ -232,6 +232,37 @@ namespace Troonie_Lib
                         dst += off2;
                     }
 
+                    break;
+                case RotationOrder.y_mirroring_and_deg90:
+                    // for each line
+                    for (int y2 = 0; y2 < h2; y2++)
+                    {
+                        // align src pointer to correct column
+                        byte* src = (byte*)srcData.Scan0.ToPointer();
+                        src += stride1 * h1;
+                        src -= (ps + off1 + ps * y2);
+
+                        // for each pixel
+                        for (int x2 = 0; x2 < w2; x2++, src -= stride1, dst += ps)
+                        {
+                            // 8 bit grayscale
+                            dst[RGBA.B] = src[RGBA.B];
+
+                            // rgb, 24 and 32 bit
+                            if (ps >= 3)
+                            {
+                                dst[RGBA.G] = src[RGBA.G];
+                                dst[RGBA.R] = src[RGBA.R];
+                            }
+
+                            // alpha, 32 bit
+                            if (ps == 4)
+                            {
+                                dst[RGBA.A] = Use255ForAlpha ? (byte)255 : src[RGBA.A];
+                            }
+                        }
+                        dst += off2;
+                    }
                     break;
             }
         }
