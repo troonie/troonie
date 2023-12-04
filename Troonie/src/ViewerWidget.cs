@@ -337,17 +337,25 @@ namespace Troonie
 						proc.StartInfo.FileName = Constants.I.CONFIG.VideoplayerPath;   //xplayer ODER vlc ODER cvlc
 						proc.StartInfo.Arguments = "\"" + vip.OriginalImageFullName + "\"";
 
-						proc.StartInfo.UseShellExecute = false; 
-						proc.StartInfo.RedirectStandardOutput = true;
+						proc.StartInfo.UseShellExecute = false;
+                        //proc.StartInfo.CreateNoWindow = true;
+                        proc.StartInfo.RedirectStandardOutput = true;
 						proc.StartInfo.RedirectStandardError = true;
-						try {
+                        //  NOTE:  If you do not implement an asynchronous error handler, instead simply using proc.StandardError.ReadLine()
+                        //         in the following, you risk your program might stall. The video player sometimes reports failure only through a
+                        //         StandardOutput line without reporting anything in addition via StandardError, so
+                        //         proc.StandardError.ReadLine() would wait indefinitely for an error message that never comes.                        
+                        proc.ErrorDataReceived += new DataReceivedEventHandler(ErrorHandler);
+                        try {
 							proc.Start();
-	//						proc.WaitForExit();
-							proc.Close();
+                            //  Starts the error handling, meaning ErrorHandler() will now be called whenever process reports an error.
+                            proc.BeginErrorReadLine();  
+						//	proc.WaitForExit();
+                            proc.Close();
 						}
 						catch (Exception ex) {
 							// player could not be found
-							Console.WriteLine (ex.Message);
+							//Console.WriteLine (ex.Message);
 						}
 					}
 //					l_vip.IsPressedIn = true;
@@ -358,7 +366,21 @@ namespace Troonie
 			}				
 		}
 
-		private void OnIsPressedIn(ViewerImagePanel vip)
+        /// <summary>
+        /// The asynchronous error handler
+        /// </summary>
+        /// <param name="sendingProcess"></param>
+        /// <param name="errLine"></param>
+        private void ErrorHandler(object sendingProcess, DataReceivedEventArgs errLine)
+        {
+            if (!string.IsNullOrEmpty(errLine.Data))
+            {
+                //  ...  do something with the information provided in errLine.Data...
+                //Console.WriteLine("Error: " + errLine.Data);
+            }
+        }
+
+        private void OnIsPressedIn(ViewerImagePanel vip)
 		{
 			if (vip.IsPressedIn && !pressedVipsDict.ContainsKey(vip.ID)) {
 				pressedVipsDict.Add (vip.ID, vip);
