@@ -453,6 +453,43 @@ namespace Troonie
 
             return null;
         }
-	}
+
+		public bool CheckForJpegAndExiftool()
+		{
+			bool success = true;
+            if (!Constants.I.CJPEG)
+            {				
+                success = false;
+
+                OkCancelDialog dialogCjpeg = new OkCancelDialog(true);
+                dialogCjpeg.Title = Language.I.L[161];
+                dialogCjpeg.Label1 = Language.I.L[162];
+                dialogCjpeg.Label2 = Language.I.L[165] + Constants.N + Language.I.L[164];
+                dialogCjpeg.OkButtontext = Language.I.L[16];
+                dialogCjpeg.Show();
+                dialogCjpeg.OnReleasedOkButton += delegate {
+                    Application.Quit();
+                };
+            }
+
+            if (!Constants.I.EXIFTOOL)
+            {
+                success = false;
+                OkCancelDialog dialogET = new OkCancelDialog(true);
+                dialogET.Title = Language.I.L[345];
+                dialogET.Label1 = Language.I.L[346];
+                dialogET.Label2 = Language.I.L[347];
+                dialogET.OkButtontext = Language.I.L[16];
+                //info.WindowPosition = WindowPosition.CenterAlways;
+                dialogET.Show();
+                dialogET.OnReleasedOkButton += delegate
+                {
+                    Application.Quit();
+                };
+            }
+
+			return success;
+        }
+    }
 }
 

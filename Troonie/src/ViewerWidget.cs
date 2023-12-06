@@ -41,34 +41,20 @@ namespace Troonie
 
 				if (constants.WINDOWS) {
 					Gtk.Drag.DestSet (this, 0, null, 0);
-				} else {
+                } else {
 					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
 					// Otherwise ShadowType.In looks terrible at Win10.
 					winTaskbarHeight = 74;
 					frame1.ShadowType = ShadowType.In;
 					scrolledwindowViewer.ShadowType = ShadowType.In;
-					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
+					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);                    
+				}
 
-                    if (!Constants.I.CJPEG)
-                    {
-                        newImages = null;
-
-                        OkCancelDialog pseudo = new OkCancelDialog(true);
-                        pseudo.Title = Language.I.L[161];
-                        pseudo.Label1 = Language.I.L[162];
-                        pseudo.Label2 = Language.I.L[165] + Constants.N + Language.I.L[164];
-                        pseudo.OkButtontext = Language.I.L[16];
-                        pseudo.Show();
-
-                        //totod;// Dispose();//base.Destroy();
-                        pseudo.OnReleasedOkButton += delegate {
-                            Application.Quit();
-                        }; 
-                    }
-				}	
+				if (!GuiHelper.I.CheckForJpegAndExiftool())
+					newImages = null;
 
 
-				Gdk.Rectangle r = Screen.GetMonitorGeometry(Screen.GetMonitorAtWindow(this.GdkWindow));
+                Gdk.Rectangle r = Screen.GetMonitorGeometry(Screen.GetMonitorAtWindow(this.GdkWindow));
 				startW = /* Screen.Width */ r.Width - 20;
 				startH = /* Screen.Height */ r.Height - winTaskbarHeight;
 				maxVipWidth = startW - frame1.WidthRequest - 60;
@@ -98,17 +84,7 @@ namespace Troonie
 				GuiHelper.I.CreateDesktopcontextmenuLanguageAndInfoToolbarButtons (hboxToolbarButtons, 6, OnToolbarBtn_LanguagePressed);
 
 				SetGuiColors ();
-				SetLanguageToGui ();
-
-//				if (constants.WINDOWS) {
-//					Gtk.Drag.DestSet (this, 0, null, 0);
-//				} else {
-//					// Original is ShadowType.EtchedIn, but linux cannot draw it correctly.
-//					// Otherwise ShadowType.In looks terrible at Win10.
-//					frame1.ShadowType = ShadowType.In;
-//					scrolledwindowViewer.ShadowType = ShadowType.In;
-//					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
-//				}				
+				SetLanguageToGui ();			
 
 				if (Constants.I.CONFIG.AskForDesktopContextMenu) {
 					new AskForDesktopContextMenuWindow (true, Constants.I.CONFIG).Show ();
