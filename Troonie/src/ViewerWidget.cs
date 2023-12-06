@@ -50,8 +50,10 @@ namespace Troonie
 					Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);                    
 				}
 
-				if (!GuiHelper.I.CheckForJpegAndExiftool())
+				if (!GuiHelper.I.CheckForJpegAndExiftool()) { 
 					newImages = null;
+					return;
+                }
 
 
                 Gdk.Rectangle r = Screen.GetMonitorGeometry(Screen.GetMonitorAtWindow(this.GdkWindow));

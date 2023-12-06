@@ -59,8 +59,10 @@ namespace Troonie
 				Gtk.Drag.DestSet (this, DestDefaults.All, MainClass.Target_table, Gdk.DragAction.Copy);
 			}
 
-            if (!GuiHelper.I.CheckForJpegAndExiftool())
+            if (!GuiHelper.I.CheckForJpegAndExiftool()) { 
                 pFilenames = null;
+				return;
+            }
 
             if (pFilenames != null)
 				FillImageList (new List<string>(pFilenames));

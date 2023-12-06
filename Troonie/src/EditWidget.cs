@@ -122,8 +122,10 @@ namespace Troonie
 				timeoutSw = new Stopwatch();
 				SetGuiColors ();
 				SetLanguageToGui ();
-                if (!GuiHelper.I.CheckForJpegAndExiftool())
+                if (!GuiHelper.I.CheckForJpegAndExiftool()) { 
                     FileName = null;
+					return;
+                }
                 Initialize(true);
 
 				if (constants.WINDOWS) {
