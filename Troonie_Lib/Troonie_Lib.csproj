@@ -76,7 +76,7 @@
     <Compile Include="TroonieBitmap.cs" />
     <Compile Include="IOFile.cs" />
     <Compile Include="IPlugin.cs" />
-    <Compile Include="VideoTagHelper.cs" />
+    <Compile Include="VideoHelper.cs" />
     <Compile Include="ImageTagHelper.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="MemoryReducer.cs" />

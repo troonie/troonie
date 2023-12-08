@@ -1,15 +1,15 @@
-﻿using System;
-using Troonie_Lib;
+﻿using Gtk;
+using System;
 using System.Collections.Generic;
-using Gtk;
-using IOPath = System.IO.Path;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Diagnostics;
+using Troonie_Lib;
+using IOPath = System.IO.Path;
 
 namespace Troonie
 {
-	public partial class ViewerWidget : Gtk.Window
+    public partial class ViewerWidget : Gtk.Window
 	{
 //		private const int smallVipWidthAndHeight = 300;
 		private const int tableViewerSpacing = 6;

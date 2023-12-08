@@ -24,19 +24,11 @@ namespace Troonie
 			try {
 				Constants.I.Init ();
 				#region Set new version number in code
-//				Troonie_Lib.Version.SetNewVersionNumberInAllFiles("2.0");
-//				return;
+				//Troonie_Lib.Version.SetNewVersionNumberInAllFiles("4.0");
+				//return;
 				#endregion Set new version number in code
 
 				GetProgramIcon ();
-//				GetCjpegExecutable();
-
-				// testing HSL conversion
-//				double h,s,l;
-//				ColorRgbHsl.I.RGB2HSL(255, 255, 255, out h, out s,out l);
-//				byte r,g,b;
-//				ColorRgbHsl.I.HSL2RGB(h,s,l, out r, out g, out b);
-//				Console.WriteLine("rgb= " +r + " " + g + " " + b);
 			}
 			catch (Exception) {
 				Console.WriteLine ("Error.");

@@ -1,4 +1,4 @@
-namespace Troonie_Lib {	public partial class Version { public const string VERSION = "3.0"; } }
+namespace Troonie_Lib {	public partial class Version { public const string VERSION = "4.0"; } }
 
 namespace Troonie_Lib 
 {
@@ -10,7 +10,7 @@ namespace Troonie_Lib
 		{			
 			DirectoryInfo di = new DirectoryInfo (Constants.I.EXEPATH);
 
-			string WinInstaller_AssemblyInfo_cs = di.Parent.Parent.Parent.ToString() + Path.DirectorySeparatorChar + 
+			string WinInstaller_AssemblyInfo_cs = di.Parent.Parent.Parent.FullName + Path.DirectorySeparatorChar + 
 						"Troonie_starter" + Path.DirectorySeparatorChar + 
 						"Properties" + Path.DirectorySeparatorChar + "AssemblyInfo.cs";
 			string s = IOFile.I.ReadLine (WinInstaller_AssemblyInfo_cs, 25);
@@ -21,14 +21,14 @@ namespace Troonie_Lib
 			IOFile.I.WriteLine (WinInstaller_AssemblyInfo_cs, 27, s, true);
 
 
-			string README_md = di.Parent.Parent.Parent.ToString() + Path.DirectorySeparatorChar + "README.md";
+			string README_md = di.Parent.Parent.Parent.FullName + Path.DirectorySeparatorChar + "README.md";
 			s = IOFile.I.ReadLine (README_md, 1);
 			s = s.Replace (VERSION, newVersion);
 			IOFile.I.WriteLine (README_md, 1, s, true);
 
 
 			// has to be changed last
-			string Version_cs = di.Parent.Parent.Parent.ToString() + Path.DirectorySeparatorChar + 
+			string Version_cs = di.Parent.Parent.Parent.FullName + Path.DirectorySeparatorChar + 
 				"Troonie_Lib" + Path.DirectorySeparatorChar + "Version.cs";
 			s = IOFile.I.ReadLine (Version_cs, 1);
 			s = s.Replace (VERSION, newVersion);

@@ -59,7 +59,7 @@ namespace Troonie_Lib
 			foreach (string item in lines)
 			{
                 string[] result = item.Split(new string[] { "\r\n", ": ", ", " }, StringSplitOptions.RemoveEmptyEntries);
-				if (result.Length == 0)
+				if (result.Length < 2)
 					continue;
 
 				string key = result[0];
