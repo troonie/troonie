@@ -3,11 +3,11 @@
 
 ##A portable tool to convert, trim, stitch, filter photos and work with steganography.
 
-<b>Troonie</b> is a cross-platform and open source tool, hosted at <a href="https://github.com/troonie/troonie" target="_blank">Github</a>. Troonie has a modern (GTK#-based) graphical user interface and a very easy handling. Just right-click on a picture or folder and use the explorer context menu (Linux and Windows).
+<b>Troonie</b> is a cross-platform and open source tool, hosted at <a href="https://github.com/troonie/troonie" target="_blank">Github</a>. Troonie has a modern (GTK#-based) graphical user interface and a very easy handling. Just right-click on a picture or folder and use the explorer context menu (Linux and Windows). To work with metadata in images and videos the great <a href="https://exiftool.org/" target="_blank">ExifTool</a> is used by Troonie.
 
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Downloads&nbsp;</span></p>
  <ul>
-	<li>Windows 10, 8.1, 7 (download <a href="https://github.com/troonie/troonie/releases" target="_blank">here</a>)</li>
+	<li>Windows 11 (download <a href="https://github.com/troonie/troonie/releases" target="_blank">here</a>)</li>
 	<li>Linux (download <a href="https://github.com/troonie/troonie/releases" target="_blank">here</a>)</li>
 	<li>Technical Steganography papers <a href="https://github.com/troonie/troonie/raw/master/pics/LeonSteg-paper.pdf" target="_blank">LeonSteg (2017)</a><a id="leonsteg" href="#footnoteleonsteg" style="text-decoration: none; "><abbr title="Frank Nagl and Paul Grimm: LeonSteg - Steganography with sole 1 bpp modification. In proceedings of 23rd workshop of color image processing, Munich-Aschheim (Germany), 5th-6th October 2017, pages 35-45, ed.: P. Troester and A. Kraushaar, ISBN 978-3-00-057941-7. 2017."
 lang="de"><sup>[1]</sup></abbr></a> and <a href="https://github.com/troonie/troonie/raw/master/pics/StegHash-white-paper.pdf" target="_blank">StegHash (2016)</a><a id="steghash" href="#footnotesteghash" style="text-decoration: none; "><abbr title="Frank Nagl and Paul Grimm: StegHash - A Hash-based Approach For Image-Based Steganography. In proceedings of 22nd workshop of color image processing, Ilmenau (Germany), 2016, pages 133-142, ed.: K.-H. Franke and R. Nestler, ISBN 978-3-00-053918-3. 2016."
@@ -17,7 +17,7 @@ lang="de"><sup>[2]</sup></abbr></a></li>
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Windows Requirements&nbsp;</span></p>
  <ul>
 	<li>No requirements. Just unzip and have fun.</li>
-	<li>.NET Framework 4.8 is part of Win10 (since v1903).</li>
+	<li>.NET Framework 4.8 is part of Win11.</li>
 </ul>
 <p><span style="font-weight: bold;color:white;background-color:black;">&nbsp;Linux Package Dependencies&nbsp;</span></p>
  <ul>
