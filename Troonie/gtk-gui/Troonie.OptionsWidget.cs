@@ -85,7 +85,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.OptionsWidget
 			this.Name = "Troonie.OptionsWidget";
-			this.Title = global::Mono.Unix.Catalog.GetString ("OptionsWidget");
+			this.Title = ("OptionsWidget");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Container child Troonie.OptionsWidget.Gtk.Container+ContainerChild
 			this.scrolledwindow1 = new global::Gtk.ScrolledWindow ();
@@ -126,7 +126,7 @@ namespace Troonie
 			this.checkBtnDesktopContextMenu = new global::Gtk.CheckButton ();
 			this.checkBtnDesktopContextMenu.CanFocus = true;
 			this.checkBtnDesktopContextMenu.Name = "checkBtnDesktopContextMenu";
-			this.checkBtnDesktopContextMenu.Label = global::Mono.Unix.Catalog.GetString ("checkBtnDesktopContextMenu");
+			this.checkBtnDesktopContextMenu.Label = ("checkBtnDesktopContextMenu");
 			this.checkBtnDesktopContextMenu.DrawIndicator = true;
 			this.checkBtnDesktopContextMenu.UseUnderline = true;
 			this.hboxDesktopContextMenu.Add (this.checkBtnDesktopContextMenu);
@@ -136,7 +136,7 @@ namespace Troonie
 			this.frameAskForDesktopContextMenu.Add (this.AlignmentDesktopContextMenu);
 			this.lbFrameDesktopContextMenu = new global::Gtk.Label ();
 			this.lbFrameDesktopContextMenu.Name = "lbFrameDesktopContextMenu";
-			this.lbFrameDesktopContextMenu.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>lbKDesktopContextMenu</b>");
+			this.lbFrameDesktopContextMenu.LabelProp = ("<b>lbKDesktopContextMenu</b>");
 			this.lbFrameDesktopContextMenu.UseMarkup = true;
 			this.frameAskForDesktopContextMenu.LabelWidget = this.lbFrameDesktopContextMenu;
 			this.vboxPage1.Add (this.frameAskForDesktopContextMenu);
@@ -195,7 +195,7 @@ namespace Troonie
 			this.frameVipSize.Add (this.AlignmentVipSize);
 			this.lbVipSize = new global::Gtk.Label ();
 			this.lbVipSize.Name = "lbVipSize";
-			this.lbVipSize.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>lbVipSize</b>");
+			this.lbVipSize.LabelProp = ("<b>lbVipSize</b>");
 			this.lbVipSize.UseMarkup = true;
 			this.frameVipSize.LabelWidget = this.lbVipSize;
 			this.vboxPage1.Add (this.frameVipSize);
@@ -254,7 +254,7 @@ namespace Troonie
 			this.frameMaxSideLengthFilterImage.Add (this.AlignmentMaxSideLengthFilterImage);
 			this.lbMaxSideLengthFilterImage = new global::Gtk.Label ();
 			this.lbMaxSideLengthFilterImage.Name = "lbMaxSideLengthFilterImage";
-			this.lbMaxSideLengthFilterImage.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>lbMaxSideLengthFilterImage</b>");
+			this.lbMaxSideLengthFilterImage.LabelProp = ("<b>lbMaxSideLengthFilterImage</b>");
 			this.lbMaxSideLengthFilterImage.UseMarkup = true;
 			this.frameMaxSideLengthFilterImage.LabelWidget = this.lbMaxSideLengthFilterImage;
 			this.vboxPage1.Add (this.frameMaxSideLengthFilterImage);
@@ -292,7 +292,7 @@ namespace Troonie
 			this.frameVideoplayer.Add (this.AlignmentVideoplayer);
 			this.lbFrameVideoplayer = new global::Gtk.Label ();
 			this.lbFrameVideoplayer.Name = "lbFrameVideoplayer";
-			this.lbFrameVideoplayer.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>lbFrameVideoplayer</b>");
+			this.lbFrameVideoplayer.LabelProp = ("<b>lbFrameVideoplayer</b>");
 			this.lbFrameVideoplayer.UseMarkup = true;
 			this.frameVideoplayer.LabelWidget = this.lbFrameVideoplayer;
 			this.vboxPage1.Add (this.frameVideoplayer);
@@ -330,7 +330,7 @@ namespace Troonie
 			this.frameKeywordsXmlFile.Add (this.AlignmentKeywordsXmlFile);
 			this.lbFrameKeywordsXmlFile = new global::Gtk.Label ();
 			this.lbFrameKeywordsXmlFile.Name = "lbFrameKeywordsXmlFile";
-			this.lbFrameKeywordsXmlFile.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>lbKeywordsXmlFile</b>");
+			this.lbFrameKeywordsXmlFile.LabelProp = ("<b>lbKeywordsXmlFile</b>");
 			this.lbFrameKeywordsXmlFile.UseMarkup = true;
 			this.frameKeywordsXmlFile.LabelWidget = this.lbFrameKeywordsXmlFile;
 			this.vboxPage1.Add (this.frameKeywordsXmlFile);
@@ -343,7 +343,7 @@ namespace Troonie
 			// Notebook tab
 			this.lbPage1 = new global::Gtk.Label ();
 			this.lbPage1.Name = "lbPage1";
-			this.lbPage1.LabelProp = global::Mono.Unix.Catalog.GetString ("lbPage1");
+			this.lbPage1.LabelProp = ("lbPage1");
 			this.notebook1.SetTabLabel (this.eventboxPage1, this.lbPage1);
 			this.lbPage1.ShowAll ();
 			// Container child notebook1.Gtk.Notebook+NotebookChild
@@ -361,7 +361,7 @@ namespace Troonie
 			// Notebook tab
 			this.lbPage2 = new global::Gtk.Label ();
 			this.lbPage2.Name = "lbPage2";
-			this.lbPage2.LabelProp = global::Mono.Unix.Catalog.GetString ("lbPage2");
+			this.lbPage2.LabelProp = ("lbPage2");
 			this.notebook1.SetTabLabel (this.eventboxPage2, this.lbPage2);
 			this.lbPage2.ShowAll ();
 			this.eventbox1.Add (this.notebook1);

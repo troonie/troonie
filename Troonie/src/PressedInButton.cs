@@ -42,7 +42,7 @@ namespace Troonie
 			Text = "Test";
 			newWorkingColor = Cc.BtnNormal.I;
 
-			da.ExposeEvent += OnDrawingAreaExposeEvent;
+			da.Drawn += OnDrawingAreaExposeEvent;
 			this.Add(da);
 
 			// this.Events = ((global::Gdk.EventMask)(4)); // motionnotify
@@ -126,7 +126,7 @@ namespace Troonie
 			da.QueueDraw ();
 		}			
 
-		protected void OnDrawingAreaExposeEvent (object obj, ExposeEventArgs args)
+		protected void OnDrawingAreaExposeEvent (object obj, DrawnArgs args)
 		{
 			DrawingArea drawingArea = obj as DrawingArea;
 

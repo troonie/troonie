@@ -253,7 +253,7 @@ namespace Troonie
 			this.frameImageList.Add (this.AlignmentImageList);
 			this.GtkLabel29 = new global::Gtk.Label ();
 			this.GtkLabel29.Name = "GtkLabel29";
-			this.GtkLabel29.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Image List</b>");
+			this.GtkLabel29.LabelProp = ("<b>Image List</b>");
 			this.GtkLabel29.UseMarkup = true;
 			this.frameImageList.LabelWidget = this.GtkLabel29;
 			this.hbox1.Add (this.frameImageList);
@@ -291,19 +291,19 @@ namespace Troonie
 			this.hbox2.Name = "hbox2";
 			this.hbox2.Spacing = 6;
 			// Container child hbox2.Gtk.Box+BoxChild
-			this.rdJpeg = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("JPEG"));
+			this.rdJpeg = new global::Gtk.RadioButton (("JPEG"));
 			this.rdJpeg.CanFocus = true;
 			this.rdJpeg.Name = "rdJpeg";
 			this.rdJpeg.DrawIndicator = true;
 			this.rdJpeg.UseUnderline = true;
-			this.rdJpeg.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+			this.rdJpeg.Group = new Gtk.RadioButton[] { rdJpeg }; // new global::GLib.SList (global::System.IntPtr.Zero);
 			this.hbox2.Add (this.rdJpeg);
 			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.rdJpeg]));
 			w13.Position = 0;
 			// Container child hbox2.Gtk.Box+BoxChild
 			this.lbQuality = new global::Gtk.Label ();
 			this.lbQuality.Name = "lbQuality";
-			this.lbQuality.LabelProp = global::Mono.Unix.Catalog.GetString ("Quality");
+			this.lbQuality.LabelProp = ("Quality");
 			this.hbox2.Add (this.lbQuality);
 			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.lbQuality]));
 			w14.Position = 1;
@@ -330,7 +330,7 @@ namespace Troonie
 			w16.Expand = false;
 			w16.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
-			this.rdJpegGray = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("JPEG (grayscale)"));
+			this.rdJpegGray = new global::Gtk.RadioButton (("JPEG (grayscale)"));
 			this.rdJpegGray.CanFocus = true;
 			this.rdJpegGray.Name = "rdJpegGray";
 			this.rdJpegGray.DrawIndicator = true;
@@ -345,7 +345,7 @@ namespace Troonie
 			this.frame3.Add (this.GtkAlignment4);
 			this.GtkLabel6 = new global::Gtk.Label ();
 			this.GtkLabel6.Name = "GtkLabel6";
-			this.GtkLabel6.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>JPEG</b>");
+			this.GtkLabel6.LabelProp = ("<b>JPEG</b>");
 			this.GtkLabel6.UseMarkup = true;
 			this.frame3.LabelWidget = this.GtkLabel6;
 			this.VBoxImageFormat.Add (this.frame3);
@@ -366,7 +366,7 @@ namespace Troonie
 			this.vbox4.Name = "vbox4";
 			this.vbox4.Spacing = 6;
 			// Container child vbox4.Gtk.Box+BoxChild
-			this.rdPng1bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("1 Bit PNG blackwhite"));
+			this.rdPng1bit = new global::Gtk.RadioButton (("1 Bit PNG blackwhite"));
 			this.rdPng1bit.Sensitive = false;
 			this.rdPng1bit.CanFocus = true;
 			this.rdPng1bit.Name = "rdPng1bit";
@@ -379,7 +379,7 @@ namespace Troonie
 			w21.Expand = false;
 			w21.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
-			this.rdPng8Bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("8 Bit PNG grayscale"));
+			this.rdPng8Bit = new global::Gtk.RadioButton (("8 Bit PNG grayscale"));
 			this.rdPng8Bit.CanFocus = true;
 			this.rdPng8Bit.Name = "rdPng8Bit";
 			this.rdPng8Bit.DrawIndicator = true;
@@ -391,7 +391,7 @@ namespace Troonie
 			w22.Expand = false;
 			w22.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
-			this.rdPng24Bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("24 Bit PNG"));
+			this.rdPng24Bit = new global::Gtk.RadioButton (("24 Bit PNG"));
 			this.rdPng24Bit.CanFocus = true;
 			this.rdPng24Bit.Name = "rdPng24Bit";
 			this.rdPng24Bit.DrawIndicator = true;
@@ -407,7 +407,7 @@ namespace Troonie
 			this.hbox5.Name = "hbox5";
 			this.hbox5.Spacing = 6;
 			// Container child hbox5.Gtk.Box+BoxChild
-			this.rdPNG32bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("32 Bit PNG with transparency"));
+			this.rdPNG32bit = new global::Gtk.RadioButton (("32 Bit PNG with transparency"));
 			this.rdPNG32bit.CanFocus = true;
 			this.rdPNG32bit.Name = "rdPNG32bit";
 			this.rdPNG32bit.DrawIndicator = true;
@@ -420,7 +420,7 @@ namespace Troonie
 			this.lbTransparencyColor = new global::Gtk.Label ();
 			this.lbTransparencyColor.Sensitive = false;
 			this.lbTransparencyColor.Name = "lbTransparencyColor";
-			this.lbTransparencyColor.LabelProp = global::Mono.Unix.Catalog.GetString ("Transparancy color");
+			this.lbTransparencyColor.LabelProp = ("Transparancy color");
 			this.hbox5.Add (this.lbTransparencyColor);
 			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.lbTransparencyColor]));
 			w25.Position = 1;
@@ -443,7 +443,7 @@ namespace Troonie
 			w27.Expand = false;
 			w27.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
-			this.rdPng32BitAlphaAsValue = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("32 Bit PNG (store alpha value)"));
+			this.rdPng32BitAlphaAsValue = new global::Gtk.RadioButton (("32 Bit PNG (store alpha value)"));
 			this.rdPng32BitAlphaAsValue.CanFocus = true;
 			this.rdPng32BitAlphaAsValue.Name = "rdPng32BitAlphaAsValue";
 			this.rdPng32BitAlphaAsValue.DrawIndicator = true;
@@ -458,7 +458,7 @@ namespace Troonie
 			this.frame4.Add (this.GtkAlignment5);
 			this.GtkLabel11 = new global::Gtk.Label ();
 			this.GtkLabel11.Name = "GtkLabel11";
-			this.GtkLabel11.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>PNG</b>");
+			this.GtkLabel11.LabelProp = ("<b>PNG</b>");
 			this.GtkLabel11.UseMarkup = true;
 			this.frame4.LabelWidget = this.GtkLabel11;
 			this.VBoxImageFormat.Add (this.frame4);
@@ -479,7 +479,7 @@ namespace Troonie
 			this.vbox5.Name = "vbox5";
 			this.vbox5.Spacing = 6;
 			// Container child vbox5.Gtk.Box+BoxChild
-			this.rdBmp1bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("1 Bit BMP"));
+			this.rdBmp1bit = new global::Gtk.RadioButton (("1 Bit BMP"));
 			this.rdBmp1bit.Sensitive = false;
 			this.rdBmp1bit.CanFocus = true;
 			this.rdBmp1bit.Name = "rdBmp1bit";
@@ -492,7 +492,7 @@ namespace Troonie
 			w32.Expand = false;
 			w32.Fill = false;
 			// Container child vbox5.Gtk.Box+BoxChild
-			this.rdBmp8bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("8 Bit BMP grayscale"));
+			this.rdBmp8bit = new global::Gtk.RadioButton (("8 Bit BMP grayscale"));
 			this.rdBmp8bit.CanFocus = true;
 			this.rdBmp8bit.Name = "rdBmp8bit";
 			this.rdBmp8bit.DrawIndicator = true;
@@ -504,7 +504,7 @@ namespace Troonie
 			w33.Expand = false;
 			w33.Fill = false;
 			// Container child vbox5.Gtk.Box+BoxChild
-			this.rdBmp24bit = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("24 Bit BMP"));
+			this.rdBmp24bit = new global::Gtk.RadioButton (("24 Bit BMP"));
 			this.rdBmp24bit.CanFocus = true;
 			this.rdBmp24bit.Name = "rdBmp24bit";
 			this.rdBmp24bit.DrawIndicator = true;
@@ -519,7 +519,7 @@ namespace Troonie
 			this.frame5.Add (this.GtkAlignment6);
 			this.GtkLabel15 = new global::Gtk.Label ();
 			this.GtkLabel15.Name = "GtkLabel15";
-			this.GtkLabel15.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>BMP</b>");
+			this.GtkLabel15.LabelProp = ("<b>BMP</b>");
 			this.GtkLabel15.UseMarkup = true;
 			this.frame5.LabelWidget = this.GtkLabel15;
 			this.VBoxImageFormat.Add (this.frame5);
@@ -544,7 +544,7 @@ namespace Troonie
 			this.hbox4.Name = "hbox4";
 			this.hbox4.Spacing = 6;
 			// Container child hbox4.Gtk.Box+BoxChild
-			this.rdTiff = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("TIFF"));
+			this.rdTiff = new global::Gtk.RadioButton (("TIFF"));
 			this.rdTiff.CanFocus = true;
 			this.rdTiff.Name = "rdTiff";
 			this.rdTiff.DrawIndicator = true;
@@ -554,7 +554,7 @@ namespace Troonie
 			global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.rdTiff]));
 			w38.Position = 0;
 			// Container child hbox4.Gtk.Box+BoxChild
-			this.rdGif = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("GIF"));
+			this.rdGif = new global::Gtk.RadioButton (("GIF"));
 			this.rdGif.CanFocus = true;
 			this.rdGif.Name = "rdGif";
 			this.rdGif.DrawIndicator = true;
@@ -564,7 +564,7 @@ namespace Troonie
 			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.rdGif]));
 			w39.Position = 1;
 			// Container child hbox4.Gtk.Box+BoxChild
-			this.rdWmf = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("WMF"));
+			this.rdWmf = new global::Gtk.RadioButton (("WMF"));
 			this.rdWmf.CanFocus = true;
 			this.rdWmf.Name = "rdWmf";
 			this.rdWmf.DrawIndicator = true;
@@ -574,7 +574,7 @@ namespace Troonie
 			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.rdWmf]));
 			w40.Position = 2;
 			// Container child hbox4.Gtk.Box+BoxChild
-			this.rdEmf = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("EMF"));
+			this.rdEmf = new global::Gtk.RadioButton (("EMF"));
 			this.rdEmf.CanFocus = true;
 			this.rdEmf.Name = "rdEmf";
 			this.rdEmf.DrawIndicator = true;
@@ -584,7 +584,7 @@ namespace Troonie
 			global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.rdEmf]));
 			w41.Position = 3;
 			// Container child hbox4.Gtk.Box+BoxChild
-			this.rdIcon = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("ICON"));
+			this.rdIcon = new global::Gtk.RadioButton (("ICON"));
 			this.rdIcon.CanFocus = true;
 			this.rdIcon.Name = "rdIcon";
 			this.rdIcon.DrawIndicator = true;
@@ -602,7 +602,7 @@ namespace Troonie
 			this.frame6.Add (this.GtkAlignment7);
 			this.GtkLabel21 = new global::Gtk.Label ();
 			this.GtkLabel21.Name = "GtkLabel21";
-			this.GtkLabel21.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Other</b>");
+			this.GtkLabel21.LabelProp = ("<b>Other</b>");
 			this.GtkLabel21.UseMarkup = true;
 			this.frame6.LabelWidget = this.GtkLabel21;
 			this.VBoxImageFormat.Add (this.frame6);
@@ -612,7 +612,7 @@ namespace Troonie
 			this.frameImageFormat.Add (this.GtkAlignment);
 			this.lbFrameImageFormat = new global::Gtk.Label ();
 			this.lbFrameImageFormat.Name = "lbFrameImageFormat";
-			this.lbFrameImageFormat.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Image Format</b>");
+			this.lbFrameImageFormat.LabelProp = ("<b>Image Format</b>");
 			this.lbFrameImageFormat.UseMarkup = true;
 			this.frameImageFormat.LabelWidget = this.lbFrameImageFormat;
 			this.vbox2.Add (this.frameImageFormat);
@@ -630,13 +630,13 @@ namespace Troonie
 			this.vbox6.Name = "vbox6";
 			this.vbox6.Spacing = 6;
 			// Container child vbox6.Gtk.Box+BoxChild
-			this.rdOriginalSize = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Retain original size"));
+			this.rdOriginalSize = new global::Gtk.RadioButton (("Retain original size"));
 			this.rdOriginalSize.CanFocus = true;
 			this.rdOriginalSize.Name = "rdOriginalSize";
 			this.rdOriginalSize.Active = true;
 			this.rdOriginalSize.DrawIndicator = true;
 			this.rdOriginalSize.UseUnderline = true;
-			this.rdOriginalSize.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+			this.rdOriginalSize.Group = new[]{ rdOriginalSize };// new global::GLib.SList (global::System.IntPtr.Zero);
 			this.vbox6.Add (this.rdOriginalSize);
 			global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.rdOriginalSize]));
 			w50.Position = 0;
@@ -647,7 +647,7 @@ namespace Troonie
 			this.vbox9.Name = "vbox9";
 			this.vbox9.Spacing = 6;
 			// Container child vbox9.Gtk.Box+BoxChild
-			this.rdBiggerLength = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Use length of bigger side"));
+			this.rdBiggerLength = new global::Gtk.RadioButton (("Use length of bigger side"));
 			this.rdBiggerLength.CanFocus = true;
 			this.rdBiggerLength.Name = "rdBiggerLength";
 			this.rdBiggerLength.DrawIndicator = true;
@@ -688,7 +688,7 @@ namespace Troonie
 			this.lbPixel_BiggerLength = new global::Gtk.Label ();
 			this.lbPixel_BiggerLength.Sensitive = false;
 			this.lbPixel_BiggerLength.Name = "lbPixel_BiggerLength";
-			this.lbPixel_BiggerLength.LabelProp = global::Mono.Unix.Catalog.GetString ("Pixel");
+			this.lbPixel_BiggerLength.LabelProp = ("Pixel");
 			this.hbox7.Add (this.lbPixel_BiggerLength);
 			global::Gtk.Box.BoxChild w54 = ((global::Gtk.Box.BoxChild)(this.hbox7 [this.lbPixel_BiggerLength]));
 			w54.Position = 2;
@@ -709,7 +709,7 @@ namespace Troonie
 			this.vbox8.Name = "vbox8";
 			this.vbox8.Spacing = 6;
 			// Container child vbox8.Gtk.Box+BoxChild
-			this.rdFixSize = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Fix image size   (width x height)"));
+			this.rdFixSize = new global::Gtk.RadioButton (("Fix image size   (width x height)"));
 			this.rdFixSize.CanFocus = true;
 			this.rdFixSize.Name = "rdFixSize";
 			this.rdFixSize.DrawIndicator = true;
@@ -738,7 +738,7 @@ namespace Troonie
 			this.checkBtnStretch.Sensitive = false;
 			this.checkBtnStretch.CanFocus = true;
 			this.checkBtnStretch.Name = "checkBtnStretch";
-			this.checkBtnStretch.Label = global::Mono.Unix.Catalog.GetString ("Stretch image");
+			this.checkBtnStretch.Label = ("Stretch image");
 			this.checkBtnStretch.DrawIndicator = true;
 			this.checkBtnStretch.UseUnderline = true;
 			this.hbox3.Add (this.checkBtnStretch);
@@ -779,7 +779,7 @@ namespace Troonie
 			this.lbX = new global::Gtk.Label ();
 			this.lbX.Sensitive = false;
 			this.lbX.Name = "lbX";
-			this.lbX.LabelProp = global::Mono.Unix.Catalog.GetString ("x");
+			this.lbX.LabelProp = ("x");
 			this.hbox6.Add (this.lbX);
 			global::Gtk.Box.BoxChild w63 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.lbX]));
 			w63.Position = 2;
@@ -802,7 +802,7 @@ namespace Troonie
 			this.lbPixel_FixSize = new global::Gtk.Label ();
 			this.lbPixel_FixSize.Sensitive = false;
 			this.lbPixel_FixSize.Name = "lbPixel_FixSize";
-			this.lbPixel_FixSize.LabelProp = global::Mono.Unix.Catalog.GetString ("Pixel");
+			this.lbPixel_FixSize.LabelProp = ("Pixel");
 			this.hbox6.Add (this.lbPixel_FixSize);
 			global::Gtk.Box.BoxChild w65 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.lbPixel_FixSize]));
 			w65.Position = 4;
@@ -822,7 +822,7 @@ namespace Troonie
 			this.frameImageResize.Add (this.GtkAlignment8);
 			this.lbFrameImageResize = new global::Gtk.Label ();
 			this.lbFrameImageResize.Name = "lbFrameImageResize";
-			this.lbFrameImageResize.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Image Resize</b>");
+			this.lbFrameImageResize.LabelProp = ("<b>Image Resize</b>");
 			this.lbFrameImageResize.UseMarkup = true;
 			this.frameImageResize.LabelWidget = this.lbFrameImageResize;
 			this.vbox2.Add (this.frameImageResize);
@@ -863,7 +863,7 @@ namespace Troonie
 			this.checkBtnUseOriginalDirectory = new global::Gtk.CheckButton ();
 			this.checkBtnUseOriginalDirectory.CanFocus = true;
 			this.checkBtnUseOriginalDirectory.Name = "checkBtnUseOriginalDirectory";
-			this.checkBtnUseOriginalDirectory.Label = global::Mono.Unix.Catalog.GetString ("Use original directory");
+			this.checkBtnUseOriginalDirectory.Label = ("Use original directory");
 			this.checkBtnUseOriginalDirectory.DrawIndicator = true;
 			this.checkBtnUseOriginalDirectory.UseUnderline = true;
 			this.vboxOutputDirectory.Add (this.checkBtnUseOriginalDirectory);
@@ -875,7 +875,7 @@ namespace Troonie
 			this.checkBtnOverwriteOriginalImage = new global::Gtk.CheckButton ();
 			this.checkBtnOverwriteOriginalImage.CanFocus = true;
 			this.checkBtnOverwriteOriginalImage.Name = "checkBtnOverwriteOriginalImage";
-			this.checkBtnOverwriteOriginalImage.Label = global::Mono.Unix.Catalog.GetString ("Overwrite/Delete original image");
+			this.checkBtnOverwriteOriginalImage.Label = ("Overwrite/Delete original image");
 			this.checkBtnOverwriteOriginalImage.DrawIndicator = true;
 			this.checkBtnOverwriteOriginalImage.UseUnderline = true;
 			this.vboxOutputDirectory.Add (this.checkBtnOverwriteOriginalImage);
@@ -887,7 +887,7 @@ namespace Troonie
 			this.frameOutputDirectory.Add (this.GtkAlignment12);
 			this.lbFrameOutputDirectory = new global::Gtk.Label ();
 			this.lbFrameOutputDirectory.Name = "lbFrameOutputDirectory";
-			this.lbFrameOutputDirectory.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Output Directory</b>");
+			this.lbFrameOutputDirectory.LabelProp = ("<b>Output Directory</b>");
 			this.lbFrameOutputDirectory.UseMarkup = true;
 			this.frameOutputDirectory.LabelWidget = this.lbFrameOutputDirectory;
 			this.vbox2.Add (this.frameOutputDirectory);
@@ -905,7 +905,7 @@ namespace Troonie
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.progressbar1 = new global::Gtk.ProgressBar ();
 			this.progressbar1.Name = "progressbar1";
-			this.progressbar1.Text = global::Mono.Unix.Catalog.GetString (" ");
+			this.progressbar1.Text = (" ");
 			this.vbox1.Add (this.progressbar1);
 			global::Gtk.Box.BoxChild w79 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.progressbar1]));
 			w79.Position = 2;

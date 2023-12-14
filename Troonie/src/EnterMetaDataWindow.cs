@@ -163,99 +163,107 @@ namespace Troonie
 		private void SetInfoLabel()
 		{
 			combobox.Visible = false;
-			combobox.RemoveText (0);			
+			// combobox.RemoveText (0);
+			//combobox.Children[0].Name = "";
 
-            switch (tags) {
-			case TagsFlag.CreateDate:
+			switch (tags) {
+				case TagsFlag.CreateDate:
 					dateTimeOptions.Overview = new Label("Overview" + "  Format: yyyy:MM:dd HH:mm:ss") { Visible = true };
-                    dateTimeOptions.Vbox.Add(dateTimeOptions.Overview);
+					dateTimeOptions.Vbox.Add(dateTimeOptions.Overview);
 
 					dateTimeOptions.CbAllDates = new CheckButton("ALL") { Visible = true };
 					dateTimeOptions.CbAllDates.Clicked += (sender, e) => {
-                        dateTimeOptions.CbModifyDate.Active = dateTimeOptions.CbAllDates.Active;
-                        dateTimeOptions.CbTrackCreateDate.Active = dateTimeOptions.CbAllDates.Active;
-                        dateTimeOptions.CbMediaCreateDate.Active = dateTimeOptions.CbAllDates.Active;
-                        dateTimeOptions.CbTrackModifyDate.Active = dateTimeOptions.CbAllDates.Active;
-                        dateTimeOptions.CbMediaModifyDate.Active = dateTimeOptions.CbAllDates.Active;
-                        dateTimeOptions.CbDateTimeOriginal.Active = dateTimeOptions.CbAllDates.Active;
-                    };
-                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbAllDates);
+						dateTimeOptions.CbModifyDate.Active = dateTimeOptions.CbAllDates.Active;
+						dateTimeOptions.CbTrackCreateDate.Active = dateTimeOptions.CbAllDates.Active;
+						dateTimeOptions.CbMediaCreateDate.Active = dateTimeOptions.CbAllDates.Active;
+						dateTimeOptions.CbTrackModifyDate.Active = dateTimeOptions.CbAllDates.Active;
+						dateTimeOptions.CbMediaModifyDate.Active = dateTimeOptions.CbAllDates.Active;
+						dateTimeOptions.CbDateTimeOriginal.Active = dateTimeOptions.CbAllDates.Active;
+					};
+					dateTimeOptions.Vbox.Add(dateTimeOptions.CbAllDates);
 
-                    dateTimeOptions.CbModifyDate = new CheckButton("ModifyDate") { Visible = true };
-                    dateTimeOptions.CbModifyDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbModifyDate.Active, TagsFlag.ModifyDate);
-                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbModifyDate);
+					dateTimeOptions.CbModifyDate = new CheckButton("ModifyDate") { Visible = true };
+					dateTimeOptions.CbModifyDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbModifyDate.Active, TagsFlag.ModifyDate);
+					dateTimeOptions.Vbox.Add(dateTimeOptions.CbModifyDate);
 
-                    dateTimeOptions.CbTrackCreateDate = new CheckButton("TrackCreateDate") { Visible = true };
-                    dateTimeOptions.CbTrackCreateDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbTrackCreateDate.Active, TagsFlag.TrackCreateDate);
-                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbTrackCreateDate);
-                    
+					dateTimeOptions.CbTrackCreateDate = new CheckButton("TrackCreateDate") { Visible = true };
+					dateTimeOptions.CbTrackCreateDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbTrackCreateDate.Active, TagsFlag.TrackCreateDate);
+					dateTimeOptions.Vbox.Add(dateTimeOptions.CbTrackCreateDate);
+
 					dateTimeOptions.CbMediaCreateDate = new CheckButton("MediaCreateDate") { Visible = true };
-                    dateTimeOptions.CbMediaCreateDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbMediaCreateDate.Active, TagsFlag.MediaCreateDate);
-                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbMediaCreateDate);
+					dateTimeOptions.CbMediaCreateDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbMediaCreateDate.Active, TagsFlag.MediaCreateDate);
+					dateTimeOptions.Vbox.Add(dateTimeOptions.CbMediaCreateDate);
 
-                    dateTimeOptions.CbTrackModifyDate = new CheckButton("TrackModifyDate") { Visible = true };
-                    dateTimeOptions.CbTrackModifyDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbTrackModifyDate.Active, TagsFlag.TrackModifyDate);
-                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbTrackModifyDate);
+					dateTimeOptions.CbTrackModifyDate = new CheckButton("TrackModifyDate") { Visible = true };
+					dateTimeOptions.CbTrackModifyDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbTrackModifyDate.Active, TagsFlag.TrackModifyDate);
+					dateTimeOptions.Vbox.Add(dateTimeOptions.CbTrackModifyDate);
 
-                    dateTimeOptions.CbMediaModifyDate = new CheckButton("MediaModifyDate") { Visible = true };
-                    dateTimeOptions.CbMediaModifyDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbMediaModifyDate.Active, TagsFlag.MediaModifyDate);
-                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbMediaModifyDate);
+					dateTimeOptions.CbMediaModifyDate = new CheckButton("MediaModifyDate") { Visible = true };
+					dateTimeOptions.CbMediaModifyDate.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbMediaModifyDate.Active, TagsFlag.MediaModifyDate);
+					dateTimeOptions.Vbox.Add(dateTimeOptions.CbMediaModifyDate);
 
-                    dateTimeOptions.CbDateTimeOriginal = new CheckButton("DateTimeOriginal") { Visible = true };
-                    dateTimeOptions.CbDateTimeOriginal.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbDateTimeOriginal.Active, TagsFlag.DateTimeOriginal);
-                    dateTimeOptions.Vbox.Add(dateTimeOptions.CbDateTimeOriginal);
-                    break;
-			case TagsFlag.Flash:
-				// source: http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif/flash.html
-//				lbInfo.Text = 
-				combobox.AppendText ("0 = Flash did not fire ");
-				combobox.AppendText ("1 = Flash fired	");
-				combobox.AppendText ("5 = Strobe return light not detected ");
-				combobox.AppendText ("7 = Strobe return light detected ");
-				combobox.AppendText ("9 = Flash fired, compulsory flash mode ");
-				combobox.AppendText ("13 = Flash fired, compulsory flash mode, return light not detected ");
-				combobox.AppendText ("15 = Flash fired, compulsory flash mode, return light detected ");
-				combobox.AppendText ("16 = Flash did not fire, compulsory flash mode ");
-				combobox.AppendText ("24 = Flash did not fire, auto mode ");
-				combobox.AppendText ("25 = Flash fired, auto mode	");
-				combobox.AppendText ("29 = Flash fired, auto mode, return light not detected ");
-				combobox.AppendText ("31 = Flash fired, auto mode, return light detected ");
-				combobox.AppendText ("32 = No flash function ");
-				combobox.AppendText ("65 = Flash fired, red-eye reduction mode	");
-				combobox.AppendText ("69 = Flash fired, red-eye reduction mode, return light not detected ");
-				combobox.AppendText ("71 = Flash fired, red-eye reduction mode, return light detected ");
-				combobox.AppendText ("73 = Flash fired, compulsory flash mode, red-eye reduction mode ");
-				combobox.AppendText ("77 = Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected ");
-				combobox.AppendText ("79 = Flash fired, compulsory flash mode, red-eye reduction mode, return light detected ");
-				combobox.AppendText ("89 = Flash fired, auto mode, red-eye reduction mode ");
-				combobox.AppendText ("93 = Flash fired, auto mode, return light not detected, red-eye reduction mode ");
-				combobox.AppendText ("95 = Flash fired, auto mode, return light detected, red-eye reduction mode ");
-				comboboxIds = new List<int> { 0, 1, 5, 7, 9, 13, 15, 16, 24, 25, 29, 31, 32, 65, 69, 71, 73, 77, 79, 89, 93, 95 };
-				InitCombobox ();
-				break;
-			case TagsFlag.MeteringMode:
-				combobox.AppendText ("0 = Unknown ");
-				combobox.AppendText ("1 = Average ");
-				combobox.AppendText ("2 = CenterWeightedAverage ");
-				combobox.AppendText ("3 = Spot ");
-				combobox.AppendText ("4 = MultiSpot ");
-				combobox.AppendText ("5 = Pattern ");
-				combobox.AppendText ("6 = Partial ");
-				combobox.AppendText ("255 = Other ");
-				comboboxIds = new List<int> { 0, 1, 2, 3, 4, 5, 6, 255 };
-				InitCombobox ();
-				break;
-			case TagsFlag.Orientation:						
-				combobox.AppendText ("0 = " + Language.I.L [203]);
-				combobox.AppendText ("1 = " + Language.I.L [204]);
-				combobox.AppendText ("3 = " + Language.I.L [205]);
-				combobox.AppendText ("6 = " + Language.I.L [206]);
-				combobox.AppendText ("8 = " + Language.I.L [207]);
-				comboboxIds = new List<int> { 0, 1, 3, 6, 8 };
-				InitCombobox ();
-				break;
-			default:
-				break;
+					dateTimeOptions.CbDateTimeOriginal = new CheckButton("DateTimeOriginal") { Visible = true };
+					dateTimeOptions.CbDateTimeOriginal.Clicked += (sender, e) => SetOrUnsetDateTimeFlags(dateTimeOptions.CbDateTimeOriginal.Active, TagsFlag.DateTimeOriginal);
+					dateTimeOptions.Vbox.Add(dateTimeOptions.CbDateTimeOriginal);
+					break;
+				case TagsFlag.Flash:
+					// source: http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif/flash.html
+					//				lbInfo.Text = 
+					string[] entriesFlash = {
+				"0 = Flash did not fire ",
+				"1 = Flash fired	",
+				"5 = Strobe return light not detected ",
+				"7 = Strobe return light detected ",
+				"9 = Flash fired, compulsory flash mode ",
+				"13 = Flash fired, compulsory flash mode, return light not detected ",
+				"15 = Flash fired, compulsory flash mode, return light detected ",
+				"16 = Flash did not fire, compulsory flash mode ",
+				"24 = Flash did not fire, auto mode ",
+				"25 = Flash fired, auto mode	",
+				"29 = Flash fired, auto mode, return light not detected ",
+				"31 = Flash fired, auto mode, return light detected ",
+				"32 = No flash function ",
+				"65 = Flash fired, red-eye reduction mode	",
+				"69 = Flash fired, red-eye reduction mode, return light not detected ",
+				"71 = Flash fired, red-eye reduction mode, return light detected ",
+				"73 = Flash fired, compulsory flash mode, red-eye reduction mode ",
+				"77 = Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected ",
+				"79 = Flash fired, compulsory flash mode, red-eye reduction mode, return light detected ",
+				"89 = Flash fired, auto mode, red-eye reduction mode ",
+				"93 = Flash fired, auto mode, return light not detected, red-eye reduction mode ",
+				"95 = Flash fired, auto mode, return light detected, red-eye reduction mode "
+				};
+					comboboxIds = new List<int> { 0, 1, 5, 7, 9, 13, 15, 16, 24, 25, 29, 31, 32, 65, 69, 71, 73, 77, 79, 89, 93, 95 };
+					combobox = new ComboBox(entriesFlash);
+					InitCombobox();
+					break;
+				case TagsFlag.MeteringMode:
+					string[] entriesMM = {
+				"0 = Unknown ",
+				"1 = Average ",
+				"2 = CenterWeightedAverage ",
+				"3 = Spot ",
+				"4 = MultiSpot ",
+				"5 = Pattern ",
+				"6 = Partial ",
+				"255 = Other " };
+					comboboxIds = new List<int> { 0, 1, 2, 3, 4, 5, 6, 255 };
+					combobox = new ComboBox(entriesMM);
+					InitCombobox();
+					break;
+				case TagsFlag.Orientation:
+					string[] entriesOrientation = {
+					"0 = " + Language.I.L [203],
+					"1 = " + Language.I.L[204],
+					"3 = " + Language.I.L[205],
+					"6 = " + Language.I.L[206],
+					"8 = " + Language.I.L[207], };
+					comboboxIds = new List<int> { 0, 1, 3, 6, 8 };
+					combobox = new ComboBox(entriesOrientation);
+					InitCombobox ();
+					break;
+				default:
+					break;
 			}				
 		}
 

@@ -37,7 +37,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize(this);
 			// Widget Troonie.ViewerWidget
 			this.Name = "Troonie.ViewerWidget";
-			this.Title = global::Mono.Unix.Catalog.GetString("Troonie");
+			this.Title = "Troonie";
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Container child Troonie.ViewerWidget.Gtk.Container+ContainerChild
 			this.vboxA = new global::Gtk.VBox();
@@ -116,7 +116,7 @@ namespace Troonie
 			this.frame1.Add(this.GtkAlignment);
 			this.GtkLabel = new global::Gtk.Label();
 			this.GtkLabel.Name = "GtkLabel";
-			this.GtkLabel.LabelProp = global::Mono.Unix.Catalog.GetString("<b>GtkFrame</b>");
+			this.GtkLabel.LabelProp = "<b>GtkFrame</b>";
 			this.GtkLabel.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel;
 			this.vboxMenu.Add(this.frame1);

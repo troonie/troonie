@@ -9,7 +9,7 @@ namespace Troonie
 
 		private static void DoKeyReleaseEvent(Entry en, ImagePanel ip, Slider s, int widthOrHeight)
 		{
-			en.ModifyBase(StateType.Normal, ColorConverter.Instance.White);
+			en.ModifyBg(StateType.Normal, ColorConverter.Instance.White);
 
 			int number = 0;
 			bool isNumber = int.TryParse (en.Text, out number);
@@ -22,7 +22,7 @@ namespace Troonie
 			if (number <= widthOrHeight && ip.MoveSliderByValue (s, number)) {
 				ip.QueueDraw ();
 			} else {
-				en.ModifyBase(StateType.Normal, ColorConverter.Instance.Red);
+				en.ModifyBg(StateType.Normal, ColorConverter.Instance.Red);
 			}
 		}
 

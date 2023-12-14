@@ -59,7 +59,7 @@ namespace Troonie
 			da = new Gtk.DrawingArea();
 			da.ModifyBg(StateType.Normal, colorConverter.White);
 
-			da.ExposeEvent += OnDrawingAreaExposeEvent;
+			da.Drawn += OnDrawingAreaExposeEvent;
 			// Does not work here, when HyperTextLabel will be used by GUI Designer
 			InitDefaultValues ();
 
@@ -118,7 +118,8 @@ namespace Troonie
 				Text = filechooser.Filename;
 
 				// avoid folders with white spaces at the end
-				if (FileChooserAction == FileChooserAction.SelectFolder) {					Text = Text.TrimEnd();
+				if (FileChooserAction == FileChooserAction.SelectFolder) {
+					Text = Text.TrimEnd();
 					if (!Directory.Exists(Text)) {
 						Directory.CreateDirectory(Text);
 					}
@@ -138,15 +139,15 @@ namespace Troonie
 		}
 			
 
-		protected void OnDrawingAreaExposeEvent (object obj, ExposeEventArgs args)
+		protected void OnDrawingAreaExposeEvent (object obj, DrawnArgs args)
 		{
 			DrawingArea drawingArea = obj as DrawingArea;
 
 			int width = drawingArea.Allocation.Width;
 
-			Gdk.PangoRenderer renderer = Gdk.PangoRenderer.GetDefault(drawingArea.Screen);
-			renderer.Drawable = drawingArea.GdkWindow;
-			renderer.Gc = drawingArea.Style.BlackGC;
+			Renderer renderer = new Renderer(drawingArea.Screen.Handle);
+			//renderer.Drawable = drawingArea.GdkWindow;
+			//renderer.Gc = drawingArea.Style.BlackGC;
 
 			Context context = drawingArea.CreatePangoContext();
 			Pango.Layout layout = new Pango.Layout(context);
@@ -174,19 +175,20 @@ namespace Troonie
 			FontDescription desc = FontDescription.FromString(fontDescAsString);
 			layout.FontDescription = desc;
 
-			renderer.SetOverrideColor(RenderPart.Foreground, TextColor);
-			renderer.SetOverrideColor(RenderPart.Underline, TextColor);
+			renderer.DrawLayout(layout, 0, 0);
+			renderer.SetColor(RenderPart.Foreground, new Pango.Color () { Red = TextColor.Red, Blue = TextColor.Blue, Green = TextColor.Green });
+			renderer.SetColor(RenderPart.Underline, new Pango.Color() { Red = TextColor.Red, Blue = TextColor.Blue, Green = TextColor.Green });
 
-			layout.Alignment = Alignment;
+            layout.Alignment = Alignment;
 			renderer.DrawLayout(layout, 0, 0);
 
-			renderer.SetOverrideColor(RenderPart.Foreground, Gdk.Color.Zero);
+			renderer.SetColor(RenderPart.Foreground, Pango.Color.Zero);
 
 //			((IDisposable) renderer.Drawable).Dispose();      
 //			((IDisposable) renderer.Gc).Dispose();
 //			((IDisposable) renderer).Dispose();
-			renderer.Drawable = null;
-			renderer.Gc = null;
+			//renderer.Drawable = null;
+			//renderer.Gc = null;
 
 
 		}			

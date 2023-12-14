@@ -394,11 +394,11 @@ namespace Troonie
 		{
 			this.ModifyBg(StateType.Normal, colorConverter.GRID);
 			eventboxToolbar.ModifyBg(StateType.Normal, colorConverter.GRID);
-			entryLeft.ModifyBase(StateType.Normal, colorConverter.White);
-			entryRight.ModifyBase(StateType.Normal, colorConverter.White);
-			entryTop.ModifyBase(StateType.Normal, colorConverter.White);
-			entryBottom.ModifyBase(StateType.Normal, colorConverter.White);
-			entryRotate.ModifyBase(StateType.Normal, colorConverter.White);
+			entryLeft.ModifyBg(StateType.Normal, colorConverter.White);
+			entryRight.ModifyBg(StateType.Normal, colorConverter.White);
+			entryTop.ModifyBg(StateType.Normal, colorConverter.White);
+			entryBottom.ModifyBg(StateType.Normal, colorConverter.White);
+			entryRotate.ModifyBg(StateType.Normal, colorConverter.White);
 
 			lbFrameCutDimensions.ModifyFg (StateType.Normal, colorConverter.FONT);
 			lbLeftText.ModifyFg (StateType.Normal, colorConverter.FONT);
@@ -477,42 +477,47 @@ namespace Troonie
 
 
 			shortcutFormats = new shortcutFormatStruct[]{
-				new shortcutFormatStruct { Width = 0, Height = 0, Name = "Empty" },
+				new shortcutFormatStruct { Width = 0, Height = 0, Name = " - " },
 
-				new shortcutFormatStruct { Width = 13, Height = 9 },
-				new shortcutFormatStruct { Width = 9, Height = 13 },
+				new shortcutFormatStruct { Width = 13, Height = 9, Name = 13 + " x " + 9 },
+				new shortcutFormatStruct { Width = 9, Height = 13, Name = 9 + " x " + 13  },
 
-				new shortcutFormatStruct { Width = 15, Height = 10 },
-				new shortcutFormatStruct { Width = 10, Height = 15 },
+				new shortcutFormatStruct { Width = 15, Height = 10, Name = 15 + " x " + 10  },
+				new shortcutFormatStruct { Width = 10, Height = 15, Name = 10 + " x " + 15 },
 
-				new shortcutFormatStruct { Width = 18, Height = 13 },
-				new shortcutFormatStruct { Width = 13, Height = 18 },
+				new shortcutFormatStruct { Width = 18, Height = 13, Name = 18 + " x " + 13  },
+				new shortcutFormatStruct { Width = 13, Height = 18, Name = 13 + " x " + 18  },
 
-				new shortcutFormatStruct { Width = 30, Height = 20 },
-				new shortcutFormatStruct { Width = 20, Height = 30 },
+				new shortcutFormatStruct { Width = 30, Height = 20, Name = 30 + " x " + 20  },
+				new shortcutFormatStruct { Width = 20, Height = 30, Name = 20 + " x " + 30  },
 
-				new shortcutFormatStruct { Width = 4, Height = 3 },
-				new shortcutFormatStruct { Width = 3, Height = 4 },
+				new shortcutFormatStruct { Width = 4, Height = 3, Name = 4 + " x " + 3  },
+				new shortcutFormatStruct { Width = 3, Height = 4, Name = 3 + " x " + 4  },
 
-				new shortcutFormatStruct { Width = 16, Height = 10 },
-				new shortcutFormatStruct { Width = 10, Height = 16 },
+				new shortcutFormatStruct { Width = 16, Height = 10, Name = 16 + " x " + 10  },
+				new shortcutFormatStruct { Width = 10, Height = 16, Name = 10 + " x " + 16  },
 
-				new shortcutFormatStruct { Width = 297, Height = 210, Name = "A4 " + Language.I.L[129] /*landscape*/ },
-				new shortcutFormatStruct { Width = 210, Height = 297, Name = "A4 " + Language.I.L[130] /*portrait*/ }
-			};
+				new shortcutFormatStruct { Width = 297, Height = 210, Name = "A4 " + Language.I.L[129] /*landscape*/ + " ( " + 297 + " x " + 210 + " )" },
+				new shortcutFormatStruct { Width = 210, Height = 297, Name = "A4 " + Language.I.L[130] /*portrait*/ + " ( " + 210 + " x " + 297 + " )" }
+            };
 
-			this.comboboxShortcuts.Active = 0;
+			List<string> entries = new List<string>();
+            for (int i = 0; i < shortcutFormats.Length; i++)
+            {
+				entries.Add(shortcutFormats[i].Name);
+                //string s = shortcutFormats[i].Width + " x " + shortcutFormats[i].Height;
+                //if (shortcutFormats[i].Name != null)
+                //{
+                //    s = shortcutFormats[i].Name + " ( " + s + " )";
+                //}
 
-			for (int i = 1; i < shortcutFormats.Length; i++) {
-				string s = shortcutFormats [i].Width + " x " + shortcutFormats [i].Height;
-				if (shortcutFormats [i].Name != null) {
-					s = shortcutFormats [i].Name + " ( " + s + " )"; 
-				}
+                //comboboxShortcuts.Children[i].Name = s; // RemoveText (i);
+                //                                        //comboboxShortcuts.InsertText (i, s);
 
-				comboboxShortcuts.RemoveText (i);
-				comboboxShortcuts.InsertText (i, s);
-//				comboboxShortcuts.AppendText (s);
-			}
+            }
+
+            comboboxShortcuts = new ComboBox(entries.ToArray());
+			comboboxShortcuts.Active = 0;
 		}
 
 		private void Rotate()
@@ -607,9 +612,11 @@ namespace Troonie
 
 		protected void OnDragDrop (object sender, Gtk.DragDropArgs args)
 		{
-			Gtk.Drag.GetData
+			Gdk.Atom a = args.Context.ListTargets()[0];
+
+            Gtk.Drag.GetData
 			((Gtk.Widget)sender, args.Context,
-				args.Context.Targets[0], args.Time);
+				a, args.Time);
 		}
 
 		void OnDragDataReceived (object sender, Gtk.DragDataReceivedArgs args)

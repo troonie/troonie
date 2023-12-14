@@ -230,7 +230,7 @@ namespace Troonie
 		#region DrawingAreaImage events
 
 		// todo make static?
-		protected void OnDrawingAreaImageExposeEvent (object o, ExposeEventArgs args)
+		protected void OnDrawingAreaImageExposeEvent (object o, DrawnArgs args)
 		{
 			DrawingArea area = (DrawingArea) o;
 			Cairo.Context cr =  Gdk.CairoHelper.Create(area.GdkWindow);

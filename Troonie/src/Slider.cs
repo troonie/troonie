@@ -89,16 +89,16 @@ namespace Troonie
 			else { } //if not, ignore
 		}
 
-		protected override bool OnExposeEvent (Gdk.EventExpose ev)
-		{
-			base.OnExposeEvent (ev);
-			// Insert drawing code here.
-			// DrawingArea area = (DrawingArea) sender;
-			Gdk.Window win = ev.Window;
-			Gdk.Rectangle area = ev.Area;
-			Cairo.Context cc =  Gdk.CairoHelper.Create(win);
-
-			cc.SetSourceRGB (color[0], color[1], color[2]);
+		protected override bool OnDrawn(Cairo.Context cc)
+        {
+            base.OnDrawn(cc);
+            // Insert drawing code here.
+            // DrawingArea area = (DrawingArea) sender;
+   //         Gdk.Window win = ev.Window;
+			//Gdk.Rectangle area = ev.Area;
+			// Cairo.Context cc =  Gdk.CairoHelper.Create(win);
+            
+            cc.SetSourceRGB (color[0], color[1], color[2]);
 			cc.LineWidth = LINEWIDTH;
 
 			cc.Rectangle(0, 0, w, h);
@@ -121,12 +121,26 @@ namespace Troonie
 			// Insert layout code here.
 		}
 
-		protected override void OnSizeRequested (ref Gtk.Requisition requisition)
-		{
-			// Calculate desired size here.
-			requisition.Height = h;
-			requisition.Width = w;
-		}
-	}
+		//protected override void OnSizeRequested (ref Gtk.Requisition requisition)
+		//{
+		//	// Calculate desired size here.
+		//	requisition.Height = h;
+		//	requisition.Width = w;
+		//}
+
+        protected override void OnGetPreferredHeight(out int minimum_height, out int natural_height)
+        {
+            // Calculate desired size here.
+            minimum_height = h;
+			natural_height = h;
+        }
+
+        protected override void OnGetPreferredWidth(out int min_width, out int natural_width)
+        {
+            // Calculate desired size here.
+            min_width = w;
+            natural_width = w;
+        }
+    }
 }
 

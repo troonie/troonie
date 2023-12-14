@@ -31,7 +31,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.AskForDesktopContextMenuWindow
 			this.Name = "Troonie.AskForDesktopContextMenuWindow";
-			this.Title = global::Mono.Unix.Catalog.GetString ("AskForDesktopContextMenuWindow");
+			this.Title = "AskForDesktopContextMenuWindow";
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Container child Troonie.AskForDesktopContextMenuWindow.Gtk.Container+ContainerChild
 			this.vbox2 = new global::Gtk.VBox ();
@@ -50,7 +50,7 @@ namespace Troonie
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.label1 = new global::Gtk.Label ();
 			this.label1.Name = "label1";
-			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+			this.label1.LabelProp = ("label1");
 			this.label1.UseMarkup = true;
 			this.vbox2.Add (this.label1);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label1]));
@@ -60,7 +60,7 @@ namespace Troonie
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.label2 = new global::Gtk.Label ();
 			this.label2.Name = "label2";
-			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("label2");
+			this.label2.LabelProp = "label2";
 			this.vbox2.Add (this.label2);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label2]));
 			w3.Position = 2;
@@ -78,7 +78,7 @@ namespace Troonie
 			this.chkBtn = new global::Gtk.CheckButton ();
 			this.chkBtn.CanFocus = true;
 			this.chkBtn.Name = "chkBtn";
-			this.chkBtn.Label = global::Mono.Unix.Catalog.GetString ("checkbutton1");
+			this.chkBtn.Label = ("checkbutton1");
 			this.chkBtn.Active = true;
 			this.chkBtn.DrawIndicator = true;
 			this.chkBtn.UseUnderline = true;

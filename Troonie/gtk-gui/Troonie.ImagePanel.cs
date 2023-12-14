@@ -30,7 +30,7 @@ namespace Troonie
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
-			this.drawingAreaImage.ExposeEvent += new global::Gtk.ExposeEventHandler (this.OnDrawingAreaImageExposeEvent);
+			this.drawingAreaImage.Drawn += new global::Gtk.DrawnHandler(this.OnDrawingAreaImageExposeEvent);
 			this.drawingAreaImage.MotionNotifyEvent += new global::Gtk.MotionNotifyEventHandler (this.OnDrawingAreaImageMotionNotifyEvent);
 			this.drawingAreaImage.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler (this.OnDrawingAreaImageButtonPressEvent);
 			this.drawingAreaImage.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnDrawingAreaImageButtonReleaseEvent);

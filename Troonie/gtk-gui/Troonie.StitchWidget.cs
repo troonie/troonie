@@ -121,7 +121,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.StitchWidget
 			this.Name = "Troonie.StitchWidget";
-			this.Title = global::Mono.Unix.Catalog.GetString ("StitchWidget");
+			this.Title = ("StitchWidget");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Container child Troonie.StitchWidget.Gtk.Container+ContainerChild
 			this.vboxA = new global::Gtk.VBox ();
@@ -178,17 +178,17 @@ namespace Troonie
 			this.hboxModus.Name = "hboxModus";
 			this.hboxModus.Spacing = 6;
 			// Container child hboxModus.Gtk.Box+BoxChild
-			this.rdBtnLandscape = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Landscape"));
+			this.rdBtnLandscape = new global::Gtk.RadioButton (("Landscape"));
 			this.rdBtnLandscape.CanFocus = true;
 			this.rdBtnLandscape.Name = "rdBtnLandscape";
 			this.rdBtnLandscape.DrawIndicator = true;
 			this.rdBtnLandscape.UseUnderline = true;
-			this.rdBtnLandscape.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+			this.rdBtnLandscape.Group = new[] { rdBtnLandscape }; // new global::GLib.SList (global::System.IntPtr.Zero);
 			this.hboxModus.Add (this.rdBtnLandscape);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hboxModus [this.rdBtnLandscape]));
 			w3.Position = 0;
 			// Container child hboxModus.Gtk.Box+BoxChild
-			this.rdBtnPortrait = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Portrait"));
+			this.rdBtnPortrait = new global::Gtk.RadioButton (("Portrait"));
 			this.rdBtnPortrait.CanFocus = true;
 			this.rdBtnPortrait.Name = "rdBtnPortrait";
 			this.rdBtnPortrait.DrawIndicator = true;
@@ -201,7 +201,7 @@ namespace Troonie
 			this.frameModus.Add (this.AlignmentFrameModus);
 			this.lbFrameModus = new global::Gtk.Label ();
 			this.lbFrameModus.Name = "lbFrameModus";
-			this.lbFrameModus.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Modus</b>");
+			this.lbFrameModus.LabelProp = ("<b>Modus</b>");
 			this.lbFrameModus.UseMarkup = true;
 			this.frameModus.LabelWidget = this.lbFrameModus;
 			this.vboxStitch.Add (this.frameModus);
@@ -354,7 +354,7 @@ namespace Troonie
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.lb01Bottom = new global::Gtk.Label ();
 			this.lb01Bottom.Name = "lb01Bottom";
-			this.lb01Bottom.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
+			this.lb01Bottom.LabelProp = ("0");
 			this.tableImagePosition1.Add (this.lb01Bottom);
 			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Bottom]));
 			w16.TopAttach = ((uint)(2));
@@ -366,7 +366,7 @@ namespace Troonie
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.lb01Left = new global::Gtk.Label ();
 			this.lb01Left.Name = "lb01Left";
-			this.lb01Left.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
+			this.lb01Left.LabelProp = ("0");
 			this.tableImagePosition1.Add (this.lb01Left);
 			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Left]));
 			w17.TopAttach = ((uint)(1));
@@ -378,7 +378,7 @@ namespace Troonie
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.lb01Right = new global::Gtk.Label ();
 			this.lb01Right.Name = "lb01Right";
-			this.lb01Right.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
+			this.lb01Right.LabelProp = ("0");
 			this.tableImagePosition1.Add (this.lb01Right);
 			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Right]));
 			w18.TopAttach = ((uint)(1));
@@ -390,7 +390,7 @@ namespace Troonie
 			// Container child tableImagePosition1.Gtk.Table+TableChild
 			this.lb01Top = new global::Gtk.Label ();
 			this.lb01Top.Name = "lb01Top";
-			this.lb01Top.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
+			this.lb01Top.LabelProp = ("0");
 			this.tableImagePosition1.Add (this.lb01Top);
 			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.tableImagePosition1 [this.lb01Top]));
 			w19.LeftAttach = ((uint)(8));
@@ -401,7 +401,7 @@ namespace Troonie
 			this.frameImagePositions.Add (this.AlignmentImagePositions);
 			this.lbFrameImagePositions = new global::Gtk.Label ();
 			this.lbFrameImagePositions.Name = "lbFrameImagePositions";
-			this.lbFrameImagePositions.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Image Positions</b>");
+			this.lbFrameImagePositions.LabelProp = ("<b>Image Positions</b>");
 			this.lbFrameImagePositions.UseMarkup = true;
 			this.frameImagePositions.LabelWidget = this.lbFrameImagePositions;
 			this.vboxStitch.Add (this.frameImagePositions);
@@ -554,7 +554,7 @@ namespace Troonie
 			// Container child tableImagePosition2.Gtk.Table+TableChild
 			this.lb02Bottom = new global::Gtk.Label ();
 			this.lb02Bottom.Name = "lb02Bottom";
-			this.lb02Bottom.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
+			this.lb02Bottom.LabelProp = ("0");
 			this.tableImagePosition2.Add (this.lb02Bottom);
 			global::Gtk.Table.TableChild w31 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.lb02Bottom]));
 			w31.TopAttach = ((uint)(2));
@@ -566,7 +566,7 @@ namespace Troonie
 			// Container child tableImagePosition2.Gtk.Table+TableChild
 			this.lb02Left = new global::Gtk.Label ();
 			this.lb02Left.Name = "lb02Left";
-			this.lb02Left.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
+			this.lb02Left.LabelProp = ("0");
 			this.tableImagePosition2.Add (this.lb02Left);
 			global::Gtk.Table.TableChild w32 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.lb02Left]));
 			w32.TopAttach = ((uint)(1));
@@ -578,7 +578,7 @@ namespace Troonie
 			// Container child tableImagePosition2.Gtk.Table+TableChild
 			this.lb02Right = new global::Gtk.Label ();
 			this.lb02Right.Name = "lb02Right";
-			this.lb02Right.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
+			this.lb02Right.LabelProp = ("0");
 			this.tableImagePosition2.Add (this.lb02Right);
 			global::Gtk.Table.TableChild w33 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.lb02Right]));
 			w33.TopAttach = ((uint)(1));
@@ -590,7 +590,7 @@ namespace Troonie
 			// Container child tableImagePosition2.Gtk.Table+TableChild
 			this.lb02Top = new global::Gtk.Label ();
 			this.lb02Top.Name = "lb02Top";
-			this.lb02Top.LabelProp = global::Mono.Unix.Catalog.GetString ("0");
+			this.lb02Top.LabelProp = ("0");
 			this.tableImagePosition2.Add (this.lb02Top);
 			global::Gtk.Table.TableChild w34 = ((global::Gtk.Table.TableChild)(this.tableImagePosition2 [this.lb02Top]));
 			w34.LeftAttach = ((uint)(8));
@@ -601,7 +601,7 @@ namespace Troonie
 			this.frameImagePositions2.Add (this.AlignmentImagePositions1);
 			this.lbFrameImagePositions2 = new global::Gtk.Label ();
 			this.lbFrameImagePositions2.Name = "lbFrameImagePositions2";
-			this.lbFrameImagePositions2.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Image Positions 02</b>");
+			this.lbFrameImagePositions2.LabelProp = ("<b>Image Positions 02</b>");
 			this.lbFrameImagePositions2.UseMarkup = true;
 			this.frameImagePositions2.LabelWidget = this.lbFrameImagePositions2;
 			this.vboxStitch.Add (this.frameImagePositions2);
@@ -613,7 +613,7 @@ namespace Troonie
 			this.frameStitch.Add (this.AlignmentFrameStitch);
 			this.lbFrameStitch = new global::Gtk.Label ();
 			this.lbFrameStitch.Name = "lbFrameStitch";
-			this.lbFrameStitch.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Stitch</b>");
+			this.lbFrameStitch.LabelProp = ("<b>Stitch</b>");
 			this.lbFrameStitch.UseMarkup = true;
 			this.frameStitch.LabelWidget = this.lbFrameStitch;
 			this.vbox1.Add (this.frameStitch);
@@ -629,12 +629,12 @@ namespace Troonie
 			// Container child GtkAlignment2.Gtk.Container+ContainerChild
 			this.lbImageResolution = new global::Gtk.Label ();
 			this.lbImageResolution.Name = "lbImageResolution";
-			this.lbImageResolution.LabelProp = global::Mono.Unix.Catalog.GetString ("0 x 0");
+			this.lbImageResolution.LabelProp = ("0 x 0");
 			this.GtkAlignment2.Add (this.lbImageResolution);
 			this.frameImageResolution.Add (this.GtkAlignment2);
 			this.lbFrameImageResolution = new global::Gtk.Label ();
 			this.lbFrameImageResolution.Name = "lbFrameImageResolution";
-			this.lbFrameImageResolution.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Image Resolution</b>");
+			this.lbFrameImageResolution.LabelProp = ("<b>Image Resolution</b>");
 			this.lbFrameImageResolution.UseMarkup = true;
 			this.frameImageResolution.LabelWidget = this.lbFrameImageResolution;
 			this.vbox1.Add (this.frameImageResolution);
@@ -652,12 +652,12 @@ namespace Troonie
 			// Container child GtkAlignment1.Gtk.Container+ContainerChild
 			this.lbCursorPos = new global::Gtk.Label ();
 			this.lbCursorPos.Name = "lbCursorPos";
-			this.lbCursorPos.LabelProp = global::Mono.Unix.Catalog.GetString ("0 x 0");
+			this.lbCursorPos.LabelProp = ("0 x 0");
 			this.GtkAlignment1.Add (this.lbCursorPos);
 			this.frameCursorPos.Add (this.GtkAlignment1);
 			this.lbFrameCursorPos = new global::Gtk.Label ();
 			this.lbFrameCursorPos.Name = "lbFrameCursorPos";
-			this.lbFrameCursorPos.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Cursor position</b>");
+			this.lbFrameCursorPos.LabelProp = ("<b>Cursor position</b>");
 			this.lbFrameCursorPos.UseMarkup = true;
 			this.frameCursorPos.LabelWidget = this.lbFrameCursorPos;
 			this.vbox1.Add (this.frameCursorPos);

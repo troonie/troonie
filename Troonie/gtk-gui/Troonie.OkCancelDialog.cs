@@ -21,7 +21,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.OkCancelDialog
 			this.Name = "Troonie.OkCancelDialog";
-			this.Title = global::Mono.Unix.Catalog.GetString ("PseudoTroonieContextMenu");
+			this.Title = ("PseudoTroonieContextMenu");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(2));
 			// Container child Troonie.OkCancelDialog.Gtk.Container+ContainerChild
 			this.vbox2 = new global::Gtk.VBox ();
@@ -31,7 +31,7 @@ namespace Troonie
 			this.label1 = new global::Gtk.Label ();
 			this.label1.Name = "label1";
 			this.label1.Xpad = 20;
-			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+			this.label1.LabelProp = ("label1");
 			this.label1.UseMarkup = true;
 			this.vbox2.Add (this.label1);
 			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label1]));
@@ -43,7 +43,7 @@ namespace Troonie
 			this.label2 = new global::Gtk.Label ();
 			this.label2.Name = "label2";
 			this.label2.Xpad = 20;
-			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("label2");
+			this.label2.LabelProp = ("label2");
 			this.vbox2.Add (this.label2);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label2]));
 			w2.Position = 1;

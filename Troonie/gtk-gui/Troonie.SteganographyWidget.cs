@@ -99,7 +99,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.SteganographyWidget
 			this.Name = "Troonie.SteganographyWidget";
-			this.Title = global::Mono.Unix.Catalog.GetString ("Steganography");
+			this.Title = ("Steganography");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Container child Troonie.SteganographyWidget.Gtk.Container+ContainerChild
 			this.vboxA = new global::Gtk.VBox ();
@@ -163,7 +163,7 @@ namespace Troonie
 			// Container child hboxProperties.Gtk.Box+BoxChild
 			this.lbModus = new global::Gtk.Label ();
 			this.lbModus.Name = "lbModus";
-			this.lbModus.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Modus</b>");
+			this.lbModus.LabelProp = ("<b>Modus</b>");
 			this.lbModus.UseMarkup = true;
 			this.hboxProperties.Add (this.lbModus);
 			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.lbModus]));
@@ -171,19 +171,19 @@ namespace Troonie
 			w4.Expand = false;
 			w4.Fill = false;
 			// Container child hboxProperties.Gtk.Box+BoxChild
-			this.rdBtnDecrypt = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Decrypt"));
+			this.rdBtnDecrypt = new global::Gtk.RadioButton (("Decrypt"));
 			this.rdBtnDecrypt.CanFocus = true;
 			this.rdBtnDecrypt.Name = "rdBtnDecrypt";
 			this.rdBtnDecrypt.Active = true;
 			this.rdBtnDecrypt.DrawIndicator = true;
 			this.rdBtnDecrypt.UseUnderline = true;
-			this.rdBtnDecrypt.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+			this.rdBtnDecrypt.Group = new[] { rdBtnDecrypt }; new global::GLib.SList (global::System.IntPtr.Zero);
 			this.hboxProperties.Add (this.rdBtnDecrypt);
 			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.rdBtnDecrypt]));
 			w5.Position = 1;
 			w5.Expand = false;
 			// Container child hboxProperties.Gtk.Box+BoxChild
-			this.rdBtnEncrypt = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Encrypt"));
+			this.rdBtnEncrypt = new global::Gtk.RadioButton (("Encrypt"));
 			this.rdBtnEncrypt.CanFocus = true;
 			this.rdBtnEncrypt.Name = "rdBtnEncrypt";
 			this.rdBtnEncrypt.DrawIndicator = true;
@@ -204,7 +204,7 @@ namespace Troonie
 			// Container child hboxProperties.Gtk.Box+BoxChild
 			this.lbPayload = new global::Gtk.Label ();
 			this.lbPayload.Name = "lbPayload";
-			this.lbPayload.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Payload</b>");
+			this.lbPayload.LabelProp = ("<b>Payload</b>");
 			this.lbPayload.UseMarkup = true;
 			this.hboxProperties.Add (this.lbPayload);
 			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.lbPayload]));
@@ -212,19 +212,19 @@ namespace Troonie
 			w8.Expand = false;
 			w8.Fill = false;
 			// Container child hboxProperties.Gtk.Box+BoxChild
-			this.rdBtnPayloadText = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Text"));
+			this.rdBtnPayloadText = new global::Gtk.RadioButton (("Text"));
 			this.rdBtnPayloadText.CanFocus = true;
 			this.rdBtnPayloadText.Name = "rdBtnPayloadText";
 			this.rdBtnPayloadText.Active = true;
 			this.rdBtnPayloadText.DrawIndicator = true;
 			this.rdBtnPayloadText.UseUnderline = true;
-			this.rdBtnPayloadText.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+			this.rdBtnPayloadText.Group = new[] { rdBtnPayloadText }; // new global::GLib.SList (global::System.IntPtr.Zero);
 			this.hboxProperties.Add (this.rdBtnPayloadText);
 			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.rdBtnPayloadText]));
 			w9.Position = 5;
 			w9.Expand = false;
 			// Container child hboxProperties.Gtk.Box+BoxChild
-			this.rdBtnPayloadFile = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("File"));
+			this.rdBtnPayloadFile = new global::Gtk.RadioButton (("File"));
 			this.rdBtnPayloadFile.CanFocus = true;
 			this.rdBtnPayloadFile.Name = "rdBtnPayloadFile";
 			this.rdBtnPayloadFile.DrawIndicator = true;
@@ -245,7 +245,7 @@ namespace Troonie
 			// Container child hboxProperties.Gtk.Box+BoxChild
 			this.lbAlgorithm = new global::Gtk.Label ();
 			this.lbAlgorithm.Name = "lbAlgorithm";
-			this.lbAlgorithm.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Algorithm</b>");
+			this.lbAlgorithm.LabelProp = ("<b>Algorithm</b>");
 			this.lbAlgorithm.UseMarkup = true;
 			this.hboxProperties.Add (this.lbAlgorithm);
 			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hboxProperties [this.lbAlgorithm]));
@@ -253,10 +253,10 @@ namespace Troonie
 			w12.Expand = false;
 			w12.Fill = false;
 			// Container child hboxProperties.Gtk.Box+BoxChild
-			this.comboboxAlgorithm = global::Gtk.ComboBox.NewText ();
-			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("StegHash [2016]"));
-			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("LeonSteg [2017]"));
-			this.comboboxAlgorithm.AppendText (global::Mono.Unix.Catalog.GetString ("LeonStegRGB [2017]"));
+			this.comboboxAlgorithm = new Gtk.ComboBox(new[] { "StegHash [2016]", "LeonSteg [2017]", "LeonStegRGB [2017]" });  //( global::Gtk.ComboBox.NewText ();
+			//this.comboboxAlgorithm.Add(new Gtk.Widget("StegHash [2016]"));
+			//this.comboboxAlgorithm.AppendText (("LeonSteg [2017]"));
+			//this.comboboxAlgorithm.AppendText (("LeonStegRGB [2017]"));
 			this.comboboxAlgorithm.Name = "comboboxAlgorithm";
 			this.comboboxAlgorithm.Active = 1;
 			this.hboxProperties.Add (this.comboboxAlgorithm);
@@ -269,7 +269,7 @@ namespace Troonie
 			this.checkBtnStrongObfuscation.Sensitive = false;
 			this.checkBtnStrongObfuscation.CanFocus = true;
 			this.checkBtnStrongObfuscation.Name = "checkBtnStrongObfuscation";
-			this.checkBtnStrongObfuscation.Label = global::Mono.Unix.Catalog.GetString ("Strong Obfuscation");
+			this.checkBtnStrongObfuscation.Label = ("Strong Obfuscation");
 			this.checkBtnStrongObfuscation.DrawIndicator = true;
 			this.checkBtnStrongObfuscation.UseUnderline = true;
 			this.hboxProperties.Add (this.checkBtnStrongObfuscation);
@@ -280,7 +280,7 @@ namespace Troonie
 			this.frameProperties.Add (this.AlignmentFrameProperties);
 			this.lbFrameProperties = new global::Gtk.Label ();
 			this.lbFrameProperties.Name = "lbFrameProperties";
-			this.lbFrameProperties.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Properties</b>");
+			this.lbFrameProperties.LabelProp = ("<b>Properties</b>");
 			this.lbFrameProperties.UseMarkup = true;
 			this.frameProperties.LabelWidget = this.lbFrameProperties;
 			this.vboxSteganography.Add (this.frameProperties);
@@ -307,7 +307,7 @@ namespace Troonie
 			this.frameKey.Add (this.AlignmentFrameKey);
 			this.lbFrameKey = new global::Gtk.Label ();
 			this.lbFrameKey.Name = "lbFrameKey";
-			this.lbFrameKey.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Key</b>");
+			this.lbFrameKey.LabelProp = ("<b>Key</b>");
 			this.lbFrameKey.UseMarkup = true;
 			this.frameKey.LabelWidget = this.lbFrameKey;
 			this.vboxSteganography.Add (this.frameKey);
@@ -337,7 +337,7 @@ namespace Troonie
 			this.frameContent.Add (this.AlignmentFrameContent);
 			this.lbFrameContent = new global::Gtk.Label ();
 			this.lbFrameContent.Name = "lbFrameContent";
-			this.lbFrameContent.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Content</b>");
+			this.lbFrameContent.LabelProp = ("<b>Content</b>");
 			this.lbFrameContent.UseMarkup = true;
 			this.frameContent.LabelWidget = this.lbFrameContent;
 			this.vboxSteganography.Add (this.frameContent);
@@ -374,7 +374,7 @@ namespace Troonie
 			this.entryFile = new global::Gtk.Entry ();
 			this.entryFile.CanFocus = true;
 			this.entryFile.Name = "entryFile";
-			this.entryFile.Text = global::Mono.Unix.Catalog.GetString ("result.txt");
+			this.entryFile.Text = ("result.txt");
 			this.entryFile.IsEditable = true;
 			this.entryFile.InvisibleChar = '●';
 			this.hbox2.Add (this.entryFile);
@@ -384,7 +384,7 @@ namespace Troonie
 			this.frameFileChooser.Add (this.alignmentFrameFileChooser);
 			this.lbFrameFileChooser = new global::Gtk.Label ();
 			this.lbFrameFileChooser.Name = "lbFrameFileChooser";
-			this.lbFrameFileChooser.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>File</b>");
+			this.lbFrameFileChooser.LabelProp = ("<b>File</b>");
 			this.lbFrameFileChooser.UseMarkup = true;
 			this.frameFileChooser.LabelWidget = this.lbFrameFileChooser;
 			this.vboxSteganography.Add (this.frameFileChooser);
@@ -396,7 +396,7 @@ namespace Troonie
 			this.frameSteganography.Add (this.AlignmentFrameSteganography);
 			this.lbFrameSteganography = new global::Gtk.Label ();
 			this.lbFrameSteganography.Name = "lbFrameSteganography";
-			this.lbFrameSteganography.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Steganography</b>");
+			this.lbFrameSteganography.LabelProp = ("<b>Steganography</b>");
 			this.lbFrameSteganography.UseMarkup = true;
 			this.frameSteganography.LabelWidget = this.lbFrameSteganography;
 			this.vbox1.Add (this.frameSteganography);
@@ -412,12 +412,12 @@ namespace Troonie
 			// Container child AlignmentFramePayloadspace.Gtk.Container+ContainerChild
 			this.lbPayloadspace = new global::Gtk.Label ();
 			this.lbPayloadspace.Name = "lbPayloadspace";
-			this.lbPayloadspace.LabelProp = global::Mono.Unix.Catalog.GetString ("0 x 0");
+			this.lbPayloadspace.LabelProp = ("0 x 0");
 			this.AlignmentFramePayloadspace.Add (this.lbPayloadspace);
 			this.framePayloadspace.Add (this.AlignmentFramePayloadspace);
 			this.lbFramePayloadspace = new global::Gtk.Label ();
 			this.lbFramePayloadspace.Name = "lbFramePayloadspace";
-			this.lbFramePayloadspace.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Payloadspace</b>");
+			this.lbFramePayloadspace.LabelProp = ("<b>Payloadspace</b>");
 			this.lbFramePayloadspace.UseMarkup = true;
 			this.framePayloadspace.LabelWidget = this.lbFramePayloadspace;
 			this.vbox1.Add (this.framePayloadspace);

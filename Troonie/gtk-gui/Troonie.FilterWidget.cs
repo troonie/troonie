@@ -111,7 +111,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.FilterWidget
 			this.Name = "Troonie.FilterWidget";
-			this.Title = global::Mono.Unix.Catalog.GetString ("FilterWidget");
+			this.Title = ("FilterWidget");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Container child Troonie.FilterWidget.Gtk.Container+ContainerChild
 			this.vboxA = new global::Gtk.VBox ();
@@ -141,7 +141,7 @@ namespace Troonie
 			this.checkBtnUse255ForAlpha = new global::Gtk.CheckButton ();
 			this.checkBtnUse255ForAlpha.CanFocus = true;
 			this.checkBtnUse255ForAlpha.Name = "checkBtnUse255ForAlpha";
-			this.checkBtnUse255ForAlpha.Label = global::Mono.Unix.Catalog.GetString ("255 for Alpha channel");
+			this.checkBtnUse255ForAlpha.Label = ("255 for Alpha channel");
 			this.checkBtnUse255ForAlpha.DrawIndicator = true;
 			this.checkBtnUse255ForAlpha.UseUnderline = true;
 			this.vboxImagePanel.Add (this.checkBtnUse255ForAlpha);
@@ -180,13 +180,13 @@ namespace Troonie
 			this.alignment_combobox1.Name = "alignment_combobox1";
 			this.alignment_combobox1.LeftPadding = ((uint)(12));
 			// Container child alignment_combobox1.Gtk.Container+ContainerChild
-			this.combobox1 = global::Gtk.ComboBox.NewText ();
+			this.combobox1 = new global::Gtk.ComboBox();
 			this.combobox1.Name = "combobox1";
 			this.alignment_combobox1.Add (this.combobox1);
 			this.frame_combobox1.Add (this.alignment_combobox1);
 			this.lbFrame_combobox1 = new global::Gtk.Label ();
 			this.lbFrame_combobox1.Name = "lbFrame_combobox1";
-			this.lbFrame_combobox1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>combobox1</b>");
+			this.lbFrame_combobox1.LabelProp = ("<b>combobox1</b>");
 			this.lbFrame_combobox1.UseMarkup = true;
 			this.frame_combobox1.LabelWidget = this.lbFrame_combobox1;
 			this.vboxSteganography1.Add (this.frame_combobox1);
@@ -202,13 +202,13 @@ namespace Troonie
 			this.alignment_combobox2.Name = "alignment_combobox2";
 			this.alignment_combobox2.LeftPadding = ((uint)(12));
 			// Container child alignment_combobox2.Gtk.Container+ContainerChild
-			this.combobox2 = global::Gtk.ComboBox.NewText ();
+			this.combobox2 = new Gtk.ComboBox(); // global::Gtk.ComboBox.NewText ();
 			this.combobox2.Name = "combobox2";
 			this.alignment_combobox2.Add (this.combobox2);
 			this.frame_combobox2.Add (this.alignment_combobox2);
 			this.lbFrame_combobox2 = new global::Gtk.Label ();
 			this.lbFrame_combobox2.Name = "lbFrame_combobox2";
-			this.lbFrame_combobox2.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>combobox2</b>");
+			this.lbFrame_combobox2.LabelProp = ("<b>combobox2</b>");
 			this.lbFrame_combobox2.UseMarkup = true;
 			this.frame_combobox2.LabelWidget = this.lbFrame_combobox2;
 			this.vboxSteganography1.Add (this.frame_combobox2);
@@ -224,13 +224,13 @@ namespace Troonie
 			this.alignment_combobox3.Name = "alignment_combobox3";
 			this.alignment_combobox3.LeftPadding = ((uint)(12));
 			// Container child alignment_combobox3.Gtk.Container+ContainerChild
-			this.combobox3 = global::Gtk.ComboBox.NewText ();
+			this.combobox3 = new Gtk.ComboBox(); //global::Gtk.ComboBox.NewText ();
 			this.combobox3.Name = "combobox3";
 			this.alignment_combobox3.Add (this.combobox3);
 			this.frame_combobox3.Add (this.alignment_combobox3);
 			this.lbFrame_combobox3 = new global::Gtk.Label ();
 			this.lbFrame_combobox3.Name = "lbFrame_combobox3";
-			this.lbFrame_combobox3.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>combobox3</b>");
+			this.lbFrame_combobox3.LabelProp = ("<b>combobox3</b>");
 			this.lbFrame_combobox3.UseMarkup = true;
 			this.frame_combobox3.LabelWidget = this.lbFrame_combobox3;
 			this.vboxSteganography1.Add (this.frame_combobox3);
@@ -279,7 +279,7 @@ namespace Troonie
 			this.frame_hscale1.Add (this.alignment_hscale1);
 			this.lbFrame_hscale1 = new global::Gtk.Label ();
 			this.lbFrame_hscale1.Name = "lbFrame_hscale1";
-			this.lbFrame_hscale1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>hscale1</b>");
+			this.lbFrame_hscale1.LabelProp = ("<b>hscale1</b>");
 			this.lbFrame_hscale1.UseMarkup = true;
 			this.frame_hscale1.LabelWidget = this.lbFrame_hscale1;
 			this.vboxFrameHScales.Add (this.frame_hscale1);
@@ -308,7 +308,7 @@ namespace Troonie
 			this.frame_hscale2.Add (this.alignment_hscale2);
 			this.lbFrame_hscale2 = new global::Gtk.Label ();
 			this.lbFrame_hscale2.Name = "lbFrame_hscale2";
-			this.lbFrame_hscale2.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>hscale2</b>");
+			this.lbFrame_hscale2.LabelProp = ("<b>hscale2</b>");
 			this.lbFrame_hscale2.UseMarkup = true;
 			this.frame_hscale2.LabelWidget = this.lbFrame_hscale2;
 			this.vboxFrameHScales.Add (this.frame_hscale2);
@@ -337,7 +337,7 @@ namespace Troonie
 			this.frame_hscale3.Add (this.alignment_hscale3);
 			this.lbFrame_hscale3 = new global::Gtk.Label ();
 			this.lbFrame_hscale3.Name = "lbFrame_hscale3";
-			this.lbFrame_hscale3.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>hscale3</b>");
+			this.lbFrame_hscale3.LabelProp = ("<b>hscale3</b>");
 			this.lbFrame_hscale3.UseMarkup = true;
 			this.frame_hscale3.LabelWidget = this.lbFrame_hscale3;
 			this.vboxFrameHScales.Add (this.frame_hscale3);
@@ -366,7 +366,7 @@ namespace Troonie
 			this.frame_hscale4.Add (this.alignment_hscale4);
 			this.lbFrame_hscale4 = new global::Gtk.Label ();
 			this.lbFrame_hscale4.Name = "lbFrame_hscale4";
-			this.lbFrame_hscale4.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>hscale4</b>");
+			this.lbFrame_hscale4.LabelProp = ("<b>hscale4</b>");
 			this.lbFrame_hscale4.UseMarkup = true;
 			this.frame_hscale4.LabelWidget = this.lbFrame_hscale4;
 			this.vboxFrameHScales.Add (this.frame_hscale4);
@@ -395,7 +395,7 @@ namespace Troonie
 			this.frame_hscale5.Add (this.alignment_hscale5);
 			this.lbFrame_hscale5 = new global::Gtk.Label ();
 			this.lbFrame_hscale5.Name = "lbFrame_hscale5";
-			this.lbFrame_hscale5.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>hscale5</b>");
+			this.lbFrame_hscale5.LabelProp = ("<b>hscale5</b>");
 			this.lbFrame_hscale5.UseMarkup = true;
 			this.frame_hscale5.LabelWidget = this.lbFrame_hscale5;
 			this.vboxFrameHScales.Add (this.frame_hscale5);
@@ -420,12 +420,12 @@ namespace Troonie
 			// Container child GtkAlignment1.Gtk.Container+ContainerChild
 			this.lbCursorPos = new global::Gtk.Label ();
 			this.lbCursorPos.Name = "lbCursorPos";
-			this.lbCursorPos.LabelProp = global::Mono.Unix.Catalog.GetString ("0 x 0");
+			this.lbCursorPos.LabelProp = ("0 x 0");
 			this.GtkAlignment1.Add (this.lbCursorPos);
 			this.frameCursorPos.Add (this.GtkAlignment1);
 			this.lbFrameCursorPos = new global::Gtk.Label ();
 			this.lbFrameCursorPos.Name = "lbFrameCursorPos";
-			this.lbFrameCursorPos.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Cursor position</b>");
+			this.lbFrameCursorPos.LabelProp = ("<b>Cursor position</b>");
 			this.lbFrameCursorPos.UseMarkup = true;
 			this.frameCursorPos.LabelWidget = this.lbFrameCursorPos;
 			this.vbox1.Add (this.frameCursorPos);

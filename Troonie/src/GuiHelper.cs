@@ -214,6 +214,7 @@ namespace Troonie
 			MenuBar mb = new MenuBar();
 			mb.ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);
 
+			// TODO Menu is no longer supported. Use ToolStripDropDown instead. For more details see https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls
 			Menu filemenu = new Menu();
 			// MenuItem file = new MenuItem("File");
 			ImageMenuItem rootitem = new ImageMenuItem(menuitems[0]);
@@ -224,6 +225,7 @@ namespace Troonie
 
 
 			for (int i = 1; i < menuitems.Length; i++) {
+				// TODO MenuItem is no longer supported. Use ToolStripMenuItem instead. For more details see https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls
 				MenuItem item = new MenuItem(menuitems[i]);
 				AccelLabel al = item.Child as AccelLabel;
 				item.Activated += (sender, e) => pressed(sender, e, al.Text);

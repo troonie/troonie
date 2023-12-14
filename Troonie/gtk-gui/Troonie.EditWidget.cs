@@ -125,7 +125,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.EditWidget
 			this.Name = "Troonie.EditWidget";
-			this.Title = global::Mono.Unix.Catalog.GetString ("EditWidget");
+			this.Title = ("EditWidget");
 			// Container child Troonie.EditWidget.Gtk.Container+ContainerChild
 			this.vboxA = new global::Gtk.VBox ();
 			this.vboxA.Name = "vboxA";
@@ -174,8 +174,8 @@ namespace Troonie
 			this.table3.RowSpacing = ((uint)(6));
 			this.table3.ColumnSpacing = ((uint)(6));
 			// Container child table3.Gtk.Table+TableChild
-			this.comboboxShortcuts = global::Gtk.ComboBox.NewText ();
-			this.comboboxShortcuts.AppendText (global::Mono.Unix.Catalog.GetString (" - "));
+			this.comboboxShortcuts = new global::Gtk.ComboBox();
+			this.comboboxShortcuts.TooltipText= ((" - "));
 			this.comboboxShortcuts.Name = "comboboxShortcuts";
 			this.comboboxShortcuts.Active = 0;
 			this.table3.Add (this.comboboxShortcuts);
@@ -187,7 +187,7 @@ namespace Troonie
 			// Container child table3.Gtk.Table+TableChild
 			this.lbShortcutsText = new global::Gtk.Label ();
 			this.lbShortcutsText.Name = "lbShortcutsText";
-			this.lbShortcutsText.LabelProp = global::Mono.Unix.Catalog.GetString ("Angle  ");
+			this.lbShortcutsText.LabelProp = ("Angle  ");
 			this.table3.Add (this.lbShortcutsText);
 			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table3 [this.lbShortcutsText]));
 			w5.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -196,7 +196,7 @@ namespace Troonie
 			this.frameShortcuts.Add (this.GtkAlignmentShortcuts);
 			this.lbFrameShortcuts = new global::Gtk.Label ();
 			this.lbFrameShortcuts.Name = "lbFrameShortcuts";
-			this.lbFrameShortcuts.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Cutting by common picture formats</b>");
+			this.lbFrameShortcuts.LabelProp = ("<b>Cutting by common picture formats</b>");
 			this.lbFrameShortcuts.UseMarkup = true;
 			this.frameShortcuts.LabelWidget = this.lbFrameShortcuts;
 			this.vbox1.Add (this.frameShortcuts);
@@ -412,7 +412,7 @@ namespace Troonie
 			// Container child table1.Gtk.Table+TableChild
 			this.lbBottomText = new global::Gtk.Label ();
 			this.lbBottomText.Name = "lbBottomText";
-			this.lbBottomText.LabelProp = global::Mono.Unix.Catalog.GetString ("Bottom");
+			this.lbBottomText.LabelProp = ("Bottom");
 			this.table1.Add (this.lbBottomText);
 			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table1 [this.lbBottomText]));
 			w22.TopAttach = ((uint)(3));
@@ -422,7 +422,7 @@ namespace Troonie
 			// Container child table1.Gtk.Table+TableChild
 			this.lbLeftText = new global::Gtk.Label ();
 			this.lbLeftText.Name = "lbLeftText";
-			this.lbLeftText.LabelProp = global::Mono.Unix.Catalog.GetString ("Left");
+			this.lbLeftText.LabelProp = ("Left");
 			this.table1.Add (this.lbLeftText);
 			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table1 [this.lbLeftText]));
 			w23.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -430,7 +430,7 @@ namespace Troonie
 			// Container child table1.Gtk.Table+TableChild
 			this.lbRightText = new global::Gtk.Label ();
 			this.lbRightText.Name = "lbRightText";
-			this.lbRightText.LabelProp = global::Mono.Unix.Catalog.GetString ("Right");
+			this.lbRightText.LabelProp = ("Right");
 			this.table1.Add (this.lbRightText);
 			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table1 [this.lbRightText]));
 			w24.TopAttach = ((uint)(1));
@@ -440,7 +440,7 @@ namespace Troonie
 			// Container child table1.Gtk.Table+TableChild
 			this.lbTopText = new global::Gtk.Label ();
 			this.lbTopText.Name = "lbTopText";
-			this.lbTopText.LabelProp = global::Mono.Unix.Catalog.GetString ("Top");
+			this.lbTopText.LabelProp = ("Top");
 			this.table1.Add (this.lbTopText);
 			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.table1 [this.lbTopText]));
 			w25.TopAttach = ((uint)(2));
@@ -451,7 +451,7 @@ namespace Troonie
 			this.frameCutPoints.Add (this.GtkAlignment2);
 			this.lbFrameCutDimensions = new global::Gtk.Label ();
 			this.lbFrameCutDimensions.Name = "lbFrameCutDimensions";
-			this.lbFrameCutDimensions.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Cut points (in pixel)</b>");
+			this.lbFrameCutDimensions.LabelProp = ("<b>Cut points (in pixel)</b>");
 			this.lbFrameCutDimensions.UseMarkup = true;
 			this.frameCutPoints.LabelWidget = this.lbFrameCutDimensions;
 			this.vbox1.Add (this.frameCutPoints);
@@ -518,7 +518,7 @@ namespace Troonie
 			// Container child table2.Gtk.Table+TableChild
 			this.lbRotateText = new global::Gtk.Label ();
 			this.lbRotateText.Name = "lbRotateText";
-			this.lbRotateText.LabelProp = global::Mono.Unix.Catalog.GetString ("Angle  ");
+			this.lbRotateText.LabelProp = ("Angle  ");
 			this.table2.Add (this.lbRotateText);
 			global::Gtk.Table.TableChild w32 = ((global::Gtk.Table.TableChild)(this.table2 [this.lbRotateText]));
 			w32.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -527,7 +527,7 @@ namespace Troonie
 			this.frameRotation.Add (this.GtkAlignment3);
 			this.lbFrameRotation = new global::Gtk.Label ();
 			this.lbFrameRotation.Name = "lbFrameRotation";
-			this.lbFrameRotation.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Rotatation in 1/10 degrees (e.g. 900 = 90°)</b>");
+			this.lbFrameRotation.LabelProp = ("<b>Rotatation in 1/10 degrees (e.g. 900 = 90°)</b>");
 			this.lbFrameRotation.UseMarkup = true;
 			this.frameRotation.LabelWidget = this.lbFrameRotation;
 			this.vbox1.Add (this.frameRotation);
@@ -550,7 +550,7 @@ namespace Troonie
 			// Container child tableImageDimensions.Gtk.Table+TableChild
 			this.lbFileSize = new global::Gtk.Label ();
 			this.lbFileSize.Name = "lbFileSize";
-			this.lbFileSize.LabelProp = global::Mono.Unix.Catalog.GetString ("10000 x 10000");
+			this.lbFileSize.LabelProp = ("10000 x 10000");
 			this.tableImageDimensions.Add (this.lbFileSize);
 			global::Gtk.Table.TableChild w36 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbFileSize]));
 			w36.TopAttach = ((uint)(1));
@@ -562,7 +562,7 @@ namespace Troonie
 			// Container child tableImageDimensions.Gtk.Table+TableChild
 			this.lbFileSizeText = new global::Gtk.Label ();
 			this.lbFileSizeText.Name = "lbFileSizeText";
-			this.lbFileSizeText.LabelProp = global::Mono.Unix.Catalog.GetString ("File size: ");
+			this.lbFileSizeText.LabelProp = ("File size: ");
 			this.tableImageDimensions.Add (this.lbFileSizeText);
 			global::Gtk.Table.TableChild w37 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbFileSizeText]));
 			w37.TopAttach = ((uint)(1));
@@ -574,7 +574,7 @@ namespace Troonie
 			// Container child tableImageDimensions.Gtk.Table+TableChild
 			this.lbFormat = new global::Gtk.Label ();
 			this.lbFormat.Name = "lbFormat";
-			this.lbFormat.LabelProp = global::Mono.Unix.Catalog.GetString ("10000 x 10000");
+			this.lbFormat.LabelProp = ("10000 x 10000");
 			this.tableImageDimensions.Add (this.lbFormat);
 			global::Gtk.Table.TableChild w38 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbFormat]));
 			w38.LeftAttach = ((uint)(3));
@@ -584,7 +584,7 @@ namespace Troonie
 			// Container child tableImageDimensions.Gtk.Table+TableChild
 			this.lbFormatText = new global::Gtk.Label ();
 			this.lbFormatText.Name = "lbFormatText";
-			this.lbFormatText.LabelProp = global::Mono.Unix.Catalog.GetString ("Format: ");
+			this.lbFormatText.LabelProp = ("Format: ");
 			this.tableImageDimensions.Add (this.lbFormatText);
 			global::Gtk.Table.TableChild w39 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbFormatText]));
 			w39.LeftAttach = ((uint)(2));
@@ -594,7 +594,7 @@ namespace Troonie
 			// Container child tableImageDimensions.Gtk.Table+TableChild
 			this.lbNew = new global::Gtk.Label ();
 			this.lbNew.Name = "lbNew";
-			this.lbNew.LabelProp = global::Mono.Unix.Catalog.GetString ("10000 x 10000");
+			this.lbNew.LabelProp = ("10000 x 10000");
 			this.tableImageDimensions.Add (this.lbNew);
 			global::Gtk.Table.TableChild w40 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbNew]));
 			w40.TopAttach = ((uint)(1));
@@ -606,7 +606,7 @@ namespace Troonie
 			// Container child tableImageDimensions.Gtk.Table+TableChild
 			this.lbNewText = new global::Gtk.Label ();
 			this.lbNewText.Name = "lbNewText";
-			this.lbNewText.LabelProp = global::Mono.Unix.Catalog.GetString ("New:");
+			this.lbNewText.LabelProp = ("New:");
 			this.tableImageDimensions.Add (this.lbNewText);
 			global::Gtk.Table.TableChild w41 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbNewText]));
 			w41.TopAttach = ((uint)(1));
@@ -616,7 +616,7 @@ namespace Troonie
 			// Container child tableImageDimensions.Gtk.Table+TableChild
 			this.lbOriginal = new global::Gtk.Label ();
 			this.lbOriginal.Name = "lbOriginal";
-			this.lbOriginal.LabelProp = global::Mono.Unix.Catalog.GetString ("10000 x 10000");
+			this.lbOriginal.LabelProp = ("10000 x 10000");
 			this.tableImageDimensions.Add (this.lbOriginal);
 			global::Gtk.Table.TableChild w42 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbOriginal]));
 			w42.LeftAttach = ((uint)(1));
@@ -626,7 +626,7 @@ namespace Troonie
 			// Container child tableImageDimensions.Gtk.Table+TableChild
 			this.lbOriginalText = new global::Gtk.Label ();
 			this.lbOriginalText.Name = "lbOriginalText";
-			this.lbOriginalText.LabelProp = global::Mono.Unix.Catalog.GetString ("Original: ");
+			this.lbOriginalText.LabelProp = ("Original: ");
 			this.tableImageDimensions.Add (this.lbOriginalText);
 			global::Gtk.Table.TableChild w43 = ((global::Gtk.Table.TableChild)(this.tableImageDimensions [this.lbOriginalText]));
 			w43.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -635,7 +635,7 @@ namespace Troonie
 			this.frameImageDimensions.Add (this.GtkAlignment);
 			this.lbFrameImageDimensions = new global::Gtk.Label ();
 			this.lbFrameImageDimensions.Name = "lbFrameImageDimensions";
-			this.lbFrameImageDimensions.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Image Dimension</b>");
+			this.lbFrameImageDimensions.LabelProp = ("<b>Image Dimension</b>");
 			this.lbFrameImageDimensions.UseMarkup = true;
 			this.frameImageDimensions.LabelWidget = this.lbFrameImageDimensions;
 			this.vbox1.Add (this.frameImageDimensions);
@@ -653,12 +653,12 @@ namespace Troonie
 			// Container child GtkAlignment1.Gtk.Container+ContainerChild
 			this.lbCursorPos = new global::Gtk.Label ();
 			this.lbCursorPos.Name = "lbCursorPos";
-			this.lbCursorPos.LabelProp = global::Mono.Unix.Catalog.GetString ("0 x 0");
+			this.lbCursorPos.LabelProp = ("0 x 0");
 			this.GtkAlignment1.Add (this.lbCursorPos);
 			this.frameCursorPos.Add (this.GtkAlignment1);
 			this.lbFrameCursorPos = new global::Gtk.Label ();
 			this.lbFrameCursorPos.Name = "lbFrameCursorPos";
-			this.lbFrameCursorPos.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Cursor position</b>");
+			this.lbFrameCursorPos.LabelProp = ("<b>Cursor position</b>");
 			this.lbFrameCursorPos.UseMarkup = true;
 			this.frameCursorPos.LabelWidget = this.lbFrameCursorPos;
 			this.vbox1.Add (this.frameCursorPos);

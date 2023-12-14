@@ -56,7 +56,7 @@ namespace Troonie
 //			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.AskForDesktopContextMenuWindow
 //			Name = "Troonie.ConfirmingDeleteImagesWindow";
-//			Title = global::Mono.Unix.Catalog.GetString ("ConfirmingDeleteImagesWindow");
+//			Title = ("ConfirmingDeleteImagesWindow");
 			WindowPosition = ((WindowPosition)(4));
 			// Container child Troonie.AskForDesktopContextMenuWindow.Gtk.Container+ContainerChild
 			vbox2 = new VBox ();
@@ -75,7 +75,7 @@ namespace Troonie
 			// Container child vbox2.Gtk.Box+BoxChild
 			label1 = new Label ();
 			label1.Name = "label1";
-			label1.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+			label1.LabelProp = ("label1");
 			label1.UseMarkup = true;
 			vbox2.Add (label1);
 			Box.BoxChild w2 = ((Box.BoxChild)(vbox2 [label1]));
@@ -85,7 +85,7 @@ namespace Troonie
 			// Container child vbox2.Gtk.Box+BoxChild
 			label2 = new Label ();
 			label2.Name = "label2";
-			label2.LabelProp = global::Mono.Unix.Catalog.GetString ("label2");
+			label2.LabelProp = ("label2");
 			vbox2.Add (label2);
 			Box.BoxChild w3 = ((Box.BoxChild)(vbox2 [label2]));
 			w3.Position = 2;
@@ -103,7 +103,7 @@ namespace Troonie
 			chkBtn = new CheckButton ();
 			chkBtn.CanFocus = true;
 			chkBtn.Name = "chkBtn";
-			chkBtn.Label = global::Mono.Unix.Catalog.GetString ("checkbutton1");
+			chkBtn.Label = ("checkbutton1");
 			chkBtn.Active = true;
 			chkBtn.DrawIndicator = true;
 			chkBtn.UseUnderline = true;

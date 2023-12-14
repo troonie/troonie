@@ -91,7 +91,7 @@ namespace Troonie
 			eb.Add (da);
 			Add (eb);
 
-			da.ExposeEvent += OnDaExpose;
+			da.Drawn += OnDaExpose;
 			ButtonReleaseEvent += OnButtonReleaseEvent;
 			ScrollEvent += OnScrollEvent;
 
@@ -177,7 +177,7 @@ namespace Troonie
 			base.Destroy ();
 		}
 			
-		protected void OnDaExpose (object o, ExposeEventArgs args)
+		protected void OnDaExpose (object o, DrawnArgs args)
 		{
 			Cairo.Context cr =  Gdk.CairoHelper.Create(da.GdkWindow);
 

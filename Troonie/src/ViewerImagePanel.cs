@@ -197,7 +197,7 @@ namespace Troonie
 			eb.Add (da);
 			Add (eb);
 
-			da.ExposeEvent += OnDaExpose;
+			da.Drawn += OnDaExpose;
 //			da.MotionNotifyEvent += OnDaMotionNotify;
 
 			eb.ButtonPressEvent += OnEbButtonPress;
@@ -375,7 +375,7 @@ namespace Troonie
 		#region protected events
 
 		// todo make static?
-		protected void OnDaExpose (object o, ExposeEventArgs args)
+		protected void OnDaExpose (object o, DrawnArgs args)
 		{
 			Cairo.Context cr =  Gdk.CairoHelper.Create(da.GdkWindow);
 

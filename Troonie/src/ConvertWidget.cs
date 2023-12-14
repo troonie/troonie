@@ -101,9 +101,9 @@ namespace Troonie
 			eventboxRoot.ModifyBg(StateType.Normal, colorConverter.GRID);
 			eventboxToolbar.ModifyBg(StateType.Normal, colorConverter.GRID);
 
-			entryBiggerLength.ModifyBase(StateType.Normal, colorConverter.White);
-			entryFixSizeWidth.ModifyBase(StateType.Normal, colorConverter.White);
-			entryFixSizeHeight.ModifyBase(StateType.Normal, colorConverter.White);
+			entryBiggerLength.ModifyBg(StateType.Normal, colorConverter.White);
+			entryFixSizeWidth.ModifyBg(StateType.Normal, colorConverter.White);
+			entryFixSizeHeight.ModifyBg(StateType.Normal, colorConverter.White);
 			eventboxImageList.ModifyBg(StateType.Normal, colorConverter.White);
 
 			lbFrameImageFormat.ModifyFg(StateType.Normal, colorConverter.FONT);
@@ -322,9 +322,12 @@ namespace Troonie
 
 		protected void OnDragDrop (object sender, Gtk.DragDropArgs args)
 		{
-			Gtk.Drag.GetData
+			Gdk.Atom a = args.Context.ListTargets()[0];
+
+
+            Gtk.Drag.GetData
 			((Gtk.Widget)sender, args.Context,
-				args.Context.Targets[0], args.Time);
+				a, args.Time);
 		}
 
 		protected void OnDragDataReceived (object sender, Gtk.DragDataReceivedArgs args)
@@ -444,13 +447,13 @@ namespace Troonie
 			BitmapWithTag bt;
 			int nr = 1;
 			int count = vboxImageList.Children.Length;
-			progressbar1.Adjustment.Lower = nr;
-			progressbar1.Adjustment.Upper = count;
+			//progressbar1.Adjustment.Lower = nr;
+			//progressbar1.Adjustment.Upper = count;
 			List<string> errors = new List<string> ();
 
 			foreach (PressedInButton pib in vboxImageList.Children) {
 				string imageFile = pib.FullText;
-				progressbar1.Adjustment.Value = nr;
+				progressbar1.Fraction = (double)nr / count;
 				progressbar1.Text = (nr + "/" + count + "  ( " + 
 									 nr * 100 / count +"% )");
 				// Force redrawing progress bar

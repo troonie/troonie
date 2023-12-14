@@ -15,7 +15,7 @@ namespace Troonie
 			global::Stetic.Gui.Initialize (this);
 			// Widget Troonie.PasswordDialog
 			this.Name = "Troonie.PasswordDialog";
-			this.Title = global::Mono.Unix.Catalog.GetString ("PasswordWidget");
+			this.Title = ("PasswordWidget");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Container child Troonie.PasswordDialog.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();

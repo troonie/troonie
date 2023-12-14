@@ -66,7 +66,7 @@ namespace Troonie
 
 			workingColor = Cc.BtnNormal.I;
 
-			da.ExposeEvent += OnDrawingAreaExposeEvent;
+			da.Drawn += OnDrawingAreaExposeEvent;
 			this.Add(da);
 
 			EnterNotifyEvent += OnEnterNotify;
@@ -128,7 +128,7 @@ namespace Troonie
 			da.QueueDraw ();
 		}					
 
-		protected void OnDrawingAreaExposeEvent (object obj, ExposeEventArgs args)
+		protected void OnDrawingAreaExposeEvent (object obj, DrawnArgs args)
 		{
 			DrawingArea drawingArea = obj as DrawingArea;
 

@@ -531,9 +531,11 @@ namespace Troonie
 
 		protected void OnDragDrop (object sender, Gtk.DragDropArgs args)
 		{
-			Gtk.Drag.GetData
+            Gdk.Atom a = args.Context.ListTargets()[0];
+
+            Gtk.Drag.GetData
 				((Gtk.Widget)sender, args.Context,
-				 args.Context.Targets[0], args.Time);
+				 a, args.Time);
 		}
 
 		void OnDragDataReceived (object sender, Gtk.DragDataReceivedArgs args)

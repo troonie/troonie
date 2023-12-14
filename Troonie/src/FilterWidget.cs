@@ -112,10 +112,10 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[85] + "</b>";
-			combobox1.AppendText(Language.I.L[86]);
-			combobox1.AppendText(Language.I.L[87]);
-			combobox1.AppendText(Language.I.L[88]);
-			combobox1.AppendText(Language.I.L[89]);
+			//combobox1.AppendText(Language.I.L[86]);
+			//combobox1.AppendText(Language.I.L[87]);
+			//combobox1.AppendText(Language.I.L[88]);
+			//combobox1.AppendText(Language.I.L[89]);
 			combobox1.Active = (int)grayscale.Algorithm;
 
             #region New filter variant: Grayscaling including exponent manipulation (October 2019)
@@ -149,16 +149,16 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[93] + "</b>";
-			combobox1.AppendText(Language.I.L[94]);
-			combobox1.AppendText(Language.I.L[95]);
-			combobox1.AppendText(Language.I.L[96]);
-			combobox1.AppendText(Language.I.L[97]);
-			combobox1.AppendText(Language.I.L[98]);
-			combobox1.AppendText(Language.I.L[99]);
-			combobox1.AppendText(Language.I.L[100]);
-			combobox1.AppendText(Language.I.L[101]);
-			combobox1.AppendText(Language.I.L[102]);
-			combobox1.AppendText(Language.I.L[103]);
+			//combobox1.AppendText(Language.I.L[94]);
+			//combobox1.AppendText(Language.I.L[95]);
+			//combobox1.AppendText(Language.I.L[96]);
+			//combobox1.AppendText(Language.I.L[97]);
+			//combobox1.AppendText(Language.I.L[98]);
+			//combobox1.AppendText(Language.I.L[99]);
+			//combobox1.AppendText(Language.I.L[100]);
+			//combobox1.AppendText(Language.I.L[101]);
+			//combobox1.AppendText(Language.I.L[102]);
+			//combobox1.AppendText(Language.I.L[103]);
 			combobox1.Active = (int)extractOrRotateChannels.Order;
 		}
 
@@ -239,8 +239,8 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[115] + "</b>";
-			combobox1.AppendText(Language.I.L[116]);
-			combobox1.AppendText(Language.I.L[117]);
+			//combobox1.AppendText(Language.I.L[116]);
+			//combobox1.AppendText(Language.I.L[117]);
 			combobox1.Active = cannyEdgeDetector.OrientationColored ? 0 : 1;
 		}
 
@@ -299,8 +299,8 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[159] + "</b>";
-			combobox1.AppendText(Language.I.L[117]);
-			combobox1.AppendText(Language.I.L[116]);
+			//combobox1.AppendText(Language.I.L[117]);
+			//combobox1.AppendText(Language.I.L[116]);
 			combobox1.Active = diff.DrawThick3x3Pixels ? 1 : 0;
 
 			// 	Smallest allowed value in the resulting range [0, 255]. Default: 0. 
@@ -333,8 +333,8 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[322] + "</b>";
-			combobox1.AppendText(Language.I.L[117]);
-			combobox1.AppendText(Language.I.L[116]);
+			//combobox1.AppendText(Language.I.L[117]);
+			//combobox1.AppendText(Language.I.L[116]);
 			combobox1.Active = mosaic.Inverted; // ? 1 : 0;
 
 			frameHScales.Visible = true;
@@ -439,8 +439,8 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[273] + "</b>";
-			combobox1.AppendText(Language.I.L[117]);
-			combobox1.AppendText(Language.I.L[116]);
+			//combobox1.AppendText(Language.I.L[117]);
+			//combobox1.AppendText(Language.I.L[116]);
 			combobox1.Active = sobel.BlackWhite ? 1 : 0;
 
 			// Sobel threshold
@@ -465,8 +465,8 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[278] + "</b>";
-			combobox1.AppendText(Language.I.L[279]);
-			combobox1.AppendText(Language.I.L[280]);
+			//combobox1.AppendText(Language.I.L[279]);
+			//combobox1.AppendText(Language.I.L[280]);
 			combobox1.Active = sobel.UseWhiteEdgeColor ? 1 : 0;
 
 			// Sobel threshold
@@ -490,8 +490,8 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[286] + "</b>";
-			combobox1.AppendText(Language.I.L[287]);
-			combobox1.AppendText(Language.I.L[288]);
+			//combobox1.AppendText(Language.I.L[287]);
+			//combobox1.AppendText(Language.I.L[288]);
 			combobox1.Active = filter.ColorBinarization ? 1 : 0;
 
 			frame_hscale1.Visible = true;
@@ -555,10 +555,10 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[296] + "</b>";
-			combobox1.AppendText(Language.I.L[297]);
-			combobox1.AppendText(Language.I.L[298]);
-			combobox1.AppendText(Language.I.L[299]);
-			combobox1.AppendText(Language.I.L[300]);
+			//combobox1.AppendText(Language.I.L[297]);
+			//combobox1.AppendText(Language.I.L[298]);
+			//combobox1.AppendText(Language.I.L[299]);
+			//combobox1.AppendText(Language.I.L[300]);
 			combobox1.Active = (int)filter.Mask;
 		}
 
@@ -570,9 +570,9 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[312] + "</b>";
-			combobox1.AppendText(Language.I.L[309]);
-			combobox1.AppendText(Language.I.L[310]);
-			combobox1.AppendText(Language.I.L[311]);
+			//combobox1.AppendText(Language.I.L[309]);
+			//combobox1.AppendText(Language.I.L[310]);
+			//combobox1.AppendText(Language.I.L[311]);
 			combobox1.Active = (int)mirror.Axis;
 		}
 
@@ -585,12 +585,12 @@ namespace Troonie
 			frameComboboxes.Visible = true;
 			frame_combobox1.Visible = true;
 			lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[315] + "</b>";
-			combobox1.AppendText(Language.I.L[316]);
-			combobox1.AppendText(Language.I.L[317]);
-			combobox1.AppendText(Language.I.L[318]);
-			combobox1.AppendText(Language.I.L[319]);
-			combobox1.AppendText(Language.I.L[320]);
-			combobox1.AppendText(Language.I.L[321]);
+			//combobox1.AppendText(Language.I.L[316]);
+			//combobox1.AppendText(Language.I.L[317]);
+			//combobox1.AppendText(Language.I.L[318]);
+			//combobox1.AppendText(Language.I.L[319]);
+			//combobox1.AppendText(Language.I.L[320]);
+			//combobox1.AppendText(Language.I.L[321]);
 			combobox1.Active = (int)chess.Variants;
 
 			frameHScales.Visible = true;
@@ -614,10 +614,10 @@ namespace Troonie
             frameComboboxes.Visible = true;
             frame_combobox1.Visible = true;
             lbFrame_combobox1.LabelProp = "<b>" + Language.I.L[315] + "</b>";
-            combobox1.AppendText(Language.I.L[335]);
-            combobox1.AppendText(Language.I.L[336]);
-            combobox1.AppendText(Language.I.L[337]);
-            combobox1.AppendText(Language.I.L[338]);
+            //combobox1.AppendText(Language.I.L[335]);
+            //combobox1.AppendText(Language.I.L[336]);
+            //combobox1.AppendText(Language.I.L[337]);
+            //combobox1.AppendText(Language.I.L[338]);
             combobox1.Active = (int)contrast.Variant;
 
             frameHScales.Visible = true;
@@ -787,9 +787,10 @@ namespace Troonie
 			Bitmap b = TroonieBitmap.FromFile (FileName);
 			imageW = b.Width;
 			imageH = b.Height;
-			int w, h;
+			int w, h, x, y;
 			// get full size, also all gui elements are not visible
-			this.vboxA.GdkWindow.GetSize(out w, out h);
+			//this.vboxA.GdkWindow.GetSize(out w, out h);
+			this.Window.GetGeometry(out x, out y, out w, out h);
 			GuiHelper.I.SetPanelSize(this, simpleimagepanel1, hbox1, 400, 300, imageW, imageH, w, h);	
 
 			ImageConverter.ScaleAndCut (
