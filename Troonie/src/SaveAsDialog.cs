@@ -145,7 +145,9 @@ namespace Troonie
 				if (!Constants.I.CJPEG && (rdJpeg.Active || rdJpegGray.Active)) {
 					rdPng24Bit.Active = true;
 				}
-			}		
+			}
+
+			QueueDraw();
 		}
 
 		private void OnHyperTextLabelTextChanged()

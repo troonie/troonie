@@ -19,11 +19,11 @@ namespace Troonie
 		private Stopwatch timeoutSw;
 
 		public OptionsWidget () :
-		base (Gtk.WindowType.Toplevel)
+		base (WindowType.Toplevel)
 		{
-			this.Build ();
+			Build ();
 
-			this.KeepAbove = true;
+			KeepAbove = true;
 			hypertextlabelVideoplayer.InitDefaultValues ();
 			hypertextlabelVideoplayer.FileChooserAction = FileChooserAction.Open;
 			hypertextlabelVideoplayer.OnHyperTextLabelTextChanged += OnHyperTextLabelVideoplayer_TextChanged;
@@ -34,7 +34,7 @@ namespace Troonie
 
 			timeoutSw = new Stopwatch();
 
-			#region set GUI color
+			#region set GUI color			
 			this.ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);
 			eventbox1.ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);
 			eventboxPage1.ModifyBg(StateType.Normal, ColorConverter.Instance.GRID);

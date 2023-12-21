@@ -174,7 +174,7 @@ namespace Troonie
 			this.table3.RowSpacing = ((uint)(6));
 			this.table3.ColumnSpacing = ((uint)(6));
 			// Container child table3.Gtk.Table+TableChild
-			this.comboboxShortcuts = new global::Gtk.ComboBox();
+			this.comboboxShortcuts = new Gtk.ComboBox(new string[NumberOfshortcutFormats]);
 			this.comboboxShortcuts.TooltipText= ((" - "));
 			this.comboboxShortcuts.Name = "comboboxShortcuts";
 			this.comboboxShortcuts.Active = 0;
@@ -183,7 +183,7 @@ namespace Troonie
 			w4.LeftAttach = ((uint)(2));
 			w4.RightAttach = ((uint)(3));
 			w4.XOptions = ((global::Gtk.AttachOptions)(4));
-			w4.YOptions = ((global::Gtk.AttachOptions)(4));
+			w4.YOptions = ((global::Gtk.AttachOptions)(4));			
 			// Container child table3.Gtk.Table+TableChild
 			this.lbShortcutsText = new global::Gtk.Label ();
 			this.lbShortcutsText.Name = "lbShortcutsText";

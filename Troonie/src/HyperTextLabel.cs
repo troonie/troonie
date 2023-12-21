@@ -1,13 +1,11 @@
-﻿using System;
-using System.IO;
-using Gtk;
+﻿using Gtk;
 using Pango;
-using Troonie_Lib;
+using System.IO;
 
 namespace Troonie
 {
-	/// <summary>Event handler for changing slider values (XGlobal or YGlobal).</summary>
-	public delegate void OnHyperTextLabelTextChangedEventHandler();
+    /// <summary>Event handler for changing slider values (XGlobal or YGlobal).</summary>
+    public delegate void OnHyperTextLabelTextChangedEventHandler();
 
 	[System.ComponentModel.ToolboxItem (true)]
 	public class HyperTextLabel : Gtk.EventBox
@@ -24,9 +22,9 @@ namespace Troonie
 			set {
 				base.Sensitive = value;
 				if (value) {
-					TextColor = colorConverter.Blue;
+					TextColor = colorConverter.Cairo_Blue;
 				} else {
-					TextColor = colorConverter.White;
+					TextColor = colorConverter.Cairo_White;
 				}
 				QueueDraw ();
 			} 
@@ -44,7 +42,7 @@ namespace Troonie
 				QueueDraw ();
 			}
 		}
-		public Gdk.Color TextColor { get; set; }
+		public Cairo.Color TextColor { get; set; }
 		public int TextSize { get; set; }
 		public int ShownTextLength { get; set; }
 		public bool Underline { get; set; }
@@ -56,14 +54,10 @@ namespace Troonie
 
 		public HyperTextLabel ()
 		{
-			da = new Gtk.DrawingArea();
-			da.ModifyBg(StateType.Normal, colorConverter.White);
-
+			da = new DrawingArea();
 			da.Drawn += OnDrawingAreaExposeEvent;
-			// Does not work here, when HyperTextLabel will be used by GUI Designer
 			InitDefaultValues ();
-
-			this.Add(da);
+			Add(da);
 		}
 
 		public override void Destroy ()
@@ -141,57 +135,39 @@ namespace Troonie
 
 		protected void OnDrawingAreaExposeEvent (object obj, DrawnArgs args)
 		{
-			DrawingArea drawingArea = obj as DrawingArea;
+			//DrawingArea drawingArea = obj as DrawingArea;
+            Cairo.Context cr = args.Cr;
+            cr.SetSourceRGB(ColorConverter.Instance.Cairo_White.R, ColorConverter.Instance.Cairo_White.G, ColorConverter.Instance.Cairo_White.B);
+            cr.Rectangle(0, 0, da.Allocation.Width * 0.8, da.Allocation.Height);
+            cr.Fill();
 
-			int width = drawingArea.Allocation.Width;
-
-			Renderer renderer = new Renderer(drawingArea.Screen.Handle);
-			//renderer.Drawable = drawingArea.GdkWindow;
-			//renderer.Gc = drawingArea.Style.BlackGC;
-
-			Context context = drawingArea.CreatePangoContext();
-			Pango.Layout layout = new Pango.Layout(context);
-
-			layout.Width = Pango.Units.FromPixels(width);
-
-			string showText = text;
+            string showText = text;
 			if (text.Length > ShownTextLength)
 			{
 				int start = text.Length - ShownTextLength + 3;
 				showText = "..." + text.Substring(start);
 			}
 
-			string markupText = Underline ? "<u>" + showText + "</u>" : showText; 
+			string markupText = Underline ? "<u>" + showText + "</u>" : showText;
+            // when using layout.SetMarkup (markupText) --> this showText is useless
+            Pango.Layout layout = CreatePangoLayout(showText);
+            layout.SetMarkup (markupText);
+            //layout.SetText(showText);
 
-			layout.SetMarkup (markupText);
-			//layout.SetText("Australia");
-
-			string useBold = Bold ? " Bold " : "";
+            string useBold = Bold ? " Bold " : "";
 			string useItalic = Italic ? " Italic " : "";
 			string fontSizeString = " " + TextSize.ToString ();
 			string fontDescAsString = Font + useBold + useItalic + fontSizeString;
 
-			// FontDescription desc = FontDescription.FromString("Serif Bold Italic 10");
-			FontDescription desc = FontDescription.FromString(fontDescAsString);
+            // FontDescription desc = FontDescription.FromString("Serif Bold Italic 10");
+            FontDescription desc = FontDescription.FromString(fontDescAsString);
 			layout.FontDescription = desc;
-
-			renderer.DrawLayout(layout, 0, 0);
-			renderer.SetColor(RenderPart.Foreground, new Pango.Color () { Red = TextColor.Red, Blue = TextColor.Blue, Green = TextColor.Green });
-			renderer.SetColor(RenderPart.Underline, new Pango.Color() { Red = TextColor.Red, Blue = TextColor.Blue, Green = TextColor.Green });
-
             layout.Alignment = Alignment;
-			renderer.DrawLayout(layout, 0, 0);
 
-			renderer.SetColor(RenderPart.Foreground, Pango.Color.Zero);
-
-//			((IDisposable) renderer.Drawable).Dispose();      
-//			((IDisposable) renderer.Gc).Dispose();
-//			((IDisposable) renderer).Dispose();
-			//renderer.Drawable = null;
-			//renderer.Gc = null;
-
-
-		}			
+            cr.SetSourceRGB(TextColor.R, TextColor.G, TextColor.B);
+			            
+            Pango.CairoHelper.ShowLayout(cr, layout);
+        }			
 	}
 }
 

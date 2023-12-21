@@ -41,12 +41,12 @@ namespace Troonie
 			// Gtk.Settings.Default.SetLongProperty ("gtk-button-images", 1, "");		
 
 			string filename = null;
-            // START VALUE
-            //	args = new string[] { "-v"};
-            //args = new string[] { "-c", "../image.jpg" };
-            //args = new string[] { "-e", "../image.jpg" };
-            //args = new string[] { "-s", "../image.jpg" };
-            //  args = new string[] { "-d", "../testdirectory" };
+			// START VALUE
+			//	args = new string[] { "-v"};
+			//args = new string[] { "-c", "../image.jpg" };
+			//args = new string[] { "-e", "../image.jpg" };
+			//args = new string[] { "-s", "../image.jpg" };
+			//  args = new string[] { "-d", "../testdirectory" };
 
             if (args.Length == 0) {
 				StarterWidget start = new StarterWidget (args, true);

@@ -1,4 +1,3 @@
-using System;
 using Gtk;
 
 namespace Troonie
@@ -11,7 +10,8 @@ namespace Troonie
 				if (child is Container) {
 					DestroyAll (child as Container);
 				} else {
-					child.Destroy ();
+					if (child != null)
+						child.Destroy ();
 				}
 			}
 

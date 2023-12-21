@@ -14,12 +14,15 @@ using Troonie;
 using Troonie_Lib;
 using System.Diagnostics;
 using System.Linq;
+using Size = System.Drawing.Size;
 
 namespace Troonie
 {
 	public partial class EditWidget : Gtk.Window
 	{
-		private struct filterN
+		public const int NumberOfshortcutFormats = 15;
+
+        private struct filterN
 		{
 			public static string OVERVIEW = "Filter"; 
 			public static string Invert = Language.I.L [90]; 
@@ -49,14 +52,14 @@ namespace Troonie
             public static string RotateQuarterTurns = Language.I.L[348];
         }
 
-		private struct shortcutFormatStruct
-		{
-			public int Width;
-			public int Height;
-			public string Name;
-		}
-			
-		private shortcutFormatStruct[] shortcutFormats;
+        //private struct shortcutFormatStruct
+        //{
+        //	public int Width;
+        //	public int Height;
+        //	public string Name;			
+        //}
+
+        private Size[] shortcutFormats;
 		private Troonie.ColorConverter colorConverter = Troonie.ColorConverter.Instance;
 		private Constants constants = Constants.I;
 		private int imageW; 
@@ -476,49 +479,34 @@ namespace Troonie
 			//		};
 
 
-			shortcutFormats = new shortcutFormatStruct[]{
-				new shortcutFormatStruct { Width = 0, Height = 0, Name = " - " },
+			shortcutFormats = new Size[NumberOfshortcutFormats];
+			string[] shortcutFormatNames = new string[NumberOfshortcutFormats];
+            shortcutFormats[0] = new Size(0, 0); shortcutFormatNames[0] = " - ";
+            shortcutFormats[1] = new Size(13, 9); shortcutFormatNames[1] = shortcutFormats[1].Width + " x " + shortcutFormats[1].Height;
+            shortcutFormats[2] = new Size(9, 13); shortcutFormatNames[2] = shortcutFormats[2].Width + " x " + shortcutFormats[2].Height;
+            shortcutFormats[3] = new Size(15, 10); shortcutFormatNames[3] = shortcutFormats[3].Width + " x " + shortcutFormats[3].Height;
+            shortcutFormats[4] = new Size(10, 15); shortcutFormatNames[4] = shortcutFormats[4].Width + " x " + shortcutFormats[4].Height;
+            shortcutFormats[5] = new Size(18, 13); shortcutFormatNames[5] = shortcutFormats[5].Width + " x " + shortcutFormats[5].Height;
+            shortcutFormats[6] = new Size(13, 18); shortcutFormatNames[6] = shortcutFormats[6].Width + " x " + shortcutFormats[6].Height;
+            shortcutFormats[7] = new Size(30, 20); shortcutFormatNames[7] = shortcutFormats[7].Width + " x " + shortcutFormats[7].Height;
+            shortcutFormats[8] = new Size(20, 30); shortcutFormatNames[8] = shortcutFormats[8].Width + " x " + shortcutFormats[8].Height;
+            shortcutFormats[9] = new Size(4, 3); shortcutFormatNames[9] = shortcutFormats[9].Width + " x " + shortcutFormats[9].Height;
+            shortcutFormats[10] = new Size(3, 4); shortcutFormatNames[10] = shortcutFormats[10].Width + " x " + shortcutFormats[10].Height;
+            shortcutFormats[11] = new Size(16, 10); shortcutFormatNames[11] = shortcutFormats[11].Width + " x " + shortcutFormats[11].Height;
+            shortcutFormats[12] = new Size(10, 16); shortcutFormatNames[12] = shortcutFormats[12].Width + " x " + shortcutFormats[12].Height;
+            shortcutFormats[13] = new Size(297, 210); 
+			shortcutFormatNames[13] = "A4 " + Language.I.L[129] /*landscape*/ + " ( " + shortcutFormats[13].Width + " x " + shortcutFormats[13].Height + " )";
+            shortcutFormats[14] = new Size(210, 297); 
+			shortcutFormatNames[14] = "A4 " + Language.I.L[130] /*portrait*/ + " ( " + shortcutFormats[14].Width + " x " + shortcutFormats[14].Height + " )";
 
-				new shortcutFormatStruct { Width = 13, Height = 9, Name = 13 + " x " + 9 },
-				new shortcutFormatStruct { Width = 9, Height = 13, Name = 9 + " x " + 13  },
-
-				new shortcutFormatStruct { Width = 15, Height = 10, Name = 15 + " x " + 10  },
-				new shortcutFormatStruct { Width = 10, Height = 15, Name = 10 + " x " + 15 },
-
-				new shortcutFormatStruct { Width = 18, Height = 13, Name = 18 + " x " + 13  },
-				new shortcutFormatStruct { Width = 13, Height = 18, Name = 13 + " x " + 18  },
-
-				new shortcutFormatStruct { Width = 30, Height = 20, Name = 30 + " x " + 20  },
-				new shortcutFormatStruct { Width = 20, Height = 30, Name = 20 + " x " + 30  },
-
-				new shortcutFormatStruct { Width = 4, Height = 3, Name = 4 + " x " + 3  },
-				new shortcutFormatStruct { Width = 3, Height = 4, Name = 3 + " x " + 4  },
-
-				new shortcutFormatStruct { Width = 16, Height = 10, Name = 16 + " x " + 10  },
-				new shortcutFormatStruct { Width = 10, Height = 16, Name = 10 + " x " + 16  },
-
-				new shortcutFormatStruct { Width = 297, Height = 210, Name = "A4 " + Language.I.L[129] /*landscape*/ + " ( " + 297 + " x " + 210 + " )" },
-				new shortcutFormatStruct { Width = 210, Height = 297, Name = "A4 " + Language.I.L[130] /*portrait*/ + " ( " + 210 + " x " + 297 + " )" }
-            };
-
-			List<string> entries = new List<string>();
-            for (int i = 0; i < shortcutFormats.Length; i++)
-            {
-				entries.Add(shortcutFormats[i].Name);
-                //string s = shortcutFormats[i].Width + " x " + shortcutFormats[i].Height;
-                //if (shortcutFormats[i].Name != null)
-                //{
-                //    s = shortcutFormats[i].Name + " ( " + s + " )";
-                //}
-
-                //comboboxShortcuts.Children[i].Name = s; // RemoveText (i);
-                //                                        //comboboxShortcuts.InsertText (i, s);
-
-            }
-
-            comboboxShortcuts = new ComboBox(entries.ToArray());
-			comboboxShortcuts.Active = 0;
-		}
+            TreeIter iter;
+            comboboxShortcuts.Model.GetIterFirst(out iter);
+            for (int i = 0; i < NumberOfshortcutFormats; i++)
+			{
+                comboboxShortcuts.Model.SetValue(iter, 0, shortcutFormatNames[i]);
+				comboboxShortcuts.Model.IterNext(ref iter);
+            }                        
+        }
 
 		private void Rotate()
 		{

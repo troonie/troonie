@@ -122,10 +122,15 @@ namespace Troonie
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Internal child Troonie.SaveAsDialog.VBox
 			global::Gtk.VBox w1 = new global::Gtk.VBox(); //this.VBox;
-			w1.Name = "dialog1_VBox";
+			
+            w1.Name = "dialog1_VBox";
 			w1.BorderWidth = ((uint)(2));
-			// Container child dialog1_VBox.Gtk.Box+BoxChild
-			this.frame7 = new global::Gtk.Frame ();
+            w1.Visible = true;
+            w1.Show();
+            this.Add(w1);
+
+            // Container child dialog1_VBox.Gtk.Box+BoxChild
+            this.frame7 = new global::Gtk.Frame ();
 			this.frame7.Name = "frame7";
 			// Container child frame7.Gtk.Container+ContainerChild
 			this.GtkAlignment10 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
@@ -581,11 +586,12 @@ namespace Troonie
 			w48.Expand = false;
 			w48.Fill = false;
 			// Internal child Troonie.SaveAsDialog.ActionArea
-			global::Gtk.HButtonBox w49 = this.ActionArea as HButtonBox;
-			w49.Name = "dialog1_ActionArea";
-			w49.Spacing = 10;
-			w49.BorderWidth = ((uint)(1));
-			w49.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
+			//global::Gtk.HButtonBox w49 = this.ActionArea as HButtonBox;
+			HButtonBox w49 = new HButtonBox(ActionArea.Handle);
+            w49.Name = "dialog1_ActionArea";
+            w49.Spacing = 10;
+            w49.BorderWidth = ((uint)(1));
+            w49.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonCancel = new global::Gtk.Button ();
 			this.buttonCancel.CanDefault = true;
@@ -611,7 +617,10 @@ namespace Troonie
 			w51.Position = 1;
 			w51.Expand = false;
 			w51.Fill = false;
-			if ((this.Child != null)) {
+
+
+
+            if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 400;
